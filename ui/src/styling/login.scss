@@ -1,0 +1,100 @@
+@import './config';
+
+.login-container {
+	display: flex;
+	flex-direction: column;
+	height: 90vh;
+	margin-top: 5vh;
+	justify-content: center;
+	align-items: center;
+	.login-banner {
+		display: flex;
+		align-items: center;
+		h1 {
+			font-size: $font5;
+		}
+	}
+	.panel-container {
+		display: flex;
+		min-width: 100%;
+		max-width: 100%;
+		min-height: 80%;
+		overflow-x: auto;
+		overflow-y: visible;
+		touch-action: none;
+		.form-container {
+			display: flex;
+			flex-direction: column;
+			min-width: 100%;
+			border-radius: 0;
+			position: absolute;
+			margin: 2% 10% 0 10%;
+			form {
+				justify-content: space-between;
+				align-items: center;
+				display: flex;
+				flex-direction: column;
+				min-height: 60%;
+				width: 80%;
+				h2 {
+					text-align: center;
+					font-size: $font4;
+					padding-top: 1em;
+				}
+				.login-inputs {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					width: 100%;
+					padding: 0% 10%;
+					input {
+						margin: 0.4em;
+						padding: 1em;
+						height: 1em;
+						font-size: medium;
+						background-color: $colorText;
+						color: $colorGreyBg;
+						width: 50%;
+					}
+				}
+				button {
+					width: 40%;
+					font-size: $font3;
+				}
+			}
+		}
+	}
+}
+
+.vKey-message {
+	color: $colorButtonHover;
+	margin-bottom: 2vh;
+}
+
+.error-mssg {
+	color: rgb(182, 0, 0);
+	min-height: 3vh;
+}
+
+@media screen and (max-width: 900px) {
+	.login-container {
+		.panel-container {
+			.form-container {
+				height: 60vh;
+				form {
+					button {
+						width: 90%;
+						height: 2.75em;
+						padding: 0px;
+					}
+					.login-inputs {
+						padding: 0% 2%;
+						input {
+							width: 90%;
+						}
+					}
+				}
+			}
+		}
+	}
+}

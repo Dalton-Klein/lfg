@@ -1,0 +1,116 @@
+@import './styling/config';
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: $colorGreyBg;
+	color: $colorText;
+	font-family: 'Rubik', sans-serif;
+	position: relative;
+}
+
+a {
+	text-decoration: none;
+	color: $colorText;
+}
+
+h5 {
+	font-weight: 100;
+}
+
+button {
+	cursor: 'pointer';
+	border-radius: 25px;
+	outline: none;
+	border: none;
+	color: $colorText;
+	background-color: $colorPrimary;
+	font-weight: 500;
+	padding: 0.75em;
+	transition: 125ms;
+	font-size: $font2;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	min-height: 2.5em;
+}
+
+button:hover {
+	color: $colorButtonHover;
+	background-color: $colorPrimaryDarker;
+	// box-shadow: 1px 1px 4px 0 rgba(29, 28, 28, 0.55) inset,
+	//   -3px -3px 5px 0 rgba(255, 255, 255, 0.85) inset;
+}
+
+.alt-button {
+	@extend button;
+	background-color: $colorGreyPop;
+}
+
+.alt-button:hover,
+.text-only-button:hover {
+	color: $colorButtonHover;
+	background-color: $colorGreyHover;
+}
+
+.text-only-button {
+	@extend button;
+	background-color: rgba(205, 92, 92, 0);
+}
+
+select {
+	background-color: $colorGreyPop;
+	color: $colorText;
+	border-radius: 25px;
+	height: 2.5em;
+	font-family: 'Rubik', sans-serif;
+	font-size: calc(10px + 0.4vw);
+	font-weight: 200;
+	outline: none;
+	border: none;
+	padding-left: 0.65vw;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+}
+
+select:hover {
+	cursor: pointer;
+}
+
+input {
+	background-color: $colorGreyPop;
+	color: $colorText;
+	outline: none;
+	border-radius: 25px;
+	padding: 0.5vw;
+	padding-left: 0.6vw;
+	font-family: 'Rubik', sans-serif;
+	font-size: calc(10px + 0.4vw);
+	border: 3px solid transparent;
+	transition: border 1s;
+}
+
+input:hover {
+	cursor: pointer;
+}
+
+textarea {
+	color: $colorText;
+	border: none;
+	outline: none;
+	font-family: 'Rubik', sans-serif;
+	font-size: calc(10px + 0.5vw);
+	font-weight: 100;
+	padding: 2vw 3vw;
+}
+
+.App {
+	position: relative;
+}
