@@ -9,31 +9,31 @@ const PASSWORD = process.env.DB_PASSWORD;
 const HOST = process.env.DB_HOST;
 let sequelize;
 const devConfig = {
-  database: DBNAME,
-  username: USER,
-  password: PASSWORD,
-  host: HOST,
-  port: PORT,
-  dialect: 'postgres',
+	database: DBNAME,
+	username: USER,
+	password: PASSWORD,
+	host: HOST,
+	port: PORT,
+	dialect: 'postgres',
 };
 const prodConfig = {
-  database: DBNAME,
-  username: USER,
-  password: PASSWORD,
-  host: HOST,
-  port: PORT,
-  dialect: 'postgres',
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
-  },
+	database: DBNAME,
+	username: USER,
+	password: PASSWORD,
+	host: HOST,
+	port: PORT,
+	dialect: 'postgres',
+	dialectOptions: {
+		ssl: {
+			require: true,
+			rejectUnauthorized: false,
+		},
+	},
 };
 if (process.env.IS_PROD == '0') {
-  sequelize = new Sequelize(process.env.DATABASE_URL, devConfig);
+	sequelize = new Sequelize(devConfig);
 } else {
-  sequelize = new Sequelize(process.env.DATABASE_URL, prodConfig);
+	sequelize = new Sequelize(process.env.DATABASE_URL, prodConfig);
 }
 const db = {};
 fs.readdirSync(__dirname)
