@@ -57,18 +57,55 @@ const DrawerComponent = (props: Props) => {
 		navigate('/login');
 	};
 
+	const navigationButtonPressed = (link: string) => {
+		// Closes the side menu
+		props.toggleHamburger();
+		// Navigates to dynamic url (new page)
+		navigate(`/${link}`);
+	};
+
 	return (
 		<div className="hamburger-red-panel">
 			<div className="hamburger-green-panel">
 				<div className="hamburger-nav">
-					<img onClick={props.toggleHamburger} className="hamburger-exit" src={exitIcon} onMouseOver={handleMouseEnter} onMouseOut={handleMouseLeave} alt="exit Icon" />
-					<div onClick={() => navigate('/messages')} className="hamburger-links">
-						<button className="hamburger-button">my groups</button>
+					<img
+						onClick={props.toggleHamburger}
+						className="hamburger-exit"
+						src={exitIcon}
+						onMouseOver={handleMouseEnter}
+						onMouseOut={handleMouseLeave}
+						alt="exit Icon"
+					/>
+					<div
+						onClick={() => {
+							navigationButtonPressed('lounge');
+						}}
+						className="hamburger-links"
+					>
+						<button className="hamburger-button">lounge</button>
 					</div>
-					<div onClick={() => navigate('/profile')} className="hamburger-links">
-						<button className="hamburger-button">my profile</button>
+					<div
+						onClick={() => {
+							navigationButtonPressed('classifieds');
+						}}
+						className="hamburger-links"
+					>
+						<button className="hamburger-button">classifieds</button>
 					</div>
-					<div onClick={() => navigate('/about')} className="hamburger-links">
+					<div
+						onClick={() => {
+							navigationButtonPressed('profile');
+						}}
+						className="hamburger-links"
+					>
+						<button className="hamburger-button">profile</button>
+					</div>
+					<div
+						onClick={() => {
+							navigationButtonPressed('about');
+						}}
+						className="hamburger-links"
+					>
 						<button className="hamburger-button">about</button>
 					</div>
 					<div onClick={() => logoutFunction()} className="hamburger-links">

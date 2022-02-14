@@ -4,10 +4,14 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from './store/store';
 import HomePage from './components/pages/homePage';
+import LoungePage from './components/pages/loungePage';
 import LoginPage from './components/pages/authenticationPage';
 import FourOFourPage from './components/pages/FourOFourPage';
 
 function App() {
+	// all javascript goes here ( for logic to control components)
+
+	// html goes here (components that you see)
 	return (
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
@@ -15,6 +19,9 @@ function App() {
 					<div className="App">
 						<Routes>
 							<Route path="/" element={<HomePage />} />
+							<Route path="/lounge" element={<LoungePage />} />
+							<Route path="/classifieds" element={<HomePage />} />
+							<Route path="/profile" element={<HomePage />} />
 							<Route path="/login" element={<LoginPage />} />
 							<Route path="/*" element={<FourOFourPage />} />
 						</Routes>
