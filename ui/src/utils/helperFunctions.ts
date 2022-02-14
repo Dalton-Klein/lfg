@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { PasswordResetForm, SignUpForm, VerificationForm } from './interfaces';
 
 const emailLength = 7;
@@ -95,3 +96,26 @@ export const validatePasswordResetForm = (createAccountForm: PasswordResetForm) 
 		success: 'form passed check',
 	};
 };
+
+export const howLongAgo = (date: Date) =>{
+	const now = moment()
+	const minutes = now.diff(date, "minutes")
+	const hours = now.diff(date, "hours")
+	const days = now.diff(date, "days")
+	const weeks = now.diff(date, "weeks")
+	const months = now.diff(date, "months")
+	const years = now.diff(date, "years")
+	if(years > 1) return `${years} years ago`
+	if(years === 1) return `${years} year ago`
+	if(months > 1) return `${months} months ago`
+	if(months === 1) return `${months} month ago`
+	if(weeks > 1) return `${weeks} weeks ago`
+	if(weeks === 1) return `${weeks} week ago`
+	if(days > 1) return `${days} days ago`
+	if(days === 1) return `${days} day ago`
+	if(hours > 1) return `${hours} hours ago`
+	if(hours === 1) return `${hours} hour ago`
+	if(minutes > 1) return `${minutes} minutes ago`
+	if(minutes === 1) return `${minutes} minute ago`
+	else return 'just now'
+}

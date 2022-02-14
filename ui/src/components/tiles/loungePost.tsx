@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../styling/loungePage.scss';
-export default function loungePost(props:any) {
-    let profileImage = '/assets/avatarIcon.png';
+import { howLongAgo } from '../../utils/helperFunctions';
+import moment from 'moment'
 
+export default function LoungePost(props:any) {
+    const defaultPostDate:string = 'just now'
+    const [postDate, setPostDate] = useState(defaultPostDate);
+    
+    let profileImage = '/assets/avatarIcon.png';
+    useEffect(() => {
+		setPostDate(howLongAgo(props.created_at));
+	}, []);
   return (
     <div>
         <div className="post-container">
@@ -17,7 +25,7 @@ export default function loungePost(props:any) {
 				</div>
 				<div className="post-content">
 					<div>{props.ownerName}</div>
-					<div>{props.created_at}</div>
+					<div>{postDate}</div>
 					<div>{props.content}</div>
 				</div>
 			</div>
