@@ -1,10 +1,9 @@
 import React from 'react';
 import HeaderComponent from '../nav/headerComponent';
+import LoungePost from '../tiles/loungePost'
 import '../../styling/loungePage.scss';
 
 export default function loungePage() {
-	console.log('loaded the lounge page!@!!');
-	let profileImage = '/assets/avatarIcon.png';
 
 	let postsFeed: React.ReactNode = <li></li>;
 	let postsFromDataBase = [
@@ -32,24 +31,7 @@ export default function loungePage() {
 		},
 	];
 	postsFeed = postsFromDataBase.map((post: any) => (
-		<div className="post-container">
-			<div className="post">
-				<div className="post-avatar-container">
-					<img
-						className="nav-overlay-img"
-						onClick={() => {}}
-						src={profileImage}
-						alt="avatar Icon"
-					/>
-				</div>
-				<div className="post-content">
-					<div>{post.ownerName}</div>
-					<div>{post.created_at}</div>
-					<div>{post.content}</div>
-				</div>
-			</div>
-			<div className="post-divider"></div>
-		</div>
+		<LoungePost {...post}></LoungePost>
 	));
 
 	return (
