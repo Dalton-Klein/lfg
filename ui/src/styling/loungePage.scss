@@ -9,32 +9,48 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-}
-.post {
-	margin-top: 2vh;
-	margin-bottom: 2vh;
-	display: flex;
-	justify-content: center;
-	align-content: center;
-	min-width: 100%;
-	// margin: 0 auto;
-	.post-avatar-container {
-		padding-top: 1vh;
-	}
-	.post-content {
+	.post {
+		margin-top: 2vh;
+		margin-bottom: 2vh;
 		display: flex;
-		min-width: 40%;
-		max-width: 40%;
-		flex-direction: column;
 		justify-content: center;
-		div {
+		align-content: center;
+		min-width: 100%;
+		// margin: 0 auto;
+		.post-avatar-container {
+			padding-top: 1vh;
+		}
+		.post-content {
 			margin-top: 0.5vh;
-			margin-bottom: 0.5vh;
+			display: flex;
+			min-width: 40%;
+			max-width: 40%;
+			flex-direction: column;
+			justify-content: flex-start;
+			div {
+				margin-top: 0.5vh;
+				margin-bottom: 0.5vh;
+			}
 		}
 	}
-}
-.post-divider {
-	border-bottom: 1px solid rgb(44, 44, 44);
-	max-width: 50%;
-	min-width: 50%;
+	.post-interaction-bar {
+		display: flex;
+		margin-top: 1vh;
+		margin-bottom: 1vh;
+	}
+	.post-divider {
+		border-bottom: 1px solid rgb(44, 44, 44);
+		max-width: 50%;
+		min-width: 50%;
+	}
+
+	.vote-box {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		img {
+			max-width: 2vw;
+			max-height: 2vw;
+		}
+	}
 }
