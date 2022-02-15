@@ -84,15 +84,68 @@ select:hover {
 	cursor: pointer;
 }
 
+.react-select-container {
+	min-width: 30vw;
+	color: $colorGreyBg;
+	background-color: transparent;
+	.react-select__control {
+		padding: 0 0.5vw;
+		padding-left: 0.6vw;
+		font-size: $font2;
+		background-color: $colorGreyPop;
+		border-radius: 25px;
+		border-width: 0;
+		box-shadow: 0 0 0 0 ;
+    .react-select__value-container {
+			background-color: transparent;
+			.react-select__placeholder {
+				background-color: transparent;
+				color: $colorTextAlt;
+				font-size: $font2;
+			}
+		 div {
+			background-color: transparent;
+			color: $colorText;
+			font-size: $font2;
+		 }
+		}
+    .react-select__indicators {
+		}
+	}
+	.react-select__control--is-focused {
+		box-shadow: 0 0 0 0 ;
+	}
+	.react-select__control:hover {
+		border-width: 0;
+	}
+  .react-select__menu {
+		background-color: $colorGreyBg;
+		border-radius: 25px;
+    .react-select__menu-list {
+			background-color: transparent;
+      .react-select__option {
+				border-radius: 25px;
+				color: $colorText;
+				font-size: $font2;
+				background-color: $colorGreyBg;
+			}
+			.react-select__option:hover {
+				border-radius: 25px;
+				background-color: $colorGreyPop;
+			}
+		}
+	}
+}
+
 input {
 	background-color: $colorGreyPop;
 	color: $colorText;
 	outline: none;
 	border-radius: 25px;
-	padding: 0.5vw;
+	padding: 1vw 0.5vw;
 	padding-left: 0.6vw;
 	font-family: 'Rubik', sans-serif;
-	font-size: calc(10px + 0.4vw);
+	font-size: $font2;
 	border: 3px solid transparent;
 	transition: border 1s;
 }

@@ -119,3 +119,12 @@ export const howLongAgo = (date: Date) =>{
 	if(minutes === 1) return `${minutes} minute ago`
 	else return 'just now'
 }
+
+export const tagsKey:any = {
+	bug: 'darkolivegreen',
+	design: 'pink',
+	jasmine:' orange',
+	javascript: 'red',
+	react: 'green',
+	unit_testing: 'blue'
+}

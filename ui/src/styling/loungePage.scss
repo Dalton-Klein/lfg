@@ -1,3 +1,5 @@
+@import './config';
+
 .feed {
 	display: flex;
 	min-height: 85%;
@@ -16,17 +18,54 @@
 		justify-content: center;
 		align-content: center;
 		min-width: 100%;
-		// margin: 0 auto;
-		.post-avatar-container {
+		.post-left-column {
 			padding-top: 1vh;
 		}
 		.post-content {
 			margin-top: 0.5vh;
 			display: flex;
-			min-width: 40%;
-			max-width: 40%;
+			min-width: 60%;
+			max-width: 60%;
 			flex-direction: column;
 			justify-content: flex-start;
+			.post-text {
+				color: $colorText;
+			}
+			.post-info-bar {
+				display: flex;
+				.post-tag {
+					margin-top: -.5vh;
+					margin-right: 1vw;
+					padding: 2px 7px;
+					border-style: solid;
+					border-width: 2px;
+					border-radius: 15px;
+				}
+				.pink {
+					border-color: pink;
+					color: pink;
+				}
+				.green {
+					border-color: green;
+					color: green;
+				}
+				.orange {
+					border-color: orange;
+					color: orange;
+				}
+				.blue {
+					border-color: blue;
+					color: blue;
+				}
+				.red {
+					border-color: red;
+					color: red;
+				}
+				.darkolivegreen {
+					border-color: darkolivegreen;
+					color: darkolivegreen;
+				}
+			}
 			div {
 				margin-top: 0.5vh;
 				margin-bottom: 0.5vh;
@@ -39,9 +78,9 @@
 		margin-bottom: 1vh;
 	}
 	.post-divider {
-		border-bottom: 1px solid rgb(44, 44, 44);
-		max-width: 50%;
-		min-width: 50%;
+		border-bottom: 1px solid $colorDivider;
+		max-width: 60%;
+		min-width: 60%;
 	}
 
 	.vote-box {
@@ -51,6 +90,31 @@
 		img {
 			max-width: 2vw;
 			max-height: 2vw;
+		}
+	}
+
+	.alt-text {
+		color: $colorTextAlt;
+		font-weight: lighter;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.post-container {
+		.post {
+			flex-grow: 2;
+			.post-left-column {
+				margin-right: 2vw;
+			}
+			.post-content {
+				min-width: 80vw;
+				max-width: 80vw;
+				flex-grow: 2;
+			}
+		}
+		.post-divider {
+			max-width: 100%;
+			min-width: 100%;
 		}
 	}
 }
