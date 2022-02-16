@@ -137,16 +137,21 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	button {
-		margin-left: 2em;
+	.prof-banner-avatar {
+		width: 6vw;
+		height: 6vw;
+		min-width: 25px;
+		min-height: 25px;
 	}
-}
-
-.prof-banner-avatar {
-	width: 4.25vw;
-	height: 4.25vw;
-	min-width: 25px;
-	min-height: 25px;
+	button {
+		margin-left: .5em;
+		padding: 0 1vw;
+		padding-top: .5vh;
+		img {
+			min-width: 18px;
+			max-width: 1.75vw;
+		}
+	}
 }
 
 .prof-banner-text {

@@ -12,16 +12,20 @@ export default function ProfileBanner() {
 	const nameInputRef: any = useRef();
 	const idInputRef: any = useRef();
 	const userData = useSelector((state: RootState) => state.user.user);
-	const [sellerRatingValue, setSellerRatingValue] = useState<number>(0);
-	const [buyerRatingValue, setBuyerRatingValue] = useState<number>(0);
 	const [isUploadFormShown, setIsUploadFormShown] = useState<boolean>(false);
 	const [changeFormTitle, setChangeFormTitle] = useState<string>('');
+	const [photoFile, setPhotoFile] = useState<any>();
+	const [photoFileName, setPhotoFileName] = useState<string>('file');
 	const [changeFormRender, setChangeFormRender] = useState<any>();
 	const [changeFormText, setChangeFormText] = useState<string>();
-	const [formattedTrainerCode, setFormattedTrainerCode] = useState<string>('none');
 	const dispatch = useDispatch();
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		if (photoFile &&  photoFile!.name) {
+			setPhotoFileName(`${photoFile.name}`);
+
+		}
+	}, [photoFile]);
 
 	useEffect(() => {}, [userData]);
 
@@ -31,7 +35,17 @@ export default function ProfileBanner() {
 		} else {
 			await setChangeFormTitle('Upload Avatar');
 			await setChangeFormRender(
-				<input type="file" className="avatar-input" ref={hiddenFileInput}></input>
+				<div>
+					<input
+						type="file"
+						className="avatar-input"
+						ref={hiddenFileInput}
+						style={{ display: 'none' }}
+						onChange={handleFileUpload}
+					></input>
+					<button onClick={chooseFileHandler}>Choose Photo</button>
+					<div>{photoFileName}</div>
+				</div>
 			);
 			setIsUploadFormShown(true);
 			avatarFormIn();
@@ -44,6 +58,10 @@ export default function ProfileBanner() {
 		}
 	};
 
+	const handleFileUpload = (event:any) => {
+		setPhotoFile(event.target.files[0]);
+	}
+
 	const changeSubmitHandler = async (e: any) => {
 		avatarFormOut();
 		setIsUploadFormShown(false);
@@ -53,6 +71,7 @@ export default function ProfileBanner() {
 				const url: string | undefined = await uploadAvatarCloud(userData.id, avatar);
 				dispatch(updateUserAvatarUrl(url));
 				uploadAvatarServer(userData.id, url!);
+				setPhotoFileName('');
 				break;
 			case 'Update Name':
 				dispatch(updateUserName(changeFormText));
@@ -98,13 +117,7 @@ export default function ProfileBanner() {
 		<div className="my-profile-containers">
 			<div className={`upload-avatar-form ${conditionalClass}`}>
 				<p>{changeFormTitle}</p>
-				<input
-					type="file"
-					className="avatar-input"
-					ref={hiddenFileInput}
-					style={{ display: 'none' }}
-				></input>
-				<button onClick={chooseFileHandler}>Choose File</button>
+				{changeFormRender}
 				<div className="upload-form-btns">
 					<button onClick={changeSubmitHandler}>Submit</button>
 					<button onClick={closeAvatar}>Close</button>
@@ -122,8 +135,8 @@ export default function ProfileBanner() {
 						}
 						alt=""
 					></img>
-					<button className="change-avatar-btn" onClick={changeAvatar}>
-						Change Avatar
+					<button className="alt-button" onClick={changeAvatar}>
+						<img className="edit-icon" src="/assets/editiconw.png" alt=""></img>
 					</button>
 				</div>
 				<div className="my-profile-text">
@@ -131,19 +144,30 @@ export default function ProfileBanner() {
 				</div>
 			</div>
 			<div className="banner-container">
-				<div className="prof-banner-detail-text">Password</div>
+				<div className="prof-banner-detail-text">About</div>
 				<div className="banner-change-box">
-					<button className="text-only-button" onClick={() => changeTrainerInfoFunction('Name')}>
+					<button className="text-only-button" onClick={() => changeTrainerInfoFunction('About')}>
 						<img className="edit-icon" src="/assets/editiconw.png" alt=""></img>
 					</button>
 				</div>
 			</div>
+			<div className="prof-banner-tiny-text">
+				{userData.about ? userData.about : 'blank'}
+			</div>
 			<div className="banner-container">
 				<div className="prof-banner-detail-text">Technologies</div>
 				<div className="banner-change-box">
-					<div className="prof-banner-tiny-text">
-						{userData.trainerName ? userData.trainerName : 'none'}
-					</div>
+					<button className="text-only-button" onClick={() => changeTrainerInfoFunction('Technology')}>
+						<img className="edit-icon" src="/assets/editiconw.png" alt=""></img>
+					</button>
+				</div>
+			</div>
+			<div className="prof-banner-tiny-text">
+				{userData.trainerName ? userData.trainerName : 'blank'}
+			</div>
+			<div className="banner-container">
+				<div className="prof-banner-detail-text">Password</div>
+				<div className="banner-change-box">
 					<button className="text-only-button" onClick={() => changeTrainerInfoFunction('Name')}>
 						<img className="edit-icon" src="/assets/editiconw.png" alt=""></img>
 					</button>
