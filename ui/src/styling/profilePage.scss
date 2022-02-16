@@ -1,0 +1,180 @@
+@import './config';
+
+.menu-title {
+	font-size: calc(12px + 1vw);
+	width: 100%;
+	text-align: center;
+	margin: 2vh 0;
+}
+
+.my-profile-container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 15px;
+}
+
+.my-profile-containers {
+	min-width: 150px;
+	width: 80%;
+	position: relative;
+	background-color: $colorGreyPop;
+	border-radius: 25px;
+	padding-left: 25px;
+	padding-right: 25px;
+	margin-bottom: 2vh;
+}
+
+.banner-container {
+	height: 8.5vh;
+	min-height: 40px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.banner-container-top {
+	@extend .banner-container;
+	margin-top: 1vh;
+	z-index: 2;
+}
+
+.banner-change-box {
+	display: flex;
+	align-items: center;
+	button {
+		img {
+			min-width: 18px;
+			max-width: 1.75vw;
+		}
+	}
+}
+
+.watch-list-container {
+	@extend .my-profile-containers;
+	max-height: 300px;
+	min-height: 190px;
+	margin-top: 10px;
+	overflow: scroll;
+	padding-top: 0.5vh;
+}
+
+.watch-list-title-row {
+	display: flex;
+	width: 100%;
+	justify-content: flex-end;
+	padding-top: 6px;
+}
+
+.watch-list-flexbox {
+	margin-top: 1vh;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	width: 100%;
+	overflow: scroll;
+	padding-bottom: 1vh;
+}
+
+.conditionalZ1 {
+	z-index: -1;
+}
+
+.conditionalZ2 {
+	z-index: 5;
+}
+
+.upload-avatar-form {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	width: 36vw;
+	height: 30vh;
+	left: 50%;
+	margin-left: -18vw;
+	top: 20%;
+	padding: 1em;
+	background-color: $colorGreyHover;
+	border: 2px solid $colorPrimary;
+	box-shadow: 0 0 5px 1px $colorPrimary;
+	opacity: 0;
+	p {
+		font-size: 1.5em;
+		text-align: center;
+	}
+	input {
+		width: 90%;
+		align-self: center;
+	}
+	.upload-form-btns {
+		width: 80%;
+		display: flex;
+		justify-content: space-around;
+		button {
+			width: 40%;
+		}
+	}
+}
+
+@media screen and (max-width: 1024px) {
+	.upload-avatar-form {
+		width: 50vw;
+		margin-left: -25vw;
+	}
+}
+
+@media screen and (max-width: 450px) {
+	.upload-avatar-form {
+		width: 80vw;
+		margin-left: -40vw;
+	}
+}
+
+.profile-avatar-box {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	button {
+		margin-left: 2em;
+	}
+}
+
+.prof-banner-avatar {
+	width: 4.25vw;
+	height: 4.25vw;
+	min-width: 25px;
+	min-height: 25px;
+}
+
+.prof-banner-text {
+	font-size: calc(12px + 0.8vw);
+	color: $colorText;
+	margin-left: 1vw;
+}
+
+.my-profile-text {
+	font-size: calc(12px + 0.8vw);
+	position: relative;
+	top: 0px;
+}
+
+.prof-banner-detail-text {
+	font-size: calc(10px + 0.5vw);
+	color: $colorText;
+	margin-left: 1vw;
+}
+
+.prof-banner-tiny-text {
+	font-size: $font2;
+	text-align: center;
+	color: $colorText;
+	margin-right: 1vw;
+	color: rgb(156, 156, 156);
+}
+.std-flex-row {
+	display: flex;
+	align-items: center;
+}

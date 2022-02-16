@@ -1,12 +1,10 @@
 import React from 'react';
 import HeaderComponent from '../nav/headerComponent';
-import LoungePost from '../tiles/loungePost'
-import CreatePost from '../forms/createPost'
+import LoungePost from '../tiles/loungePost';
+import CreatePost from '../forms/createPost';
 import '../../styling/loungePage.scss';
-import moment from 'moment';
 
 export default function loungePage() {
-
 	let postsFeed: React.ReactNode = <li></li>;
 	let postsFromDataBase = [
 		{
@@ -42,13 +40,9 @@ export default function loungePage() {
 		},
 	];
 	postsFeed = postsFromDataBase.map((post: any) => (
-		<li
-            style={{ listStyleType: 'none' }}
-            key={post.id}
-          >
-            <LoungePost {...post}></LoungePost>
-        </li>
-		
+		<li style={{ listStyleType: 'none' }} key={post.id}>
+			<LoungePost {...post}></LoungePost>
+		</li>
 	));
 
 	return (

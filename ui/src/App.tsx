@@ -7,6 +7,7 @@ import HomePage from './components/pages/homePage';
 import LoungePage from './components/pages/loungePage';
 import LoginPage from './components/pages/authenticationPage';
 import FourOFourPage from './components/pages/FourOFourPage';
+import ProfilePage from './components/pages/profilePage';
 
 function App() {
 	// all javascript goes here ( for logic to control components)
@@ -21,7 +22,7 @@ function App() {
 							<Route path="/" element={<HomePage />} />
 							<Route path="/lounge" element={<LoungePage />} />
 							<Route path="/classifieds" element={<HomePage />} />
-							<Route path="/profile" element={<HomePage />} />
+							<Route path="/profile" element={<ProfilePage />} />
 							<Route path="/login" element={<LoginPage />} />
 							<Route path="/*" element={<FourOFourPage />} />
 						</Routes>
