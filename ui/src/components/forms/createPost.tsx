@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "../../styling/createPost.scss";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { tagsKey } from "../../utils/helperFunctions";
 import { getCategoriesAndTopics } from "../../utils/rest";
 import useOutsideClick from "../../utils/clickOutside";
 const animatedComponents = makeAnimated();
@@ -12,11 +11,13 @@ export default function CreatePost() {
   let profileImage = "/assets/avatarIcon.png";
 
   const defaultFormData = {
-    content: "0",
-    tags: [],
+    content: "",
+    category: 0,
+    topics: [],
     media: [],
   };
-  const [tagOptions, setTagOptions] = useState([{ value: "", label: "" }]);
+  const [categoryOptions, setCategoryOptions] = useState([{ value: "", label: "" }]);
+  const [topicOptions, setTopicOptions] = useState([{ value: "", label: "" }]);
   const [isPosting, setIsPosting] = useState(false);
   const [formState, setFormState] = useState<any>(defaultFormData);
 
@@ -25,22 +26,26 @@ export default function CreatePost() {
   }, []);
 
   const setCategoriesAndTopics = async () => {
-    // let tagsFormatted = [];
-    // const tags:any = await getCategoriesAndTopics();
-    // console.log("tags?? ", tags);
-    // tags.categories.forEach((category: PropertyKey) => {
-    //   if (Object.prototype.hasOwnProperty.call(tagsKey, category)) {
-    //     tagsFormatted.push({ value: `${category}`, label: `${category}` });
-    //   }
-    // }
-    // setTagOptions(tagsFormatted);
-    // console.log("looping? ", tagOptions);
+    let categoriesFormatted: any = [];
+    let topicsFormatted: any = [];
+    const categoriesAndTopics: any = await getCategoriesAndTopics();
+    const categories = categoriesAndTopics.categories;
+    categories.forEach((category: { id: number; name: any }) => {
+      categoriesFormatted.push({ id: category.id, value: `${category.name}`, label: `${category.name}` });
+    });
+    const topics = categoriesAndTopics.topics;
+    topics.forEach((topic: { id: number; name: any }) => {
+      topicsFormatted.push({ id: topic.id, value: `${topic.name}`, label: `${topic.name}` });
+    });
+    setCategoryOptions(categoriesFormatted);
+    setTopicOptions(topicsFormatted);
+    console.log("looping? ", categoryOptions);
   };
 
   const style = {
     control: (base: any) => ({
       ...base,
-      // This line disable the blue border
+      // This line disables the default blue border
       boxShadow: "none",
     }),
   };
@@ -54,8 +59,8 @@ export default function CreatePost() {
       case "content":
         formCopy.content = +value; //Because it's a number...
         break;
-      case "tags":
-        formCopy.tags = +value;
+      case "categories":
+        formCopy.categories = +value;
         break;
       default:
         return;
@@ -116,11 +121,21 @@ export default function CreatePost() {
             <div className="form-attachments-bar">
               <Select
                 components={animatedComponents}
-                options={tagOptions}
+                options={categoryOptions}
+                className="react-select-container"
+                classNamePrefix="react-select"
+                placeholder="category"
+                isClearable={false}
+                isSearchable={false}
+                styles={style}
+              />
+              <Select
+                components={animatedComponents}
+                options={topicOptions}
                 isMulti
                 className="react-select-container"
                 classNamePrefix="react-select"
-                placeholder="tags"
+                placeholder="topics"
                 isClearable={false}
                 isSearchable={false}
                 styles={style}
