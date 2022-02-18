@@ -93,6 +93,24 @@ export const resetPassword = async (email: string, vKey: string, password: strin
 	return result;
 };
 
+// POST RELATED REQUESTS
+export const getPosts = async (userId: number, token: string) => {
+	return await fetch(`${endpointURL}/posts`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			userId,
+			token,
+		}),
+	})
+		.then((res) => res.json())
+		.catch((err) => {
+			console.log(`${err} while fetching ALL CHATS`);
+		});
+};
+
 export const uploadAvatarCloud = async (user: number, avatar: any) => {
 	const formData = new FormData();
 	formData.append('upload_preset', 'ppgbubn6');

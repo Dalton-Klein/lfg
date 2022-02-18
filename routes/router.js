@@ -1,5 +1,6 @@
 const express = require('express');
 const userController = require('../controllers/auth-controller');
+const postsController = require('../controllers/posts-controller');
 const router = express.Router();
 router.use(express.json());
 const path = require('path');
@@ -12,6 +13,9 @@ router.post('/signin', userController.signin);
 router.post('/forgot-password', userController.forgotPassword);
 router.post('/reset-password', userController.resetPassword);
 router.post('/getPublicDetails', userController.getPublicDetails);
+
+//POST RELATED ROUTES
+router.post('/posts', postsController.getPosts);
 
 //CATCH ALL ROUTE
 // router.route('*', (req, res) => {
