@@ -4,6 +4,9 @@ const endpointURL: String = '';
 
 const avatarCloud = `https://api.cloudinary.com/v1_1/techlog-cloud-key/upload`;
 
+/*
+	Auth Calls
+*/
 export const verifyUser = async (email: string, vKey: string, name: string, password: string) => {
 	let result = await fetch(`${endpointURL}/verify`, {
 		method: 'POST',
@@ -111,6 +114,9 @@ export const getPosts = async (userId: number, token: string) => {
 		});
 };
 
+/*
+	Update User Data Calls
+*/
 export const uploadAvatarCloud = async (user: number, avatar: any) => {
 	const formData = new FormData();
 	formData.append('upload_preset', 'ppgbubn6');
@@ -153,6 +159,23 @@ export const changeUserName = async (id: number, trainerName: string) => {
 		.then((res) => res.json())
 		.catch((err) => console.log('Fetch Error (avatar)', err));
 	return;
+};
+
+/*
+	Posts Calls
+*/
+export const getCategoriesAndTopics = async () => {
+	let call = {};
+	await fetch(`${endpointURL}/tags`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+		.then((res) => res.json())
+		.then((data) => (call = data))
+		.catch((err) => console.log('Get categories error: ', err));
+	return call;
 };
 
 export const getUserPublicDetails = async (id: number) => {

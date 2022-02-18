@@ -15,6 +15,7 @@ router.post('/reset-password', userController.resetPassword);
 router.post('/getPublicDetails', userController.getPublicDetails);
 
 //POST RELATED ROUTES
+router.get('/tags', postsController.getCategoriesAndTopics);
 router.post('/posts', postsController.getPosts);
 
 //CATCH ALL ROUTE
