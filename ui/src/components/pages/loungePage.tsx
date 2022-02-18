@@ -5,7 +5,7 @@ import CreatePost from '../forms/createPost';
 import { getPosts } from '../../utils/rest';
 import '../../styling/loungePage.scss';
 
-export default function loungePage() {
+export default function LoungePage() {
 	let postsFeed: React.ReactNode = <li></li>;
 	const [postsFromDataBase, setPostsFromDataBase] = useState([]);
 
