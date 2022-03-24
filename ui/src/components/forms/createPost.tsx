@@ -1,29 +1,57 @@
 import React, { useEffect, useRef, useState } from "react";
+import ReactTooltip from "react-tooltip";
 import "../../styling/createPost.scss";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { getCategoriesAndTopics } from "../../utils/rest";
+import { getCategoriesAndTopics, createPost } from "../../utils/rest";
 import useOutsideClick from "../../utils/clickOutside";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { postErrorAnim } from "../../utils/animations";
 const animatedComponents = makeAnimated();
 //
-export default function CreatePost() {
+export default function CreatePost({ fetchPosts }: any) {
+  const state = useSelector((state: RootState) => state);
   const impactRef: any = useRef();
   let profileImage = "/assets/avatarIcon.png";
 
-  const defaultFormData = {
+  const defaultFormData: any = {
     content: "",
     category: 0,
     topics: [],
     media: [],
   };
+  const [formError, setFormError] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("must have category");
   const [categoryOptions, setCategoryOptions] = useState([{ value: "", label: "" }]);
   const [topicOptions, setTopicOptions] = useState([{ value: "", label: "" }]);
   const [isPosting, setIsPosting] = useState(false);
-  const [formState, setFormState] = useState<any>(defaultFormData);
+  const [formContent, setFormContent] = useState(defaultFormData.content);
+  const [formCategory, setFormCategory] = useState(defaultFormData.category);
+  const [formTopics, setFormTopics] = useState<[{ id: number }]>(defaultFormData.topics);
+  const [formMedia, setFormMedia] = useState(defaultFormData.media);
+  let isPerformingAnim = false;
 
   useEffect(() => {
     setCategoriesAndTopics();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  }, [isPosting]);
+
+  const performingAnim = async (legthOfAnim: number) => {
+    isPerformingAnim = true;
+    setTimeout(function () {
+      isPerformingAnim = false;
+    }, legthOfAnim);
+  };
+
+  const clearFormError = () => {
+    setFormError(false);
+    setErrorMessage("");
+  };
 
   const setCategoriesAndTopics = async () => {
     let categoriesFormatted: any = [];
@@ -39,61 +67,73 @@ export default function CreatePost() {
     });
     setCategoryOptions(categoriesFormatted);
     setTopicOptions(topicsFormatted);
-    console.log("looping? ", categoryOptions);
   };
 
   const style = {
     control: (base: any) => ({
       ...base,
-      // This line disables the default blue border
+      // This line disables the default blue border in react-select
       boxShadow: "none",
     }),
   };
 
-  const handleFormChange = (event: React.FormEvent<HTMLFormElement>) => {
+  const contentChange = (event: any) => {
     const target = event.target as HTMLInputElement;
-    const name = target.name;
-    const value = target.value;
-    let formCopy: any = { ...formState };
-    switch (name) {
-      case "content":
-        formCopy.content = +value; //Because it's a number...
-        break;
-      case "categories":
-        formCopy.categories = +value;
-        break;
-      default:
-        return;
-    }
-    console.log("form state ", formCopy);
-    setFormState(formCopy);
+    console.log("content: ", target.value);
+    setFormContent(target.value);
+    validateForm();
   };
 
-  const formSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+  const categoryChange = (option: any) => {
+    console.log("topic change: ", option);
+    setFormCategory(option.id);
+    validateForm();
+  };
+
+  const topicChange = (options: any) => {
+    const formattedTopics: any = options.map((option: { id: number }) => option.id);
+    console.log("topic change: ", formattedTopics);
+    setFormTopics(formattedTopics);
+    validateForm();
+  };
+
+  const validateForm = () => {
+    if (formCategory === 0) {
+      setFormError(true);
+      setErrorMessage("must select category");
+    } else if (formContent === "") {
+      setFormError(true);
+      setErrorMessage("post must have content");
+    }
+    clearFormError();
+  };
+
+  const formSubmitHandler = async (event: any) => {
     event.preventDefault();
-    let stateCopy: any = { ...formState };
-    console.log("What is result ", formState);
-    // let offerToSend:any = {
-    //   owner_name:state.user.user.username,
-    //   owner: state.user.user.id,
-    //   pokeName: pokeName.label,
-    //   CP: stateCopy.CP,
-    //   catchLocation: country.label,
-    //   fastMove: fastMove.label,
-    //   mainMove: mainMove.label,
-    //   shiny: isShiny.label,
-    //   price: stateCopy.price,
-    //   listingType:tradeType.label,
-    // }
-    // const tradeSubmissionResult= await createTrade(offerToSend);
-    // //check to make sure this is valid before continuing
-    // if(tradeSubmissionResult.id) {
-    //   console.log('RESULT  ',tradeSubmissionResult);
-    //   history.push(`/trade/${tradeSubmissionResult.id}`);
-    // } else {
-    //   //display error message to the user in this block
-    // }
-    // setFormState(formData);
+    console.log("What is result ");
+    if (formError) {
+      if (!isPerformingAnim) {
+        performingAnim(1000);
+        postErrorAnim();
+        return;
+      }
+    }
+    let postToPublish: any = {
+      owner: state.user.user.id,
+      content: formContent,
+      category: formCategory,
+      topics: formTopics,
+      // media: stateCopy.media,
+    };
+    console.log("about to publish: ", postToPublish);
+    const postSubmissionResult: any = await createPost(postToPublish);
+    //check to make sure this is valid before continuing
+    console.log("RESULT  ", postSubmissionResult);
+    if (postSubmissionResult[1] == 1) {
+      fetchPosts();
+    } else {
+      //display error message to the user in this block
+    }
   };
 
   useOutsideClick(impactRef, () => {
@@ -103,7 +143,7 @@ export default function CreatePost() {
   return (
     <div ref={impactRef}>
       <div className="form-container">
-        <form className="form" onSubmit={formSubmitHandler} onChange={handleFormChange} spellCheck="false">
+        <form className="form" onSubmit={formSubmitHandler} spellCheck="false">
           <div className="form-bar">
             <img className="nav-overlay-img" onClick={() => {}} src={profileImage} alt="avatar Icon" />
             <input
@@ -115,11 +155,14 @@ export default function CreatePost() {
               onFocus={() => {
                 setIsPosting(true);
               }}
+              value={formContent}
+              onChange={contentChange}
             ></input>
           </div>
           {isPosting ? (
             <div className="form-attachments-bar">
               <Select
+                name="category"
                 components={animatedComponents}
                 options={categoryOptions}
                 className="react-select-container"
@@ -128,6 +171,7 @@ export default function CreatePost() {
                 isClearable={false}
                 isSearchable={false}
                 styles={style}
+                onChange={categoryChange}
               />
               <Select
                 components={animatedComponents}
@@ -139,13 +183,20 @@ export default function CreatePost() {
                 isClearable={false}
                 isSearchable={false}
                 styles={style}
+                onChange={topicChange}
               />
               <button className="alt-button" type="button">
-                photo {formState.media.length ? formState.media.length : ""}
+                photo {formMedia.length ? formMedia.length : ""}
               </button>
-              <button className="post-button" type="submit">
-                post
-              </button>
+              {formError ? (
+                <button className="disabled-button" type="submit" data-tip data-for="post-button-tooltip">
+                  post
+                </button>
+              ) : (
+                <button className="post-button" type="submit">
+                  post
+                </button>
+              )}
             </div>
           ) : (
             <div></div>
@@ -154,6 +205,10 @@ export default function CreatePost() {
 
         <div className="form-divider"></div>
       </div>
+
+      <ReactTooltip id="post-button-tooltip" place="top" effect="float">
+        <span>{errorMessage}</span>
+      </ReactTooltip>
     </div>
   );
 }

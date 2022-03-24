@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
       defaultValue: [],
     },
-    avatarUrl: {
+    avatar_url: {
       type: DataTypes.STRING,
       defaultValue: "/assets/avatarIcon.png",
       allowNull: true,

@@ -1,120 +1,96 @@
-@import './config';
+@import "./config";
 
 .feed {
-	display: flex;
-	min-height: 85%;
-	flex-direction: column;
-	justify-content: space-evenly;
-	align-content: center;
+  display: flex;
+  min-height: 85%;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-content: center;
 }
 .post-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	.post {
-		margin-top: 2vh;
-		margin-bottom: 2vh;
-		display: flex;
-		justify-content: center;
-		align-content: center;
-		min-width: 100%;
-		.post-left-column {
-			padding-top: 1vh;
-		}
-		.post-content {
-			margin-top: 0.5vh;
-			display: flex;
-			min-width: 60%;
-			max-width: 60%;
-			flex-direction: column;
-			justify-content: flex-start;
-			.post-text {
-				color: $colorText;
-			}
-			.post-info-bar {
-				display: flex;
-				.post-tag {
-					margin-top: -0.5vh;
-					margin-right: 1vw;
-					padding: 2px 7px;
-					border-style: solid;
-					border-width: 2px;
-					border-radius: 15px;
-				}
-				.pink {
-					border-color: pink;
-					color: pink;
-				}
-				.green {
-					border-color: green;
-					color: green;
-				}
-				.orange {
-					border-color: orange;
-					color: orange;
-				}
-				.blue {
-					border-color: blue;
-					color: blue;
-				}
-				.red {
-					border-color: red;
-					color: red;
-				}
-				.darkolivegreen {
-					border-color: darkolivegreen;
-					color: darkolivegreen;
-				}
-			}
-			div {
-				margin-top: 0.5vh;
-				margin-bottom: 0.5vh;
-			}
-		}
-	}
-	.post-interaction-bar {
-		display: flex;
-		margin-top: 1vh;
-		margin-bottom: 1vh;
-	}
-	.post-divider {
-		border-bottom: 1px solid $colorDivider;
-		max-width: 60%;
-		min-width: 60%;
-	}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .post {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    min-width: 100%;
+    .post-left-column {
+      padding-top: 1vh;
+    }
+    .post-content {
+      margin-top: 0.5vh;
+      display: flex;
+      min-width: 60%;
+      max-width: 60%;
+      flex-direction: column;
+      justify-content: flex-start;
+      .post-text {
+        color: $colorText;
+      }
+      .post-info-bar {
+        display: flex;
+        .post-topic {
+          margin-top: -0.5vh;
+          margin-right: 1vw;
+          padding: 2px 7px;
+          border-style: solid;
+          border-width: 2px;
+          border-radius: 15px;
+        }
+      }
+      div {
+        margin-top: 0.5vh;
+        margin-bottom: 0.5vh;
+      }
+    }
+  }
+  .post-interaction-bar {
+    display: flex;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+  }
+  .post-divider {
+    border-bottom: 1px solid $colorDivider;
+    max-width: 60%;
+    min-width: 60%;
+  }
 
-	.vote-box {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		img {
-			max-width: 2vw;
-			max-height: 2vw;
-		}
-	}
+  .vote-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      max-width: 2vw;
+      max-height: 2vw;
+    }
+  }
 
-	.alt-text {
-		color: $colorTextAlt;
-		font-weight: lighter;
-	}
+  .alt-text {
+    color: $colorTextAlt;
+    font-weight: lighter;
+  }
 }
 
 @media screen and (max-width: 900px) {
-	.post-container {
-		.post {
-			flex-grow: 2;
-			.post-left-column {
-				margin-right: 2vw;
-			}
-			.post-content {
-				min-width: 80vw;
-				max-width: 80vw;
-				flex-grow: 2;
-			}
-		}
-		.post-divider {
-			max-width: 100%;
-			min-width: 100%;
-		}
-	}
+  .post-container {
+    .post {
+      flex-grow: 2;
+      .post-left-column {
+        margin-right: 2vw;
+      }
+      .post-content {
+        min-width: 83vw;
+        max-width: 83vw;
+        flex-grow: 2;
+      }
+    }
+    .post-divider {
+      max-width: 100%;
+      min-width: 100%;
+    }
+  }
 }
