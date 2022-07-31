@@ -79,39 +79,62 @@ export const requestPasswordReset = async (email: string) => {
 };
 
 export const resetPassword = async (email: string, vKey: string, password: string) => {
-  let result = await fetch(`${endpointURL}/reset-password`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      vKey,
-      email,
-      password,
-    }),
-  })
-    .then((res) => res.json())
-    .then((data) => data)
-    .catch((err) => console.log("Password Reset ERROR", err));
-  return result;
+  try {
+    let httpResult = await fetch(`${endpointURL}/reset-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        vKey,
+        email,
+        password,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log("Password Reset ERROR", error);
+  }
 };
 
 // POST RELATED REQUESTS
 export const getPosts = async (userId: number, token: string) => {
-  return await fetch(`${endpointURL}/posts`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      userId,
-      token,
-    }),
-  })
-    .then((res) => res.json())
-    .catch((err) => {
-      console.log(`${err} while fetching ALL CHATS`);
+  try {
+    const httpResult = await fetch(`${endpointURL}/posts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        token,
+      }),
     });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while fetching all posts`);
+  }
+};
+
+export const getRustTiles = async (userId: number, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/rust-tiles`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while fetching rust tiles`);
+  }
 };
 
 /*
@@ -165,17 +188,18 @@ export const changeUserName = async (id: number, trainerName: string) => {
 	Posts Calls
 */
 export const getCategoriesAndTopics = async () => {
-  let call = {};
-  await fetch(`${endpointURL}/tags`, {
+  try {
+  } catch (error) {
+    console.log("Get categories error: ", error);
+  }
+  const httpResult = await fetch(`${endpointURL}/tags`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-  })
-    .then((res) => res.json())
-    .then((data) => (call = data))
-    .catch((err) => console.log("Get categories error: ", err));
-  return call;
+  });
+  const jsonify = httpResult.json();
+  return jsonify;
 };
 
 export const createPost = async (post: any) => {

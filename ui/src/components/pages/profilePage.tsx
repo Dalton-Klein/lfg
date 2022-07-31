@@ -1,16 +1,15 @@
-import React from 'react';
-import HeaderComponent from '../nav/headerComponent';
-import '../../styling/profilePage.scss';
-import ProfileBanner from '../tiles/myProfileTiles/myProfileBanner';
+import React from "react";
+import HeaderComponent from "../nav/headerComponent";
+import "./profilePage.scss";
+import ProfileGeneral from "../tiles/myProfileTiles/profileGeneral";
 
 export default function ProfilePage() {
-	let profileImage = '/assets/avatarIcon.png';
-	return (
-		<div>
-			<HeaderComponent></HeaderComponent>
-			<div className="my-profile-container">
-				<ProfileBanner></ProfileBanner>
-			</div>
-		</div>
-	);
+  return (
+    <div>
+      <HeaderComponent></HeaderComponent>
+      <div className="my-profile-container">
+        <ProfileGeneral></ProfileGeneral>
+      </div>
+    </div>
+  );
 }

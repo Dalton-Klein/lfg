@@ -1,7 +1,7 @@
 //Global Variables
-$colorPrimary: #044b29;
-$colorPrimaryDarker: #02301a;
-$colorSecondary: #ba3f1d;
+$colorPrimary: #cc2936;
+$colorPrimaryDarker: #541116;
+$colorSecondary: #08415c;
 $colorGreyPop: #232026;
 $colorGreyPop80: #232026bb;
 $colorGreyHover: #2f2c33;
@@ -15,23 +15,27 @@ $colorDivider: rgb(44, 44, 44);
 $font1: calc(8px + 0.25vw);
 $font2: calc(12px + 0.25vw);
 $font3: calc(14px + 0.4vw);
-$font4: calc(25px + 1vw);
-$font5: calc(40px + 2vw);
+$font4: calc(18px + 0.7vw);
+$font5: calc(25px + 1vw);
+$font6: calc(40px + 2vw);
+$transition1: 150ms;
+$borderRadius1: calc(8px + 0.25vw);
+$borderRadius2: calc(15px + 0.5vw);
 
 .flex-center {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .flex-column-center {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .flex-between {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

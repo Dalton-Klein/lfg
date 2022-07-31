@@ -8,7 +8,7 @@ const defaultValues = { created_by, updated_by, created_at, updated_at };
 module.exports = {
   up: async ({ context: sequelize }) => {
     const transaction = await sequelize.transaction();
-    const existingRecords = await sequelize.query("select id from codelounge.public.categories", {
+    const existingRecords = await sequelize.query("select id from lfg.public.categories", {
       type: sequelize.QueryTypes.SELECT,
     });
     if (!existingRecords.length) {
@@ -16,31 +16,31 @@ module.exports = {
         [
           {
             id: 1,
-            name: "general",
-            color: "White",
+            name: "rust",
+            color: "Rust",
             ...defaultValues,
           },
           {
             id: 2,
-            name: "question",
+            name: "fortnite",
             color: "PapayaWhip",
             ...defaultValues,
           },
           {
             id: 3,
-            name: "flex",
+            name: "world of warcraft",
             color: "PaleGreen",
             ...defaultValues,
           },
           {
             id: 4,
-            name: "news",
+            name: "minecraft",
             color: "Plum",
             ...defaultValues,
           },
           {
             id: 5,
-            name: "meme",
+            name: "rocket league",
             color: "MintCream",
             ...defaultValues,
           },

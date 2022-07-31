@@ -98,7 +98,6 @@ export const validatePasswordResetForm = (createAccountForm: PasswordResetForm) 
 };
 
 export const howLongAgo = (date: any) => {
-  console.log("date? ", date);
   const now = moment();
   const minutes = now.diff(date, "minutes");
   const hours = now.diff(date, "hours");

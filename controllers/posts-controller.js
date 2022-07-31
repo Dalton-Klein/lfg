@@ -22,7 +22,8 @@ const getPosts = async (req, res) => {
                  p."createdAt" as created_at, 
                  p."updatedAt" as updated_at, 
                  p.photo_url,
-                 c.name, 
+                 c.name as category, 
+                 c.color as category_color,
                  c.color,
                  (SELECT array(
                         SELECT t.name

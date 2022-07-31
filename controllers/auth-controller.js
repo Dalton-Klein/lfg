@@ -1,7 +1,7 @@
 require("dotenv").config();
 const db = require("../models/index");
 const bcrypt = require("bcrypt");
-const services = require("../services/services");
+const services = require("../services/auth");
 const { users, user_tokens, v_keys, sequelize } = require("../models/index");
 const Sequelize = require("sequelize");
 const UserTable = users;

@@ -2,25 +2,38 @@ import React, { useEffect, useState } from "react";
 import "../../styling/loungePage.scss";
 import "../../styling/tagColors.scss";
 import { howLongAgo } from "../../utils/helperFunctions";
+import "primeicons/primeicons.css";
 
 export default function LoungePost(props: any) {
+  console.log("propsss ", props);
   const defaultPostDate: string = "just now";
   const [postDate, setPostDate] = useState(defaultPostDate);
 
   let profileImage = "/assets/avatarIcon.png";
   let upvoteImage = "/assets/upvotew.png";
   let downvoteImage = "/assets/downvotew.png";
+  let editOpen = false;
 
   useEffect(() => {
     setPostDate(howLongAgo(props.created_at));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  let topicsRender = props.topic_names.map((topic: any, index: number) => (
-    <div key={topic} className={`post-topic ${props.topic_colors[index]}`}>
-      {topic}
+  const openEdit = () => {
+    editOpen = !editOpen;
+  };
+
+  let topicsRender = (
+    <div key={props.category} className={`post-topic ${props.category_color}`}>
+      {props.category}
     </div>
-  ));
+  );
+  // let topicsRender = props.topic_names.map((topic: any, index: number) => (
+  //   <div key={topic} className={`post-topic ${props.topic_colors[index]}`}>
+  //     {topic}
+  //   </div>
+  // ));
+
   return (
     <div>
       <div className="post-container">
@@ -34,9 +47,16 @@ export default function LoungePost(props: any) {
             </div>
           </div>
           <div className="post-content">
-            <div className="post-info-bar">
-              <div className="post-text">{props.username}&nbsp;</div>
-              <div className="alt-text"> • {postDate}</div>
+            <div className="post-title-bar">
+              <div className="left">
+                <div className="post-text">{props.username}&nbsp;</div>
+                <div className="alt-text"> • {postDate}</div>
+              </div>
+              <div className="right">
+                <button onClick={openEdit} className="text-only-button interact-button">
+                  <i className="pi pi-ellipsis-h"></i>
+                </button>
+              </div>
             </div>
             <div className="post-info-bar">{topicsRender}</div>
             <div className="post-text">{props.content}</div>

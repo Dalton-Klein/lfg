@@ -79,13 +79,11 @@ export default function CreatePost({ fetchPosts }: any) {
 
   const contentChange = (event: any) => {
     const target = event.target as HTMLInputElement;
-    console.log("content: ", target.value);
     setFormContent(target.value);
     validateForm();
   };
 
   const categoryChange = (option: any) => {
-    console.log("topic change: ", option);
     setFormCategory(option.id);
     validateForm();
   };
@@ -161,7 +159,7 @@ export default function CreatePost({ fetchPosts }: any) {
           </div>
           {isPosting ? (
             <div className="form-attachments-bar">
-              <Select
+              {/* <Select
                 name="category"
                 components={animatedComponents}
                 options={categoryOptions}
@@ -172,19 +170,7 @@ export default function CreatePost({ fetchPosts }: any) {
                 isSearchable={false}
                 styles={style}
                 onChange={categoryChange}
-              />
-              <Select
-                components={animatedComponents}
-                options={topicOptions}
-                isMulti
-                className="react-select-container"
-                classNamePrefix="react-select"
-                placeholder="topics"
-                isClearable={false}
-                isSearchable={false}
-                styles={style}
-                onChange={topicChange}
-              />
+              /> */}
               <button className="alt-button" type="button">
                 photo {formMedia.length ? formMedia.length : ""}
               </button>

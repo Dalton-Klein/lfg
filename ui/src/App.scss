@@ -1,169 +1,177 @@
-@import './styling/config';
+@import "./styling/config";
 
 ::-webkit-scrollbar {
-	display: none;
+  display: none;
+}
+
+@font-face {
+  font-family: "deToks"; /*Can be any text*/
+  src: local("deToks"), url("./fonts/deToks.otf") format("truetype");
 }
 
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-	background-color: $colorGreyBg;
-	color: $colorText;
-	font-family: 'Rubik', sans-serif;
-	position: relative;
+  background-color: $colorGreyBg;
+  color: $colorText;
+  font-family: "deToks";
+  letter-spacing: 1.5px;
+  position: relative;
 }
 
 a {
-	text-decoration: none;
-	color: $colorText;
+  text-decoration: none;
+  color: $colorText;
 }
 
 h5 {
-	font-weight: 100;
+  font-weight: 100;
 }
 
 button {
-	cursor: 'pointer';
-	border-radius: 25px;
-	outline: none;
-	border: none;
-	color: $colorText;
-	background-color: $colorPrimary;
-	font-weight: 500;
-	padding: 0.75em;
-	transition: 125ms;
-	font-size: $font2;
-	margin-top: 1em;
-	margin-bottom: 1em;
-	min-height: 2.5em;
+  cursor: "pointer";
+  border-radius: 25px;
+  outline: none;
+  border: none;
+  color: $colorText;
+  background-color: $colorPrimary;
+  font-family: "deToks";
+  font-weight: 500;
+  padding: 0.75em;
+  transition: 125ms;
+  font-size: $font2;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  min-height: 2.5em;
 }
 
 button:hover {
-	color: $colorButtonHover;
-	background-color: $colorPrimaryDarker;
-	// box-shadow: 1px 1px 4px 0 rgba(29, 28, 28, 0.55) inset,
-	//   -3px -3px 5px 0 rgba(255, 255, 255, 0.85) inset;
+  cursor: pointer;
+  color: $colorButtonHover;
+  background-color: $colorPrimaryDarker;
+  // box-shadow: 1px 1px 4px 0 rgba(29, 28, 28, 0.55) inset,
+  //   -3px -3px 5px 0 rgba(255, 255, 255, 0.85) inset;
 }
 
 .alt-button {
-	@extend button;
-	background-color: $colorGreyPop;
+  @extend button;
+  background-color: $colorGreyPop;
 }
 
 .alt-button:hover,
 .text-only-button:hover {
-	color: $colorButtonHover;
-	background-color: $colorGreyHover;
+  color: $colorButtonHover;
+  background-color: $colorGreyHover;
 }
 
 .text-only-button {
-	@extend button;
-	background-color: rgba(205, 92, 92, 0);
+  @extend button;
+  background-color: rgba(205, 92, 92, 0);
 }
 
 select {
-	background-color: $colorGreyPop;
-	color: $colorText;
-	border-radius: 25px;
-	height: 2.5em;
-	font-family: 'Rubik', sans-serif;
-	font-size: calc(10px + 0.4vw);
-	font-weight: 200;
-	outline: none;
-	border: none;
-	padding-left: 0.65vw;
-	-moz-appearance: none;
-	-webkit-appearance: none;
+  background-color: $colorGreyPop;
+  color: $colorText;
+  border-radius: 25px;
+  height: 2.5em;
+  font-family: "deToks";
+  font-size: calc(10px + 0.4vw);
+  font-weight: 200;
+  outline: none;
+  border: none;
+  padding-left: 0.65vw;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 
 select:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .react-select-container {
-	min-width: 30vw;
-	color: $colorGreyBg;
-	background-color: transparent;
-	.react-select__control {
-		padding: 0 0.5vw;
-		padding-left: 0.6vw;
-		font-size: $font2;
-		background-color: $colorGreyPop;
-		border-radius: 25px;
-		border-width: 0;
-		box-shadow: 0 0 0 0;
-		.react-select__value-container {
-			background-color: transparent;
-			.react-select__placeholder {
-				background-color: transparent;
-				color: $colorTextAlt;
-				font-size: $font2;
-			}
-			div {
-				background-color: transparent;
-				color: $colorText;
-				font-size: $font2;
-			}
-		}
-		.react-select__indicators {
-		}
-	}
-	.react-select__control--is-focused {
-		box-shadow: 0 0 0 0;
-	}
-	.react-select__control:hover {
-		border-width: 0;
-	}
-	.react-select__menu {
-		background-color: $colorGreyBg;
-		border-radius: 25px;
-		.react-select__menu-list {
-			background-color: transparent;
-			.react-select__option {
-				border-radius: 25px;
-				color: $colorText;
-				font-size: $font2;
-				background-color: $colorGreyBg;
-			}
-			.react-select__option:hover {
-				border-radius: 25px;
-				background-color: $colorGreyPop;
-			}
-		}
-	}
+  min-width: 30vw;
+  color: $colorGreyBg;
+  background-color: transparent;
+  .react-select__control {
+    padding: 0 0.5vw;
+    padding-left: 0.6vw;
+    font-size: $font2;
+    background-color: $colorGreyPop;
+    border-radius: 25px;
+    border-width: 0;
+    box-shadow: 0 0 0 0;
+    .react-select__value-container {
+      background-color: transparent;
+      .react-select__placeholder {
+        background-color: transparent;
+        color: $colorTextAlt;
+        font-size: $font2;
+      }
+      div {
+        background-color: transparent;
+        color: $colorText;
+        font-size: $font2;
+      }
+    }
+    .react-select__indicators {
+    }
+  }
+  .react-select__control--is-focused {
+    box-shadow: 0 0 0 0;
+  }
+  .react-select__control:hover {
+    border-width: 0;
+  }
+  .react-select__menu {
+    background-color: $colorGreyBg;
+    border-radius: 25px;
+    .react-select__menu-list {
+      background-color: transparent;
+      .react-select__option {
+        border-radius: 25px;
+        color: $colorText;
+        font-size: $font2;
+        background-color: $colorGreyBg;
+      }
+      .react-select__option:hover {
+        border-radius: 25px;
+        background-color: $colorGreyPop;
+      }
+    }
+  }
 }
 
 input {
-	background-color: $colorGreyPop;
-	color: $colorText;
-	outline: none;
-	border-radius: 25px;
-	padding: 0.5vw 0.5vw;
-	padding-left: 0.6vw;
-	font-family: 'Rubik', sans-serif;
-	font-size: $font2;
-	border: 3px solid transparent;
-	transition: border 1s;
+  background-color: $colorGreyPop;
+  color: $colorText;
+  outline: none;
+  border-radius: 25px;
+  padding: 0.5vw 0.5vw;
+  padding-left: 0.6vw;
+  font-family: "deToks";
+  font-size: $font2;
+  border: 3px solid transparent;
+  transition: border 1s;
 }
 
 input:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 textarea {
-	color: $colorText;
-	border: none;
-	outline: none;
-	font-family: 'Rubik', sans-serif;
-	font-size: calc(10px + 0.5vw);
-	font-weight: 100;
-	padding: 2vw 3vw;
+  color: $colorText;
+  border: none;
+  outline: none;
+  font-family: "deToks";
+  font-size: calc(10px + 0.5vw);
+  font-weight: 100;
+  padding: 2vw 3vw;
 }
 
 .App {
-	position: relative;
+  position: relative;
 }

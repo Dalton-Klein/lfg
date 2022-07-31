@@ -1,0 +1,98 @@
+@import "../../styling/config";
+
+.hamburger-red-panel {
+  width: 20%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: $colorSecondary;
+  opacity: 0;
+}
+
+.hamburger-green-panel {
+  width: 98%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: $colorPrimary;
+  opacity: 0;
+}
+
+.hamburger-nav {
+  width: 97%;
+  background-color: $colorGreyPop;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  z-index: 20;
+  h5 {
+    margin-top: 3em;
+    opacity: 0.6;
+  }
+}
+
+.hamburger-img:hover {
+  transform: scale(1.15);
+}
+
+.hamburger-links {
+  min-width: 91%;
+  display: flex;
+  justify-content: center;
+}
+
+.hamburger-button {
+  width: 90%;
+  margin: 8px 0px;
+  font-size: 1em;
+}
+
+.hamburger-logout-button {
+  @extend .hamburger-button;
+  background-color: $colorSecondary;
+}
+
+.hamburger-img {
+  max-width: 30px;
+  max-height: 30px;
+  margin-top: -2px;
+  margin-left: 12px;
+  transition: $transition1;
+}
+
+.hamburger-exit {
+  margin-top: 2vh;
+  margin-right: calc(20px + 1.5vw);
+  width: 1.5vw;
+  height: 1.5vw;
+  min-width: 20px;
+  min-height: 20px;
+  align-self: flex-end;
+  margin-bottom: 25px;
+}
+
+@media screen and (max-width: 1200px) {
+  .hamburger-red-panel {
+    width: 40%;
+  }
+  .backdrop-event-listener {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .hamburger-red-panel {
+    width: 60%;
+  }
+  .backdrop-event-listener {
+    width: 40%;
+  }
+}

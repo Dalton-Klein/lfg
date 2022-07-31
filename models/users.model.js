@@ -17,11 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    about: {
-      type: DataTypes.STRING,
-      defaultValue: "",
-      allowNull: false,
-    },
     numOfStrikes: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
