@@ -1,0 +1,33 @@
+@import "../../styling/config";
+
+.daddy-box {
+  cursor: pointer;
+  border-radius: 10px;
+  height: 100%;
+  width: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: grid;
+  place-items: center;
+  transition: $transition1;
+}
+.daddy-box:hover {
+  transform: scale(1.05);
+}
+
+.daddy-gradient-overlay {
+  border-radius: 10px;
+  min-width: 100%;
+  min-height: 100%;
+  background: linear-gradient(0deg, #cc29378f, rgba(255, 0, 0, 0));
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.daddy-title {
+  font-size: 7vw;
+  margin-bottom: 2vh;
+}

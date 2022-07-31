@@ -25,8 +25,11 @@ const userSlice = createSlice({
 		setUser(state, { payload }: PayloadAction<User>) {
 			state.user = payload;
 		},
-		updateUserUrl(state, { payload }: PayloadAction<string | undefined>) {
+		updateUserAvatarUrl(state, { payload }: PayloadAction<string | undefined>) {
 			state.user.avatarUrl = payload;
+		},
+		updateUserName(state, { payload }: PayloadAction<string | undefined>) {
+			state.user.username = payload;
 		},
 		setUserError(state, action: PayloadAction<string>) {
 			return state;
@@ -34,7 +37,7 @@ const userSlice = createSlice({
 	},
 });
 
-export const { setUser, setUserError, updateUserUrl } = userSlice.actions;
+export const { setUser, setUserError, updateUserAvatarUrl, updateUserName } = userSlice.actions;
 export default userSlice.reducer;
 
 // THUNK / EPIC

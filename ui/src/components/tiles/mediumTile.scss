@@ -1,0 +1,41 @@
+@import "../../styling/config";
+
+.tile-box {
+  background-color: $colorGreyPop;
+  border-radius: 10px;
+  min-height: 20vh;
+  min-width: 20vw;
+  max-width: 20vw;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: grid;
+  place-items: center;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  cursor: pointer;
+  transition: $transition1;
+}
+
+.tile-box:hover {
+  transform: scale(1.05);
+}
+
+.medium-gradient-overlay {
+  border-radius: 10px;
+  min-width: 100%;
+  min-height: 100%;
+  background: linear-gradient(45deg, black, rgba(255, 0, 0, 0));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  i {
+    font-size: $font5;
+    margin-top: 1.5vh;
+  }
+}
+
+.medium-title {
+  font-size: $font4;
+}

@@ -1,11 +1,13 @@
-import '../../styling/header.scss';
-import ProfileInlayComponet from './profileInlayComponet';
+import { useNavigate } from "react-router-dom";
+import "./headerComponent.scss";
+import ProfileInlayComponet from "./profileInlayComponet";
 
 export default function HeaderComponent() {
-	return (
-		<div className="header-container">
-			<h2>codelounge</h2>
-			<ProfileInlayComponet />
-		</div>
-	);
+  const navigate = useNavigate();
+  return (
+    <div className="header-container">
+      <h2 onClick={() => navigate(`/`)}>lfg</h2>
+      <ProfileInlayComponet />
+    </div>
+  );
 }

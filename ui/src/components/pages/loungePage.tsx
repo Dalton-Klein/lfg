@@ -1,43 +1,33 @@
-import React from 'react';
-import HeaderComponent from '../nav/headerComponent';
-import LoungePost from '../tiles/loungePost'
-import '../../styling/loungePage.scss';
+import React, { useEffect, useState } from "react";
+import HeaderComponent from "../nav/headerComponent";
+import LoungePost from "../tiles/loungePost";
+import CreatePost from "../forms/createPost";
+import { getPosts } from "../../utils/rest";
+import "../../styling/loungePage.scss";
 
-export default function loungePage() {
+export default function LoungePage() {
+  let postsFeed: React.ReactNode = <li></li>;
+  const [postsFromDataBase, setPostsFromDataBase] = useState([]);
 
-	let postsFeed: React.ReactNode = <li></li>;
-	let postsFromDataBase = [
-		{
-			id: 1,
-			owner: 1,
-			ownerName: 'Madison',
-			content: 'This is a test post!',
-			created_at: Date.now(),
-		},
-		{
-			id: 2,
-			owner: 2,
-			ownerName: 'Dalton',
-			content: 'This is a test post222222!',
-			created_at: Date.now(),
-		},
-		{
-			id: 3,
-			owner: 3,
-			ownerName: 'Tony',
-			content:
-				'This is a test post222222! My story is so special. I was a wonderful child. I get fucked up on onies every night. ',
-			created_at: Date.now(),
-		},
-	];
-	postsFeed = postsFromDataBase.map((post: any) => (
-		<LoungePost {...post}></LoungePost>
-	));
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
-	return (
-		<div>
-			<HeaderComponent></HeaderComponent>
-			<div className="feed">{postsFeed}</div>
-		</div>
-	);
+  const fetchPosts = async () => {
+    setPostsFromDataBase(await getPosts(1, "blank"));
+  };
+
+  postsFeed = postsFromDataBase.map((post: any) => (
+    <li style={{ listStyleType: "none" }} key={post.id}>
+      <LoungePost {...post}></LoungePost>
+    </li>
+  ));
+
+  return (
+    <div>
+      <HeaderComponent></HeaderComponent>
+      <CreatePost fetchPosts={fetchPosts}></CreatePost>
+      <div className="feed">{postsFeed}</div>
+    </div>
+  );
 }
