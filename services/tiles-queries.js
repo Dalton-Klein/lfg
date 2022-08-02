@@ -1,31 +1,32 @@
 const getRustTilesQuery = () => {
   return `
-    select p.id, 
-          p.content, 
-          p.owner, 
-          u.username, 
-          u.avatar_url, 
-          p.number_votes, 
-          p."createdAt" as created_at, 
-          p."updatedAt" as updated_at, 
-          p.photo_url,
-          c.name as category, 
-          c.color as category_color,
-          c.color,
-          (SELECT array(
-                  SELECT t.name
-                    FROM topics t
-                  WHERE t.id = any(p.topics) )) AS topic_names,
-          (SELECT array(
-                  SELECT t.color
-                    FROM topics t
-                  WHERE t.id = any(p.topics) )) AS topic_colors
-      from posts p
-      join users u
-        on u.id = p.owner
-      join categories c
-        on c.id = p.categories
-    order by p."createdAt" desc
+  select u.id,
+         u.username,
+         u.avatar_url,
+         ug.last_seen,
+         ug.about,
+         ug.age,
+         ug.gender,
+         r.name as region_name,
+         r.abbreviation as region_abbreviation,
+         ug.languages,
+         ug.platforms,
+         ug.discord,
+         av1.name as weekends,
+         av2.name as weekdays,
+         ur.roles,
+         ur.play_styles
+    from lfg.public.users u 
+    join lfg.public.user_general_infos ug 
+      on ug.user_id = u.id
+    join lfg.public.user_rust_infos ur
+      on ur.user_id = u.id
+    join lfg.public.regions r
+      on r.id = ug.region
+    join lfg.public.availabilities av1
+      on av1.id = ur.weekends
+    join lfg.public.availabilities av2
+      on av2.id = ur.weekdays
 `;
 };
 

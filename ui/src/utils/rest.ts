@@ -185,6 +185,25 @@ export const changeUserName = async (id: number, trainerName: string) => {
 };
 
 /*
+	Connections Calls
+*/
+export const getConnectionsForUser = async (userId: number) => {
+  return await fetch(`${endpointURL}/connections`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId,
+    }),
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log(`${err} while fetching connections`);
+    });
+};
+
+/*
 	Posts Calls
 */
 export const getCategoriesAndTopics = async () => {

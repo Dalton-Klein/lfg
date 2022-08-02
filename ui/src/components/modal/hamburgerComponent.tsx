@@ -86,11 +86,11 @@ const HamburgerComponent = (props: Props) => {
           </div>
           <div
             onClick={() => {
-              navigationButtonPressed("comms");
+              navigationButtonPressed("connections");
             }}
             className="hamburger-links"
           >
-            <button className="hamburger-button">comms</button>
+            <button className="hamburger-button">connections</button>
           </div>
           <div
             onClick={() => {

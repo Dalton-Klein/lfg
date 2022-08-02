@@ -3,7 +3,7 @@ import HeaderComponent from "../nav/headerComponent";
 import LoungePost from "../tiles/loungePost";
 import CreatePost from "../forms/createPost";
 import { getPosts } from "../../utils/rest";
-import "../../styling/loungePage.scss";
+import "./loungePage.scss";
 
 export default function LoungePage() {
   let postsFeed: React.ReactNode = <li></li>;

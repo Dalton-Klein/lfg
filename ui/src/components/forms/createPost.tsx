@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactTooltip from "react-tooltip";
-import "../../styling/createPost.scss";
+import "./createPost.scss";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { getCategoriesAndTopics, createPost } from "../../utils/rest";

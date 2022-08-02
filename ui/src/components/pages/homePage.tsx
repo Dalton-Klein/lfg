@@ -24,7 +24,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className="right">
-          <DaddyTile></DaddyTile>
+          <DaddyTile routerLink="/discover"></DaddyTile>
         </div>
       </div>
     </div>

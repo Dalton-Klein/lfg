@@ -1,0 +1,25 @@
+@import "../../../styling/config";
+
+.filter-container {
+  display: flex;
+  justify-content: space-evenly;
+  transition: $transition1;
+  max-width: 17%;
+  .react-select-container {
+    min-width: 100%;
+    max-width: 100%;
+    margin: 0 2vw 0 1vw;
+    padding: 0;
+    .react-select__control {
+      padding: 0;
+      .react-select__value-container {
+        .react-select__placeholder {
+          font-size: $font2;
+        }
+      }
+    }
+  }
+}
+.filter-container:hover {
+  transform: scale(1.05);
+}
