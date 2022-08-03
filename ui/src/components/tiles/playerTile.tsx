@@ -8,10 +8,7 @@ export default function PlayerTile(props: any) {
     2: "female",
     3: "non-binary",
   };
-  const platformClassNames: any = {
-    pc: "pi-desktop",
-    console: "pi-server",
-  };
+
   const lastSeen = howLongAgo(props.last_seen);
   console.log("test: ", props);
   const genderIcon = `/assets/gender-icon-${genderImageLinks[props.gender]}.png`;
@@ -28,7 +25,6 @@ export default function PlayerTile(props: any) {
             <button className="connect-button">connect</button>
           </div>
           <div className="info-stats-row">
-            <i className={`platform-icon pi ${platformClassNames[props.platforms[0]]}`}></i>
             <div className="info-stats-attribute">{props.languages[0]}</div>
             <div className="info-stats-attribute">{props.age}</div>
             <img className="gender-icon" src={genderIcon} alt=""></img>
@@ -53,9 +49,23 @@ export default function PlayerTile(props: any) {
       </div>
       {/* footer details */}
       <div className="footer-details">
-        <div className="discord-box">
-          <i className={`platform-icon pi pi-discord`}></i>
-          <div className="footer-discord-name">{props.discord ? props.discord : "n/a"}</div>
+        <div className="footer-platform-box">
+          {/* <i className={`platform-icon pi pi-discord`}></i> */}
+          {props.preferred_platform === 1 ? (
+            <img className="footer-platform-image" src="/assets/discord-logo-small.png" alt={`${props.username} profile image`} />
+          ) : (
+            <></>
+          )}
+          {props.preferred_platform === 2 ? (
+            <img className="footer-platform-image" src="/assets/psn-logo-small.png" alt={`${props.username} profile image`} />
+          ) : (
+            <></>
+          )}
+          {props.preferred_platform === 3 ? (
+            <img className="footer-platform-image" src="/assets/xbox-logo-small.png" alt={`${props.username} profile image`} />
+          ) : (
+            <></>
+          )}
         </div>
         <div className="footer-timestamp">{lastSeen}</div>
       </div>

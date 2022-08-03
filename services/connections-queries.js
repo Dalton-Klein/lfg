@@ -9,8 +9,10 @@ const getConnectionsForUserQuerySenders = () => {
          ug.about,
          ug.age,
          ug.gender,
-         ug.platforms,
-         ug.discord
+         ug.preferred_platform,
+         ug.discord,
+         ug.psn,
+         ug.xbox
     from lfg.public.connections c
     join lfg.public.users u 
       on u.id = c.sender
@@ -31,8 +33,10 @@ const getConnectionsForUserQueryAcceptors = () => {
          ug.about,
          ug.age,
          ug.gender,
-         ug.platforms,
-         ug.discord
+         ug.preferred_platform,
+         ug.discord,
+         ug.psn,
+         ug.xbox
     from lfg.public.connections c
     join lfg.public.users u 
       on u.id = c.acceptor

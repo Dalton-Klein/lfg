@@ -12,15 +12,17 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetchConnections();
+    setSelection(parseInt(JSON.parse(localStorage.getItem("lastProfileMenu") || "{}")));
   }, []);
 
   const fetchConnections = async () => {
     const connectionResults = await getConnectionsForUser(1, "blank");
-    console.log("res: ", connectionResults);
     setconnectionsResult(connectionResults);
   };
+
   const changeSelection = (value: number) => {
     setSelection(value);
+    localStorage.setItem("lastProfileMenu", JSON.stringify(value));
   };
 
   let connections: React.ReactNode = <li></li>;

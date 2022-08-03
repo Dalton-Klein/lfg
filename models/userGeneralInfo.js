@@ -24,11 +24,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: [],
     },
-    platforms: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      defaultValue: [],
+    preferred_platform: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
     discord: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    psn: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    xbox: {
       type: DataTypes.STRING,
       allowNull: true,
     },

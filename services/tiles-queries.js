@@ -10,7 +10,7 @@ const getRustTilesQuery = () => {
          r.name as region_name,
          r.abbreviation as region_abbreviation,
          ug.languages,
-         ug.platforms,
+         ug.preferred_platform,
          ug.discord,
          av1.name as weekends,
          av2.name as weekdays,

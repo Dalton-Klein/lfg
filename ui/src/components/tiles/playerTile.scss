@@ -115,12 +115,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .discord-box {
+    .footer-platform-box {
       margin-left: 1vw;
       opacity: 0.6;
       display: flex;
-      .footer-discord-name {
-        margin-left: 1vw;
+      .footer-platform-image {
+        min-width: 1.75vw;
+        max-width: 1.75vw;
+        opacity: 0.6;
+        margin: 0.5vw 0.5vw;
       }
     }
     .footer-timestamp {
