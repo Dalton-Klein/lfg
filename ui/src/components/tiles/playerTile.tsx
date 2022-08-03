@@ -10,10 +10,14 @@ export default function PlayerTile(props: any) {
   };
 
   const lastSeen = howLongAgo(props.last_seen);
-  console.log("test: ", props);
   const genderIcon = `/assets/gender-icon-${genderImageLinks[props.gender]}.png`;
   return (
-    <div className="player-card">
+    <div
+      className="player-card"
+      onClick={() => {
+        props.expandRequest(props);
+      }}
+    >
       {/* main details */}
       <div className="main-details">
         <div className="image-column">

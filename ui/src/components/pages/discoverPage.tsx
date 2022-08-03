@@ -23,9 +23,18 @@ export default function DiscoverPage() {
 
   tilesFeed = tilesFromDB.map((tile: any) => (
     <li style={{ listStyleType: "none" }} key={tile.id}>
-      <PlayerTile {...tile}></PlayerTile>
+      <PlayerTile
+        {...tile}
+        expandRequest={(profile: any) => {
+          expandProfile(profile);
+        }}
+      ></PlayerTile>
     </li>
   ));
+
+  const expandProfile = (profile: any) => {
+    console.log("expand logic here: ", profile);
+  };
 
   return (
     <div>
