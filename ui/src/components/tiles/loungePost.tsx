@@ -5,7 +5,6 @@ import { howLongAgo } from "../../utils/helperFunctions";
 import "primeicons/primeicons.css";
 
 export default function LoungePost(props: any) {
-  console.log("propsss ", props);
   const defaultPostDate: string = "just now";
   const [postDate, setPostDate] = useState(defaultPostDate);
 

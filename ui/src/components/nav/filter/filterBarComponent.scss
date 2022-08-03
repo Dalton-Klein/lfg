@@ -1,0 +1,17 @@
+@import "../../../styling/config";
+
+.filter-bar {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-width: 100%;
+  margin: 3vh 0;
+}
+
+.clear-button:hover {
+  color: $colorPrimary;
+}
+.clear-button {
+  margin: 0;
+  font-size: $font2;
+}

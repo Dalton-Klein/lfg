@@ -2,7 +2,7 @@
 
 .daddy-box {
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: $borderRadius2;
   height: 100%;
   width: 80%;
   background-repeat: no-repeat;
@@ -17,7 +17,7 @@
 }
 
 .daddy-gradient-overlay {
-  border-radius: 10px;
+  border-radius: $borderRadius2;
   min-width: 100%;
   min-height: 100%;
   background: linear-gradient(0deg, #cc29378f, rgba(255, 0, 0, 0));

@@ -1,34 +1,41 @@
 require("dotenv").config();
 const Sequelize = require("sequelize");
 const { sequelize } = require("../models/index");
-const { getRustTilesQuery } = require("../services/tiles-queries");
+const { getConnectionsForUserQuerySenders, getConnectionsForUserQueryAcceptors } = require("../services/connections-queries");
 
 /*
-get tiles logic
+get connections logic
 */
-const getRustTiles = async (req, res) => {
+const getConnectionsForUser = async (req, res) => {
   try {
-    console.log(" ♛ A User Requested Rust Tiles ♛ ");
+    console.log(" ♛ A User Requested Their Connections ♛ ");
     const { userId, token } = req.body;
-    // const filter = { where: { email: email } };
-    const query = getRustTilesQuery();
-    let tiles = await sequelize.query(query, {
+    let query;
+    query = getConnectionsForUserQuerySenders();
+    const senderConnections = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
       replacements: {
-        username: req.body.username,
+        userId,
       },
     });
-    res.status(200).send(tiles);
+    query = getConnectionsForUserQueryAcceptors();
+    const acceptorConnections = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId,
+      },
+    });
+    const connections = acceptorConnections.concat(senderConnections);
+    res.status(200).send(connections);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 };
 
-const createRustTile = async (req, res) => {
+const createConnection = async (req, res) => {
   try {
     const { owner, content, category, topics } = req.body.post;
-    console.log("create post req body: ", req.body);
     let topicsColumnQueryString = "";
     let topicsValueQueryString = "";
     if (topics.length) {
@@ -65,6 +72,6 @@ const createRustTile = async (req, res) => {
 };
 
 module.exports = {
-  getRustTiles,
-  createRustTile,
+  getConnectionsForUser,
+  createConnection,
 };

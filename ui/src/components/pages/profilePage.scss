@@ -1,7 +1,13 @@
+@import "../../styling/config";
+
 .my-profile-container {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 15px;
+}
+
+.connection-list-item {
+  min-width: 70%;
 }

@@ -1,0 +1,63 @@
+@import "../../styling/config";
+
+.connection-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 100%;
+  margin: 2vh 0;
+  background-color: $colorGreyPop;
+  border-radius: $borderRadius1;
+  padding: 1vw;
+}
+
+.connection-user-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 35%;
+  max-width: 35%;
+  .connection-name {
+    font-size: $font4;
+  }
+  .connection-game-image {
+    min-width: 3vw;
+    max-width: 3vw;
+    opacity: 0.6;
+    margin: 0.5vw 0;
+  }
+}
+
+.connection-profile-image {
+  min-width: 6vw;
+  max-width: 6vw;
+}
+
+.connection-platform-image {
+  min-width: 3vw;
+  max-width: 3vw;
+  opacity: 0.6;
+  margin: 0.5vw 0.5vw;
+}
+
+.connection-chat-platform-container {
+  display: flex;
+  align-items: center;
+  min-width: 35%;
+  max-width: 35%;
+  .connection-chat-platform-box {
+    cursor: pointer;
+    background-color: $colorGreyBg;
+    border-radius: $borderRadius1;
+    margin: 0 0.5vw;
+  }
+  .connection-chat-platform-box:hover {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: rgba(255, 255, 255, 0.6);
+  }
+  .connection-chat-platform-text {
+    font-size: $font2;
+    margin-left: 0.5vw;
+  }
+}

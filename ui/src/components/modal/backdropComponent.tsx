@@ -12,6 +12,7 @@ const Backdrop = (props: Props) => {
     document.querySelector(".backdrop-event-listener")!.addEventListener("click", () => {
       props.toggleHamburger();
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return createPortal(

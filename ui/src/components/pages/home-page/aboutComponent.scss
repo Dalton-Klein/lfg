@@ -1,0 +1,18 @@
+@import "../../../styling/config";
+
+.about-container {
+  background-color: $colorGreyPop;
+  min-width: 100%;
+  min-height: 30vh;
+  display: flex;
+  align-items: center;
+  .column-1 {
+    max-width: 50%;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    .about-text {
+      font-size: $font2;
+      text-align: center;
+    }
+  }
+}
