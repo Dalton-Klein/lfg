@@ -1,3 +1,21 @@
+@import "../../styling/config";
+
+.header-rust {
+  min-width: 100%;
+  margin-bottom: 2vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: grid;
+  place-items: center;
+  min-height: 15vh;
+  div {
+    min-width: 100%;
+    text-align: center;
+    font-size: $font4;
+  }
+}
+
 .feed {
   margin: 1vh 1vw;
   display: flex;

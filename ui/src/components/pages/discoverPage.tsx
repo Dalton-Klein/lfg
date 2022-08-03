@@ -30,6 +30,9 @@ export default function DiscoverPage() {
   return (
     <div>
       <HeaderComponent></HeaderComponent>
+      <article className="header-rust" style={{ backgroundImage: "url(/assets/rust-tile-image.png)" }}>
+        <div>find rust players</div>
+      </article>
       <FilterBarComponent></FilterBarComponent>
       <div className="feed">{tilesFeed}</div>
     </div>

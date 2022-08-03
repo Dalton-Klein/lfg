@@ -26,7 +26,10 @@ export default function FilterComponent(props: props) {
     validateForm();
   };
 
-  const validateForm = () => {};
+  const validateForm = () => {
+    if (selection) {
+    }
+  };
 
   return (
     <div className="filter-container">

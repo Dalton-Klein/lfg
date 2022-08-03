@@ -187,7 +187,7 @@ export const changeUserName = async (id: number, trainerName: string) => {
 /*
 	Connections Calls
 */
-export const getConnectionsForUser = async (userId: number) => {
+export const getConnectionsForUser = async (userId: number, token: string) => {
   return await fetch(`${endpointURL}/connections`, {
     method: "POST",
     headers: {

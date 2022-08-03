@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    platform: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   });
 
   return connection_requests;

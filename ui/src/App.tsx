@@ -3,7 +3,7 @@ import { Route, BrowserRouter as HashRouter, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store/store";
-import HomePage from "./components/pages/homePage";
+import HomePage from "./components/pages/home-page/homePage";
 import DiscoverPage from "./components/pages/discoverPage";
 import LoginPage from "./components/pages/authenticationPage";
 import FourOFourPage from "./components/pages/FourOFourPage";

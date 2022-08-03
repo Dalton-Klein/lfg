@@ -1,8 +1,10 @@
 import React from "react";
-import HeaderComponent from "../nav/headerComponent";
+import AboutComponent from "../../pages/home-page/aboutComponent";
+import FooterComponent from "../../nav/footerComponent";
+import HeaderComponent from "../../nav/headerComponent";
 import "./homePage.scss";
-import MediumTile from "../tiles/mediumTile";
-import DaddyTile from "../tiles/daddyTile";
+import MediumTile from "../../tiles/mediumTile";
+import DaddyTile from "../../tiles/daddyTile";
 
 export default function HomePage() {
   return (
@@ -27,6 +29,8 @@ export default function HomePage() {
           <DaddyTile routerLink="/discover"></DaddyTile>
         </div>
       </div>
+      <AboutComponent></AboutComponent>
+      <FooterComponent></FooterComponent>
     </div>
   );
 }

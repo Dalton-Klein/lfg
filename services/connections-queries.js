@@ -1,6 +1,7 @@
 const getConnectionsForUserQuerySenders = () => {
   return `
   select c.sender as user_id,
+         c.platform,
          u.id,
          u.username,
          u.avatar_url,
@@ -9,7 +10,7 @@ const getConnectionsForUserQuerySenders = () => {
          ug.age,
          ug.gender,
          ug.platforms,
-         ug.discord,
+         ug.discord
     from lfg.public.connections c
     join lfg.public.users u 
       on u.id = c.sender
@@ -22,6 +23,7 @@ const getConnectionsForUserQuerySenders = () => {
 const getConnectionsForUserQueryAcceptors = () => {
   return `
   select c.acceptor as user_id,
+         c.platform,
          u.id,
          u.username,
          u.avatar_url,
@@ -30,7 +32,7 @@ const getConnectionsForUserQueryAcceptors = () => {
          ug.age,
          ug.gender,
          ug.platforms,
-         ug.discord,
+         ug.discord
     from lfg.public.connections c
     join lfg.public.users u 
       on u.id = c.acceptor

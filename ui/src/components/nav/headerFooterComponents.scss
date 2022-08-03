@@ -1,0 +1,30 @@
+@import "../../styling/config";
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1vh 2vw;
+  h2 {
+    cursor: pointer;
+  }
+}
+
+.gradient-bar {
+  min-width: 100%;
+  min-height: 1px;
+  max-height: 1px;
+  background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  .footer-text {
+    min-height: 100%;
+    margin: 1vh 0;
+    font-size: $font2;
+  }
+}

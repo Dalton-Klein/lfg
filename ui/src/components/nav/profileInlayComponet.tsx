@@ -9,12 +9,13 @@ export default function ProfileInlayComponet() {
   const navigate = useNavigate();
   const userState = useSelector((state: RootState) => state.user.user);
   const [hamburgVis, setHamburgVis] = useState<boolean>(false);
-  let profileImage = "/assets/avatarIcon.png";
+  const [profileImage, setProfileImage] = useState<string>("/assets/avatarIcon.png");
 
   useEffect(() => {
     if (typeof userState.avatarUrl === "string" && userState.avatarUrl.length > 1) {
-      profileImage = userState.avatarUrl;
+      setProfileImage(userState.avatarUrl);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleHamburger = () => {

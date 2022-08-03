@@ -18,6 +18,7 @@ const getConnectionsForUser = async (req, res) => {
         userId,
       },
     });
+    query = getConnectionsForUserQueryAcceptors();
     const acceptorConnections = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
       replacements: {

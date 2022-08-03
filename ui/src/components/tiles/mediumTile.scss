@@ -2,7 +2,7 @@
 
 .tile-box {
   background-color: $colorGreyPop;
-  border-radius: 10px;
+  border-radius: $borderRadius2;
   min-height: 20vh;
   min-width: 20vw;
   max-width: 20vw;
@@ -22,7 +22,7 @@
 }
 
 .medium-gradient-overlay {
-  border-radius: 10px;
+  border-radius: $borderRadius2;
   min-width: 100%;
   min-height: 100%;
   background: linear-gradient(45deg, black, rgba(255, 0, 0, 0));

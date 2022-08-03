@@ -1,4 +1,5 @@
 @import "../../styling/config";
+
 .player-card {
   display: flex;
   flex-direction: column;
@@ -11,6 +12,10 @@
   background-color: $colorGreyPop;
   border-radius: $borderRadius1;
   margin: 1vh 1vw;
+  outline-style: solid;
+  outline-width: 2px;
+  outline-color: $colorSecondary;
+
   .main-details {
     display: flex;
     align-items: center;

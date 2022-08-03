@@ -1,5 +1,4 @@
 require("dotenv").config();
-const db = require("../models/index");
 const Sequelize = require("sequelize");
 const { sequelize } = require("../models/index");
 const { getRustTilesQuery } = require("../services/tiles-queries");
