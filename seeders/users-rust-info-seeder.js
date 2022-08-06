@@ -63,11 +63,11 @@ module.exports = {
         { transaction }
       );
     } else {
-      console.log("Found existing data in user_rust_info table, so seeder script will not insert data.");
+      console.log("Found existing data in user_rust_infos table, so seeder script will not insert data.");
     }
     return await transaction.commit();
   },
   down: async ({ context: sequelize }) => {
-    await sequelize.getQueryInterface().bulkDelete("user_rust_info", null, { truncate: true });
+    await sequelize.getQueryInterface().bulkDelete("user_rust_infos", null, { truncate: true });
   },
 };

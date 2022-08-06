@@ -57,7 +57,7 @@ exports.signup = async (req, res) => {
       const vKey = services.keyGen(5);
       await insertVKey(req, vKey);
       // coffee disable
-      await services.sendEmail(req, vKey, 1, req.body.username);
+      // await services.sendEmail(req, vKey, 1, req.body.username);
       res.send({
         data: "vKeySentToEmail",
       });
@@ -86,7 +86,7 @@ const validateCredentials = (req, res) => {
 const checkIfEmailExists = async (req) => {
   const query = `
     select * 
-      from user_data
+      from lfg.public.users
      where email = :email;
   `;
   const queryOptions = {
@@ -101,7 +101,7 @@ const checkIfEmailExists = async (req) => {
 const checkIfUserNameExists = async (req) => {
   const query = `
     select * 
-      from user_data
+      from lfg.public.users
      where username = :username;
   `;
   const queryOptions = {
@@ -154,15 +154,15 @@ exports.verify = async (req, res) => {
         username: req.body.username,
         hashed: hashedPass,
       };
-      let accountCreationResult = await UserTable.create(accountObject);
-      let user = accountCreationResult.dataValues;
+      let accountCreationResult = await insertNewUser(accountObject);
+      let user = accountCreationResult[0][0];
       if (user) {
         delete user.hashed;
         await vKeyTable.destroy(filter);
         const token = services.keyGen(15);
         const newToken = await TokenTable.create({ id: user.id, token });
         res.status(200).json({
-          data: accountCreationResult.dataValues,
+          data: user,
           token: newToken.token,
         });
       } else {
@@ -175,6 +175,38 @@ exports.verify = async (req, res) => {
       error: "error creating account, contact support",
     });
   }
+};
+
+const insertNewUser = async (userObj) => {
+  const query = `
+  insert into lfg.public.users (id, email, username, hashed, created_at, updated_at)
+       values ((select max(id) + 1 from lfg.public.users), :email, :username, :hashed, current_timestamp, current_timestamp)
+    returning id, email, hashed, username
+  `;
+  const queryOptions = {
+    type: Sequelize.QueryTypes.INSERT,
+    replacements: {
+      username: userObj.username,
+      email: userObj.email,
+      hashed: userObj.hashed,
+    },
+  };
+  return await sequelize.query(query, queryOptions);
+};
+
+const insertToken = async (userId, token) => {
+  const query = `
+  insert into lfg.public.user_tokens (token, created_at, updated_at)
+       values (:token, current_timestamp, current_timestamp)
+    returning token
+  `;
+  const queryOptions = {
+    type: Sequelize.QueryTypes.INSERT,
+    replacements: {
+      token,
+    },
+  };
+  return await sequelize.query(query, queryOptions);
 };
 
 /*

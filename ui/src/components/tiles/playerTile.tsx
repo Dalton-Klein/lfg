@@ -8,7 +8,7 @@ export default function PlayerTile(props: any) {
     2: "female",
     3: "non-binary",
   };
-
+  console.log("what is props?? ", props);
   const lastSeen = howLongAgo(props.last_seen);
   const genderIcon = `/assets/gender-icon-${genderImageLinks[props.gender]}.png`;
   return (
@@ -21,7 +21,7 @@ export default function PlayerTile(props: any) {
       {/* main details */}
       <div className="main-details">
         <div className="image-column">
-          <img className="card-photo" onClick={() => {}} src={props.avatar_url} alt="avatar Icon" />
+          <img className="card-photo" onClick={() => {}} src={props.avatarUrl} alt="avatar Icon" />
         </div>
         <div className="info-column">
           <div className="info-title-row">

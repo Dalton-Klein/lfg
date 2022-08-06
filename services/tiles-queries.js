@@ -2,7 +2,7 @@ const getRustTilesQuery = () => {
   return `
   select u.id,
          u.username,
-         u.avatar_url,
+         u.avatar_url as "avatarUrl",
          ug.last_seen,
          ug.about,
          ug.age,

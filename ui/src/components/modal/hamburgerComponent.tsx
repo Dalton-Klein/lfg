@@ -5,6 +5,7 @@ import "./hamburgerComponent.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { logoutUser } from "../../store/userSlice";
+import { setPreferences } from "../../store/userPreferencesSlice";
 
 type Props = {
   toggleHamburger: any;
@@ -14,6 +15,7 @@ type Props = {
 
 const HamburgerComponent = (props: Props) => {
   const navigate = useNavigate();
+  const preferencesState = useSelector((state: RootState) => state.preferences);
   const userState = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
   const [exitIcon, setExitIcon] = useState<string>("/assets/exit-icon.png");
@@ -57,9 +59,44 @@ const HamburgerComponent = (props: Props) => {
     navigate("/login");
   };
 
-  const navigationButtonPressed = (link: string) => {
+  const navigationButtonPressed = (destination: string) => {
     // Closes the side menu
     props.toggleHamburger();
+    //Decide between sub-sections of a url
+    let link = destination;
+    if (destination === "connections") {
+      link = "profile";
+      dispatch(
+        setPreferences({
+          conversationsOrChat: preferencesState.conversationsOrChat,
+          currentChatId: preferencesState.currentChatId,
+          currentChatItemId: preferencesState.currentChatItemId,
+          currentChatOtherUser: {
+            id: preferencesState.currentChatOtherUser.id,
+            avatarUrl: preferencesState.currentChatOtherUser.avatarUrl,
+            username: preferencesState.currentChatOtherUser.username,
+          },
+          messages: preferencesState.messages,
+          lastProfileMenu: 3,
+        })
+      );
+    } else if (destination === "myProfile") {
+      link = "profile";
+      dispatch(
+        setPreferences({
+          conversationsOrChat: preferencesState.conversationsOrChat,
+          currentChatId: preferencesState.currentChatId,
+          currentChatItemId: preferencesState.currentChatItemId,
+          currentChatOtherUser: {
+            id: preferencesState.currentChatOtherUser.id,
+            avatarUrl: preferencesState.currentChatOtherUser.avatarUrl,
+            username: preferencesState.currentChatOtherUser.username,
+          },
+          messages: preferencesState.messages,
+          lastProfileMenu: 1,
+        })
+      );
+    }
     // Navigates to dynamic url (new page)
     navigate(`/${link}`);
   };
@@ -94,7 +131,7 @@ const HamburgerComponent = (props: Props) => {
           </div>
           <div
             onClick={() => {
-              navigationButtonPressed("profile");
+              navigationButtonPressed("myProfile");
             }}
             className="hamburger-links"
           >

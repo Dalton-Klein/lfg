@@ -9,9 +9,9 @@ type Props = {
 export default function ProfileNavComponent(props: Props) {
   const navigate = useNavigate();
 
-  const returnHome = () => {
-    navigate("/");
-  };
+  // const returnHome = () => {
+  //   navigate("/");
+  // };
 
   return (
     <div className="nav-container">

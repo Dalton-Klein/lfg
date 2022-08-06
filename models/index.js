@@ -14,6 +14,11 @@ const devConfig = {
   password: PASSWORD,
   host: HOST,
   port: PORT,
+  define: {
+    underscored: true,
+    created_at: "created_at",
+    updated_at: "updated_at",
+  },
   dialect: "postgres",
 };
 const prodConfig = {
@@ -22,6 +27,11 @@ const prodConfig = {
   password: PASSWORD,
   host: HOST,
   port: PORT,
+  define: {
+    underscored: true,
+    created_at: "created_at",
+    updated_at: "updated_at",
+  },
   dialect: "postgres",
   dialectOptions: {
     ssl: {

@@ -1,74 +1,48 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Preferences } from "./interfaces";
+import { AppThunk } from "./store";
 
-const initialState: {
-	conversationsOrChat: boolean;
-	currentChatId: number;
-	currentChatItemId: number;
-	partiesAgreed: number[];
-	currentChatOtherUser: {
-		id: number;
-		avatarUrl: string;
-		username: string;
-	};
-	messages: any;
-	ratingValue: number;
-} = {
-	conversationsOrChat: true,
-	currentChatId: 0,
-	currentChatItemId: 0,
-	partiesAgreed: [],
-	currentChatOtherUser: {
-		id: 0,
-		avatarUrl: '',
-		username: '',
-	},
-	messages: [],
-	ratingValue: 0,
+const initialState: Preferences = {
+  conversationsOrChat: true,
+  currentChatId: 0,
+  currentChatItemId: 0,
+  currentChatOtherUser: {
+    id: 0,
+    avatarUrl: "",
+    username: "",
+  },
+  messages: [],
+  lastProfileMenu: 1,
 };
 
 const preferencesSlice = createSlice({
-	name: 'userPreferences',
-	initialState,
-	reducers: {
-		setPreferences(
-			state,
-			{
-				payload,
-			}: PayloadAction<{
-				conversationsOrChat: boolean;
-				currentChatId: number;
-				currentChatItemId: number;
-				partiesAgreed: number[];
-				currentChatOtherUser: {
-					id: number;
-					avatarUrl: string;
-					username: string;
-				};
-				messages: any;
-				ratingValue: number;
-			}>
-		) {
-			state = payload;
-			return state;
-		},
-		resetPreferences(state) {
-			state = {
-				conversationsOrChat: true,
-				currentChatId: 0,
-				currentChatItemId: 0,
-				partiesAgreed: [],
-				currentChatOtherUser: {
-					id: 0,
-					avatarUrl: '',
-					username: '',
-				},
-				messages: [],
-				ratingValue: 0,
-			};
-			return state;
-		},
-	},
+  name: "preferences",
+  initialState,
+  reducers: {
+    setPreferences(state, { payload }: PayloadAction<Preferences>) {
+      state = payload;
+      return state;
+    },
+    resetPreferences(state) {
+      state = {
+        conversationsOrChat: true,
+        currentChatId: 0,
+        currentChatItemId: 0,
+        currentChatOtherUser: {
+          id: 0,
+          avatarUrl: "",
+          username: "",
+        },
+        messages: [],
+        lastProfileMenu: 1,
+      };
+      return state;
+    },
+    setPreferencesError(state, action: PayloadAction<string>) {
+      return state;
+    },
+  },
 });
 
-export const { setPreferences, resetPreferences } = preferencesSlice.actions;
+export const { setPreferences, resetPreferences, setPreferencesError } = preferencesSlice.actions;
 export default preferencesSlice.reducer;

@@ -12,10 +12,6 @@ export default function ProfileGeneral() {
   const nameInputRef: any = useRef();
   const idInputRef: any = useRef();
   const userData = useSelector((state: RootState) => state.user.user);
-  userData.about = "Avid rust player and creator of lfg.";
-  userData.age = 28;
-  userData.gender = 1;
-  userData.location = "united states";
   const [isUploadFormShown, setIsUploadFormShown] = useState<boolean>(false);
   const [changeFormTitle, setChangeFormTitle] = useState<string>("");
   const [photoFile, setPhotoFile] = useState<any>();
@@ -122,15 +118,7 @@ export default function ProfileGeneral() {
       </div>
       <div className="banner-container-top">
         <div className="profile-avatar-box">
-          <img
-            className="prof-banner-avatar"
-            src={
-              userData.avatarUrl !== "https://res.cloudinary.com/dasb94yfb/image/upload/v1612801631/a6auhq4b9eblw0ketmlv.png"
-                ? userData.avatarUrl
-                : "/assets/avatarIcon.png"
-            }
-            alt=""
-          ></img>
+          <img className="prof-banner-avatar" src={userData.avatarUrl} alt=""></img>
           <button className="alt-button" onClick={changeAvatar}>
             <img className="edit-icon" src="/assets/editiconw.png" alt=""></img>
           </button>
