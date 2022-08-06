@@ -115,22 +115,26 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    button {
+      margin: 0 1vw;
+    }
     .footer-platform-box {
-      margin-left: 1vw;
+      margin: 0.5vw 1vw;
       opacity: 0.6;
       display: flex;
       .footer-platform-image {
         min-width: 1.75vw;
         max-width: 1.75vw;
         opacity: 0.6;
-        margin: 0.5vw 0.5vw;
       }
     }
     .footer-timestamp {
-      width: 100%;
+      min-width: 50%;
+      max-width: 50%;
       margin: 1.5vh 1vw;
       text-align: right;
       opacity: 0.6;
+      direction: rtl;
     }
   }
 }

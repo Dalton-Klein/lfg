@@ -42,7 +42,7 @@ const createRustTile = async (req, res) => {
     }
     const reply = await await sequelize.query(
       `
-      insert into posts (owner, content, categories, ${topicsColumnQueryString} number_votes, "createdAt", "updatedAt")
+      insert into posts (owner, content, categories, ${topicsColumnQueryString} number_votes, created_at, updated_at)
       values (:owner, :content, :categories, ${topicsValueQueryString} :number_votes, now(), now())
       `,
       {
@@ -52,8 +52,8 @@ const createRustTile = async (req, res) => {
           content,
           categories: category,
           number_votes: 0,
-          createdAt: `${Date.now()}`,
-          updatedAt: `${Date.now()}`,
+          created_at: `${Date.now()}`,
+          updated_at: `${Date.now()}`,
         },
       }
     );

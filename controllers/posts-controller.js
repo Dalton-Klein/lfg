@@ -17,10 +17,10 @@ const getPosts = async (req, res) => {
                  p.content, 
                  p.owner, 
                  u.username, 
-                 u.avatar_url, 
+                 u.avatar_url as "avatarUrl", 
                  p.number_votes, 
-                 p."createdAt" as created_at, 
-                 p."updatedAt" as updated_at, 
+                 p.created_at as created_at, 
+                 p.updated_at as updated_at, 
                  p.photo_url,
                  c.name as category, 
                  c.color as category_color,
@@ -38,7 +38,7 @@ const getPosts = async (req, res) => {
               on u.id = p.owner
             join categories c
               on c.id = p.categories
-        order by p."createdAt" desc
+        order by p.created_at desc
 			`,
       {
         type: Sequelize.QueryTypes.SELECT,
@@ -71,7 +71,7 @@ const createPost = async (req, res) => {
     }
     const reply = await await sequelize.query(
       `
-      insert into posts (owner, content, categories, ${topicsColumnQueryString} number_votes, "createdAt", "updatedAt")
+      insert into posts (owner, content, categories, ${topicsColumnQueryString} number_votes, created_at, updated_at)
       values (:owner, :content, :categories, ${topicsValueQueryString} :number_votes, now(), now())
       `,
       {
@@ -81,8 +81,8 @@ const createPost = async (req, res) => {
           content,
           categories: category,
           number_votes: 0,
-          createdAt: `${Date.now()}`,
-          updatedAt: `${Date.now()}`,
+          created_at: `${Date.now()}`,
+          updated_at: `${Date.now()}`,
         },
       }
     );

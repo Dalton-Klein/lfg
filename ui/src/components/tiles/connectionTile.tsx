@@ -9,6 +9,7 @@ export default function ConnectionTile(props: any) {
     if (props.preferred_platform === 1) setPlatformUsername(props.discord);
     else if (props.preferred_platform === 2) setPlatformUsername(props.psn);
     else if (props.preferred_platform === 3) setPlatformUsername(props.xbox);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function ConnectionTile(props: any) {
             console.log("Link to profile view here later!");
           }}
           className="connection-profile-image"
-          src={props.avatar_url}
+          src={props.avatarUrl}
           alt={`${props.username} profile image`}
         />
         <div className="connection-name">{props.username}</div>
