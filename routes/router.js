@@ -1,19 +1,23 @@
 const express = require("express");
+const authController = require("../controllers/auth-controller");
 const connectionsController = require("../controllers/connections-controller");
-const userController = require("../controllers/auth-controller");
 const postsController = require("../controllers/posts-controller");
 const tilesController = require("../controllers/tiles-controller");
+const userController = require("../controllers/profile-general-controller");
 const router = express.Router();
 router.use(express.json());
 const path = require("path");
 
+//AUTH RELATED ROUTES
+router.post("/verify", authController.verify);
+router.post("/signup", authController.signup);
+router.post("/signin", authController.signin);
+router.post("/forgot-password", authController.forgotPassword);
+router.post("/reset-password", authController.resetPassword);
+router.post("/getPublicDetails", authController.getPublicDetails);
+
 //USER RELATED ROUTES
-router.post("/verify", userController.verify);
-router.post("/signup", userController.signup);
-router.post("/signin", userController.signin);
-router.post("/forgot-password", userController.forgotPassword);
-router.post("/reset-password", userController.resetPassword);
-router.post("/getPublicDetails", userController.getPublicDetails);
+router.post("/userAvatar", userController.updateProfileField);
 
 //POST RELATED ROUTES
 router.get("/tags", postsController.getCategoriesAndTopics);

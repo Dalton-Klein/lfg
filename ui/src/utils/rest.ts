@@ -2,7 +2,7 @@ import { SignUpForm, SignInForm } from "./interfaces";
 require("dotenv").config();
 const endpointURL: String = "";
 
-const avatarCloud = `https://api.cloudinary.com/v1_1/techlog-cloud-key/upload`;
+const avatarCloud = `https://api.cloudinary.com/v1_1/kultured-dev/upload`;
 
 /*
 	Auth Calls
@@ -142,7 +142,7 @@ export const getRustTiles = async (userId: number, token: string) => {
 */
 export const uploadAvatarCloud = async (user: number, avatar: any) => {
   const formData = new FormData();
-  formData.append("upload_preset", "ppgbubn6");
+  formData.append("upload_preset", "ribyujnm");
   formData.append("file", avatar.files[0]);
   let response;
   await fetch(avatarCloud, {
@@ -158,11 +158,12 @@ export const uploadAvatarCloud = async (user: number, avatar: any) => {
 
 export const uploadAvatarServer = async (id: number, url: string) => {
   await fetch(`${endpointURL}/userAvatar`, {
-    method: "PUT",
+    method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       userId: id,
-      avatarUrl: url,
+      field: "avatar_url",
+      value: url,
     }),
   })
     .then((res) => res.json())

@@ -2,6 +2,7 @@ require("dotenv").config();
 const db = require("../models/index");
 const bcrypt = require("bcrypt");
 const services = require("../services/auth");
+const { getUserDataQuery, createUserQuery, createGeneralInfoQuery, createRustInfoQuery } = require("../services/user-queries");
 const { users, user_tokens, v_keys, sequelize } = require("../models/index");
 const Sequelize = require("sequelize");
 const UserTable = users;
@@ -15,8 +16,14 @@ exports.signin = async (req, res) => {
   try {
     console.log(" ♛ A User Requested Sign In ♛ ");
     const { email, password } = req.body;
-    const filter = { where: { email: email } };
-    let user = await UserTable.findOne(filter);
+    const query = getUserDataQuery();
+    let user = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        email,
+      },
+    });
+    console.log("user? ", user);
     let result = "";
     if (user !== null) {
       //If matching user is found, compare passwords
@@ -178,20 +185,31 @@ exports.verify = async (req, res) => {
 };
 
 const insertNewUser = async (userObj) => {
-  const query = `
-  insert into lfg.public.users (id, email, username, hashed, created_at, updated_at)
-       values ((select max(id) + 1 from lfg.public.users), :email, :username, :hashed, current_timestamp, current_timestamp)
-    returning id, email, hashed, username
-  `;
-  const queryOptions = {
-    type: Sequelize.QueryTypes.INSERT,
-    replacements: {
-      username: userObj.username,
-      email: userObj.email,
-      hashed: userObj.hashed,
-    },
-  };
-  return await sequelize.query(query, queryOptions);
+  const transaction = await sequelize.transaction();
+  try {
+    let query = createUserQuery();
+    let queryOptions = {
+      type: Sequelize.QueryTypes.INSERT,
+      replacements: {
+        username: userObj.username,
+        email: userObj.email,
+        hashed: userObj.hashed,
+        transaction,
+      },
+    };
+    const userResult = await sequelize.query(query, queryOptions);
+    query = createGeneralInfoQuery();
+    console.log("userResult: ", userResult[0][0]);
+    queryOptions.replacements.userId = userResult[0][0].id;
+    await sequelize.query(query, queryOptions);
+    query = createRustInfoQuery();
+    await sequelize.query(query, queryOptions);
+    await transaction.commit();
+    return userResult;
+  } catch (error) {
+    await transaction.rollback();
+    console.log("error creating user records, rolling back: ", error);
+  }
 };
 
 const insertToken = async (userId, token) => {

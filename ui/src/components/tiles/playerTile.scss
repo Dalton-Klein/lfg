@@ -30,6 +30,8 @@
         height: 5vw;
         min-height: 25px;
         min-width: 25px;
+        object-fit: cover;
+        border-radius: calc(5vw / 2);
       }
     }
     .info-column {

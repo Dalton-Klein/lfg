@@ -27,6 +27,8 @@
     height: 5vw;
     min-width: 40px;
     min-height: 40px;
+    border-radius: calc(5vw / 2);
+    object-fit: cover;
   }
   button {
     margin-left: 0.5em;
@@ -123,6 +125,13 @@
     width: 90%;
     align-self: center;
   }
+  .avatar-upload-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .upload-form-btns {
     width: 80%;
     display: flex;
@@ -130,6 +139,9 @@
     button {
       width: 40%;
     }
+  }
+  .photo-label {
+    text-align: center;
   }
 }
 
