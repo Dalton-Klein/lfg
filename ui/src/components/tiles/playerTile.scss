@@ -140,3 +140,10 @@
     }
   }
 }
+
+@media screen and (max-width: 1200px) {
+  .player-card {
+    min-width: 60vw;
+    max-width: 60vw;
+  }
+}

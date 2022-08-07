@@ -194,8 +194,8 @@ const insertNewUser = async (userObj) => {
         username: userObj.username,
         email: userObj.email,
         hashed: userObj.hashed,
-        transaction,
       },
+      transaction,
     };
     const userResult = await sequelize.query(query, queryOptions);
     query = createGeneralInfoQuery();
