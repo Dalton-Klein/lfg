@@ -5,6 +5,8 @@
   justify-content: space-evenly;
   transition: $transition1;
   max-width: 17%;
+  margin-top: 0.5vh;
+  margin-bottom: 0.5vh;
   .react-select-container {
     min-width: 100%;
     max-width: 100%;
@@ -22,4 +24,14 @@
 }
 .filter-container:hover {
   transform: scale(1.05);
+}
+@media screen and (max-width: 1200px) {
+  .filter-container {
+    max-width: 30%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .filter-container {
+    max-width: 50%;
+  }
 }

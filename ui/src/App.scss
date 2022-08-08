@@ -101,7 +101,7 @@ select:hover {
     padding-left: 0.6vw;
     font-size: $font2;
     background-color: $colorGreyPop;
-    border-radius: 25px;
+    border-radius: $borderRadius2;
     border-width: 0;
     box-shadow: 0 0 0 0;
     .react-select__value-container {
@@ -113,11 +113,12 @@ select:hover {
       }
       div {
         background-color: transparent;
-        color: $colorText;
+        color: $colorTextAlt;
         font-size: $font2;
       }
     }
     .react-select__indicators {
+      opacity: 1;
     }
   }
   .react-select__control--is-focused {
@@ -128,17 +129,18 @@ select:hover {
   }
   .react-select__menu {
     background-color: $colorGreyBg;
-    border-radius: 25px;
+    border-radius: $borderRadius2;
     .react-select__menu-list {
       background-color: transparent;
       .react-select__option {
-        border-radius: 25px;
+        border-radius: $borderRadius2;
         color: $colorText;
         font-size: $font2;
-        background-color: $colorGreyBg;
+        opacity: 1;
+        z-index: 999 !important;
       }
       .react-select__option:hover {
-        border-radius: 25px;
+        border-radius: $borderRadius2;
         background-color: $colorGreyPop;
       }
     }
