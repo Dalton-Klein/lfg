@@ -9,41 +9,15 @@ import { uploadAvatarCloud, uploadAvatarServer, changeUserName } from "../../../
 
 export default function ProfileGeneral() {
   const hiddenFileInput: any = React.useRef(null);
-  const nameInputRef: any = useRef();
-  const idInputRef: any = useRef();
   const userData = useSelector((state: RootState) => state.user.user);
   const [isUploadFormShown, setIsUploadFormShown] = useState<boolean>(false);
   const [changeFormTitle, setChangeFormTitle] = useState<string>("");
   const [photoFile, setPhotoFile] = useState<any>();
-  const [photoFileName, setPhotoFileName] = useState<string>("file");
-  const [changeFormRender, setChangeFormRender] = useState<any>();
-  const [changeFormText, setChangeFormText] = useState<string>();
+  const [changeFormText, setChangeFormText] = useState<string>("");
+  const [fieldEditing, setFieldEditing] = useState<any>("");
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (photoFile && photoFile!.name) {
-      setPhotoFileName(`${photoFile.name}`);
-    }
-  }, [photoFile]);
-
   useEffect(() => {}, [userData]);
-
-  const changeAvatar = async () => {
-    if (userData.id === 0) {
-      alert("You must be logged in to use avatar upload feature");
-    } else {
-      await setChangeFormTitle("Upload Avatar");
-      await setChangeFormRender(
-        <div>
-          <input type="file" className="avatar-input" ref={hiddenFileInput} style={{ display: "none" }} onChange={handleFileUpload}></input>
-          <button onClick={chooseFileHandler}>Choose Photo</button>
-          <div>{photoFileName}</div>
-        </div>
-      );
-      setIsUploadFormShown(true);
-      avatarFormIn();
-    }
-  };
 
   const chooseFileHandler = (event: any) => {
     if (hiddenFileInput.current !== null) {
@@ -64,14 +38,14 @@ export default function ProfileGeneral() {
         const url: string | undefined = await uploadAvatarCloud(userData.id, avatar);
         dispatch(updateUserAvatarUrl(url));
         uploadAvatarServer(userData.id, url!);
-        setPhotoFileName("");
+        setPhotoFile(undefined);
         break;
-      case "Update Name":
-        dispatch(updateUserName(changeFormText));
-        changeUserName(userData.id, changeFormText!);
-        await setChangeFormText("");
-        nameInputRef.current.value = "";
-        break;
+      // case "Update Name":
+      //   dispatch(updateUserName(changeFormText));
+      //   changeUserName(userData.id, changeFormText!);
+      //   await setChangeFormText("");
+      //   nameInputRef.current.value = "";
+      //   break;
     }
   };
 
@@ -81,25 +55,16 @@ export default function ProfileGeneral() {
   };
 
   const changeUserInfoFunction = async (field: string) => {
+    if (userData.id === 0) alert("You must be logged in to edit this field");
+    setFieldEditing(field);
     let idTNameF = false;
-    if (field === "about") idTNameF = true;
-    else idTNameF = false;
-    if (userData.id === 0) {
-      alert("You must be logged in to edit this field");
-    } else {
+    if (field === "about") {
+      idTNameF = true;
       await setChangeFormTitle(`update ${field}`);
-      await setChangeFormRender(
-        <input
-          onChange={(event) => {
-            setChangeFormText(event.target.value);
-          }}
-          value={changeFormText}
-          type="text"
-          className="avatar-input"
-          placeholder="type here..."
-          ref={idTNameF ? nameInputRef : idInputRef}
-        ></input>
-      );
+      setIsUploadFormShown(true);
+      avatarFormIn();
+    } else if (field === "avatar_url") {
+      await setChangeFormTitle("Upload Avatar");
       setIsUploadFormShown(true);
       avatarFormIn();
     }
@@ -108,20 +73,29 @@ export default function ProfileGeneral() {
   const conditionalClass = isUploadFormShown ? "conditionalZ2" : "conditionalZ1";
   return (
     <div className="my-profile-containers">
+      {/* EDIT PHTO MODAL */}
       <div className={`edit-profile-form ${conditionalClass}`}>
         <p>{changeFormTitle}</p>
-        {changeFormRender}
+        {fieldEditing === "avatar_url" ? (
+          <div className="avatar-upload-form">
+            <input type="file" ref={hiddenFileInput} style={{ display: "none" }} onChange={handleFileUpload}></input>
+            <button onClick={chooseFileHandler} className="upload-form-btns">
+              Choose Photo
+            </button>
+            <div className="photo-label">{photoFile ? photoFile.name : ""}</div>
+          </div>
+        ) : (
+          <></>
+        )}
         <div className="upload-form-btns">
           <button onClick={changeSubmitHandler}>save</button>
           <button onClick={closeAvatar}>close</button>
         </div>
       </div>
+      {/* AVATAR PHTO */}
       <div className="banner-container-top">
         <div className="profile-avatar-box">
-          <img className="prof-banner-avatar" src={userData.avatarUrl} alt=""></img>
-          <button className="alt-button" onClick={changeAvatar}>
-            <img className="edit-icon" src="/assets/editiconw.png" alt=""></img>
-          </button>
+          <img className="prof-banner-avatar" src={userData.avatarUrl} alt="" onClick={() => changeUserInfoFunction("avatar_url")}></img>
         </div>
         <div className="my-profile-text">{userData.username ? userData.username : "No user name..."}</div>
       </div>
@@ -134,7 +108,15 @@ export default function ProfileGeneral() {
           </button>
         </div>
       </div>
-      <div className="prof-banner-tiny-text">{userData.about ? userData.about : "blank"}</div>
+      <input
+        onChange={(event) => {
+          setChangeFormText(event.target.value);
+        }}
+        value={changeFormText}
+        type="text"
+        className="avatar-input"
+        placeholder={userData.about}
+      ></input>
       {/* END ABOUT */}
       {/* AGE */}
       <div className="banner-container">

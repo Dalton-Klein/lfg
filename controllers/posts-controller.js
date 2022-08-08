@@ -69,7 +69,7 @@ const createPost = async (req, res) => {
       topicsValueQueryString = topicsValueQueryString.substring(0, topicsValueQueryString.length - 2);
       topicsValueQueryString += "], ";
     }
-    const reply = await await sequelize.query(
+    const reply = await sequelize.query(
       `
       insert into posts (owner, content, categories, ${topicsColumnQueryString} number_votes, created_at, updated_at)
       values (:owner, :content, :categories, ${topicsValueQueryString} :number_votes, now(), now())

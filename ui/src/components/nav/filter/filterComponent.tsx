@@ -8,6 +8,7 @@ const animatedComponents = makeAnimated();
 interface props {
   title: string;
   options: any;
+  multi: boolean;
 }
 
 const style = {
@@ -33,20 +34,34 @@ export default function FilterComponent(props: props) {
 
   return (
     <div className="filter-container">
-      {/* <div>{props.title}</div>
-      <i className="pi pi-chevron-down"></i> */}
-      <Select
-        name={props.title}
-        components={animatedComponents}
-        options={props.options}
-        className="react-select-container"
-        classNamePrefix="react-select"
-        placeholder={props.title}
-        isClearable={false}
-        isSearchable={false}
-        styles={style}
-        onChange={selectionChange}
-      />
+      {props.multi ? (
+        <Select
+          name={props.title}
+          components={animatedComponents}
+          options={props.options}
+          className="react-select-container"
+          classNamePrefix="react-select"
+          placeholder={props.title}
+          isClearable={false}
+          isSearchable={false}
+          styles={style}
+          onChange={selectionChange}
+          isMulti
+        />
+      ) : (
+        <Select
+          name={props.title}
+          components={animatedComponents}
+          options={props.options}
+          className="react-select-container"
+          classNamePrefix="react-select"
+          placeholder={props.title}
+          isClearable={false}
+          isSearchable={false}
+          styles={style}
+          onChange={selectionChange}
+        />
+      )}
     </div>
   );
 }

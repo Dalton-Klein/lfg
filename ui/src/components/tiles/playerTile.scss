@@ -19,17 +19,22 @@
   .main-details {
     display: flex;
     align-items: center;
+    min-width: 100%;
     .image-column {
-      max-width: 25%;
+      min-width: 60px;
+      max-width: 30%;
       min-height: 100%;
+      margin: 0 0.5vw;
       display: flex;
       flex-direction: column;
       margin-left: 1vw;
       .card-photo {
         width: 5vw;
         height: 5vw;
-        min-height: 25px;
-        min-width: 25px;
+        min-height: 5vw;
+        min-width: 5vw;
+        object-fit: cover;
+        border-radius: calc(5vw / 2);
       }
     }
     .info-column {
@@ -76,6 +81,7 @@
     .detail-label {
       margin: 0vh 1vw;
       opacity: 0.6;
+      z-index: 0;
     }
     .details-about {
       margin: 1vh 1vw 0 1vw;
@@ -123,7 +129,7 @@
       opacity: 0.6;
       display: flex;
       .footer-platform-image {
-        min-width: 1.75vw;
+        min-width: 25px;
         max-width: 1.75vw;
         opacity: 0.6;
       }
@@ -135,6 +141,41 @@
       text-align: right;
       opacity: 0.6;
       direction: rtl;
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .player-card {
+    min-width: 60vw;
+    max-width: 60vw;
+  }
+  .card-photo {
+    width: 7vw;
+    height: 7vw;
+    min-height: 7vw;
+    min-width: 7vw;
+    object-fit: cover;
+    border-radius: calc(7vw / 2);
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .player-card {
+    .main-details {
+      .image-column {
+        min-width: 16vw;
+        width: 18vw;
+        max-width: 40%;
+        .card-photo {
+          width: 16vw;
+          height: 16vw;
+          min-height: 16vw;
+          min-width: 16vw;
+          object-fit: cover;
+          border-radius: calc(16vw / 2);
+        }
+      }
     }
   }
 }
