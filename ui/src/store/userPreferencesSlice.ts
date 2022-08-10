@@ -13,6 +13,7 @@ const initialState: Preferences = {
   },
   messages: [],
   lastProfileMenu: 1,
+  discoverFilters: { age: [], hours: [] },
 };
 
 const preferencesSlice = createSlice({
@@ -24,18 +25,7 @@ const preferencesSlice = createSlice({
       return state;
     },
     resetPreferences(state) {
-      state = {
-        conversationsOrChat: true,
-        currentChatId: 0,
-        currentChatItemId: 0,
-        currentChatOtherUser: {
-          id: 0,
-          avatarUrl: "",
-          username: "",
-        },
-        messages: [],
-        lastProfileMenu: 1,
-      };
+      state = { ...initialState };
       return state;
     },
     setPreferencesError(state, action: PayloadAction<string>) {

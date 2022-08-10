@@ -119,3 +119,11 @@ export const howLongAgo = (date: any) => {
   if (minutes === 1) return `${minutes} minute ago`;
   else return "just now";
 };
+
+export const generateRange = (start: number, end: number) => {
+  var list = [];
+  for (var i = start; i <= end; i++) {
+    list.push(i);
+  }
+  return list;
+};

@@ -3,6 +3,9 @@ import "primeicons/primeicons.css";
 import makeAnimated from "react-select/animated";
 import { useState } from "react";
 import Select from "react-select";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import { setPreferences } from "../../../store/userPreferencesSlice";
 
 const animatedComponents = makeAnimated();
 interface props {
@@ -20,16 +23,17 @@ const style = {
 };
 
 export default function FilterComponent(props: props) {
-  const [selection, setSelection] = useState("");
+  const preferencesState = useSelector((state: RootState) => state.preferences);
+  const dispatch = useDispatch();
 
-  const selectionChange = (option: any) => {
-    setSelection(option.id);
-    validateForm();
-  };
-
-  const validateForm = () => {
-    if (selection) {
-    }
+  const selectionChange = (options: any, filterAction: any) => {
+    const filterName = filterAction.name;
+    dispatch(
+      setPreferences({
+        ...preferencesState,
+        discoverFilters: { ...preferencesState.discoverFilters, [filterName]: options },
+      })
+    );
   };
 
   return (

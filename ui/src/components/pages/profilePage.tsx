@@ -34,15 +34,7 @@ export default function ProfilePage() {
     setSelection(value);
     dispatch(
       setPreferences({
-        conversationsOrChat: preferencesState.conversationsOrChat,
-        currentChatId: preferencesState.currentChatId,
-        currentChatItemId: preferencesState.currentChatItemId,
-        currentChatOtherUser: {
-          id: preferencesState.currentChatOtherUser.id,
-          avatarUrl: preferencesState.currentChatOtherUser.avatarUrl,
-          username: preferencesState.currentChatOtherUser.username,
-        },
-        messages: preferencesState.messages,
+        ...preferencesState,
         lastProfileMenu: value,
       })
     );

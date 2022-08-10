@@ -36,6 +36,7 @@ export interface Preferences {
   };
   messages: any;
   lastProfileMenu: number;
+  discoverFilters: any;
 }
 
 export interface SignIn {

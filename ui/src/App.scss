@@ -134,6 +134,7 @@ select:hover {
       background-color: transparent;
       .react-select__option {
         border-radius: $borderRadius2;
+        background-color: $colorGreyBg;
         color: $colorText;
         font-size: $font2;
         opacity: 1;
