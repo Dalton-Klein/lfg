@@ -4,17 +4,21 @@ import HeaderComponent from "../nav/headerComponent";
 import FilterBarComponent from "../nav/filter/filterBarComponent";
 import PlayerTile from "../tiles/playerTile";
 import "./discoverPage.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { generateRange } from "../../utils/helperFunctions";
+import { resetPreferences } from "../../store/userPreferencesSlice";
 
 export default function DiscoverPage() {
   const [tilesFeed, setTilesFeed] = useState(<li></li>);
   const [tilesFromDB, setTilesFromDB] = useState<any>([]);
   const preferencesState = useSelector((state: RootState) => state.preferences);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     fetchTilesData();
+    dispatch(resetPreferences());
   }, []);
 
   //Used to render initial tiles, unfiltered
@@ -52,6 +56,7 @@ export default function DiscoverPage() {
 
   const updateTilesFeed = () => {
     let filteredData;
+    //Filter by age
     if (preferencesState.discoverFilters.age[0]) {
       let acceptedAges: number[] = [];
       preferencesState.discoverFilters.age.forEach((filterRange: any) => {
@@ -60,12 +65,30 @@ export default function DiscoverPage() {
           acceptedAges.push(ageValue);
         });
       });
-      console.log("state: ", preferencesState.discoverFilters.age, "    ages: ", acceptedAges);
       filteredData = tilesFromDB.filter((tile: any) => acceptedAges.includes(tile.age));
-    } else if (preferencesState.discoverFilters.hours[0]) {
-    } else {
-      filteredData = tilesFromDB;
     }
+    //Filter by hours played
+    if (preferencesState.discoverFilters.hours[0]) {
+      let acceptedHours: number[] = [];
+      preferencesState.discoverFilters.hours.forEach((filterRange: any) => {
+        const rangeArray = generateRange(filterRange.value[0], filterRange.value[1]);
+        rangeArray.forEach((hoursValue: number) => {
+          acceptedHours.push(hoursValue);
+        });
+      });
+      filteredData = tilesFromDB.filter((tile: any) => acceptedHours.includes(tile.hours_played));
+    }
+    //Filter by availability
+    if (preferencesState.discoverFilters.availability[0]) {
+      let acceptedAvailability: string[] = [];
+      preferencesState.discoverFilters.availability.forEach((availabiltyObj: any) => {
+        acceptedAvailability.push(availabiltyObj.label);
+      });
+      console.log("filters?? ", acceptedAvailability, "  ", tilesFromDB[0]);
+      filteredData = tilesFromDB.filter((tile: any) => acceptedAvailability.includes(tile.weekdays || tile.weekends));
+    }
+    if (!filteredData) filteredData = tilesFromDB;
+
     turnDataIntoTiles(filteredData);
   };
 
