@@ -13,7 +13,7 @@ const initialState: Preferences = {
   },
   messages: [],
   lastProfileMenu: 1,
-  discoverFilters: { age: [], hours: [], availability: [] },
+  discoverFilters: { age: [], hours: [], availability: [], language: [], region: [] },
 };
 
 const preferencesSlice = createSlice({

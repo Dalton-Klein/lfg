@@ -84,8 +84,31 @@ export default function DiscoverPage() {
       preferencesState.discoverFilters.availability.forEach((availabiltyObj: any) => {
         acceptedAvailability.push(availabiltyObj.label);
       });
-      console.log("filters?? ", acceptedAvailability, "  ", tilesFromDB[0]);
       filteredData = tilesFromDB.filter((tile: any) => acceptedAvailability.includes(tile.weekdays || tile.weekends));
+    }
+    //Filter by language
+    if (preferencesState.discoverFilters.language[0]) {
+      let acceptedLanguages: string[] = [];
+      preferencesState.discoverFilters.language.forEach((languageObj: any) => {
+        acceptedLanguages.push(languageObj.label);
+      });
+      filteredData = tilesFromDB.filter((tile: any) => {
+        let foundOverlap = false;
+        acceptedLanguages.forEach((filterLanguage) => {
+          tile.languages.forEach((tileLanguage: string) => {
+            if (filterLanguage === tileLanguage) foundOverlap = true;
+          });
+        });
+        if (foundOverlap) return tile;
+      });
+    }
+    //Filter by region
+    if (preferencesState.discoverFilters.region[0]) {
+      let acceptedRegion: string[] = [];
+      preferencesState.discoverFilters.region.forEach((regionObj: any) => {
+        acceptedRegion.push(regionObj.label);
+      });
+      filteredData = tilesFromDB.filter((tile: any) => acceptedRegion.includes(tile.region_name));
     }
     if (!filteredData) filteredData = tilesFromDB;
 
