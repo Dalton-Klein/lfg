@@ -28,13 +28,15 @@
     max-height: 40px;
   }
 }
-
-.clear-button:hover {
-  color: $colorPrimary;
-}
 .clear-button {
   margin: 0;
   font-size: $font2;
+  transition: $transition1;
+}
+
+.clear-button:hover {
+  color: $colorPrimary;
+  transform: scale(1.05);
 }
 
 .slider {

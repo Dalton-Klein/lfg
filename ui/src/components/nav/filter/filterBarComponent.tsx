@@ -4,14 +4,14 @@ import FilterComponent from "./filterComponent";
 import { useState } from "react";
 import { Accordion, AccordionTab } from "primereact/accordion";
 
-export default function FilterBarComponent() {
+export default function FilterBarComponent(props: any) {
   const sortOptions = [
-    { label: "most recent ☝️", value: 1, id: "1" },
-    { label: "most recent 👇", value: 2, id: "2" },
+    { label: "last seen ☝️", value: 1, id: "1" },
+    { label: "last seen 👇", value: 2, id: "2" },
     { label: "hours ☝️", value: 3, id: "3" },
     { label: "hours 👇", value: 4, id: "4" },
-    { label: "Istanbul", value: 5, id: "5" },
-    { label: "Paris", value: 6, id: "6" },
+    { label: "age ☝️", value: 5, id: "5" },
+    { label: "age 👇", value: 6, id: "6" },
   ];
   const hoursOptions = [
     { label: "0-249", value: [0, 249], id: "1" },
@@ -57,18 +57,22 @@ export default function FilterBarComponent() {
     { label: "africa", type: "region", value: 7, id: "7" },
   ];
 
+  const clearFilters = () => {
+    props.clearFiltersMethod();
+  };
+
   return (
     <Accordion activeIndex={1}>
       <AccordionTab header="sort / filter">
         <div className="filter-bar">
           <i className="pi pi-filter"></i>
-          <FilterComponent title="sort by" options={sortOptions} multi={false}></FilterComponent>
+          <FilterComponent title="sort" options={sortOptions} multi={false}></FilterComponent>
           <FilterComponent title="hours" options={hoursOptions} multi={true}></FilterComponent>
           <FilterComponent title="age" options={ageOptions} multi={true}></FilterComponent>
           <FilterComponent title="availability" options={availabilityOptions} multi={true}></FilterComponent>
           <FilterComponent title="language" options={languageOptions} multi={true}></FilterComponent>
           <FilterComponent title="region" options={regionOptions} multi={true}></FilterComponent>
-          <i className="pi pi-times-circle clear-button"></i>
+          <i className="pi pi-times-circle clear-button" onClick={clearFilters}></i>
         </div>
       </AccordionTab>
     </Accordion>

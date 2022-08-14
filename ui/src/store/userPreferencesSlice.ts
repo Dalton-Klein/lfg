@@ -13,7 +13,7 @@ const initialState: Preferences = {
   },
   messages: [],
   lastProfileMenu: 1,
-  discoverFilters: { age: [], hours: [], availability: [], language: [], region: [] },
+  discoverFilters: { sort: "", age: [], hours: [], availability: [], language: [], region: [] },
 };
 
 const preferencesSlice = createSlice({
@@ -28,11 +28,16 @@ const preferencesSlice = createSlice({
       state = { ...initialState };
       return state;
     },
+    resetFilterPreferences(state) {
+      console.log("heree");
+      state.discoverFilters = { ...initialState.discoverFilters };
+      return state;
+    },
     setPreferencesError(state, action: PayloadAction<string>) {
       return state;
     },
   },
 });
 
-export const { setPreferences, resetPreferences, setPreferencesError } = preferencesSlice.actions;
+export const { setPreferences, resetPreferences, resetFilterPreferences, setPreferencesError } = preferencesSlice.actions;
 export default preferencesSlice.reducer;

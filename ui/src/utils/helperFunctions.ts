@@ -127,3 +127,31 @@ export const generateRange = (start: number, end: number) => {
   }
   return list;
 };
+
+export const findUnionForObjectArrays = (arrays: any) => {
+  let resultIds: any = [];
+  let resultTiles: any = [];
+  arrays.forEach((array: any) => {
+    array.forEach((tile: any) => {
+      if (!resultIds.includes(tile.id) && checkIfIdInEveryArray(tile.id, arrays)) {
+        resultIds.push(tile.id);
+        resultTiles.push(tile);
+      }
+    });
+  });
+  return resultTiles;
+};
+
+const checkIfIdInEveryArray = (id: number, arrays: any) => {
+  for (const array of arrays) {
+    let doesArrayContainId = false;
+    for (const tile of array) {
+      if (tile.id === id) {
+        doesArrayContainId = true;
+        break;
+      }
+    }
+    if (!doesArrayContainId) return false;
+  }
+  return true;
+};

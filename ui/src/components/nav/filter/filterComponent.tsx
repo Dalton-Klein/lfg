@@ -25,8 +25,9 @@ const style = {
 export default function FilterComponent(props: props) {
   const preferencesState = useSelector((state: RootState) => state.preferences);
   const dispatch = useDispatch();
-
+  let selected: any;
   const selectionChange = (options: any, filterAction: any) => {
+    selected = options;
     const filterName = filterAction.name;
     dispatch(
       setPreferences({
@@ -35,12 +36,12 @@ export default function FilterComponent(props: props) {
       })
     );
   };
-
   return (
     <div className="filter-container">
       {props.multi ? (
         <Select
           name={props.title}
+          value={selected || ""}
           components={animatedComponents}
           options={props.options}
           className="react-select-container"
