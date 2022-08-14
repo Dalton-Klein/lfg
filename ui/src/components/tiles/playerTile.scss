@@ -11,7 +11,6 @@
   max-height: 40vh;
   background-color: $colorGreyPop;
   border-radius: $borderRadius1;
-  margin: 1vh 1vw;
   outline-style: solid;
   outline-width: 2px;
   outline-color: $colorSecondary;
@@ -140,7 +139,6 @@
       margin: 1.5vh 1vw;
       text-align: right;
       opacity: 0.6;
-      direction: rtl;
     }
   }
 }

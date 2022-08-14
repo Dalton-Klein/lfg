@@ -25,9 +25,10 @@ const style = {
 export default function FilterComponent(props: props) {
   const preferencesState = useSelector((state: RootState) => state.preferences);
   const dispatch = useDispatch();
-  let selected: any;
+  const [selected, setSelected] = useState<any>();
+
   const selectionChange = (options: any, filterAction: any) => {
-    selected = options;
+    setSelected(options);
     const filterName = filterAction.name;
     dispatch(
       setPreferences({

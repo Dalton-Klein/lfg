@@ -118,6 +118,7 @@ export default function DiscoverPage() {
       });
       regionResult = tilesFromDB.filter((tile: any) => acceptedRegion.includes(tile.region_name));
     }
+    //Stack filter results and find union
     const resultsArray = [];
     if (ageResult.length) resultsArray.push(ageResult);
     if (hoursResult.length) resultsArray.push(hoursResult);

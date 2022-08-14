@@ -9,6 +9,7 @@ export default function PlayerTile(props: any) {
     3: "non-binary",
   };
   const lastSeen = howLongAgo(props.last_seen);
+  console.log("last seen??? ", lastSeen);
   const genderIcon = `/assets/gender-icon-${genderImageLinks[props.gender]}.png`;
   return (
     <div
