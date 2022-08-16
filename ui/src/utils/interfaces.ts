@@ -151,7 +151,7 @@ export interface DMSummary {
   partiesAgreed: number[];
   otherUser: {
     id: number;
-    avatarUrl: string;
+    avatar_url: string;
     name: string;
   };
 }

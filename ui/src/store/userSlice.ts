@@ -8,9 +8,9 @@ const initialState: any = {
     token: "",
     id: 0,
     email: "",
-    avatarUrl: "/assets/avatarIcon.png",
+    avatar_url: "/assets/avatarIcon.png",
     username: "none",
-    numOfStrikes: 0,
+    num_of_strikes: 0,
     about: "",
     age: 0,
     gender: 0,
@@ -40,7 +40,8 @@ const userSlice = createSlice({
       state.user = payload;
     },
     updateUserAvatarUrl(state, { payload }: PayloadAction<string | undefined>) {
-      state.user.avatarUrl = payload;
+      console.log("new url: ", payload);
+      state.user.avatar_url = payload;
     },
     updateUserName(state, { payload }: PayloadAction<string | undefined>) {
       state.user.username = payload;
@@ -102,7 +103,7 @@ export const logoutUser =
             token: "",
             id: 0,
             email: "",
-            avatarUrl: "/assets/avatarIcon.png",
+            avatar_url: "/assets/avatarIcon.png",
             username: "none",
             numOfStrikes: 0,
             about: "",

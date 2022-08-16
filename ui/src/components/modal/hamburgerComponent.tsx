@@ -68,15 +68,7 @@ const HamburgerComponent = (props: Props) => {
       link = "profile";
       dispatch(
         setPreferences({
-          conversationsOrChat: preferencesState.conversationsOrChat,
-          currentChatId: preferencesState.currentChatId,
-          currentChatItemId: preferencesState.currentChatItemId,
-          currentChatOtherUser: {
-            id: preferencesState.currentChatOtherUser.id,
-            avatarUrl: preferencesState.currentChatOtherUser.avatarUrl,
-            username: preferencesState.currentChatOtherUser.username,
-          },
-          messages: preferencesState.messages,
+          ...preferencesState,
           lastProfileMenu: 3,
         })
       );
@@ -84,15 +76,7 @@ const HamburgerComponent = (props: Props) => {
       link = "profile";
       dispatch(
         setPreferences({
-          conversationsOrChat: preferencesState.conversationsOrChat,
-          currentChatId: preferencesState.currentChatId,
-          currentChatItemId: preferencesState.currentChatItemId,
-          currentChatOtherUser: {
-            id: preferencesState.currentChatOtherUser.id,
-            avatarUrl: preferencesState.currentChatOtherUser.avatarUrl,
-            username: preferencesState.currentChatOtherUser.username,
-          },
-          messages: preferencesState.messages,
+          ...preferencesState,
           lastProfileMenu: 1,
         })
       );

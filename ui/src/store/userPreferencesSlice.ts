@@ -8,11 +8,12 @@ const initialState: Preferences = {
   currentChatItemId: 0,
   currentChatOtherUser: {
     id: 0,
-    avatarUrl: "",
+    avatar_url: "",
     username: "",
   },
   messages: [],
   lastProfileMenu: 1,
+  discoverFilters: { sort: "", age: [], hours: [], availability: [], language: [], region: [] },
 };
 
 const preferencesSlice = createSlice({
@@ -24,18 +25,12 @@ const preferencesSlice = createSlice({
       return state;
     },
     resetPreferences(state) {
-      state = {
-        conversationsOrChat: true,
-        currentChatId: 0,
-        currentChatItemId: 0,
-        currentChatOtherUser: {
-          id: 0,
-          avatarUrl: "",
-          username: "",
-        },
-        messages: [],
-        lastProfileMenu: 1,
-      };
+      state = { ...initialState };
+      return state;
+    },
+    resetFilterPreferences(state) {
+      console.log("heree");
+      state.discoverFilters = { ...initialState.discoverFilters };
       return state;
     },
     setPreferencesError(state, action: PayloadAction<string>) {
@@ -44,5 +39,5 @@ const preferencesSlice = createSlice({
   },
 });
 
-export const { setPreferences, resetPreferences, setPreferencesError } = preferencesSlice.actions;
+export const { setPreferences, resetPreferences, resetFilterPreferences, setPreferencesError } = preferencesSlice.actions;
 export default preferencesSlice.reducer;

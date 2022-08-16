@@ -140,9 +140,10 @@ export const getRustTiles = async (userId: number, token: string) => {
 /*
 	Update User Data Calls
 */
-export const uploadAvatarCloud = async (user: number, avatar: any) => {
+export const uploadAvatarCloud = async (avatar: any) => {
   const formData = new FormData();
   formData.append("upload_preset", "ribyujnm");
+  console.log("avatar file?", avatar.files);
   formData.append("file", avatar.files[0]);
   let response;
   await fetch(avatarCloud, {
@@ -152,7 +153,6 @@ export const uploadAvatarCloud = async (user: number, avatar: any) => {
     .then((response) => response.json())
     .then((data) => (response = data.url))
     .catch((err) => console.log("Fetch error (CLOUDINARY)", err));
-
   return response;
 };
 

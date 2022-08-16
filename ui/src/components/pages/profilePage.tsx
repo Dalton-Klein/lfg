@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./profilePage.scss";
 import ConnectionTile from "../tiles/connectionTile";
 import HeaderComponent from "../nav/headerComponent";
-import ProfileGeneral from "../tiles/myProfileTiles/profileGeneral";
+import ProfileGeneral from "../myProfile/profileGeneral";
 import ProfileNavComponent from "../nav/profile/profileNavComponent";
 import { getConnectionsForUser } from "../../utils/rest";
 import { useSelector, useDispatch } from "react-redux";
@@ -34,15 +34,7 @@ export default function ProfilePage() {
     setSelection(value);
     dispatch(
       setPreferences({
-        conversationsOrChat: preferencesState.conversationsOrChat,
-        currentChatId: preferencesState.currentChatId,
-        currentChatItemId: preferencesState.currentChatItemId,
-        currentChatOtherUser: {
-          id: preferencesState.currentChatOtherUser.id,
-          avatarUrl: preferencesState.currentChatOtherUser.avatarUrl,
-          username: preferencesState.currentChatOtherUser.username,
-        },
-        messages: preferencesState.messages,
+        ...preferencesState,
         lastProfileMenu: value,
       })
     );

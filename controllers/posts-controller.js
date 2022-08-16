@@ -17,7 +17,7 @@ const getPosts = async (req, res) => {
                  p.content, 
                  p.owner, 
                  u.username, 
-                 u.avatar_url as "avatarUrl", 
+                 u.avatar_url, 
                  p.number_votes, 
                  p.created_at as created_at, 
                  p.updated_at as updated_at, 

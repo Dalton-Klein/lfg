@@ -1,11 +1,11 @@
-import "./filterComponent.scss";
+import "./selectComponent.scss";
 import "primeicons/primeicons.css";
 import makeAnimated from "react-select/animated";
 import { useState } from "react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
-import { setPreferences } from "../../../store/userPreferencesSlice";
+import { RootState } from "../../store/store";
+import { setPreferences } from "../../store/userPreferencesSlice";
 
 const animatedComponents = makeAnimated();
 interface props {
@@ -22,23 +22,23 @@ const style = {
   }),
 };
 
-export default function FilterComponent(props: props) {
+export default function SelectComponent(props: props) {
   const preferencesState = useSelector((state: RootState) => state.preferences);
   const dispatch = useDispatch();
   const [selected, setSelected] = useState<any>();
 
   const selectionChange = (options: any, filterAction: any) => {
-    setSelected(options);
-    const filterName = filterAction.name;
-    dispatch(
-      setPreferences({
-        ...preferencesState,
-        discoverFilters: { ...preferencesState.discoverFilters, [filterName]: options },
-      })
-    );
+    // setSelected(options);
+    // const filterName = filterAction.name;
+    // dispatch(
+    //   setPreferences({
+    //     ...preferencesState,
+    //     discoverFilters: { ...preferencesState.discoverFilters, [filterName]: options },
+    //   })
+    // );
   };
   return (
-    <div className="filter-container">
+    <div className="profile-select-container">
       {props.multi ? (
         <Select
           name={props.title}
