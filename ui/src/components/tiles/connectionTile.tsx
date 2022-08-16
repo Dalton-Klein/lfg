@@ -27,7 +27,7 @@ export default function ConnectionTile(props: any) {
             console.log("Link to profile view here later!");
           }}
           className="connection-profile-image"
-          src={props.avatarUrl}
+          src={props.avatar_url}
           alt={`${props.username} profile image`}
         />
         <div className="connection-name">{props.username}</div>

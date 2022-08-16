@@ -8,7 +8,7 @@ const initialState: Preferences = {
   currentChatItemId: 0,
   currentChatOtherUser: {
     id: 0,
-    avatarUrl: "",
+    avatar_url: "",
     username: "",
   },
   messages: [],

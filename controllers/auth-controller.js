@@ -23,15 +23,15 @@ exports.signin = async (req, res) => {
         email,
       },
     });
-    console.log("user? ", user);
+    user = user[0];
     let result = "";
-    if (user !== null) {
+    if (user && user !== null) {
       //If matching user is found, compare passwords
       const validPass = await bcrypt.compare(password, user.hashed);
       if (validPass) {
         const token = services.keyGen(15);
         await TokenTable.destroy({ where: { id: user.id } }); //delete Old tokens
-        user = user.dataValues;
+        console.log("user? ", user);
         const newToken = await TokenTable.create({ id: user.id, token });
         delete user.hashed;
         result = { token: newToken.token, data: user };
@@ -323,7 +323,7 @@ exports.getPublicDetails = async (req, res) => {
       reply = {
         email: user.email,
         username: user.username,
-        avatarUrl: user.avatarUrl,
+        avatar_url: user.avatar_url,
         trainerID: user.trainerID,
         trainerName: user.trainerName,
         mtgoID: user.mtgoID,

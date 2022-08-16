@@ -2,7 +2,7 @@ export interface User {
   token: string;
   id: number;
   email: string;
-  avatarUrl: string | undefined;
+  avatar_url: string | undefined;
   username: string;
   numOfStrikes: number;
   about: string;
@@ -31,7 +31,7 @@ export interface Preferences {
   currentChatItemId: number;
   currentChatOtherUser: {
     id: number;
-    avatarUrl: string;
+    avatar_url: string;
     username: string;
   };
   messages: any;

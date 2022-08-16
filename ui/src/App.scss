@@ -57,6 +57,14 @@ button:hover {
   //   -3px -3px 5px 0 rgba(255, 255, 255, 0.85) inset;
 }
 
+button:disabled {
+  cursor: pointer;
+  color: rgb(128, 128, 128);
+  background-color: rgb(42, 42, 42);
+  // box-shadow: 1px 1px 4px 0 rgba(29, 28, 28, 0.55) inset,
+  //   -3px -3px 5px 0 rgba(255, 255, 255, 0.85) inset;
+}
+
 .alt-button {
   @extend button;
   background-color: $colorGreyPop;

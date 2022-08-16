@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./profilePage.scss";
 import ConnectionTile from "../tiles/connectionTile";
 import HeaderComponent from "../nav/headerComponent";
-import ProfileGeneral from "../tiles/myProfileTiles/profileGeneral";
+import ProfileGeneral from "../myProfile/profileGeneral";
 import ProfileNavComponent from "../nav/profile/profileNavComponent";
 import { getConnectionsForUser } from "../../utils/rest";
 import { useSelector, useDispatch } from "react-redux";

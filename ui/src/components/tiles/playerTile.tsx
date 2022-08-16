@@ -21,7 +21,7 @@ export default function PlayerTile(props: any) {
       {/* main details */}
       <div className="main-details">
         <div className="image-column">
-          <img className="card-photo" onClick={() => {}} src={props.avatarUrl} alt="avatar Icon" />
+          <img className="card-photo" onClick={() => {}} src={props.avatar_url} alt="avatar Icon" />
         </div>
         <div className="info-column">
           <div className="info-title-row">
