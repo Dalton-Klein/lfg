@@ -294,7 +294,7 @@ export default function ProfileGeneral() {
           </div>
           <div className="gradient-bar"></div>
           {/* END PASSWORD */}
-          <div className="save-box">
+          <div className=" ">
             <button className="save-button" disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
               save
             </button>
