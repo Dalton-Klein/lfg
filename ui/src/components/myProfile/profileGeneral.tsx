@@ -20,7 +20,7 @@ export default function ProfileGeneral() {
   const [ageText, setAgeText] = useState<string>("");
   const [gender, setGender] = useState<number>(0);
   const [platform, setPlatform] = useState<number>(0);
-  const [gamertagText, setGamertagText] = useState<string>("");
+  const [discord, setDiscord] = useState<string>("");
   //End Profile Fields Form Tracking
 
   const dispatch = useDispatch();
@@ -29,7 +29,10 @@ export default function ProfileGeneral() {
 
   useEffect(() => {
     if (userData) {
-      setGender(userData.gender)
+      setAboutText(userData.about);
+      setAgeText(userData.age);
+      setGender(userData.gender);
+      setPlatform(userData.preferred_platform);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -93,16 +96,13 @@ export default function ProfileGeneral() {
 
   //NON-MODAL SAVE LOGIC
   const saveChanges = async () => {
-    // if (userData.about !== aboutText) {
-    //   console.log("need to save about text to: ", aboutText, ' difference: ', userData.about);
-    // }
-    // if (userData.age !== ageText) {
-    //   console.log("need to save age text to: ", ageText, ' difference: ', userData.age);
-    // }
-    if (userData.gender !== gender) {
-      const result = await updateGeneralInfoField(userData.id, 'gender', gender);
-      if(result && result[1]) dispatch(updateUserThunk(userData.id));
-    }
+    if (userData.about !== aboutText) await updateGeneralInfoField(userData.id, 'about', aboutText);
+    if (userData.age !== ageText) await updateGeneralInfoField(userData.id, 'age', ageText);
+    if (userData.gender !== gender) await updateGeneralInfoField(userData.id, 'gender', gender);
+    if (userData.preferred_platform !== platform) await updateGeneralInfoField(userData.id, 'preferred_platform', platform);
+    if (userData.discord !== discord) await updateGeneralInfoField(userData.id, 'discord', discord);
+    // After all data is comitted to db, get fresh copy of user object to update state
+    dispatch(updateUserThunk(userData.id));
   };
 
   const conditionalClass = isUploadFormShown ? "conditionalZ2" : "conditionalZ1";
@@ -256,26 +256,29 @@ export default function ProfileGeneral() {
       </div>
       <div className="gradient-bar"></div>
       {/* END PLATFORM */}
-      {/* PLATFORM GAMERTAG */}
-      <div className="banner-container">
-        <div className="prof-banner-detail-text">{userData[userData.preferred_platform] ? userData[userData.preferred_platform] : "gamertag"}</div>
-        <input
-          onChange={(event) => {
-            setGamertagText(event.target.value);
-            setHasUnsavedChanges(true);
-          }}
-          value={gamertagText}
-          type="text"
-          className="input-box"
-          placeholder={
-            userData[userData.preferred_platform] && userData[userData.preferred_platform] !== null && userData[userData.preferred_platform] !== ""
-              ? userData[userData.preferred_platform]
-              : "blank"
-          }
-        ></input>
-      </div>
+      {/* DISCORD */}
+      {userData.preferred_platform === 1 ? 
+        <div className="banner-container">
+          <div className="prof-banner-detail-text">discord name</div>
+          <input
+            onChange={(event) => {
+              setDiscord(event.target.value);
+              setHasUnsavedChanges(true);
+            }}
+            value={discord}
+            type="text"
+            className="input-box"
+            placeholder={
+              userData[userData.preferred_platform] && userData[userData.preferred_platform] !== null && userData[userData.preferred_platform] !== ""
+                ? userData[userData.preferred_platform]
+                : "blank"
+            }
+          ></input>
+        </div> 
+        : <></>
+      }
       <div className="gradient-bar"></div>
-      {/* END PLATFORM GAMERTAG */}
+      {/* END DISCORD */}
       {/* PASSWORD */}
       <div className="banner-container">
         <div className="prof-banner-detail-text">password</div>
