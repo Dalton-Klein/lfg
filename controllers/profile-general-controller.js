@@ -1,6 +1,25 @@
 const Sequelize = require("sequelize");
 const { sequelize } = require("../models/index");
 const format = require("pg-format");
+const { getUserDataByIdQuery } = require("../services/user-queries");
+
+const getUserDetails = async (req, res) => {
+  try {
+    console.log('here!!!')
+    const { userId } = req.body;
+    const query = getUserDataByIdQuery();
+    const reply = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId,
+      },
+    });
+    res.status(200).send({data: reply});
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("POST ERROR");
+  }
+};
 
 const updateProfileField = async (req, res) => {
   try {
@@ -30,15 +49,15 @@ const updateProfileField = async (req, res) => {
 
 const updateGeneralInfoField = async (req, res) => {
   try {
-    const { userId, field, value } = req.body.post;
-
+    const { userId, field, value } = req.body;
+    const query = format(`
+      update lfg.public.user_general_infos
+        set %I = :value,
+            updated_at = current_timestamp
+      where user_id = :userId
+    `, field)
     const reply = await sequelize.query(
-      `
-        update lfg.public.user_general_infos
-           set :field = :value,
-               updated_at = current_timestamp
-         where user_id = :userId
-      `,
+      query,
       {
         type: Sequelize.QueryTypes.UPDATE,
         replacements: {
@@ -48,6 +67,7 @@ const updateGeneralInfoField = async (req, res) => {
         },
       }
     );
+    console.log("reply: ",reply);
     res.status(200).send(reply);
   } catch (err) {
     console.log(err);
@@ -56,6 +76,7 @@ const updateGeneralInfoField = async (req, res) => {
 };
 
 module.exports = {
+  getUserDetails,
   updateProfileField,
   updateGeneralInfoField,
 };

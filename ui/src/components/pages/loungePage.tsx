@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import HeaderComponent from "../nav/headerComponent";
 import LoungePost from "../tiles/loungePost";
 import CreatePost from "../forms/createPost";
-import { getPosts } from "../../utils/rest";
+// import { getPosts } from "../../utils/rest";
 import "./loungePage.scss";
 
 export default function LoungePage() {
@@ -14,7 +14,7 @@ export default function LoungePage() {
   }, []);
 
   const fetchPosts = async () => {
-    setPostsFromDataBase(await getPosts(1, "blank"));
+    // setPostsFromDataBase(await getPosts(1, "blank"));
   };
 
   postsFeed = postsFromDataBase.map((post: any) => (

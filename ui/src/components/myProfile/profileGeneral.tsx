@@ -2,10 +2,10 @@ import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
-import { updateUserAvatarUrl, updateUserName } from "../../store/userSlice";
+import { updateUserAvatarUrl, updateUserName, updateUserThunk } from "../../store/userSlice";
 import "./profileGeneral.scss";
 import { avatarFormIn, avatarFormOut } from "../../utils/animations";
-import { uploadAvatarCloud, uploadAvatarServer, changeUserName } from "../../utils/rest";
+import { uploadAvatarCloud, uploadAvatarServer, updateGeneralInfoField } from "../../utils/rest";
 import SelectComponent from "./selectComponent";
 import { languageOptions, regionOptions } from "../../utils/selectOptions";
 
@@ -26,6 +26,14 @@ export default function ProfileGeneral() {
   const dispatch = useDispatch();
   const avatarPlaceholder = "/assets/avatarIcon.png";
   console.log("user data: ", userData);
+
+  useEffect(() => {
+    if (userData) {
+      setGender(userData.gender)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {}, [userData]);
 
   // BEGIN AVATAR LOGIC
@@ -84,12 +92,16 @@ export default function ProfileGeneral() {
   };
 
   //NON-MODAL SAVE LOGIC
-  const saveChanges = () => {
-    if (userData.about !== aboutText) {
-      console.log("need to save about text to: ", aboutText);
-    }
-    if (userData.age !== ageText) {
-      console.log("need to save age text to: ", ageText);
+  const saveChanges = async () => {
+    // if (userData.about !== aboutText) {
+    //   console.log("need to save about text to: ", aboutText, ' difference: ', userData.about);
+    // }
+    // if (userData.age !== ageText) {
+    //   console.log("need to save age text to: ", ageText, ' difference: ', userData.age);
+    // }
+    if (userData.gender !== gender) {
+      const result = await updateGeneralInfoField(userData.id, 'gender', gender);
+      if(result && result[1]) dispatch(updateUserThunk(userData.id));
     }
   };
 

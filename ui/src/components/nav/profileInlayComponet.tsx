@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./profileInlayComponent.scss";
 import { useNavigate } from "react-router-dom";
 import Backdrop from "../modal/backdropComponent";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
 export default function ProfileInlayComponet() {
