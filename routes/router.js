@@ -17,7 +17,11 @@ router.post("/reset-password", authController.resetPassword);
 router.post("/getPublicDetails", authController.getPublicDetails);
 
 //USER RELATED ROUTES
+router.post("/getUserDetails", userController.getUserDetails);
 router.post("/userAvatar", userController.updateProfileField);
+router.put("/updateGeneralInfoField", userController.updateGeneralInfoField);
+
+
 
 //POST RELATED ROUTES
 router.get("/tags", postsController.getCategoriesAndTopics);

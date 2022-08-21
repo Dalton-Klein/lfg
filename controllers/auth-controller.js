@@ -2,7 +2,7 @@ require("dotenv").config();
 const db = require("../models/index");
 const bcrypt = require("bcrypt");
 const services = require("../services/auth");
-const { getUserDataQuery, createUserQuery, createGeneralInfoQuery, createRustInfoQuery } = require("../services/user-queries");
+const { getUserDataByEmailQuery, createUserQuery, createGeneralInfoQuery, createRustInfoQuery } = require("../services/user-queries");
 const { users, user_tokens, v_keys, sequelize } = require("../models/index");
 const Sequelize = require("sequelize");
 const UserTable = users;
@@ -16,7 +16,7 @@ exports.signin = async (req, res) => {
   try {
     console.log(" ♛ A User Requested Sign In ♛ ");
     const { email, password } = req.body;
-    const query = getUserDataQuery();
+    const query = getUserDataByEmailQuery();
     let user = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
       replacements: {
@@ -246,7 +246,7 @@ exports.forgotPassword = async (req, res) => {
       const vKey = services.keyGen(5);
       await insertVKey(req, vKey);
       // coffee disable
-      await services.sendEmail(req, vKey, 2, userResult.dataValues.username);
+      // await services.sendEmail(req, vKey, 2, userResult.dataValues.username);
       res.send({
         data: "vKeySentToEmail",
       });

@@ -99,25 +99,6 @@ export const resetPassword = async (email: string, vKey: string, password: strin
 };
 
 // POST RELATED REQUESTS
-export const getPosts = async (userId: number, token: string) => {
-  try {
-    const httpResult = await fetch(`${endpointURL}/posts`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId,
-        token,
-      }),
-    });
-    const jsonify = httpResult.json();
-    return jsonify;
-  } catch (error) {
-    console.log(`${error} while fetching all posts`);
-  }
-};
-
 export const getRustTiles = async (userId: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/rust-tiles`, {
@@ -140,6 +121,21 @@ export const getRustTiles = async (userId: number, token: string) => {
 /*
 	Update User Data Calls
 */
+export const fetchUserData = async (userId: number) => {
+  let result = await fetch(`${endpointURL}/getUserDetails`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => data)
+    .catch((err) => console.log("FETCH USER DATA ERROR", err));
+  return result;
+};
 export const uploadAvatarCloud = async (avatar: any) => {
   const formData = new FormData();
   formData.append("upload_preset", "ribyujnm");
@@ -171,18 +167,21 @@ export const uploadAvatarServer = async (id: number, url: string) => {
   return;
 };
 
-export const changeUserName = async (id: number, trainerName: string) => {
-  await fetch(`${endpointURL}/changeUserName`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      userId: id,
-      trainerName: trainerName,
-    }),
-  })
-    .then((res) => res.json())
-    .catch((err) => console.log("Fetch Error (avatar)", err));
-  return;
+export const updateGeneralInfoField = async (id: number, field: string, value:string | number) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/updateGeneralInfoField`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: id,
+        field,
+        value,
+      }),
+    });
+    return httpResult.json();
+  } catch (error) {
+    console.log(`${error} while updating general profile info`);
+  }
 };
 
 /*

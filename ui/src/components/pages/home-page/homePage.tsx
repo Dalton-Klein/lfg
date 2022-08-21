@@ -5,8 +5,13 @@ import HeaderComponent from "../../nav/headerComponent";
 import "./homePage.scss";
 import MediumTile from "../../tiles/mediumTile";
 import DaddyTile from "../../tiles/daddyTile";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../../store/userSlice";
 
 export default function HomePage() {
+  const dispatch = useDispatch();
+  // Coffee, use to wipe state if something goes wacky
+  // dispatch(logoutUser(1))
   return (
     <div>
       <HeaderComponent></HeaderComponent>

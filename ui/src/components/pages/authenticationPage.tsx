@@ -22,7 +22,7 @@ import {
 	loginPanelPasswordResetAnim,
 } from '../../utils/animations';
 import '../../styling/login.scss';
-import { fetchUser, createUserInState, resetPasswordInState } from '../../store/userSlice';
+import { signInUserThunk, createUserInState, resetPasswordInState } from '../../store/userSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -131,7 +131,7 @@ const LoginPage = () => {
 
 	const signInUser = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const result: any = await dispatch(fetchUser(signInForm));
+		const result: any = await dispatch(signInUserThunk(signInForm));
 		if ('error' in result) {
 			createError(result.error);
 		} else {

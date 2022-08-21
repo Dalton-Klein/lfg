@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "./store";
 import { User, SignIn } from "./interfaces";
-import { resetPassword, signInUser, verifyUser } from "../utils/rest";
+import { resetPassword, signInUser, verifyUser, fetchUserData} from "../utils/rest";
 
 const initialState: any = {
   user: {
@@ -74,7 +74,7 @@ export const createUserInState =
   };
 
 // THUNK2: Sign In User
-export const fetchUser =
+export const signInUserThunk =
   (signin: SignIn): AppThunk =>
   async (dispatch) => {
     try {
@@ -84,6 +84,7 @@ export const fetchUser =
         password: signin.password,
       });
       if (!response.error) {
+        console.log('data?', response.data)
         dispatch(setUser(response.data));
       }
       return response;
@@ -92,7 +93,27 @@ export const fetchUser =
     }
   };
 
-// THUNK3: Logout User
+// THUNK3: Update User
+export const updateUserThunk =
+  (userId:number): AppThunk =>
+  async (dispatch) => {
+    try {
+      let response: any;
+      response = await fetchUserData(
+        userId
+      );
+      response = response[0];
+      console.log('updating user in state: ', response)
+      if (!response.error) {
+        dispatch(setUser(response));
+      }
+      return response;
+    } catch (err: any) {
+      dispatch(setUserError(err.toString()));
+    }
+  };
+
+// THUNK4: Logout User
 export const logoutUser =
   (userId: number): AppThunk =>
   async (dispatch) => {
@@ -133,7 +154,7 @@ export const logoutUser =
     }
   };
 
-// THUNK4: Resetting Password For User
+// THUNK5: Resetting Password For User
 export const resetPasswordInState =
   (email: string, vKey: string, password: string): AppThunk =>
   async (dispatch) => {
