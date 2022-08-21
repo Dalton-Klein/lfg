@@ -1,17 +1,19 @@
 import "./selectComponent.scss";
 import "primeicons/primeicons.css";
 import makeAnimated from "react-select/animated";
-import { useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import Select from "react-select";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { setPreferences } from "../../store/userPreferencesSlice";
 
 const animatedComponents = makeAnimated();
 interface props {
   title: string;
   options: any;
   multi: boolean;
+  setSelection: any;
+  selection: any;
+  publicMethods: any;
 }
 
 const style = {
@@ -22,32 +24,34 @@ const style = {
   }),
 };
 
-export default function SelectComponent(props: props) {
-  const preferencesState = useSelector((state: RootState) => state.preferences);
-  const dispatch = useDispatch();
+const SelectComponent = (props: props) => {
   const [selected, setSelected] = useState<any>();
 
-  const selectionChange = (options: any, filterAction: any) => {
-    // setSelected(options);
-    // const filterName = filterAction.name;
-    // dispatch(
-    //   setPreferences({
-    //     ...preferencesState,
-    //     discoverFilters: { ...preferencesState.discoverFilters, [filterName]: options },
-    //   })
-    // );
+  useEffect(() => {
+    props.publicMethods.current = {
+      detectChangeFromParent,
+    };
+  }, []);
+
+  const detectChangeFromParent = (event: any) => {
+    console.log("detected from parent", event);
+    setSelected(event);
   };
+
+  const selectionChange = (option: any) => {
+    props.setSelection(option);
+  };
+
   return (
-    <div className="profile-select-container">
+    <div className=" container">
       {props.multi ? (
         <Select
           name={props.title}
-          value={selected || ""}
+          value={selected || { value: props.title, label: props.title }}
           components={animatedComponents}
           options={props.options}
           className="react-select-container"
           classNamePrefix="react-select"
-          placeholder={props.title}
           isClearable={false}
           isSearchable={false}
           styles={style}
@@ -61,7 +65,7 @@ export default function SelectComponent(props: props) {
           options={props.options}
           className="react-select-container"
           classNamePrefix="react-select"
-          placeholder={props.title}
+          value={selected || { value: props.title, label: props.title }}
           isClearable={false}
           isSearchable={false}
           styles={style}
@@ -70,4 +74,6 @@ export default function SelectComponent(props: props) {
       )}
     </div>
   );
-}
+};
+
+export default SelectComponent;

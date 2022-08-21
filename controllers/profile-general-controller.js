@@ -5,16 +5,16 @@ const { getUserDataByIdQuery } = require("../services/user-queries");
 
 const getUserDetails = async (req, res) => {
   try {
-    console.log('here!!!')
     const { userId } = req.body;
     const query = getUserDataByIdQuery();
-    const reply = await sequelize.query(query, {
+    let result = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
       replacements: {
         userId,
       },
     });
-    res.status(200).send({data: reply});
+    if (result && result[0]) result = result[0];
+    res.status(200).send({ data: result });
   } catch (err) {
     console.log(err);
     res.status(500).send("POST ERROR");
@@ -49,25 +49,26 @@ const updateProfileField = async (req, res) => {
 
 const updateGeneralInfoField = async (req, res) => {
   try {
+    console.log("valie??? ", req.body);
     const { userId, field, value } = req.body;
-    const query = format(`
+    const query = format(
+      `
       update lfg.public.user_general_infos
         set %I = :value,
             updated_at = current_timestamp
       where user_id = :userId
-    `, field)
-    const reply = await sequelize.query(
-      query,
-      {
-        type: Sequelize.QueryTypes.UPDATE,
-        replacements: {
-          userId,
-          field,
-          value,
-        },
-      }
+    `,
+      field
     );
-    console.log("reply: ",reply);
+    const reply = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.UPDATE,
+      replacements: {
+        userId,
+        field,
+        value,
+      },
+    });
+    console.log("reply: ", reply);
     res.status(200).send(reply);
   } catch (err) {
     console.log(err);

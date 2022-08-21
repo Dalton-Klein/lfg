@@ -21,8 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     languages: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      defaultValue: [],
+      type: DataTypes.STRING,
     },
     preferred_platform: {
       type: DataTypes.INTEGER,

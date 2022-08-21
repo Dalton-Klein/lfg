@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "./store";
 import { User, SignIn } from "./interfaces";
-import { resetPassword, signInUser, verifyUser, fetchUserData} from "../utils/rest";
+import { resetPassword, signInUser, verifyUser, fetchUserData } from "../utils/rest";
 
 const initialState: any = {
   user: {
@@ -84,7 +84,7 @@ export const signInUserThunk =
         password: signin.password,
       });
       if (!response.error) {
-        console.log('data?', response.data)
+        console.log("data?", response.data);
         dispatch(setUser(response.data));
       }
       return response;
@@ -95,17 +95,13 @@ export const signInUserThunk =
 
 // THUNK3: Update User
 export const updateUserThunk =
-  (userId:number): AppThunk =>
+  (userId: number): AppThunk =>
   async (dispatch) => {
     try {
       let response: any;
-      response = await fetchUserData(
-        userId
-      );
-      response = response[0];
-      console.log('updating user in state: ', response)
+      response = await fetchUserData(userId);
       if (!response.error) {
-        dispatch(setUser(response));
+        dispatch(setUser(response.data));
       }
       return response;
     } catch (err: any) {

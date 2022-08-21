@@ -128,7 +128,7 @@ export const fetchUserData = async (userId: number) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      userId
+      userId,
     }),
   })
     .then((res) => res.json())
@@ -167,8 +167,9 @@ export const uploadAvatarServer = async (id: number, url: string) => {
   return;
 };
 
-export const updateGeneralInfoField = async (id: number, field: string, value:string | number) => {
+export const updateGeneralInfoField = async (id: number, field: string, value: any) => {
   try {
+    console.log("WTF ", value);
     const httpResult = await fetch(`${endpointURL}/updateGeneralInfoField`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
