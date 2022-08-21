@@ -7,14 +7,19 @@
   margin: 2vh 0;
 }
 
+.accordion {
+  min-width: 100%;
+  margin: 0;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 .my-profile-containers {
   min-width: 150px;
   width: 80%;
   position: relative;
   background-color: $colorGreyPop;
   border-radius: $borderRadius2;
-  padding-left: 25px;
-  padding-right: 25px;
   margin-bottom: 2vh;
   display: flex;
   flex-direction: column;
@@ -55,7 +60,7 @@
   justify-content: space-between;
   align-items: center;
   .prof-banner-detail-text {
-    font-size: calc(10px + 0.5vw);
+    font-size: $font2;
     color: $colorText;
     margin: 0 1vw;
   }
@@ -89,8 +94,13 @@
   }
 }
 
-.save-button {
-  min-width: 85%;
+.save-box {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  .save-button {
+    min-width: 85%;
+  }
 }
 
 .conditionalZ1 {
@@ -198,6 +208,7 @@
     align-items: center;
     margin: 1vh 1vw;
     padding: 1vw;
+    font-size: $font2;
 
     .gender-icon {
       min-width: 25px;
@@ -238,6 +249,17 @@
       min-width: 60%;
       display: flex;
       justify-content: flex-end;
+    }
+  }
+  .banner-container {
+    .prof-banner-detail-text {
+      font-size: $font1;
+    }
+  }
+
+  .gender-container {
+    .gender-box {
+      font-size: $font1;
     }
   }
 }
