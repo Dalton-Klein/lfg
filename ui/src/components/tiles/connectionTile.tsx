@@ -28,24 +28,32 @@ export default function ConnectionTile(props: any) {
           }}
           className="connection-profile-image"
           src={props.avatar_url}
-          alt={`${props.username} profile image`}
+          alt={`${props.username} profile`}
         />
         <div className="connection-name">{props.username}</div>
-        <img className="connection-game-image" src="/assets/rust-logo-small.png" alt={`${props.username} profile image`} />
+        <img className="connection-game-image" src="/assets/rust-logo-small.png" alt={`${props.username} profile`} />
       </div>
       {/* Chat Platform Section */}
       <div className="connection-chat-platform-container">
         <div className={`connection-chat-platform-box ${props.preferred_platform === 1 ? "box-selected" : ""}`}>
-          <img className="connection-platform-image" src="/assets/discord-logo-small.png" alt={`${props.username} profile image`} />
+          <img
+            className="connection-platform-image"
+            src="/assets/discord-logo-small.png"
+            alt={`${props.username} profile`}
+          />
         </div>
         <div className={`connection-chat-platform-box ${props.preferred_platform === 2 ? "box-selected" : ""}`}>
-          <img className="connection-platform-image" src="/assets/psn-logo-small.png" alt={`${props.username} profile image`} />
+          <img
+            className="connection-platform-image"
+            src="/assets/psn-logo-small.png"
+            alt={`${props.username} profile`}
+          />
         </div>
         <div className={`connection-chat-platform-box ${props.preferred_platform === 3 ? "box-selected" : ""}`}>
           <img
             className="connection-platform-image"
             src={props.platform === 1 ? "/assets/xbox-logo-small.png" : ""}
-            alt={`${props.username} profile image`}
+            alt={`${props.username} profile`}
           />
         </div>
         <div className="connection-chat-platform-text">{platformUsername}</div>

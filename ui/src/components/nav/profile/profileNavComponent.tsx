@@ -1,14 +1,10 @@
-import React from "react";
 import "./profileNavComponent.scss";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
   selection: number;
   selectionChanged: (value: number) => void;
 };
 export default function ProfileNavComponent(props: Props) {
-  const navigate = useNavigate();
-
   // const returnHome = () => {
   //   navigate("/");
   // };

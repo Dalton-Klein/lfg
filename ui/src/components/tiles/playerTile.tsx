@@ -21,7 +21,7 @@ export default function PlayerTile(props: any) {
       {/* main details */}
       <div className="main-details">
         <div className="image-column">
-          <img className="card-photo" onClick={() => {}} src={props.avatar_url} alt="avatar Icon" />
+          <img className="card-photo" onClick={() => {}} src={props.avatar_url} alt="avatar" />
         </div>
         <div className="info-column">
           <div className="info-title-row">
@@ -31,7 +31,7 @@ export default function PlayerTile(props: any) {
           <div className="info-stats-row">
             <div className="info-stats-attribute">{props.languages[0]}</div>
             <div className="info-stats-attribute">{props.age}</div>
-            <img className="gender-icon" src={genderIcon} alt=""></img>
+            <img className="gender-icon" src={genderIcon} alt="gender"></img>
             <div className="info-stats-attribute">{props.region_abbreviation}</div>
           </div>
         </div>
@@ -56,17 +56,21 @@ export default function PlayerTile(props: any) {
         <div className="footer-platform-box">
           {/* <i className={`platform-icon pi pi-discord`}></i> */}
           {props.preferred_platform === 1 ? (
-            <img className="footer-platform-image" src="/assets/discord-logo-small.png" alt={`${props.username} profile image`} />
+            <img
+              className="footer-platform-image"
+              src="/assets/discord-logo-small.png"
+              alt={`${props.username} discord`}
+            />
           ) : (
             <></>
           )}
           {props.preferred_platform === 2 ? (
-            <img className="footer-platform-image" src="/assets/psn-logo-small.png" alt={`${props.username} profile image`} />
+            <img className="footer-platform-image" src="/assets/psn-logo-small.png" alt={`${props.username} psn`} />
           ) : (
             <></>
           )}
           {props.preferred_platform === 3 ? (
-            <img className="footer-platform-image" src="/assets/xbox-logo-small.png" alt={`${props.username} profile image`} />
+            <img className="footer-platform-image" src="/assets/xbox-logo-small.png" alt={`${props.username} xbox`} />
           ) : (
             <></>
           )}

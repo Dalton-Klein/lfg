@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getRustTiles } from "../../utils/rest";
 import HeaderComponent from "../nav/headerComponent";
 import FilterBarComponent from "../nav/filter/filterBarComponent";
@@ -8,12 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { findUnionForObjectArrays, generateRange } from "../../utils/helperFunctions";
 import { resetFilterPreferences } from "../../store/userPreferencesSlice";
-import moment from "moment";
 
 export default function DiscoverPage() {
   const [tilesFeed, setTilesFeed] = useState(<li></li>);
   const [tilesFromDB, setTilesFromDB] = useState<any>([]);
-  const [filteredTilesFromDB, setFilteredTilesFromDB] = useState<any>([]);
   const preferencesState = useSelector((state: RootState) => state.preferences);
 
   const dispatch = useDispatch();
@@ -21,16 +19,19 @@ export default function DiscoverPage() {
   useEffect(() => {
     fetchTilesData();
     dispatch(resetFilterPreferences());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //Used to render initial tiles, unfiltered
   useEffect(() => {
     turnDataIntoTiles(tilesFromDB);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tilesFromDB]);
 
   //Used to re-render tiles on filter or unfilter
   useEffect(() => {
     updateTilesFeed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preferencesState.discoverFilters]);
 
   const fetchTilesData = async () => {
@@ -92,7 +93,9 @@ export default function DiscoverPage() {
       preferencesState.discoverFilters.availability.forEach((availabiltyObj: any) => {
         acceptedAvailability.push(availabiltyObj.label);
       });
-      availabilityResult = tilesFromDB.filter((tile: any) => acceptedAvailability.includes(tile.weekdays || tile.weekends));
+      availabilityResult = tilesFromDB.filter((tile: any) =>
+        acceptedAvailability.includes(tile.weekdays || tile.weekends)
+      );
     }
     //Filter by language
     if (preferencesState.discoverFilters.language[0]) {
@@ -100,6 +103,7 @@ export default function DiscoverPage() {
       preferencesState.discoverFilters.language.forEach((languageObj: any) => {
         acceptedLanguages.push(languageObj.label);
       });
+      // eslint-disable-next-line
       languageResult = tilesFromDB.filter((tile: any) => {
         let foundOverlap = false;
         acceptedLanguages.forEach((filterLanguage) => {

@@ -1,9 +1,15 @@
 import "./filterBarComponent.scss";
 import "primeicons/primeicons.css";
 import FilterComponent from "./filterComponent";
-import { useState } from "react";
 import { Accordion, AccordionTab } from "primereact/accordion";
-import { ageOptions, availabilityOptions, hoursOptions, languageOptions, regionOptions, sortOptions } from "../../../utils/selectOptions";
+import {
+  ageOptions,
+  availabilityOptions,
+  hoursOptions,
+  languageOptions,
+  regionOptions,
+  sortOptions,
+} from "../../../utils/selectOptions";
 
 export default function FilterBarComponent(props: any) {
   const clearFilters = () => {

@@ -23,6 +23,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     changeSelection(preferencesState.lastProfileMenu);
+    // eslint-disable-next-line
   }, [preferencesState.lastProfileMenu]);
 
   const fetchConnections = async () => {

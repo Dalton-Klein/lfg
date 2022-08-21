@@ -1,10 +1,8 @@
 import "./selectComponent.scss";
 import "primeicons/primeicons.css";
 import makeAnimated from "react-select/animated";
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "react-select";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 
 const animatedComponents = makeAnimated();
 interface props {
@@ -31,10 +29,10 @@ const SelectComponent = (props: props) => {
     props.publicMethods.current = {
       detectChangeFromParent,
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const detectChangeFromParent = (event: any) => {
-    console.log("detected from parent", event);
     setSelected(event);
   };
 

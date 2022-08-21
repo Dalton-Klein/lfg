@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Preferences } from "./interfaces";
-import { AppThunk } from "./store";
 
 const initialState: Preferences = {
   conversationsOrChat: true,
@@ -39,5 +38,6 @@ const preferencesSlice = createSlice({
   },
 });
 
-export const { setPreferences, resetPreferences, resetFilterPreferences, setPreferencesError } = preferencesSlice.actions;
+export const { setPreferences, resetPreferences, resetFilterPreferences, setPreferencesError } =
+  preferencesSlice.actions;
 export default preferencesSlice.reducer;
