@@ -97,6 +97,24 @@
       min-height: 25px;
       display: flex;
       align-items: center;
+      .hours-belt-outer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 100%;
+        min-height: 12px;
+        max-height: 12px;
+        background-color: $colorGreyBg;
+        .hours-belt-inner {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: $colorGreyBg;
+          min-height: 25px;
+          min-width: 50%;
+          border-radius: $borderRadius2;
+        }
+      }
       .details-hours-played-text {
         min-width: 100%;
         text-align: center;

@@ -496,7 +496,6 @@ export default function ProfileGeneral() {
               </div>
             </div>
           </div>
-          <div className="gradient-bar"></div>
           {/* END Availability- Weekends */}
         </AccordionTab>
       </Accordion>

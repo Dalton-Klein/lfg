@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
-import "./hamburgerComponent.scss";
+import "./drawerComponent.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { logoutUser } from "../../store/userSlice";
 import { setPreferences } from "../../store/userPreferencesSlice";
 
 type Props = {
-  toggleHamburger: any;
+  toggleDrawer: any;
   handleMouseEnter?: any;
   handleMouseLeave?: any;
 };
 
-const HamburgerComponent = (props: Props) => {
+const DrawerComponent = (props: Props) => {
   const navigate = useNavigate();
   const preferencesState = useSelector((state: RootState) => state.preferences);
   const userState = useSelector((state: RootState) => state.user.user);
@@ -61,7 +61,7 @@ const HamburgerComponent = (props: Props) => {
 
   const navigationButtonPressed = (destination: string) => {
     // Closes the side menu
-    props.toggleHamburger();
+    props.toggleDrawer();
     //Decide between sub-sections of a url
     let link = destination;
     if (destination === "connections") {
@@ -90,7 +90,7 @@ const HamburgerComponent = (props: Props) => {
       <div className="hamburger-green-panel">
         <div className="hamburger-nav">
           <img
-            onClick={props.toggleHamburger}
+            onClick={props.toggleDrawer}
             className="hamburger-exit"
             src={exitIcon}
             onMouseOver={handleMouseEnter}
@@ -139,4 +139,4 @@ const HamburgerComponent = (props: Props) => {
   );
 };
 
-export default HamburgerComponent;
+export default DrawerComponent;
