@@ -48,7 +48,7 @@ export default function PlayerTile(props: any) {
               </button>
             </div>
             <div className="info-stats-row">
-              <div className="info-stats-attribute">{props.languages[0]}</div>
+              <div className="info-stats-attribute">{props.languages}</div>
               <div className="info-stats-attribute">{props.age}</div>
               <img className="gender-icon" src={genderIcon} alt="gender"></img>
               <div className="info-stats-attribute">{props.region_abbreviation}</div>

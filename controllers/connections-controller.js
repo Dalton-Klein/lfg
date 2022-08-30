@@ -1,7 +1,10 @@
 require("dotenv").config();
 const Sequelize = require("sequelize");
 const { sequelize } = require("../models/index");
-const { getConnectionsForUserQuerySenders, getConnectionsForUserQueryAcceptors } = require("../services/connections-queries");
+const {
+  getConnectionsForUserQuerySenders,
+  getConnectionsForUserQueryAcceptors,
+} = require("../services/connections-queries");
 
 /*
 get connections logic
