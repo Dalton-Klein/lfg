@@ -9,13 +9,14 @@ get tiles logic
 const getRustTiles = async (req, res) => {
   try {
     console.log(" ♛ A User Requested Rust Tiles ♛ ");
-    const { userId, token } = req.body;
+    const { userId, username, token } = req.body;
     // const filter = { where: { email: email } };
     const query = getRustTilesQuery();
     let tiles = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
       replacements: {
-        username: req.body.username,
+        userId,
+        username,
       },
     });
     res.status(200).send(tiles);

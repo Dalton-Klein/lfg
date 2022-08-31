@@ -20,7 +20,7 @@ router.post("/getPublicDetails", authController.getPublicDetails);
 router.post("/getUserDetails", userController.getUserDetails);
 router.post("/userAvatar", userController.updateProfileField);
 router.put("/updateGeneralInfoField", userController.updateGeneralInfoField);
-router.put("/social", userController.getSocialDetails);
+router.post("/social", userController.getSocialDetails);
 
 //POST RELATED ROUTES
 router.get("/tags", postsController.getCategoriesAndTopics);

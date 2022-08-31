@@ -75,12 +75,12 @@ const updateGeneralInfoField = async (req, res) => {
   }
 };
 
-const getSocialDetails = (req, res) => {
+const getSocialDetails = async (req, res) => {
   try {
+    console.log("here@@");
     const { fromUserId, forUserId, token } = req.body;
     // const query = format('SELECT * FROM %I WHERE my_col = %L %s', 'my_table', 34, 'LIMIT 10');
-    let query = 
-      `select count(id)
+    let query = `select count(id)
          from lfg.public.connections 
         where sender = :userId
            or acceptor = :userId
@@ -91,8 +91,7 @@ const getSocialDetails = (req, res) => {
         userId: forUserId,
       },
     });
-    query = 
-      ` select acceptor
+    query = ` select acceptor
           from lfg.public.connections 
          where sender = :userId
                union
@@ -113,18 +112,22 @@ const getSocialDetails = (req, res) => {
       },
     });
     //logic to find number of mutuals between two unused arrays
+    let union = [...new Set([...connectionListFor, ...connectionListFrom])];
+    console.log("connections: ", connectionCount);
     const result = {
-      connections: connectionCount
-    }
-    res.status(200).send(result );
+      connections: connectionCount ? connectionCount[0].count : 0,
+      mutual: union ? union.length : 0,
+    };
+    res.status(200).send(result);
   } catch (err) {
     console.log(err);
     res.status(500).send("POST ERROR");
   }
-}
+};
 
 module.exports = {
   getUserDetails,
   updateProfileField,
   updateGeneralInfoField,
+  getSocialDetails,
 };

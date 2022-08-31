@@ -15,7 +15,7 @@ type Props = {
 const ExpandedProfile = (props: Props) => {
   const [exitIcon, setExitIcon] = useState<string>("/assets/exit-icon.png");
   const [connectionText, setConnectionText] = useState<string>("");
-  const [socialData, setSocialData] = useState<any>();
+  const [socialData, setSocialData] = useState<any>({ connections: 0, mutual: 0 });
   const lastSeen = howLongAgo(props.userInfo.last_seen);
   const userState = useSelector((state: RootState) => state.user.user);
 
@@ -52,6 +52,7 @@ const ExpandedProfile = (props: Props) => {
 
   const fetchSocialData = async () => {
     const socialData = await getProfileSocialData(userState.id, props.userInfo.id, "nothing");
+    console.log("social data: , ", socialData);
     setSocialData(socialData);
   };
 
@@ -157,11 +158,11 @@ const ExpandedProfile = (props: Props) => {
               )}
               <div className="expanded-social-box">
                 <div>connections</div>
-                <div> 12</div>
+                <div>{socialData.connections}</div>
               </div>
               <div className="expanded-social-box">
                 <div>mutual</div>
-                <div> 3</div>
+                <div>{socialData.mutual}</div>
               </div>
             </div>
             <div className="expanded-gradient-bar"></div>

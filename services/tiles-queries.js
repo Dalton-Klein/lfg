@@ -27,6 +27,7 @@ const getRustTilesQuery = () => {
       on av1.id = ur.weekends
     join lfg.public.availabilities av2
       on av2.id = ur.weekdays
+   where u.id != :userId
 `;
 };
 
