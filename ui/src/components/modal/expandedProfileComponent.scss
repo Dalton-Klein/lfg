@@ -55,6 +55,15 @@
   align-items: center;
   opacity: 0;
   z-index: 20;
+  .expanded-gradient-bar {
+    width: 80%;
+    max-width: 600px;
+    min-height: 1px;
+    max-height: 1px;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+  }
   .expanded-banner {
     display: flex;
     .expanded-photo {
@@ -75,8 +84,9 @@
         font-size: $font5;
       }
       .expanded-basic-text {
-        font-size: $font3;
+        font-size: $font2;
         opacity: 0.6;
+        max-width: 300px;
       }
       div {
         min-height: 33%;
@@ -89,12 +99,30 @@
     display: flex;
     flex-direction: column;
     align-content: space-evenly;
-    min-width: 80%;
-    margin: 2vh 2vw;
+    width: 80%;
+    max-width: 500px;
     .expanded-core-info-field {
       display: flex;
       justify-content: space-between;
       margin: 0.5vh 0;
+    }
+  }
+  .expanded-social-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    max-width: 500px;
+    .expanded-platform-image {
+      min-width: 30px;
+      max-width: 2.25vw;
+      object-fit: contain;
+      opacity: 0.6;
+    }
+    .expanded-social-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
     }
   }
   .expanded-connect-box {
@@ -158,5 +186,18 @@
   }
   .backdrop-event-listener {
     width: 40%;
+  }
+  .profile-container {
+    .expanded-banner {
+      flex-direction: column;
+      align-items: center;
+      .expanded-basic-info {
+        align-items: center;
+        .expanded-basic-text {
+          max-width: 80%;
+          text-align: center;
+        }
+      }
+    }
   }
 }

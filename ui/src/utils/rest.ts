@@ -98,7 +98,7 @@ export const resetPassword = async (email: string, vKey: string, password: strin
   }
 };
 
-// POST RELATED REQUESTS
+// SOCIAL RELATED REQUESTS
 export const getRustTiles = async (userId: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/rust-tiles`, {
@@ -115,6 +115,26 @@ export const getRustTiles = async (userId: number, token: string) => {
     return jsonify;
   } catch (error) {
     console.log(`${error} while fetching rust tiles`);
+  }
+};
+
+export const getProfileSocialData = async (fromUserId: number, forUserId: number, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/social`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fromUserId,
+        forUserId,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while fetching social data`);
   }
 };
 

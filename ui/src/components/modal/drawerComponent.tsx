@@ -69,7 +69,7 @@ const DrawerComponent = (props: Props) => {
       dispatch(
         setPreferences({
           ...preferencesState,
-          lastProfileMenu: 3,
+          lastProfileMenu: 2,
         })
       );
     } else if (destination === "myProfile") {

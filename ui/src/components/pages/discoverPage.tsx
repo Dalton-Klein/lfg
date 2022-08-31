@@ -13,6 +13,7 @@ export default function DiscoverPage() {
   const [tilesFeed, setTilesFeed] = useState(<li></li>);
   const [tilesFromDB, setTilesFromDB] = useState<any>([]);
   const preferencesState = useSelector((state: RootState) => state.preferences);
+  const userState = useSelector((state: RootState) => state.user.user);
 
   const dispatch = useDispatch();
 
@@ -35,7 +36,7 @@ export default function DiscoverPage() {
   }, [preferencesState.discoverFilters]);
 
   const fetchTilesData = async () => {
-    const tiles = await getRustTiles(1, "blank");
+    const tiles = await getRustTiles(userState.id, "nothing");
     tiles.forEach((tile: any) => {
       tile.hours_played = Math.floor(Math.random() * 3250);
     });

@@ -49,7 +49,6 @@ const updateProfileField = async (req, res) => {
 
 const updateGeneralInfoField = async (req, res) => {
   try {
-    console.log("valie??? ", req.body);
     const { userId, field, value } = req.body;
     const query = format(
       `
@@ -75,6 +74,54 @@ const updateGeneralInfoField = async (req, res) => {
     res.status(500).send("POST ERROR");
   }
 };
+
+const getSocialDetails = (req, res) => {
+  try {
+    const { fromUserId, forUserId, token } = req.body;
+    // const query = format('SELECT * FROM %I WHERE my_col = %L %s', 'my_table', 34, 'LIMIT 10');
+    let query = 
+      `select count(id)
+         from lfg.public.connections 
+        where sender = :userId
+           or acceptor = :userId
+    `;
+    const connectionCount = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId: forUserId,
+      },
+    });
+    query = 
+      ` select acceptor
+          from lfg.public.connections 
+         where sender = :userId
+               union
+        select sender
+          from lfg.public.connections 
+         where acceptor = :userId
+    `;
+    const connectionListFor = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId: forUserId,
+      },
+    });
+    const connectionListFrom = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId: fromUserId,
+      },
+    });
+    //logic to find number of mutuals between two unused arrays
+    const result = {
+      connections: connectionCount
+    }
+    res.status(200).send(result );
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("POST ERROR");
+  }
+}
 
 module.exports = {
   getUserDetails,

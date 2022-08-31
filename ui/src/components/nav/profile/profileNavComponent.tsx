@@ -26,7 +26,7 @@ export default function ProfileNavComponent(props: Props) {
           props.selectionChanged(2);
         }}
       >
-        <div className="nav-label">edit profile</div>
+        <div className="nav-label">connections</div>
         {props.selection === 2 ? <div className="nav-indicator"></div> : <></>}
       </div>
       <div
@@ -35,7 +35,7 @@ export default function ProfileNavComponent(props: Props) {
           props.selectionChanged(3);
         }}
       >
-        <div className="nav-label">connections</div>
+        <div className="nav-label">pending</div>
         {props.selection === 3 ? <div className="nav-indicator"></div> : <></>}
       </div>
     </div>

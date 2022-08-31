@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 import "./expandedProfileComponent.scss";
+import { getProfileSocialData } from "../../utils/rest";
 import { howLongAgo } from "../../utils/helperFunctions";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 type Props = {
   toggleExpandedProfile: any;
@@ -12,9 +15,12 @@ type Props = {
 const ExpandedProfile = (props: Props) => {
   const [exitIcon, setExitIcon] = useState<string>("/assets/exit-icon.png");
   const [connectionText, setConnectionText] = useState<string>("");
+  const [socialData, setSocialData] = useState<any>();
   const lastSeen = howLongAgo(props.userInfo.last_seen);
+  const userState = useSelector((state: RootState) => state.user.user);
 
   useEffect(() => {
+    fetchSocialData();
     document.querySelector(".backdrop-event-listener")!.addEventListener("click", () => {
       props.toggleExpandedProfile();
     });
@@ -43,6 +49,11 @@ const ExpandedProfile = (props: Props) => {
     handleMouseLeave();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const fetchSocialData = async () => {
+    const socialData = await getProfileSocialData(userState.id, props.userInfo.id, "nothing");
+    setSocialData(socialData);
+  };
 
   const handleMouseEnter = () => {
     setExitIcon("/assets/exit-icon-hover2.png");
@@ -78,6 +89,8 @@ const ExpandedProfile = (props: Props) => {
                 <div className="expanded-basic-text">{props.userInfo.about}</div>
               </div>
             </div>
+            <div className="expanded-gradient-bar"></div>
+            {/* Core Info Section */}
             <div className="expanded-core-info">
               <div className="expanded-core-info-field">
                 <label>language</label>
@@ -96,6 +109,63 @@ const ExpandedProfile = (props: Props) => {
                 <div>{props.userInfo.region_abbreviation}</div>
               </div>
             </div>
+            <div className="expanded-gradient-bar"></div>
+            {/* Game Info Section */}
+            <div className="expanded-core-info">
+              <div className="expanded-core-info-field">
+                <label>hours</label>
+                <div>{props.userInfo.hours}</div>
+              </div>
+              <div className="expanded-core-info-field">
+                <label>weekdays</label>
+                <div>{props.userInfo.weekdays}</div>
+              </div>
+              <div className="expanded-core-info-field">
+                <label>weekends</label>
+                <div>{props.userInfo.weekends}</div>
+              </div>
+            </div>
+            <div className="expanded-gradient-bar"></div>
+            {/* Social Section */}
+            <div className="expanded-social-container">
+              {props.userInfo.preferred_platform === 1 ? (
+                <img
+                  className="expanded-platform-image"
+                  src="/assets/discord-logo-small.png"
+                  alt={`${props.userInfo.username} discord`}
+                />
+              ) : (
+                <></>
+              )}
+              {props.userInfo.preferred_platform === 2 ? (
+                <img
+                  className="expanded-platform-image"
+                  src="/assets/psn-logo-small.png"
+                  alt={`${props.userInfo.username} psn`}
+                />
+              ) : (
+                <></>
+              )}
+              {props.userInfo.preferred_platform === 3 ? (
+                <img
+                  className="expanded-platform-image"
+                  src="/assets/xbox-logo-small.png"
+                  alt={`${props.userInfo.username} xbox`}
+                />
+              ) : (
+                <></>
+              )}
+              <div className="expanded-social-box">
+                <div>connections</div>
+                <div> 12</div>
+              </div>
+              <div className="expanded-social-box">
+                <div>mutual</div>
+                <div> 3</div>
+              </div>
+            </div>
+            <div className="expanded-gradient-bar"></div>
+            {/* Connect Section */}
             <div className="expanded-connect-box">
               <input
                 onChange={(event) => {
@@ -103,19 +173,19 @@ const ExpandedProfile = (props: Props) => {
                 }}
                 value={connectionText ? connectionText : ""}
                 className="input-box"
-                placeholder={"attach a message with your request"}
+                placeholder={"write a message with your request"}
               ></input>
               <button
                 className="connect-button"
                 onClick={() => {
                   sendConnectionRequest();
                 }}
+                disabled={connectionText === ""}
               >
                 <i className="pi pi-users" />
                 &nbsp; send request
               </button>
             </div>
-            <h5>lfg</h5>
           </div>
         </div>
       </div>

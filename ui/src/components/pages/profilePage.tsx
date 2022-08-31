@@ -68,13 +68,7 @@ export default function ProfilePage() {
         <></>
       )}
       {/* MENU 2 */}
-      {selection === 2 ? (
-        <div className="my-profile-container">
-          <ProfileGeneral></ProfileGeneral>
-        </div>
-      ) : (
-        <></>
-      )}
+      {selection === 2 ? <div className="my-profile-container">{connections}</div> : <></>}
       {/* MENU 3 */}
       {selection === 3 ? <div className="my-profile-container">{connections}</div> : <></>}
     </div>
