@@ -1,5 +1,5 @@
 const getRustTilesQuery = () => {
-  return `
+	return `
   select u.id,
          u.username,
          u.avatar_url,
@@ -32,5 +32,5 @@ const getRustTilesQuery = () => {
 };
 
 module.exports = {
-  getRustTilesQuery,
+	getRustTilesQuery,
 };
