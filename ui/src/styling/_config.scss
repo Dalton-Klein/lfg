@@ -2,6 +2,7 @@
 $colorPrimary: #cc2936;
 $colorPrimaryDarker: #541116;
 $colorSecondary: #0d5678;
+$colorSecondaryDarker: #041b25;
 $colorGreyBg: #1c1c1e;
 $colorGreyPop: #232026;
 $colorGreyPop80: #232026bb;
@@ -24,19 +25,19 @@ $borderRadius2: calc(8px + 0.25vw);
 $borderRadius3: calc(15px + 0.5vw);
 
 .flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .flex-column-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .flex-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }

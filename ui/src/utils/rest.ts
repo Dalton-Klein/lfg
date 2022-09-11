@@ -146,7 +146,6 @@ export const createConnectionRequest = async (
 	token: string
 ) => {
 	try {
-		console.log('plat: ', platform);
 		const httpResult = await fetch(`${endpointURL}/connection-request`, {
 			method: 'POST',
 			headers: {
@@ -250,6 +249,22 @@ export const getConnectionsForUser = async (userId: number, token: string) => {
 		.then((res) => res.json())
 		.catch((err) => {
 			console.log(`${err} while fetching connections`);
+		});
+};
+
+export const getPendingConnectionsForUser = async (userId: number, token: string) => {
+	return await fetch(`${endpointURL}/pending-connections`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			userId,
+		}),
+	})
+		.then((res) => res.json())
+		.catch((err) => {
+			console.log(`${err} while fetching pending connections`);
 		});
 };
 

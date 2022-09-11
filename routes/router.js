@@ -32,8 +32,9 @@ router.post('/posts', postsController.getPosts);
 router.post('/rust-tiles', tilesController.getRustTiles);
 
 //CONNECTIONS RELATED ROUTES
+router.post('/accept-connection', connectionsController.acceptConnectionRequest);
 router.post('/connections', connectionsController.getConnectionsForUser);
-router.post('/create-connections', connectionsController.createConnection);
+router.post('/pending-connections', connectionsController.getPendingConnectionsForUser);
 
 //CATCH ALL ROUTE
 // router.route('*', (req, res) => {

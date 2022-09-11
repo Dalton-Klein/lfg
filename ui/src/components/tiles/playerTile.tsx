@@ -27,6 +27,7 @@ export default function PlayerTile(props: any) {
 					toggleExpandedProfile={toggleExpandedProfile}
 					userInfo={props}
 					refreshTiles={props.refreshTiles}
+					showConnectForm={true}
 				/>
 			) : (
 				<></>

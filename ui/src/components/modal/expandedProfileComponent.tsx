@@ -11,6 +11,7 @@ type Props = {
 	toggleExpandedProfile: any;
 	userInfo: any;
 	refreshTiles: any;
+	showConnectForm: boolean;
 };
 
 const ExpandedProfile = (props: Props) => {
@@ -68,7 +69,6 @@ const ExpandedProfile = (props: Props) => {
 		setExitIcon('/assets/exit-icon.png');
 	};
 
-	console.log('props:', props);
 	const sendConnectionRequest = async () => {
 		const requestResult = await createConnectionRequest(userState.id, props.userInfo.id, 1, connectionText, 'nothing');
 		if (requestResult.status === 'success') {
@@ -117,7 +117,9 @@ const ExpandedProfile = (props: Props) => {
 							</div>
 							<div className="expanded-core-info-field">
 								<label>region</label>
-								<div>{props.userInfo.region_abbreviation}</div>
+								<div>
+									{props.userInfo.region_abbreviation ? props.userInfo.region_abbreviation : props.userInfo.region}
+								</div>
 							</div>
 						</div>
 						<div className="expanded-gradient-bar"></div>
@@ -177,33 +179,37 @@ const ExpandedProfile = (props: Props) => {
 						</div>
 						<div className="expanded-gradient-bar"></div>
 						{/* Connect Section */}
-						<div className="expanded-connect-box">
-							<input
-								onChange={(event) => {
-									setConnectionText(event.target.value);
-								}}
-								value={connectionText ? connectionText : ''}
-								className="input-box"
-								placeholder={'write a message with your request'}
-							></input>
-							<button
-								className="connect-button"
-								onClick={() => {
-									sendConnectionRequest();
-								}}
-								disabled={connectionText === '' || requestSent || hasSendError}
-							>
-								<i className="pi pi-users" />
-								&nbsp; {requestSent ? 'pending' : 'send request'}
-							</button>
-							{hasSendError ? (
-								<small id="username-help" className="p-error">
-									problem sending request
-								</small>
-							) : (
-								<></>
-							)}
-						</div>
+						{props.showConnectForm ? (
+							<div className="expanded-connect-box">
+								<input
+									onChange={(event) => {
+										setConnectionText(event.target.value);
+									}}
+									value={connectionText ? connectionText : ''}
+									className="input-box"
+									placeholder={'write a message with your request'}
+								></input>
+								<button
+									className="connect-button"
+									onClick={() => {
+										sendConnectionRequest();
+									}}
+									disabled={connectionText === '' || requestSent || hasSendError}
+								>
+									<i className="pi pi-users" />
+									&nbsp; {requestSent ? 'pending' : 'send request'}
+								</button>
+								{hasSendError ? (
+									<small id="username-help" className="p-error">
+										problem sending request
+									</small>
+								) : (
+									<></>
+								)}
+							</div>
+						) : (
+							<></>
+						)}
 					</div>
 				</div>
 			</div>

@@ -1,68 +1,90 @@
-@import "../../styling/config";
+@import '../../styling/config';
 
 .connection-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 100%;
-  min-height: 15vh;
-  margin: 2vh 0;
-  background-color: $colorGreyPop;
-  border-radius: $borderRadius1;
-  padding: 1vw;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	min-width: 100%;
+	min-height: 15vh;
+	margin: 2vh 0;
+	background-color: $colorGreyPop;
+	border-radius: $borderRadius1;
+	padding: 1vw;
+	.accept-button {
+		background: $colorSecondary;
+	}
+	.accept-button:hover {
+		background: $colorSecondaryDarker;
+	}
 }
 
 .connection-user-box {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 35%;
-  max-width: 35%;
-  min-height: 14vh;
-  .connection-name {
-    font-size: $font4;
-  }
-  .connection-game-image {
-    min-width: 3vw;
-    max-width: 3vw;
-    opacity: 0.6;
-    margin: 0.5vw 0;
-  }
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-width: 35%;
+	max-width: 35%;
+	min-height: 14vh;
+	.connection-name {
+		font-size: $font4;
+	}
+	.connection-game-image {
+		min-width: 3vw;
+		max-width: 3vw;
+		opacity: 0.6;
+		margin: 0.5vw 0;
+	}
 }
 
 .connection-profile-image {
-  min-width: 6vw;
-  max-width: 6vw;
-  min-height: 6vw;
-  max-height: 6vw;
-  border-radius: calc(6vw / 2);
+	min-width: 6vw;
+	max-width: 6vw;
+	min-height: 6vw;
+	max-height: 6vw;
+	border-radius: calc(6vw / 2);
 }
 
 .connection-platform-image {
-  min-width: 3vw;
-  max-width: 3vw;
-  opacity: 0.6;
-  margin: 0.5vw 0.5vw;
+	min-width: 3vw;
+	max-width: 3vw;
+	opacity: 0.6;
+	margin: 0.5vw 0.5vw;
 }
 
 .connection-chat-platform-container {
-  display: flex;
-  align-items: center;
-  min-width: 35%;
-  max-width: 35%;
-  .connection-chat-platform-box {
-    cursor: pointer;
-    background-color: $colorGreyBg;
-    border-radius: $borderRadius1;
-    margin: 0 0.5vw;
-  }
-  .connection-chat-platform-box:hover {
-    outline-style: solid;
-    outline-width: 2px;
-    outline-color: rgba(255, 255, 255, 0.6);
-  }
-  .connection-chat-platform-text {
-    font-size: $font2;
-    margin-left: 0.5vw;
-  }
+	display: flex;
+	align-items: center;
+	min-width: 35%;
+	max-width: 35%;
+	.connection-chat-platform-box {
+		cursor: pointer;
+		background-color: $colorGreyBg;
+		border-radius: $borderRadius1;
+		margin: 0 0.5vw;
+	}
+	.connection-chat-platform-box:hover {
+		outline-style: solid;
+		outline-width: 2px;
+		outline-color: rgba(255, 255, 255, 0.6);
+	}
+	.connection-chat-platform-text {
+		font-size: $font2;
+		margin-left: 0.5vw;
+	}
+}
+
+.p-menu {
+	background: $colorGreyPop;
+	border-radius: $borderRadius1;
+	box-shadow: 1px 1px 4px 0 $colorShadowDark;
+	.p-submenu-header {
+		margin: 1vh 0.5vw;
+	}
+	.p-menuitem {
+		margin: 1vh 0;
+		padding: 1vh 0.5vw;
+	}
+	.p-menuitem:hover {
+		background: $colorShadowLight;
+	}
 }

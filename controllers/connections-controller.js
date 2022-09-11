@@ -1,80 +1,111 @@
-require("dotenv").config();
-const Sequelize = require("sequelize");
-const { sequelize } = require("../models/index");
+require('dotenv').config();
+const Sequelize = require('sequelize');
+const { sequelize } = require('../models/index');
 const {
-  getConnectionsForUserQuerySenders,
-  getConnectionsForUserQueryAcceptors,
-} = require("../services/connections-queries");
+	getConnectionsForUserQuerySenders,
+	getConnectionsForUserQueryAcceptors,
+	getIncomingPendingConnectionsForUserQuery,
+	getOutgoingPendingConnectionsForUserQuery,
+	getConnectionInsertQuery,
+	removePendingConnectionQuery,
+} = require('../services/connections-queries');
 
 /*
-get connections logic
+get existing connections logic
 */
 const getConnectionsForUser = async (req, res) => {
-  try {
-    console.log(" ♛ A User Requested Their Connections ♛ ");
-    const { userId, token } = req.body;
-    let query;
-    query = getConnectionsForUserQuerySenders();
-    const senderConnections = await sequelize.query(query, {
-      type: Sequelize.QueryTypes.SELECT,
-      replacements: {
-        userId,
-      },
-    });
-    query = getConnectionsForUserQueryAcceptors();
-    const acceptorConnections = await sequelize.query(query, {
-      type: Sequelize.QueryTypes.SELECT,
-      replacements: {
-        userId,
-      },
-    });
-    const connections = acceptorConnections.concat(senderConnections);
-    res.status(200).send(connections);
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
+	try {
+		console.log(' ♛ A User Requested Their Connections ♛ ');
+		const { userId, token } = req.body;
+		let query;
+		query = getConnectionsForUserQuerySenders();
+		const senderConnections = await sequelize.query(query, {
+			type: Sequelize.QueryTypes.SELECT,
+			replacements: {
+				userId,
+			},
+		});
+		query = getConnectionsForUserQueryAcceptors();
+		const acceptorConnections = await sequelize.query(query, {
+			type: Sequelize.QueryTypes.SELECT,
+			replacements: {
+				userId,
+			},
+		});
+		const connections = acceptorConnections.concat(senderConnections);
+		res.status(200).send(connections);
+	} catch (error) {
+		console.log(error);
+		res.sendStatus(500);
+	}
 };
 
-const createConnection = async (req, res) => {
-  try {
-    const { owner, content, category, topics } = req.body.post;
-    let topicsColumnQueryString = "";
-    let topicsValueQueryString = "";
-    if (topics.length) {
-      topicsValueQueryString += `array [`;
-      topicsColumnQueryString = "topics, ";
-      req.body.post.topics.forEach((topicId) => {
-        topicsValueQueryString += `${topicId}, `;
-      });
-      topicsValueQueryString = topicsValueQueryString.substring(0, topicsValueQueryString.length - 2);
-      topicsValueQueryString += "], ";
-    }
-    const reply = await await sequelize.query(
-      `
-      insert into posts (owner, content, categories, ${topicsColumnQueryString} number_votes, created_at, updated_at)
-      values (:owner, :content, :categories, ${topicsValueQueryString} :number_votes, now(), now())
-      `,
-      {
-        type: Sequelize.QueryTypes.INSERT,
-        replacements: {
-          owner,
-          content,
-          categories: category,
-          number_votes: 0,
-          created_at: `${Date.now()}`,
-          updated_at: `${Date.now()}`,
-        },
-      }
-    );
-    res.status(200).send(reply);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("POST ERROR");
-  }
+const acceptConnectionRequest = async (req, res) => {
+	const transaction = await sequelize.transaction();
+	try {
+		const { sender, acceptor, platform, pendingId } = req.body;
+		console.log('accept connection req body: ', req.body);
+		const connectionInsertQuery = getConnectionInsertQuery();
+		const connectionInsertResult = await sequelize.query(connectionInsertQuery, {
+			type: Sequelize.QueryTypes.INSERT,
+			replacements: {
+				sender,
+				acceptor,
+				platform,
+			},
+			transaction,
+		});
+		console.log('insert result: ', connectionInsertResult);
+		const pendingDeletionQuery = removePendingConnectionQuery();
+		const pendingDeletionResult = await sequelize.query(pendingDeletionQuery, {
+			type: Sequelize.QueryTypes.INSERT,
+			replacements: {
+				id: pendingId,
+			},
+			transaction,
+		});
+		console.log('pending delete result: ', pendingDeletionResult);
+		transaction.commit();
+		res.status(200).send(reply);
+	} catch (err) {
+		console.log(err);
+		transaction.rollback();
+		res.status(500).send('POST ERROR');
+	}
+};
+
+/*
+get pending connections logic
+*/
+const getPendingConnectionsForUser = async (req, res) => {
+	try {
+		console.log(' ♛ A User Requested Their Pending Connections ♛ ');
+		const { userId, token } = req.body;
+		let query;
+		query = getIncomingPendingConnectionsForUserQuery();
+		const incmoingConnections = await sequelize.query(query, {
+			type: Sequelize.QueryTypes.SELECT,
+			replacements: {
+				userId,
+			},
+		});
+		query = getOutgoingPendingConnectionsForUserQuery();
+		const outgoingConnections = await sequelize.query(query, {
+			type: Sequelize.QueryTypes.SELECT,
+			replacements: {
+				userId,
+			},
+		});
+		console.log('pending: ', incmoingConnections, '     ', outgoingConnections);
+		res.status(200).send({ incoming: incmoingConnections, outgoing: outgoingConnections });
+	} catch (error) {
+		console.log(error);
+		res.sendStatus(500);
+	}
 };
 
 module.exports = {
-  getConnectionsForUser,
-  createConnection,
+	acceptConnectionRequest,
+	getConnectionsForUser,
+	getPendingConnectionsForUser,
 };
