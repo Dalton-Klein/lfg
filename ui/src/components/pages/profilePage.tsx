@@ -4,7 +4,7 @@ import ConnectionTile from '../tiles/connectionTile';
 import HeaderComponent from '../nav/headerComponent';
 import ProfileGeneral from '../myProfile/profileGeneral';
 import ProfileNavComponent from '../nav/profile/profileNavComponent';
-import { getConnectionsForUser, getPendingConnectionsForUser } from '../../utils/rest';
+import { acceptConnectionRequest, getConnectionsForUser, getPendingConnectionsForUser } from '../../utils/rest';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setPreferences } from '../../store/userPreferencesSlice';
@@ -53,6 +53,10 @@ export default function ProfilePage() {
 		));
 		setOutgoingResult(formattedOutgoingTiles);
 		setIncomingResult(formattedIncomingTiles);
+	};
+
+	const acceptRequest = async (senderId: number) => {
+		const acceptResult = await acceptConnectionRequest(userData.id, senderId, userData.token);
 	};
 
 	useEffect(() => {

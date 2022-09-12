@@ -37,15 +37,9 @@ export default function ConnectionTile(props: any) {
 		},
 	];
 
-	const returnHome = () => {
-		navigate('/');
-	};
-
 	const toggleExpandedProfile = () => {
 		setExpandedProfileVis(!expandedProfileVis);
 	};
-
-	const acceptRequest = () => {};
 
 	return (
 		<div className="connection-container">
@@ -130,10 +124,6 @@ export default function ConnectionTile(props: any) {
 			) : (
 				<></>
 			)}
-			{/* Manage Connection Section */}
-			{/* <button className="text-only-button" onClick={returnHome}>
-				<i className="pi pi-ellipsis-h"></i>
-			</button> */}
 			<Menu model={items} popup ref={menu} id="popup_menu" />
 			<button className="text-only-button" onClick={(event) => menu.current.toggle(event)}>
 				<i className="pi pi-ellipsis-h"></i>

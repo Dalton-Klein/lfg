@@ -268,6 +268,24 @@ export const getPendingConnectionsForUser = async (userId: number, token: string
 		});
 };
 
+export const acceptConnectionRequest = async (acceptorId: number, senderId: number, token: string) => {
+	return await fetch(`${endpointURL}/accept-connection`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			acceptorId,
+			senderId,
+			token,
+		}),
+	})
+		.then((res) => res.json())
+		.catch((err) => {
+			console.log(`${err} while accepting connection request`);
+		});
+};
+
 /*
 	Posts Calls
 */
