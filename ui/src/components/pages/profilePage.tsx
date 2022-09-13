@@ -36,8 +36,8 @@ export default function ProfilePage() {
         <ConnectionTile
           {...tile}
           type={2}
-          callAcceptRequest={(senderId: number) => {
-            acceptRequest(senderId);
+          callAcceptRequest={(senderId: number, requestId: number) => {
+            acceptRequest(senderId, requestId);
           }}
         ></ConnectionTile>
       </li>
@@ -47,13 +47,14 @@ export default function ProfilePage() {
 
   const fetchPendingConnections = async () => {
     const httpResults = await getPendingConnectionsForUser(userData.id, "blank");
+    console.log(" incoming ", httpResults);
     const formattedIncomingTiles = httpResults.incoming.map((tile: any) => (
       <li className="connection-list-item" style={{ listStyleType: "none" }} key={tile.id}>
         <ConnectionTile
           {...tile}
           type={3}
-          callAcceptRequest={(senderId: number) => {
-            acceptRequest(senderId);
+          callAcceptRequest={(senderId: number, requestId: number) => {
+            acceptRequest(senderId, requestId);
           }}
         ></ConnectionTile>
       </li>
@@ -63,8 +64,8 @@ export default function ProfilePage() {
         <ConnectionTile
           {...tile}
           type={4}
-          callAcceptRequest={(senderId: number) => {
-            acceptRequest(senderId);
+          callAcceptRequest={(senderId: number, requestId: number) => {
+            acceptRequest(senderId, requestId);
           }}
         ></ConnectionTile>
       </li>
@@ -73,8 +74,8 @@ export default function ProfilePage() {
     setIncomingResult(formattedIncomingTiles);
   };
 
-  const acceptRequest = async (senderId: number) => {
-    const acceptResult = await acceptConnectionRequest(userData.id, senderId, userData.token);
+  const acceptRequest = async (senderId: number, requestId: number) => {
+    const acceptResult = await acceptConnectionRequest(userData.id, senderId, 1, requestId, userData.token);
   };
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 const getConnectionsForUserQuerySenders = () => {
-	return `
+  return `
   select c.sender as user_id,
          c.platform,
          u.id,
@@ -38,7 +38,7 @@ const getConnectionsForUserQuerySenders = () => {
 };
 
 const getConnectionsForUserQueryAcceptors = () => {
-	return `
+  return `
   select c.acceptor as user_id,
          c.platform,
          u.id,
@@ -77,10 +77,11 @@ const getConnectionsForUserQueryAcceptors = () => {
 };
 
 const getIncomingPendingConnectionsForUserQuery = () => {
-	return `
-  select c.sender as user_id,
+  return `
+  select c.id as requestId,
+         c.sender as user_id,
          c.platform,
-         u.id,
+         u.id as id,
          u.username,
          u.avatar_url,
          ug.last_seen,
@@ -116,8 +117,9 @@ const getIncomingPendingConnectionsForUserQuery = () => {
 };
 
 const getOutgoingPendingConnectionsForUserQuery = () => {
-	return `
-  select c.receiver as user_id,
+  return `
+  select c.id as requestId,
+         c.receiver as user_id,
          c.platform,
          u.id,
          u.username,
@@ -155,23 +157,23 @@ const getOutgoingPendingConnectionsForUserQuery = () => {
 };
 
 const getConnectionInsertQuery = () => {
-	return `
+  return `
   insert into connections (sender, acceptor, platform, created_at, updated_at)
-       values (:sender, :acceptor, :platform, now(), now())
+       values (:senderId, :acceptorId, :platform, now(), now())
   `;
 };
 
 const removePendingConnectionQuery = () => {
-	return `
+  return `
     delete from connections
           where id = :id
   `;
 };
 module.exports = {
-	getConnectionsForUserQuerySenders,
-	getConnectionsForUserQueryAcceptors,
-	getIncomingPendingConnectionsForUserQuery,
-	getOutgoingPendingConnectionsForUserQuery,
-	getConnectionInsertQuery,
-	removePendingConnectionQuery,
+  getConnectionsForUserQuerySenders,
+  getConnectionsForUserQueryAcceptors,
+  getIncomingPendingConnectionsForUserQuery,
+  getOutgoingPendingConnectionsForUserQuery,
+  getConnectionInsertQuery,
+  removePendingConnectionQuery,
 };

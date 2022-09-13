@@ -186,10 +186,8 @@ export const fetchUserData = async (userId: number) => {
 };
 
 export const uploadAvatarCloud = async (avatar: any) => {
-  console.log("??? ", "test");
   const formData = new FormData();
   formData.append("upload_preset", "ribyujnm");
-  console.log("avatar file?", avatar.files);
   formData.append("file", avatar.files[0]);
   let response;
   await fetch(avatarCloud, {
@@ -270,7 +268,13 @@ export const getPendingConnectionsForUser = async (userId: number, token: string
     });
 };
 
-export const acceptConnectionRequest = async (acceptorId: number, senderId: number, token: string) => {
+export const acceptConnectionRequest = async (
+  acceptorId: number,
+  senderId: number,
+  platform: number,
+  pendingId: number,
+  token: string
+) => {
   return await fetch(`${endpointURL}/accept-connection`, {
     method: "POST",
     headers: {
@@ -279,6 +283,8 @@ export const acceptConnectionRequest = async (acceptorId: number, senderId: numb
     body: JSON.stringify({
       acceptorId,
       senderId,
+      platform,
+      pendingId,
       token,
     }),
   })

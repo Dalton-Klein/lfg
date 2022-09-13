@@ -101,7 +101,7 @@ export default function ConnectionTile(props: any) {
         <button
           className="accept-button"
           onClick={() => {
-            props.acceptRequest();
+            props.callAcceptRequest(props.user_id, props.requestid);
           }}
         >
           <i className="pi pi-user-plus" />
