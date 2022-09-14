@@ -1,5 +1,5 @@
 const getConnectionsForUserQuerySenders = () => {
-  return `
+	return `
   select c.sender as user_id,
          c.platform,
          u.id,
@@ -38,7 +38,7 @@ const getConnectionsForUserQuerySenders = () => {
 };
 
 const getConnectionsForUserQueryAcceptors = () => {
-  return `
+	return `
   select c.acceptor as user_id,
          c.platform,
          u.id,
@@ -77,10 +77,11 @@ const getConnectionsForUserQueryAcceptors = () => {
 };
 
 const getIncomingPendingConnectionsForUserQuery = () => {
-  return `
+	return `
   select c.id as requestId,
          c.sender as user_id,
          c.platform,
+         c.message,
          u.id as id,
          u.username,
          u.avatar_url,
@@ -117,7 +118,7 @@ const getIncomingPendingConnectionsForUserQuery = () => {
 };
 
 const getOutgoingPendingConnectionsForUserQuery = () => {
-  return `
+	return `
   select c.id as requestId,
          c.receiver as user_id,
          c.platform,
@@ -157,23 +158,23 @@ const getOutgoingPendingConnectionsForUserQuery = () => {
 };
 
 const getConnectionInsertQuery = () => {
-  return `
+	return `
   insert into connections (sender, acceptor, platform, created_at, updated_at)
        values (:senderId, :acceptorId, :platform, now(), now())
   `;
 };
 
 const removePendingConnectionQuery = () => {
-  return `
-    delete from connections
+	return `
+    delete from connection_requests
           where id = :id
   `;
 };
 module.exports = {
-  getConnectionsForUserQuerySenders,
-  getConnectionsForUserQueryAcceptors,
-  getIncomingPendingConnectionsForUserQuery,
-  getOutgoingPendingConnectionsForUserQuery,
-  getConnectionInsertQuery,
-  removePendingConnectionQuery,
+	getConnectionsForUserQuerySenders,
+	getConnectionsForUserQueryAcceptors,
+	getIncomingPendingConnectionsForUserQuery,
+	getOutgoingPendingConnectionsForUserQuery,
+	getConnectionInsertQuery,
+	removePendingConnectionQuery,
 };

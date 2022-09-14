@@ -1,20 +1,35 @@
 @import '../../styling/config';
 
-.connection-container {
+.connection-tile {
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
 	align-items: center;
-	min-width: 100%;
-	min-height: 15vh;
-	margin: 2vh 0;
 	background-color: $colorGreyPop;
 	border-radius: $borderRadius1;
 	padding: 1vw;
-	.accept-button {
-		background: $colorSecondary;
+	margin: 2vh 0;
+	.connection-main-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		min-width: 100%;
+		min-height: 15vh;
+		.accept-button {
+			background: $colorSecondary;
+		}
+		.accept-button:hover {
+			background: $colorSecondaryDarker;
+		}
 	}
-	.accept-button:hover {
-		background: $colorSecondaryDarker;
+	.incoming-message {
+		display: flex;
+		.incoming-message-title {
+			color: $colorPrimary;
+			margin: 0 1vw;
+		}
+		.incoming-message-content {
+			margin: 0 1vw;
+		}
 	}
 }
 
