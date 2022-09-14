@@ -460,10 +460,6 @@ export default function ProfileGeneral() {
 				</AccordionTab>
 				<AccordionTab header="rust info">
 					<div className="banner-container">
-						<div className="prof-banner-detail-text">rust profile completion</div>
-						<div>100%</div>
-					</div>
-					<div className="banner-container">
 						<div className="prof-banner-detail-text">publish rust profile</div>
 						<CustomInputSwitch
 							isToggled={isProfileDiscoverable}
