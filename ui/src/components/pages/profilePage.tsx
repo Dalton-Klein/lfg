@@ -131,45 +131,57 @@ export default function ProfilePage() {
 	const menu: any = useRef(null);
 	const navItems = [
 		{
-			label: 'Profile',
+			label: 'profile',
 			items: [
 				{
-					label: 'General Profile',
+					label: 'general profile',
 					icon: 'pi pi-fw pi-user',
 					command: () => {
 						changeSelection(1);
 					},
 				},
-				{ label: 'Account Settings', icon: 'pi pi-fw pi-cog' },
-				{ label: 'Rust Settings', icon: 'pi pi-fw pi-sliders-h' },
+				{
+					label: 'account settings',
+					icon: 'pi pi-fw pi-cog',
+					command: () => {
+						changeSelection(6);
+					},
+				},
+				{
+					label: 'rust settings',
+					icon: 'pi pi-fw pi-sliders-h',
+					command: () => {
+						changeSelection(7);
+					},
+				},
 			],
 		},
 		{
-			label: 'Social',
+			label: 'social',
 			items: [
 				{
-					label: 'Connections',
+					label: 'connections',
 					icon: 'pi pi-fw pi-users',
 					command: () => {
 						changeSelection(2);
 					},
 				},
 				{
-					label: 'Incoming',
+					label: 'incoming',
 					icon: 'pi pi-fw pi-arrow-circle-up',
 					command: () => {
 						changeSelection(3);
 					},
 				},
 				{
-					label: 'Outgoing',
+					label: 'outgoing',
 					icon: 'pi pi-fw pi-arrow-circle-down',
 					command: () => {
 						changeSelection(4);
 					},
 				},
 				{
-					label: 'Blocked',
+					label: 'blocked',
 					icon: 'pi pi-fw pi-ban',
 					command: () => {
 						changeSelection(5);
@@ -208,34 +220,32 @@ export default function ProfilePage() {
 				</button>
 				<div className="submenu-title">{submenuTitle}</div>
 			</div>
-			{selection === 1 ? (
-				<div className="my-profile-container">
-					<ProfileGeneral submenuId={selection}></ProfileGeneral>
-				</div>
-			) : (
-				<></>
-			)}
+
+			<div className="content-container" style={{ display: [1, 6, 7].includes(selection) ? 'flex' : 'none' }}>
+				<ProfileGeneral submenuId={selection}></ProfileGeneral>
+			</div>
+
 			{/* MENU 2- Connections */}
 			{selection === 2 ? (
-				<div className="my-profile-container">{connectionsResult.length > 0 ? connectionsResult : noResultsDiv}</div>
+				<div className="content-container">{connectionsResult.length > 0 ? connectionsResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}
 			{/* MENU 3- Incoming */}
 			{selection === 3 ? (
-				<div className="my-profile-container">{incomingResult.length > 0 ? incomingResult : noResultsDiv}</div>
+				<div className="content-container">{incomingResult.length > 0 ? incomingResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}
 			{/* MENU 4- Outgoing */}
 			{selection === 4 ? (
-				<div className="my-profile-container">{outgoingResult.length > 0 ? outgoingResult : noResultsDiv}</div>
+				<div className="content-container">{outgoingResult.length > 0 ? outgoingResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}
 			{/* MENU 5- Blocked */}
 			{selection === 5 ? (
-				<div className="my-profile-container">{blockedResult.length > 0 ? blockedResult : noResultsDiv}</div>
+				<div className="content-container">{blockedResult.length > 0 ? blockedResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}

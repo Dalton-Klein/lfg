@@ -27,34 +27,8 @@
 	justify-content: center;
 }
 
-.profile-avatar-box {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 2vh;
-	.prof-banner-avatar {
-		width: 5vw;
-		height: 5vw;
-		min-width: 40px;
-		min-height: 40px;
-		border-radius: calc(5vw / 2);
-		object-fit: cover;
-	}
-	.connect-button {
-		margin-left: 0.5em;
-		padding: 0 1vw;
-		padding-top: 0.5vh;
-		display: flex;
-		align-items: center;
-		img {
-			min-width: 18px;
-			max-width: 1.75vw;
-		}
-	}
-}
-
 .banner-container {
-	height: 8.5vh;
+	height: 7vh;
 	min-height: 40px;
 	margin: 1vh 0.5vw;
 	min-width: 100%;
@@ -70,6 +44,7 @@
 		min-width: 80%;
 		align-self: center;
 		word-wrap: normal;
+		font-size: $font2;
 	}
 	.select-container {
 		min-width: 80%;
@@ -78,11 +53,35 @@
 		justify-content: flex-end;
 	}
 }
+.banner-container-username {
+	@extend .banner-container;
+	justify-content: center;
+}
 
 .banner-container-top {
 	@extend .banner-container;
 	margin-top: 3vh;
+	margin-bottom: 2vh;
 	z-index: 2;
+	.prof-banner-avatar {
+		width: 4.5vw;
+		height: 4.5vw;
+		min-width: 50px;
+		min-height: 50px;
+		border-radius: calc(4.5vw / 2);
+		object-fit: cover;
+	}
+	.expand-button {
+		margin-left: 0.5em;
+		padding: 0 1vw;
+		padding-top: 0.5vh;
+		display: flex;
+		align-items: center;
+		img {
+			min-width: 18px;
+			max-width: 1.75vw;
+		}
+	}
 }
 
 .banner-change-box {
@@ -209,7 +208,7 @@
 		justify-content: center;
 		align-items: center;
 		margin: 1vh 1vw;
-		padding: 1vw;
+		padding: 1.25vh 1vw;
 		font-size: $font2;
 
 		.gender-icon {
