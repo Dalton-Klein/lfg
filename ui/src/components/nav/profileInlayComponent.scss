@@ -1,63 +1,70 @@
-@import "../../styling/config";
+@import '../../styling/config';
 
 .my-profile-overlay {
-  margin: 1vh 1vw;
-  height: 40px;
-  max-height: 40px;
-  width: 40vw;
-  min-width: 30vw;
-  max-width: 300px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+	margin: 1vh 1vw;
+	height: 40px;
+	max-height: 40px;
+	width: 40vw;
+	min-width: 30vw;
+	max-width: 300px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
 }
 
 .my-profile-overlay-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  // i {
-  //   cursor: pointer;
-  //   font-size: $font4;
-  //   display: block;
-  //   object-fit: contain;
-  //   transition: $transition1;
-  //   margin: 0 1vw;
-  // }
-  // i:hover {
-  //   transform: scale(1.05);
-  // }
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	// i {
+	//   cursor: pointer;
+	//   font-size: $font4;
+	//   display: block;
+	//   object-fit: contain;
+	//   transition: $transition1;
+	//   margin: 0 1vw;
+	// }
+	// i:hover {
+	//   transform: scale(1.05);
+	// }
+	.nav-overlay-img {
+		display: block;
+		object-fit: contain;
+		width: 2.5vw;
+		height: 2.5vw;
+		min-height: 25px;
+		min-width: 25px;
+		object-fit: cover;
+		border-radius: calc(2.5vw / 2);
+		transition: $transition1;
+		margin: 0 1vw;
+	}
+	.dynamic-avatar-border {
+		width: 2.5vw;
+		height: 2.5vw;
+		min-height: 25px;
+		min-width: 25px;
+		border-radius: calc(2.5vw / 2);
+		background-color: $colorShadowLight;
+	}
 }
 .my-profile-overlay-link {
-  display: flex;
-  align-items: center;
-  transition: $transition1;
-  cursor: pointer;
+	display: flex;
+	align-items: center;
+	transition: $transition1;
+	cursor: pointer;
 }
 
 .my-profile-overlay-link:hover {
-  transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 .prof-overlay-text {
-  font-size: calc(9px + 0.5vw);
-  color: $colorText;
-  margin-right: 4px;
-}
-
-.nav-overlay-img {
-  display: block;
-  object-fit: contain;
-  width: 2.5vw;
-  height: 2.5vw;
-  min-height: 25px;
-  min-width: 25px;
-  object-fit: cover;
-  border-radius: calc(2.5vw / 2);
-  transition: $transition1;
-  margin: 0 1vw;
+	font-size: calc(9px + 0.5vw);
+	color: $colorText;
+	margin-right: 4px;
 }
 
 .nav-overlay-img:hover {
-  transform: scale(1.05);
+	transform: scale(1.05);
 }

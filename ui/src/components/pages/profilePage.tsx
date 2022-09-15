@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './profilePage.scss';
 import ConnectionTile from '../tiles/connectionTile';
 import HeaderComponent from '../nav/headerComponent';
 import ProfileGeneral from '../myProfile/profileGeneral';
 import ProfileNavComponent from '../nav/profile/profileNavComponent';
 import { acceptConnectionRequest, getConnectionsForUser, getPendingConnectionsForUser } from '../../utils/rest';
+import FooterComponent from '../nav/footerComponent';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setPreferences } from '../../store/userPreferencesSlice';
+import { Menu } from 'primereact/menu';
 import 'primereact/resources/primereact.min.css';
 
 import Confetti from 'react-confetti';
@@ -20,6 +22,7 @@ export default function ProfilePage() {
 	const [incomingResult, setIncomingResult] = useState<any>([]);
 	const [blockedResult, setBlockedResult] = useState<any>([]);
 	const [isConfetti, setIsConfetti] = useState<any>(false);
+	const [submenuTitle, setSubmenuTitle] = useState<any>('');
 
 	const noResultsDiv = <div className="no-results-box">nothing at the moment!</div>;
 	const preferencesState = useSelector((state: RootState) => state.preferences);
@@ -32,6 +35,7 @@ export default function ProfilePage() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	//BEGIN Fetch Connections
 	const fetchExistingConnections = async () => {
 		let httpResults = await getConnectionsForUser(userData.id, 'blank');
 		let formattedTiles = httpResults.map((tile: any) => (
@@ -47,7 +51,6 @@ export default function ProfilePage() {
 		));
 		setconnectionsResult(formattedTiles);
 	};
-
 	const fetchPendingConnections = async () => {
 		const httpResults = await getPendingConnectionsForUser(userData.id, 'blank');
 		console.log(' incoming ', httpResults);
@@ -76,7 +79,9 @@ export default function ProfilePage() {
 		setOutgoingResult(formattedOutgoingTiles);
 		setIncomingResult(formattedIncomingTiles);
 	};
+	//END Fetch Connections
 
+	//BEGIN Social Actions Logic
 	const acceptRequest = async (senderId: number, requestId: number) => {
 		const acceptResult = await acceptConnectionRequest(userData.id, senderId, 1, requestId, userData.token);
 		const blastConfetti = async () => {
@@ -91,13 +96,25 @@ export default function ProfilePage() {
 			fetchExistingConnections();
 		}
 	};
+	//END Social Actions Logic
 
+	//BEGIN Nav logic
 	useEffect(() => {
 		changeSelection(preferencesState.lastProfileMenu);
 		// eslint-disable-next-line
 	}, [preferencesState.lastProfileMenu]);
 
 	const changeSelection = (value: number) => {
+		const menuTitleKey: any = {
+			1: 'general profile',
+			2: 'connections',
+			3: 'incoming',
+			4: 'outgoing',
+			5: 'blocked',
+			6: 'account settings',
+			7: 'rust settings',
+		};
+		setSubmenuTitle(menuTitleKey[value]);
 		setSelection(value);
 		dispatch(
 			setPreferences({
@@ -105,11 +122,64 @@ export default function ProfilePage() {
 				lastProfileMenu: value,
 			})
 		);
-		// localStorage.setItem("lastProfileMenu", JSON.stringify(value));
 	};
-
+	//END Nav logic
 	const width = 1920;
 	const height = 1080;
+
+	//BEGIN Nav Variables
+	const menu: any = useRef(null);
+	const navItems = [
+		{
+			label: 'Profile',
+			items: [
+				{
+					label: 'General Profile',
+					icon: 'pi pi-fw pi-user',
+					command: () => {
+						changeSelection(1);
+					},
+				},
+				{ label: 'Account Settings', icon: 'pi pi-fw pi-cog' },
+				{ label: 'Rust Settings', icon: 'pi pi-fw pi-sliders-h' },
+			],
+		},
+		{
+			label: 'Social',
+			items: [
+				{
+					label: 'Connections',
+					icon: 'pi pi-fw pi-users',
+					command: () => {
+						changeSelection(2);
+					},
+				},
+				{
+					label: 'Incoming',
+					icon: 'pi pi-fw pi-arrow-circle-up',
+					command: () => {
+						changeSelection(3);
+					},
+				},
+				{
+					label: 'Outgoing',
+					icon: 'pi pi-fw pi-arrow-circle-down',
+					command: () => {
+						changeSelection(4);
+					},
+				},
+				{
+					label: 'Blocked',
+					icon: 'pi pi-fw pi-ban',
+					command: () => {
+						changeSelection(5);
+					},
+				},
+			],
+		},
+	];
+	//END Nav Variables
+
 	return (
 		<div>
 			{isConfetti ? (
@@ -124,16 +194,23 @@ export default function ProfilePage() {
 				<></>
 			)}
 			<HeaderComponent></HeaderComponent>
-			<ProfileNavComponent
+			{/* <ProfileNavComponent
 				selection={selection}
 				selectionChanged={(value) => {
 					changeSelection(value);
 				}}
-			></ProfileNavComponent>
+			></ProfileNavComponent> */}
 			{/* MENU 1- My Prof */}
+			<div className="nav-menu">
+				<Menu model={navItems} popup ref={menu} id="popup_menu" />
+				<button className="submenu-navigator" onClick={(event) => menu.current.toggle(event)}>
+					<i className="pi pi-bars" />
+				</button>
+				<div className="submenu-title">{submenuTitle}</div>
+			</div>
 			{selection === 1 ? (
 				<div className="my-profile-container">
-					<ProfileGeneral></ProfileGeneral>
+					<ProfileGeneral submenuId={selection}></ProfileGeneral>
 				</div>
 			) : (
 				<></>
@@ -162,6 +239,7 @@ export default function ProfilePage() {
 			) : (
 				<></>
 			)}
+			<FooterComponent></FooterComponent>
 		</div>
 	);
 }

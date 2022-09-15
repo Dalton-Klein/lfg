@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getRustTiles } from '../../utils/rest';
+import FooterComponent from '../nav/footerComponent';
 import HeaderComponent from '../nav/headerComponent';
 import FilterBarComponent from '../nav/filter/filterBarComponent';
 import PlayerTile from '../tiles/playerTile';
@@ -193,6 +194,7 @@ export default function DiscoverPage() {
 			</article>
 			<FilterBarComponent clearFiltersMethod={clearAllFiltersAndSorting}></FilterBarComponent>
 			<div className="feed">{tilesFeed}</div>
+			<FooterComponent></FooterComponent>
 		</div>
 	);
 }

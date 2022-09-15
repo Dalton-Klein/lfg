@@ -40,10 +40,12 @@
 		border-radius: calc(5vw / 2);
 		object-fit: cover;
 	}
-	button {
+	.connect-button {
 		margin-left: 0.5em;
 		padding: 0 1vw;
 		padding-top: 0.5vh;
+		display: flex;
+		align-items: center;
 		img {
 			min-width: 18px;
 			max-width: 1.75vw;

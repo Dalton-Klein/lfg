@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { Accordion, AccordionTab } from 'primereact/accordion';
 import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,7 +12,7 @@ import { languageOptions, regionOptions } from '../../utils/selectOptions';
 import ExpandedProfile from '../modal/expandedProfileComponent';
 import CustomInputSwitch from '../forms/inputSwitch';
 
-export default function ProfileGeneral() {
+export default function ProfileGeneral(props: any) {
 	const dispatch = useDispatch();
 	const avatarPlaceholder = '/assets/avatarIcon.png';
 	const hiddenFileInput: any = React.useRef(null);
@@ -178,28 +177,8 @@ export default function ProfileGeneral() {
 			) : (
 				<></>
 			)}
-			<Accordion className="accordion" activeIndex={1}>
-				<AccordionTab header="account settings">
-					<div className="banner-container">
-						<div className="prof-banner-detail-text">email notifications</div>
-						<CustomInputSwitch
-							isToggled={isProfileDiscoverable}
-							onToggle={() => {
-								setIsProfileDiscoverable(!isProfileDiscoverable);
-							}}
-						></CustomInputSwitch>
-					</div>
-					<div className="banner-container">
-						<div className="prof-banner-detail-text">email news/offers</div>
-						<CustomInputSwitch
-							isToggled={isProfileDiscoverable}
-							onToggle={() => {
-								setIsProfileDiscoverable(!isProfileDiscoverable);
-							}}
-						></CustomInputSwitch>
-					</div>
-				</AccordionTab>
-				<AccordionTab header="general profile">
+			{props.submenuId === 6 ? (
+				<div className="submenu-container">
 					{/* EDIT PHTO MODAL */}
 					<div className={`edit-profile-form ${conditionalClass}`}>
 						<p>{'upload avatar'}</p>
@@ -457,8 +436,36 @@ export default function ProfileGeneral() {
 							save
 						</button>
 					</div>
-				</AccordionTab>
-				<AccordionTab header="rust info">
+				</div>
+			) : (
+				<></>
+			)}
+			{props.submenuId === 6 ? (
+				<div className="submenu-container">
+					<div className="banner-container">
+						<div className="prof-banner-detail-text">email notifications</div>
+						<CustomInputSwitch
+							isToggled={isProfileDiscoverable}
+							onToggle={() => {
+								setIsProfileDiscoverable(!isProfileDiscoverable);
+							}}
+						></CustomInputSwitch>
+					</div>
+					<div className="banner-container">
+						<div className="prof-banner-detail-text">email news/offers</div>
+						<CustomInputSwitch
+							isToggled={isProfileDiscoverable}
+							onToggle={() => {
+								setIsProfileDiscoverable(!isProfileDiscoverable);
+							}}
+						></CustomInputSwitch>
+					</div>
+				</div>
+			) : (
+				<></>
+			)}
+			{props.submenuId === 7 ? (
+				<div className="submenu-container">
 					<div className="banner-container">
 						<div className="prof-banner-detail-text">publish rust profile</div>
 						<CustomInputSwitch
@@ -547,8 +554,10 @@ export default function ProfileGeneral() {
 						</div>
 					</div>
 					{/* END Availability- Weekends */}
-				</AccordionTab>
-			</Accordion>
+				</div>
+			) : (
+				<></>
+			)}
 		</div>
 	);
 }

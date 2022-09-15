@@ -6,7 +6,7 @@
 
 @font-face {
 	font-family: 'deToks'; /*Can be any text*/
-	src: local('deToks'), url('./fonts/deToks.otf') format('truetype');
+	src: local('questrial'), url('./fonts/questrial.ttf') format('truetype');
 }
 
 * {
@@ -39,7 +39,7 @@ h5 {
 
 button {
 	cursor: 'pointer';
-	border-radius: 25px;
+	border-radius: $borderRadius1;
 	outline: none;
 	border: none;
 	color: $colorText;
