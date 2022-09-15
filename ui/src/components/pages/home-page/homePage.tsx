@@ -13,8 +13,9 @@ export default function HomePage() {
 		<div>
 			<HeaderComponent></HeaderComponent>
 			<div className="title-box">
-				<div className="title">gangs</div>
-				<div className="subtitle">find your group</div>
+				{/* <div className="title">gangs</div> */}
+				<img className="logo-img" src={'/assets/logo-v2-gangs.gg-transparent-white.png'} alt="gangs logo" />
+				<div className="subtitle">find your gang</div>
 			</div>
 			<div className="tile-container">
 				<div className="left">

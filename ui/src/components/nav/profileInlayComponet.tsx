@@ -44,8 +44,16 @@ export default function ProfileInlayComponet() {
 							{userState.username}
 						</div>
 
-						{profileImage === '' ? (
-							<div className="dynamic-avatar-border"></div>
+						{profileImage === '' || profileImage === '/assets/avatarIcon.png' ? (
+							<div className="dynamic-avatar-border" onClick={toggleDrawer}>
+								<div className="dynamic-avatar-text-small">
+									{userState.username
+										.split(' ')
+										.map((word: string[]) => word[0])
+										.join('')
+										.slice(0, 2)}
+								</div>
+							</div>
 						) : (
 							<img className="nav-overlay-img" onClick={toggleDrawer} src={profileImage} alt="avatar Icon" />
 						)}

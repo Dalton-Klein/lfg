@@ -203,16 +203,25 @@ export default function ProfileGeneral(props: any) {
 				</div>
 				{/* AVATAR PHTO */}
 				<div className="banner-container-top">
-					<img
-						className="prof-banner-avatar"
-						src={
-							!userData.avatar_url || userData.avatar_url === '/assets/avatarIcon.png'
-								? avatarPlaceholder
-								: userData.avatar_url
-						}
-						alt=""
-						onClick={() => startEditingAvatar('avatar_url')}
-					></img>
+					{!userData.avatar_url || userData.avatar_url === '/assets/avatarIcon.png' ? (
+						<div className="dynamic-avatar-bg" onClick={() => startEditingAvatar('avatar_url')}>
+							<div className="dynamic-avatar-text">
+								{userData.username
+									.split(' ')
+									.map((word: string[]) => word[0])
+									.join('')
+									.slice(0, 2)}
+							</div>
+						</div>
+					) : (
+						<img
+							className="prof-banner-avatar"
+							src={userData.avatar_url}
+							alt=""
+							onClick={() => startEditingAvatar('avatar_url')}
+						></img>
+					)}
+
 					<button
 						className="expand-button"
 						onClick={() => {

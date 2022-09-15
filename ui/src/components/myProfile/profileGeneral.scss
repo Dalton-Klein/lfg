@@ -63,6 +63,21 @@
 	margin-top: 3vh;
 	margin-bottom: 2vh;
 	z-index: 2;
+	.dynamic-avatar-bg {
+		width: 4.5vw;
+		height: 4.5vw;
+		min-width: 50px;
+		min-height: 50px;
+		border-radius: calc(4.5vw / 2);
+		background-color: $colorShadowLight;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		.dynamic-avatar-text {
+			font-size: $font4;
+		}
+	}
 	.prof-banner-avatar {
 		width: 4.5vw;
 		height: 4.5vw;
@@ -70,6 +85,7 @@
 		min-height: 50px;
 		border-radius: calc(4.5vw / 2);
 		object-fit: cover;
+		cursor: pointer;
 	}
 	.expand-button {
 		margin-left: 0.5em;

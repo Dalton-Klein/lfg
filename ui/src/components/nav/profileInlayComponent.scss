@@ -46,6 +46,13 @@
 		min-width: 25px;
 		border-radius: calc(2.5vw / 2);
 		background-color: $colorShadowLight;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		.dynamic-avatar-text-small {
+			font-size: $font2;
+		}
 	}
 }
 .my-profile-overlay-link {
