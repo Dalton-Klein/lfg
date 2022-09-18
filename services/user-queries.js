@@ -55,13 +55,11 @@ const getUserDataByIdQuery = () => {
               ug.psn,
               ug.xbox,
               ug.last_seen,
-              av1.name,
-              av2.name,
+              av1.name as rust_weekdays,
+              av2.name as rust_weekends,
               ur.roles,
               ur.play_styles,
               ur.hours as rust_hours,
-              ur.weekdays as rust_weekdays, 
-              ur.weekends as rust_weekends, 
               ur.is_published as rust_is_published
          from lfg.public.users u
     left join lfg.public.user_general_infos ug

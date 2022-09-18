@@ -113,7 +113,9 @@ const ExpandedProfile = (props: Props) => {
 							</div>
 							<div className="expanded-core-info-field">
 								<label>gender</label>
-								<div>{props.userInfo.gender}</div>
+								<div>
+									{props.userInfo.gender === 1 ? 'male' : props.userInfo.gender === 2 ? 'female' : 'non-binary'}
+								</div>
 							</div>
 							<div className="expanded-core-info-field">
 								<label>region</label>
@@ -127,15 +129,15 @@ const ExpandedProfile = (props: Props) => {
 						<div className="expanded-core-info">
 							<div className="expanded-core-info-field">
 								<label>hours</label>
-								<div>{props.userInfo.hours}</div>
+								<div>{props.userInfo.rust_hours}</div>
 							</div>
 							<div className="expanded-core-info-field">
 								<label>weekdays</label>
-								<div>{props.userInfo.weekdays}</div>
+								<div>{props.userInfo.rust_weekdays}</div>
 							</div>
 							<div className="expanded-core-info-field">
 								<label>weekends</label>
-								<div>{props.userInfo.weekends}</div>
+								<div>{props.userInfo.rust_weekends}</div>
 							</div>
 						</div>
 						<div className="expanded-gradient-bar"></div>

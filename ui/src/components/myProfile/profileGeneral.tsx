@@ -41,8 +41,8 @@ export default function ProfileGeneral(props: any) {
 	const [psn, setPSN] = useState<string>('');
 	const [xbox, setXbox] = useState<string>('');
 	const [rustHoursText, setRustHoursText] = useState<number>(0);
-	const [rustWeekday, setRustWeekday] = useState<number>(0);
-	const [rustWeekend, setRustWeekend] = useState<number>(0);
+	const [rustWeekday, setRustWeekday] = useState<string>('');
+	const [rustWeekend, setRustWeekend] = useState<string>('');
 	//End Profile Fields Form Tracking
 
 	const toast: any = useRef({ current: '' });
@@ -141,12 +141,12 @@ export default function ProfileGeneral(props: any) {
 		setPlatform(selection);
 	};
 
-	const changeRustWeekday = (selection: number) => {
+	const changeRustWeekday = (selection: string) => {
 		if (rustWeekday !== selection) setHasUnsavedChanges(true);
 		setRustWeekday(selection);
 	};
 
-	const changeRustWeekend = (selection: number) => {
+	const changeRustWeekend = (selection: string) => {
 		if (rustWeekend !== selection) setHasUnsavedChanges(true);
 		setRustWeekend(selection);
 	};
@@ -209,6 +209,14 @@ export default function ProfileGeneral(props: any) {
 
 	//NON-MODAL SAVE LOGIC
 	const saveChanges = async () => {
+		const availabilityValues: any = {
+			none: 1,
+			some: 2,
+			'a lot': 3,
+			'all day': 4,
+		};
+		const rustWeekdayIdValue = availabilityValues[rustWeekday];
+		const rustWeekendIdValue = availabilityValues[rustWeekend];
 		if (userData.about !== aboutText) await updateGeneralInfoField(userData.id, 'about', aboutText);
 		if (parseInt(userData.age) !== ageText) await updateGeneralInfoField(userData.id, 'age', ageText);
 		if (userData.gender !== gender) await updateGeneralInfoField(userData.id, 'gender', gender);
@@ -222,8 +230,12 @@ export default function ProfileGeneral(props: any) {
 		if (userData.psn !== psn) await updateGeneralInfoField(userData.id, 'psn', psn);
 		if (userData.xbox !== xbox) await updateGeneralInfoField(userData.id, 'xbox', xbox);
 		if (userData.rust_hours !== rustHoursText) await updateRustInfoField(userData.id, 'hours', rustHoursText);
-		if (userData.rust_weekdays !== rustHoursText) await updateRustInfoField(userData.id, 'weekdays', rustWeekday);
-		if (userData.rust_weekends !== rustHoursText) await updateRustInfoField(userData.id, 'weekends', rustWeekend);
+		if (userData.rust_weekdays !== rustHoursText) {
+			await updateRustInfoField(userData.id, 'weekdays', rustWeekdayIdValue);
+		}
+		if (userData.rust_weekends !== rustHoursText) {
+			await updateRustInfoField(userData.id, 'weekends', rustWeekendIdValue);
+		}
 		console.log('user data: ', userData);
 		// After all data is comitted to db, get fresh copy of user object to update state
 		dispatch(updateUserThunk(userData.id));
@@ -580,33 +592,33 @@ export default function ProfileGeneral(props: any) {
 					<div className="prof-banner-detail-text">weekdays</div>
 					<div className="gender-container">
 						<div
-							className={`gender-box ${rustWeekday === 1 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekday === 'none' ? 'box-selected' : ''}`}
 							onClick={() => {
-								changeRustWeekday(1);
+								changeRustWeekday('none');
 							}}
 						>
 							none
 						</div>
 						<div
-							className={`gender-box ${rustWeekday === 2 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekday === 'some' ? 'box-selected' : ''}`}
 							onClick={() => {
-								changeRustWeekday(2);
+								changeRustWeekday('some');
 							}}
 						>
 							some
 						</div>
 						<div
-							className={`gender-box ${rustWeekday === 3 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekday === 'a lot' ? 'box-selected' : ''}`}
 							onClick={() => {
-								changeRustWeekday(3);
+								changeRustWeekday('a lot');
 							}}
 						>
 							a lot
 						</div>
 						<div
-							className={`gender-box ${rustWeekday === 4 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekday === 'all day' ? 'box-selected' : ''}`}
 							onClick={() => {
-								changeRustWeekday(4);
+								changeRustWeekday('all day');
 							}}
 						>
 							all day
@@ -620,33 +632,33 @@ export default function ProfileGeneral(props: any) {
 					<div className="prof-banner-detail-text">weekdays</div>
 					<div className="gender-container">
 						<div
-							className={`gender-box ${rustWeekend === 1 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekend === 'none' ? 'box-selected' : ''}`}
 							onClick={() => {
-								changeRustWeekend(1);
+								changeRustWeekend('none');
 							}}
 						>
 							none
 						</div>
 						<div
-							className={`gender-box ${rustWeekend === 2 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekend === 'some' ? 'box-selected' : ''}`}
 							onClick={() => {
-								changeRustWeekend(2);
+								changeRustWeekend('some');
 							}}
 						>
 							some
 						</div>
 						<div
-							className={`gender-box ${rustWeekend === 3 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekend === 'a lot' ? 'box-selected' : ''}`}
 							onClick={() => {
-								changeRustWeekend(3);
+								changeRustWeekend('a lot');
 							}}
 						>
 							a lot
 						</div>
 						<div
-							className={`gender-box ${rustWeekend === 4 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekend === 'all day' ? 'box-selected' : ''}`}
 							onClick={() => {
-								changeRustWeekend(4);
+								changeRustWeekend('all day');
 							}}
 						>
 							all day

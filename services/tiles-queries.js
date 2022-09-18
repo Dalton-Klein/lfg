@@ -12,9 +12,9 @@ const getRustTilesQuery = () => {
          ug.languages,
          ug.preferred_platform,
          ug.discord,
-         av1.name as weekends,
-         av2.name as weekdays,
-         ur.hours,
+         ur.hours as rust_hours,
+         av1.name as rust_weekends,
+         av2.name as rust_weekdays,
          ur.roles,
          ur.play_styles
     from lfg.public.users u 
