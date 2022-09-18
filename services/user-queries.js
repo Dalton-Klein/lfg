@@ -44,6 +44,8 @@ const getUserDataByIdQuery = () => {
               u.hashed,
               u.num_of_strikes,
               u.avatar_url, 
+              u.is_email_notifications, 
+              u.is_email_marketing,
               ug.about,
               ug.age,
               ug.gender,
