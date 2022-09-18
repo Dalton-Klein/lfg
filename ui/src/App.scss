@@ -188,6 +188,34 @@ textarea {
 	padding: 2vw 3vw;
 }
 
+.p-toast-top-right {
+	top: 10px !important;
+	right: 10px !important;
+}
+
+.p-toast {
+	background-color: rgb(158, 158, 76);
+	border-radius: $borderRadius1;
+	max-width: 95vw;
+	.p-toast-message-content {
+		margin: 1vh 0.5vw;
+		.p-toast-message-text {
+			margin-left: 0.5vw;
+			.p-toast-summary {
+				font-size: $font2 !important;
+				font-weight: 1000;
+			}
+			.p-toast-detail {
+				font-size: $font2 !important;
+				word-wrap: normal;
+			}
+		}
+		.p-toast-icon-close {
+			padding: 0 0.5vw;
+		}
+	}
+}
+
 .App {
 	position: relative;
 }

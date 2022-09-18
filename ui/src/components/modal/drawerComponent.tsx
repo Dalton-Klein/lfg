@@ -132,6 +132,7 @@ const DrawerComponent = (props: Props) => {
 					<div onClick={() => logoutFunction()} className="hamburger-links">
 						<button className="hamburger-logout-button">logout</button>
 					</div>
+					<img className="small-logo" src="/assets/logo-v2-gangs.gg-transparent-white.png" alt="gangs-logo-small" />
 					<h5>gangs</h5>
 				</div>
 			</div>

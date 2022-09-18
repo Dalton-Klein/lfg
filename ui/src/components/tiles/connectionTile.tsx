@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './connectionTile.scss';
-import { useNavigate } from 'react-router-dom';
 import ExpandedProfile from '../modal/expandedProfileComponent';
 import { Menu } from 'primereact/menu';
 
@@ -11,14 +10,11 @@ export default function ConnectionTile(props: any) {
 	const menu: any = useRef(null);
 
 	useEffect(() => {
-		console.log('props? ', props);
 		if (props.preferred_platform === 1) setPlatformUsername(props.discord);
 		else if (props.preferred_platform === 2) setPlatformUsername(props.psn);
 		else if (props.preferred_platform === 3) setPlatformUsername(props.xbox);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-	const navigate = useNavigate();
 
 	const items = [
 		{
@@ -79,7 +75,7 @@ export default function ConnectionTile(props: any) {
 							}}
 							className="connection-profile-image"
 							src={props.avatar_url}
-							alt={`${props.username}'s profile photo'`}
+							alt={`${props.username}'s profile`}
 						/>
 					)}
 				</div>

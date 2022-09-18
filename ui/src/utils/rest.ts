@@ -232,6 +232,23 @@ export const updateGeneralInfoField = async (id: number, field: string, value: a
 	}
 };
 
+export const updateRustInfoField = async (id: number, field: string, value: any) => {
+	try {
+		const httpResult = await fetch(`${endpointURL}/updateRustInfoField`, {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				userId: id,
+				field,
+				value,
+			}),
+		});
+		return httpResult.json();
+	} catch (error) {
+		console.log(`${error} while updating general profile info`);
+	}
+};
+
 /*
 	Publish Calls
 */

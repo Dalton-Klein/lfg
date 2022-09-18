@@ -3,7 +3,6 @@ import './profilePage.scss';
 import ConnectionTile from '../tiles/connectionTile';
 import HeaderComponent from '../nav/headerComponent';
 import ProfileGeneral from '../myProfile/profileGeneral';
-import ProfileNavComponent from '../nav/profile/profileNavComponent';
 import { acceptConnectionRequest, getConnectionsForUser, getPendingConnectionsForUser } from '../../utils/rest';
 import FooterComponent from '../nav/footerComponent';
 import { useSelector, useDispatch } from 'react-redux';
@@ -75,9 +74,9 @@ export default function ProfilePage() {
 				></ConnectionTile>
 			</li>
 		));
-		console.log('testing: ', formattedOutgoingTiles);
 		setOutgoingResult(formattedOutgoingTiles);
 		setIncomingResult(formattedIncomingTiles);
+		setBlockedResult([]);
 	};
 	//END Fetch Connections
 

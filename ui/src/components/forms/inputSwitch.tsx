@@ -13,7 +13,6 @@ export default function CustomInputSwitch(props: any) {
 				checked={props.isToggled}
 				onChange={() => {
 					handleChange();
-					console.log('wtf minicomp');
 				}}
 				className="react-switch-checkbox"
 				id={`react-switch-new`}

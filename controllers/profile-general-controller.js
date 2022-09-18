@@ -75,6 +75,34 @@ const updateGeneralInfoField = async (req, res) => {
 	}
 };
 
+const updateRustInfoField = async (req, res) => {
+	try {
+		const { userId, field, value } = req.body;
+		const query = format(
+			`
+      update lfg.public.user_rust_infos
+        set %I = :value,
+            updated_at = current_timestamp
+      where user_id = :userId
+    `,
+			field
+		);
+		const reply = await sequelize.query(query, {
+			type: Sequelize.QueryTypes.UPDATE,
+			replacements: {
+				userId,
+				field,
+				value,
+			},
+		});
+		console.log('reply: ', reply);
+		res.status(200).send(reply);
+	} catch (err) {
+		console.log(err);
+		res.status(500).send('POST ERROR');
+	}
+};
+
 const getSocialDetails = async (req, res) => {
 	try {
 		const { fromUserId, forUserId, token } = req.body;
@@ -158,6 +186,7 @@ module.exports = {
 	getUserDetails,
 	updateProfileField,
 	updateGeneralInfoField,
+	updateRustInfoField,
 	getSocialDetails,
 	sendConnectionRequest,
 };

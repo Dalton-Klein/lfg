@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './headerFooterComponents.scss';
 import ProfileInlayComponet from './profileInlayComponet';
-let logoSource = '/assets/logo-v1.png';
 export default function HeaderComponent() {
 	const navigate = useNavigate();
 	return (

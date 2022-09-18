@@ -10,12 +10,14 @@ import {
 	uploadAvatarCloud,
 	uploadAvatarServer,
 	updateGeneralInfoField,
+	updateRustInfoField,
 	attemptPublishRustProfile,
 } from '../../utils/rest';
 import SelectComponent from './selectComponent';
 import { languageOptions, regionOptions } from '../../utils/selectOptions';
 import ExpandedProfile from '../modal/expandedProfileComponent';
 import CustomInputSwitch from '../forms/inputSwitch';
+import { Toast } from 'primereact/toast';
 
 export default function ProfileGeneral(props: any) {
 	const dispatch = useDispatch();
@@ -38,19 +40,21 @@ export default function ProfileGeneral(props: any) {
 	const [discord, setDiscord] = useState<string>('');
 	const [psn, setPSN] = useState<string>('');
 	const [xbox, setXbox] = useState<string>('');
-	const [hoursText, setHoursText] = useState<number>(0);
+	const [rustHoursText, setRustHoursText] = useState<number>(0);
 	const [rustWeekday, setRustWeekday] = useState<number>(0);
 	const [rustWeekend, setRustWeekend] = useState<number>(0);
 	//End Profile Fields Form Tracking
 
-	const regionRef: any = useRef({});
-	const languageRef: any = useRef({});
+	const toast: any = useRef({ current: '' });
+	const regionRef: any = useRef({ current: '' });
+	const languageRef: any = useRef({ current: '' });
 
 	const loadSavedInfo = () => {
 		dispatch(updateUserThunk(userData.id));
 		if (userData.email && userData.email !== '') {
+			console.log('user data: ', userData);
 			setAboutText(userData.about === null ? '' : userData.about);
-			setAgeText(userData.age === null ? '' : userData.age);
+			setAgeText(userData.age === null ? 0 : userData.age);
 			setGender(userData.gender === null ? 0 : userData.gender);
 			setLanguage(
 				userData.languages === null
@@ -66,6 +70,10 @@ export default function ProfileGeneral(props: any) {
 			setDiscord(userData.discord === null ? '' : userData.discord);
 			setPSN(userData.psn === null ? '' : userData.psn);
 			setXbox(userData.xbox === null ? '' : userData.xbox);
+			setRustHoursText(userData.rust_hours === null ? '' : userData.rust_hours);
+			setRustWeekday(userData.rust_weekdays === null ? '' : userData.rust_weekdays);
+			setRustWeekend(userData.rust_weekends === null ? '' : userData.rust_weekends);
+			setIsProfileDiscoverable(userData.rust_is_published);
 		}
 	};
 
@@ -139,22 +147,53 @@ export default function ProfileGeneral(props: any) {
 	};
 
 	const changeRustWeekend = (selection: number) => {
-		if (rustWeekday !== selection) setHasUnsavedChanges(true);
-		setRustWeekday(selection);
+		if (rustWeekend !== selection) setHasUnsavedChanges(true);
+		setRustWeekend(selection);
 	};
 
 	const tryPublishRustProfile = async () => {
-		console.log('initValue: ', isProfileDiscoverable);
 		if (!isProfileDiscoverable) {
 			//execute http req
 			const result = await attemptPublishRustProfile(userData.id, '');
-			console.log('pub result: ', result);
-			if (result.data === 'success') {
-				setIsProfileDiscoverable(isProfileDiscoverable);
-			} else {
+			console.log('res? ', result);
+			if (result.status === 'success') {
+				await updateRustInfoField(userData.id, 'is_published', true);
+				setIsProfileDiscoverable(true);
+				toast.current.clear();
+				toast.current.show({
+					severity: 'success',
+					summary: 'rust profile published!',
+					detail: ``,
+					sticky: false,
+				});
+			} else if (result.data.length) {
+				let fieldsString = '';
+				result.data.forEach((field: any) => {
+					fieldsString += `${field},  `;
+				});
+				fieldsString = fieldsString.slice(0, -3);
 				//error handling here
+				toast.current.clear();
+				toast.current.show({
+					severity: 'warn',
+					summary: 'missing profile fields: ',
+					detail: `${fieldsString}`,
+					sticky: true,
+				});
 			}
-		} else setIsProfileDiscoverable(!isProfileDiscoverable);
+		} else {
+			await updateRustInfoField(userData.id, 'is_published', false);
+			setIsProfileDiscoverable(false);
+			toast.current.clear();
+			toast.current.show({
+				severity: 'success',
+				summary: 'rust profile now hidden!',
+				detail: ``,
+				sticky: false,
+			});
+		}
+		// After all data is comitted to db, get fresh copy of user object to update state
+		dispatch(updateUserThunk(userData.id));
 	};
 
 	//MODAL SAVE LOGIC
@@ -171,7 +210,7 @@ export default function ProfileGeneral(props: any) {
 	//NON-MODAL SAVE LOGIC
 	const saveChanges = async () => {
 		if (userData.about !== aboutText) await updateGeneralInfoField(userData.id, 'about', aboutText);
-		if (userData.age !== ageText) await updateGeneralInfoField(userData.id, 'age', ageText);
+		if (parseInt(userData.age) !== ageText) await updateGeneralInfoField(userData.id, 'age', ageText);
 		if (userData.gender !== gender) await updateGeneralInfoField(userData.id, 'gender', gender);
 		if (region && userData.region !== region.value) await updateGeneralInfoField(userData.id, 'region', region.value);
 		if (language && userData.language !== language.value) {
@@ -182,14 +221,20 @@ export default function ProfileGeneral(props: any) {
 		if (userData.discord !== discord) await updateGeneralInfoField(userData.id, 'discord', discord);
 		if (userData.psn !== psn) await updateGeneralInfoField(userData.id, 'psn', psn);
 		if (userData.xbox !== xbox) await updateGeneralInfoField(userData.id, 'xbox', xbox);
+		if (userData.rust_hours !== rustHoursText) await updateRustInfoField(userData.id, 'hours', rustHoursText);
+		if (userData.rust_weekdays !== rustHoursText) await updateRustInfoField(userData.id, 'weekdays', rustWeekday);
+		if (userData.rust_weekends !== rustHoursText) await updateRustInfoField(userData.id, 'weekends', rustWeekend);
+		console.log('user data: ', userData);
 		// After all data is comitted to db, get fresh copy of user object to update state
 		dispatch(updateUserThunk(userData.id));
 		setHasUnsavedChanges(false);
+		toast.current.clear();
 	};
 
 	const conditionalClass = isUploadFormShown ? 'conditionalZ2' : 'conditionalZ1';
 	return (
 		<div className="my-profile-containers">
+			<Toast ref={toast} />
 			{/* Conditionally render hamburger modal */}
 			{expandedProfileVis ? (
 				<ExpandedProfile
@@ -504,7 +549,6 @@ export default function ProfileGeneral(props: any) {
 						checked={isProfileDiscoverable}
 						onChange={() => {
 							tryPublishRustProfile();
-							console.log('wtf23');
 						}}
 						className="react-switch-checkbox"
 						id={`react-switch-new`}
@@ -520,10 +564,10 @@ export default function ProfileGeneral(props: any) {
 					<div className="prof-banner-detail-text">hours played</div>
 					<input
 						onChange={(event) => {
-							setHoursText(parseInt(event.target.value));
+							setRustHoursText(parseInt(event.target.value));
 							setHasUnsavedChanges(true);
 						}}
-						value={hoursText ? hoursText : ''}
+						value={rustHoursText ? rustHoursText : ''}
 						type="number"
 						className="input-box"
 						placeholder={userData.hours && userData.hours !== null && userData.hours !== '' ? userData.hours : 'none'}
@@ -536,7 +580,7 @@ export default function ProfileGeneral(props: any) {
 					<div className="prof-banner-detail-text">weekdays</div>
 					<div className="gender-container">
 						<div
-							className={`gender-box ${platform === 1 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekday === 1 ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekday(1);
 							}}
@@ -544,7 +588,7 @@ export default function ProfileGeneral(props: any) {
 							none
 						</div>
 						<div
-							className={`gender-box ${platform === 2 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekday === 2 ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekday(2);
 							}}
@@ -552,7 +596,7 @@ export default function ProfileGeneral(props: any) {
 							some
 						</div>
 						<div
-							className={`gender-box ${platform === 3 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekday === 3 ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekday(3);
 							}}
@@ -560,7 +604,7 @@ export default function ProfileGeneral(props: any) {
 							a lot
 						</div>
 						<div
-							className={`gender-box ${platform === 4 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekday === 4 ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekday(4);
 							}}
@@ -576,7 +620,7 @@ export default function ProfileGeneral(props: any) {
 					<div className="prof-banner-detail-text">weekdays</div>
 					<div className="gender-container">
 						<div
-							className={`gender-box ${platform === 1 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekend === 1 ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekend(1);
 							}}
@@ -584,7 +628,7 @@ export default function ProfileGeneral(props: any) {
 							none
 						</div>
 						<div
-							className={`gender-box ${platform === 2 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekend === 2 ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekend(2);
 							}}
@@ -592,7 +636,7 @@ export default function ProfileGeneral(props: any) {
 							some
 						</div>
 						<div
-							className={`gender-box ${platform === 3 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekend === 3 ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekend(3);
 							}}
@@ -600,7 +644,7 @@ export default function ProfileGeneral(props: any) {
 							a lot
 						</div>
 						<div
-							className={`gender-box ${platform === 4 ? 'box-selected' : ''}`}
+							className={`gender-box ${rustWeekend === 4 ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekend(4);
 							}}

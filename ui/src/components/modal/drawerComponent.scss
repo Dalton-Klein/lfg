@@ -33,8 +33,15 @@
 	align-items: center;
 	opacity: 0;
 	z-index: 20;
-	h5 {
+	.small-logo {
+		min-width: 30px;
+		max-width: 2.5vw;
+		min-height: 30px;
+		max-height: 2.5vw;
+		opacity: 0.6;
 		margin-top: 3em;
+	}
+	h5 {
 		opacity: 0.6;
 	}
 }

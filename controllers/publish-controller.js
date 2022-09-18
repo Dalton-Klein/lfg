@@ -22,15 +22,15 @@ const checkIfUserCanPublishRustProfile = async (req, res) => {
 		//Validate result here
 		console.log('what is res? ', queryResult);
 		queryResult = queryResult[0];
-		if (queryResult.about === null) problemFields.push('about');
-		if (queryResult.age === null) problemFields.push('age');
-		if (queryResult.gender === null) problemFields.push('gender');
-		if (queryResult.region === null) problemFields.push('region');
+		if (queryResult.about === null || queryResult.about === '') problemFields.push('about');
+		if (queryResult.age === null || queryResult.age < 13) problemFields.push('age');
+		if (queryResult.gender === null || queryResult.gender === 0) problemFields.push('gender');
+		if (queryResult.region === null || queryResult.region === 0) problemFields.push('region');
 		if (queryResult.languages === null) problemFields.push('language');
-		if (queryResult.preferred_platform === null) problemFields.push('preferred_platform');
-		if (queryResult.weekdays === null) problemFields.push('weekdaysAvailability');
-		if (queryResult.weekdends === null) problemFields.push('weekendsAvailability');
+		if (queryResult.preferred_platform === null) problemFields.push('platform');
 		if (queryResult.hours === null) problemFields.push('hours');
+		if (queryResult.weekdays === null || queryResult.weekdays === 0) problemFields.push('weekday availability');
+		if (queryResult.weekdends === null || queryResult.weekdends === 0) problemFields.push('weekend availability');
 		if (!problemFields.length) passesValidation = true;
 		let result = {
 			status: passesValidation ? 'success' : 'error',

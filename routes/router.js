@@ -21,6 +21,7 @@ router.post('/getPublicDetails', authController.getPublicDetails);
 router.post('/getUserDetails', userController.getUserDetails);
 router.post('/userAvatar', userController.updateProfileField);
 router.put('/updateGeneralInfoField', userController.updateGeneralInfoField);
+router.put('/updateRustInfoField', userController.updateRustInfoField);
 
 //SOCIAL ROUTES
 router.post('/connection-request', userController.sendConnectionRequest);
