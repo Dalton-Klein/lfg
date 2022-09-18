@@ -6,7 +6,12 @@ import { RootState } from '../../store/store';
 import { updateUserAvatarUrl, updateUserName, updateUserThunk } from '../../store/userSlice';
 import './profileGeneral.scss';
 import { avatarFormIn, avatarFormOut } from '../../utils/animations';
-import { uploadAvatarCloud, uploadAvatarServer, updateGeneralInfoField } from '../../utils/rest';
+import {
+	uploadAvatarCloud,
+	uploadAvatarServer,
+	updateGeneralInfoField,
+	attemptPublishRustProfile,
+} from '../../utils/rest';
 import SelectComponent from './selectComponent';
 import { languageOptions, regionOptions } from '../../utils/selectOptions';
 import ExpandedProfile from '../modal/expandedProfileComponent';
@@ -25,7 +30,7 @@ export default function ProfileGeneral(props: any) {
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
 	const [photoFile, setPhotoFile] = useState<File>({ name: '' } as File);
 	const [aboutText, setAboutText] = useState<string>('');
-	const [ageText, setAgeText] = useState<string>('');
+	const [ageText, setAgeText] = useState<number>(0);
 	const [gender, setGender] = useState<number>(0);
 	const [region, setRegion] = useState<any>({ label: 'region' });
 	const [language, setLanguage] = useState<any>({ label: 'language' });
@@ -33,6 +38,7 @@ export default function ProfileGeneral(props: any) {
 	const [discord, setDiscord] = useState<string>('');
 	const [psn, setPSN] = useState<string>('');
 	const [xbox, setXbox] = useState<string>('');
+	const [hoursText, setHoursText] = useState<number>(0);
 	const [rustWeekday, setRustWeekday] = useState<number>(0);
 	const [rustWeekend, setRustWeekend] = useState<number>(0);
 	//End Profile Fields Form Tracking
@@ -135,6 +141,20 @@ export default function ProfileGeneral(props: any) {
 	const changeRustWeekend = (selection: number) => {
 		if (rustWeekday !== selection) setHasUnsavedChanges(true);
 		setRustWeekday(selection);
+	};
+
+	const tryPublishRustProfile = async () => {
+		console.log('initValue: ', isProfileDiscoverable);
+		if (!isProfileDiscoverable) {
+			//execute http req
+			const result = await attemptPublishRustProfile(userData.id, '');
+			console.log('pub result: ', result);
+			if (result.data === 'success') {
+				setIsProfileDiscoverable(isProfileDiscoverable);
+			} else {
+				//error handling here
+			}
+		} else setIsProfileDiscoverable(!isProfileDiscoverable);
 	};
 
 	//MODAL SAVE LOGIC
@@ -263,11 +283,11 @@ export default function ProfileGeneral(props: any) {
 					<div className="prof-banner-detail-text">age</div>
 					<input
 						onChange={(event) => {
-							setAgeText(event.target.value);
+							setAgeText(parseInt(event.target.value));
 							setHasUnsavedChanges(true);
 						}}
 						value={ageText ? ageText : ''}
-						type="text"
+						type="number"
 						className="input-box"
 						placeholder={userData.age && userData.age !== null && userData.age !== '' ? userData.age : 'blank'}
 					></input>
@@ -443,11 +463,13 @@ export default function ProfileGeneral(props: any) {
 				</div>
 				<div className="gradient-bar"></div>
 				{/* END PASSWORD */}
+				{/* START SAVE BOX */}
 				<div className="save-box">
 					<button className="save-button" disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
 						save
 					</button>
 				</div>
+				{/* END SAVE BOX */}
 			</div>
 
 			{/* START ACCOUNT SETTINGS */}
@@ -455,21 +477,21 @@ export default function ProfileGeneral(props: any) {
 			<div className="submenu-container" style={{ display: props.submenuId === 6 ? 'inline-block' : 'none' }}>
 				<div className="banner-container">
 					<div className="prof-banner-detail-text">email notifications</div>
-					<CustomInputSwitch
+					{/* <CustomInputSwitch
 						isToggled={isProfileDiscoverable}
 						onToggle={() => {
-							setIsProfileDiscoverable(!isProfileDiscoverable);
+							//setIsProfileDiscoverable(!isProfileDiscoverable);
 						}}
-					></CustomInputSwitch>
+					></CustomInputSwitch> */}
 				</div>
 				<div className="banner-container">
 					<div className="prof-banner-detail-text">email news/offers</div>
-					<CustomInputSwitch
+					{/* <CustomInputSwitch
 						isToggled={isProfileDiscoverable}
 						onToggle={() => {
-							setIsProfileDiscoverable(!isProfileDiscoverable);
+							//setIsProfileDiscoverable(!isProfileDiscoverable);
 						}}
-					></CustomInputSwitch>
+					></CustomInputSwitch> */}
 				</div>
 			</div>
 
@@ -478,13 +500,37 @@ export default function ProfileGeneral(props: any) {
 			<div className="submenu-container" style={{ display: props.submenuId === 7 ? 'inline-block' : 'none' }}>
 				<div className="banner-container">
 					<div className="prof-banner-detail-text">publish rust profile</div>
-					<CustomInputSwitch
-						isToggled={isProfileDiscoverable}
-						onToggle={() => {
-							setIsProfileDiscoverable(!isProfileDiscoverable);
+					<input
+						checked={isProfileDiscoverable}
+						onChange={() => {
+							tryPublishRustProfile();
+							console.log('wtf23');
 						}}
-					></CustomInputSwitch>
+						className="react-switch-checkbox"
+						id={`react-switch-new`}
+						type="checkbox"
+					/>
+					<label className="react-switch-label" htmlFor={`react-switch-new`}>
+						<span className={`react-switch-button`} />
+					</label>
 				</div>
+				<div className="gradient-bar"></div>
+				{/* RUST HOURS */}
+				<div className="banner-container">
+					<div className="prof-banner-detail-text">hours played</div>
+					<input
+						onChange={(event) => {
+							setHoursText(parseInt(event.target.value));
+							setHasUnsavedChanges(true);
+						}}
+						value={hoursText ? hoursText : ''}
+						type="number"
+						className="input-box"
+						placeholder={userData.hours && userData.hours !== null && userData.hours !== '' ? userData.hours : 'none'}
+					></input>
+				</div>
+				<div className="gradient-bar"></div>
+				{/* END RUST HOURS */}
 				{/* Availability- Weekdays */}
 				<div className="banner-container">
 					<div className="prof-banner-detail-text">weekdays</div>
@@ -563,7 +609,15 @@ export default function ProfileGeneral(props: any) {
 						</div>
 					</div>
 				</div>
+				<div className="gradient-bar"></div>
 				{/* END Availability- Weekends */}
+				{/* START SAVE BOX */}
+				<div className="save-box">
+					<button className="save-button" disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
+						save
+					</button>
+				</div>
+				{/* END SAVE BOX */}
 			</div>
 		</div>
 	);

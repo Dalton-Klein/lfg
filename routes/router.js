@@ -4,6 +4,7 @@ const connectionsController = require('../controllers/connections-controller');
 const postsController = require('../controllers/posts-controller');
 const tilesController = require('../controllers/tiles-controller');
 const userController = require('../controllers/profile-general-controller');
+const publishController = require('../controllers/publish-controller');
 const router = express.Router();
 router.use(express.json());
 const path = require('path');
@@ -30,6 +31,9 @@ router.get('/tags', postsController.getCategoriesAndTopics);
 router.post('/create-post', postsController.createPost);
 router.post('/posts', postsController.getPosts);
 router.post('/rust-tiles', tilesController.getRustTiles);
+
+//PUBLISH RELATED ROUTES
+router.post('/publish-rust', publishController.checkIfUserCanPublishRustProfile);
 
 //CONNECTIONS RELATED ROUTES
 router.post('/accept-connection', connectionsController.acceptConnectionRequest);

@@ -1,6 +1,15 @@
 module.exports = (sequelize, DataTypes) => {
 	const user_rust_infos = sequelize.define('user_rust_infos', {
+		id: {
+			type: DataTypes.INTEGER,
+			autoIncrement: true,
+			primaryKey: true,
+		},
 		user_id: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		},
+		hours: {
 			type: DataTypes.INTEGER,
 			allowNull: true,
 		},
@@ -22,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		is_published: {
 			type: DataTypes.BOOLEAN,
-			defaultValue: true,
+			defaultValue: false,
 			allowNull: false,
 		},
 	});
