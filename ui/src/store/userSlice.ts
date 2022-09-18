@@ -9,6 +9,8 @@ const initialState: any = {
 		id: 0,
 		email: '',
 		avatar_url: '/assets/avatarIcon.png',
+		is_email_notifications: false,
+		is_email_nmarketing: false,
 		username: 'none',
 		num_of_strikes: 0,
 		about: '',

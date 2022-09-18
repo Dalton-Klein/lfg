@@ -43,6 +43,8 @@ export default function ProfileGeneral(props: any) {
 	const [rustHoursText, setRustHoursText] = useState<number>(0);
 	const [rustWeekday, setRustWeekday] = useState<string>('');
 	const [rustWeekend, setRustWeekend] = useState<string>('');
+	const [isEmailNotifications, setIsEmailNotifications] = useState<boolean>(true);
+	const [isEmailMarketing, setIsEmailMarketing] = useState<boolean>(true);
 	//End Profile Fields Form Tracking
 
 	const toast: any = useRef({ current: '' });
@@ -74,6 +76,8 @@ export default function ProfileGeneral(props: any) {
 			setRustWeekday(userData.rust_weekdays === null ? '' : userData.rust_weekdays);
 			setRustWeekend(userData.rust_weekends === null ? '' : userData.rust_weekends);
 			setIsProfileDiscoverable(userData.rust_is_published);
+			setIsEmailNotifications(userData.is_email_notifications);
+			setIsEmailMarketing(userData.is_email_marketing);
 		}
 	};
 
@@ -534,22 +538,42 @@ export default function ProfileGeneral(props: any) {
 			<div className="submenu-container" style={{ display: props.submenuId === 6 ? 'inline-block' : 'none' }}>
 				<div className="banner-container">
 					<div className="prof-banner-detail-text">email notifications</div>
-					{/* <CustomInputSwitch
-						isToggled={isProfileDiscoverable}
-						onToggle={() => {
-							//setIsProfileDiscoverable(!isProfileDiscoverable);
+					<input
+						checked={isEmailNotifications}
+						onChange={() => {
+							// tryPublishRustProfile();
 						}}
-					></CustomInputSwitch> */}
+						className="react-switch-checkbox"
+						id={`react-switch-new`}
+						type="checkbox"
+					/>
+					<label className="react-switch-label" htmlFor={`react-switch-new`}>
+						<span className={`react-switch-button`} />
+					</label>
 				</div>
 				<div className="banner-container">
 					<div className="prof-banner-detail-text">email news/offers</div>
-					{/* <CustomInputSwitch
-						isToggled={isProfileDiscoverable}
-						onToggle={() => {
-							//setIsProfileDiscoverable(!isProfileDiscoverable);
+
+					<input
+						checked={isEmailMarketing}
+						onChange={() => {
+							// tryPublishRustProfile();
 						}}
-					></CustomInputSwitch> */}
+						className="react-switch-checkbox"
+						id={`react-switch-new`}
+						type="checkbox"
+					/>
+					<label className="react-switch-label" htmlFor={`react-switch-new`}>
+						<span className={`react-switch-button`} />
+					</label>
 				</div>
+				{/* START SAVE BOX */}
+				<div className="save-box">
+					<button className="save-button" disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
+						save
+					</button>
+				</div>
+				{/* END SAVE BOX */}
 			</div>
 
 			{/* START RUST SETTINGS */}
