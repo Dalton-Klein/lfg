@@ -8,7 +8,7 @@ import './profileGeneral.scss';
 import { avatarFormIn, avatarFormOut } from '../../utils/animations';
 import {
 	uploadAvatarCloud,
-	uploadAvatarServer,
+	updateUserField,
 	updateGeneralInfoField,
 	updateRustInfoField,
 	attemptPublishRustProfile,
@@ -203,7 +203,7 @@ export default function ProfileGeneral(props: any) {
 		const avatar = document.querySelector('.avatar-input');
 		const url: string | undefined = await uploadAvatarCloud(avatar);
 		dispatch(updateUserAvatarUrl(url));
-		uploadAvatarServer(userData.id, url!);
+		updateUserField(userData.id, 'avatar_url', url!);
 		setPhotoFile({ name: '' } as File);
 	};
 

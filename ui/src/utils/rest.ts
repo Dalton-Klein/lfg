@@ -200,14 +200,14 @@ export const uploadAvatarCloud = async (avatar: any) => {
 	return response;
 };
 
-export const uploadAvatarServer = async (id: number, url: string) => {
-	await fetch(`${endpointURL}/userAvatar`, {
+export const updateUserField = async (id: number, field: string, value: string) => {
+	await fetch(`${endpointURL}/updateUserInfoField`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
 			userId: id,
-			field: 'avatar_url',
-			value: url,
+			field,
+			value,
 		}),
 	})
 		.then((res) => res.json())

@@ -25,6 +25,9 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	.submenu-container {
+		min-width: 60%;
+	}
 }
 
 .banner-container {
@@ -289,6 +292,12 @@
 }
 
 @media screen and (max-width: $screenBreak1) {
+	.my-profile-containers {
+		width: 90vw;
+		.submenu-container {
+			min-width: 75%;
+		}
+	}
 	.edit-profile-form {
 		width: 50vw;
 		margin-left: -25vw;
@@ -315,6 +324,12 @@
 }
 
 @media screen and (max-width: $screenBreak2) {
+	.my-profile-containers {
+		width: 95vw;
+		.submenu-container {
+			min-width: 90%;
+		}
+	}
 	.edit-profile-form {
 		width: 80vw;
 		margin-left: -40vw;
