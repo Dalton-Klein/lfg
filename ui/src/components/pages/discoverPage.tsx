@@ -38,9 +38,6 @@ export default function DiscoverPage() {
 
 	const fetchTilesData = async () => {
 		const tiles = await getRustTiles(userState.id, 'nothing');
-		tiles.forEach((tile: any) => {
-			tile.hours_played = Math.floor(Math.random() * 3250);
-		});
 		setTilesFromDB(tiles);
 	};
 

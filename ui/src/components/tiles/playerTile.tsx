@@ -72,7 +72,7 @@ export default function PlayerTile(props: any) {
 					<div className="details-hours-played">
 						<div className="hours-belt-outer">
 							<div className="hours-belt-inner">
-								<div className="details-hours-played-text">{props.hours_played} hours</div>
+								<div className="details-hours-played-text">{props.hours} hours</div>
 							</div>
 						</div>
 					</div>

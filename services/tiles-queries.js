@@ -14,6 +14,7 @@ const getRustTilesQuery = () => {
          ug.discord,
          av1.name as weekends,
          av2.name as weekdays,
+         ur.hours,
          ur.roles,
          ur.play_styles
     from lfg.public.users u 
@@ -28,6 +29,7 @@ const getRustTilesQuery = () => {
     join lfg.public.availabilities av2
       on av2.id = ur.weekdays
    where u.id != :userId
+     and ur.is_published = true
 `;
 };
 
