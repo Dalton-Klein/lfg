@@ -42,8 +42,8 @@
 	.dynamic-avatar-border {
 		width: 2.5vw;
 		height: 2.5vw;
-		min-height: 25px;
-		min-width: 25px;
+		min-height: 2.5vw;
+		min-width: 2.5vw;
 		border-radius: calc(2.5vw / 2);
 		background-color: $colorShadowLight;
 		display: flex;
@@ -74,4 +74,42 @@
 
 .nav-overlay-img:hover {
 	transform: scale(1.05);
+}
+
+@media screen and (max-width: $screenBreak1) {
+	.my-profile-overlay-wrapper {
+		.nav-overlay-img {
+			min-width: 35px !important;
+			max-width: 35px !important;
+			min-height: 35px !important;
+			max-height: 35px !important;
+			border-radius: calc(35px / 2) !important;
+		}
+		.dynamic-avatar-border {
+			min-width: 35px !important;
+			max-width: 35px !important;
+			min-height: 35px !important;
+			max-height: 35px !important;
+			border-radius: calc(35px / 2) !important;
+		}
+	}
+}
+
+@media screen and (max-width: $screenBreak2) {
+	.my-profile-overlay-wrapper {
+		.nav-overlay-img {
+			min-width: 30px !important;
+			max-width: 30px !important;
+			min-height: 30px !important;
+			max-height: 30px !important;
+			border-radius: calc(30px / 2) !important;
+		}
+		.dynamic-avatar-border {
+			min-width: 30px !important;
+			max-width: 30px !important;
+			min-height: 30px !important;
+			max-height: 30px !important;
+			border-radius: calc(30px / 2) !important;
+		}
+	}
 }

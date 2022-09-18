@@ -1,3 +1,5 @@
+@import '../../../styling/config';
+
 .title-box {
 	margin: 0 auto;
 	margin-top: 2vh;
@@ -30,18 +32,22 @@
 	min-width: 100vw;
 	flex-wrap: wrap;
 	justify-content: center;
+	margin-bottom: 4vh;
 	.left {
 		min-width: 45vw;
 		max-width: 45vw;
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		.sub-left {
 			padding: 2vw;
 			min-width: 50%;
 			max-width: 50%;
+			min-height: 100%;
 			display: flex;
 			flex-direction: column;
 			align-items: flex-end;
+			justify-content: center;
 		}
 		.sub-right {
 			@extend .sub-left;
@@ -55,7 +61,7 @@
 	}
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: $screenBreak1) {
 	.tile-container {
 		min-height: 70vh;
 		.left {

@@ -1,37 +1,37 @@
-@import "../../../styling/config";
+@import '../../../styling/config';
 
 .filter-container {
-  display: flex;
-  justify-content: space-evenly;
-  transition: $transition1;
-  max-width: 17%;
-  margin-top: 0.5vh;
-  margin-bottom: 0.5vh;
-  .react-select-container {
-    min-width: 100%;
-    max-width: 100%;
-    margin: 0 2vw 0 1vw;
-    padding: 0;
-    .react-select__control {
-      padding: 0;
-      .react-select__value-container {
-        .react-select__placeholder {
-          font-size: $font2;
-        }
-      }
-    }
-  }
+	display: flex;
+	justify-content: space-evenly;
+	transition: $transition1;
+	max-width: 17%;
+	margin-top: 0.5vh;
+	margin-bottom: 0.5vh;
+	.react-select-container {
+		min-width: 100%;
+		max-width: 100%;
+		margin: 0 2vw 0 1vw;
+		padding: 0;
+		.react-select__control {
+			padding: 0;
+			.react-select__value-container {
+				.react-select__placeholder {
+					font-size: $font2;
+				}
+			}
+		}
+	}
 }
 .filter-container:hover {
-  transform: scale(1.05);
+	transform: scale(1.05);
 }
-@media screen and (max-width: 1200px) {
-  .filter-container {
-    max-width: 30%;
-  }
+@media screen and (max-width: $screenBreak1) {
+	.filter-container {
+		max-width: 30%;
+	}
 }
-@media screen and (max-width: 600px) {
-  .filter-container {
-    max-width: 50%;
-  }
+@media screen and (max-width: $screenBreak2) {
+	.filter-container {
+		max-width: 50%;
+	}
 }

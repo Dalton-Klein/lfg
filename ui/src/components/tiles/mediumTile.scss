@@ -43,7 +43,7 @@
 	font-size: $font3;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: $screenBreak1) {
 	.tile-box {
 		min-width: 45vw;
 		max-width: 45vw;

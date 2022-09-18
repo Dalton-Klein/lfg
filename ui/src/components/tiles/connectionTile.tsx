@@ -57,14 +57,32 @@ export default function ConnectionTile(props: any) {
 				)}
 				{/* User Connection Info Section */}
 				<div className="connection-user-box">
-					<img
-						onClick={() => {
-							console.log('Link to profile view here later!');
-						}}
-						className="connection-profile-image"
-						src={props.avatar_url}
-						alt={`${props.username} profile`}
-					/>
+					{props.avatar_url === '' || props.avatar_url === '/assets/avatarIcon.png' ? (
+						<div
+							className="dynamic-avatar-border"
+							onClick={() => {
+								toggleExpandedProfile();
+							}}
+						>
+							<div className="dynamic-avatar-text-small">
+								{props.username
+									.split(' ')
+									.map((word: string[]) => word[0])
+									.join('')
+									.slice(0, 2)}
+							</div>
+						</div>
+					) : (
+						<img
+							onClick={() => {
+								toggleExpandedProfile();
+							}}
+							className="connection-profile-image"
+							src={props.avatar_url}
+							alt={`${props.username}'s profile photo'`}
+						/>
+					)}
+
 					<div className="connection-name">{props.username}</div>
 					<img className="connection-game-image" src="/assets/rust-logo-small.png" alt={`${props.username} profile`} />
 				</div>
@@ -107,20 +125,6 @@ export default function ConnectionTile(props: any) {
 					>
 						<i className="pi pi-user-plus" />
 						&nbsp; accept
-					</button>
-				) : (
-					<></>
-				)}
-				{/* View Profile Button */}
-				{props.type !== 5 ? (
-					<button
-						className="connect-button"
-						onClick={() => {
-							toggleExpandedProfile();
-						}}
-					>
-						<i className="pi pi-plus" />
-						&nbsp; view
 					</button>
 				) : (
 					<></>

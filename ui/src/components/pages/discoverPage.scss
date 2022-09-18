@@ -30,7 +30,7 @@
 	}
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: $screenBreak1) {
 	.feed {
 		li {
 			max-width: 45vw;
@@ -42,7 +42,7 @@
 	}
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 700px) {
 	.feed {
 		li {
 			max-width: 95vw;
