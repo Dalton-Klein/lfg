@@ -15,7 +15,6 @@ export default function ProfileInlayComponet() {
 		if (typeof userState.avatar_url === 'string' && userState.avatar_url.length > 1) {
 			setProfileImage('userState.avatar_url');
 		}
-		console.log('image source ', profileImage, '    test', userState);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

@@ -23,12 +23,12 @@ export default function ProfileGeneral(props: any) {
 	const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
 	//Profile Fields Form Tracking
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
-	const [photoFile, setPhotoFile] = useState<any>();
+	const [photoFile, setPhotoFile] = useState<File>({ name: '' } as File);
 	const [aboutText, setAboutText] = useState<string>('');
 	const [ageText, setAgeText] = useState<string>('');
 	const [gender, setGender] = useState<number>(0);
-	const [region, setRegion] = useState<any>({});
-	const [language, setLanguage] = useState<any>({});
+	const [region, setRegion] = useState<any>({ label: 'region' });
+	const [language, setLanguage] = useState<any>({ label: 'language' });
 	const [platform, setPlatform] = useState<number>(0);
 	const [discord, setDiscord] = useState<string>('');
 	const [psn, setPSN] = useState<string>('');
@@ -43,15 +43,23 @@ export default function ProfileGeneral(props: any) {
 	const loadSavedInfo = () => {
 		dispatch(updateUserThunk(userData.id));
 		if (userData.email && userData.email !== '') {
-			setAboutText(userData.about);
-			setAgeText(userData.age);
-			setGender(userData.gender);
-			setLanguage(languageOptions.find(({ value }) => value === userData.languages));
-			setRegion(regionOptions.find(({ label }) => label === userData.region_name));
-			setPlatform(userData.preferred_platform);
-			setDiscord(userData.discord);
-			setPSN(userData.psn);
-			setXbox(userData.xbox);
+			setAboutText(userData.about === null ? '' : userData.about);
+			setAgeText(userData.age === null ? '' : userData.age);
+			setGender(userData.gender === null ? 0 : userData.gender);
+			setLanguage(
+				userData.languages === null
+					? { label: 'language' }
+					: languageOptions.find(({ value }) => value === userData.languages)
+			);
+			setRegion(
+				userData.region_name === null
+					? { label: 'region' }
+					: regionOptions.find(({ label }) => label === userData.region_name)
+			);
+			setPlatform(userData.preferred_platform === null ? 0 : userData.preferred_platform);
+			setDiscord(userData.discord === null ? '' : userData.discord);
+			setPSN(userData.psn === null ? '' : userData.psn);
+			setXbox(userData.xbox === null ? '' : userData.xbox);
 		}
 	};
 
@@ -83,16 +91,13 @@ export default function ProfileGeneral(props: any) {
 			hiddenFileInput.current!.click();
 		}
 	};
-
 	const handleFileUpload = (event: any) => {
 		setPhotoFile(event.target.files[0]);
 	};
-
 	const closeAvatar = () => {
 		avatarFormOut();
 		setIsUploadFormShown(false);
 	};
-
 	const startEditingAvatar = async (field: string) => {
 		if (userData.id === 0) alert('You must be logged in to edit this field');
 		setIsUploadFormShown(true);
@@ -140,7 +145,7 @@ export default function ProfileGeneral(props: any) {
 		const url: string | undefined = await uploadAvatarCloud(avatar);
 		dispatch(updateUserAvatarUrl(url));
 		uploadAvatarServer(userData.id, url!);
-		setPhotoFile(undefined);
+		setPhotoFile({ name: '' } as File);
 	};
 
 	//NON-MODAL SAVE LOGIC
@@ -148,9 +153,8 @@ export default function ProfileGeneral(props: any) {
 		if (userData.about !== aboutText) await updateGeneralInfoField(userData.id, 'about', aboutText);
 		if (userData.age !== ageText) await updateGeneralInfoField(userData.id, 'age', ageText);
 		if (userData.gender !== gender) await updateGeneralInfoField(userData.id, 'gender', gender);
-		if (userData.region !== region.value) await updateGeneralInfoField(userData.id, 'region', region.value);
-		if (userData.language !== language.value) {
-			console.log('lang save:', language.value);
+		if (region && userData.region !== region.value) await updateGeneralInfoField(userData.id, 'region', region.value);
+		if (language && userData.language !== language.value) {
 			await updateGeneralInfoField(userData.id, 'languages', language.value);
 		}
 		if (userData.preferred_platform !== platform)

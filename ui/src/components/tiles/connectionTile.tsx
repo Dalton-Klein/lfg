@@ -82,53 +82,60 @@ export default function ConnectionTile(props: any) {
 							alt={`${props.username}'s profile photo'`}
 						/>
 					)}
-
-					<div className="connection-name">{props.username}</div>
-					<img className="connection-game-image" src="/assets/rust-logo-small.png" alt={`${props.username} profile`} />
 				</div>
-				{/* If full connection, show platform/social section */}
-				{props.type === 2 ? (
-					<div className="connection-chat-platform-container">
-						<div className={`connection-chat-platform-box ${props.preferred_platform === 1 ? 'box-selected' : ''}`}>
-							<img
-								className="connection-platform-image"
-								src="/assets/discord-logo-small.png"
-								alt={`${props.username} profile`}
-							/>
-						</div>
-						<div className={`connection-chat-platform-box ${props.preferred_platform === 2 ? 'box-selected' : ''}`}>
-							<img
-								className="connection-platform-image"
-								src="/assets/psn-logo-small.png"
-								alt={`${props.username} profile`}
-							/>
-						</div>
-						<div className={`connection-chat-platform-box ${props.preferred_platform === 3 ? 'box-selected' : ''}`}>
-							<img
-								className="connection-platform-image"
-								src={props.platform === 1 ? '/assets/xbox-logo-small.png' : ''}
-								alt={`${props.username} profile`}
-							/>
-						</div>
-						<div className="connection-chat-platform-text">{platformUsername}</div>
+				<div className="stackable-container">
+					<div className="stackable-container-left">
+						<div className="connection-name">{props.username}</div>
+						<img
+							className="connection-game-image"
+							src="/assets/rust-logo-small.png"
+							alt={`${props.username} profile`}
+						/>
 					</div>
-				) : (
-					<></>
-				)}
-				{/* If incoming connection, show accept buttton */}
-				{props.type === 3 ? (
-					<button
-						className="accept-button"
-						onClick={() => {
-							props.callAcceptRequest(props.user_id, props.requestid);
-						}}
-					>
-						<i className="pi pi-user-plus" />
-						&nbsp; accept
-					</button>
-				) : (
-					<></>
-				)}
+					{/* If full connection, show platform/social section */}
+					{props.type === 2 ? (
+						<div className="stackable-container-right">
+							<div className={`connection-chat-platform-box ${props.preferred_platform === 1 ? 'box-selected' : ''}`}>
+								<img
+									className="connection-platform-image"
+									src="/assets/discord-logo-small.png"
+									alt={`${props.username} profile`}
+								/>
+							</div>
+							<div className={`connection-chat-platform-box ${props.preferred_platform === 2 ? 'box-selected' : ''}`}>
+								<img
+									className="connection-platform-image"
+									src="/assets/psn-logo-small.png"
+									alt={`${props.username} profile`}
+								/>
+							</div>
+							<div className={`connection-chat-platform-box ${props.preferred_platform === 3 ? 'box-selected' : ''}`}>
+								<img
+									className="connection-platform-image"
+									src={props.platform === 1 ? '/assets/xbox-logo-small.png' : ''}
+									alt={`${props.username} profile`}
+								/>
+							</div>
+							<div className="connection-chat-platform-text">{platformUsername}</div>
+						</div>
+					) : (
+						<></>
+					)}
+					{/* If incoming connection, show accept buttton */}
+					{props.type === 3 ? (
+						<button
+							className="accept-button"
+							onClick={() => {
+								props.callAcceptRequest(props.user_id, props.requestid);
+							}}
+						>
+							<i className="pi pi-user-plus" />
+							&nbsp; accept
+						</button>
+					) : (
+						<></>
+					)}
+				</div>
 				<Menu model={items} popup ref={menu} id="popup_menu" />
 				<button className="text-only-button" onClick={(event) => menu.current.toggle(event)}>
 					<i className="pi pi-ellipsis-h"></i>

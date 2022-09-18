@@ -53,7 +53,6 @@ export default function ProfilePage() {
 	};
 	const fetchPendingConnections = async () => {
 		const httpResults = await getPendingConnectionsForUser(userData.id, 'blank');
-		console.log(' incoming ', httpResults);
 		const formattedIncomingTiles = httpResults.incoming.map((tile: any) => (
 			<li className="connection-list-item" style={{ listStyleType: 'none' }} key={tile.id}>
 				<ConnectionTile
@@ -76,6 +75,7 @@ export default function ProfilePage() {
 				></ConnectionTile>
 			</li>
 		));
+		console.log('testing: ', formattedOutgoingTiles);
 		setOutgoingResult(formattedOutgoingTiles);
 		setIncomingResult(formattedIncomingTiles);
 	};
