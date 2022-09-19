@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
     },
-    { schema: "gangs", freezeTableName: true }
+    { schema: "public", freezeTableName: true }
   );
   return regions;
 };

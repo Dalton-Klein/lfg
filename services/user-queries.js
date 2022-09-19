@@ -21,16 +21,16 @@ const getUserDataByEmailQuery = () => {
               av2.name,
               ur.roles,
               ur.play_styles
-         from gangs.users u
-    left join gangs.user_general_infos ug
+         from public.users u
+    left join public.user_general_infos ug
            on ug.user_id = u.id
-    left join gangs.user_rust_infos ur
+    left join public.user_rust_infos ur
            on ur.user_id = u.id
-    left join gangs.regions r
+    left join public.regions r
            on r.id = ug.region
-    left join gangs.availabilities av1
+    left join public.availabilities av1
            on av1.id = ur.weekends
-    left join gangs.availabilities av2
+    left join public.availabilities av2
            on av2.id = ur.weekdays
         where u.email = :email
   `;
@@ -63,16 +63,16 @@ const getUserDataByIdQuery = () => {
               ur.play_styles,
               ur.hours as rust_hours,
               ur.is_published as rust_is_published
-         from gangs.users u
-    left join gangs.user_general_infos ug
+         from public.users u
+    left join public.user_general_infos ug
            on ug.user_id = u.id
-    left join gangs.user_rust_infos ur
+    left join public.user_rust_infos ur
            on ur.user_id = u.id
-    left join gangs.regions r
+    left join public.regions r
            on r.id = ug.region
-    left join gangs.availabilities av1
+    left join public.availabilities av1
            on av1.id = ur.weekends
-    left join gangs.availabilities av2
+    left join public.availabilities av2
            on av2.id = ur.weekdays
         where u.id = :userId
   `;
@@ -80,23 +80,23 @@ const getUserDataByIdQuery = () => {
 
 const createUserQuery = () => {
   return `
-  insert into gangs.users (id, email, username, hashed, created_at, updated_at)
-       values ((select max(id) + 1 from gangs.users), :email, :username, :hashed, current_timestamp, current_timestamp)
+  insert into public.users (id, email, username, hashed, created_at, updated_at)
+       values ((select max(id) + 1 from public.users), :email, :username, :hashed, current_timestamp, current_timestamp)
     returning id, email, hashed, username
   `;
 };
 
 const createGeneralInfoQuery = () => {
   return `
-  insert into gangs.user_general_infos (id, user_id, created_at, updated_at)
-       values ((select max(id) + 1 from gangs.user_general_infos), :userId, current_timestamp, current_timestamp)
+  insert into public.user_general_infos (id, user_id, created_at, updated_at)
+       values ((select max(id) + 1 from public.user_general_infos), :userId, current_timestamp, current_timestamp)
   `;
 };
 
 const createRustInfoQuery = () => {
   return `
-  insert into gangs.user_rust_infos (id, user_id, created_at, updated_at)
-       values ((select max(id) + 1 from gangs.user_rust_infos), :userId, current_timestamp, current_timestamp)
+  insert into public.user_rust_infos (id, user_id, created_at, updated_at)
+       values ((select max(id) + 1 from public.user_rust_infos), :userId, current_timestamp, current_timestamp)
   `;
 };
 

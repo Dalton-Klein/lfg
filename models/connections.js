@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
     },
-    { schema: "gangs", freezeTableName: true }
+    { schema: "public", freezeTableName: true }
   );
 
   return connections;

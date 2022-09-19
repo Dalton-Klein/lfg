@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: sequelize.NOW,
       },
     },
-    { schema: "gangs", freezeTableName: true }
+    { schema: "public", freezeTableName: true }
   );
 
   return user_general_infos;

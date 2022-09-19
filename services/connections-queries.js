@@ -20,18 +20,18 @@ const getConnectionsForUserQuerySenders = () => {
          av2.name as weekdays,
          ur.roles,
          ur.play_styles
-    from gangs.connections c
-    join gangs.users u 
+    from public.connections c
+    join public.users u 
       on u.id = c.sender
-    join gangs.user_general_infos ug 
+    join public.user_general_infos ug 
       on ug.user_id = u.id
-    join gangs.user_rust_infos ur
+    join public.user_rust_infos ur
       on ur.user_id = u.id
-    join gangs.regions r
+    join public.regions r
       on r.id = ug.region
-    join gangs.availabilities av1
+    join public.availabilities av1
       on av1.id = ur.weekends
-    join gangs.availabilities av2
+    join public.availabilities av2
       on av2.id = ur.weekdays
    where c.acceptor = :userId
 `;
@@ -59,18 +59,18 @@ const getConnectionsForUserQueryAcceptors = () => {
          av2.name as weekdays,
          ur.roles,
          ur.play_styles
-    from gangs.connections c
-    join gangs.users u 
+    from public.connections c
+    join public.users u 
       on u.id = c.acceptor
-    join gangs.user_general_infos ug 
+    join public.user_general_infos ug 
       on ug.user_id = u.id
-    join gangs.user_rust_infos ur
+    join public.user_rust_infos ur
       on ur.user_id = u.id
-    join gangs.regions r
+    join public.regions r
       on r.id = ug.region
-    join gangs.availabilities av1
+    join public.availabilities av1
       on av1.id = ur.weekends
-    join gangs.availabilities av2
+    join public.availabilities av2
       on av2.id = ur.weekdays
    where c.sender = :userId
 `;
@@ -100,18 +100,18 @@ const getIncomingPendingConnectionsForUserQuery = () => {
          av2.name as weekdays,
          ur.roles,
          ur.play_styles
-    from gangs.connection_requests c
-    join gangs.users u 
+    from public.connection_requests c
+    join public.users u 
       on u.id = c.sender
-    join gangs.user_general_infos ug 
+    join public.user_general_infos ug 
       on ug.user_id = u.id
-    join gangs.user_rust_infos ur
+    join public.user_rust_infos ur
       on ur.user_id = u.id
-    join gangs.regions r
+    join public.regions r
       on r.id = ug.region
-    join gangs.availabilities av1
+    join public.availabilities av1
       on av1.id = ur.weekends
-    join gangs.availabilities av2
+    join public.availabilities av2
       on av2.id = ur.weekdays
    where c.receiver = :userId
 `;
@@ -140,18 +140,18 @@ const getOutgoingPendingConnectionsForUserQuery = () => {
          av2.name as weekdays,
          ur.roles,
          ur.play_styles
-    from gangs.connection_requests c
-    join gangs.users u 
+    from public.connection_requests c
+    join public.users u 
       on u.id = c.receiver
-    join gangs.user_general_infos ug 
+    join public.user_general_infos ug 
       on ug.user_id = u.id
-    join gangs.user_rust_infos ur
+    join public.user_rust_infos ur
       on ur.user_id = u.id
-    join gangs.regions r
+    join public.regions r
       on r.id = ug.region
-    join gangs.availabilities av1
+    join public.availabilities av1
       on av1.id = ur.weekends
-    join gangs.availabilities av2
+    join public.availabilities av2
       on av2.id = ur.weekdays
    where c.sender = :userId
 `;

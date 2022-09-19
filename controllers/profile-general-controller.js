@@ -26,7 +26,7 @@ const updateProfileField = async (req, res) => {
     const { userId, field, value } = req.body;
     // const query = format('SELECT * FROM %I WHERE my_col = %L %s', 'my_table', 34, 'LIMIT 10');
     const query = format(
-      `update gangs.users 
+      `update public.users 
           set %I = :value,
               updated_at = current_timestamp
         where id = :userId
@@ -52,7 +52,7 @@ const updateGeneralInfoField = async (req, res) => {
     const { userId, field, value } = req.body;
     const query = format(
       `
-      update gangs.user_general_infos
+      update public.user_general_infos
         set %I = :value,
             updated_at = current_timestamp
       where user_id = :userId
@@ -80,7 +80,7 @@ const updateRustInfoField = async (req, res) => {
     const { userId, field, value } = req.body;
     const query = format(
       `
-      update gangs.user_rust_infos
+      update public.user_rust_infos
         set %I = :value,
             updated_at = current_timestamp
       where user_id = :userId
@@ -108,7 +108,7 @@ const getSocialDetails = async (req, res) => {
     const { fromUserId, forUserId, token } = req.body;
     // const query = format('SELECT * FROM %I WHERE my_col = %L %s', 'my_table', 34, 'LIMIT 10');
     let query = `select count(id)
-         from gangs.connections 
+         from public.connections 
         where sender = :userId
            or acceptor = :userId
     `;
@@ -119,11 +119,11 @@ const getSocialDetails = async (req, res) => {
       },
     });
     query = ` select acceptor
-          from gangs.connections 
+          from public.connections 
          where sender = :userId
                union
         select sender
-          from gangs.connections 
+          from public.connections 
          where acceptor = :userId
     `;
     let connectionListFor = await sequelize.query(query, {
@@ -158,7 +158,7 @@ const sendConnectionRequest = async (req, res) => {
     const { fromUserId, forUserId, platform, connectionText, token } = req.body;
     console.log("req body: ", req.body);
     let query = `
-      insert into gangs.connection_requests  (sender, receiver, platform, message, created_at, updated_at)
+      insert into public.connection_requests  (sender, receiver, platform, message, created_at, updated_at)
       values (:sender, :receiver, :platform, :message, current_timestamp, current_timestamp)
     `;
     const connectionInsertResult = await sequelize.query(query, {

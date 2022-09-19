@@ -17,16 +17,16 @@ const getRustTilesQuery = () => {
          av2.name as rust_weekdays,
          ur.roles,
          ur.play_styles
-    from gangs.users u 
-    join gangs.user_general_infos ug 
+    from public.users u 
+    join public.user_general_infos ug 
       on ug.user_id = u.id
-    join gangs.user_rust_infos ur
+    join public.user_rust_infos ur
       on ur.user_id = u.id
-    join gangs.regions r
+    join public.regions r
       on r.id = ug.region
-    join gangs.availabilities av1
+    join public.availabilities av1
       on av1.id = ur.weekends
-    join gangs.availabilities av2
+    join public.availabilities av2
       on av2.id = ur.weekdays
    where u.id != :userId
      and ur.is_published = true

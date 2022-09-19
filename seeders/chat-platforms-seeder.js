@@ -8,7 +8,7 @@ const defaultValues = { created_by, updated_by, created_at, updated_at };
 module.exports = {
   up: async ({ context: sequelize }) => {
     const transaction = await sequelize.transaction();
-    const existingRecords = await sequelize.query("select id from gangs.chat_platforms", {
+    const existingRecords = await sequelize.query("select id from public.chat_platforms", {
       type: sequelize.QueryTypes.SELECT,
     });
     if (!existingRecords.length) {

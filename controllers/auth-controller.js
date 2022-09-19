@@ -98,7 +98,7 @@ const validateCredentials = (req, res) => {
 const checkIfEmailExists = async (req) => {
   const query = `
     select * 
-      from gangs.users
+      from public.users
      where email = :email;
   `;
   const queryOptions = {
@@ -113,7 +113,7 @@ const checkIfEmailExists = async (req) => {
 const checkIfUserNameExists = async (req) => {
   const query = `
     select * 
-      from gangs.users
+      from public.users
      where username = :username;
   `;
   const queryOptions = {
@@ -219,7 +219,7 @@ const insertNewUser = async (userObj) => {
 
 const insertToken = async (userId, token) => {
   const query = `
-  insert into gangs.user_tokens (token, created_at, updated_at)
+  insert into public.user_tokens (token, created_at, updated_at)
        values (:token, current_timestamp, current_timestamp)
     returning token
   `;
