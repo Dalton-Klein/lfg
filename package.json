@@ -26,6 +26,7 @@
 		"cors": "^2.8.5",
 		"dotenv": "^8.6.0",
 		"express": "^4.17.1",
+		"heroku": "^7.63.4",
 		"mailgun-js": "^0.22.0",
 		"ngx-mat-select-search": "^3.2.0",
 		"nodemailer": "^6.7.1",
