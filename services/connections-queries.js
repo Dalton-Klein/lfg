@@ -1,5 +1,5 @@
 const getConnectionsForUserQuerySenders = () => {
-	return `
+  return `
   select c.sender as user_id,
          c.platform,
          u.id,
@@ -20,25 +20,25 @@ const getConnectionsForUserQuerySenders = () => {
          av2.name as weekdays,
          ur.roles,
          ur.play_styles
-    from lfg.public.connections c
-    join lfg.public.users u 
+    from gangs.connections c
+    join gangs.users u 
       on u.id = c.sender
-    join lfg.public.user_general_infos ug 
+    join gangs.user_general_infos ug 
       on ug.user_id = u.id
-    join lfg.public.user_rust_infos ur
+    join gangs.user_rust_infos ur
       on ur.user_id = u.id
-    join lfg.public.regions r
+    join gangs.regions r
       on r.id = ug.region
-    join lfg.public.availabilities av1
+    join gangs.availabilities av1
       on av1.id = ur.weekends
-    join lfg.public.availabilities av2
+    join gangs.availabilities av2
       on av2.id = ur.weekdays
    where c.acceptor = :userId
 `;
 };
 
 const getConnectionsForUserQueryAcceptors = () => {
-	return `
+  return `
   select c.acceptor as user_id,
          c.platform,
          u.id,
@@ -59,25 +59,25 @@ const getConnectionsForUserQueryAcceptors = () => {
          av2.name as weekdays,
          ur.roles,
          ur.play_styles
-    from lfg.public.connections c
-    join lfg.public.users u 
+    from gangs.connections c
+    join gangs.users u 
       on u.id = c.acceptor
-    join lfg.public.user_general_infos ug 
+    join gangs.user_general_infos ug 
       on ug.user_id = u.id
-    join lfg.public.user_rust_infos ur
+    join gangs.user_rust_infos ur
       on ur.user_id = u.id
-    join lfg.public.regions r
+    join gangs.regions r
       on r.id = ug.region
-    join lfg.public.availabilities av1
+    join gangs.availabilities av1
       on av1.id = ur.weekends
-    join lfg.public.availabilities av2
+    join gangs.availabilities av2
       on av2.id = ur.weekdays
    where c.sender = :userId
 `;
 };
 
 const getIncomingPendingConnectionsForUserQuery = () => {
-	return `
+  return `
   select c.id as requestId,
          c.sender as user_id,
          c.platform,
@@ -100,25 +100,25 @@ const getIncomingPendingConnectionsForUserQuery = () => {
          av2.name as weekdays,
          ur.roles,
          ur.play_styles
-    from lfg.public.connection_requests c
-    join lfg.public.users u 
+    from gangs.connection_requests c
+    join gangs.users u 
       on u.id = c.sender
-    join lfg.public.user_general_infos ug 
+    join gangs.user_general_infos ug 
       on ug.user_id = u.id
-    join lfg.public.user_rust_infos ur
+    join gangs.user_rust_infos ur
       on ur.user_id = u.id
-    join lfg.public.regions r
+    join gangs.regions r
       on r.id = ug.region
-    join lfg.public.availabilities av1
+    join gangs.availabilities av1
       on av1.id = ur.weekends
-    join lfg.public.availabilities av2
+    join gangs.availabilities av2
       on av2.id = ur.weekdays
    where c.receiver = :userId
 `;
 };
 
 const getOutgoingPendingConnectionsForUserQuery = () => {
-	return `
+  return `
   select c.id as requestId,
          c.receiver as user_id,
          c.platform,
@@ -140,41 +140,41 @@ const getOutgoingPendingConnectionsForUserQuery = () => {
          av2.name as weekdays,
          ur.roles,
          ur.play_styles
-    from lfg.public.connection_requests c
-    join lfg.public.users u 
+    from gangs.connection_requests c
+    join gangs.users u 
       on u.id = c.receiver
-    join lfg.public.user_general_infos ug 
+    join gangs.user_general_infos ug 
       on ug.user_id = u.id
-    join lfg.public.user_rust_infos ur
+    join gangs.user_rust_infos ur
       on ur.user_id = u.id
-    join lfg.public.regions r
+    join gangs.regions r
       on r.id = ug.region
-    join lfg.public.availabilities av1
+    join gangs.availabilities av1
       on av1.id = ur.weekends
-    join lfg.public.availabilities av2
+    join gangs.availabilities av2
       on av2.id = ur.weekdays
    where c.sender = :userId
 `;
 };
 
 const getConnectionInsertQuery = () => {
-	return `
+  return `
   insert into connections (sender, acceptor, platform, created_at, updated_at)
        values (:senderId, :acceptorId, :platform, now(), now())
   `;
 };
 
 const removePendingConnectionQuery = () => {
-	return `
+  return `
     delete from connection_requests
           where id = :id
   `;
 };
 module.exports = {
-	getConnectionsForUserQuerySenders,
-	getConnectionsForUserQueryAcceptors,
-	getIncomingPendingConnectionsForUserQuery,
-	getOutgoingPendingConnectionsForUserQuery,
-	getConnectionInsertQuery,
-	removePendingConnectionQuery,
+  getConnectionsForUserQuerySenders,
+  getConnectionsForUserQueryAcceptors,
+  getIncomingPendingConnectionsForUserQuery,
+  getOutgoingPendingConnectionsForUserQuery,
+  getConnectionInsertQuery,
+  removePendingConnectionQuery,
 };

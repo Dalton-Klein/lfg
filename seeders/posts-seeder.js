@@ -8,7 +8,7 @@ const defaultValues = { created_by, updated_by, created_at, updated_at };
 module.exports = {
   up: async ({ context: sequelize }) => {
     const transaction = await sequelize.transaction();
-    const existingRecords = await sequelize.query("select id from lfg.public.posts", {
+    const existingRecords = await sequelize.query("select id from gangs.posts", {
       type: sequelize.QueryTypes.SELECT,
     });
     if (!existingRecords.length) {
@@ -17,7 +17,8 @@ module.exports = {
           {
             id: 1,
             owner: 1,
-            content: "This is a test post222222! My story is so special. I was a wonderful child. I get fucked up on onies every night.",
+            content:
+              "This is a test post222222! My story is so special. I was a wonderful child. I get fucked up on onies every night.",
             photo_url: "",
             number_votes: 4564,
             category: 1,

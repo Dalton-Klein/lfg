@@ -1,5 +1,5 @@
 const getRustTilesQuery = () => {
-	return `
+  return `
   select u.id,
          u.username,
          u.avatar_url,
@@ -17,16 +17,16 @@ const getRustTilesQuery = () => {
          av2.name as rust_weekdays,
          ur.roles,
          ur.play_styles
-    from lfg.public.users u 
-    join lfg.public.user_general_infos ug 
+    from gangs.users u 
+    join gangs.user_general_infos ug 
       on ug.user_id = u.id
-    join lfg.public.user_rust_infos ur
+    join gangs.user_rust_infos ur
       on ur.user_id = u.id
-    join lfg.public.regions r
+    join gangs.regions r
       on r.id = ug.region
-    join lfg.public.availabilities av1
+    join gangs.availabilities av1
       on av1.id = ur.weekends
-    join lfg.public.availabilities av2
+    join gangs.availabilities av2
       on av2.id = ur.weekdays
    where u.id != :userId
      and ur.is_published = true
@@ -34,5 +34,5 @@ const getRustTilesQuery = () => {
 };
 
 module.exports = {
-	getRustTilesQuery,
+  getRustTilesQuery,
 };
