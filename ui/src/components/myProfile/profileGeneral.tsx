@@ -233,12 +233,13 @@ export default function ProfileGeneral(props: any) {
     if (userData.discord !== discord) await updateGeneralInfoField(userData.id, "discord", discord);
     if (userData.psn !== psn) await updateGeneralInfoField(userData.id, "psn", psn);
     if (userData.xbox !== xbox) await updateGeneralInfoField(userData.id, "xbox", xbox);
-    if (rustHoursText > 0 && userData.rust_hours !== rustHoursText)
+    if (rustHoursText > 0 && userData.rust_hours !== rustHoursText) {
       await updateRustInfoField(userData.id, "hours", rustHoursText);
-    if (userData.rust_weekdays !== rustHoursText) {
+    }
+    if (rustWeekday !== "" && userData.rust_weekdays !== rustWeekday) {
       await updateRustInfoField(userData.id, "weekdays", rustWeekdayIdValue);
     }
-    if (userData.rust_weekends !== rustHoursText) {
+    if (rustWeekend !== "" && userData.rust_weekends !== rustWeekend) {
       await updateRustInfoField(userData.id, "weekends", rustWeekendIdValue);
     }
     if (userData.is_email_notifications !== isEmailNotifications) {
