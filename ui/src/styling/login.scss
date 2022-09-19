@@ -4,13 +4,24 @@
 	display: flex;
 	flex-direction: column;
 	height: 90vh;
-	margin-top: 5vh;
+	margin-top: 3vh;
 	justify-content: center;
 	align-items: center;
 	.login-banner {
 		display: flex;
-		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+		.large-logo {
+			min-width: 60px;
+			max-width: 7vw;
+			min-height: 60px;
+			max-height: 7vw;
+			opacity: 0.6;
+			margin-top: 3em;
+			align-self: center;
+		}
 		h1 {
+			opacity: 0.6;
 			font-size: $font5;
 		}
 	}
