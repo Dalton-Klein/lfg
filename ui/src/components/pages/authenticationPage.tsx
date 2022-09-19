@@ -156,7 +156,6 @@ const LoginPage = () => {
         createUserInState(createAccountForm.email, vKeyForm.vKey, createAccountForm.name, createAccountForm.password)
       );
       if (accountCreationResult.data) {
-        console.log("creation:", accountCreationResult);
         dispatch(updateUserThunk(accountCreationResult.data.id));
         navigate("/");
       } else {

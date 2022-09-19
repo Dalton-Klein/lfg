@@ -37,6 +37,7 @@ export default function ProfilePage() {
   //BEGIN Fetch Connections
   const fetchExistingConnections = async () => {
     let httpResults = await getConnectionsForUser(userData.id, "blank");
+    console.log("test ", httpResults);
     let formattedTiles = httpResults.map((tile: any) => (
       <li className="connection-list-item" style={{ listStyleType: "none" }} key={tile.id}>
         <ConnectionTile

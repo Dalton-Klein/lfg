@@ -28,7 +28,6 @@ const preferencesSlice = createSlice({
       return state;
     },
     resetFilterPreferences(state) {
-      console.log("heree");
       state.discoverFilters = { ...initialState.discoverFilters };
       return state;
     },

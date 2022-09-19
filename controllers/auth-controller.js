@@ -129,7 +129,6 @@ const insertVKey = async (req, vKey) => {
   const email = req.body.email;
   const filter = { where: { email: email } };
   let keyFound = await vKeyTable.findOne(filter);
-  console.log("👻👻👻what is key: ", vKey);
   if (keyFound === null) {
     await vKeyTable.create({
       email: email,
@@ -140,6 +139,7 @@ const insertVKey = async (req, vKey) => {
       vkey: vKey,
     });
   }
+  console.log("👻👻👻what is key: ", vKey);
   return;
 };
 

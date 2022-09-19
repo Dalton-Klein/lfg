@@ -300,10 +300,12 @@ export default function ProfileGeneral(props: any) {
             <div className="dynamic-avatar-bg" onClick={() => startEditingAvatar("avatar_url")}>
               <div className="dynamic-avatar-text">
                 {userData.username
-                  .split(" ")
-                  .map((word: string[]) => word[0])
-                  .join("")
-                  .slice(0, 2)}
+                  ? userData.username
+                      .split(" ")
+                      .map((word: string[]) => word[0])
+                      .join("")
+                      .slice(0, 2)
+                  : "gg"}
               </div>
             </div>
           ) : (
