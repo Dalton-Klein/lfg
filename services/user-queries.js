@@ -1,5 +1,5 @@
 const getUserDataByEmailQuery = () => {
-  return `
+	return `
        select u.id,
               u.email,
               u.username,
@@ -37,7 +37,7 @@ const getUserDataByEmailQuery = () => {
 };
 
 const getUserDataByIdQuery = () => {
-  return `
+	return `
        select u.id,
               u.email,
               u.username,
@@ -79,7 +79,7 @@ const getUserDataByIdQuery = () => {
 };
 
 const createUserQuery = () => {
-  return `
+	return `
   insert into public.users (id, email, username, hashed, created_at, updated_at)
        values ((select max(id) + 1 from public.users), :email, :username, :hashed, current_timestamp, current_timestamp)
     returning id, email, hashed, username
@@ -87,23 +87,23 @@ const createUserQuery = () => {
 };
 
 const createGeneralInfoQuery = () => {
-  return `
-  insert into public.user_general_infos (id, user_id, created_at, updated_at)
-       values ((select max(id) + 1 from public.user_general_infos), :userId, current_timestamp, current_timestamp)
+	return `
+  insert into public.user_general_infos (id, user_id, last_seen, created_at, updated_at)
+       values ((select max(id) + 1 from public.user_general_infos), :userId, current_timestamp, current_timestamp, current_timestamp)
   `;
 };
 
 const createRustInfoQuery = () => {
-  return `
+	return `
   insert into public.user_rust_infos (id, user_id, created_at, updated_at)
        values ((select max(id) + 1 from public.user_rust_infos), :userId, current_timestamp, current_timestamp)
   `;
 };
 
 module.exports = {
-  getUserDataByEmailQuery,
-  getUserDataByIdQuery,
-  createUserQuery,
-  createGeneralInfoQuery,
-  createRustInfoQuery,
+	getUserDataByEmailQuery,
+	getUserDataByIdQuery,
+	createUserQuery,
+	createGeneralInfoQuery,
+	createRustInfoQuery,
 };

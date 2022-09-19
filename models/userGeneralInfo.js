@@ -1,59 +1,71 @@
 module.exports = (sequelize, DataTypes) => {
-  const user_general_infos = sequelize.define(
-    "user_general_infos",
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
-      user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
-      about: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      age: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
-      gender: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
-      region: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
-      languages: {
-        type: DataTypes.STRING,
-      },
-      preferred_platform: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
-      discord: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      psn: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      xbox: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      last_seen: {
-        type: DataTypes.DATE,
-        allowNull: true,
-        defaultValue: sequelize.NOW,
-      },
-    },
-    { schema: "public", freezeTableName: true }
-  );
+	const user_general_infos = sequelize.define(
+		'user_general_infos',
+		{
+			id: {
+				type: DataTypes.INTEGER,
+				autoIncrement: true,
+				primaryKey: true,
+				allowNull: false,
+			},
+			user_id: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			about: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: '',
+			},
+			age: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			gender: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			region: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			languages: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: '',
+			},
+			preferred_platform: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			discord: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: '',
+			},
+			psn: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: '',
+			},
+			xbox: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: '',
+			},
+			last_seen: {
+				type: DataTypes.DATE,
+				allowNull: false,
+				defaultValue: sequelize.NOW,
+			},
+		},
+		{ schema: 'public', freezeTableName: true }
+	);
 
-  return user_general_infos;
+	return user_general_infos;
 };
