@@ -19,7 +19,7 @@ module.exports = {
 						username: 'admin',
 						email: 'deklein@live.com',
 						avatar_url: 'https://res.cloudinary.com/kultured-dev/image/upload/v1625509793/kaeobccovhx4qxafcpq3.png',
-						hashed: '$2b$10$XPlxGS4lBoB1SnDMJc469.O85Q9HQo6Q/tRbCjwnbfj.Guv4y3ZSu',
+						hashed: '$2b$10$9PztnEZXNJ6UsRfSwPDqu.9ULEU3WzmgmmymrXUSmtWLzaMMoQBDe',
 						...defaultValues,
 					},
 					{
@@ -27,7 +27,7 @@ module.exports = {
 						username: 'madison t',
 						email: 'mads@live.com',
 						avatar_url: 'https://res.cloudinary.com/kultured-dev/image/upload/v1625633717/dan_ogozui.png',
-						hashed: '$2b$10$mzlO8ud.Z1Fb2fFLr3uLSeMJHPPulJM1gRVrmZyU8tXN/NrAVIHcG',
+						hashed: '$2b$10$9PztnEZXNJ6UsRfSwPDqu.9ULEU3WzmgmmymrXUSmtWLzaMMoQBDe',
 						...defaultValues,
 					},
 					{
@@ -35,7 +35,7 @@ module.exports = {
 						username: 'major t',
 						email: 'major@live.com',
 						avatar_url: 'https://res.cloudinary.com/kultured-dev/image/upload/v1625542844/test_3_x0jonh.png',
-						hashed: '$2b$10$mzlO8ud.Z1Fb2fFLr3uLSeMJHPPulJM1gRVrmZyU8tXN/NrAVIHcG',
+						hashed: '$2b$10$9PztnEZXNJ6UsRfSwPDqu.9ULEU3WzmgmmymrXUSmtWLzaMMoQBDe',
 						...defaultValues,
 					},
 					{
@@ -43,7 +43,7 @@ module.exports = {
 						username: 'lauren t',
 						email: 'lauren@live.com',
 						avatar_url: 'https://res.cloudinary.com/kultured-dev/image/upload/v1659833713/sabina_fortnite_i2kyvg.png',
-						hashed: '$2b$10$mzlO8ud.Z1Fb2fFLr3uLSeMJHPPulJM1gRVrmZyU8tXN/NrAVIHcG',
+						hashed: '$2b$10$9PztnEZXNJ6UsRfSwPDqu.9ULEU3WzmgmmymrXUSmtWLzaMMoQBDe',
 						...defaultValues,
 					},
 					{
@@ -52,7 +52,7 @@ module.exports = {
 						email: 'ashley@live.com',
 						avatar_url:
 							'https://res.cloudinary.com/kultured-dev/image/upload/v1659833832/fortnite-6278c8ea19fd0_qtfotj.jpg',
-						hashed: '$2b$10$mzlO8ud.Z1Fb2fFLr3uLSeMJHPPulJM1gRVrmZyU8tXN/NrAVIHcG',
+						hashed: '$2b$10$9PztnEZXNJ6UsRfSwPDqu.9ULEU3WzmgmmymrXUSmtWLzaMMoQBDe',
 						...defaultValues,
 					},
 					{
@@ -61,7 +61,7 @@ module.exports = {
 						email: 'tiffany@live.com',
 						avatar_url:
 							'https://res.cloudinary.com/kultured-dev/image/upload/v1659833832/fortnite-6278c8ea19fd0_qtfotj.jpg',
-						hashed: '$2b$10$mzlO8ud.Z1Fb2fFLr3uLSeMJHPPulJM1gRVrmZyU8tXN/NrAVIHcG',
+						hashed: '$2b$10$9PztnEZXNJ6UsRfSwPDqu.9ULEU3WzmgmmymrXUSmtWLzaMMoQBDe',
 						...defaultValues,
 					},
 				],
