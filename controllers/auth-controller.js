@@ -2,7 +2,12 @@ require("dotenv").config();
 const db = require("../models/index");
 const bcrypt = require("bcrypt");
 const services = require("../services/auth");
-const { getUserDataByEmailQuery, createUserQuery, createGeneralInfoQuery, createRustInfoQuery } = require("../services/user-queries");
+const {
+  getUserDataByEmailQuery,
+  createUserQuery,
+  createGeneralInfoQuery,
+  createRustInfoQuery,
+} = require("../services/user-queries");
 const { users, user_tokens, v_keys, sequelize } = require("../models/index");
 const Sequelize = require("sequelize");
 const UserTable = users;
@@ -93,7 +98,7 @@ const validateCredentials = (req, res) => {
 const checkIfEmailExists = async (req) => {
   const query = `
     select * 
-      from lfg.public.users
+      from gangs.users
      where email = :email;
   `;
   const queryOptions = {
@@ -108,7 +113,7 @@ const checkIfEmailExists = async (req) => {
 const checkIfUserNameExists = async (req) => {
   const query = `
     select * 
-      from lfg.public.users
+      from gangs.users
      where username = :username;
   `;
   const queryOptions = {
@@ -214,7 +219,7 @@ const insertNewUser = async (userObj) => {
 
 const insertToken = async (userId, token) => {
   const query = `
-  insert into lfg.public.user_tokens (token, created_at, updated_at)
+  insert into gangs.user_tokens (token, created_at, updated_at)
        values (:token, current_timestamp, current_timestamp)
     returning token
   `;
