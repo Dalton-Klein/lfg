@@ -1,5 +1,5 @@
 const getRustTilesQuery = () => {
-  return `
+	return `
   select u.id,
          u.username,
          u.avatar_url,
@@ -12,8 +12,9 @@ const getRustTilesQuery = () => {
          ug.languages,
          ug.preferred_platform,
          ug.discord,
-         av1.name as weekends,
-         av2.name as weekdays,
+         ur.hours as rust_hours,
+         av1.name as rust_weekends,
+         av2.name as rust_weekdays,
          ur.roles,
          ur.play_styles
     from lfg.public.users u 
@@ -27,9 +28,11 @@ const getRustTilesQuery = () => {
       on av1.id = ur.weekends
     join lfg.public.availabilities av2
       on av2.id = ur.weekdays
+   where u.id != :userId
+     and ur.is_published = true
 `;
 };
 
 module.exports = {
-  getRustTilesQuery,
+	getRustTilesQuery,
 };

@@ -1,5 +1,5 @@
 const getUserDataByEmailQuery = () => {
-  return `
+	return `
        select u.id,
               u.email,
               u.username,
@@ -37,13 +37,15 @@ const getUserDataByEmailQuery = () => {
 };
 
 const getUserDataByIdQuery = () => {
-  return `
+	return `
        select u.id,
               u.email,
               u.username,
               u.hashed,
               u.num_of_strikes,
               u.avatar_url, 
+              u.is_email_notifications, 
+              u.is_email_marketing,
               ug.about,
               ug.age,
               ug.gender,
@@ -55,10 +57,12 @@ const getUserDataByIdQuery = () => {
               ug.psn,
               ug.xbox,
               ug.last_seen,
-              av1.name,
-              av2.name,
+              av1.name as rust_weekdays,
+              av2.name as rust_weekends,
               ur.roles,
-              ur.play_styles
+              ur.play_styles,
+              ur.hours as rust_hours,
+              ur.is_published as rust_is_published
          from lfg.public.users u
     left join lfg.public.user_general_infos ug
            on ug.user_id = u.id
@@ -75,7 +79,7 @@ const getUserDataByIdQuery = () => {
 };
 
 const createUserQuery = () => {
-  return `
+	return `
   insert into lfg.public.users (id, email, username, hashed, created_at, updated_at)
        values ((select max(id) + 1 from lfg.public.users), :email, :username, :hashed, current_timestamp, current_timestamp)
     returning id, email, hashed, username
@@ -83,23 +87,23 @@ const createUserQuery = () => {
 };
 
 const createGeneralInfoQuery = () => {
-  return `
+	return `
   insert into lfg.public.user_general_infos (id, user_id, created_at, updated_at)
        values ((select max(id) + 1 from lfg.public.user_general_infos), :userId, current_timestamp, current_timestamp)
   `;
 };
 
 const createRustInfoQuery = () => {
-  return `
+	return `
   insert into lfg.public.user_rust_infos (id, user_id, created_at, updated_at)
        values ((select max(id) + 1 from lfg.public.user_rust_infos), :userId, current_timestamp, current_timestamp)
   `;
 };
 
 module.exports = {
-  getUserDataByEmailQuery,
-  getUserDataByIdQuery,
-  createUserQuery,
-  createGeneralInfoQuery,
-  createRustInfoQuery,
+	getUserDataByEmailQuery,
+	getUserDataByIdQuery,
+	createUserQuery,
+	createGeneralInfoQuery,
+	createRustInfoQuery,
 };

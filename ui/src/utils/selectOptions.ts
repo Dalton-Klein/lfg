@@ -34,14 +34,14 @@ export const availabilityOptions = [
 ];
 
 export const languageOptions = [
-  { label: "english", type: "language", value: 1, id: "1" },
-  { label: "mandarin chinese", type: "language", value: 2, id: "2" },
-  { label: "spanish", type: "language", value: 3, id: "3" },
-  { label: "hindi", type: "language", value: 4, id: "4" },
-  { label: "russian", type: "language", value: 5, id: "5" },
-  { label: "japanese", type: "language", value: 6, id: "6" },
-  { label: "german", type: "language", value: 7, id: "7" },
-  { label: "french", type: "language", value: 8, id: "8" },
+  { label: "english", type: "language", value: "english", id: "1" },
+  { label: "mandarin chinese", type: "language", value: "mandarin chinese", id: "2" },
+  { label: "spanish", type: "language", value: "spanish", id: "3" },
+  { label: "hindi", type: "language", value: "hindi", id: "4" },
+  { label: "russian", type: "language", value: "russian", id: "5" },
+  { label: "japanese", type: "language", value: "japanese", id: "6" },
+  { label: "german", type: "language", value: "german", id: "7" },
+  { label: "french", type: "language", value: "french", id: "8" },
 ];
 
 export const regionOptions = [

@@ -1,54 +1,55 @@
-@import "../../styling/config";
+@import '../../styling/config';
 
 .header-rust {
-  min-width: 100%;
-  margin-bottom: 2vh;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  display: grid;
-  place-items: center;
-  min-height: 17vh;
-  div {
-    min-width: 100%;
-    text-align: center;
-    font-size: $font4;
-  }
+	min-width: 100%;
+	margin-bottom: 2vh;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	display: grid;
+	place-items: center;
+	min-height: 17vh;
+	div {
+		min-width: 100%;
+		text-align: center;
+		font-size: $font4;
+		font-weight: 1000;
+	}
 }
 
 .feed {
-  margin: 2vh 1vw;
-  display: flex;
-  min-height: 85%;
-  justify-content: space-evenly;
-  align-content: center;
-  flex-wrap: wrap;
-  li {
-    max-width: 30vw;
-    margin: 2vh 1vw;
-  }
+	margin: 2vh 1vw;
+	display: flex;
+	min-height: 85%;
+	justify-content: space-evenly;
+	align-content: center;
+	flex-wrap: wrap;
+	li {
+		max-width: 30vw;
+		margin: 2vh 1vw;
+	}
 }
 
-@media screen and (max-width: 1200px) {
-  .feed {
-    li {
-      max-width: 45vw;
-    }
-  }
-  .player-card {
-    min-width: 45vw;
-    max-width: 45vw;
-  }
+@media screen and (max-width: $screenBreak1) {
+	.feed {
+		li {
+			max-width: 45vw;
+		}
+	}
+	.player-card {
+		min-width: 45vw;
+		max-width: 45vw;
+	}
 }
 
-@media screen and (max-width: 800px) {
-  .feed {
-    li {
-      max-width: 95vw;
-    }
-  }
-  .player-card {
-    min-width: 95vw;
-    max-width: 95vw;
-  }
+@media screen and (max-width: 700px) {
+	.feed {
+		li {
+			max-width: 95vw;
+		}
+	}
+	.player-card {
+		min-width: 95vw;
+		max-width: 95vw;
+	}
 }

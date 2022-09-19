@@ -1,48 +1,51 @@
-@import "../../styling/config";
+@import '../../styling/config';
 
 .tile-box {
-  background-color: $colorGreyPop;
-  border-radius: $borderRadius2;
-  min-height: 20vh;
-  min-width: 20vw;
-  max-width: 20vw;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  display: grid;
-  place-items: center;
-  margin-top: 1vh;
-  margin-bottom: 1vh;
-  cursor: pointer;
-  transition: $transition1;
+	background-color: $colorGreyPop;
+	border-radius: $borderRadius2;
+	min-height: 20vh;
+	min-width: 20vw;
+	max-width: 20vw;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	display: grid;
+	place-items: center;
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+	cursor: pointer;
+	transition: $transition1;
 }
 
 .tile-box:hover {
-  transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 .medium-gradient-overlay {
-  border-radius: $borderRadius2;
-  min-width: 100%;
-  min-height: 100%;
-  background: linear-gradient(45deg, black, rgba(255, 0, 0, 0));
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  i {
-    font-size: $font5;
-    margin-top: 1.5vh;
-  }
+	border-radius: $borderRadius2;
+	min-width: 100%;
+	min-height: 100%;
+	background: $colorGreyPop;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	outline-style: solid;
+	outline-width: 2px;
+	outline-color: $colorSecondary;
+	i {
+		font-size: $font5;
+		margin-top: 1.5vh;
+	}
 }
 
 .medium-title {
-  font-size: $font3;
+	font-size: $font3;
 }
 
-@media screen and (max-width: 1200px) {
-  .tile-box {
-    min-width: 45vw;
-    max-width: 45vw;
-  }
+@media screen and (max-width: $screenBreak1) {
+	.tile-box {
+		min-width: 45vw;
+		max-width: 45vw;
+	}
 }
