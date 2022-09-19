@@ -11,7 +11,7 @@ const deploySeeders = async () => {
     context: sequelize,
     storage: new SequelizeStorage({
       sequelize,
-      schema: "public",
+      schema: "gangs",
       modelName: "sequelize_data",
     }),
     logger: console,
