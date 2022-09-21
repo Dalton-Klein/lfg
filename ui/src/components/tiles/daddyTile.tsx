@@ -5,7 +5,7 @@ import './daddyTile.scss';
 export default function DaddyTile(props: any) {
 	const navigate = useNavigate();
 
-	let bgImage = '../assets/rust-tile-image.png';
+	let bgImage = 'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png';
 	return (
 		<article
 			className="daddy-box"

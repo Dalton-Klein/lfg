@@ -175,7 +175,13 @@ export default function DiscoverPage() {
 	return (
 		<div>
 			<HeaderComponent></HeaderComponent>
-			<article className="header-rust" style={{ backgroundImage: 'url(../assets/rust-tile-image.png)' }}>
+			<article
+				className="header-rust"
+				style={{
+					backgroundImage:
+						'url(https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png)',
+				}}
+			>
 				<div>find rust players</div>
 			</article>
 			<FilterBarComponent clearFiltersMethod={clearAllFiltersAndSorting}></FilterBarComponent>
