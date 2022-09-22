@@ -2,17 +2,18 @@
 
 .messages-box {
 	min-width: 85vw;
+	min-height: 80vh;
 	.messages-title-container {
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
 		margin-bottom: 1vh;
 		.conversation-profile-image {
-			min-width: 5vw;
-			max-width: 5vw;
-			min-height: 5vw;
-			max-height: 5vw;
-			border-radius: calc(5vw / 2);
+			min-width: 3.5vw;
+			max-width: 3.5vw;
+			min-height: 3.5vw;
+			max-height: 3.5vw;
+			border-radius: calc(3.5vw / 2);
 			transition: $transition1;
 			cursor: pointer;
 		}
@@ -59,10 +60,12 @@
 		}
 	}
 	.render-chat {
-		padding: 2vh 2vw;
+		padding-top: 2vh;
+		padding-left: 2vw;
+		padding-right: 2vw;
 		overflow: scroll;
-		min-height: 55vh;
-		max-height: 55vh;
+		min-height: 64vh;
+		max-height: 64vh;
 
 		.message-bubble {
 			display: flex;
@@ -107,6 +110,34 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
+		margin: 0 2vw;
+		.messaging-input {
+			min-width: 85%;
+			min-height: 35px;
+			height: 80%;
+		}
+		button {
+			margin-left: 1vw;
+		}
+	}
+}
+
+@media screen and (max-height: 800px) {
+	.messages-box {
+		min-height: 75vh;
+		.render-chat {
+			min-height: 57vh;
+			max-height: 57vh;
+		}
+	}
+}
+@media screen and (max-height: 550px) {
+	.messages-box {
+		min-height: 73vh;
+		.render-chat {
+			min-height: 49vh;
+			max-height: 49vh;
+		}
 	}
 }
 
@@ -114,11 +145,11 @@
 	.messages-box {
 		.messages-title-container {
 			.conversation-profile-image {
-				min-width: 7vw;
-				max-width: 7vw;
-				min-height: 7vw;
-				max-height: 7vw;
-				border-radius: calc(7vw / 2);
+				min-width: 5.5vw;
+				max-width: 5.5vw;
+				min-height: 5.5vw;
+				max-height: 5.5vw;
+				border-radius: calc(5.5vw / 2);
 			}
 		}
 	}
@@ -133,6 +164,10 @@
 				max-height: 10vw;
 				border-radius: calc(10vw / 2);
 			}
+		}
+
+		.messaging-input {
+			min-width: 75% !important;
 		}
 	}
 }
