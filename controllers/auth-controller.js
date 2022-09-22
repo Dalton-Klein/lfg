@@ -68,7 +68,7 @@ exports.signup = async (req, res) => {
 			const vKey = services.keyGen(5);
 			await insertVKey(req, vKey);
 			// coffee disable
-			// await services.sendEmail(req, vKey, 1, req.body.username);
+			await services.sendEmail(req, vKey, 1, req.body.username);
 			res.send({
 				data: 'vKeySentToEmail',
 			});
@@ -249,7 +249,7 @@ exports.forgotPassword = async (req, res) => {
 			const vKey = services.keyGen(5);
 			await insertVKey(req, vKey);
 			// coffee disable
-			// await services.sendEmail(req, vKey, 2, userResult.dataValues.username);
+			await services.sendEmail(req, vKey, 2, userResult.dataValues.username);
 			res.send({
 				data: 'vKeySentToEmail',
 			});

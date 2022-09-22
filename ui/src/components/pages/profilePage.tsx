@@ -38,34 +38,25 @@ export default function ProfilePage() {
 	const userData = useSelector((state: RootState) => state.user.user);
 
 	useEffect(() => {
+		changeSelection(preferencesState.lastProfileMenu);
 		fetchExistingConnections();
 		fetchPendingConnections();
-		setSelection(preferencesState.lastProfileMenu);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
-		console.log('convo id?', currentConvo);
-		setChatBox(<Chat {...currentConvo}></Chat>);
+		setChatboxContents();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentConvo]);
 
+	const setChatboxContents = () => {
+		setChatBox(<Chat {...currentConvo}></Chat>);
+	};
+
 	//BEGIN Fetch Connections
 	const fetchExistingConnections = async () => {
-		let httpResults = await getConnectionsForUser(userData.id, 'blank');
-		let formattedTiles = httpResults.map((tile: any) => (
-			<li className="conversation-list-item" style={{ listStyleType: 'none' }} key={tile.id}>
-				<ConversationTile
-					{...tile}
-					isPublicChat="false"
-					callOpenConversation={(connectionId: number) => {
-						openConversation(connectionId);
-					}}
-				></ConversationTile>
-			</li>
-		));
+		setconnectionsResult(await getConnectionsForUser(userData.id, 'blank'));
 		setChatBox(<Chat {...currentConvo}></Chat>);
-		setconnectionsResult(formattedTiles);
 	};
 	const fetchPendingConnections = async () => {
 		const httpResults = await getPendingConnectionsForUser(userData.id, 'blank');
@@ -99,8 +90,14 @@ export default function ProfilePage() {
 
 	//BEGIN Chat Logic
 	const openConversation = async (tile: any) => {
-		console.log('pressing convo: ', tile);
-		setCurrentConvo({ ...currentConvo, ...tile });
+		setCurrentConvo({
+			id: tile.id,
+			username: tile.username,
+			avatar_url: tile.avatar_url,
+			isPublicChat: tile.isPublicChat,
+			preferred_platform: tile.preferred_platform,
+			currentlyOpenConvo: tile.id,
+		});
 	};
 	//END Chat Logic
 
@@ -249,13 +246,27 @@ export default function ProfilePage() {
 						<div className="chat-container">
 							<div className="conversations-box">
 								<ConversationTile
+									key={1}
 									{...rustChatObject}
+									currentlyOpenConvo={currentConvo}
 									callOpenConversation={(connectionId: number) => {
 										openConversation(connectionId);
 									}}
 								></ConversationTile>
-								<div className="gradient-bar"></div>
-								{connectionsResult}
+								<div key={1.5} className="gradient-bar"></div>
+								{connectionsResult.map((tile: any) => (
+									<li className="conversation-list-item" style={{ listStyleType: 'none' }} key={tile.id}>
+										<ConversationTile
+											key={tile.id}
+											{...tile}
+											currentlyOpenConvo={currentConvo}
+											isPublicChat="false"
+											callOpenConversation={(connectionId: number) => {
+												openConversation(connectionId);
+											}}
+										></ConversationTile>
+									</li>
+								))}
 							</div>
 							{chatBox}
 						</div>

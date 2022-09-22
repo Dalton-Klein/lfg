@@ -68,7 +68,6 @@ export default function ProfileGeneral(props: any) {
 	const loadSavedInfo = () => {
 		dispatch(updateUserThunk(userData.id));
 		if (userData.email && userData.email !== '') {
-			console.log('user data: ', userData);
 			setAboutText(userData.about);
 			setAgeText(userData.age);
 			setGender(userData.gender);
@@ -243,7 +242,6 @@ export default function ProfileGeneral(props: any) {
 		if (userData.is_email_marketing !== isEmailMarketing) {
 			await updateUserField(userData.id, 'weekends', rustWeekendIdValue);
 		}
-		console.log('user data: ', userData);
 		// After all data is comitted to db, get fresh copy of user object to update state
 		dispatch(updateUserThunk(userData.id));
 		setHasUnsavedChanges(false);

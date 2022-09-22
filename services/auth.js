@@ -1,11 +1,14 @@
 require('dotenv').config();
 const db = require('../models/index');
-const appName = 'codeexchange';
-const supportEmail = 'support@codeexhange.com';
-const mailgun = require('mailgun-js');
-const mg = mailgun({
-	apiKey: process.env.MAILGUN_API_KEY,
-	domain: process.env.MAILGUN_DOMAIN,
+const appName = 'gangs.gg';
+const supportEmail = 'deklein@live.com';
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+	service: 'hotmail',
+	auth: {
+		user: process.env.EMAIL,
+		pass: process.env.EMAIL_PASS,
+	},
 });
 
 exports.keyGen = (length) => {
@@ -39,20 +42,21 @@ exports.sendEmail = async (req, vKey, subject, username = '') => {
 		2: `${appName} password reset verification`,
 	};
 	const emailBodys = {
-		1: `Hello${username}, \n\nThank you for joining ${appName}! Your verification code is: ${vKey} \n\nHappy coding!`,
+		1: `Hello${username}, \n\nThank you for joining ${appName}! Your verification code is: \n\n${vKey} \n\nHappy gaming!`,
 		2: `Hello${username}, \n\nA request to change the password for your ${appName} account has been received. \n\nIf this was you, use this code to complete your request: ${vKey} \n\nIf you did not make this request, please contact us at ${supportEmail}. \n\nThank you, \n${appName}`,
 	};
 	const data = {
-		from: `${appName} <me@samples.mailgun.org>`,
+		from: `${appName} <${process.env.EMAIL}>`,
 		to: `${req.body.email}`,
 		subject: `${emailSubjects[subject]}`,
 		text: `${emailBodys[subject]}`,
 	};
-	await mg.messages().send(data, function (error, body) {
-		if (error) {
-			console.log('Email verification send failure: ', error);
+	transporter.sendMail(data, (err, info) => {
+		if (err) {
+			console.log('error sending email: ', err);
+			return;
 		} else {
-			console.log('Email Result Body: ', body);
+			console.log('email sent: ', info.response);
 			return;
 		}
 	});
