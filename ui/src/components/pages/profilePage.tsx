@@ -177,7 +177,7 @@ export default function ProfilePage() {
 			],
 		},
 		{
-			label: 'social',
+			label: 'messaging',
 			items: [
 				{
 					label: 'messaging',
@@ -186,6 +186,11 @@ export default function ProfilePage() {
 						changeSelection(2);
 					},
 				},
+			],
+		},
+		{
+			label: 'requests',
+			items: [
 				{
 					label: 'incoming',
 					icon: 'pi pi-fw pi-arrow-circle-up',
@@ -242,37 +247,33 @@ export default function ProfilePage() {
 			{/* MENU 2- Connections/ Messaging */}
 			{selection === 2 ? (
 				<div className="content-container">
-					{connectionsResult.length > 0 ? (
-						<div className="chat-container">
-							<div className="conversations-box">
-								<ConversationTile
-									key={1}
-									{...rustChatObject}
-									currentlyOpenConvo={currentConvo}
-									callOpenConversation={(connectionId: number) => {
-										openConversation(connectionId);
-									}}
-								></ConversationTile>
-								<div key={1.5} className="gradient-bar"></div>
-								{connectionsResult.map((tile: any) => (
-									<li className="conversation-list-item" style={{ listStyleType: 'none' }} key={tile.id}>
-										<ConversationTile
-											key={tile.id}
-											{...tile}
-											currentlyOpenConvo={currentConvo}
-											isPublicChat="false"
-											callOpenConversation={(connectionId: number) => {
-												openConversation(connectionId);
-											}}
-										></ConversationTile>
-									</li>
-								))}
-							</div>
-							{chatBox}
+					<div className="chat-container">
+						<div className="conversations-box">
+							<ConversationTile
+								key={1}
+								{...rustChatObject}
+								currentlyOpenConvo={currentConvo}
+								callOpenConversation={(connectionId: number) => {
+									openConversation(connectionId);
+								}}
+							></ConversationTile>
+							<div key={1.5} className="gradient-bar"></div>
+							{connectionsResult.map((tile: any) => (
+								<li className="conversation-list-item" style={{ listStyleType: 'none' }} key={tile.id}>
+									<ConversationTile
+										key={tile.id}
+										{...tile}
+										currentlyOpenConvo={currentConvo}
+										isPublicChat="false"
+										callOpenConversation={(connectionId: number) => {
+											openConversation(connectionId);
+										}}
+									></ConversationTile>
+								</li>
+							))}
 						</div>
-					) : (
-						noResultsDiv
-					)}
+						{chatBox}
+					</div>
 				</div>
 			) : (
 				<></>

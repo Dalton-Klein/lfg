@@ -11,11 +11,11 @@
 	padding: 0.5vw;
 	margin: 0.75vh 0;
 	.conversation-profile-image {
-		min-width: 5vw;
-		max-width: 5vw;
-		min-height: 5vw;
-		max-height: 5vw;
-		border-radius: calc(5vw / 2);
+		min-width: 3.5vw;
+		max-width: 3.5vw;
+		min-height: 3.5vw;
+		max-height: 3.5vw;
+		border-radius: calc(3.5vw / 2);
 		transition: $transition1;
 		cursor: pointer;
 	}
@@ -41,11 +41,11 @@
 @media screen and (max-width: $screenBreak1) {
 	.conversation-tile {
 		.conversation-profile-image {
-			min-width: 7vw;
-			max-width: 7vw;
-			min-height: 7vw;
-			max-height: 7vw;
-			border-radius: calc(7vw / 2);
+			min-width: 5.5vw;
+			max-width: 5.5vw;
+			min-height: 5.5vw;
+			max-height: 5.5vw;
+			border-radius: calc(5.5vw / 2);
 		}
 	}
 }

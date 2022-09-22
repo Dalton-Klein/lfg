@@ -1,12 +1,16 @@
 @import '../../styling/config';
 
 .nav-menu {
-	margin: 0 10%;
-	min-width: 80%;
-	max-width: 80%;
+	margin: 0 0;
+	min-height: 7vh;
+	max-height: 7vh;
+	min-width: 100%;
+	max-width: 100%;
 	display: flex;
 	align-items: center;
+	// put bg image here when a good one is decided background-color: #0d5678b0;
 	.submenu-navigator {
+		margin: 2% 10%;
 		margin-right: 1vw;
 	}
 	.submenu-title {
@@ -20,11 +24,12 @@
 
 .content-container {
 	width: 100%;
-	min-height: 77vh;
+	min-height: 80vh;
+	max-height: 80vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-top: 15px;
+	margin-top: 1vh;
 	.no-results-box {
 		margin-top: 5vh;
 		text-align: center;
@@ -34,6 +39,8 @@
 	.chat-container {
 		display: flex;
 		justify-content: space-between;
+		min-height: 80vh;
+		max-height: 80vh;
 		.conversations-box {
 			display: flex;
 			flex-direction: column;
@@ -54,8 +61,24 @@
 	min-width: 70%;
 }
 
-@media screen and (max-width: $screenBreak2) {
+@media screen and (max-height: 800px) {
 	.content-container {
-		min-height: 65vh;
+		min-height: 75vh;
+		max-height: 75vh;
+		.chat-container {
+			min-height: 75vh;
+			max-height: 75vh;
+		}
+	}
+}
+
+@media screen and (max-height: 550px) {
+	.content-container {
+		min-height: 73vh;
+		max-height: 73vh;
+		.chat-container {
+			min-height: 73vh;
+			max-height: 73vh;
+		}
 	}
 }
