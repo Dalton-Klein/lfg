@@ -22,7 +22,8 @@ export default function Chat(props: any) {
 		timestamp: '',
 	});
 	const [chat, setChat] = useState<any>([]);
-	const menu: any = useRef(null);
+	const dropdownMenu: any = useRef(null);
+	const lastMessageRef: any = useRef(null);
 
 	//Initial setup of chat window
 	useEffect(() => {
@@ -37,6 +38,7 @@ export default function Chat(props: any) {
 		socketRef.on('message', ({ roomId, senderId, sender, message, timestamp }: any) => {
 			setChat([...chat, { roomId, senderId, sender, message, timestamp }]);
 		});
+		lastMessageRef.current?.scrollIntoView();
 	}, [chat]);
 	//END Update messages list after each chat sent
 
@@ -47,6 +49,7 @@ export default function Chat(props: any) {
 		determinePlatformImageAndUsername();
 		loadChatHistory();
 		socketRef.emit('join_room', props.id);
+		lastMessageRef.current?.scrollIntoView();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props]);
 
@@ -63,7 +66,7 @@ export default function Chat(props: any) {
 		const isPublic = props.isPublicChat === 'true' ? true : false;
 		setPlatformImage(
 			<div className="messaging-platform-box" style={{ display: !isPublic ? 'inline-block' : 'none' }}>
-				<img className="connection-platform-image" src={assetLink} alt={`${props.username} profile`} />
+				<img className="connection-platform-image" src={assetLink} alt={`platform name`} />
 			</div>
 		);
 	};
@@ -71,7 +74,6 @@ export default function Chat(props: any) {
 	//BEGIN SOCKET Functions
 	const loadChatHistory = async () => {
 		const historicalChatData = await getChatHistoryForUser(userState.id, props.id, '');
-		console.log('history: ', props.id, '   ', historicalChatData);
 		setChat([...historicalChatData]);
 	};
 
@@ -152,13 +154,17 @@ export default function Chat(props: any) {
 				)}
 				<div className="messages-title-text">{props.username}</div>
 				<div className="stackable-container-right">{platformImage}</div>
-				<Menu model={items} popup ref={menu} id="popup_menu" />
-				<button className="options-button" onClick={(event) => menu.current.toggle(event)}>
+				<Menu model={items} popup ref={dropdownMenu} id="popup_menu" />
+				<button className="options-button" onClick={(event) => dropdownMenu.current.toggle(event)}>
 					<i className="pi pi-ellipsis-h"></i>
 				</button>
 			</div>
 			{/* Messages Scroll Box */}
-			<div className="render-chat">{renderChat()}</div>
+			<div className="render-chat">
+				{renderChat()}
+				<div ref={lastMessageRef} />
+			</div>
+
 			{/* Message Input Form */}
 			<form className="message-form" onSubmit={onMessageSubmit}>
 				<input

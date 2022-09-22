@@ -1,11 +1,14 @@
 @import '../../styling/config';
 
+.selected-convo {
+	border: 2px solid $colorPrimary;
+}
 .conversation-tile {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	border-radius: $borderRadius1;
-	padding: 1vw;
+	border-radius: 60px;
+	padding: 0.5vw;
 	margin: 0.75vh 0;
 	.conversation-profile-image {
 		min-width: 5vw;
