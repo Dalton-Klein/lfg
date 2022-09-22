@@ -8,7 +8,7 @@ import moment from 'moment';
 import { howLongAgo } from '../../utils/helperFunctions';
 import { getChatHistoryForUser } from '../../utils/rest';
 import { Toast } from 'primereact/toast';
-const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://gangs.gg');
+const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.gangs.gg');
 
 export default function Chat(props: any) {
 	const userState = useSelector((state: RootState) => state.user.user);
