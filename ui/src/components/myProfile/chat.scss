@@ -6,6 +6,7 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
+		margin-bottom: 1vh;
 		.conversation-profile-image {
 			min-width: 5vw;
 			max-width: 5vw;
@@ -70,7 +71,6 @@
 			align-items: flex-start;
 			padding: 1vh 1vw;
 			margin: 1vh 0;
-			background-color: $colorGreyPop;
 			.message-sender-box {
 				display: flex;
 				justify-content: center;
@@ -94,13 +94,13 @@
 		}
 		.message-border-owner {
 			border-radius: $borderRadius1;
-			border: 1px solid $colorPrimary;
 			margin-left: 3vw;
+			background-color: $colorGreyPop;
 		}
 		.message-border-non-owner {
 			border-radius: $borderRadius1;
-			border: 1px solid $colorSecondary;
 			margin-right: 3vw;
+			background-color: $colorPrimaryDarker;
 		}
 	}
 	.message-form {
