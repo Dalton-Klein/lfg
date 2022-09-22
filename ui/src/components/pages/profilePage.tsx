@@ -177,7 +177,7 @@ export default function ProfilePage() {
 			],
 		},
 		{
-			label: 'social',
+			label: 'messaging',
 			items: [
 				{
 					label: 'messaging',
@@ -186,6 +186,11 @@ export default function ProfilePage() {
 						changeSelection(2);
 					},
 				},
+			],
+		},
+		{
+			label: 'requests',
+			items: [
 				{
 					label: 'incoming',
 					icon: 'pi pi-fw pi-arrow-circle-up',

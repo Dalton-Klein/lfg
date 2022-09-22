@@ -7,6 +7,7 @@ import { RootState } from '../../store/store';
 import moment from 'moment';
 import { howLongAgo } from '../../utils/helperFunctions';
 import { getChatHistoryForUser } from '../../utils/rest';
+import { Toast } from 'primereact/toast';
 const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://gangs.gg');
 
 export default function Chat(props: any) {
@@ -22,6 +23,7 @@ export default function Chat(props: any) {
 		timestamp: '',
 	});
 	const [chat, setChat] = useState<any>([]);
+	const toast: any = useRef({ current: '' });
 	const dropdownMenu: any = useRef(null);
 	const lastMessageRef: any = useRef(null);
 
@@ -85,9 +87,19 @@ export default function Chat(props: any) {
 		const { roomId, senderId, sender, message } = messageState;
 		const timestamp = moment().format();
 		console.log('adding message: ', message, ' to room: ', roomId);
-		socketRef.emit('message', { roomId, senderId, sender, message, timestamp });
-		e.preventDefault();
-		setMessageState({ roomId, senderId, sender, message: '', timestamp });
+		if (message.length > 750) {
+			toast.current.clear();
+			toast.current.show({
+				severity: 'warn',
+				summary: 'message length exceeded',
+				detail: `message length 5 is longer than the cap of 750 characters`,
+				sticky: true,
+			});
+		} else {
+			socketRef.emit('message', { roomId, senderId, sender, message, timestamp });
+			e.preventDefault();
+			setMessageState({ roomId, senderId, sender, message: '', timestamp });
+		}
 	};
 	const renderChat = () => {
 		return chat.map(({ sender, message, timestamp }: any, index: number) => {
@@ -125,6 +137,7 @@ export default function Chat(props: any) {
 	];
 	return (
 		<div className="messages-box">
+			<Toast ref={toast} />
 			{/* Message Title Bar */}
 			<div className="messages-title-container">
 				{props.avatar_url === '' || props.avatar_url === '/assets/avatarIcon.png' ? (
@@ -172,7 +185,7 @@ export default function Chat(props: any) {
 						onTextChange(e);
 					}}
 					value={messageState.message ? messageState.message : ''}
-					className="input-box"
+					className="input-box messaging-input"
 					placeholder={'type here...'}
 				></input>
 
