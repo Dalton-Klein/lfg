@@ -1,0 +1,59 @@
+@import '../../styling/config';
+
+.conversation-tile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: $borderRadius1;
+	padding: 1vw;
+	margin: 0.75vh 0;
+	.conversation-profile-image {
+		min-width: 5vw;
+		max-width: 5vw;
+		min-height: 5vw;
+		max-height: 5vw;
+		border-radius: calc(5vw / 2);
+		transition: $transition1;
+		cursor: pointer;
+	}
+	.dynamic-conversation-border {
+		@extend .conversation-profile-image;
+		background-color: $colorShadowLight;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		.dynamic-conversation-text-small {
+			font-size: $font4;
+		}
+	}
+	.conversation-profile-image:hover {
+		transform: scale(1.05);
+	}
+	.dynamic-conversation-border:hover {
+		transform: scale(1.05);
+	}
+}
+
+@media screen and (max-width: $screenBreak1) {
+	.conversation-tile {
+		.conversation-profile-image {
+			min-width: 7vw;
+			max-width: 7vw;
+			min-height: 7vw;
+			max-height: 7vw;
+			border-radius: calc(7vw / 2);
+		}
+	}
+}
+@media screen and (max-width: $screenBreak2) {
+	.conversation-tile {
+		.conversation-profile-image {
+			min-width: 10vw;
+			max-width: 10vw;
+			min-height: 10vw;
+			max-height: 10vw;
+			border-radius: calc(10vw / 2);
+		}
+	}
+}

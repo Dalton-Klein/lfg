@@ -330,6 +330,27 @@ export const acceptConnectionRequest = async (
 };
 
 /*
+	Socket Chat Messaging Calls
+*/
+export const getChatHistoryForUser = async (userId: number, chatId: number, token: string) => {
+	let result = await fetch(`${endpointURL}/get-chat-history`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			userId,
+			chatId,
+			token,
+		}),
+	})
+		.then((res) => res.json())
+		.then((data) => data)
+		.catch((err) => console.log('Error while fetching chat history', err));
+	return result;
+};
+
+/*
 	Posts Calls
 */
 export const getCategoriesAndTopics = async () => {
