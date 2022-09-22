@@ -20,7 +20,7 @@
 
 .content-container {
 	width: 100%;
-	min-height: 80vh;
+	min-height: 77vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -40,13 +40,22 @@
 			align-items: center;
 			justify-content: flex-start;
 			min-width: 15vw;
-		}
-		.messages-box {
-			min-width: 85vw;
+			.gradient-bar {
+				min-width: 80%;
+				min-height: 1px;
+				max-height: 1px;
+				background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+			}
 		}
 	}
 }
 
 .connection-list-item {
 	min-width: 70%;
+}
+
+@media screen and (max-width: $screenBreak2) {
+	.content-container {
+		min-height: 65vh;
+	}
 }

@@ -10,13 +10,30 @@ router.use(express.json());
 app.use(cors(), router);
 const path = require('path');
 const { main } = require('./startup/startup');
+const messageController = require('./controllers/message-controller');
 
 //SOCKET
 const io = require('socket.io')(http);
+const util = require('util');
+io.on('connection', (socket) => {
+	// User Joins a room
+	socket.on('join_room', (roomId) => {
+		socket.join(roomId);
+		console.log('User JOINED ROOM ', roomId);
+	});
 
-io.on('connection', (scoket) => {
-	socket.on('message', ({ name, message }) => {
-		io.emit('message', { name, message });
+	//Listen for chat messages from users
+	socket.on('message', ({ roomId, senderId, sender, message, timestamp }) => {
+		console.log('Server read chatMessage ', message);
+		messageController.saveMessage(roomId, senderId, message, timestamp);
+		io.to(roomId).emit('message', { roomId, senderId, sender, message, timestamp });
+	});
+
+	//When client disconnects, handle it
+	socket.on('disconnect', () => {
+		const clientDisconnectedMsg = 'User disconnected ' + util.inspect(socket.id);
+		io.emit(clientDisconnectedMsg);
+		console.log(clientDisconnectedMsg);
 	});
 });
 

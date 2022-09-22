@@ -21,7 +21,7 @@ export default function ConversationTile(props: any) {
 			) : (
 				<img
 					onClick={() => {
-						props.openConversation();
+						props.callOpenConversation(props);
 					}}
 					className="conversation-profile-image"
 					src={props.avatar_url}

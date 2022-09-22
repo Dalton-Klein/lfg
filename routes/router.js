@@ -5,6 +5,8 @@ const postsController = require('../controllers/posts-controller');
 const tilesController = require('../controllers/tiles-controller');
 const userController = require('../controllers/profile-general-controller');
 const publishController = require('../controllers/publish-controller');
+const messageController = require('../controllers/message-controller');
+
 const router = express.Router();
 router.use(express.json());
 const path = require('path');
@@ -22,6 +24,9 @@ router.post('/getUserDetails', userController.getUserDetails);
 router.post('/updateUserInfoField', userController.updateProfileField);
 router.put('/updateGeneralInfoField', userController.updateGeneralInfoField);
 router.put('/updateRustInfoField', userController.updateRustInfoField);
+
+//MESSAGING ROUTES
+router.post('/get-chat-history', messageController.getChatHistoryForUser);
 
 //SOCIAL ROUTES
 router.post('/connection-request', userController.sendConnectionRequest);

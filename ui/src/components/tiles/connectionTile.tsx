@@ -24,11 +24,6 @@ export default function ConnectionTile(props: any) {
 					icon: 'pi pi-user-minus',
 					command: () => {},
 				},
-				{
-					label: 'report',
-					icon: 'pi pi-flag',
-					command: () => {},
-				},
 			],
 		},
 	];
