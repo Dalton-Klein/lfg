@@ -12,7 +12,7 @@ export default function ConversationTile(props: any) {
 				<div
 					className="dynamic-conversation-border"
 					onClick={() => {
-						props.openConversation();
+						props.callOpenConversation(props);
 					}}
 				>
 					<div className="dynamic-conversation-text-small">
