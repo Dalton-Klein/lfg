@@ -32,19 +32,19 @@ router.post('/get-chat-history', messageController.getChatHistoryForUser);
 router.post('/connection-request', userController.sendConnectionRequest);
 router.post('/social', userController.getSocialDetails);
 
-//POST RELATED ROUTES
-router.get('/tags', postsController.getCategoriesAndTopics);
-router.post('/create-post', postsController.createPost);
-router.post('/posts', postsController.getPosts);
-router.post('/rust-tiles', tilesController.getRustTiles);
-
-//PUBLISH RELATED ROUTES
-router.post('/publish-rust', publishController.checkIfUserCanPublishRustProfile);
-
 //CONNECTIONS RELATED ROUTES
 router.post('/accept-connection', connectionsController.acceptConnectionRequest);
 router.post('/connections', connectionsController.getConnectionsForUser);
 router.post('/pending-connections', connectionsController.getPendingConnectionsForUser);
+
+//POST RELATED ROUTES
+// router.get('/tags', postsController.getCategoriesAndTopics);
+// router.post('/create-post', postsController.createPost);
+// router.post('/posts', postsController.getPosts);
+router.post('/rust-tiles', tilesController.getRustTiles);
+
+//PUBLISH/ PROFILE COMPLETENESS RELATED ROUTES
+router.post('/publish-rust', publishController.checkIfUserCanPublishRustProfile);
 
 //CATCH ALL ROUTE
 // router.route('*', (req, res) => {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getRustTiles } from '../../utils/rest';
+import { attemptPublishRustProfile, getRustTiles } from '../../utils/rest';
 import FooterComponent from '../nav/footerComponent';
 import HeaderComponent from '../nav/headerComponent';
 import FilterBarComponent from '../nav/filter/filterBarComponent';
@@ -13,6 +13,7 @@ import { resetFilterPreferences } from '../../store/userPreferencesSlice';
 export default function DiscoverPage() {
 	const [tilesFeed, setTilesFeed] = useState(<li></li>);
 	const [tilesFromDB, setTilesFromDB] = useState<any>([]);
+	const [isProfileComplete, setIsProfileComplete] = useState<boolean>(false);
 	const preferencesState = useSelector((state: RootState) => state.preferences);
 	const userState = useSelector((state: RootState) => state.user.user);
 
@@ -20,6 +21,7 @@ export default function DiscoverPage() {
 
 	useEffect(() => {
 		fetchTilesData();
+		checkIfProfileComplete();
 		dispatch(resetFilterPreferences());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -41,11 +43,17 @@ export default function DiscoverPage() {
 		setTilesFromDB(tiles);
 	};
 
+	const checkIfProfileComplete = async () => {
+		const isCompleteResult = await attemptPublishRustProfile(userState.id, 'nothing');
+		console.log('completeness: ', isCompleteResult);
+		setIsProfileComplete(isCompleteResult.status === 'success' ? true : false);
+	};
+
 	const turnDataIntoTiles = (tileData: any) => {
 		setTilesFeed(
 			tileData.map((tile: any) => (
 				<li style={{ listStyleType: 'none' }} key={tile.id}>
-					<PlayerTile {...tile} refreshTiles={fetchTilesData}></PlayerTile>
+					<PlayerTile {...tile} isProfileComplete={isProfileComplete} refreshTiles={fetchTilesData}></PlayerTile>
 				</li>
 			))
 		);

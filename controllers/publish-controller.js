@@ -20,7 +20,6 @@ const checkIfUserCanPublishRustProfile = async (req, res) => {
 		let passesValidation = false;
 		let problemFields = [];
 		//Validate result here
-		console.log('what is res? ', queryResult);
 		queryResult = queryResult[0];
 		if (queryResult.about === null || queryResult.about === '') problemFields.push('about');
 		if (queryResult.age === null || queryResult.age < 13) problemFields.push('age');

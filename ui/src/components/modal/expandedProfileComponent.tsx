@@ -12,6 +12,7 @@ type Props = {
 	userInfo: any;
 	refreshTiles: any;
 	showConnectForm: boolean;
+	isProfileComplete: boolean;
 };
 
 const ExpandedProfile = (props: Props) => {
@@ -183,14 +184,18 @@ const ExpandedProfile = (props: Props) => {
 						{/* Connect Section */}
 						{props.showConnectForm ? (
 							<div className="expanded-connect-box">
-								<input
-									onChange={(event) => {
-										setConnectionText(event.target.value);
-									}}
-									value={connectionText ? connectionText : ''}
-									className="input-box"
-									placeholder={'write a message with your request'}
-								></input>
+								{props.isProfileComplete ? (
+									<input
+										onChange={(event) => {
+											setConnectionText(event.target.value);
+										}}
+										value={connectionText ? connectionText : ''}
+										className="input-box"
+										placeholder={'write a message...'}
+									></input>
+								) : (
+									<div className="profile-incomplete-text">**complete profile before sending requests**</div>
+								)}
 								<button
 									className="connect-button"
 									onClick={() => {

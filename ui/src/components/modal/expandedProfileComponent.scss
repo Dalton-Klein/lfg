@@ -132,9 +132,13 @@
 		input {
 			min-width: 80%;
 			text-align: center;
+			background-color: $colorGreyBg;
 		}
 		.connect-button {
 			margin-bottom: 3vh;
+		}
+		.profile-incomplete-text {
+			color: $colorPrimary;
 		}
 	}
 }

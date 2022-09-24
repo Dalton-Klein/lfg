@@ -32,7 +32,8 @@ const getConnectionsForUser = async (req, res) => {
 				userId,
 			},
 		});
-		const connections = acceptorConnections.concat(senderConnections);
+		let connections = acceptorConnections.concat(senderConnections);
+		connections = connections.sort((a, b) => (a.updated_at > b.updated_at ? -1 : 1));
 		res.status(200).send(connections);
 	} catch (error) {
 		console.log(error);
@@ -103,8 +104,29 @@ const getPendingConnectionsForUser = async (req, res) => {
 	}
 };
 
+const updateConnectionTimestamp = async (connectionId) => {
+	try {
+		let query = `
+        update public.connections
+              set updated_at = current_timestamp
+            where id = :connectionId
+    `;
+		const updateResult = await sequelize.query(query, {
+			type: Sequelize.QueryTypes.UPDATE,
+			replacements: {
+				connectionId,
+			},
+		});
+		return updateResult;
+	} catch (error) {
+		console.log(error);
+		res.sendStatus(500);
+	}
+};
+
 module.exports = {
 	acceptConnectionRequest,
 	getConnectionsForUser,
 	getPendingConnectionsForUser,
+	updateConnectionTimestamp,
 };

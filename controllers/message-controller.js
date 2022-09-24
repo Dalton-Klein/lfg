@@ -1,9 +1,11 @@
 const db = require('../models/index');
 const { sequelize } = require('../models/index');
 const Sequelize = require('sequelize');
+const { updateConnectionTimestamp } = require('./connections-controller');
 
 const saveMessage = async (connectionId, senderId, content, timestamp) => {
 	try {
+		//First, insert message into messages table
 		query = `
               insert into public.messages ( connection_id,
                                             sender,
@@ -16,7 +18,7 @@ const saveMessage = async (connectionId, senderId, content, timestamp) => {
                           :created_at, 
                           :updated_at)
             `;
-		const result = await sequelize.query(query, {
+		const messageResult = await sequelize.query(query, {
 			type: Sequelize.QueryTypes.INSERT,
 			replacements: {
 				connection_id: connectionId,
@@ -26,7 +28,9 @@ const saveMessage = async (connectionId, senderId, content, timestamp) => {
 				updated_at: timestamp,
 			},
 		});
-		console.log('stored? ', result);
+		//Next, update connection updated at, so convos can be sorted by recency
+		console.log('stored? ', messageResult);
+		await updateConnectionTimestamp(connectionId);
 		return;
 	} catch (err) {
 		console.log(err);

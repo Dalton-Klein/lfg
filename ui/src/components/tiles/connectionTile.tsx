@@ -42,6 +42,7 @@ export default function ConnectionTile(props: any) {
 						userInfo={props}
 						refreshTiles={props.refreshTiles}
 						showConnectForm={false}
+						isProfileComplete={true}
 					/>
 				) : (
 					<></>
