@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../styling/login.scss';
 import { SignUpForm, SignInForm, VerificationForm, PasswordResetForm } from '../../utils/interfaces';
 import { createUser, requestPasswordReset } from '../../utils/rest';
 import {
@@ -16,10 +17,10 @@ import {
 	loginPanelForgotPasswordAnim,
 	loginPanelPasswordResetAnim,
 } from '../../utils/animations';
-import '../../styling/login.scss';
 import { signInUserThunk, createUserInState, resetPasswordInState, updateUserThunk } from '../../store/userSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Checkbox } from 'primereact/checkbox';
 
 const LoginPage = () => {
 	const navigate = useNavigate();
@@ -28,6 +29,7 @@ const LoginPage = () => {
 		email: '',
 		password: '',
 		confirmPassword: '',
+		ageChecked: false,
 	};
 	const initialSignInForm: SignInForm = {
 		email: '',
@@ -52,6 +54,7 @@ const LoginPage = () => {
 	const [forgotPasswordForm, setForgotPasswordFormState] = useState(initialForgotPasswordForm);
 	const [passwordResetForm, setPasswordResetFormState] = useState(initialPasswordResetForm);
 	const [formError, setFormError] = useState(false);
+	const [ageChecked, setageChecked] = useState<boolean>(false);
 	const [errorMessage, setErrorMessage] = useState('something went wrong...');
 	let isPerformingAnim = false;
 
@@ -91,7 +94,9 @@ const LoginPage = () => {
 
 	const createNewUser = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		console.log('age check: ', ageChecked);
 		const validationResult = validateCredentials(createAccountForm);
+		console.log('res: ', validationResult);
 		if (validationResult.success) {
 			const signupResult = await createUser(createAccountForm);
 			if (signupResult.data) {
@@ -299,6 +304,10 @@ const LoginPage = () => {
 							<input name="email" type="email" placeholder="email" />
 							<input name="password" type="password" placeholder="password" />
 							<input name="confirmPassword" type="password" placeholder="confirm password" />
+							<div className="checkbox-field">
+								<input name="ageChecked" type="checkbox" className="age-checkbox" checked={ageChecked} />
+								<div className="checkbox-label">i am at least 13 years of age</div>
+							</div>
 							{formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
 						</div>
 						<button type="submit">create account</button>
