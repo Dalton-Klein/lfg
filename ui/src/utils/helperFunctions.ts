@@ -28,7 +28,7 @@ export const calcRating = (array: number[]) => {
 	return result;
 };
 
-export const validateCredentials = (createAccountForm: SignUpForm) => {
+export const validateCredentials = (createAccountForm: SignUpForm, ageChecked: boolean) => {
 	if (createAccountForm.name.length <= 3) {
 		return {
 			error: 'display name is too short',
@@ -49,11 +49,11 @@ export const validateCredentials = (createAccountForm: SignUpForm) => {
 			error: 'passwords do not match',
 		};
 	}
-	// if (!createAccountForm.ageChecked) {
-	// 	return {
-	// 		error: 'you must be 13 years or older to sign up',
-	// 	};
-	// }
+	if (!ageChecked) {
+		return {
+			error: 'you must be 13 years or older to sign up',
+		};
+	}
 	return {
 		success: 'credentials passed check',
 	};
