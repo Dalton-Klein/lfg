@@ -94,7 +94,7 @@ const LoginPage = () => {
 
 	const createNewUser = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log('age check: ', ageChecked);
+		console.log('age check: ', createAccountForm);
 		const validationResult = validateCredentials(createAccountForm);
 		console.log('res: ', validationResult);
 		if (validationResult.success) {
@@ -305,7 +305,7 @@ const LoginPage = () => {
 							<input name="password" type="password" placeholder="password" />
 							<input name="confirmPassword" type="password" placeholder="confirm password" />
 							<div className="checkbox-field">
-								<input name="ageChecked" type="checkbox" className="age-checkbox" checked={ageChecked} />
+								<input name="ageChecked" type="checkbox" className="age-checkbox" />
 								<div className="checkbox-label">i am at least 13 years of age</div>
 							</div>
 							{formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}

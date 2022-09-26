@@ -49,11 +49,11 @@ export const validateCredentials = (createAccountForm: SignUpForm) => {
 			error: 'passwords do not match',
 		};
 	}
-	if (!createAccountForm.ageChecked) {
-		return {
-			error: 'you must be 13 years or older to sign up',
-		};
-	}
+	// if (!createAccountForm.ageChecked) {
+	// 	return {
+	// 		error: 'you must be 13 years or older to sign up',
+	// 	};
+	// }
 	return {
 		success: 'credentials passed check',
 	};
