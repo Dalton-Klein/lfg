@@ -4,6 +4,7 @@ const format = require('pg-format');
 const { getUserDataByIdQuery } = require('./user-queries');
 
 const getUserInfo = async (userId) => {
+	console.log('user id????? ', userId);
 	const query = getUserDataByIdQuery();
 	let result = await sequelize.query(query, {
 		type: Sequelize.QueryTypes.SELECT,

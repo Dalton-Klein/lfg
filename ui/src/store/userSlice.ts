@@ -84,7 +84,6 @@ export const signInUserThunk = (signin: SignIn): AppThunk => async (dispatch) =>
 			password: signin.password,
 		});
 		if (!response.error) {
-			console.log('data?', response.data);
 			dispatch(setUser(response.data));
 		}
 		return response;

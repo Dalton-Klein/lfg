@@ -53,13 +53,11 @@ const ExpandedProfile = (props: Props) => {
 			delay: 0.25,
 		});
 		handleMouseLeave();
-		console.log('props', props);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const fetchSocialData = async () => {
 		const socialData = await getProfileSocialData(userState.id, props.userInfo.id, 'nothing');
-		console.log('social data: , ', socialData);
 		setSocialData(socialData);
 	};
 

@@ -283,8 +283,6 @@
 		width: 4vw;
 		height: 4vw;
 		.gender-icon {
-			min-width: 25px;
-			min-height: 25px;
 			width: 2vw;
 			height: 2vw;
 			max-width: 2vw;
@@ -328,6 +326,17 @@
 			border-radius: calc(75px / 2);
 		}
 	}
+	.gender-container {
+		.gender-box {
+			font-size: $font1;
+			.gender-icon {
+				width: 3vw;
+				height: 3vw;
+				max-width: 3vw;
+				max-height: 3vw;
+			}
+		}
+	}
 }
 
 @media screen and (max-width: $screenBreak2) {
@@ -360,6 +369,12 @@
 	.gender-container {
 		.gender-box {
 			font-size: $font1;
+			.gender-icon {
+				width: 4vw;
+				height: 4vw;
+				max-width: 4vw;
+				max-height: 4vw;
+			}
 		}
 	}
 

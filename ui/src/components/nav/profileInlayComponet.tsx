@@ -18,7 +18,6 @@ export default function ProfileInlayComponet() {
 	const [drawerVis, setDrawerVis] = useState<boolean>(false);
 	const [profileImage, setProfileImage] = useState<string>('');
 	const [notifications, setnotifications] = useState<any>([]);
-	const [navItems, setnavItems] = useState<any>([]);
 
 	const dispatch = useDispatch();
 
@@ -39,6 +38,7 @@ export default function ProfileInlayComponet() {
 			setnotifications([{ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }, ...notifications]);
 			renderNotifications();
 		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [notifications]);
 	//END Update notifications list after each chat sent
 
@@ -50,7 +50,9 @@ export default function ProfileInlayComponet() {
 	const loadNotificationHistory = async () => {
 		const historicalNotifications = await getNotificationsUser(userState.id, '');
 		setnotifications([...historicalNotifications]);
-		socketRef.emit('join_room', `notifications-${userState.id}`);
+		if (userState.id && userState.id > 0) {
+			socketRef.emit('join_room', `notifications-${userState.id}`);
+		}
 	};
 
 	const renderNotifications = () => {

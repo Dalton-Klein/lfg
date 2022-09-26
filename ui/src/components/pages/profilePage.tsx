@@ -39,8 +39,10 @@ export default function ProfilePage() {
 
 	useEffect(() => {
 		changeSelection(preferencesState.lastProfileMenu);
-		fetchExistingConnections();
-		fetchPendingConnections();
+		if (userData.id && userData.id > 0) {
+			fetchExistingConnections();
+			fetchPendingConnections();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
