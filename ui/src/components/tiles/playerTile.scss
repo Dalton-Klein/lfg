@@ -27,6 +27,21 @@
 			display: flex;
 			flex-direction: column;
 			margin-left: 1vw;
+			.dynamic-avatar-border {
+				width: 5vw;
+				height: 5vw;
+				min-height: 5vw;
+				min-width: 5vw;
+				object-fit: cover;
+				border-radius: calc(5vw / 2);
+				background-color: $colorShadowLight;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				.dynamic-avatar-text-med {
+					font-size: $font4;
+				}
+			}
 			.card-photo {
 				width: 5vw;
 				height: 5vw;

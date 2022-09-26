@@ -20,7 +20,6 @@ import {
 import { signInUserThunk, createUserInState, resetPasswordInState, updateUserThunk } from '../../store/userSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Checkbox } from 'primereact/checkbox';
 
 const LoginPage = () => {
 	const navigate = useNavigate();

@@ -3,7 +3,8 @@ const Sequelize = require('sequelize');
 const { sequelize } = require('../models/index');
 const { getRustTilesQuery } = require('../services/tiles-queries');
 const { getPendingRequestUserIdsQuery, getExistingConnectionUserIdsQuery } = require('../services/social-queries');
-
+const moment = require('moment');
+const { updateUserGenInfoField } = require('../services/user-common');
 /*
 get tiles logic
 */
@@ -42,6 +43,7 @@ const getRustTiles = async (req, res) => {
 		filteredTiles = filteredTiles.filter((tile) => {
 			return !existingIds.includes(tile.id);
 		});
+		updateUserGenInfoField(userId, 'last_seen', moment().format());
 		res.status(200).send(filteredTiles);
 	} catch (error) {
 		console.log(error);
@@ -52,7 +54,6 @@ const getRustTiles = async (req, res) => {
 const createRustTile = async (req, res) => {
 	try {
 		const { owner, content, category, topics } = req.body.post;
-		console.log('create post req body: ', req.body);
 		let topicsColumnQueryString = '';
 		let topicsValueQueryString = '';
 		if (topics.length) {

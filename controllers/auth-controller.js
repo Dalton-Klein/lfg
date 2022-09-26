@@ -10,6 +10,7 @@ const {
 } = require('../services/user-queries');
 const { users, user_tokens, v_keys, sequelize } = require('../models/index');
 const Sequelize = require('sequelize');
+const { saveNotification } = require('./notification-controller');
 const UserTable = users;
 const TokenTable = user_tokens;
 const vKeyTable = v_keys;
@@ -171,6 +172,7 @@ exports.verify = async (req, res) => {
 				delete user.hashed;
 				await vKeyTable.destroy(filter);
 				const token = services.keyGen(15);
+				await saveNotification(req, user.id, 4, 0);
 				const newToken = await TokenTable.create({ id: user.id, token });
 				res.status(200).json({
 					data: user,

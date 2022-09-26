@@ -13,7 +13,7 @@ import { resetFilterPreferences } from '../../store/userPreferencesSlice';
 export default function DiscoverPage() {
 	const [tilesFeed, setTilesFeed] = useState(<li></li>);
 	const [tilesFromDB, setTilesFromDB] = useState<any>([]);
-	const [isProfileComplete, setIsProfileComplete] = useState<boolean>(false);
+	const [isProfileComplete, setisProfileComplete] = useState<boolean>(false);
 	const preferencesState = useSelector((state: RootState) => state.preferences);
 	const userState = useSelector((state: RootState) => state.user.user);
 
@@ -45,8 +45,7 @@ export default function DiscoverPage() {
 
 	const checkIfProfileComplete = async () => {
 		const isCompleteResult = await attemptPublishRustProfile(userState.id, 'nothing');
-		console.log('completeness: ', isCompleteResult);
-		setIsProfileComplete(isCompleteResult.status === 'success' ? true : false);
+		setisProfileComplete(isCompleteResult.status === 'success' ? true : false);
 	};
 
 	const turnDataIntoTiles = (tileData: any) => {

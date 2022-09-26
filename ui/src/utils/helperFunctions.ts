@@ -110,18 +110,19 @@ export const howLongAgo = (date: any) => {
 	const weeks = now.diff(date, 'weeks');
 	const months = now.diff(date, 'months');
 	const years = now.diff(date, 'years');
-	if (years > 1) return `${years} years ago`;
-	if (years === 1) return `${years} year ago`;
-	if (months > 1) return `${months} months ago`;
-	if (months === 1) return `${months} month ago`;
-	if (weeks > 1) return `${weeks} weeks ago`;
-	if (weeks === 1) return `${weeks} week ago`;
-	if (days > 1) return `${days} days ago`;
-	if (days === 1) return `${days} day ago`;
-	if (hours > 1) return `${hours} hours ago`;
-	if (hours === 1) return `${hours} hour ago`;
-	if (minutes > 1) return `${minutes} minutes ago`;
-	if (minutes === 1) return `${minutes} minute ago`;
+	//Used to be years ago || year ago, shortened but left extra ifs.
+	if (years > 1) return `${years} y`;
+	if (years === 1) return `${years} y`;
+	if (months > 1) return `${months} m`;
+	if (months === 1) return `${months} m`;
+	if (weeks > 1) return `${weeks} w`;
+	if (weeks === 1) return `${weeks} w`;
+	if (days > 1) return `${days} d`;
+	if (days === 1) return `${days} d`;
+	if (hours > 1) return `${hours} h`;
+	if (hours === 1) return `${hours} h`;
+	if (minutes > 1) return `${minutes} m`;
+	if (minutes === 1) return `${minutes} m`;
 	else return 'just now';
 };
 

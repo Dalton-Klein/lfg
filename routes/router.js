@@ -1,11 +1,11 @@
 const express = require('express');
 const authController = require('../controllers/auth-controller');
 const connectionsController = require('../controllers/connections-controller');
-const postsController = require('../controllers/posts-controller');
 const tilesController = require('../controllers/tiles-controller');
 const userController = require('../controllers/profile-general-controller');
 const publishController = require('../controllers/publish-controller');
 const messageController = require('../controllers/message-controller');
+const notificationsController = require('../controllers/notification-controller');
 
 const router = express.Router();
 router.use(express.json());
@@ -25,26 +25,31 @@ router.post('/updateUserInfoField', userController.updateProfileField);
 router.put('/updateGeneralInfoField', userController.updateGeneralInfoField);
 router.put('/updateRustInfoField', userController.updateRustInfoField);
 
+//NOTIFICATIONS RELATED ROUTES
+router.post('/get-notifications', notificationsController.getNotificationsForUser);
+
 //MESSAGING ROUTES
 router.post('/get-chat-history', messageController.getChatHistoryForUser);
 
 //SOCIAL ROUTES
-router.post('/connection-request', userController.sendConnectionRequest);
 router.post('/social', userController.getSocialDetails);
 
 //CONNECTIONS RELATED ROUTES
+router.post('/connection-request', connectionsController.sendConnectionRequest);
 router.post('/accept-connection', connectionsController.acceptConnectionRequest);
 router.post('/connections', connectionsController.getConnectionsForUser);
 router.post('/pending-connections', connectionsController.getPendingConnectionsForUser);
+
+//PUBLISH/ PROFILE COMPLETENESS RELATED ROUTES
+router.post('/publish-rust', publishController.checkIfUserCanPublishRustProfile);
+
+//PUBLISH RELATED ROUTES
+router.post('/rust-tiles', tilesController.getRustTiles);
 
 //POST RELATED ROUTES
 // router.get('/tags', postsController.getCategoriesAndTopics);
 // router.post('/create-post', postsController.createPost);
 // router.post('/posts', postsController.getPosts);
-router.post('/rust-tiles', tilesController.getRustTiles);
-
-//PUBLISH/ PROFILE COMPLETENESS RELATED ROUTES
-router.post('/publish-rust', publishController.checkIfUserCanPublishRustProfile);
 
 //CATCH ALL ROUTE
 // router.route('*', (req, res) => {

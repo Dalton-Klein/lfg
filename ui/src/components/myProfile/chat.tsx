@@ -1,13 +1,13 @@
 import './chat.scss';
 import { Menu } from 'primereact/menu';
 import { useEffect, useRef, useState } from 'react';
-import * as io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import moment from 'moment';
 import { howLongAgo } from '../../utils/helperFunctions';
 import { getChatHistoryForUser } from '../../utils/rest';
 import { Toast } from 'primereact/toast';
+import * as io from 'socket.io-client';
 const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.gangs.gg');
 
 export default function Chat(props: any) {
@@ -32,6 +32,17 @@ export default function Chat(props: any) {
 		determinePlatformImageAndUsername();
 		loadChatHistory();
 		socketRef.emit('join_room', props.id);
+		return () => {
+			setPlatformImage([]);
+			setMessageState({
+				roomId: 1,
+				message: '',
+				senderId: userState.id,
+				sender: userState.username,
+				timestamp: '',
+			});
+			setChat([]);
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

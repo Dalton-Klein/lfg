@@ -37,7 +37,24 @@ export default function PlayerTile(props: any) {
 				{/* main details */}
 				<div className="main-details">
 					<div className="image-column">
-						<img className="card-photo" onClick={() => {}} src={props.avatar_url} alt="avatar" />
+						{props.avatar_url === '' || props.avatar_url === '/assets/avatarIcon.png' ? (
+							<div
+								className="dynamic-avatar-border"
+								onClick={() => {
+									toggleExpandedProfile();
+								}}
+							>
+								<div className="dynamic-avatar-text-med">
+									{props.username
+										.split(' ')
+										.map((word: string[]) => word[0])
+										.join('')
+										.slice(0, 2)}
+								</div>
+							</div>
+						) : (
+							<img className="card-photo" onClick={() => {}} src={props.avatar_url} alt="avatar" />
+						)}
 					</div>
 					<div className="info-column">
 						<div className="info-title-row">

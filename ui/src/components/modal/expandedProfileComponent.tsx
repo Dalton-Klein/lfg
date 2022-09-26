@@ -53,6 +53,7 @@ const ExpandedProfile = (props: Props) => {
 			delay: 0.25,
 		});
 		handleMouseLeave();
+		console.log('props', props);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -94,7 +95,19 @@ const ExpandedProfile = (props: Props) => {
 							alt="exit Icon"
 						/>
 						<div className="expanded-banner">
-							<img className="expanded-photo" onClick={() => {}} src={props.userInfo.avatar_url} alt="avatar" />
+							{props.userInfo.avatar_url === '' || props.userInfo.avatar_url === '/assets/avatarIcon.png' ? (
+								<div className="dynamic-avatar-border">
+									<div className="dynamic-avatar-text-med">
+										{props.userInfo.username
+											.split(' ')
+											.map((word: string[]) => word[0])
+											.join('')
+											.slice(0, 2)}
+									</div>
+								</div>
+							) : (
+								<img className="expanded-photo" onClick={() => {}} src={props.userInfo.avatar_url} alt="avatar" />
+							)}
 							<div className="expanded-basic-info">
 								<div className="expanded-username">{props.userInfo.username}</div>
 								<div className="expanded-basic-text">{lastSeen}</div>
