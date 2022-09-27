@@ -32,11 +32,13 @@ export default function HomePage() {
 	const renderNotifications = () => {
 		if (notifications.length) {
 			let items: any = [];
+			let ownerName;
+			let otherName;
 			const actionPhrases: any = {
-				1: ' sent you a connection request',
-				2: ' accepted your connection request',
-				3: ' sent you a message',
-				4: ' congrats on signing up!',
+				1: `${otherName} sent ${ownerName} a connection request`,
+				2: `${otherName} accepted ${ownerName}'s connection request`,
+				3: `${otherName} sent ${ownerName} a message`,
+				4: `${ownerName} signed up!`,
 			};
 			notifications.forEach((notif: any) => {
 				items.push(
