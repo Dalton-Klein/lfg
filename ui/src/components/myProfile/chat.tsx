@@ -1,14 +1,14 @@
 import './chat.scss';
 import { Menu } from 'primereact/menu';
 import { useEffect, useRef, useState } from 'react';
-import * as io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import moment from 'moment';
 import { howLongAgo } from '../../utils/helperFunctions';
 import { getChatHistoryForUser } from '../../utils/rest';
 import { Toast } from 'primereact/toast';
-const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://gangs.gg');
+import * as io from 'socket.io-client';
+const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.gangs.gg');
 
 export default function Chat(props: any) {
 	const userState = useSelector((state: RootState) => state.user.user);
@@ -30,8 +30,21 @@ export default function Chat(props: any) {
 	//Initial setup of chat window
 	useEffect(() => {
 		determinePlatformImageAndUsername();
-		loadChatHistory();
-		socketRef.emit('join_room', props.id);
+		if (userState.id && userState.id > 0) {
+			loadChatHistory();
+			socketRef.emit('join_room', props.id);
+			return () => {
+				setPlatformImage([]);
+				setMessageState({
+					roomId: 1,
+					message: '',
+					senderId: userState.id,
+					sender: userState.username,
+					timestamp: '',
+				});
+				setChat([]);
+			};
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -46,12 +59,24 @@ export default function Chat(props: any) {
 
 	//This use effect is triggered when flipping between conversations (rooms)
 	useEffect(() => {
-		setChat([]);
-		setMessageState({ ...messageState, roomId: props.id });
-		determinePlatformImageAndUsername();
-		loadChatHistory();
-		socketRef.emit('join_room', props.id);
-		lastMessageRef.current?.scrollIntoView();
+		setChat([
+			{
+				connection_id: 1,
+				created_at: `${moment().format()}`,
+				id: 0,
+				message: 'loading...',
+				sender: 'gangs team',
+				updated_at: `${moment().format()}`,
+				username: 'gangs team',
+			},
+		]);
+		if (userState.id && userState.id > 0) {
+			setMessageState({ ...messageState, roomId: props.id });
+			determinePlatformImageAndUsername();
+			loadChatHistory();
+			socketRef.emit('join_room', props.id);
+			lastMessageRef.current?.scrollIntoView();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props]);
 
@@ -66,17 +91,20 @@ export default function Chat(props: any) {
 		};
 		let assetLink = assetLinks[props.preferred_platform];
 		const isPublic = props.isPublicChat === 'true' ? true : false;
-		setPlatformImage(
-			<div className="messaging-platform-box" style={{ display: !isPublic ? 'inline-block' : 'none' }}>
-				<img className="connection-platform-image" src={assetLink} alt={`platform name`} />
-			</div>
-		);
+		if (props.preferred_platform) {
+			setPlatformImage(
+				<div className="messaging-platform-box" style={{ display: !isPublic ? 'inline-block' : 'none' }}>
+					<img className="connection-platform-image" src={assetLink} alt={`platform name`} />
+				</div>
+			);
+		} else setPlatformImage(<></>);
 	};
 
 	//BEGIN SOCKET Functions
 	const loadChatHistory = async () => {
 		const historicalChatData = await getChatHistoryForUser(userState.id, props.id, '');
-		setChat([...historicalChatData]);
+		if (historicalChatData && historicalChatData.length) setChat([...historicalChatData]);
+		else setChat([]);
 	};
 
 	const onTextChange = (e: any) => {
@@ -86,7 +114,6 @@ export default function Chat(props: any) {
 	const onMessageSubmit = (e: any) => {
 		const { roomId, senderId, sender, message } = messageState;
 		const timestamp = moment().format();
-		console.log('adding message: ', message, ' to room: ', roomId);
 		if (message.length > 750) {
 			toast.current.clear();
 			toast.current.show({
@@ -102,25 +129,37 @@ export default function Chat(props: any) {
 		}
 	};
 	const renderChat = () => {
-		return chat.map(({ sender, message, timestamp }: any, index: number) => {
-			const formattedTimestamp = howLongAgo(timestamp);
-			return (
-				<div
-					className={
-						sender === userState.username
-							? 'message-bubble message-border-owner'
-							: 'message-bubble message-border-non-owner'
-					}
-					key={index}
-				>
-					<div className="message-sender-box">
-						<div className="message-sender-name">{sender}</div>
-						<div className="message-timestamp">{formattedTimestamp}</div>
+		if (chat.length) {
+			return chat.map(({ sender, message, created_at }: any, index: number) => {
+				const formattedTimestamp = howLongAgo(created_at);
+				return (
+					<div
+						className={
+							sender === userState.username
+								? 'message-bubble message-border-owner'
+								: 'message-bubble message-border-non-owner'
+						}
+						key={index}
+					>
+						<div className="message-sender-box">
+							<div className="message-sender-name">{sender}</div>
+							<div className="message-timestamp">{formattedTimestamp}</div>
+						</div>
+						<div className="message-content">{message}</div>
 					</div>
-					<div className="message-content">{message}</div>
+				);
+			});
+		} else {
+			return (
+				<div className="message-bubble message-border-non-owner">
+					<div className="message-sender-box">
+						<div className="message-sender-name">gangs team</div>
+						<div className="message-timestamp"></div>
+					</div>
+					<div className="message-content">no messages yet, go ahead and say hi!</div>
 				</div>
 			);
-		});
+		}
 	};
 	//END SOCKET Functions
 

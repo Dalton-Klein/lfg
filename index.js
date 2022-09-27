@@ -10,10 +10,11 @@ router.use(express.json());
 app.use(cors(), router);
 const path = require('path');
 const { main } = require('./startup/startup');
-const messageController = require('./controllers/message-controller');
 
-//SOCKET
-const io = require('socket.io')(http);
+//START SOCKET
+io = require('socket.io')(http);
+//Secret to making io emit events available in controllers is to set io as global variable
+global._io = io;
 const util = require('util');
 io.on('connection', (socket) => {
 	// User Joins a room
@@ -24,8 +25,7 @@ io.on('connection', (socket) => {
 
 	//Listen for chat messages from users
 	socket.on('message', ({ roomId, senderId, sender, message, timestamp }) => {
-		console.log('Server read chatMessage ', message);
-		messageController.saveMessage(roomId, senderId, message, timestamp);
+		messageController.saveMessage({ app: { io } }, roomId, senderId, message, timestamp);
 		io.to(roomId).emit('message', { roomId, senderId, sender, message, timestamp });
 	});
 
@@ -37,6 +37,10 @@ io.on('connection', (socket) => {
 	});
 });
 
+const sendSocketNotification = (notification) => {
+	io.to(`notifications-${notification.userId}`).emit('notification', { ...notification });
+};
+//END SOCKET
 (async () => {
 	try {
 		// await db.sequelize.sync({ force: true });
@@ -57,3 +61,5 @@ io.on('connection', (socket) => {
 		console.error('☹️Error connecting to the db ☹️ ', e); // eslint-disable-line no-console
 	}
 })();
+
+module.exports = { sendSocketNotification };

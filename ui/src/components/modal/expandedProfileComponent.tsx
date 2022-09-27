@@ -12,6 +12,7 @@ type Props = {
 	userInfo: any;
 	refreshTiles: any;
 	showConnectForm: boolean;
+	isProfileComplete: boolean;
 };
 
 const ExpandedProfile = (props: Props) => {
@@ -57,7 +58,6 @@ const ExpandedProfile = (props: Props) => {
 
 	const fetchSocialData = async () => {
 		const socialData = await getProfileSocialData(userState.id, props.userInfo.id, 'nothing');
-		console.log('social data: , ', socialData);
 		setSocialData(socialData);
 	};
 
@@ -93,7 +93,19 @@ const ExpandedProfile = (props: Props) => {
 							alt="exit Icon"
 						/>
 						<div className="expanded-banner">
-							<img className="expanded-photo" onClick={() => {}} src={props.userInfo.avatar_url} alt="avatar" />
+							{props.userInfo.avatar_url === '' || props.userInfo.avatar_url === '/assets/avatarIcon.png' ? (
+								<div className="dynamic-avatar-border">
+									<div className="dynamic-avatar-text-med">
+										{props.userInfo.username
+											.split(' ')
+											.map((word: string[]) => word[0])
+											.join('')
+											.slice(0, 2)}
+									</div>
+								</div>
+							) : (
+								<img className="expanded-photo" onClick={() => {}} src={props.userInfo.avatar_url} alt="avatar" />
+							)}
 							<div className="expanded-basic-info">
 								<div className="expanded-username">{props.userInfo.username}</div>
 								<div className="expanded-basic-text">{lastSeen}</div>
@@ -183,14 +195,18 @@ const ExpandedProfile = (props: Props) => {
 						{/* Connect Section */}
 						{props.showConnectForm ? (
 							<div className="expanded-connect-box">
-								<input
-									onChange={(event) => {
-										setConnectionText(event.target.value);
-									}}
-									value={connectionText ? connectionText : ''}
-									className="input-box"
-									placeholder={'write a message with your request'}
-								></input>
+								{props.isProfileComplete ? (
+									<input
+										onChange={(event) => {
+											setConnectionText(event.target.value);
+										}}
+										value={connectionText ? connectionText : ''}
+										className="input-box"
+										placeholder={'write a message...'}
+									></input>
+								) : (
+									<div className="profile-incomplete-text">**complete profile before sending requests**</div>
+								)}
 								<button
 									className="connect-button"
 									onClick={() => {

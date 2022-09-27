@@ -44,6 +44,10 @@ const DrawerComponent = (props: Props) => {
 			delay: 0.25,
 		});
 		handleMouseLeave();
+		return () => {
+			setExitIcon('/assets/exit-icon.png');
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handleMouseEnter = () => {

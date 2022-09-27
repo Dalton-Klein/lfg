@@ -84,7 +84,6 @@ export const signInUserThunk = (signin: SignIn): AppThunk => async (dispatch) =>
 			password: signin.password,
 		});
 		if (!response.error) {
-			console.log('data?', response.data);
 			dispatch(setUser(response.data));
 		}
 		return response;
@@ -98,6 +97,7 @@ export const updateUserThunk = (userId: number): AppThunk => async (dispatch) =>
 	try {
 		let response: any;
 		response = await fetchUserData(userId);
+		console.log('update user result: ', response);
 		if (!response.error) {
 			dispatch(setUser(response.data));
 		}

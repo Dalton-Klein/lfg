@@ -1,5 +1,48 @@
 @import '../../styling/config';
 
+.p-menu {
+	.p-menuitem-text {
+		.notification-container {
+			display: flex;
+			align-items: center;
+			.notification-username {
+				color: $colorPrimary;
+				margin-right: 0.5vw;
+			}
+			.notification-timestamp {
+				margin-left: 0.5vw;
+				color: $colorTextAlt;
+			}
+			.notification-profile-image {
+				min-width: 3vw;
+				max-width: 3vw;
+				min-height: 3vw;
+				max-height: 3vw;
+				border-radius: calc(3vw / 2);
+				transition: $transition1;
+				cursor: pointer;
+				margin-right: 0.5vw;
+			}
+			.dynamic-avatar-border {
+				@extend .notification-profile-image;
+				background-color: $colorShadowLight;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				cursor: pointer;
+				.dynamic-avatar-text-small {
+					font-size: $font3;
+				}
+			}
+			.notification-profile-image:hover {
+				transform: scale(1.05);
+			}
+			.dynamic-avatar-border:hover {
+				transform: scale(1.05);
+			}
+		}
+	}
+}
 .my-profile-overlay {
 	margin: 1vh 1vw;
 	height: 40px;
@@ -27,6 +70,17 @@
 	// i:hover {
 	//   transform: scale(1.05);
 	// }
+	.notifications-button {
+		transition: $transition1;
+		margin-right: 1vw;
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+	.notifications-button:hover {
+		background-color: rgba(255, 255, 0, 0);
+		transform: scale(1.05);
+		color: white;
+	}
 	.nav-overlay-img {
 		display: block;
 		object-fit: contain;

@@ -150,6 +150,7 @@ export default function ProfileGeneral(props: any) {
 	};
 
 	const tryPublishRustProfile = async () => {
+		console.log('here? ', isProfileDiscoverable);
 		if (!isProfileDiscoverable) {
 			//execute http req
 			const result = await attemptPublishRustProfile(userData.id, '');
@@ -259,6 +260,7 @@ export default function ProfileGeneral(props: any) {
 					userInfo={userData}
 					refreshTiles={() => {}}
 					showConnectForm={false}
+					isProfileComplete={true}
 				/>
 			) : (
 				<></>
@@ -548,10 +550,10 @@ export default function ProfileGeneral(props: any) {
 							setHasUnsavedChanges(true);
 						}}
 						className="react-switch-checkbox"
-						id={`react-switch-new`}
+						id={`react-switch-emails-notifications`}
 						type="checkbox"
 					/>
-					<label className="react-switch-label" htmlFor={`react-switch-new`}>
+					<label className="react-switch-label" htmlFor={`react-switch-emails-notifications`}>
 						<span className={`react-switch-button`} />
 					</label>
 				</div>
@@ -565,10 +567,10 @@ export default function ProfileGeneral(props: any) {
 							setHasUnsavedChanges(true);
 						}}
 						className="react-switch-checkbox"
-						id={`react-switch-new`}
+						id={`react-switch-emails-marketing`}
 						type="checkbox"
 					/>
-					<label className="react-switch-label" htmlFor={`react-switch-new`}>
+					<label className="react-switch-label" htmlFor={`react-switch-emails-marketing`}>
 						<span className={`react-switch-button`} />
 					</label>
 				</div>
@@ -592,10 +594,10 @@ export default function ProfileGeneral(props: any) {
 							tryPublishRustProfile();
 						}}
 						className="react-switch-checkbox"
-						id={`react-switch-new`}
+						id={`react-switch-rust-published`}
 						type="checkbox"
 					/>
-					<label className="react-switch-label" htmlFor={`react-switch-new`}>
+					<label className="react-switch-label" htmlFor={`react-switch-rust-published`}>
 						<span className={`react-switch-button`} />
 					</label>
 				</div>

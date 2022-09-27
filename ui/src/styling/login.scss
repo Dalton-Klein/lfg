@@ -67,6 +67,26 @@
 						color: $colorGreyBg;
 						width: 50%;
 					}
+					.checkbox-field {
+						margin: 0.4em;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						align-items: center;
+						.age-checkbox {
+							border: 2px solid #ced4da;
+							background: #ffffff;
+							width: 22px;
+							height: 22px;
+							color: #495057;
+							border-radius: $borderRadius1;
+							transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+						}
+						.checkbox-label {
+							font-size: $font2;
+							margin-top: 0.4em;
+						}
+					}
 				}
 				button {
 					width: 40%;
@@ -85,6 +105,7 @@
 .error-mssg {
 	color: rgb(182, 0, 0);
 	min-height: 3vh;
+	text-align: center;
 }
 
 @media screen and (max-width: 900px) {

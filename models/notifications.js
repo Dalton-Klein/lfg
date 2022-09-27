@@ -1,31 +1,27 @@
 module.exports = (sequelize, DataTypes) => {
-	const connection_requests = sequelize.define(
-		'connection_requests',
+	const notifications = sequelize.define(
+		'notifications',
 		{
 			id: {
 				type: DataTypes.INTEGER,
 				autoIncrement: true,
 				primaryKey: true,
 			},
-			sender: {
+			owner_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
-			receiver: {
+			type_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
-			platform: {
+			other_user_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
-			},
-			message: {
-				type: DataTypes.STRING,
-				allowNull: true,
 			},
 		},
 		{ schema: 'public', freezeTableName: true }
 	);
 
-	return connection_requests;
+	return notifications;
 };

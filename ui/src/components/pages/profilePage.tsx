@@ -39,8 +39,10 @@ export default function ProfilePage() {
 
 	useEffect(() => {
 		changeSelection(preferencesState.lastProfileMenu);
-		fetchExistingConnections();
-		fetchPendingConnections();
+		if (userData.id && userData.id > 0) {
+			fetchExistingConnections();
+			fetchPendingConnections();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -132,7 +134,7 @@ export default function ProfilePage() {
 			4: 'outgoing',
 			5: 'blocked',
 			6: 'account settings',
-			7: 'rust settings',
+			7: 'rust profile',
 		};
 		setSubmenuTitle(menuTitleKey[value]);
 		setSelection(value);
@@ -161,17 +163,17 @@ export default function ProfilePage() {
 					},
 				},
 				{
+					label: 'rust profile',
+					icon: 'pi pi-fw pi-map',
+					command: () => {
+						changeSelection(7);
+					},
+				},
+				{
 					label: 'account settings',
 					icon: 'pi pi-fw pi-cog',
 					command: () => {
 						changeSelection(6);
-					},
-				},
-				{
-					label: 'rust settings',
-					icon: 'pi pi-fw pi-sliders-h',
-					command: () => {
-						changeSelection(7);
 					},
 				},
 			],

@@ -13,6 +13,10 @@ export default function ConnectionTile(props: any) {
 		if (props.preferred_platform === 1) setPlatformUsername(props.discord);
 		else if (props.preferred_platform === 2) setPlatformUsername(props.psn);
 		else if (props.preferred_platform === 3) setPlatformUsername(props.xbox);
+		return () => {
+			setPlatformUsername('');
+			setExpandedProfileVis(false);
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -42,6 +46,7 @@ export default function ConnectionTile(props: any) {
 						userInfo={props}
 						refreshTiles={props.refreshTiles}
 						showConnectForm={false}
+						isProfileComplete={true}
 					/>
 				) : (
 					<></>

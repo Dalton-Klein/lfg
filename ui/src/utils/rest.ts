@@ -170,6 +170,7 @@ export const createConnectionRequest = async (
 	Update User Data Calls
 */
 export const fetchUserData = async (userId: number) => {
+	console.log('fetching data for: ', userId);
 	let result = await fetch(`${endpointURL}/getUserDetails`, {
 		method: 'POST',
 		headers: {
@@ -182,6 +183,7 @@ export const fetchUserData = async (userId: number) => {
 		.then((res) => res.json())
 		.then((data) => data)
 		.catch((err) => console.log('FETCH USER DATA ERROR', err));
+	console.log('USER DATA ???? ', result);
 	return result;
 };
 
@@ -330,7 +332,7 @@ export const acceptConnectionRequest = async (
 };
 
 /*
-	Socket Chat Messaging Calls
+	Socket Calls
 */
 export const getChatHistoryForUser = async (userId: number, chatId: number, token: string) => {
 	let result = await fetch(`${endpointURL}/get-chat-history`, {
@@ -347,6 +349,23 @@ export const getChatHistoryForUser = async (userId: number, chatId: number, toke
 		.then((res) => res.json())
 		.then((data) => data)
 		.catch((err) => console.log('Error while fetching chat history', err));
+	return result;
+};
+
+export const getNotificationsUser = async (userId: number, token: string) => {
+	let result = await fetch(`${endpointURL}/get-notifications`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			userId,
+			token,
+		}),
+	})
+		.then((res) => res.json())
+		.then((data) => data)
+		.catch((err) => console.log('Error while fetching notification history', err));
 	return result;
 };
 
