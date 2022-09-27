@@ -97,7 +97,6 @@ export const updateUserThunk = (userId: number): AppThunk => async (dispatch) =>
 	try {
 		let response: any;
 		response = await fetchUserData(userId);
-		console.log('update user result: ', response);
 		if (!response.error) {
 			dispatch(setUser(response.data));
 		}

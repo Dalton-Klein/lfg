@@ -183,7 +183,6 @@ export const fetchUserData = async (userId: number) => {
 		.then((res) => res.json())
 		.then((data) => data)
 		.catch((err) => console.log('FETCH USER DATA ERROR', err));
-	console.log('USER DATA ???? ', result);
 	return result;
 };
 
