@@ -32,7 +32,7 @@ export default function ProfileInlayComponet() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	//BEGIN Update notifications list after each chat sent
+	//BEGIN Update notifications list after each notification sent
 	useEffect(() => {
 		socketRef.on('notification', ({ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }: any) => {
 			setnotifications([{ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }, ...notifications]);
@@ -40,7 +40,7 @@ export default function ProfileInlayComponet() {
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [notifications]);
-	//END Update notifications list after each chat sent
+	//END Update notifications list after each notification sent
 
 	useEffect(() => {
 		setProfileImage(userState.avatar_url);

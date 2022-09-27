@@ -368,6 +368,20 @@ export const getNotificationsUser = async (userId: number, token: string) => {
 	return result;
 };
 
+export const getNotificationsGeneral = async () => {
+	let result = await fetch(`${endpointURL}/get-notifications-general`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({}),
+	})
+		.then((res) => res.json())
+		.then((data) => data)
+		.catch((err) => console.log('Error while fetching notification history', err));
+	return result;
+};
+
 /*
 	Posts Calls
 */
