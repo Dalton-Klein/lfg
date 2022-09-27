@@ -7,7 +7,10 @@ const moment = require('moment');
 const getUserDetails = async (req, res) => {
 	try {
 		const { userId } = req.body;
-		let result = getUserInfo(userId);
+		console.log('user id????? ', userId);
+		if (!userId) throw new Error('STOPP');
+		let result = await getUserInfo(userId);
+		console.log('result????? ', result);
 		if (result && result[0]) result = result[0];
 		res.status(200).send({ data: result });
 	} catch (err) {

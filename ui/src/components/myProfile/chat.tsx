@@ -30,19 +30,21 @@ export default function Chat(props: any) {
 	//Initial setup of chat window
 	useEffect(() => {
 		determinePlatformImageAndUsername();
-		loadChatHistory();
-		socketRef.emit('join_room', props.id);
-		return () => {
-			setPlatformImage([]);
-			setMessageState({
-				roomId: 1,
-				message: '',
-				senderId: userState.id,
-				sender: userState.username,
-				timestamp: '',
-			});
-			setChat([]);
-		};
+		if (userState.id && userState.id > 0) {
+			loadChatHistory();
+			socketRef.emit('join_room', props.id);
+			return () => {
+				setPlatformImage([]);
+				setMessageState({
+					roomId: 1,
+					message: '',
+					senderId: userState.id,
+					sender: userState.username,
+					timestamp: '',
+				});
+				setChat([]);
+			};
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -68,11 +70,13 @@ export default function Chat(props: any) {
 				username: 'gangs team',
 			},
 		]);
-		setMessageState({ ...messageState, roomId: props.id });
-		determinePlatformImageAndUsername();
-		loadChatHistory();
-		socketRef.emit('join_room', props.id);
-		lastMessageRef.current?.scrollIntoView();
+		if (userState.id && userState.id > 0) {
+			setMessageState({ ...messageState, roomId: props.id });
+			determinePlatformImageAndUsername();
+			loadChatHistory();
+			socketRef.emit('join_room', props.id);
+			lastMessageRef.current?.scrollIntoView();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props]);
 
@@ -99,7 +103,8 @@ export default function Chat(props: any) {
 	//BEGIN SOCKET Functions
 	const loadChatHistory = async () => {
 		const historicalChatData = await getChatHistoryForUser(userState.id, props.id, '');
-		setChat([...historicalChatData]);
+		if (historicalChatData && historicalChatData.length) setChat([...historicalChatData]);
+		else setChat([]);
 	};
 
 	const onTextChange = (e: any) => {

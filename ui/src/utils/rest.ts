@@ -170,6 +170,7 @@ export const createConnectionRequest = async (
 	Update User Data Calls
 */
 export const fetchUserData = async (userId: number) => {
+	console.log('fetching data for: ', userId);
 	let result = await fetch(`${endpointURL}/getUserDetails`, {
 		method: 'POST',
 		headers: {
@@ -182,6 +183,7 @@ export const fetchUserData = async (userId: number) => {
 		.then((res) => res.json())
 		.then((data) => data)
 		.catch((err) => console.log('FETCH USER DATA ERROR', err));
+	console.log('USER DATA ???? ', result);
 	return result;
 };
 

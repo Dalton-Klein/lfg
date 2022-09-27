@@ -21,7 +21,7 @@ export default function DiscoverPage() {
 
 	useEffect(() => {
 		fetchTilesData();
-		checkIfProfileComplete();
+		if (userState.id && userState.id > 0) checkIfProfileComplete();
 		dispatch(resetFilterPreferences());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -39,7 +39,7 @@ export default function DiscoverPage() {
 	}, [preferencesState.discoverFilters]);
 
 	const fetchTilesData = async () => {
-		const tiles = await getRustTiles(userState.id, 'nothing');
+		const tiles = await getRustTiles(userState.id && userState.id > 0 ? userState.id : 0, 'nothing');
 		setTilesFromDB(tiles);
 	};
 
