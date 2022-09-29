@@ -183,7 +183,6 @@ export const fetchUserData = async (userId: number) => {
 		.then((res) => res.json())
 		.then((data) => data)
 		.catch((err) => console.log('FETCH USER DATA ERROR', err));
-	console.log('USER DATA ???? ', result);
 	return result;
 };
 
@@ -362,6 +361,20 @@ export const getNotificationsUser = async (userId: number, token: string) => {
 			userId,
 			token,
 		}),
+	})
+		.then((res) => res.json())
+		.then((data) => data)
+		.catch((err) => console.log('Error while fetching notification history', err));
+	return result;
+};
+
+export const getNotificationsGeneral = async () => {
+	let result = await fetch(`${endpointURL}/get-notifications-general`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({}),
 	})
 		.then((res) => res.json())
 		.then((data) => data)
