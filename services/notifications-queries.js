@@ -43,7 +43,7 @@ const getAllNotificationsQuery = () => {
              on u.id = n.other_user_id
       left join public.users u1
              on u1.id = n.owner_id
-       order by n.created_at asc
+       order by n.created_at desc
   `;
 };
 

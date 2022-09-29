@@ -34,13 +34,14 @@ const saveNotification = async (req, userId, typeId, otherUserId) => {
     });
     //Third, get user data for notification
     let otherUserDetails = await getUserInfo(otherUserId);
-    let ownerUserDetails = await getUserInfo(ownerId);
+    let ownerUserDetails = await getUserInfo(userId);
     otherUserDetails = otherUserDetails[0];
+    ownerUserDetails = ownerUserDetails[0];
     const _io = global._io;
     //Send Private Notifcation to owner
     _io.to(`notifications-${userId}`).emit("notification", {
-      id: 0,
-      owner_id: notificationResult.id,
+      id: notificationResult.id,
+      owner_id: ownerUserDetails.id,
       type_id: typeId,
       other_user_id: otherUserId,
       other_username: otherUserDetails.username,
@@ -48,8 +49,8 @@ const saveNotification = async (req, userId, typeId, otherUserId) => {
     });
     //Send Public Notification to home page
     _io.to(`notifications-general`).emit("notification", {
-      id: 0,
-      owner_id: notificationResult.id,
+      id: notificationResult.id,
+      owner_id: ownerUserDetails.id,
       owner_username: ownerUserDetails.username,
       owner_avatar_url: ownerUserDetails.avatar_url,
       type_id: typeId,

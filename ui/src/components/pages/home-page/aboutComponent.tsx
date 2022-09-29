@@ -8,7 +8,7 @@ const socketRef = io.connect(process.env.NODE_ENV === "development" ? "http://lo
 export default function HomePage() {
   const [notifications, setnotifications] = useState<any>([]);
 
-  const lastNotificationRef: any = useRef(null);
+  const firstNotificationRef: any = useRef(null);
 
   useEffect(() => {
     loadNotificationHistory();
@@ -17,12 +17,26 @@ export default function HomePage() {
 
   //BEGIN Update notifications list after each notification sent
   useEffect(() => {
-    socketRef.on("notification", ({ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }: any) => {
-      setnotifications([{ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }, ...notifications]);
-      renderNotifications();
-    });
+    socketRef.on(
+      "notification",
+      ({
+        owner_id,
+        owner_username,
+        owner_avatar_url,
+        type_id,
+        other_user_id,
+        other_user_avatar_url,
+        other_username,
+      }: any) => {
+        console.log("received notification: ", owner_username, "  ", other_username);
+        setnotifications([
+          { owner_id, owner_username, owner_avatar_url, type_id, other_user_id, other_user_avatar_url, other_username },
+          ...notifications,
+        ]);
+      }
+    );
     console.log("scrolling", notifications.length);
-    lastNotificationRef.current?.scrollIntoView();
+    firstNotificationRef.current?.scrollIntoView();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications]);
   //END Update notifications list after each notification sent
@@ -133,8 +147,8 @@ export default function HomePage() {
         </div>
       </div>
       <div className="column-2">
+        <div ref={firstNotificationRef} />
         {renderNotifications()}
-        <div ref={lastNotificationRef} />
       </div>
     </div>
   );
