@@ -26,50 +26,106 @@
     overflow: scroll;
     .notification-container {
       display: flex;
+      justify-content: space-between;
       align-items: center;
       margin: 0.75vh 0;
       background-color: $colorGreyBg;
       border-radius: $borderRadius2;
       padding: 1vh 1vw;
-      .notification-username {
-        color: $colorPrimary;
-        margin-right: 0.5vw;
-        margin-left: 0.5vw;
-      }
-      .notification-username2 {
-        @extend .notification-username;
-        margin-right: 0;
-      }
-      .notification-timestamp {
-        margin-left: 0.5vw;
-        color: $colorTextAlt;
-      }
-      .notification-profile-image {
-        min-width: 3vw;
-        max-width: 3vw;
-        min-height: 3vw;
-        max-height: 3vw;
-        border-radius: calc(3vw / 2);
-        margin-left: 0.5vw;
-        transition: $transition1;
-        cursor: pointer;
-      }
-      .dynamic-avatar-border {
-        @extend .notification-profile-image;
-        background-color: $colorShadowLight;
+      .info-stackable-container {
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        cursor: pointer;
-        .dynamic-avatar-text-small {
-          font-size: $font3;
+        .user-1-container {
+          display: flex;
+          align-items: center;
+        }
+        .user-2-container {
+          @extend .user-1-container;
+        }
+        .notification-username {
+          color: $colorPrimary;
+          margin-right: 0.5vw;
+          margin-left: 0.5vw;
+        }
+        .notification-username2 {
+          @extend .notification-username;
+          margin-right: 0;
+        }
+        .notification-timestamp {
+          margin-left: 0.5vw;
+          min-width: 4vw;
+          color: $colorTextAlt;
+        }
+        .notification-profile-image {
+          min-width: 3vw;
+          max-width: 3vw;
+          min-height: 3vw;
+          max-height: 3vw;
+          border-radius: calc(3vw / 2);
+          margin-left: 0.5vw;
+          transition: $transition1;
+          cursor: pointer;
+        }
+        .dynamic-avatar-border {
+          @extend .notification-profile-image;
+          background-color: $colorShadowLight;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          .dynamic-avatar-text-small {
+            font-size: $font3;
+          }
+        }
+        .notification-profile-image:hover {
+          transform: scale(1.05);
+        }
+        .dynamic-avatar-border:hover {
+          transform: scale(1.05);
         }
       }
-      .notification-profile-image:hover {
-        transform: scale(1.05);
+    }
+  }
+}
+
+@media screen and (max-width: $screenBreak1) {
+  .about-container {
+    .column-2 {
+      .notification-container {
+        .info-stackable-container {
+          .notification-profile-image {
+            min-width: 4vw;
+            max-width: 4vw;
+            min-height: 4vw;
+            max-height: 4vw;
+            border-radius: calc(4vw / 2);
+          }
+        }
+        .notification-timestamp {
+          min-width: 8vw;
+        }
       }
-      .dynamic-avatar-border:hover {
-        transform: scale(1.05);
+    }
+  }
+}
+@media screen and (max-width: $screenBreak2) {
+  .about-container {
+    .column-2 {
+      .notification-container {
+        .info-stackable-container {
+          .notification-profile-image {
+            min-width: 6.5vw;
+            max-width: 6.5vw;
+            min-height: 6.5vw;
+            max-height: 6.5vw;
+            border-radius: calc(6.5vw / 2);
+          }
+        }
+        .notification-timestamp {
+          min-width: 12vw;
+        }
       }
     }
   }

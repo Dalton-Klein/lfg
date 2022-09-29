@@ -28,14 +28,12 @@ export default function HomePage() {
         other_user_avatar_url,
         other_username,
       }: any) => {
-        console.log("received notification: ", owner_username, "  ", other_username);
         setnotifications([
           { owner_id, owner_username, owner_avatar_url, type_id, other_user_id, other_user_avatar_url, other_username },
           ...notifications,
         ]);
       }
     );
-    console.log("scrolling", notifications.length);
     firstNotificationRef.current?.scrollIntoView();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications]);
@@ -78,57 +76,64 @@ export default function HomePage() {
         const user2 = user2Key[notif.type_id];
         items.push(
           <div className="notification-container" key={notif.id}>
-            {notif.other_user_avatar_url === "" ||
-            notif.other_user_avatar_url === "/assets/avatarIcon.png" ||
-            notif.other_user_avatar_url === null ? (
-              <div className="dynamic-avatar-border">
-                <div className="dynamic-avatar-text-small">
-                  {notif.other_username === null
-                    ? "gg"
-                    : notif.other_username
-                        .split(" ")
-                        .map((word: string[]) => word[0])
-                        .join("")
-                        .slice(0, 2)}
-                </div>
-              </div>
-            ) : (
-              <img
-                className="notification-profile-image"
-                src={notif.other_user_avatar_url}
-                alt={`${notif.other_username}'s avatar`}
-              />
-            )}
-            {/* <div className="notification-username"> {notif.other_username}</div> */}
-            <div className="notification-username"> {user1}</div>
-            {actionPhrase}
-            {notif.type_id !== 4 ? (
-              notif.owner_avatar_url === "" ||
-              notif.owner_avatar_url === "/assets/avatarIcon.png" ||
-              notif.owner_avatar_url === null ? (
-                <div className="dynamic-avatar-border">
-                  <div className="dynamic-avatar-text-small">
-                    {notif.owner_username === null
-                      ? "gg"
-                      : notif.owner_username
-                          .split(" ")
-                          .map((word: string[]) => word[0])
-                          .join("")
-                          .slice(0, 2)}
+            <div className="info-stackable-container">
+              <div className="user-1-container">
+                {notif.other_user_avatar_url === "" ||
+                notif.other_user_avatar_url === "/assets/avatarIcon.png" ||
+                notif.other_user_avatar_url === null ? (
+                  <div className="dynamic-avatar-border">
+                    <div className="dynamic-avatar-text-small">
+                      {notif.other_username === null
+                        ? "gg"
+                        : notif.other_username
+                            .split(" ")
+                            .map((word: string[]) => word[0])
+                            .join("")
+                            .slice(0, 2)}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <img
+                    className="notification-profile-image"
+                    src={notif.other_user_avatar_url}
+                    alt={`${notif.other_username}'s avatar`}
+                  />
+                )}
+                <div className="notification-username"> {user1}</div>
+                {actionPhrase}
+              </div>
+              {notif.type_id !== 4 ? (
+                notif.owner_avatar_url === "" ||
+                notif.owner_avatar_url === "/assets/avatarIcon.png" ||
+                notif.owner_avatar_url === null ? (
+                  <div className="user-2-container">
+                    <div className="dynamic-avatar-border">
+                      <div className="dynamic-avatar-text-small">
+                        {notif.owner_username === null
+                          ? "gg"
+                          : notif.owner_username
+                              .split(" ")
+                              .map((word: string[]) => word[0])
+                              .join("")
+                              .slice(0, 2)}
+                      </div>
+                    </div>
+                    <div className="notification-username2"> {user2}</div>
+                  </div>
+                ) : (
+                  <div className="user-2-container">
+                    <img
+                      className="notification-profile-image"
+                      src={notif.owner_avatar_url}
+                      alt={`${notif.owner_username}'s avatar`}
+                    />
+                    <div className="notification-username2"> {user2}</div>
+                  </div>
+                )
               ) : (
-                <img
-                  className="notification-profile-image"
-                  src={notif.owner_avatar_url}
-                  alt={`${notif.owner_username}'s avatar`}
-                />
-              )
-            ) : (
-              <></>
-            )}
-
-            <div className="notification-username2"> {user2}</div>
+                <></>
+              )}
+            </div>
             <div className="notification-timestamp">{howLongAgo(notif.created_at)}</div>
           </div>
         );

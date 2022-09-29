@@ -29,6 +29,12 @@ export default function DiscoverPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  //Used to fetch tiles only after profile completeness is decided
+  useEffect(() => {
+    fetchTilesData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isProfileComplete]);
+
   //Used to render initial tiles, unfiltered
   useEffect(() => {
     turnDataIntoTiles(tilesFromDB);
@@ -41,12 +47,6 @@ export default function DiscoverPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preferencesState.discoverFilters]);
 
-  //Used to fetch tiles only after profile completeness is decided
-  useEffect(() => {
-    fetchTilesData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isProfileComplete]);
-
   const fetchTilesData = async () => {
     const tiles = await getRustTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
     setTilesFromDB(tiles);
@@ -54,7 +54,7 @@ export default function DiscoverPage() {
 
   const checkIfProfileComplete = async () => {
     const isCompleteResult = await attemptPublishRustProfile(userState.id, "nothing");
-    console.log("complete? ", isCompleteResult);
+    console.log("checking completeness: ", isCompleteResult);
     setisProfileComplete(isCompleteResult.status === "success" ? true : false);
   };
 
