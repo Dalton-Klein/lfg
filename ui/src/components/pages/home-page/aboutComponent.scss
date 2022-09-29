@@ -6,13 +6,71 @@
   min-height: 30vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   .column-1 {
-    max-width: 50%;
+    width: 800px;
+    min-width: 300px;
     padding-left: 5vw;
     padding-right: 5vw;
+    margin-top: 2vh;
     .about-text {
       font-size: $font2;
       text-align: center;
+    }
+  }
+  .column-2 {
+    @extend .column-1;
+    margin-bottom: 2vh;
+    max-height: 25vh;
+    overflow: scroll;
+    .notification-container {
+      display: flex;
+      align-items: center;
+      margin: 0.75vh 0;
+      background-color: $colorGreyBg;
+      border-radius: $borderRadius2;
+      padding: 1vh 1vw;
+      .notification-username {
+        color: $colorPrimary;
+        margin-right: 0.5vw;
+        margin-left: 0.5vw;
+      }
+      .notification-username2 {
+        @extend .notification-username;
+        margin-right: 0;
+      }
+      .notification-timestamp {
+        margin-left: 0.5vw;
+        color: $colorTextAlt;
+      }
+      .notification-profile-image {
+        min-width: 3vw;
+        max-width: 3vw;
+        min-height: 3vw;
+        max-height: 3vw;
+        border-radius: calc(3vw / 2);
+        margin-left: 0.5vw;
+        transition: $transition1;
+        cursor: pointer;
+      }
+      .dynamic-avatar-border {
+        @extend .notification-profile-image;
+        background-color: $colorShadowLight;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        .dynamic-avatar-text-small {
+          font-size: $font3;
+        }
+      }
+      .notification-profile-image:hover {
+        transform: scale(1.05);
+      }
+      .dynamic-avatar-border:hover {
+        transform: scale(1.05);
+      }
     }
   }
 }
