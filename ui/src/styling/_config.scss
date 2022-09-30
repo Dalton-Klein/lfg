@@ -13,7 +13,7 @@ $colorButtonHover: #dfdfdf;
 $colorShadowLight: rgba(48, 48, 48, 0.85);
 $colorShadowDark: rgba(0, 0, 0, 0.65);
 $colorDivider: rgb(44, 44, 44);
-$font1: calc(8px + 0.25vw);
+$font1: calc(9px + 0.5vw);
 $font2: calc(14px + 0.25vw);
 $font3: calc(15px + 0.4vw);
 $font4: calc(18px + 0.7vw);
@@ -27,19 +27,19 @@ $screenBreak1: 1200px;
 $screenBreak2: 500px;
 
 .flex-center {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .flex-column-center {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .flex-between {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
