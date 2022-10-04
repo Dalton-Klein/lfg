@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../../styling/login.scss';
+import './authenticationPage.scss';
 import { SignUpForm, SignInForm, VerificationForm, PasswordResetForm } from '../../utils/interfaces';
 import { createUser, requestPasswordReset } from '../../utils/rest';
 import {
@@ -20,6 +20,9 @@ import {
 import { signInUserThunk, createUserInState, resetPasswordInState, updateUserThunk } from '../../store/userSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { GoogleLogin } from 'react-google-login';
+
+const clientId = '244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com';
 
 const LoginPage = () => {
 	const navigate = useNavigate();
@@ -59,6 +62,7 @@ const LoginPage = () => {
 
 	useEffect(() => {
 		setUpAnim();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const performingAnim = async (legthOfAnim: number) => {
@@ -127,6 +131,12 @@ const LoginPage = () => {
 		}
 		setSignInFormState(signInFormCopy);
 	};
+
+	//START Google Logic
+	const onGoogleFailure = (res: any) => {};
+
+	const onGoogleSuccess = (res: any) => {};
+	//END Google Logic
 
 	const signInUser = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -337,6 +347,15 @@ const LoginPage = () => {
 							{formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
 						</div>
 						<button type="submit">sign in</button>
+						<GoogleLogin
+							className="google-button"
+							clientId={clientId}
+							buttonText="google login"
+							onSuccess={onGoogleSuccess}
+							onFailure={onGoogleFailure}
+							cookiePolicy={'single_host_origin'}
+							isSignedIn={true}
+						/>
 						<button type="button" onClick={() => changeMenu(2)} className="alt-button">
 							create account
 						</button>

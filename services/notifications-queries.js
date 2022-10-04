@@ -1,5 +1,5 @@
 const createNotificationQuery = () => {
-  return `
+	return `
     insert into public.notifications ( owner_id,
                                   type_id,
                                   other_user_id,
@@ -15,7 +15,7 @@ const createNotificationQuery = () => {
 };
 
 const removeNotificationQuery = () => {
-  return `
+	return `
       delete from public.notifications
             where owner_id = :ownerId
               and type_id = :typeId
@@ -24,7 +24,7 @@ const removeNotificationQuery = () => {
 };
 
 const getNotificationsQuery = () => {
-  return `
+	return `
          select n.*, u.username as other_username, u.avatar_url as other_user_avatar_url
            from public.notifications n
       left join public.users u
@@ -35,7 +35,7 @@ const getNotificationsQuery = () => {
 };
 
 const getAllNotificationsQuery = () => {
-  return `
+	return `
          select n.*, u1.username as owner_username, u1.avatar_url as owner_avatar_url,
                 u.username as other_username, u.avatar_url as other_user_avatar_url
            from public.notifications n
@@ -43,13 +43,14 @@ const getAllNotificationsQuery = () => {
              on u.id = n.other_user_id
       left join public.users u1
              on u1.id = n.owner_id
+          where n.type_id != 3
        order by n.created_at desc
   `;
 };
 
 module.exports = {
-  createNotificationQuery,
-  removeNotificationQuery,
-  getNotificationsQuery,
-  getAllNotificationsQuery,
+	createNotificationQuery,
+	removeNotificationQuery,
+	getNotificationsQuery,
+	getAllNotificationsQuery,
 };

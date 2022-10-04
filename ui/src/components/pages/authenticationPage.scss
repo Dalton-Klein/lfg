@@ -1,4 +1,4 @@
-@import './config';
+@import '../../styling/config';
 
 .login-container {
 	display: flex;
@@ -91,6 +91,36 @@
 				button {
 					width: 40%;
 					font-size: $font3;
+				}
+				.google-button {
+					cursor: pointer !important;
+					font-family: 'deToks' !important;
+					border-radius: $borderRadius1 !important;
+					transition: 125ms !important;
+					min-height: 2.75em !important;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					color: $colorText !important;
+					background-color: $colorGreyPop !important;
+					box-shadow: 0 0 0px 0 rgba(10, 10, 10, 0) !important;
+					div {
+						transition: 125ms !important;
+						max-height: 100%;
+						background-color: $colorGreyPop !important;
+					}
+					span {
+						font-weight: 300 !important;
+						font-size: $font3;
+					}
+				}
+				.google-button:hover {
+					cursor: pointer;
+					color: $colorButtonHover !important;
+					background-color: $colorGreyHover !important;
+					div {
+						background-color: $colorGreyHover !important;
+					}
 				}
 			}
 		}
