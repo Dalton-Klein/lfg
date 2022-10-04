@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
 
   //Listen for chat messages from users
   socket.on("message", ({ roomId, senderId, sender, message, timestamp }) => {
-    messageController.saveMessage({ app: { io } }, roomId, senderId, message, timestamp);
+    messageController.saveMessage(roomId, senderId, message, timestamp);
     io.to(roomId).emit("message", { roomId, senderId, sender, message, timestamp });
   });
 

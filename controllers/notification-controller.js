@@ -8,7 +8,7 @@ const {
 } = require("../services/notifications-queries");
 const { getUserInfo } = require("../services/user-common");
 
-const saveNotification = async (req, userId, typeId, otherUserId) => {
+const saveNotification = async (userId, typeId, otherUserId) => {
   try {
     //First, clean up similar message notifications
     if (typeId === 3) {
