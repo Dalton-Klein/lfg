@@ -28,26 +28,28 @@ export const calcRating = (array: number[]) => {
 	return result;
 };
 
-export const validateCredentials = (createAccountForm: SignUpForm, ageChecked: boolean) => {
+export const validateCredentials = (createAccountForm: SignUpForm, ageChecked: boolean, isGoogleSignUp: boolean) => {
 	if (createAccountForm.name.length <= 3) {
 		return {
 			error: 'display name is too short',
 		};
 	}
-	if (createAccountForm.email.length <= emailLength) {
-		return {
-			error: 'email is too short',
-		};
-	}
-	if (createAccountForm.password.length <= emailLength) {
-		return {
-			error: 'password is too short',
-		};
-	}
-	if (createAccountForm.confirmPassword !== createAccountForm.password) {
-		return {
-			error: 'passwords do not match',
-		};
+	if (!isGoogleSignUp) {
+		if (createAccountForm.email.length <= emailLength) {
+			return {
+				error: 'email is too short',
+			};
+		}
+		if (createAccountForm.password.length <= emailLength) {
+			return {
+				error: 'password is too short',
+			};
+		}
+		if (createAccountForm.confirmPassword !== createAccountForm.password) {
+			return {
+				error: 'passwords do not match',
+			};
+		}
 	}
 	if (!ageChecked) {
 		return {

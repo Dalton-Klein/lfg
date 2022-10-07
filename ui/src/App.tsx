@@ -9,6 +9,7 @@ import LoginPage from './components/pages/authenticationPage';
 import FourOFourPage from './components/pages/FourOFourPage';
 import ProfilePage from './components/pages/profilePage';
 import FAQPage from './components/pages/faqPage';
+import PrivacyPolicyPage from './components/pages/privacyPolicyPage';
 import { gapi } from 'gapi-script';
 import { useEffect } from 'react';
 const clientId = '244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com';
@@ -39,6 +40,7 @@ function App() {
 							<Route path="/profile" element={<ProfilePage />} />
 							<Route path="/help" element={<FAQPage />} />
 							<Route path="/login" element={<LoginPage />} />
+							<Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 							<Route path="/*" element={<FourOFourPage />} />
 						</Routes>
 					</div>

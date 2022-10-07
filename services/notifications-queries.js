@@ -44,7 +44,7 @@ const getAllNotificationsQuery = () => {
       left join public.users u1
              on u1.id = n.owner_id
           where n.type_id != 3
-       order by n.created_at desc
+       order by n.created_at asc
   `;
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './authenticationPage.scss';
 import { SignUpForm, SignInForm, VerificationForm, PasswordResetForm } from '../../utils/interfaces';
-import { createUser, requestPasswordReset } from '../../utils/rest';
+import { createUser, googleSignIn, requestPasswordReset } from '../../utils/rest';
 import {
 	validateCredentials,
 	validateEmail,
@@ -56,6 +56,8 @@ const LoginPage = () => {
 	const [forgotPasswordForm, setForgotPasswordFormState] = useState(initialForgotPasswordForm);
 	const [passwordResetForm, setPasswordResetFormState] = useState(initialPasswordResetForm);
 	const [formError, setFormError] = useState(false);
+	const [isGoogleSignUp, setisGoogleSignUp] = useState<boolean>(false);
+	const [googleSuccessResponse, setgoogleSuccessResponse] = useState<any>({});
 	const [ageChecked, setageChecked] = useState<boolean>(false);
 	const [errorMessage, setErrorMessage] = useState('something went wrong...');
 	let isPerformingAnim = false;
@@ -97,16 +99,28 @@ const LoginPage = () => {
 
 	const createNewUser = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log('age check: ', ageChecked);
-		const validationResult = validateCredentials(createAccountForm, ageChecked);
-		console.log('res: ', validationResult);
+		const validationResult = validateCredentials(createAccountForm, ageChecked, isGoogleSignUp);
 		if (validationResult.success) {
-			const signupResult = await createUser(createAccountForm);
-			if (signupResult.data) {
-				clearError();
-				loginPanelVerifyAnim();
+			if (isGoogleSignUp) {
+				// Skip straight to account creation for google sign up (no email verification needed)
+				const accountCreationResult: any = await dispatch(
+					createUserInState(googleSuccessResponse.profileObj.email, 'google', createAccountForm.name, 'google')
+				);
+				if (accountCreationResult.data) {
+					dispatch(updateUserThunk(accountCreationResult.data.id));
+					navigate('/');
+				} else {
+					createError(`${accountCreationResult.error}`);
+				}
 			} else {
-				createError(`${signupResult.error}`);
+				// Continue with email verification for email sign up
+				const signupResult = await createUser(createAccountForm);
+				if (signupResult.data) {
+					clearError();
+					loginPanelVerifyAnim();
+				} else {
+					createError(`${signupResult.error}`);
+				}
 			}
 		} else {
 			createError(`${validationResult.error}`);
@@ -133,14 +147,35 @@ const LoginPage = () => {
 	};
 
 	//START Google Logic
-	const onGoogleFailure = (res: any) => {};
+	const onGoogleFailure = (res: any) => {
+		console.log('google failed to login: ', res);
+	};
 
-	const onGoogleSuccess = (res: any) => {};
+	const onGoogleSuccess = async (res: any) => {
+		//Check if account with google email exists
+		const googleCheckResult = await googleSignIn(res.profileObj.email);
+		//Either sign in or sign up user based on result above
+		if (googleCheckResult.token) {
+			// Account found, proceed with signin
+			const result: any = await dispatch(signInUserThunk({ email: res.profileObj.email, password: '' }, true));
+			if ('error' in result) {
+				createError(result.error);
+			} else {
+				clearError();
+				navigate('/');
+			}
+		} else if (googleCheckResult.error) {
+			// No account found, create one for this google account
+			// Take user to signup and modify account form for google
+			setgoogleSuccessResponse(res);
+			changeMenu(4);
+		}
+	};
 	//END Google Logic
 
 	const signInUser = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const result: any = await dispatch(signInUserThunk(signInForm));
+		const result: any = await dispatch(signInUserThunk(signInForm, false));
 		if ('error' in result) {
 			createError(result.error);
 		} else {
@@ -265,10 +300,15 @@ const LoginPage = () => {
 				loginPanelSignInAnim();
 			},
 			2: () => {
+				setisGoogleSignUp(false);
 				loginPanelSignUpAnim();
 			},
 			3: () => {
 				loginPanelForgotPasswordAnim();
+			},
+			4: () => {
+				setisGoogleSignUp(true);
+				loginPanelSignUpAnim();
 			},
 		};
 		clearError();
@@ -310,16 +350,31 @@ const LoginPage = () => {
 						<div className="login-inputs">
 							{/* Input Boxes */}
 							<input name="username" type="text" placeholder="display name" />
-							<input name="email" type="email" placeholder="email" />
-							<input name="password" type="password" placeholder="password" />
-							<input name="confirmPassword" type="password" placeholder="confirm password" />
+							{/* Bottom three fields dependent on if signing up w/ google */}
+							<input
+								name="email"
+								type="email"
+								placeholder="email"
+								style={{ display: !isGoogleSignUp ? 'inline-block' : 'none' }}
+							/>
+							<input
+								name="password"
+								type="password"
+								placeholder="password"
+								style={{ display: !isGoogleSignUp ? 'inline-block' : 'none' }}
+							/>
+							<input
+								name="confirmPassword"
+								type="password"
+								placeholder="confirm password"
+								style={{ display: !isGoogleSignUp ? 'inline-block' : 'none' }}
+							/>
 							<div className="checkbox-field">
 								<input
 									name="ageChecked"
 									type="checkbox"
 									className="age-checkbox"
 									onChange={(e) => {
-										console.log('target: ', e.target.checked);
 										setageChecked(e.target.checked);
 									}}
 								/>

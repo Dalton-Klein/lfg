@@ -44,7 +44,7 @@ export const createUser = async (user: SignUpForm) => {
 	return result;
 };
 
-export const signInUser = async (user: SignInForm) => {
+export const signInUser = async (user: SignInForm, isGoogleSignIn: boolean) => {
 	const { email, password } = user;
 	let result = await fetch(`${endpointURL}/signin`, {
 		method: 'POST',
@@ -54,6 +54,23 @@ export const signInUser = async (user: SignInForm) => {
 		body: JSON.stringify({
 			email: email,
 			password: password,
+			isGoogleSignIn,
+		}),
+	})
+		.then((res) => res.json())
+		.then((data) => data)
+		.catch((err) => console.log('SIGN IN USER ERROR', err));
+	return result;
+};
+
+export const googleSignIn = async (email: string) => {
+	let result = await fetch(`${endpointURL}/google-signin`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			email,
 		}),
 	})
 		.then((res) => res.json())

@@ -1,0 +1,29 @@
+@import '../../styling/config';
+
+.pp-title {
+	margin: 1vh 5vw;
+	margin-top: 2vh;
+	font-size: $font4;
+	margin-left: 1vw;
+	min-width: 25vw;
+	text-align: center;
+}
+
+.pp-content-container {
+	margin: 2vh 2vw;
+	margin-top: 5vh;
+	padding: 1vh 1vw;
+	background-color: $colorGreyPop;
+	border-radius: $borderRadius1;
+	.pp-sub-title {
+		text-align: center;
+		margin: 2vh 2vw;
+		font-size: $font3;
+	}
+	.pp-paragraph {
+		text-align: center;
+		margin: 1vh 4vw;
+		font-size: $font2;
+		color: $colorTextAlt;
+	}
+}
