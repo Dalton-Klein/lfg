@@ -25,21 +25,22 @@ $borderRadius2: calc(8px + 0.25vw);
 $borderRadius3: calc(15px + 0.5vw);
 $screenBreak1: 1200px;
 $screenBreak2: 500px;
+$screenBreak3: 400px;
 
 .flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .flex-column-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .flex-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }

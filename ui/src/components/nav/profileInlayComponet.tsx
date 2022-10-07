@@ -159,6 +159,12 @@ export default function ProfileInlayComponet() {
 					>
 						<i className="pi pi-bell" />
 					</button>
+					<button className="text-only-button notifications-button" onClick={(event) => notificationPressed(3)}>
+						<i className="pi pi-envelope" />
+					</button>
+					<button className="text-only-button last-button" onClick={(event) => notificationPressed(1)}>
+						<i className="pi pi-user-plus" />
+					</button>
 					<div className="my-profile-overlay-link">
 						<div className="prof-overlay-text" onClick={toggleDrawer}>
 							{userState.username}
