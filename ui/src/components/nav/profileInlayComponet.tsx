@@ -49,7 +49,6 @@ export default function ProfileInlayComponet() {
 	//BEGIN SOCKET Functions
 	const loadNotificationHistory = async () => {
 		const historicalNotifications = await getNotificationsUser(userState.id, '');
-		console.log('notifs ', historicalNotifications);
 		setnotifications([...historicalNotifications]);
 		if (userState.id && userState.id > 0) {
 			socketRef.emit('join_room', `notifications-${userState.id}`);

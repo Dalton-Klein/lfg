@@ -115,16 +115,16 @@ export const howLongAgo = (date: any) => {
 	//Used to be years ago || year ago, shortened but left extra ifs.
 	if (years > 1) return `${years} y`;
 	if (years === 1) return `${years} y`;
-	if (months > 1) return `${months} m`;
-	if (months === 1) return `${months} m`;
+	if (months > 1) return `${months} mo`;
+	if (months === 1) return `${months} mo`;
 	if (weeks > 1) return `${weeks} w`;
 	if (weeks === 1) return `${weeks} w`;
 	if (days > 1) return `${days} d`;
 	if (days === 1) return `${days} d`;
 	if (hours > 1) return `${hours} h`;
 	if (hours === 1) return `${hours} h`;
-	if (minutes > 1) return `${minutes} m`;
-	if (minutes === 1) return `${minutes} m`;
+	if (minutes > 1) return `${minutes} min`;
+	if (minutes === 1) return `${minutes} min`;
 	else return 'just now';
 };
 
