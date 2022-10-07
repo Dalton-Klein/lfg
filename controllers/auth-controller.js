@@ -192,7 +192,7 @@ exports.verify = async (req, res) => {
 				//successful account creation via google
 				delete user.hashed;
 				const token = services.keyGen(15);
-				await saveNotification(req, user.id, 4, 0);
+				await saveNotification(user.id, 4, 0);
 				const newToken = await TokenTable.create({ id: user.id, token });
 				res.status(200).json({
 					data: user,
@@ -223,7 +223,7 @@ exports.verify = async (req, res) => {
 					delete user.hashed;
 					await vKeyTable.destroy(filter);
 					const token = services.keyGen(15);
-					await saveNotification(req, user.id, 4, 0);
+					await saveNotification(user.id, 4, 0);
 					const newToken = await TokenTable.create({ id: user.id, token });
 					res.status(200).json({
 						data: user,
