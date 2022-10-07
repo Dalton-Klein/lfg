@@ -9,6 +9,7 @@ import LoginPage from './components/pages/authenticationPage';
 import FourOFourPage from './components/pages/FourOFourPage';
 import ProfilePage from './components/pages/profilePage';
 import FAQPage from './components/pages/faqPage';
+import TermsOfServicePage from './components/pages/tosPage';
 import PrivacyPolicyPage from './components/pages/privacyPolicyPage';
 import { gapi } from 'gapi-script';
 import { useEffect } from 'react';
@@ -41,6 +42,7 @@ function App() {
 							<Route path="/help" element={<FAQPage />} />
 							<Route path="/login" element={<LoginPage />} />
 							<Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+							<Route path="/terms-of-service" element={<TermsOfServicePage />} />
 							<Route path="/*" element={<FourOFourPage />} />
 						</Routes>
 					</div>

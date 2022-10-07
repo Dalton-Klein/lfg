@@ -29,7 +29,7 @@ const getNotificationsQuery = () => {
            from public.notifications n
       left join public.users u
              on u.id = n.other_user_id
-          where owner_id = :ownerId
+          where n.owner_id = :ownerId
        order by n.created_at desc
   `;
 };

@@ -1,6 +1,6 @@
 @import '../../styling/config';
 
-.pp-master-container {
+.tos-master-container {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -11,7 +11,7 @@
 		max-height: 1px;
 		background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
 	}
-	.pp-title {
+	.tos-title {
 		margin: 1vh 5vw;
 		margin-top: 2vh;
 		font-size: $font4;
@@ -19,22 +19,27 @@
 		text-align: center;
 	}
 
-	.pp-content-container {
+	.tos-content-container {
 		margin: 1vh 2vw;
 		padding: 1vh 1vw;
 		background-color: $colorGreyPop;
 		border-radius: $borderRadius1;
 		max-width: 900px;
-		.pp-sub-title {
+		.tos-sub-title {
 			text-align: center;
 			margin: 2vh 1vw;
 			font-size: $font3;
 		}
-		.pp-paragraph {
+		.tos-paragraph {
 			text-align: left;
 			margin: 1vh 4vw;
 			font-size: $font2;
 			color: $colorTextAlt;
+			.link-to-pp {
+				font-weight: 800;
+				color: white;
+				cursor: pointer;
+			}
 		}
 	}
 }

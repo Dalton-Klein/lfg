@@ -10,16 +10,21 @@ export default function PrivacyPolicyPage() {
 				{/* Privacy Policy Container */}
 				<div className="pp-title">privacy policy</div>
 				<div className="pp-content-container">
+					<div className="pp-sub-title">introduction</div>
+					<div className="gradient-bar"></div>
 					<div className="pp-paragraph">
 						gangs.gg is part of Kultured Dev LLC (Incorporated in MN, USA. EIN - 85-0627436) This privacy policy will
 						explain how gangs.gg uses the personal data we collect from you when you use our website.
 					</div>
+				</div>
+				<div className="pp-content-container">
 					<div className="pp-sub-title">what do we collect</div>
+					<div className="gradient-bar"></div>
 					<div className="pp-paragraph">
 						<li>email</li>
-						<li>age</li>
 						<li>username / alias</li>
 						<li>gender</li>
+						<li>age</li>
 						<li>profile image</li>
 						<li>location - region</li>
 						<li>language spoken</li>
@@ -30,6 +35,7 @@ export default function PrivacyPolicyPage() {
 				</div>
 				<div className="pp-content-container">
 					<div className="pp-sub-title">how do we collect your data</div>
+					<div className="gradient-bar"></div>
 					<div className="pp-paragraph">
 						you directly provide gangs.gg with most of the data we collect. We collect data and process data when you:
 						<br />
@@ -46,6 +52,7 @@ export default function PrivacyPolicyPage() {
 				</div>
 				<div className="pp-content-container">
 					<div className="pp-sub-title">how do we use your data</div>
+					<div className="gradient-bar"></div>
 					<div className="pp-paragraph">
 						gangs.gg collects your data so that we can:
 						<br />
@@ -58,9 +65,9 @@ export default function PrivacyPolicyPage() {
 						<li>understand how you use gangs.gg to iterate and improve your user experience.</li>
 					</div>
 				</div>
-
 				<div className="pp-content-container">
 					<div className="pp-sub-title">how to contact us</div>
+					<div className="gradient-bar"></div>
 					<div className="pp-paragraph">
 						if you have any questions about gangs.gg’s privacy policy, the data we hold on you, or you would like to
 						exercise one of your data protection rights, please do not hesitate to contact us

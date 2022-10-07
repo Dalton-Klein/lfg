@@ -154,6 +154,14 @@ const DrawerComponent = (props: Props) => {
 					>
 						<button className="text-only-button boring-button">privacy policy</button>
 					</div>
+					<div
+						onClick={() => {
+							navigationButtonPressed('terms-of-service');
+						}}
+						className="hamburger-links"
+					>
+						<button className="text-only-button boring-button">terms of service</button>
+					</div>
 					<img className="small-logo" src="/assets/logo-v2-gangs.gg-transparent-white.png" alt="gangs-logo-small" />
 					<h5>gangs</h5>
 				</div>
