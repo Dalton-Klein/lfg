@@ -103,6 +103,16 @@ export default function ProfileInlayComponet() {
 				});
 			});
 			return items;
+		} else {
+			return [
+				{
+					label: (
+						<div className="notification-container" onClick={() => {}}>
+							no notifications yet!
+						</div>
+					),
+				},
+			];
 		}
 	};
 	//END SOCKET Functions
