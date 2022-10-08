@@ -54,7 +54,6 @@ export default function DiscoverPage() {
 
 	const checkIfProfileComplete = async () => {
 		const isCompleteResult = await attemptPublishRustProfile(userState.id, 'nothing');
-		console.log('checking completeness: ', isCompleteResult);
 		setisProfileComplete(isCompleteResult.status === 'success' ? true : false);
 	};
 

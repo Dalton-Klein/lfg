@@ -241,10 +241,10 @@ export default function ProfileGeneral(props: any) {
 			await updateRustInfoField(userData.id, 'weekends', rustWeekendIdValue);
 		}
 		if (userData.is_email_notifications !== isEmailNotifications) {
-			await updateUserField(userData.id, 'weekends', rustWeekendIdValue);
+			await updateUserField(userData.id, 'is_email_notifications', isEmailNotifications);
 		}
 		if (userData.is_email_marketing !== isEmailMarketing) {
-			await updateUserField(userData.id, 'weekends', rustWeekendIdValue);
+			await updateUserField(userData.id, 'is_email_marketing', isEmailMarketing);
 		}
 		// After all data is comitted to db, get fresh copy of user object to update state
 		dispatch(updateUserThunk(userData.id));

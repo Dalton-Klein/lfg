@@ -217,7 +217,8 @@ export const uploadAvatarCloud = async (avatar: any) => {
 	return response;
 };
 
-export const updateUserField = async (id: number, field: string, value: string) => {
+export const updateUserField = async (id: number, field: string, value: any) => {
+	console.log('val?? ', value);
 	await fetch(`${endpointURL}/updateUserInfoField`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
