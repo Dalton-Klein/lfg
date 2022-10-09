@@ -1,11 +1,12 @@
-const express = require('express');
-const authController = require('../controllers/auth-controller');
-const connectionsController = require('../controllers/connections-controller');
-const tilesController = require('../controllers/tiles-controller');
-const userController = require('../controllers/profile-general-controller');
-const publishController = require('../controllers/publish-controller');
-const messageController = require('../controllers/message-controller');
-const notificationsController = require('../controllers/notification-controller');
+const express = require("express");
+const authController = require("../controllers/auth-controller");
+const connectionsController = require("../controllers/connections-controller");
+const userController = require("../controllers/profile-general-controller");
+const publishController = require("../controllers/publish-controller");
+const messageController = require("../controllers/message-controller");
+const notificationsController = require("../controllers/notification-controller");
+const tilesController = require("../controllers/tiles-controller");
+const testController = require("../controllers/test-controller");
 
 const router = express.Router();
 router.use(express.json());
@@ -47,6 +48,9 @@ router.post('/publish-rust', publishController.checkIfUserCanPublishRustProfile)
 
 //PUBLISH RELATED ROUTES
 router.post('/rust-tiles', tilesController.getRustTiles);
+
+//TESTING ROUTES Coffee Disable
+router.post("/test-email", testController.testEmails);
 
 //POST RELATED ROUTES
 // router.get('/tags', postsController.getCategoriesAndTopics);
