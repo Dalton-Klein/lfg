@@ -18,7 +18,7 @@ const clientId = '244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleuserc
 function App() {
 	useEffect(() => {
 		const startGoogleAPI = () => {
-			gapi.client.init({
+			gapi.auth2.init({
 				clientId: clientId,
 				scope: '',
 			});

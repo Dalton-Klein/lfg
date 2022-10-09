@@ -21,13 +21,15 @@ const checkIfUserCanPublishRustProfile = async (req, res) => {
 		let problemFields = [];
 		//Validate result here
 		queryResult = queryResult[0];
+		// General Fields
 		if (queryResult.about === null || queryResult.about === '') problemFields.push('about');
 		if (queryResult.age === null || queryResult.age < 13) problemFields.push('age');
 		if (queryResult.gender === null || queryResult.gender === 0) problemFields.push('gender');
 		if (queryResult.region === null || queryResult.region === 0) problemFields.push('region');
 		if (queryResult.languages === null) problemFields.push('language');
 		if (queryResult.preferred_platform === null) problemFields.push('platform');
-		if (queryResult.hours === null) problemFields.push('hours');
+		// Rust Fields
+		if (queryResult.hours === null || queryResult.hours === 0) problemFields.push('hours');
 		if (queryResult.weekdays === null || queryResult.weekdays === 0) problemFields.push('weekday availability');
 		if (queryResult.weekdends === null || queryResult.weekdends === 0) problemFields.push('weekend availability');
 		if (!problemFields.length) passesValidation = true;

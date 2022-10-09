@@ -27,6 +27,12 @@
 	justify-content: center;
 	.submenu-container {
 		min-width: 60%;
+		.widgets-container {
+			margin: 2vh 2vw;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+		}
 	}
 }
 

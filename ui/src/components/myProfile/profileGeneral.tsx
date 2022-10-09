@@ -17,10 +17,10 @@ import SelectComponent from './selectComponent';
 import { languageOptions, regionOptions } from '../../utils/selectOptions';
 import ExpandedProfile from '../modal/expandedProfileComponent';
 import { Toast } from 'primereact/toast';
+import ProfileWidget from './profileWidget';
 
 export default function ProfileGeneral(props: any) {
 	const dispatch = useDispatch();
-	const avatarPlaceholder = '/assets/avatarIcon.png';
 	const hiddenFileInput: any = React.useRef(null);
 	const userData = useSelector((state: RootState) => state.user.user);
 	const [isProfileDiscoverable, setIsProfileDiscoverable] = useState<boolean>(false);
@@ -29,6 +29,11 @@ export default function ProfileGeneral(props: any) {
 	const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
 	//Profile Fields Form Tracking
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
+	//START WidgetData
+	const [connectionCount, setconnectionCount] = useState<number>(0);
+	const [genProfileComplete, setgenProfileComplete] = useState<any>(<> </>);
+	const [rustProfileComplete, setrustProfileComplete] = useState<any>(<> </>);
+	//END WidgetData
 	const [photoFile, setPhotoFile] = useState<File>({ name: '' } as File);
 	const [aboutText, setAboutText] = useState<string>('');
 	const [ageText, setAgeText] = useState<number>(0);
@@ -66,7 +71,9 @@ export default function ProfileGeneral(props: any) {
 	// BEGIN Logic to load saved values to ui
 	const loadSavedInfo = () => {
 		dispatch(updateUserThunk(userData.id));
+		setCompletenessWidgets();
 		if (userData.email && userData.email !== '') {
+			setconnectionCount(parseInt(userData.connection_count_sender) + parseInt(userData.connection_count_acceptor));
 			setAboutText(userData.about);
 			setAgeText(userData.age);
 			setGender(userData.gender);
@@ -90,6 +97,29 @@ export default function ProfileGeneral(props: any) {
 			setIsProfileDiscoverable(userData.rust_is_published);
 			setIsEmailNotifications(userData.is_email_notifications);
 			setIsEmailMarketing(userData.is_email_marketing);
+		}
+	};
+	const setCompletenessWidgets = async () => {
+		const completenessResult = await attemptPublishRustProfile(userData.id, '');
+		if (completenessResult.status === 'error') {
+			// If error start checking problem fields to determine what profiles incomplete
+			// ***When more games get rolled out, this will need to be modified***
+			const generalFields = ['about', 'age', 'gender', 'region', 'languages', 'preferred_platform'];
+			const rustFields = ['hours', 'weekdays', 'weekends'];
+			//Check for overlap in general fields
+			if (generalFields.some((value) => completenessResult.data.includes(value))) {
+				setgenProfileComplete(<i className="pi pi-times" />);
+			} else {
+				setgenProfileComplete(<i className="pi pi-check-circle" />);
+			}
+			//Check for overlap in rust fields
+			if (rustFields.some((value) => completenessResult.data.includes(value))) {
+				setrustProfileComplete(<i className="pi pi-times" />);
+			} else setrustProfileComplete(<i className="pi pi-check-circle" />);
+		} else {
+			//If no error set all completeness to checked
+			setgenProfileComplete(<i className="pi pi-check-circle" />);
+			setrustProfileComplete(<i className="pi pi-check-circle" />);
 		}
 	};
 	// End Logic to load saved values to ui
@@ -127,13 +157,11 @@ export default function ProfileGeneral(props: any) {
 
 	const changeRegion = (selection: any) => {
 		if (!language || region !== selection.value) setHasUnsavedChanges(true);
-		console.log('region: ', selection.value);
 		setRegion(selection);
 	};
 
 	const changeLanguage = (selection: any) => {
 		if (!language || language.value !== selection.value) setHasUnsavedChanges(true);
-		console.log('language: ', selection.value);
 		setLanguage(selection);
 	};
 
@@ -153,11 +181,9 @@ export default function ProfileGeneral(props: any) {
 	};
 
 	const tryPublishRustProfile = async () => {
-		console.log('here? ', isProfileDiscoverable);
 		if (!isProfileDiscoverable) {
 			//execute http req
 			const result = await attemptPublishRustProfile(userData.id, '');
-			console.log('res? ', result);
 			if (result.status === 'success') {
 				await updateRustInfoField(userData.id, 'is_published', true);
 				setIsProfileDiscoverable(true);
@@ -256,6 +282,7 @@ export default function ProfileGeneral(props: any) {
 			detail: ``,
 			sticky: false,
 		});
+		setCompletenessWidgets();
 	};
 
 	const conditionalClass = isUploadFormShown ? 'conditionalZ2' : 'conditionalZ1';
@@ -298,6 +325,14 @@ export default function ProfileGeneral(props: any) {
 						<button onClick={closeAvatar}>close</button>
 					</div>
 				</div>
+				{/* START Profile Widgets */}
+				<div className="widgets-container">
+					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
+					<ProfileWidget value={genProfileComplete} label={'gen profile completed?'}></ProfileWidget>
+					<ProfileWidget value={rustProfileComplete} label={'rust profile completed?'}></ProfileWidget>
+				</div>
+				<div className="gradient-bar"></div>
+				{/* END Profile Widgets */}
 				{/* AVATAR PHTO */}
 				<div className="banner-container-top">
 					{!userData.avatar_url || userData.avatar_url === '/assets/avatarIcon.png' ? (
@@ -550,6 +585,14 @@ export default function ProfileGeneral(props: any) {
 			{/* START ACCOUNT SETTINGS */}
 
 			<div className="submenu-container" style={{ display: props.submenuId === 6 ? 'inline-block' : 'none' }}>
+				{/* START Profile Widgets */}
+				<div className="widgets-container">
+					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
+					<ProfileWidget value={genProfileComplete} label={'gen profile completed?'}></ProfileWidget>
+					<ProfileWidget value={rustProfileComplete} label={'rust profile completed?'}></ProfileWidget>
+				</div>
+				<div className="gradient-bar"></div>
+				{/* END Profile Widgets */}
 				<div className="banner-container">
 					<div className="prof-banner-detail-text">email notifications</div>
 					<input
@@ -593,8 +636,15 @@ export default function ProfileGeneral(props: any) {
 			</div>
 
 			{/* START RUST SETTINGS */}
-
 			<div className="submenu-container" style={{ display: props.submenuId === 7 ? 'inline-block' : 'none' }}>
+				{/* START Profile Widgets */}
+				<div className="widgets-container">
+					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
+					<ProfileWidget value={genProfileComplete} label={'gen profile completed?'}></ProfileWidget>
+					<ProfileWidget value={rustProfileComplete} label={'rust profile completed?'}></ProfileWidget>
+				</div>
+				<div className="gradient-bar"></div>
+				{/* END Profile Widgets */}
 				<div className="banner-container">
 					<div className="prof-banner-detail-text">publish rust profile</div>
 					<input
@@ -669,7 +719,7 @@ export default function ProfileGeneral(props: any) {
 				{/* END Availability- Weekdays */}
 				{/* Availability- Weekends */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">weekdays</div>
+					<div className="prof-banner-detail-text">weekends</div>
 					<div className="gender-container">
 						<div
 							className={`gender-box ${rustWeekend === 'none' ? 'box-selected' : ''}`}

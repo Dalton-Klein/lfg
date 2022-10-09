@@ -297,7 +297,6 @@ export default function ProfilePage() {
 			) : (
 				<></>
 			)}
-			<FooterComponent></FooterComponent>
 		</div>
 	);
 }
