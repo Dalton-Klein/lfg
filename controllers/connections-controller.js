@@ -36,7 +36,7 @@ const sendConnectionRequest = async (req, res) => {
 			status: 'success',
 			data: 'created connection request',
 		};
-		saveNotification(req, forUserId, 1, fromUserId);
+		saveNotification(forUserId, 1, fromUserId);
 		updateUserGenInfoField(fromUserId, 'last_seen', moment().format());
 		if (connectionInsertResult) res.status(200).send(result);
 		else throw new Error('Failed to create connection request');
@@ -120,7 +120,7 @@ const acceptConnectionRequest = async (req, res) => {
 			},
 			transaction,
 		});
-		saveNotification(req, senderId, 2, acceptorId);
+		saveNotification(senderId, 2, acceptorId);
 		updateUserGenInfoField(acceptorId, 'last_seen', moment().format());
 		transaction.commit();
 		res.status(200).send(connectionInsertResult);

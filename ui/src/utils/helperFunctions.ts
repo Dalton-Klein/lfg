@@ -28,26 +28,28 @@ export const calcRating = (array: number[]) => {
 	return result;
 };
 
-export const validateCredentials = (createAccountForm: SignUpForm, ageChecked: boolean) => {
+export const validateCredentials = (createAccountForm: SignUpForm, ageChecked: boolean, isGoogleSignUp: boolean) => {
 	if (createAccountForm.name.length <= 3) {
 		return {
 			error: 'display name is too short',
 		};
 	}
-	if (createAccountForm.email.length <= emailLength) {
-		return {
-			error: 'email is too short',
-		};
-	}
-	if (createAccountForm.password.length <= emailLength) {
-		return {
-			error: 'password is too short',
-		};
-	}
-	if (createAccountForm.confirmPassword !== createAccountForm.password) {
-		return {
-			error: 'passwords do not match',
-		};
+	if (!isGoogleSignUp) {
+		if (createAccountForm.email.length <= emailLength) {
+			return {
+				error: 'email is too short',
+			};
+		}
+		if (createAccountForm.password.length <= emailLength) {
+			return {
+				error: 'password is too short',
+			};
+		}
+		if (createAccountForm.confirmPassword !== createAccountForm.password) {
+			return {
+				error: 'passwords do not match',
+			};
+		}
 	}
 	if (!ageChecked) {
 		return {
@@ -113,16 +115,16 @@ export const howLongAgo = (date: any) => {
 	//Used to be years ago || year ago, shortened but left extra ifs.
 	if (years > 1) return `${years} y`;
 	if (years === 1) return `${years} y`;
-	if (months > 1) return `${months} m`;
-	if (months === 1) return `${months} m`;
+	if (months > 1) return `${months} mo`;
+	if (months === 1) return `${months} mo`;
 	if (weeks > 1) return `${weeks} w`;
 	if (weeks === 1) return `${weeks} w`;
 	if (days > 1) return `${days} d`;
 	if (days === 1) return `${days} d`;
 	if (hours > 1) return `${hours} h`;
 	if (hours === 1) return `${hours} h`;
-	if (minutes > 1) return `${minutes} m`;
-	if (minutes === 1) return `${minutes} m`;
+	if (minutes > 1) return `${minutes} min`;
+	if (minutes === 1) return `${minutes} min`;
 	else return 'just now';
 };
 

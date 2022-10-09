@@ -1,5 +1,5 @@
 const getRustTilesQuery = () => {
-  return `
+	return `
   select u.id,
          u.username,
          u.avatar_url,
@@ -16,7 +16,8 @@ const getRustTilesQuery = () => {
          av1.name as rust_weekends,
          av2.name as rust_weekdays,
          ur.roles,
-         ur.play_styles
+         ur.play_styles,
+         ur.hours as hours
     from public.users u 
     join public.user_general_infos ug 
       on ug.user_id = u.id
@@ -34,5 +35,5 @@ const getRustTilesQuery = () => {
 };
 
 module.exports = {
-  getRustTilesQuery,
+	getRustTilesQuery,
 };

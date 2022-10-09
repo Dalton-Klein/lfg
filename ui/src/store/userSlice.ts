@@ -76,13 +76,16 @@ export const createUserInState = (email: string, vKey: string, name: string, pas
 };
 
 // THUNK2: Sign In User
-export const signInUserThunk = (signin: SignIn): AppThunk => async (dispatch) => {
+export const signInUserThunk = (signin: SignIn, isGoogleSignIn = false): AppThunk => async (dispatch) => {
 	try {
 		let response: any;
-		response = await signInUser({
-			email: signin.email,
-			password: signin.password,
-		});
+		response = await signInUser(
+			{
+				email: signin.email,
+				password: signin.password,
+			},
+			isGoogleSignIn
+		);
 		if (!response.error) {
 			dispatch(setUser(response.data));
 		}
