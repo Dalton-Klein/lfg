@@ -1,0 +1,30 @@
+@import "../../styling/config";
+
+.faq-menu {
+  margin-top: 1vh;
+  min-height: 7vh;
+  max-height: 7vh;
+  min-width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  // put bg image here when a good one is decided background-color: #0d5678b0;
+  .faq-navigator {
+    margin: 2% 10%;
+    margin-right: 1vw;
+  }
+  .faq-title {
+    font-size: $font3;
+    margin-left: 1vw;
+    min-width: 25vw;
+  }
+}
+.faq-content-container {
+  margin: 2vh 2vw;
+  margin-top: 5vh;
+  .faq-paragraph {
+    margin: 1vh 2vw;
+    font-size: $font2;
+    color: $colorTextAlt;
+  }
+}

@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { logoutUser } from '../../store/userSlice';
 import { setPreferences } from '../../store/userPreferencesSlice';
+import { GoogleLogout } from 'react-google-login';
+const clientId = '244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com';
 
 type Props = {
 	toggleDrawer: any;
@@ -84,6 +86,8 @@ const DrawerComponent = (props: Props) => {
 					lastProfileMenu: 1,
 				})
 			);
+		} else if (destination === 'help') {
+			link = 'help';
 		}
 		// Navigates to dynamic url (new page)
 		navigate(`/${link}`);
@@ -127,14 +131,36 @@ const DrawerComponent = (props: Props) => {
 					</div>
 					<div
 						onClick={() => {
-							navigationButtonPressed('about');
+							navigationButtonPressed('help');
 						}}
 						className="hamburger-links"
 					>
-						<button className="hamburger-button">about</button>
+						<button className="hamburger-button">help | faq</button>
 					</div>
-					<div onClick={() => logoutFunction()} className="hamburger-links">
-						<button className="hamburger-logout-button">logout</button>
+					<div className="hamburger-links">
+						<GoogleLogout
+							className="google-button"
+							clientId={clientId}
+							buttonText="logout"
+							onLogoutSuccess={logoutFunction}
+							onFailure={logoutFunction}
+						/>
+					</div>
+					<div
+						onClick={() => {
+							navigationButtonPressed('privacy-policy');
+						}}
+						className="hamburger-links"
+					>
+						<button className="text-only-button boring-button">privacy policy</button>
+					</div>
+					<div
+						onClick={() => {
+							navigationButtonPressed('terms-of-service');
+						}}
+						className="hamburger-links"
+					>
+						<button className="text-only-button boring-button">terms of service</button>
 					</div>
 					<img className="small-logo" src="/assets/logo-v2-gangs.gg-transparent-white.png" alt="gangs-logo-small" />
 					<h5>gangs</h5>

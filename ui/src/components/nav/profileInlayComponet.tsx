@@ -64,10 +64,16 @@ export default function ProfileInlayComponet() {
 				3: ' sent you a message',
 				4: ' congrats on signing up!',
 			};
+
 			notifications.forEach((notif: any) => {
 				items.push({
 					label: (
-						<div className="notification-container">
+						<div
+							className="notification-container"
+							onClick={() => {
+								notificationPressed(notif.type_id);
+							}}
+						>
 							{notif.other_user_avatar_url === '' ||
 							notif.other_user_avatar_url === '/assets/avatarIcon.png' ||
 							notif.other_user_avatar_url === null ? (
@@ -97,23 +103,37 @@ export default function ProfileInlayComponet() {
 				});
 			});
 			return items;
+		} else {
+			return [
+				{
+					label: (
+						<div className="notification-container" onClick={() => {}}>
+							no notifications yet!
+						</div>
+					),
+				},
+			];
 		}
 	};
 	//END SOCKET Functions
 
-	const notificationPressed = (destination: string) => {
+	const notificationPressed = (notificationType: number) => {
 		//Decide between sub-sections of a url
-		let link = destination;
-		if (destination === 'connections') {
-			link = 'profile';
+		if (notificationType === 1) {
+			dispatch(
+				setPreferences({
+					...preferencesState,
+					lastProfileMenu: 3,
+				})
+			);
+		} else if (notificationType === 2 || notificationType === 3) {
 			dispatch(
 				setPreferences({
 					...preferencesState,
 					lastProfileMenu: 2,
 				})
 			);
-		} else if (destination === 'myProfile') {
-			link = 'profile';
+		} else if (notificationType === 4) {
 			dispatch(
 				setPreferences({
 					...preferencesState,
@@ -122,7 +142,7 @@ export default function ProfileInlayComponet() {
 			);
 		}
 		// Navigates to dynamic url (new page)
-		navigate(`/${link}`);
+		navigate(`/profile`);
 	};
 
 	const toggleDrawer = () => {
@@ -147,6 +167,12 @@ export default function ProfileInlayComponet() {
 						onClick={(event) => notifsMenu.current.toggle(event)}
 					>
 						<i className="pi pi-bell" />
+					</button>
+					<button className="text-only-button notifications-button" onClick={(event) => notificationPressed(3)}>
+						<i className="pi pi-envelope" />
+					</button>
+					<button className="text-only-button last-button" onClick={(event) => notificationPressed(1)}>
+						<i className="pi pi-user-plus" />
 					</button>
 					<div className="my-profile-overlay-link">
 						<div className="prof-overlay-text" onClick={toggleDrawer}>

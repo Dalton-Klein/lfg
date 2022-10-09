@@ -91,9 +91,9 @@ export default function PlayerTile(props: any) {
 					</div>
 					<div className="details-availability">
 						<div className="detail-label">weekdays: </div>
-						<div className="details-availabilty-text">{props.weekdays}</div>
+						<div className="details-availabilty-text">{props.rust_weekdays}</div>
 						<div className="detail-label">weekdends: </div>
-						<div className="details-availabilty-text">{props.weekends}</div>
+						<div className="details-availabilty-text">{props.rust_weekends}</div>
 					</div>
 				</div>
 				{/* footer details */}

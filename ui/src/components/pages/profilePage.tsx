@@ -10,7 +10,6 @@ import { RootState } from '../../store/store';
 import { setPreferences } from '../../store/userPreferencesSlice';
 import { Menu } from 'primereact/menu';
 import 'primereact/resources/primereact.min.css';
-
 import Confetti from 'react-confetti';
 import ConversationTile from '../tiles/conversationTile';
 import Chat from '../myProfile/chat';
@@ -130,8 +129,8 @@ export default function ProfilePage() {
 		const menuTitleKey: any = {
 			1: 'general profile',
 			2: 'messaging',
-			3: 'incoming',
-			4: 'outgoing',
+			3: 'incoming requests',
+			4: 'outgoing requests',
 			5: 'blocked',
 			6: 'account settings',
 			7: 'rust profile',

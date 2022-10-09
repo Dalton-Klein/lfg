@@ -20,11 +20,20 @@ export default function DiscoverPage() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		fetchTilesData();
-		if (userState.id && userState.id > 0) checkIfProfileComplete();
+		if (userState.id && userState.id > 0) {
+			checkIfProfileComplete();
+		} else {
+			fetchTilesData();
+		}
 		dispatch(resetFilterPreferences());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	//Used to fetch tiles only after profile completeness is decided
+	useEffect(() => {
+		fetchTilesData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isProfileComplete]);
 
 	//Used to render initial tiles, unfiltered
 	useEffect(() => {

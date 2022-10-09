@@ -13,8 +13,8 @@ $colorButtonHover: #dfdfdf;
 $colorShadowLight: rgba(48, 48, 48, 0.85);
 $colorShadowDark: rgba(0, 0, 0, 0.65);
 $colorDivider: rgb(44, 44, 44);
-$font1: calc(8px + 0.25vw);
-$font2: calc(14px + 0.25vw);
+$font1: calc(9px + 0.5vw);
+$font2: calc(13px + 0.25vw);
 $font3: calc(15px + 0.4vw);
 $font4: calc(18px + 0.7vw);
 $font5: calc(25px + 1vw);
@@ -25,6 +25,7 @@ $borderRadius2: calc(8px + 0.25vw);
 $borderRadius3: calc(15px + 0.5vw);
 $screenBreak1: 1200px;
 $screenBreak2: 500px;
+$screenBreak3: 400px;
 
 .flex-center {
 	display: flex;

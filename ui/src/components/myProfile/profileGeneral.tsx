@@ -16,7 +16,6 @@ import {
 import SelectComponent from './selectComponent';
 import { languageOptions, regionOptions } from '../../utils/selectOptions';
 import ExpandedProfile from '../modal/expandedProfileComponent';
-import CustomInputSwitch from '../forms/inputSwitch';
 import { Toast } from 'primereact/toast';
 
 export default function ProfileGeneral(props: any) {
@@ -71,7 +70,11 @@ export default function ProfileGeneral(props: any) {
 			setAboutText(userData.about);
 			setAgeText(userData.age);
 			setGender(userData.gender);
-			setLanguage(languageOptions.find(({ value }) => value === userData.languages));
+			setLanguage(
+				userData.languages === ''
+					? { label: 'language' }
+					: languageOptions.find(({ label }) => label === userData.languages)
+			);
 			setRegion(
 				userData.region_name === ''
 					? { label: 'region' }
@@ -123,13 +126,13 @@ export default function ProfileGeneral(props: any) {
 	};
 
 	const changeRegion = (selection: any) => {
-		if (region !== selection.value) setHasUnsavedChanges(true);
+		if (!language || region !== selection.value) setHasUnsavedChanges(true);
 		console.log('region: ', selection.value);
 		setRegion(selection);
 	};
 
 	const changeLanguage = (selection: any) => {
-		if (language.value !== selection.value) setHasUnsavedChanges(true);
+		if (!language || language.value !== selection.value) setHasUnsavedChanges(true);
 		console.log('language: ', selection.value);
 		setLanguage(selection);
 	};
@@ -238,15 +241,21 @@ export default function ProfileGeneral(props: any) {
 			await updateRustInfoField(userData.id, 'weekends', rustWeekendIdValue);
 		}
 		if (userData.is_email_notifications !== isEmailNotifications) {
-			await updateUserField(userData.id, 'weekends', rustWeekendIdValue);
+			await updateUserField(userData.id, 'is_email_notifications', isEmailNotifications);
 		}
 		if (userData.is_email_marketing !== isEmailMarketing) {
-			await updateUserField(userData.id, 'weekends', rustWeekendIdValue);
+			await updateUserField(userData.id, 'is_email_marketing', isEmailMarketing);
 		}
 		// After all data is comitted to db, get fresh copy of user object to update state
 		dispatch(updateUserThunk(userData.id));
 		setHasUnsavedChanges(false);
 		toast.current.clear();
+		toast.current.show({
+			severity: 'success',
+			summary: 'changes saved!',
+			detail: ``,
+			sticky: false,
+		});
 	};
 
 	const conditionalClass = isUploadFormShown ? 'conditionalZ2' : 'conditionalZ1';
