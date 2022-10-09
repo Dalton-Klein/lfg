@@ -112,9 +112,11 @@
 		}
 	}
 }
+
 .my-profile-overlay-link {
 	display: flex;
 	align-items: center;
+	justify-content: flex-end;
 	transition: $transition1;
 	cursor: pointer;
 }
@@ -218,6 +220,6 @@
 }
 @media screen and (max-width: $screenBreak3) {
 	.my-profile-overlay-link {
-		min-width: 35vw;
+		min-width: 30vw;
 	}
 }

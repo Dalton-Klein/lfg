@@ -57,9 +57,9 @@ export default function HomePage() {
 					4: ownerName,
 				};
 				const actionPhraseKey: any = {
-					1: ` sent a request to `,
-					2: ` accepted a request from `,
-					3: ` sent a message to`,
+					1: ` requested `,
+					2: ` accepted `,
+					3: ` messaged`,
 					4: ` signed up! `,
 				};
 				const user2Key: any = {

@@ -1,7 +1,7 @@
 import FooterComponent from '../nav/footerComponent';
 import HeaderComponent from '../nav/headerComponent';
 import './faqPage.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setPreferences } from '../../store/userPreferencesSlice';
@@ -9,7 +9,6 @@ import { Menu } from 'primereact/menu';
 
 export default function FAQPage() {
 	const dispatch = useDispatch();
-	const [submenuTitle, setSubmenuTitle] = useState<any>('welcome');
 
 	const preferencesState = useSelector((state: RootState) => state.preferences);
 
@@ -24,16 +23,6 @@ export default function FAQPage() {
 	}, [preferencesState.lastFAQMenu]);
 
 	const changeSelection = (value: number) => {
-		const menuTitleKey: any = {
-			1: 'welcome',
-			2: 'creating an account',
-			3: 'creating a profile',
-			4: 'discovery system',
-			5: 'sending requests',
-			6: 'incoming requests',
-			7: 'messaging',
-		};
-		setSubmenuTitle(menuTitleKey[value]);
 		dispatch(
 			setPreferences({
 				...preferencesState,
@@ -62,7 +51,7 @@ export default function FAQPage() {
 					},
 				},
 				{
-					label: 'creating profile',
+					label: 'managing profile',
 					icon: 'pi pi-fw pi-cog',
 					command: () => {
 						changeSelection(6);
@@ -71,7 +60,7 @@ export default function FAQPage() {
 			],
 		},
 		{
-			label: 'finding gamers',
+			label: 'finding players',
 			items: [
 				{
 					label: 'discover',
@@ -101,9 +90,21 @@ export default function FAQPage() {
 				},
 				{
 					label: 'messaging',
-					icon: 'pi pi-fw pi-ban',
+					icon: 'pi pi-fw pi-envelope',
 					command: () => {
 						changeSelection(5);
+					},
+				},
+			],
+		},
+		{
+			label: 'faq',
+			items: [
+				{
+					label: 'frequently asked questions',
+					icon: 'pi pi-fw pi-arrow-circle-up',
+					command: () => {
+						changeSelection(3);
 					},
 				},
 			],
@@ -112,21 +113,60 @@ export default function FAQPage() {
 	return (
 		<div>
 			<HeaderComponent></HeaderComponent>
-			{/* MENU 1- My Prof */}
-			<div className="faq-menu">
-				<Menu model={navItems} popup ref={menu} id="popup_menu" />
-				<button className="faq-navigator" onClick={(event) => menu.current.toggle(event)}>
-					<i className="pi pi-bars" />
-				</button>
-				<div className="faq-title">{submenuTitle}</div>
-			</div>
-			<div className="faq-content-container">
-				<div className="faq-paragraph">
-					welcome to gangs, the most efficient place to find your gamer gang. gangs was created to eliminate the effort
-					and luck required to find compatible multiplayer teammates. the mission is to get you signed up, quickly
-					collect the important details, and get your future teammates in front of you quickly.
+			<div className="faq-master-container">
+				<div className="faq-menu">
+					<Menu model={navItems} popup ref={menu} id="popup_menu" />
+					<button className="faq-navigator" onClick={(event) => menu.current.toggle(event)}>
+						<i className="pi pi-bars" />
+					</button>
+					<div className="faq-title">help | faq</div>
 				</div>
-				<div className="faq-paragraph">welcome to gangs, the most efficient place to find your gamer gang.</div>
+				{/* Welcome */}
+				<div className="faq-content-container">
+					<div className="faq-sub-title">welcome</div>
+					<div className="faq-paragraph">
+						welcome to gangs, the most efficient place to find your gamer gang. gangs was created to eliminate the
+						effort and luck required to find compatible multiplayer teammates. the mission is to get you signed up,
+						quickly collect the important details, and get your future teammates in front of you quickly.
+					</div>
+					<div className="faq-paragraph">welcome to gangs, the most efficient place to find your gamer gang.</div>
+				</div>
+				{/* Creating Account */}
+				<div className="faq-content-container">
+					<div className="faq-sub-title">creating account</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+				</div>
+				{/* Managing Profile */}
+				<div className="faq-content-container">
+					<div className="faq-sub-title">managing profile</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+				</div>
+				{/* Discover */}
+				<div className="faq-content-container">
+					<div className="faq-sub-title">discovering players</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+				</div>
+				{/* Sending Requests */}
+				<div className="faq-content-container">
+					<div className="faq-sub-title">sending requests</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+				</div>
+				{/* Accepting Requests */}
+				<div className="faq-content-container">
+					<div className="faq-sub-title">accepting requests</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+				</div>
+				{/* Messaging */}
+				<div className="faq-content-container">
+					<div className="faq-sub-title">messaging</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+					<div className="faq-paragraph">welcome to gangs,</div>
+				</div>
 			</div>
 			<FooterComponent></FooterComponent>
 		</div>
