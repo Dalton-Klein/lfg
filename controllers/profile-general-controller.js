@@ -17,6 +17,26 @@ const getUserDetails = async (req, res) => {
 	}
 };
 
+/*
+Get Email Prefs For User
+*/
+//Currently not used but could be useful in future
+const getEmailPrefs = async (userId) => {
+	try {
+		let query = `select is_email_marketing, is_email_notifications from public.users where id = :userId`;
+		let result = await sequelize.query(query, {
+			type: Sequelize.QueryTypes.SELECT,
+			replacements: {
+				userId,
+			},
+		});
+		res.status(200).send(result);
+	} catch (error) {
+		console.log('Error getting email prefs', error);
+		res.status(500).send('POST ERROR');
+	}
+};
+
 const updateProfileField = async (req, res) => {
 	try {
 		const { userId, field, value } = req.body;
@@ -136,6 +156,7 @@ const getSocialDetails = async (req, res) => {
 
 module.exports = {
 	getUserDetails,
+	getEmailPrefs,
 	updateProfileField,
 	updateGeneralInfoField,
 	updateRustInfoField,
