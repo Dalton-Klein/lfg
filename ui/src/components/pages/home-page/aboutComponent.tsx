@@ -144,8 +144,8 @@ export default function HomePage() {
 		<div className="about-container">
 			<div className="column-1">
 				<div className="about-text">
-					finding suitable teammates is tough. finding them here isn't. <br /> <br />
-					find teammates based on criteria that matters to you.
+					Finding suitable teammates is tough. Finding them here isn't. <br /> <br />
+					Find teammates based on criteria that matters to you.
 				</div>
 			</div>
 			<div className="column-2">{renderNotifications()}</div>
