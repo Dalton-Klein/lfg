@@ -305,6 +305,21 @@ export default function FAQPage() {
         {/* Messaging */}
         <div className="faq-content-container" ref={messagingRef}>
           <div className="faq-sub-title">Messaging</div>
+          <div className="faq-paragraph">
+            {" "}
+            To start messaging, first navigate to the{" "}
+            <text
+              onClick={() => {
+                changeSelection(2);
+              }}
+              className="link-text"
+            >
+              {" "}
+              messaging
+            </text>{" "}
+            page. You can immediately start in a public channel, or chat with an existing connection. You cannot private
+            message until you are connected to the user.
+          </div>
           <div className="faq-sub-heading">Conversation List</div>
           <div className="faq-paragraph">
             On the left hand side, there is a vertical menu that represents your conversations. The image with a red
