@@ -33,15 +33,33 @@ export default function HomePage() {
 					</div>
 				</div>
 				<div className="right">
-					<DaddyTile routerLink="/discover"></DaddyTile>
+					<DaddyTile
+						routerLink="/discover"
+						image="https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"
+						title="rust"
+					></DaddyTile>
 				</div>
 			</div>
 			<AboutComponent></AboutComponent>
+			<div className="title-box">
+				<div className="subtitle">coming soon</div>
+			</div>
+			<div className="extra-tiles">
+				<DaddyTile
+					routerLink="/"
+					image="https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/minecraft_bscq2s.png"
+					title="minecraft"
+				></DaddyTile>
+				<DaddyTile
+					routerLink="/"
+					image="https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg"
+					title="rocket league"
+				></DaddyTile>
+			</div>
 			<div className="extra-tiles">
 				<MediumTile routerLink="/privacy-policy" imageLink="pi pi-shield" title="privacy policy"></MediumTile>
 				<MediumTile routerLink="/terms-of-service" imageLink="pi pi-book" title="terms of service"></MediumTile>
 			</div>
-
 			<FooterComponent></FooterComponent>
 		</div>
 	);
