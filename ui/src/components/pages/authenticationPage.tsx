@@ -148,7 +148,7 @@ const LoginPage = () => {
 
 	//START Google Logic
 	const onGoogleFailure = (res: any) => {
-		console.log('google failed to login ', res);
+		console.log('google failed to login');
 	};
 
 	const onGoogleSuccess = async (res: any) => {
@@ -349,18 +349,17 @@ const LoginPage = () => {
 						<h2>create account</h2>
 						<div className="login-inputs">
 							{/* Input Boxes */}
-							<GoogleLogin
-								className="google-button"
-								clientId={clientId}
-								buttonText="google sign up"
-								onSuccess={onGoogleSuccess}
-								onFailure={onGoogleFailure}
-								cookiePolicy={'single_host_origin'}
-								isSignedIn={true}
-								style={{ display: !isGoogleSignUp ? 'inline-block' : 'none' }}
-							/>
-							<div className="seperator-text" style={{ display: !isGoogleSignUp ? 'inline-block' : 'none' }}>
-								or
+							<div className="google-signup-container" style={{ display: !isGoogleSignUp ? 'inline-block' : 'none' }}>
+								<GoogleLogin
+									className="google-button"
+									clientId={clientId}
+									buttonText="google sign up"
+									onSuccess={onGoogleSuccess}
+									onFailure={onGoogleFailure}
+									cookiePolicy={'single_host_origin'}
+									isSignedIn={true}
+								/>
+								<div className="seperator-text">or</div>
 							</div>
 							<input name="username" type="text" placeholder="display name" />
 							{/* Bottom three fields dependent on if signing up w/ google */}
