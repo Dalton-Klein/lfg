@@ -126,8 +126,8 @@ export default function FAQPage() {
 					<div className="faq-paragraph">
 						Welcome to gangs, the most efficient place to find your gamer gang. In modern multiplayer games, it is
 						imperative to form a high functioning squad to play with. gangs.gg was created to eliminate the effort and
-						luck required to find compatible teammates. the mission is to get you signed up, quickly collect the
-						important details, and get your future teammates in front of you quickly.
+						luck required to find compatible teammates. The mission is to get you signed up, get your profiles dialed
+						in, and get you in touch with your ideal teammates as quickly as possible.
 					</div>
 					<div className="faq-paragraph">
 						This page will go over how to use the major features, and how to navigate around the application. You can

@@ -100,7 +100,7 @@ export default function PrivacyPolicyPage() {
 					<div className="pp-sub-heading">Vital Interests</div>
 					<div className="pp-paragraph">
 						We may disclose your information where we believe it is necessary to investigate, prevent, or take action
-						regarding potential violations of our policies, suspected fraid, situations involving potential threats to
+						regarding potential violations of our policies, suspected fraud, situations involving potential threats to
 						the safety of any person and illegal activities, or as evidence in litigation in which we are involved.
 					</div>
 					<div className="pp-sub-heading">Other Users</div>
@@ -145,10 +145,6 @@ export default function PrivacyPolicyPage() {
 						steal, or modify your information. Although we will do our best to protect your information, transmission of
 						personal information to and from our website is at your own risk. You should only access teh website within
 						a secure environment.
-					</div>
-					<div className="pp-paragraph">
-						After not logging into your account for one twelve full months, your account will be automatically deleted
-						and your information removed from our database.
 					</div>
 				</div>
 				<div className="pp-content-container">
