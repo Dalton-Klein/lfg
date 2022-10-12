@@ -200,6 +200,13 @@
 				min-width: 16vw;
 				width: 18vw;
 				max-width: 40%;
+				.dynamic-avatar-border {
+					width: 16vw;
+					height: 16vw;
+					min-height: 16vw;
+					min-width: 16vw;
+					border-radius: calc(16vw / 2);
+				}
 				.card-photo {
 					width: 16vw;
 					height: 16vw;

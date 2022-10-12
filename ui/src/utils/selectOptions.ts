@@ -18,7 +18,7 @@ export const hoursOptions = [
 ];
 
 export const ageOptions = [
-	{ label: '12-14', value: [13, 14], id: '2' },
+	{ label: '13-14', value: [13, 14], id: '2' },
 	{ label: '15-17', value: [15, 17], id: '3' },
 	{ label: '18-22', value: [18, 22], id: '4' },
 	{ label: '23-29', value: [22, 29], id: '5' },
