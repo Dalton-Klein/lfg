@@ -68,12 +68,10 @@ export default function ProfileGeneral(props: any) {
     regionRef.current.detectChangeFromParent(region);
   }, [region]);
 
-  // BEGIN Logic to load saved values to ui
-  const loadSavedInfo = () => {
-    dispatch(updateUserThunk(userData.id));
-    setCompletenessWidgets();
+  useEffect(() => {
+    //Having this logic in the user state use effect means it will await the dispatch to get the latest info. It is otherwise hard to await the dispatch
     if (userData.email && userData.email !== "") {
-      console.log("data: ", userData);
+      setCompletenessWidgets();
       setconnectionCount(parseInt(userData.connection_count_sender) + parseInt(userData.connection_count_acceptor));
       setAboutText(userData.about);
       setAgeText(userData.age);
@@ -99,7 +97,13 @@ export default function ProfileGeneral(props: any) {
       setIsEmailNotifications(userData.is_email_notifications);
       setIsEmailMarketing(userData.is_email_marketing);
     }
+  }, [userData]);
+
+  // BEGIN Logic to load saved values to ui
+  const loadSavedInfo = () => {
+    dispatch(updateUserThunk(userData.id));
   };
+
   const setCompletenessWidgets = async () => {
     const completenessResult = await attemptPublishRustProfile(userData.id, "");
     if (completenessResult.status === "error") {
