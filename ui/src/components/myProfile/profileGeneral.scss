@@ -39,7 +39,7 @@
 .banner-container {
   height: 7vh;
   min-height: 40px;
-  margin: 1vh 0.5vw;
+  margin: 2vh 0.5vw;
   min-width: 100%;
   display: flex;
   justify-content: space-between;
@@ -104,6 +104,7 @@
     min-width: 80%;
     max-height: 100%;
     display: flex;
+    padding-right: 2vw;
     justify-content: flex-end;
   }
 }
@@ -271,6 +272,7 @@
   align-items: center;
   min-width: 80%;
   margin: 1vh 0;
+  padding: 0 2vw;
   .box-text {
     font-size: $font2;
   }
@@ -286,7 +288,7 @@
     padding: 1.25vh 1vw;
     font-size: $font2;
     min-width: 50px;
-    min-height: 50px;
+    min-height: 45px;
     width: 4vw;
     height: 4vw;
     .gender-icon {
