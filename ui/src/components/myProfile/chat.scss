@@ -46,6 +46,12 @@
 				background-color: $colorGreyBg;
 				border-radius: $borderRadius1;
 				margin: 0 0.5vw;
+				.connection-platform-image {
+					min-width: 2.5vw;
+					min-height: 2.5vw;
+					max-width: 2.5vw;
+					max-height: 2.5vw;
+				}
 			}
 		}
 
@@ -151,6 +157,14 @@
 				max-height: 5.5vw;
 				border-radius: calc(5.5vw / 2);
 			}
+			.stackable-container-right {
+				.messaging-platform-box {
+					.connection-platform-image {
+						min-width: 4vw;
+						min-height: 4vw;
+					}
+				}
+			}
 		}
 	}
 }
@@ -163,6 +177,14 @@
 				min-height: 10vw;
 				max-height: 10vw;
 				border-radius: calc(10vw / 2);
+			}
+			.stackable-container-right {
+				.messaging-platform-box {
+					.connection-platform-image {
+						min-width: 5vw;
+						min-height: 5vw;
+					}
+				}
 			}
 		}
 

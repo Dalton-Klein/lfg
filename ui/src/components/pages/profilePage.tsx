@@ -34,7 +34,7 @@ export default function ProfilePage() {
 	};
 	const dispatch = useDispatch();
 	const [selection, setSelection] = useState(1);
-	const [chatBox, setChatBox] = useState<any>(<></>);
+	const [chatBox, setchatBox] = useState<any>(<></>);
 	const [currentConvo, setCurrentConvo] = useState<any>(rustChatObject);
 	const [connectionsResult, setconnectionsResult] = useState<any>([]);
 	const [outgoingResult, setOutgoingResult] = useState<any>([]);
@@ -62,13 +62,13 @@ export default function ProfilePage() {
 	}, [currentConvo]);
 
 	const setChatboxContents = () => {
-		setChatBox(<Chat {...currentConvo}></Chat>);
+		setchatBox(<Chat {...currentConvo}></Chat>);
 	};
 
 	//BEGIN Fetch Connections
 	const fetchExistingConnections = async () => {
 		setconnectionsResult(await getConnectionsForUser(userData.id, 'blank'));
-		setChatBox(<Chat {...currentConvo}></Chat>);
+		setChatboxContents();
 	};
 	const fetchPendingConnections = async () => {
 		const httpResults = await getPendingConnectionsForUser(userData.id, 'blank');
@@ -109,6 +109,9 @@ export default function ProfilePage() {
 			isPublicChat: tile.isPublicChat,
 			preferred_platform: tile.preferred_platform,
 			currentlyOpenConvo: tile.id,
+			discord: tile.discord,
+			psn: tile.psn,
+			xbox: tile.xbox,
 		});
 	};
 	//END Chat Logic
@@ -262,7 +265,7 @@ export default function ProfilePage() {
 					<div className="chat-container">
 						<div className="conversations-box">
 							<ConversationTile
-								key={0.5}
+								key={0.1}
 								{...rustChatObject}
 								currentlyOpenConvo={currentConvo}
 								callOpenConversation={(connectionId: number) => {
@@ -270,7 +273,7 @@ export default function ProfilePage() {
 								}}
 							></ConversationTile>
 							<ConversationTile
-								key={0.5}
+								key={0.2}
 								{...minecraftChatObject}
 								currentlyOpenConvo={currentConvo}
 								callOpenConversation={(connectionId: number) => {
@@ -278,7 +281,7 @@ export default function ProfilePage() {
 								}}
 							></ConversationTile>
 							<ConversationTile
-								key={0.5}
+								key={0.3}
 								{...rocketLeagueChatObject}
 								currentlyOpenConvo={currentConvo}
 								callOpenConversation={(connectionId: number) => {
