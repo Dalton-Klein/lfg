@@ -4,11 +4,29 @@ import HeaderComponent from '../../nav/headerComponent';
 import './homePage.scss';
 import MediumTile from '../../tiles/mediumTile';
 import DaddyTile from '../../tiles/daddyTile';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 // import { logoutUser } from "../../../store/userSlice";
 
 export default function HomePage() {
 	// Coffee, use to wipe state if something goes wacky
 	// dispatch(logoutUser(1))
+	const userState = useSelector((state: RootState) => state.user.user);
+
+	const [conditionalAuthTile, setconditionalAuthTile] = useState<any>(true);
+
+	useEffect(() => {
+		setconditionalAuthTile(
+			userState.email === '' ? (
+				<MediumTile routerLink="/login" imageLink="pi pi-sign-in" title="sign up | sign in"></MediumTile>
+			) : (
+				<></>
+			)
+		);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	return (
 		<div>
 			<HeaderComponent></HeaderComponent>
@@ -19,6 +37,7 @@ export default function HomePage() {
 			</div>
 			<div className="tile-container">
 				<div className="nav-tiles">
+					{conditionalAuthTile}
 					<MediumTile
 						routerLink="https://discord.gg/MMaYZ8bUQc"
 						imageLink="pi pi-discord"

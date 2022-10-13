@@ -41,6 +41,7 @@
 		align-items: center;
 		justify-content: center;
 		padding: 2vw;
+		flex-wrap: wrap;
 	}
 	.discover-tiles {
 		@extend .nav-tiles;
