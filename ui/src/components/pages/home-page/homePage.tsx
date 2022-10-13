@@ -18,21 +18,15 @@ export default function HomePage() {
 				<div className="subtitle">find your gang</div>
 			</div>
 			<div className="tile-container">
-				<div className="left">
-					<div className="sub-left">
-						<MediumTile routerLink="/discover" imageLink="pi pi-users" title="discover"></MediumTile>
-						<MediumTile routerLink="/share" imageLink="pi pi-share-alt" title="share profile"></MediumTile>
-					</div>
-					<div className="sub-right">
-						<MediumTile
-							routerLink="https://discord.gg/MMaYZ8bUQc"
-							imageLink="pi pi-discord"
-							title="join our discord"
-						></MediumTile>
-						<MediumTile routerLink="/help" imageLink="pi pi-info-circle" title="help | faq"></MediumTile>
-					</div>
+				<div className="nav-tiles">
+					<MediumTile
+						routerLink="https://discord.gg/MMaYZ8bUQc"
+						imageLink="pi pi-discord"
+						title="join our discord"
+					></MediumTile>
+					<MediumTile routerLink="/help" imageLink="pi pi-info-circle" title="help | faq"></MediumTile>
 				</div>
-				<div className="right">
+				<div className="discover-tiles">
 					<DaddyTile
 						routerLink="/discover"
 						image="https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"

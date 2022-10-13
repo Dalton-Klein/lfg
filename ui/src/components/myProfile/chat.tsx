@@ -179,7 +179,7 @@ export default function Chat(props: any) {
 					command: () => {
 						toast.current.clear();
 						toast.current.show({
-							severity: 'warn',
+							severity: 'info',
 							summary: 'feature coming soon!',
 							detail: ``,
 							sticky: true,
@@ -192,7 +192,7 @@ export default function Chat(props: any) {
 					command: () => {
 						toast.current.clear();
 						toast.current.show({
-							severity: 'warn',
+							severity: 'info',
 							summary: 'feature coming soon!',
 							detail: ``,
 							sticky: true,
