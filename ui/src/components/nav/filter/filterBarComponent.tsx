@@ -22,6 +22,7 @@ export default function FilterBarComponent(props: any) {
 
 	const clearFilters = () => {
 		props.clearFiltersMethod();
+		sortRef.current!.clearFilter();
 		hoursRef.current!.clearFilter();
 		ageRef.current!.clearFilter();
 		availabilityRef.current!.clearFilter();
