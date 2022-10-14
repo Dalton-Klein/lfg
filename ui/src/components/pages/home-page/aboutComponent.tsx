@@ -145,7 +145,7 @@ export default function HomePage() {
 			<div className="column-1">
 				<div className="about-text">
 					Finding suitable teammates is tough. Finding them here isn't. <br /> <br />
-					Find teammates based on criteria that matters to you.
+					Find, chat, and play with teammates based on criteria that matters to you. <br /> <br />
 				</div>
 			</div>
 			<div className="column-2">{renderNotifications()}</div>

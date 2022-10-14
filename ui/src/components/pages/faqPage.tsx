@@ -124,10 +124,16 @@ export default function FAQPage() {
 				<div className="faq-content-container" ref={welcomeRef}>
 					<div className="faq-sub-title">Welcome</div>
 					<div className="faq-paragraph">
-						Welcome to gangs, the most efficient place to find your gamer gang. In modern multiplayer games, it is
-						imperative to form a high functioning squad to play with. gangs.gg was created to eliminate the effort and
-						luck required to find compatible teammates. The mission is to get you signed up, get your profiles dialed
-						in, and get you in touch with your ideal teammates as quickly as possible.
+						Welcome to gangs, the most efficient place to find your gamer gang. This is a looking for group (lfg)
+						platform that was designed from the ground up to make it easier to find the right teammates for you. No more
+						endless scrolling through nonstandardized forum posts, gangs lets you take control of what type of gamers
+						are in front of you.
+					</div>
+					<div className="faq-paragraph">
+						In modern multiplayer games, it is imperative to form a high functioning squad to play with. gangs.gg was
+						created to eliminate the effort and luck required to find compatible teammates. The mission is to get you
+						signed up, get your profiles dialed in, and get you in touch with your ideal teammates as quickly as
+						possible.
 					</div>
 					<div className="faq-paragraph">
 						This page will go over how to use the major features, and how to navigate around the application. You can
@@ -154,7 +160,9 @@ export default function FAQPage() {
 					</div>
 					<div className="faq-sub-heading">Google Sign Up</div>
 					<div className="faq-paragraph">
-						When on the sign in or sign up{' '}
+						YOU MUST ACCESS GANGS WITH AN HTTPS CONNECTION TO USE GOOGLE AUTHENTICATION. If your current gangs url is
+						missing the 's' in 'https', google auth will not work as the connection is not secure. When on the sign in
+						or sign up{' '}
 						<text
 							onClick={() => {
 								changeSelection(9);

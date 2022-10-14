@@ -33,9 +33,19 @@ export default function HomePage() {
 			<div className="title-box">
 				{/* <div className="title">gangs</div> */}
 				<img className="logo-img" src={'/assets/logo-v2-gangs.gg-transparent-white.png'} alt="gangs logo" />
-				<div className="subtitle">find your gang</div>
+				<h1 className="main-title">form your gang</h1>
+				<h2 className="subtitle">
+					Say goodbye to solo queuing, find competent team members to play with, make new friends
+				</h2>
 			</div>
 			<div className="tile-container">
+				<div className="discover-tiles">
+					<DaddyTile
+						routerLink="/discover"
+						image="https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"
+						title="rust"
+					></DaddyTile>
+				</div>
 				<div className="nav-tiles">
 					{conditionalAuthTile}
 					<MediumTile
@@ -45,17 +55,10 @@ export default function HomePage() {
 					></MediumTile>
 					<MediumTile routerLink="/help" imageLink="pi pi-info-circle" title="help | faq"></MediumTile>
 				</div>
-				<div className="discover-tiles">
-					<DaddyTile
-						routerLink="/discover"
-						image="https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"
-						title="rust"
-					></DaddyTile>
-				</div>
 			</div>
 			<AboutComponent></AboutComponent>
 			<div className="title-box">
-				<div className="subtitle">coming soon</div>
+				<h1 className="main-title">games coming soon</h1>
 			</div>
 			<div className="extra-tiles">
 				<DaddyTile

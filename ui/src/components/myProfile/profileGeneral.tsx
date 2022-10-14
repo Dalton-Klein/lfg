@@ -18,6 +18,7 @@ import { languageOptions, regionOptions } from '../../utils/selectOptions';
 import ExpandedProfile from '../modal/expandedProfileComponent';
 import { Toast } from 'primereact/toast';
 import ProfileWidget from './profileWidget';
+import ReactTooltip from 'react-tooltip';
 
 export default function ProfileGeneral(props: any) {
 	const dispatch = useDispatch();
@@ -45,6 +46,7 @@ export default function ProfileGeneral(props: any) {
 	const [psn, setPSN] = useState<string>('');
 	const [xbox, setXbox] = useState<string>('');
 	const [rustHoursText, setRustHoursText] = useState<number>(0);
+	const [availabilityTooltipString, setavailabilityTooltipString] = useState<string>('');
 	const [rustWeekday, setRustWeekday] = useState<string>('');
 	const [rustWeekend, setRustWeekend] = useState<string>('');
 	const [isEmailNotifications, setIsEmailNotifications] = useState<boolean>(true);
@@ -351,7 +353,12 @@ export default function ProfileGeneral(props: any) {
 				{/* AVATAR PHTO */}
 				<div className="banner-container-top">
 					{!userData.avatar_url || userData.avatar_url === '/assets/avatarIcon.png' ? (
-						<div className="dynamic-avatar-bg" onClick={() => startEditingAvatar('avatar_url')}>
+						<div
+							className="dynamic-avatar-bg"
+							onClick={() => startEditingAvatar('avatar_url')}
+							data-tip
+							data-for="avatarTip"
+						>
 							<div className="dynamic-avatar-text">
 								{userData.username
 									? userData.username
@@ -368,6 +375,8 @@ export default function ProfileGeneral(props: any) {
 							src={userData.avatar_url}
 							alt=""
 							onClick={() => startEditingAvatar('avatar_url')}
+							data-tip
+							data-for="avatarTip"
 						></img>
 					)}
 
@@ -473,7 +482,9 @@ export default function ProfileGeneral(props: any) {
 				{/* END REGION */}
 				{/* LANGUAGE */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">language</div>
+					<div className="prof-banner-detail-text" data-tip data-for="languageTip">
+						language
+					</div>
 					<div className="select-container">
 						<SelectComponent
 							publicMethods={languageRef}
@@ -489,7 +500,9 @@ export default function ProfileGeneral(props: any) {
 				{/* END LANGUAGE */}
 				{/* PLATFORM */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">platform</div>
+					<div className="prof-banner-detail-text" data-tip data-for="platformTip">
+						platform
+					</div>
 					<div className="gender-container">
 						<div
 							className={`gender-box ${platform === 1 ? 'box-selected' : ''}`}
@@ -579,7 +592,9 @@ export default function ProfileGeneral(props: any) {
 				<div className="gradient-bar"></div>
 				{/* PASSWORD */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">password</div>
+					<div className="prof-banner-detail-text" data-tip data-for="passwordTip">
+						password
+					</div>
 					<div className="banner-change-box">
 						<button className="text-only-button" onClick={() => startEditingAvatar('password')}>
 							<img className="edit-icon" src="/assets/editiconw.png" alt=""></img>
@@ -668,7 +683,9 @@ export default function ProfileGeneral(props: any) {
 				<div className="gradient-bar"></div>
 				{/* END Profile Widgets */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">publish rust profile</div>
+					<div className="prof-banner-detail-text" data-tip data-for="publishTip">
+						publish rust profile
+					</div>
 					<input
 						checked={isProfileDiscoverable}
 						onChange={() => {
@@ -701,13 +718,16 @@ export default function ProfileGeneral(props: any) {
 				{/* END RUST HOURS */}
 				{/* Availability- Weekdays */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">weekdays</div>
+					<div className="prof-banner-detail-text">weekday availabilty</div>
 					<div className="gender-container">
 						<div
 							className={`gender-box ${rustWeekday === 'none' ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekday('none');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('0 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							none
 						</div>
@@ -716,6 +736,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekday('some');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('0-2 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							some
 						</div>
@@ -724,6 +747,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekday('a lot');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('2-6 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							a lot
 						</div>
@@ -732,6 +758,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekday('all day');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('6+ hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							all day
 						</div>
@@ -741,13 +770,16 @@ export default function ProfileGeneral(props: any) {
 				{/* END Availability- Weekdays */}
 				{/* Availability- Weekends */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">weekends</div>
+					<div className="prof-banner-detail-text">weekend availability</div>
 					<div className="gender-container">
 						<div
 							className={`gender-box ${rustWeekend === 'none' ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekend('none');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('0 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							none
 						</div>
@@ -756,6 +788,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekend('some');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('0-2 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							some
 						</div>
@@ -764,6 +799,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekend('a lot');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('2-6 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							a lot
 						</div>
@@ -772,6 +810,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekend('all day');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('6+ hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							all day
 						</div>
@@ -787,6 +828,25 @@ export default function ProfileGeneral(props: any) {
 				</div>
 				{/* END SAVE BOX */}
 			</div>
+			<ReactTooltip id="availabilityTip" place="top" effect="solid">
+				{availabilityTooltipString}
+			</ReactTooltip>
+			<ReactTooltip id="publishTip" place="right" effect="solid">
+				Controls whether your profile is discoverable. You must have both general and rust profiles complete to publish.
+			</ReactTooltip>
+			<ReactTooltip id="avatarTip" place="right" effect="solid">
+				Click here to upload profile image
+			</ReactTooltip>
+			<ReactTooltip id="languageTip" place="right" effect="solid">
+				Choose the language you will use in text and voice while gaming.
+			</ReactTooltip>
+			<ReactTooltip id="platformTip" place="right" effect="solid">
+				Select your primary gaming communication platform (voice). Then enter your username for the platform below.
+			</ReactTooltip>
+			<ReactTooltip id="passwordTip" place="right" effect="solid">
+				You can change your password here. No password edit is required to complete profile. Will have no affect on
+				google auth accounts.
+			</ReactTooltip>
 		</div>
 	);
 }

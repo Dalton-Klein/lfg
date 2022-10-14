@@ -14,10 +14,19 @@
 		max-width: 10vw;
 		max-height: 10vw;
 	}
-	.subtitle {
-		font-size: calc(20px + 1.5vw);
+	.main-title {
+		font-size: $font5;
 		display: flex;
 		justify-content: center;
+		font-weight: 600;
+		text-align: center;
+	}
+	.subtitle {
+		@extend .main-title;
+		margin: 2vh 0;
+		font-weight: 200;
+		font-size: $font3;
+		color: $colorTextAlt;
 	}
 }
 
@@ -35,19 +44,19 @@
 	align-items: center;
 	margin-bottom: 4vh;
 	.nav-tiles {
-		min-width: 90vw;
-		max-width: 90vw;
+		min-width: 100vw;
+		max-width: 100vw;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		padding: 2vw;
+		justify-content: space-evenly;
+		padding: 2vh 2vw;
 		flex-wrap: wrap;
 	}
 	.discover-tiles {
 		@extend .nav-tiles;
 		align-items: flex-start;
 		justify-content: center;
-		padding: 2vw;
+		padding: 2vh 1vw;
 	}
 }
 .extra-tiles {

@@ -6,7 +6,7 @@
 	min-height: 20vh;
 	min-width: 20vw;
 	max-height: 20vh;
-	max-width: 20vw;
+	max-width: 80vw;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
@@ -45,7 +45,7 @@
 
 @media screen and (max-width: $screenBreak1) {
 	.tile-box {
-		min-width: 45vw;
-		max-width: 45vw;
+		min-width: 40vw;
+		max-width: 50vw;
 	}
 }
