@@ -172,10 +172,6 @@ export default function ProfileInlayComponet() {
 						<i className="pi pi-envelope" />
 					</button>
 					<div className="my-profile-overlay-link">
-						<div className="prof-overlay-text" onClick={toggleDrawer}>
-							{userState.username}
-						</div>
-
 						{profileImage === '' || profileImage === '/assets/avatarIcon.png' ? (
 							<div className="dynamic-avatar-border" onClick={toggleDrawer}>
 								<div className="dynamic-avatar-text-small">

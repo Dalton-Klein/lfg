@@ -42,19 +42,20 @@
 		.article-sub-title {
 			text-align: center;
 			margin: 2vh 1vw;
-			font-size: $font3;
+			font-size: $font4;
 			font-weight: 400;
 		}
 		.article-sub-heading {
 			text-align: left;
 			margin: 2vh 4vw;
-			font-size: $font2;
+			font-size: $font3;
 		}
 		.article-paragraph {
 			text-align: left;
 			margin: 1vh 4vw;
 			font-size: $font2;
 			color: $colorTextAlt;
+			line-height: 25px;
 			li {
 				margin: 2.5vh 0;
 			}
@@ -92,6 +93,7 @@
 		.article-header-date {
 			text-align: left;
 			color: $colorTextAlt;
+			font-size: $font2;
 			min-width: 33%;
 		}
 		.article-read-time {

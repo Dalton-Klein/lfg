@@ -125,12 +125,6 @@
 	transform: scale(1.05);
 }
 
-.prof-overlay-text {
-	font-size: $font1;
-	color: $colorText;
-	margin-right: 4px;
-}
-
 .nav-overlay-img:hover {
 	transform: scale(1.05);
 }
@@ -153,7 +147,7 @@
 		}
 	}
 	.my-profile-overlay-link {
-		min-width: 15vw;
+		min-width: 6vw;
 	}
 	.p-menu {
 		.p-menuitem-text {
@@ -195,7 +189,7 @@
 		}
 	}
 	.my-profile-overlay-link {
-		min-width: 25vw;
+		min-width: 8vw;
 	}
 	.p-menu {
 		.p-menuitem-text {
@@ -220,6 +214,6 @@
 }
 @media screen and (max-width: $screenBreak3) {
 	.my-profile-overlay-link {
-		min-width: 30vw;
+		min-width: 8vw;
 	}
 }
