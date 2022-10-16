@@ -20,7 +20,7 @@ export default function MediumTile(props: Props) {
 			}}
 		>
 			<div className="medium-gradient-overlay">
-				<div className="medium-title">{props.title}</div>
+				<h3 className="medium-title">{props.title}</h3>
 				<i className={props.imageLink}></i>
 			</div>
 		</article>

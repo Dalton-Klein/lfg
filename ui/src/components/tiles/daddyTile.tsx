@@ -12,7 +12,7 @@ export default function DaddyTile(props: any) {
 			style={{ backgroundImage: `url(${props.image})` }}
 		>
 			<div className="daddy-gradient-overlay">
-				<h1 className="daddy-title">{props.title}</h1>
+				<h2 className="daddy-title">{props.title}</h2>
 			</div>
 		</article>
 	);
