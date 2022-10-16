@@ -373,7 +373,7 @@ export default function ProfileGeneral(props: any) {
 						<img
 							className="prof-banner-avatar"
 							src={userData.avatar_url}
-							alt=""
+							alt="my-avatar"
 							onClick={() => startEditingAvatar('avatar_url')}
 							data-tip
 							data-for="avatarTip"
@@ -439,7 +439,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedGender(1);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/gender-icon-male.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/gender-icon-male.png'} alt="male gender"></img>
 							<div className="box-text">m</div>
 						</div>
 						<div
@@ -448,7 +448,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedGender(2);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/gender-icon-female.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/gender-icon-female.png'} alt="female gender"></img>
 							<div className="box-text">f</div>
 						</div>
 						<div
@@ -457,7 +457,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedGender(3);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/gender-icon-non-binary.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/gender-icon-non-binary.png'} alt="non-binary gender"></img>
 							<div className="box-text">nb</div>
 						</div>
 					</div>
@@ -510,7 +510,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedPlatform(1);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/discord-logo-small.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/discord-logo-small.png'} alt="discord selector"></img>
 						</div>
 						<div
 							className={`gender-box ${platform === 2 ? 'box-selected' : ''}`}
@@ -518,7 +518,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedPlatform(2);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/psn-logo-small.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/psn-logo-small.png'} alt="psn selector"></img>
 						</div>
 						<div
 							className={`gender-box ${platform === 3 ? 'box-selected' : ''}`}
@@ -526,7 +526,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedPlatform(3);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/xbox-logo-small.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/xbox-logo-small.png'} alt="xbox selector"></img>
 						</div>
 					</div>
 				</div>
@@ -597,7 +597,7 @@ export default function ProfileGeneral(props: any) {
 					</div>
 					<div className="banner-change-box">
 						<button className="text-only-button" onClick={() => startEditingAvatar('password')}>
-							<img className="edit-icon" src="/assets/editiconw.png" alt=""></img>
+							<img className="edit-icon" src="/assets/editiconw.png" alt="edit password"></img>
 						</button>
 					</div>
 				</div>

@@ -252,7 +252,7 @@ export default function ProfilePage() {
 				<button className="submenu-navigator" onClick={(event) => menu.current.toggle(event)}>
 					<i className="pi pi-bars" />
 				</button>
-				<div className="submenu-title">{submenuTitle}</div>
+				<h1 className="submenu-title">{submenuTitle}</h1>
 			</div>
 
 			<div className="content-container" style={{ display: [1, 6, 7].includes(selection) ? 'flex' : 'none' }}>

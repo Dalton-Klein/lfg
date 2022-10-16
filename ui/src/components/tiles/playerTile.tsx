@@ -53,7 +53,12 @@ export default function PlayerTile(props: any) {
 								</div>
 							</div>
 						) : (
-							<img className="card-photo" onClick={() => {}} src={props.avatar_url} alt="avatar" />
+							<img
+								className="card-photo"
+								onClick={() => {}}
+								src={props.avatar_url}
+								alt={`${props.username}'s avatar`}
+							/>
 						)}
 					</div>
 					<div className="info-column">
@@ -72,7 +77,7 @@ export default function PlayerTile(props: any) {
 						<div className="info-stats-row">
 							<div className="info-stats-attribute">{props.languages}</div>
 							<div className="info-stats-attribute">{props.age}</div>
-							<img className="gender-icon" src={genderIcon} alt="gender"></img>
+							<img className="gender-icon" src={genderIcon} alt="gender icon"></img>
 							<div className="info-stats-attribute">{props.region_abbreviation}</div>
 						</div>
 					</div>

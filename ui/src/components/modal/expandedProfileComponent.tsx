@@ -104,7 +104,12 @@ const ExpandedProfile = (props: Props) => {
 									</div>
 								</div>
 							) : (
-								<img className="expanded-photo" onClick={() => {}} src={props.userInfo.avatar_url} alt="avatar" />
+								<img
+									className="expanded-photo"
+									onClick={() => {}}
+									src={props.userInfo.avatar_url}
+									alt={`${props.userInfo.username}avatar`}
+								/>
 							)}
 							<div className="expanded-basic-info">
 								<div className="expanded-username">{props.userInfo.username}</div>
