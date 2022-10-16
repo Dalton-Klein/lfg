@@ -53,6 +53,7 @@ export default function HomePage() {
 						imageLink="pi pi-discord"
 						title="join our discord"
 					></MediumTile>
+					<MediumTile routerLink="/blog" imageLink="pi pi-bookmark" title="blog"></MediumTile>
 					<MediumTile routerLink="/help" imageLink="pi pi-info-circle" title="help | faq"></MediumTile>
 				</div>
 			</div>

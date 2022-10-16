@@ -3,6 +3,8 @@ import { Route, BrowserRouter as HashRouter, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from './store/store';
+import BlogPage from './components/pages/blog/blogPage';
+import BlogArticle from './components/pages/blog/blogArticle';
 import HomePage from './components/pages/home-page/homePage';
 import DiscoverPage from './components/pages/discoverPage';
 import LoginPage from './components/pages/authenticationPage';
@@ -38,6 +40,8 @@ function App() {
 						<Routes>
 							<Route path="/" element={<HomePage />} />
 							<Route path="/discover" element={<DiscoverPage />} />
+							<Route path="/blog" element={<BlogPage />} />
+							<Route path="/blog/how-to-find-great-rust-teammates" element={<BlogArticle />} />
 							<Route path="/profile" element={<ProfilePage />} />
 							<Route path="/help" element={<FAQPage />} />
 							<Route path="/login" element={<LoginPage />} />

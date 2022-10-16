@@ -195,6 +195,14 @@ const DrawerComponent = (props: Props) => {
 					</div>
 					<div
 						onClick={() => {
+							navigationButtonPressed('blog');
+						}}
+						className="hamburger-links"
+					>
+						<button className="hamburger-button">blog</button>
+					</div>
+					<div
+						onClick={() => {
 							navigationButtonPressed('help');
 						}}
 						className="hamburger-links"
