@@ -58,7 +58,7 @@ export default function HomePage() {
 			</div>
 			<AboutComponent></AboutComponent>
 			<div className="title-box">
-				<h1 className="main-title">games coming soon</h1>
+				<h2 className="main-title">games coming soon</h2>
 			</div>
 			<div className="extra-tiles">
 				<DaddyTile
