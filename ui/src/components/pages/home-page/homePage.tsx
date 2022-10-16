@@ -21,7 +21,7 @@ export default function HomePage() {
 			userState.email === '' ? (
 				<MediumTile routerLink="/login" imageLink="pi pi-sign-in" title="sign up | sign in"></MediumTile>
 			) : (
-				<></>
+				<MediumTile routerLink="/profile" imageLink="pi pi-user" title="my profile"></MediumTile>
 			)
 		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,5 +1,8 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from '../../store/store';
+import { setPreferences } from '../../store/userPreferencesSlice';
 import './mediumTile.scss';
 
 type Props = {
@@ -10,13 +13,23 @@ type Props = {
 
 export default function MediumTile(props: Props) {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const preferencesState = useSelector((state: RootState) => state.preferences);
 	return (
 		// <article className="tile-box" style={{ backgroundImage: `url(${props.imageLink})` }}>
 		<article
 			className="tile-box"
 			onClick={() => {
 				if (props.routerLink === 'https://discord.gg/MMaYZ8bUQc') window.open(props.routerLink);
-				else navigate(`${props.routerLink}`);
+				else if (props.routerLink === '/profile') {
+					dispatch(
+						setPreferences({
+							...preferencesState,
+							lastProfileMenu: 1,
+						})
+					);
+					navigate(`${props.routerLink}`);
+				} else navigate(`${props.routerLink}`);
 			}}
 		>
 			<div className="medium-gradient-overlay">
