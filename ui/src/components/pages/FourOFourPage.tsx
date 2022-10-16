@@ -11,7 +11,7 @@ export default function FourOFourPage() {
 
 	return (
 		<div className="fourOFour-container">
-			<div className="fourOFour-text">404</div>
+			<h1 className="fourOFour-text">404</h1>
 			<div className="info-text">oops, you aren't supposed to see this.</div>
 			<div className="info-text">the page you are trying to access does not exist.</div>
 			<button className="return-button" onClick={returnHome}>
