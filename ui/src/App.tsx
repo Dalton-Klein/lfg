@@ -4,7 +4,8 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from './store/store';
 import BlogPage from './components/pages/blog/blogPage';
-import BlogArticle from './components/pages/blog/blogArticle';
+import BlogArticle1 from './components/pages/blog/blogArticle-1';
+import BlogArticle2 from './components/pages/blog/blogArticle-2';
 import HomePage from './components/pages/home-page/homePage';
 import DiscoverPage from './components/pages/discoverPage';
 import LoginPage from './components/pages/authenticationPage';
@@ -36,18 +37,19 @@ function App() {
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
 				<HashRouter>
-					<div className="App">
+					<div className='App'>
 						<Routes>
-							<Route path="/" element={<HomePage />} />
-							<Route path="/discover" element={<DiscoverPage />} />
-							<Route path="/blog" element={<BlogPage />} />
-							<Route path="/blog/how-to-find-great-rust-teammates" element={<BlogArticle />} />
-							<Route path="/profile" element={<ProfilePage />} />
-							<Route path="/help" element={<FAQPage />} />
-							<Route path="/login" element={<LoginPage />} />
-							<Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-							<Route path="/terms-of-service" element={<TermsOfServicePage />} />
-							<Route path="/*" element={<FourOFourPage />} />
+							<Route path='/' element={<HomePage />} />
+							<Route path='/discover' element={<DiscoverPage />} />
+							<Route path='/blog' element={<BlogPage />} />
+							<Route path='/blog/how-to-find-great-rust-teammates' element={<BlogArticle1 />} />
+							<Route path='/blog/rocket-league-minecraft-support' element={<BlogArticle2 />} />
+							<Route path='/profile' element={<ProfilePage />} />
+							<Route path='/help' element={<FAQPage />} />
+							<Route path='/login' element={<LoginPage />} />
+							<Route path='/privacy-policy' element={<PrivacyPolicyPage />} />
+							<Route path='/terms-of-service' element={<TermsOfServicePage />} />
+							<Route path='/*' element={<FourOFourPage />} />
 						</Routes>
 					</div>
 				</HashRouter>

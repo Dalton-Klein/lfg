@@ -9,7 +9,7 @@ import { RootState } from '../../../store/store';
 import React, { useEffect, useState } from 'react';
 import MediumTile from '../../tiles/mediumTile';
 
-export default function BlogArticle() {
+export default function BlogArticle1() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const preferencesState = useSelector((state: RootState) => state.preferences);
@@ -20,7 +20,7 @@ export default function BlogArticle() {
 	useEffect(() => {
 		setconditionalAuthTile(
 			userState.email === '' ? (
-				<MediumTile routerLink="/login" imageLink="pi pi-sign-in" title="try gangs"></MediumTile>
+				<MediumTile routerLink='/login' imageLink='pi pi-sign-in' title='try gangs'></MediumTile>
 			) : (
 				<></>
 			)
@@ -54,10 +54,10 @@ export default function BlogArticle() {
 	return (
 		<div>
 			<HeaderComponent></HeaderComponent>
-			<div className="article-master-container">
+			<div className='article-master-container'>
 				<BannerTitle title={'how to find great rust teammates'}></BannerTitle>
-				<div className="article-header-info">
-					<h4 className="article-header-date">Updated 10/15/2022</h4>
+				<div className='article-header-info'>
+					<h4 className='article-header-date'>Updated 10/15/2022</h4>
 					<button
 						onClick={() => {
 							navigate(`/blog`);
@@ -65,12 +65,12 @@ export default function BlogArticle() {
 					>
 						return to blog home
 					</button>
-					<h4 className="article-read-time">2 min read</h4>
+					<h4 className='article-read-time'>2 min read</h4>
 				</div>
 				{/* Welcome */}
-				<div className="article-content-container">
-					<h3 className="article-sub-title">Why is it so hard?</h3>
-					<div className="article-paragraph">
+				<div className='article-content-container'>
+					<h3 className='article-sub-title'>Why is it so hard?</h3>
+					<div className='article-paragraph'>
 						Well, if your irl friends aren't playing this wipe or don't play at all, you have get to know someone in one
 						of the most notoriously toxic playerbases. Anyone who plays Rust knows that it's 100% a terrible idea to
 						team with people you meet in game. Doing so results in getting indsided (betrayed and locked out of your own
@@ -78,16 +78,16 @@ export default function BlogArticle() {
 						outside of the game, and get to know each other to develop a level of trust before playing.
 					</div>
 				</div>
-				<div className="article-content-container">
-					<h3 className="article-sub-title">What are my options?</h3>
-					<div className="article-paragraph">
+				<div className='article-content-container'>
+					<h3 className='article-sub-title'>What are my options?</h3>
+					<div className='article-paragraph'>
 						Most people's go to option to find someone immediately available to play, is to go to a large discord server
 						or popular reddit thread. What is great about these options is that a lot of people are already using them!
 						What is bad about these options, is that you get the FULL spectrum of Rust players in these forums (hint
 						hint). It is difficult to tell whether you will actually enjoy playing with someone on these platforms by
 						what information they offer up.
 					</div>
-					<div className="article-paragraph">
+					<div className='article-paragraph'>
 						On the other hand, a platform that is designed to improve the lfg experience could be what you're looking
 						for! Here at gangs, you will be able to see age, timezone, hours of experience, availability all up front.
 						Also, you have the ability to sort and filter potential matches based on these criteria that you value. If
@@ -95,9 +95,9 @@ export default function BlogArticle() {
 					</div>
 					{conditionalAuthTile}
 				</div>
-				<div className="article-content-container">
-					<h3 className="article-sub-title">Useful tips to avoid common pitfalls</h3>
-					<div className="article-paragraph">
+				<div className='article-content-container'>
+					<h3 className='article-sub-title'>Useful tips to avoid common pitfalls</h3>
+					<div className='article-paragraph'>
 						<li>
 							Get into a voice chat with the person you intend on playing with. Chat with them for a few minutes before
 							comitting to anything! You can usually get a decent first impression. If you hear some major red flags,
@@ -120,16 +120,16 @@ export default function BlogArticle() {
 						</li>
 					</div>
 				</div>
-				<div className="article-content-container">
-					<h3 className="article-sub-title">Final Thoughts</h3>
-					<div className="article-paragraph">
+				<div className='article-content-container'>
+					<h3 className='article-sub-title'>Final Thoughts</h3>
+					<div className='article-paragraph'>
 						You will never meet your dream team unless you are rolling the dice. Try out a few different styles of
 						groups to not only learn more about the game, but help refine what you are looking for in a Rust group. The
 						more experience you get, the more valuable of a teammate you are, which will assist in other great players
 						wanting to stick with you!
 					</div>
-					<div className="article-closing">Happy Gaming,</div>
-					<div className="article-closing">gangs.gg team</div>
+					<div className='article-closing'>Happy Gaming,</div>
+					<div className='article-closing'>gangs.gg team</div>
 				</div>
 			</div>
 			<FooterComponent></FooterComponent>
