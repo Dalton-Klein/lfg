@@ -40,17 +40,23 @@ export default function BlogPage() {
 	return (
 		<div>
 			<HeaderComponent></HeaderComponent>
-			<div className="blog-master-container">
+			<div className='blog-master-container'>
 				<BannerTitle title={'blog'}></BannerTitle>
 				{/* Welcome */}
-				<div className="blog-content-container">
+				<div className='blog-content-container'>
 					<BlogTile
-						routerLink="/blog/how-to-find-great-rust-teammates"
-						title="how to find great rust teammates"
-						updated_on="10/15/2022 | 2 min read"
+						routerLink='/blog/rocket-league-minecraft-support'
+						title='rocket league & minecraft support'
+						updated_on='10/18/2022 | 2 min read'
+						preview='Rocket League and Minecraft are coming soon! In short, there are some features we are working on that take priority over adding new games to the
+						platform. However, Rocket League will be the second game...'
+					></BlogTile>
+					<BlogTile
+						routerLink='/blog/how-to-find-great-rust-teammates'
+						title='how to find great rust teammates'
+						updated_on='10/15/2022 | 2 min read'
 						preview="Well, if your irl friends aren't playing this wipe or don't play at all, you have get to know someone in one
-						of the most notoriously toxic playerbases. Anyone who plays Rust knows that it's 100% a terrible idea to
-						team with people you meet in game..."
+						of the most notoriously toxic playerbases. Anyone who plays Rust knows..."
 					></BlogTile>
 				</div>
 			</div>
