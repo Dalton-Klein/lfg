@@ -171,14 +171,7 @@ export default function ProfileInlayComponet() {
 					<button className="text-only-button notifications-button" onClick={(event) => notificationPressed(3)}>
 						<i className="pi pi-envelope" />
 					</button>
-					<button className="text-only-button last-button" onClick={(event) => notificationPressed(1)}>
-						<i className="pi pi-user-plus" />
-					</button>
 					<div className="my-profile-overlay-link">
-						<div className="prof-overlay-text" onClick={toggleDrawer}>
-							{userState.username}
-						</div>
-
 						{profileImage === '' || profileImage === '/assets/avatarIcon.png' ? (
 							<div className="dynamic-avatar-border" onClick={toggleDrawer}>
 								<div className="dynamic-avatar-text-small">
@@ -192,7 +185,7 @@ export default function ProfileInlayComponet() {
 								</div>
 							</div>
 						) : (
-							<img className="nav-overlay-img" onClick={toggleDrawer} src={profileImage} alt="avatar Icon" />
+							<img className="nav-overlay-img" onClick={toggleDrawer} src={profileImage} alt="my avatar" />
 						)}
 					</div>
 				</div>

@@ -19,7 +19,7 @@ import {
 } from '../../utils/animations';
 import { signInUserThunk, createUserInState, resetPasswordInState, updateUserThunk } from '../../store/userSlice';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 
 const clientId = '244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com';
@@ -148,7 +148,7 @@ const LoginPage = () => {
 
 	//START Google Logic
 	const onGoogleFailure = (res: any) => {
-		console.log('google failed to login: ', res);
+		console.log('google failed to login');
 	};
 
 	const onGoogleSuccess = async (res: any) => {
@@ -349,6 +349,18 @@ const LoginPage = () => {
 						<h2>create account</h2>
 						<div className="login-inputs">
 							{/* Input Boxes */}
+							<div className="google-signup-container" style={{ display: !isGoogleSignUp ? 'inline-block' : 'none' }}>
+								<GoogleLogin
+									className="google-button"
+									clientId={clientId}
+									buttonText="google sign up"
+									onSuccess={onGoogleSuccess}
+									onFailure={onGoogleFailure}
+									cookiePolicy={'single_host_origin'}
+									isSignedIn={true}
+								/>
+								<div className="seperator-text">or</div>
+							</div>
 							<input name="username" type="text" placeholder="display name" />
 							{/* Bottom three fields dependent on if signing up w/ google */}
 							<input
@@ -378,12 +390,22 @@ const LoginPage = () => {
 										setageChecked(e.target.checked);
 									}}
 								/>
-								<div className="checkbox-label">i am at least 13 years of age</div>
+								<div className="checkbox-label">
+									i am at least 13 years of age, and have read and agreed to the{' '}
+									<Link to="/terms-of-service" className="link-text">
+										{' '}
+										terms
+									</Link>{' '}
+									and{' '}
+									<Link to="/privacy-policy" className="link-text">
+										{' '}
+										privacy policy
+									</Link>
+								</div>
 							</div>
 							{formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
 						</div>
 						<button type="submit">create account</button>
-						<h4>or</h4>
 						<button type="button" onClick={() => changeMenu(1)} className="alt-button">
 							sign in
 						</button>
@@ -397,20 +419,21 @@ const LoginPage = () => {
 						<h2>sign in</h2>
 						{/* Input Boxes */}
 						<div className="login-inputs">
+							<GoogleLogin
+								className="google-button"
+								clientId={clientId}
+								buttonText="google login"
+								onSuccess={onGoogleSuccess}
+								onFailure={onGoogleFailure}
+								cookiePolicy={'single_host_origin'}
+								isSignedIn={true}
+							/>
+							<div className="seperator-text">or</div>
 							<input name="email" type="email" placeholder="email" />
 							<input name="password" type="password" placeholder="password" />
 							{formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
 						</div>
 						<button type="submit">sign in</button>
-						<GoogleLogin
-							className="google-button"
-							clientId={clientId}
-							buttonText="google login"
-							onSuccess={onGoogleSuccess}
-							onFailure={onGoogleFailure}
-							cookiePolicy={'single_host_origin'}
-							isSignedIn={true}
-						/>
 						<button type="button" onClick={() => changeMenu(2)} className="alt-button">
 							create account
 						</button>

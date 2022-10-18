@@ -57,9 +57,9 @@ export default function HomePage() {
 					4: ownerName,
 				};
 				const actionPhraseKey: any = {
-					1: ` sent a request to `,
-					2: ` accepted a request from `,
-					3: ` sent a message to`,
+					1: ` requested `,
+					2: ` accepted `,
+					3: ` messaged`,
 					4: ` signed up! `,
 				};
 				const user2Key: any = {
@@ -144,8 +144,8 @@ export default function HomePage() {
 		<div className="about-container">
 			<div className="column-1">
 				<div className="about-text">
-					finding suitable teammates is tough. finding them here isn't. <br /> <br />
-					find teammates based on criteria that matters to you.
+					Finding suitable teammates is tough. Finding them here isn't. <br /> <br />
+					Find, chat, and play with teammates based on criteria that matters to you. <br /> <br />
 				</div>
 			</div>
 			<div className="column-2">{renderNotifications()}</div>

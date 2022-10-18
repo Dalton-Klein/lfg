@@ -7,13 +7,16 @@ import moment from 'moment';
 import { howLongAgo } from '../../utils/helperFunctions';
 import { getChatHistoryForUser } from '../../utils/rest';
 import { Toast } from 'primereact/toast';
+import ReactTooltip from 'react-tooltip';
 import * as io from 'socket.io-client';
 const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.gangs.gg');
 
 export default function Chat(props: any) {
 	const userState = useSelector((state: RootState) => state.user.user);
 
-	const [platformImage, setPlatformImage] = useState<any>([]);
+	const [isPublic, setisPublic] = useState<boolean>(true);
+	const [platformImage, setplatformImage] = useState<any>([]);
+	const [platformUsername, setplatformUsername] = useState<any>('');
 	// const [platformUsername, setPlatformUsername] = useState<any>('');
 	const [messageState, setMessageState] = useState<any>({
 		roomId: 1,
@@ -34,7 +37,9 @@ export default function Chat(props: any) {
 			loadChatHistory();
 			socketRef.emit('join_room', props.id);
 			return () => {
-				setPlatformImage([]);
+				setisPublic(true);
+				setplatformImage([]);
+				setplatformUsername('');
 				setMessageState({
 					roomId: 1,
 					message: '',
@@ -90,14 +95,16 @@ export default function Chat(props: any) {
 			3: '/assets/xbox-logo-small.png',
 		};
 		let assetLink = assetLinks[props.preferred_platform];
-		const isPublic = props.isPublicChat === 'true' ? true : false;
+		setisPublic(props.isPublicChat === 'true' ? true : false);
 		if (props.preferred_platform) {
-			setPlatformImage(
-				<div className="messaging-platform-box" style={{ display: !isPublic ? 'inline-block' : 'none' }}>
-					<img className="connection-platform-image" src={assetLink} alt={`platform name`} />
-				</div>
-			);
-		} else setPlatformImage(<></>);
+			if (props.preferred_platform === 1) setplatformUsername(props.discord);
+			if (props.preferred_platform === 2) setplatformUsername(props.psn);
+			if (props.preferred_platform === 3) setplatformUsername(props.xbox);
+			setplatformImage(<img className="connection-platform-image" src={assetLink} alt={`platform type`} />);
+		} else {
+			setplatformImage(<></>);
+			setplatformUsername('');
+		}
 	};
 
 	//BEGIN SOCKET Functions
@@ -167,9 +174,30 @@ export default function Chat(props: any) {
 		{
 			items: [
 				{
-					label: 'block',
+					label: 'remove connection',
 					icon: 'pi pi-user-minus',
-					command: () => {},
+					command: () => {
+						toast.current.clear();
+						toast.current.show({
+							severity: 'info',
+							summary: 'feature coming soon!',
+							detail: ``,
+							sticky: true,
+						});
+					},
+				},
+				{
+					label: 'block',
+					icon: 'pi pi-times',
+					command: () => {
+						toast.current.clear();
+						toast.current.show({
+							severity: 'info',
+							summary: 'feature coming soon!',
+							detail: ``,
+							sticky: true,
+						});
+					},
 				},
 			],
 		},
@@ -201,11 +229,20 @@ export default function Chat(props: any) {
 						}}
 						className="conversation-profile-image"
 						src={props.avatar_url}
-						alt={`${props.username}'s profile`}
+						alt={`${props.username}'s avatar`}
 					/>
 				)}
 				<div className="messages-title-text">{props.username}</div>
-				<div className="stackable-container-right">{platformImage}</div>
+				<div className="stackable-container-right">
+					<div
+						className="messaging-platform-box"
+						style={{ display: !isPublic ? 'inline-block' : 'none' }}
+						data-tip
+						data-for="platformTip"
+					>
+						{platformImage}
+					</div>
+				</div>
 				<Menu model={items} popup ref={dropdownMenu} id="popup_menu" />
 				<button className="options-button" onClick={(event) => dropdownMenu.current.toggle(event)}>
 					<i className="pi pi-ellipsis-h"></i>
@@ -230,6 +267,10 @@ export default function Chat(props: any) {
 
 				<button type="submit">send</button>
 			</form>
+
+			<ReactTooltip id="platformTip" place="top" effect="solid">
+				{platformUsername}
+			</ReactTooltip>
 		</div>
 	);
 }

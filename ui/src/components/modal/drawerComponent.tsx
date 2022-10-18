@@ -70,7 +70,15 @@ const DrawerComponent = (props: Props) => {
 		props.toggleDrawer();
 		//Decide between sub-sections of a url
 		let link = destination;
-		if (destination === 'connections') {
+		if (destination === 'genProfile') {
+			link = 'profile';
+			dispatch(
+				setPreferences({
+					...preferencesState,
+					lastProfileMenu: 1,
+				})
+			);
+		} else if (destination === 'messaging') {
 			link = 'profile';
 			dispatch(
 				setPreferences({
@@ -78,12 +86,36 @@ const DrawerComponent = (props: Props) => {
 					lastProfileMenu: 2,
 				})
 			);
-		} else if (destination === 'myProfile') {
+		} else if (destination === 'incoming') {
 			link = 'profile';
 			dispatch(
 				setPreferences({
 					...preferencesState,
-					lastProfileMenu: 1,
+					lastProfileMenu: 3,
+				})
+			);
+		} else if (destination === 'outgoing') {
+			link = 'profile';
+			dispatch(
+				setPreferences({
+					...preferencesState,
+					lastProfileMenu: 4,
+				})
+			);
+		} else if (destination === 'accountSettings') {
+			link = 'profile';
+			dispatch(
+				setPreferences({
+					...preferencesState,
+					lastProfileMenu: 6,
+				})
+			);
+		} else if (destination === 'rustProfile') {
+			link = 'profile';
+			dispatch(
+				setPreferences({
+					...preferencesState,
+					lastProfileMenu: 7,
 				})
 			);
 		} else if (destination === 'help') {
@@ -103,7 +135,7 @@ const DrawerComponent = (props: Props) => {
 						src={exitIcon}
 						onMouseOver={handleMouseEnter}
 						onMouseOut={handleMouseLeave}
-						alt="exit Icon"
+						alt="exit"
 					/>
 					<div
 						onClick={() => {
@@ -115,19 +147,59 @@ const DrawerComponent = (props: Props) => {
 					</div>
 					<div
 						onClick={() => {
-							navigationButtonPressed('myProfile');
-						}}
-						className="hamburger-links"
-					>
-						<button className="hamburger-button">profile</button>
-					</div>
-					<div
-						onClick={() => {
-							navigationButtonPressed('connections');
+							navigationButtonPressed('messaging');
 						}}
 						className="hamburger-links"
 					>
 						<button className="hamburger-button">messaging</button>
+					</div>
+					<div
+						onClick={() => {
+							navigationButtonPressed('genProfile');
+						}}
+						className="hamburger-links"
+					>
+						<button className="hamburger-button">general profile</button>
+					</div>
+					<div
+						onClick={() => {
+							navigationButtonPressed('rustProfile');
+						}}
+						className="hamburger-links"
+					>
+						<button className="hamburger-button">rust profile</button>
+					</div>
+					<div
+						onClick={() => {
+							navigationButtonPressed('accountSettings');
+						}}
+						className="hamburger-links"
+					>
+						<button className="hamburger-button">account settings</button>
+					</div>
+					<div
+						onClick={() => {
+							navigationButtonPressed('incoming');
+						}}
+						className="hamburger-links"
+					>
+						<button className="hamburger-button">incoming requests</button>
+					</div>
+					<div
+						onClick={() => {
+							navigationButtonPressed('outgoing');
+						}}
+						className="hamburger-links"
+					>
+						<button className="hamburger-button">outgoing requests</button>
+					</div>
+					<div
+						onClick={() => {
+							navigationButtonPressed('blog');
+						}}
+						className="hamburger-links"
+					>
+						<button className="hamburger-button">blog</button>
 					</div>
 					<div
 						onClick={() => {

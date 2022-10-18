@@ -11,13 +11,6 @@
 		max-height: 1px;
 		background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
 	}
-	.pp-title {
-		margin: 1vh 5vw;
-		margin-top: 2vh;
-		font-size: $font4;
-		min-width: 25vw;
-		text-align: center;
-	}
 
 	.pp-content-container {
 		margin: 1vh 2vw;
@@ -25,16 +18,26 @@
 		background-color: $colorGreyPop;
 		border-radius: $borderRadius1;
 		max-width: 900px;
+		min-width: 80%;
 		.pp-sub-title {
 			text-align: center;
 			margin: 2vh 1vw;
 			font-size: $font3;
+		}
+		.pp-sub-heading {
+			text-align: left;
+			margin: 2vh 4vw;
+			font-size: $font2;
 		}
 		.pp-paragraph {
 			text-align: left;
 			margin: 1vh 4vw;
 			font-size: $font2;
 			color: $colorTextAlt;
+			.link-text {
+				color: $colorSecondary;
+				cursor: pointer;
+			}
 		}
 	}
 }

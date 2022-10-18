@@ -17,10 +17,11 @@ import SelectComponent from './selectComponent';
 import { languageOptions, regionOptions } from '../../utils/selectOptions';
 import ExpandedProfile from '../modal/expandedProfileComponent';
 import { Toast } from 'primereact/toast';
+import ProfileWidget from './profileWidget';
+import ReactTooltip from 'react-tooltip';
 
 export default function ProfileGeneral(props: any) {
 	const dispatch = useDispatch();
-	const avatarPlaceholder = '/assets/avatarIcon.png';
 	const hiddenFileInput: any = React.useRef(null);
 	const userData = useSelector((state: RootState) => state.user.user);
 	const [isProfileDiscoverable, setIsProfileDiscoverable] = useState<boolean>(false);
@@ -29,6 +30,11 @@ export default function ProfileGeneral(props: any) {
 	const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
 	//Profile Fields Form Tracking
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
+	//START WidgetData
+	const [connectionCount, setconnectionCount] = useState<number>(0);
+	const [genProfileComplete, setgenProfileComplete] = useState<any>(<> </>);
+	const [rustProfileComplete, setrustProfileComplete] = useState<any>(<> </>);
+	//END WidgetData
 	const [photoFile, setPhotoFile] = useState<File>({ name: '' } as File);
 	const [aboutText, setAboutText] = useState<string>('');
 	const [ageText, setAgeText] = useState<number>(0);
@@ -40,6 +46,7 @@ export default function ProfileGeneral(props: any) {
 	const [psn, setPSN] = useState<string>('');
 	const [xbox, setXbox] = useState<string>('');
 	const [rustHoursText, setRustHoursText] = useState<number>(0);
+	const [availabilityTooltipString, setavailabilityTooltipString] = useState<string>('');
 	const [rustWeekday, setRustWeekday] = useState<string>('');
 	const [rustWeekend, setRustWeekend] = useState<string>('');
 	const [isEmailNotifications, setIsEmailNotifications] = useState<boolean>(true);
@@ -63,10 +70,11 @@ export default function ProfileGeneral(props: any) {
 		regionRef.current.detectChangeFromParent(region);
 	}, [region]);
 
-	// BEGIN Logic to load saved values to ui
-	const loadSavedInfo = () => {
-		dispatch(updateUserThunk(userData.id));
+	useEffect(() => {
+		//Having this logic in the user state use effect means it will await the dispatch to get the latest info. It is otherwise hard to await the dispatch
 		if (userData.email && userData.email !== '') {
+			setCompletenessWidgets();
+			setconnectionCount(parseInt(userData.connection_count_sender) + parseInt(userData.connection_count_acceptor));
 			setAboutText(userData.about);
 			setAgeText(userData.age);
 			setGender(userData.gender);
@@ -90,6 +98,35 @@ export default function ProfileGeneral(props: any) {
 			setIsProfileDiscoverable(userData.rust_is_published);
 			setIsEmailNotifications(userData.is_email_notifications);
 			setIsEmailMarketing(userData.is_email_marketing);
+		}
+	}, [userData]);
+
+	// BEGIN Logic to load saved values to ui
+	const loadSavedInfo = () => {
+		dispatch(updateUserThunk(userData.id));
+	};
+
+	const setCompletenessWidgets = async () => {
+		const completenessResult = await attemptPublishRustProfile(userData.id, '');
+		if (completenessResult.status === 'error') {
+			// If error start checking problem fields to determine what profiles incomplete
+			// ***When more games get rolled out, this will need to be modified***
+			const generalFields = ['about', 'age', 'gender', 'region', 'languages', 'preferred_platform'];
+			const rustFields = ['hours', 'weekdays', 'weekends'];
+			//Check for overlap in general fields
+			if (generalFields.some((value) => completenessResult.data.includes(value))) {
+				setgenProfileComplete(<i className="pi pi-times" />);
+			} else {
+				setgenProfileComplete(<i className="pi pi-check-circle" />);
+			}
+			//Check for overlap in rust fields
+			if (rustFields.some((value) => completenessResult.data.includes(value))) {
+				setrustProfileComplete(<i className="pi pi-times" />);
+			} else setrustProfileComplete(<i className="pi pi-check-circle" />);
+		} else {
+			//If no error set all completeness to checked
+			setgenProfileComplete(<i className="pi pi-check-circle" />);
+			setrustProfileComplete(<i className="pi pi-check-circle" />);
 		}
 	};
 	// End Logic to load saved values to ui
@@ -127,13 +164,11 @@ export default function ProfileGeneral(props: any) {
 
 	const changeRegion = (selection: any) => {
 		if (!language || region !== selection.value) setHasUnsavedChanges(true);
-		console.log('region: ', selection.value);
 		setRegion(selection);
 	};
 
 	const changeLanguage = (selection: any) => {
 		if (!language || language.value !== selection.value) setHasUnsavedChanges(true);
-		console.log('language: ', selection.value);
 		setLanguage(selection);
 	};
 
@@ -153,11 +188,9 @@ export default function ProfileGeneral(props: any) {
 	};
 
 	const tryPublishRustProfile = async () => {
-		console.log('here? ', isProfileDiscoverable);
 		if (!isProfileDiscoverable) {
 			//execute http req
 			const result = await attemptPublishRustProfile(userData.id, '');
-			console.log('res? ', result);
 			if (result.status === 'success') {
 				await updateRustInfoField(userData.id, 'is_published', true);
 				setIsProfileDiscoverable(true);
@@ -256,6 +289,17 @@ export default function ProfileGeneral(props: any) {
 			detail: ``,
 			sticky: false,
 		});
+		setCompletenessWidgets();
+	};
+
+	const deleteAccount = () => {
+		toast.current.clear();
+		toast.current.show({
+			severity: 'info',
+			summary: 'feature coming soon!',
+			detail: ``,
+			sticky: false,
+		});
 	};
 
 	const conditionalClass = isUploadFormShown ? 'conditionalZ2' : 'conditionalZ1';
@@ -298,10 +342,23 @@ export default function ProfileGeneral(props: any) {
 						<button onClick={closeAvatar}>close</button>
 					</div>
 				</div>
+				{/* START Profile Widgets */}
+				<div className="widgets-container">
+					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
+					<ProfileWidget value={genProfileComplete} label={'gen profile complete?'}></ProfileWidget>
+					<ProfileWidget value={rustProfileComplete} label={'rust profile complete?'}></ProfileWidget>
+				</div>
+				<div className="gradient-bar"></div>
+				{/* END Profile Widgets */}
 				{/* AVATAR PHTO */}
 				<div className="banner-container-top">
 					{!userData.avatar_url || userData.avatar_url === '/assets/avatarIcon.png' ? (
-						<div className="dynamic-avatar-bg" onClick={() => startEditingAvatar('avatar_url')}>
+						<div
+							className="dynamic-avatar-bg"
+							onClick={() => startEditingAvatar('avatar_url')}
+							data-tip
+							data-for="avatarTip"
+						>
 							<div className="dynamic-avatar-text">
 								{userData.username
 									? userData.username
@@ -316,8 +373,10 @@ export default function ProfileGeneral(props: any) {
 						<img
 							className="prof-banner-avatar"
 							src={userData.avatar_url}
-							alt=""
+							alt="my-avatar"
 							onClick={() => startEditingAvatar('avatar_url')}
+							data-tip
+							data-for="avatarTip"
 						></img>
 					)}
 
@@ -380,7 +439,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedGender(1);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/gender-icon-male.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/gender-icon-male.png'} alt="male gender"></img>
 							<div className="box-text">m</div>
 						</div>
 						<div
@@ -389,7 +448,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedGender(2);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/gender-icon-female.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/gender-icon-female.png'} alt="female gender"></img>
 							<div className="box-text">f</div>
 						</div>
 						<div
@@ -398,7 +457,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedGender(3);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/gender-icon-non-binary.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/gender-icon-non-binary.png'} alt="non-binary gender"></img>
 							<div className="box-text">nb</div>
 						</div>
 					</div>
@@ -423,7 +482,9 @@ export default function ProfileGeneral(props: any) {
 				{/* END REGION */}
 				{/* LANGUAGE */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">language</div>
+					<div className="prof-banner-detail-text" data-tip data-for="languageTip">
+						language
+					</div>
 					<div className="select-container">
 						<SelectComponent
 							publicMethods={languageRef}
@@ -439,7 +500,9 @@ export default function ProfileGeneral(props: any) {
 				{/* END LANGUAGE */}
 				{/* PLATFORM */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">platform</div>
+					<div className="prof-banner-detail-text" data-tip data-for="platformTip">
+						platform
+					</div>
 					<div className="gender-container">
 						<div
 							className={`gender-box ${platform === 1 ? 'box-selected' : ''}`}
@@ -447,7 +510,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedPlatform(1);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/discord-logo-small.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/discord-logo-small.png'} alt="discord selector"></img>
 						</div>
 						<div
 							className={`gender-box ${platform === 2 ? 'box-selected' : ''}`}
@@ -455,7 +518,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedPlatform(2);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/psn-logo-small.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/psn-logo-small.png'} alt="psn selector"></img>
 						</div>
 						<div
 							className={`gender-box ${platform === 3 ? 'box-selected' : ''}`}
@@ -463,7 +526,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedPlatform(3);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/xbox-logo-small.png'} alt=""></img>
+							<img className="gender-icon" src={'/assets/xbox-logo-small.png'} alt="xbox selector"></img>
 						</div>
 					</div>
 				</div>
@@ -529,10 +592,12 @@ export default function ProfileGeneral(props: any) {
 				<div className="gradient-bar"></div>
 				{/* PASSWORD */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">password</div>
+					<div className="prof-banner-detail-text" data-tip data-for="passwordTip">
+						password
+					</div>
 					<div className="banner-change-box">
 						<button className="text-only-button" onClick={() => startEditingAvatar('password')}>
-							<img className="edit-icon" src="/assets/editiconw.png" alt=""></img>
+							<img className="edit-icon" src="/assets/editiconw.png" alt="edit password"></img>
 						</button>
 					</div>
 				</div>
@@ -550,6 +615,14 @@ export default function ProfileGeneral(props: any) {
 			{/* START ACCOUNT SETTINGS */}
 
 			<div className="submenu-container" style={{ display: props.submenuId === 6 ? 'inline-block' : 'none' }}>
+				{/* START Profile Widgets */}
+				<div className="widgets-container">
+					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
+					<ProfileWidget value={genProfileComplete} label={'gen profile completed?'}></ProfileWidget>
+					<ProfileWidget value={rustProfileComplete} label={'rust profile completed?'}></ProfileWidget>
+				</div>
+				<div className="gradient-bar"></div>
+				{/* END Profile Widgets */}
 				<div className="banner-container">
 					<div className="prof-banner-detail-text">email notifications</div>
 					<input
@@ -583,6 +656,13 @@ export default function ProfileGeneral(props: any) {
 						<span className={`react-switch-button`} />
 					</label>
 				</div>
+				{/* START Delete Account */}
+				<div className="save-box">
+					<button className="save-button" onClick={() => deleteAccount()}>
+						delete account
+					</button>
+				</div>
+				{/* END Delete Account */}
 				{/* START SAVE BOX */}
 				<div className="save-box">
 					<button className="save-button" disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
@@ -593,10 +673,19 @@ export default function ProfileGeneral(props: any) {
 			</div>
 
 			{/* START RUST SETTINGS */}
-
 			<div className="submenu-container" style={{ display: props.submenuId === 7 ? 'inline-block' : 'none' }}>
+				{/* START Profile Widgets */}
+				<div className="widgets-container">
+					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
+					<ProfileWidget value={genProfileComplete} label={'gen profile completed?'}></ProfileWidget>
+					<ProfileWidget value={rustProfileComplete} label={'rust profile completed?'}></ProfileWidget>
+				</div>
+				<div className="gradient-bar"></div>
+				{/* END Profile Widgets */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">publish rust profile</div>
+					<div className="prof-banner-detail-text" data-tip data-for="publishTip">
+						publish rust profile
+					</div>
 					<input
 						checked={isProfileDiscoverable}
 						onChange={() => {
@@ -629,13 +718,16 @@ export default function ProfileGeneral(props: any) {
 				{/* END RUST HOURS */}
 				{/* Availability- Weekdays */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">weekdays</div>
+					<div className="prof-banner-detail-text">weekday availabilty</div>
 					<div className="gender-container">
 						<div
 							className={`gender-box ${rustWeekday === 'none' ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekday('none');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('0 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							none
 						</div>
@@ -644,6 +736,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekday('some');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('0-2 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							some
 						</div>
@@ -652,6 +747,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekday('a lot');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('2-6 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							a lot
 						</div>
@@ -660,6 +758,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekday('all day');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('6+ hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							all day
 						</div>
@@ -669,13 +770,16 @@ export default function ProfileGeneral(props: any) {
 				{/* END Availability- Weekdays */}
 				{/* Availability- Weekends */}
 				<div className="banner-container">
-					<div className="prof-banner-detail-text">weekdays</div>
+					<div className="prof-banner-detail-text">weekend availability</div>
 					<div className="gender-container">
 						<div
 							className={`gender-box ${rustWeekend === 'none' ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeRustWeekend('none');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('0 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							none
 						</div>
@@ -684,6 +788,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekend('some');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('0-2 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							some
 						</div>
@@ -692,6 +799,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekend('a lot');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('2-6 hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							a lot
 						</div>
@@ -700,6 +810,9 @@ export default function ProfileGeneral(props: any) {
 							onClick={() => {
 								changeRustWeekend('all day');
 							}}
+							onMouseEnter={() => setavailabilityTooltipString('6+ hours')}
+							data-tip
+							data-for="availabilityTip"
 						>
 							all day
 						</div>
@@ -715,6 +828,25 @@ export default function ProfileGeneral(props: any) {
 				</div>
 				{/* END SAVE BOX */}
 			</div>
+			<ReactTooltip id="availabilityTip" place="top" effect="solid">
+				{availabilityTooltipString}
+			</ReactTooltip>
+			<ReactTooltip id="publishTip" place="right" effect="solid">
+				Controls whether your profile is discoverable. You must have both general and rust profiles complete to publish.
+			</ReactTooltip>
+			<ReactTooltip id="avatarTip" place="right" effect="solid">
+				Click here to upload profile image
+			</ReactTooltip>
+			<ReactTooltip id="languageTip" place="right" effect="solid">
+				Choose the language you will use in text and voice while gaming.
+			</ReactTooltip>
+			<ReactTooltip id="platformTip" place="right" effect="solid">
+				Select your primary gaming communication platform (voice). Then enter your username for the platform below.
+			</ReactTooltip>
+			<ReactTooltip id="passwordTip" place="right" effect="solid">
+				You can change your password here. No password edit is required to complete profile. Will have no affect on
+				google auth accounts.
+			</ReactTooltip>
 		</div>
 	);
 }

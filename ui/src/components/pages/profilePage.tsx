@@ -4,7 +4,6 @@ import ConnectionTile from '../tiles/connectionTile';
 import HeaderComponent from '../nav/headerComponent';
 import ProfileGeneral from '../myProfile/profileGeneral';
 import { acceptConnectionRequest, getConnectionsForUser, getPendingConnectionsForUser } from '../../utils/rest';
-import FooterComponent from '../nav/footerComponent';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setPreferences } from '../../store/userPreferencesSlice';
@@ -21,9 +20,21 @@ export default function ProfilePage() {
 		avatar_url: 'https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png',
 		isPublicChat: 'true',
 	};
+	const minecraftChatObject = {
+		id: 2,
+		username: 'minecraft general',
+		avatar_url: 'https://res.cloudinary.com/kultured-dev/image/upload/v1665619101/Minecraft_ttasx5.png',
+		isPublicChat: 'true',
+	};
+	const rocketLeagueChatObject = {
+		id: 3,
+		username: 'rocket league general',
+		avatar_url: 'https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png',
+		isPublicChat: 'true',
+	};
 	const dispatch = useDispatch();
 	const [selection, setSelection] = useState(1);
-	const [chatBox, setChatBox] = useState<any>(<></>);
+	const [chatBox, setchatBox] = useState<any>(<></>);
 	const [currentConvo, setCurrentConvo] = useState<any>(rustChatObject);
 	const [connectionsResult, setconnectionsResult] = useState<any>([]);
 	const [outgoingResult, setOutgoingResult] = useState<any>([]);
@@ -51,13 +62,13 @@ export default function ProfilePage() {
 	}, [currentConvo]);
 
 	const setChatboxContents = () => {
-		setChatBox(<Chat {...currentConvo}></Chat>);
+		setchatBox(<Chat {...currentConvo}></Chat>);
 	};
 
 	//BEGIN Fetch Connections
 	const fetchExistingConnections = async () => {
 		setconnectionsResult(await getConnectionsForUser(userData.id, 'blank'));
-		setChatBox(<Chat {...currentConvo}></Chat>);
+		setChatboxContents();
 	};
 	const fetchPendingConnections = async () => {
 		const httpResults = await getPendingConnectionsForUser(userData.id, 'blank');
@@ -98,6 +109,9 @@ export default function ProfilePage() {
 			isPublicChat: tile.isPublicChat,
 			preferred_platform: tile.preferred_platform,
 			currentlyOpenConvo: tile.id,
+			discord: tile.discord,
+			psn: tile.psn,
+			xbox: tile.xbox,
 		});
 	};
 	//END Chat Logic
@@ -238,7 +252,7 @@ export default function ProfilePage() {
 				<button className="submenu-navigator" onClick={(event) => menu.current.toggle(event)}>
 					<i className="pi pi-bars" />
 				</button>
-				<div className="submenu-title">{submenuTitle}</div>
+				<h1 className="submenu-title">{submenuTitle}</h1>
 			</div>
 
 			<div className="content-container" style={{ display: [1, 6, 7].includes(selection) ? 'flex' : 'none' }}>
@@ -251,14 +265,30 @@ export default function ProfilePage() {
 					<div className="chat-container">
 						<div className="conversations-box">
 							<ConversationTile
-								key={1}
+								key={0.1}
 								{...rustChatObject}
 								currentlyOpenConvo={currentConvo}
 								callOpenConversation={(connectionId: number) => {
 									openConversation(connectionId);
 								}}
 							></ConversationTile>
-							<div key={1.5} className="gradient-bar"></div>
+							<ConversationTile
+								key={0.2}
+								{...minecraftChatObject}
+								currentlyOpenConvo={currentConvo}
+								callOpenConversation={(connectionId: number) => {
+									openConversation(connectionId);
+								}}
+							></ConversationTile>
+							<ConversationTile
+								key={0.3}
+								{...rocketLeagueChatObject}
+								currentlyOpenConvo={currentConvo}
+								callOpenConversation={(connectionId: number) => {
+									openConversation(connectionId);
+								}}
+							></ConversationTile>
+							<div key={0.75} className="gradient-bar"></div>
 							{connectionsResult.map((tile: any) => (
 								<li className="conversation-list-item" style={{ listStyleType: 'none' }} key={tile.id}>
 									<ConversationTile
@@ -297,7 +327,6 @@ export default function ProfilePage() {
 			) : (
 				<></>
 			)}
-			<FooterComponent></FooterComponent>
 		</div>
 	);
 }

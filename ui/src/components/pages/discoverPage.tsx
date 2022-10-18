@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { findUnionForObjectArrays, generateRange } from '../../utils/helperFunctions';
 import { resetFilterPreferences } from '../../store/userPreferencesSlice';
+import BannerTitle from '../nav/banner-title';
 
 export default function DiscoverPage() {
 	const [tilesFeed, setTilesFeed] = useState(<li></li>);
@@ -85,7 +86,7 @@ export default function DiscoverPage() {
 				});
 			});
 			ageResult = tilesFromDB.filter((tile: any) => acceptedAges.includes(tile.age));
-		}
+		} else ageResult = tilesFromDB;
 		//Filter by hours played
 		if (preferencesState.discoverFilters.hours[0]) {
 			let acceptedHours: number[] = [];
@@ -95,8 +96,8 @@ export default function DiscoverPage() {
 					acceptedHours.push(hoursValue);
 				});
 			});
-			hoursResult = tilesFromDB.filter((tile: any) => acceptedHours.includes(tile.hours_played));
-		}
+			hoursResult = tilesFromDB.filter((tile: any) => acceptedHours.includes(tile.hours));
+		} else hoursResult = tilesFromDB;
 		//Filter by availability
 		if (preferencesState.discoverFilters.availability[0]) {
 			let acceptedAvailability: string[] = [];
@@ -104,9 +105,9 @@ export default function DiscoverPage() {
 				acceptedAvailability.push(availabiltyObj.label);
 			});
 			availabilityResult = tilesFromDB.filter((tile: any) =>
-				acceptedAvailability.includes(tile.weekdays || tile.weekends)
+				acceptedAvailability.includes(tile.rust_weekdays || tile.rust_weekends)
 			);
-		}
+		} else availabilityResult = tilesFromDB;
 		//Filter by language
 		if (preferencesState.discoverFilters.language[0]) {
 			let acceptedLanguages: string[] = [];
@@ -117,13 +118,11 @@ export default function DiscoverPage() {
 			languageResult = tilesFromDB.filter((tile: any) => {
 				let foundOverlap = false;
 				acceptedLanguages.forEach((filterLanguage) => {
-					tile.languages.forEach((tileLanguage: string) => {
-						if (filterLanguage === tileLanguage) foundOverlap = true;
-					});
+					if (filterLanguage === tile.languages) foundOverlap = true;
 				});
 				if (foundOverlap) return tile;
 			});
-		}
+		} else languageResult = tilesFromDB;
 		//Filter by region
 		if (preferencesState.discoverFilters.region[0]) {
 			let acceptedRegion: string[] = [];
@@ -131,56 +130,58 @@ export default function DiscoverPage() {
 				acceptedRegion.push(regionObj.label);
 			});
 			regionResult = tilesFromDB.filter((tile: any) => acceptedRegion.includes(tile.region_name));
-		}
+		} else regionResult = tilesFromDB;
 		//Stack filter results and find union
 		const resultsArray = [];
-		if (ageResult.length) resultsArray.push(ageResult);
-		if (hoursResult.length) resultsArray.push(hoursResult);
-		if (availabilityResult.length) resultsArray.push(availabilityResult);
-		if (languageResult.length) resultsArray.push(languageResult);
-		if (regionResult.length) resultsArray.push(regionResult);
+		resultsArray.push(ageResult);
+		resultsArray.push(hoursResult);
+		resultsArray.push(availabilityResult);
+		resultsArray.push(languageResult);
+		resultsArray.push(regionResult);
 		if (resultsArray.length) filteredData = findUnionForObjectArrays(resultsArray);
-		if (!filteredData) filteredData = tilesFromDB;
+		// if (!filteredData) filteredData = tilesFromDB;
 		//Sort Start
-		if (preferencesState.discoverFilters.sort) {
-			switch (preferencesState.discoverFilters.sort.value) {
-				case 1:
-					filteredData = filteredData.sort((a: any, b: any) => {
-						return new Date(a.last_seen).getTime() - new Date(b.last_seen).getTime();
-					});
-					break;
-				case 2:
-					filteredData = filteredData.sort((a: any, b: any) => {
-						return new Date(b.last_seen).getTime() - new Date(a.last_seen).getTime();
-					});
-					break;
-				case 3:
-					filteredData = filteredData.sort((a: any, b: any) => {
-						return a.hours_played - b.hours_played;
-					});
-					break;
-				case 4:
-					filteredData = filteredData.sort((a: any, b: any) => {
-						return b.hours_played - a.hours_played;
-					});
-					break;
-				case 5:
-					filteredData = filteredData.sort((a: any, b: any) => {
-						return a.age - b.age;
-					});
-					break;
-				case 6:
-					filteredData = filteredData.sort((a: any, b: any) => {
-						return b.age - a.age;
-					});
-					break;
+		if (filteredData && filteredData.length) {
+			if (preferencesState.discoverFilters.sort) {
+				switch (preferencesState.discoverFilters.sort.value) {
+					case 1:
+						filteredData = filteredData.sort((a: any, b: any) => {
+							return new Date(a.last_seen).getTime() - new Date(b.last_seen).getTime();
+						});
+						break;
+					case 2:
+						filteredData = filteredData.sort((a: any, b: any) => {
+							return new Date(b.last_seen).getTime() - new Date(a.last_seen).getTime();
+						});
+						break;
+					case 3:
+						filteredData = filteredData.sort((a: any, b: any) => {
+							return a.hours - b.hours;
+						});
+						break;
+					case 4:
+						filteredData = filteredData.sort((a: any, b: any) => {
+							return b.hours - a.hours;
+						});
+						break;
+					case 5:
+						filteredData = filteredData.sort((a: any, b: any) => {
+							return a.age - b.age;
+						});
+						break;
+					case 6:
+						filteredData = filteredData.sort((a: any, b: any) => {
+							return b.age - a.age;
+						});
+						break;
 
-				default:
-					break;
+					default:
+						break;
+				}
 			}
 		}
+		turnDataIntoTiles(filteredData ? filteredData : []);
 		//Sort End
-		turnDataIntoTiles(filteredData);
 	};
 
 	const clearAllFiltersAndSorting = () => {
@@ -191,15 +192,7 @@ export default function DiscoverPage() {
 	return (
 		<div>
 			<HeaderComponent></HeaderComponent>
-			<article
-				className="header-rust"
-				style={{
-					backgroundImage:
-						'url(https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png)',
-				}}
-			>
-				<div>find rust players</div>
-			</article>
+			<BannerTitle title={'find rust players'}></BannerTitle>
 			<FilterBarComponent clearFiltersMethod={clearAllFiltersAndSorting}></FilterBarComponent>
 			<div className="feed">{tilesFeed}</div>
 			<FooterComponent></FooterComponent>

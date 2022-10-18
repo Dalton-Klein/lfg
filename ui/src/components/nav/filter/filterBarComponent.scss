@@ -1,61 +1,66 @@
-@import '../../../styling/config';
+@import "../../../styling/config";
 
 .p-accordion {
-	outline-style: solid !important;
-	outline-color: $colorSecondary !important;
-	outline-width: 1px !important;
-	margin: 2vh 2vw;
-	border-radius: $borderRadius2;
+  //   outline-style: solid !important;
+  //   outline-color: $colorSecondary !important;
+  //   outline-width: 1px !important;
+  margin: 2vh 2vw;
+  border-radius: $borderRadius2;
+  background-color: $colorGreyPop;
 }
 .p-accordion-header {
-	padding: 2vh 1vw;
-	margin: 0 1vw;
+  padding: 2vh 1vw;
+  margin: 0 1vw;
 }
 
 .p-accordion-content {
-	margin: 0.25vh 1vw;
-	padding-bottom: 2vh;
-	background: rgba(0, 128, 0, 0) !important;
-	border: 0 solid !important;
+  margin: 0.25vh 1vw;
+  padding-bottom: 2vh;
+  background: rgba(0, 128, 0, 0) !important;
+  border: 0 solid !important;
+  .filter-bar {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+    min-width: 100%;
+    margin: 0vh 0;
+    .p-dropdown {
+      max-height: 40px;
+    }
+    .clear-button {
+      cursor: pointer;
+      font-size: $font1;
+    }
+  }
 }
 
-.filter-bar {
-	display: flex;
-	justify-content: space-evenly;
-	flex-wrap: wrap;
-	align-items: center;
-	min-width: 100%;
-	margin: 0vh 0;
-	.p-dropdown {
-		max-height: 40px;
-	}
-}
 .clear-button {
-	margin: 0;
-	font-size: $font2;
-	transition: $transition1;
+  margin: 0;
+  font-size: $font2;
+  transition: $transition1;
 }
 
 .clear-button:hover {
-	color: $colorPrimary;
-	transform: scale(1.05);
+  color: $colorPrimary;
+  transform: scale(1.05);
 }
 
 .slider {
-	min-width: 15vw;
-	min-height: 10vh;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	.slider-value {
-		text-align: center;
-	}
-	.slider-field {
-		display: flex;
-		align-items: center;
-		div {
-			margin: 0 0.75vw;
-		}
-	}
+  min-width: 15vw;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .slider-value {
+    text-align: center;
+  }
+  .slider-field {
+    display: flex;
+    align-items: center;
+    div {
+      margin: 0 0.75vw;
+    }
+  }
 }

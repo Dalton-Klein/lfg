@@ -7,12 +7,32 @@ const moment = require('moment');
 const getUserDetails = async (req, res) => {
 	try {
 		const { userId } = req.body;
-		if (!userId) throw new Error('STOPP');
+		if (!userId) throw new Error('no user id when getting user details');
 		let result = await getUserInfo(userId);
 		if (result && result[0]) result = result[0];
 		res.status(200).send({ data: result });
 	} catch (err) {
 		console.log(err);
+		res.status(500).send('POST ERROR');
+	}
+};
+
+/*
+Get Email Prefs For User
+*/
+//Currently not used but could be useful in future
+const getEmailPrefs = async (userId) => {
+	try {
+		let query = `select is_email_marketing, is_email_notifications from public.users where id = :userId`;
+		let result = await sequelize.query(query, {
+			type: Sequelize.QueryTypes.SELECT,
+			replacements: {
+				userId,
+			},
+		});
+		res.status(200).send(result);
+	} catch (error) {
+		console.log('Error getting email prefs', error);
 		res.status(500).send('POST ERROR');
 	}
 };
@@ -134,10 +154,32 @@ const getSocialDetails = async (req, res) => {
 	}
 };
 
+const deleteAccount = async (id) => {
+	const query = `
+      delete from users where id = :id
+      delete from user_general_infos where user_id = :id
+      delete from user_rust_infos where user_id = :id
+      delete from user_tokens where id = :id
+      delete from messages where sender = :id 
+      delete from connections where sender = :id
+      delete from connections where acceptor = :id
+      delete from connection_requests where sender = :id
+      delete from connection_requests where receiver = :id
+  `;
+	return await sequelize.query(query, {
+		type: Sequelize.QueryTypes.DELETE,
+		replacements: {
+			id,
+		},
+	});
+};
+
 module.exports = {
 	getUserDetails,
+	getEmailPrefs,
 	updateProfileField,
 	updateGeneralInfoField,
 	updateRustInfoField,
 	getSocialDetails,
+	deleteAccount,
 };

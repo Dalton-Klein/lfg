@@ -30,7 +30,7 @@ export default function ConversationTile(props: any) {
 					}}
 					className="conversation-profile-image"
 					src={props.avatar_url}
-					alt={`${props.username}'s profile`}
+					alt={`${props.username}'s avatar`}
 				/>
 			)}
 		</div>

@@ -1,10 +1,14 @@
 @import '../../styling/config';
 
+.link-text {
+	color: $colorSecondary;
+}
+
 .login-container {
 	display: flex;
 	flex-direction: column;
 	height: 90vh;
-	margin-top: 3vh;
+	margin-top: 0.5vh;
 	justify-content: center;
 	align-items: center;
 	.login-banner {
@@ -17,7 +21,6 @@
 			min-height: 60px;
 			max-height: 7vw;
 			opacity: 0.6;
-			margin-top: 3em;
 			align-self: center;
 		}
 		h1 {
@@ -39,7 +42,7 @@
 			min-width: 100%;
 			border-radius: 0;
 			position: absolute;
-			margin: 2% 10% 0 10%;
+			margin: 1% 10% 0 10%;
 			form {
 				justify-content: space-between;
 				align-items: center;
@@ -50,7 +53,11 @@
 				h2 {
 					text-align: center;
 					font-size: $font4;
-					padding-top: 1em;
+					padding-top: 0.5em;
+				}
+				.seperator-text {
+					margin-bottom: 1vh;
+					text-align: center;
 				}
 				.login-inputs {
 					display: flex;
@@ -58,6 +65,17 @@
 					align-items: center;
 					width: 100%;
 					padding: 0% 10%;
+					.google-signup-container {
+						width: 50%;
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						align-content: center;
+						justify-content: center;
+						.google-button {
+							min-width: 100% !important;
+						}
+					}
 					input {
 						margin: 0.4em;
 						padding: 1em;
@@ -73,6 +91,7 @@
 						flex-direction: column;
 						justify-content: center;
 						align-items: center;
+						width: 50%;
 						.age-checkbox {
 							border: 2px solid #ced4da;
 							background: #ffffff;
@@ -85,6 +104,7 @@
 						.checkbox-label {
 							font-size: $font2;
 							margin-top: 0.4em;
+							width: 100%;
 						}
 					}
 				}
@@ -97,7 +117,8 @@
 					font-family: 'deToks' !important;
 					border-radius: $borderRadius1 !important;
 					transition: 125ms !important;
-					min-height: 2.75em !important;
+					min-height: 3em !important;
+					min-width: 50% !important;
 					display: flex;
 					justify-content: center;
 					align-items: center;
@@ -153,6 +174,9 @@
 					.login-inputs {
 						padding: 0% 2%;
 						input {
+							width: 90%;
+						}
+						.checkbox-field {
 							width: 90%;
 						}
 					}
