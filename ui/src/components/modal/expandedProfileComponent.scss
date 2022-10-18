@@ -1,4 +1,4 @@
-@import "../../styling/config";
+@import '../../styling/config';
 
 .backdrop-container {
   position: fixed;
@@ -114,6 +114,18 @@
       display: flex;
       justify-content: space-between;
       margin: 0.5vh 0;
+    }
+  }
+  .expanded-endorsement-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 80%;
+    max-width: 500px;
+    .expanded-endorsement-box {
+      text-align: start;
+      margin: 1vh 0.5vw;
     }
   }
   .expanded-social-container {
