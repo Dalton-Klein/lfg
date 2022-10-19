@@ -93,23 +93,23 @@ const ExpandedProfile = (props: Props) => {
     }
   };
   return createPortal(
-    <div className="backdrop-container">
-      <div className="backdrop-event-listener"></div>
-      <div className="hamburger-primary-panel">
-        <div className="hamburger-secondary-panel">
-          <div className="profile-container">
+    <div className='backdrop-container'>
+      <div className='backdrop-event-listener'></div>
+      <div className='hamburger-primary-panel'>
+        <div className='hamburger-secondary-panel'>
+          <div className='profile-container'>
             <img
               onClick={props.toggleExpandedProfile}
-              className="hamburger-exit"
+              className='hamburger-exit'
               src={exitIcon}
               onMouseOver={handleMouseEnter}
               onMouseOut={handleMouseLeave}
-              alt="exit Icon"
+              alt='exit Icon'
             />
-            <div className="expanded-banner">
+            <div className='expanded-banner'>
               {props.userInfo.avatar_url === '' || props.userInfo.avatar_url === '/assets/avatarIcon.png' ? (
-                <div className="dynamic-avatar-border">
-                  <div className="dynamic-avatar-text-med">
+                <div className='dynamic-avatar-border'>
+                  <div className='dynamic-avatar-text-med'>
                     {props.userInfo.username
                       .split(' ')
                       .map((word: string[]) => word[0])
@@ -119,128 +119,138 @@ const ExpandedProfile = (props: Props) => {
                 </div>
               ) : (
                 <img
-                  className="expanded-photo"
+                  className='expanded-photo'
                   onClick={() => {}}
                   src={props.userInfo.avatar_url}
                   alt={`${props.userInfo.username}avatar`}
                 />
               )}
-              <div className="expanded-basic-info">
-                <div className="expanded-username">{props.userInfo.username}</div>
-                <div className="expanded-basic-text">{lastSeen}</div>
-                <div className="expanded-basic-text">{props.userInfo.about}</div>
+              <div className='expanded-basic-info'>
+                <div className='expanded-username'>{props.userInfo.username}</div>
+                <div className='expanded-basic-text'>{lastSeen}</div>
+                <div className='expanded-basic-text'>{props.userInfo.about}</div>
               </div>
             </div>
-            <div className="expanded-gradient-bar"></div>
+            <div className='expanded-gradient-bar'></div>
             {/* Core Info Section */}
-            <div className="expanded-core-info">
-              <div className="expanded-core-info-field">
+            <div className='expanded-core-info'>
+              <div className='expanded-core-info-title'>general info</div>
+              <div className='expanded-core-info-field'>
                 <label>language</label>
                 <div>{props.userInfo.languages}</div>
               </div>
-              <div className="expanded-core-info-field">
+              <div className='expanded-core-info-field'>
                 <label>age</label>
                 <div>{props.userInfo.age}</div>
               </div>
-              <div className="expanded-core-info-field">
+              <div className='expanded-core-info-field'>
                 <label>gender</label>
                 <div>
                   {props.userInfo.gender === 1 ? 'male' : props.userInfo.gender === 2 ? 'female' : 'non-binary'}
                 </div>
               </div>
-              <div className="expanded-core-info-field">
+              <div className='expanded-core-info-field'>
                 <label>region</label>
                 <div>
                   {props.userInfo.region_abbreviation ? props.userInfo.region_abbreviation : props.userInfo.region}
                 </div>
               </div>
             </div>
-            <div className="expanded-gradient-bar"></div>
+            <div className='expanded-gradient-bar'></div>
             {/* Game Info Section */}
-            <div className="expanded-core-info">
-              <div className="expanded-core-info-field">
+            <div className='expanded-core-info'>
+              <div className='expanded-core-info-title'>rust info</div>
+              <div className='expanded-core-info-field'>
                 <label>hours</label>
                 <div>{props.userInfo.rust_hours}</div>
               </div>
-              <div className="expanded-core-info-field">
+              <div className='expanded-core-info-field'>
                 <label>weekdays</label>
                 <div>{props.userInfo.rust_weekdays}</div>
               </div>
-              <div className="expanded-core-info-field">
+              <div className='expanded-core-info-field'>
                 <label>weekends</label>
                 <div>{props.userInfo.rust_weekends}</div>
               </div>
             </div>
-            <div className="expanded-gradient-bar"></div>
+            <div className='expanded-gradient-bar'></div>
             {/* Social Section */}
-            <div className="expanded-social-container">
-              {props.userInfo.preferred_platform === 1 ? (
-                <img
-                  className="expanded-platform-image"
-                  src="/assets/discord-logo-small.png"
-                  alt={`${props.userInfo.username} discord`}
-                />
-              ) : (
-                <></>
-              )}
-              {props.userInfo.preferred_platform === 2 ? (
-                <img
-                  className="expanded-platform-image"
-                  src="/assets/psn-logo-small.png"
-                  alt={`${props.userInfo.username} psn`}
-                />
-              ) : (
-                <></>
-              )}
-              {props.userInfo.preferred_platform === 3 ? (
-                <img
-                  className="expanded-platform-image"
-                  src="/assets/xbox-logo-small.png"
-                  alt={`${props.userInfo.username} xbox`}
-                />
-              ) : (
-                <></>
-              )}
-              <div className="expanded-social-box">
-                <div>connections</div>
-                <div>{socialData.connections}</div>
-              </div>
-              <div className="expanded-social-box">
-                <div>mutual</div>
-                <div>{socialData.mutual}</div>
+            <div className='expanded-core-info'>
+              <div className='expanded-core-info-title'>social</div>
+              <div className='expanded-social-container'>
+                <div className='platform-image-container'>
+                  {props.userInfo.preferred_platform === 1 ? (
+                    <img
+                      className='expanded-platform-image'
+                      src='/assets/discord-logo-small.png'
+                      alt={`${props.userInfo.username} discord`}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  {props.userInfo.preferred_platform === 2 ? (
+                    <img
+                      className='expanded-platform-image'
+                      src='/assets/psn-logo-small.png'
+                      alt={`${props.userInfo.username} psn`}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  {props.userInfo.preferred_platform === 3 ? (
+                    <img
+                      className='expanded-platform-image'
+                      src='/assets/xbox-logo-small.png'
+                      alt={`${props.userInfo.username} xbox`}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                <div className='expanded-social-box'>
+                  <div>connections</div>
+                  <div>{socialData.connections}</div>
+                </div>
+                <div className='expanded-social-box'>
+                  <div>mutual</div>
+                  <div>{socialData.mutual}</div>
+                </div>
               </div>
             </div>
-            <div className="expanded-gradient-bar"></div>
+            <div className='expanded-gradient-bar'></div>
             {/* Endorsements */}
-            <div className="expanded-endorsement-container">{endorsementFeed}</div>
-            <div className="expanded-gradient-bar"></div>
+            <div className='expanded-core-info'>
+              <div className='expanded-core-info-title'>endorsements</div>
+              <div className='expanded-endorsement-container'>{endorsementFeed}</div>
+            </div>
+            <div className='expanded-gradient-bar'></div>
             {/* Connect Section */}
             {props.showConnectForm ? (
-              <div className="expanded-connect-box">
+              <div className='expanded-connect-box'>
                 {props.isProfileComplete ? (
                   <input
                     onChange={(event) => {
                       setConnectionText(event.target.value);
                     }}
                     value={connectionText ? connectionText : ''}
-                    className="input-box"
+                    className='input-box'
                     placeholder={'write a message...'}
                   ></input>
                 ) : (
-                  <div className="profile-incomplete-text">**complete profile before sending requests**</div>
+                  <div className='profile-incomplete-text'>**complete profile before sending requests**</div>
                 )}
                 <button
-                  className="connect-button"
+                  className='connect-button'
                   onClick={() => {
                     sendConnectionRequest();
                   }}
                   disabled={connectionText === '' || requestSent || hasSendError}
                 >
-                  <i className="pi pi-users" />
+                  <i className='pi pi-users' />
                   &nbsp; {requestSent ? 'pending' : 'send request'}
                 </button>
                 {hasSendError ? (
-                  <small id="username-help" className="p-error">
+                  <small id='username-help' className='p-error'>
                     problem sending request
                   </small>
                 ) : (
