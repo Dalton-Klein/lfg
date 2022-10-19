@@ -1,14 +1,15 @@
 import './chat.scss';
 import { Menu } from 'primereact/menu';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import moment from 'moment';
 import { howLongAgo } from '../../utils/helperFunctions';
-import { getChatHistoryForUser } from '../../utils/rest';
+import { fetchUserData, getChatHistoryForUser } from '../../utils/rest';
 import { Toast } from 'primereact/toast';
 import ReactTooltip from 'react-tooltip';
 import * as io from 'socket.io-client';
+import ExpandedProfile from '../modal/expandedProfileComponent';
 const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.gangs.gg');
 
 export default function Chat(props: any) {
@@ -29,6 +30,8 @@ export default function Chat(props: any) {
 	const toast: any = useRef({ current: '' });
 	const dropdownMenu: any = useRef(null);
 	const lastMessageRef: any = useRef(null);
+	const [expandedProfileVis, setexpandedProfileVis] = useState<boolean>(false);
+	const [chatUserData, setchatUserData] = useState<any>({});
 
 	//Initial setup of chat window
 	useEffect(() => {
@@ -86,9 +89,6 @@ export default function Chat(props: any) {
 	}, [props]);
 
 	const determinePlatformImageAndUsername = () => {
-		// if (props.preferred_platform === 1) setPlatformUsername(props.discord);
-		// else if (props.preferred_platform === 2) setPlatformUsername(props.psn);
-		// else if (props.preferred_platform === 3) setPlatformUsername(props.xbox);
 		const assetLinks: any = {
 			1: '/assets/discord-logo-small.png',
 			2: '/assets/psn-logo-small.png',
@@ -100,7 +100,7 @@ export default function Chat(props: any) {
 			if (props.preferred_platform === 1) setplatformUsername(props.discord);
 			if (props.preferred_platform === 2) setplatformUsername(props.psn);
 			if (props.preferred_platform === 3) setplatformUsername(props.xbox);
-			setplatformImage(<img className="connection-platform-image" src={assetLink} alt={`platform type`} />);
+			setplatformImage(<img className='connection-platform-image' src={assetLink} alt={`platform type`} />);
 		} else {
 			setplatformImage(<></>);
 			setplatformUsername('');
@@ -148,22 +148,22 @@ export default function Chat(props: any) {
 						}
 						key={index}
 					>
-						<div className="message-sender-box">
-							<div className="message-sender-name">{sender}</div>
-							<div className="message-timestamp">{formattedTimestamp}</div>
+						<div className='message-sender-box'>
+							<div className='message-sender-name'>{sender}</div>
+							<div className='message-timestamp'>{formattedTimestamp}</div>
 						</div>
-						<div className="message-content">{message}</div>
+						<div className='message-content'>{message}</div>
 					</div>
 				);
 			});
 		} else {
 			return (
-				<div className="message-bubble message-border-non-owner">
-					<div className="message-sender-box">
-						<div className="message-sender-name">gangs team</div>
-						<div className="message-timestamp"></div>
+				<div className='message-bubble message-border-non-owner'>
+					<div className='message-sender-box'>
+						<div className='message-sender-name'>gangs team</div>
+						<div className='message-timestamp'></div>
 					</div>
-					<div className="message-content">no messages yet, go ahead and say hi!</div>
+					<div className='message-content'>no messages yet, go ahead and say hi!</div>
 				</div>
 			);
 		}
@@ -202,19 +202,44 @@ export default function Chat(props: any) {
 			],
 		},
 	];
+
+	//START Expanded Profile Logic
+	const toggleExpandedProfile = async () => {
+		const userData: any = await fetchUserData(props.user_id);
+		setchatUserData(userData.data);
+		setexpandedProfileVis(!expandedProfileVis);
+	};
+	const refreshEndorsements = () => {
+		console.log('trigger refresh endorsements!');
+	};
+	//END Expanded Profile Logic
+
 	return (
-		<div className="messages-box">
+		<div className='messages-box'>
 			<Toast ref={toast} />
+			{/* Conditionally render hamburger modal */}
+			{expandedProfileVis ? (
+				<ExpandedProfile
+					toggleExpandedProfile={toggleExpandedProfile}
+					userInfo={chatUserData}
+					refreshTiles={refreshEndorsements}
+					showConnectForm={false}
+					isProfileComplete={props.isProfileComplete}
+					isConnected={true}
+				/>
+			) : (
+				<></>
+			)}
 			{/* Message Title Bar */}
-			<div className="messages-title-container">
+			<div className='messages-title-container'>
 				{props.avatar_url === '' || props.avatar_url === '/assets/avatarIcon.png' ? (
 					<div
-						className="dynamic-conversation-border"
+						className='dynamic-conversation-border'
 						onClick={() => {
-							props.openConversation();
+							toggleExpandedProfile();
 						}}
 					>
-						<div className="dynamic-conversation-text-small">
+						<div className='dynamic-conversation-text-small'>
 							{props.username
 								.split(' ')
 								.map((word: string[]) => word[0])
@@ -225,50 +250,50 @@ export default function Chat(props: any) {
 				) : (
 					<img
 						onClick={() => {
-							props.callOpenConversation(props);
+							toggleExpandedProfile();
 						}}
-						className="conversation-profile-image"
+						className='conversation-profile-image'
 						src={props.avatar_url}
 						alt={`${props.username}'s avatar`}
 					/>
 				)}
-				<div className="messages-title-text">{props.username}</div>
-				<div className="stackable-container-right">
+				<div className='messages-title-text'>{props.username}</div>
+				<div className='stackable-container-right'>
 					<div
-						className="messaging-platform-box"
+						className='messaging-platform-box'
 						style={{ display: !isPublic ? 'inline-block' : 'none' }}
 						data-tip
-						data-for="platformTip"
+						data-for='platformTip'
 					>
 						{platformImage}
 					</div>
 				</div>
-				<Menu model={items} popup ref={dropdownMenu} id="popup_menu" />
-				<button className="options-button" onClick={(event) => dropdownMenu.current.toggle(event)}>
-					<i className="pi pi-ellipsis-h"></i>
+				<Menu model={items} popup ref={dropdownMenu} id='popup_menu' />
+				<button className='options-button' onClick={(event) => dropdownMenu.current.toggle(event)}>
+					<i className='pi pi-ellipsis-h'></i>
 				</button>
 			</div>
 			{/* Messages Scroll Box */}
-			<div className="render-chat">
+			<div className='render-chat'>
 				{renderChat()}
 				<div ref={lastMessageRef} />
 			</div>
 
 			{/* Message Input Form */}
-			<form className="message-form" onSubmit={onMessageSubmit}>
+			<form className='message-form' onSubmit={onMessageSubmit}>
 				<input
 					onChange={(e) => {
 						onTextChange(e);
 					}}
 					value={messageState.message ? messageState.message : ''}
-					className="input-box messaging-input"
+					className='input-box messaging-input'
 					placeholder={'type here...'}
 				></input>
 
-				<button type="submit">send</button>
+				<button type='submit'>send</button>
 			</form>
 
-			<ReactTooltip id="platformTip" place="top" effect="solid">
+			<ReactTooltip id='platformTip' place='top' effect='solid'>
 				{platformUsername}
 			</ReactTooltip>
 		</div>

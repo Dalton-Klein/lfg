@@ -43,7 +43,7 @@ export default function ProfilePage() {
 	const [isConfetti, setIsConfetti] = useState<any>(false);
 	const [submenuTitle, setSubmenuTitle] = useState<any>('');
 
-	const noResultsDiv = <div className="no-results-box">nothing at the moment!</div>;
+	const noResultsDiv = <div className='no-results-box'>nothing at the moment!</div>;
 	const preferencesState = useSelector((state: RootState) => state.preferences);
 	const userData = useSelector((state: RootState) => state.user.user);
 
@@ -73,7 +73,7 @@ export default function ProfilePage() {
 	const fetchPendingConnections = async () => {
 		const httpResults = await getPendingConnectionsForUser(userData.id, 'blank');
 		const formattedIncomingTiles = httpResults.incoming.map((tile: any) => (
-			<li className="connection-list-item" style={{ listStyleType: 'none' }} key={tile.id}>
+			<li className='connection-list-item' style={{ listStyleType: 'none' }} key={tile.id}>
 				<ConnectionTile
 					{...tile}
 					type={3}
@@ -84,7 +84,7 @@ export default function ProfilePage() {
 			</li>
 		));
 		const formattedOutgoingTiles = httpResults.outgoing.map((tile: any) => (
-			<li className="connection-list-item" style={{ listStyleType: 'none' }} key={tile.id}>
+			<li className='connection-list-item' style={{ listStyleType: 'none' }} key={tile.id}>
 				<ConnectionTile
 					{...tile}
 					type={4}
@@ -104,6 +104,7 @@ export default function ProfilePage() {
 	const openConversation = async (tile: any) => {
 		setCurrentConvo({
 			id: tile.id,
+			user_id: tile.user_id,
 			username: tile.username,
 			avatar_url: tile.avatar_url,
 			isPublicChat: tile.isPublicChat,
@@ -247,23 +248,23 @@ export default function ProfilePage() {
 			)}
 			<HeaderComponent></HeaderComponent>
 			{/* MENU 1- My Prof */}
-			<div className="nav-menu">
-				<Menu model={navItems} popup ref={menu} id="popup_menu" />
-				<button className="submenu-navigator" onClick={(event) => menu.current.toggle(event)}>
-					<i className="pi pi-bars" />
+			<div className='nav-menu'>
+				<Menu model={navItems} popup ref={menu} id='popup_menu' />
+				<button className='submenu-navigator' onClick={(event) => menu.current.toggle(event)}>
+					<i className='pi pi-bars' />
 				</button>
-				<h1 className="submenu-title">{submenuTitle}</h1>
+				<h1 className='submenu-title'>{submenuTitle}</h1>
 			</div>
 
-			<div className="content-container" style={{ display: [1, 6, 7].includes(selection) ? 'flex' : 'none' }}>
+			<div className='content-container' style={{ display: [1, 6, 7].includes(selection) ? 'flex' : 'none' }}>
 				<ProfileGeneral submenuId={selection}></ProfileGeneral>
 			</div>
 
 			{/* MENU 2- Connections/ Messaging */}
 			{selection === 2 ? (
-				<div className="content-container">
-					<div className="chat-container">
-						<div className="conversations-box">
+				<div className='content-container'>
+					<div className='chat-container'>
+						<div className='conversations-box'>
 							<ConversationTile
 								key={0.1}
 								{...rustChatObject}
@@ -288,14 +289,14 @@ export default function ProfilePage() {
 									openConversation(connectionId);
 								}}
 							></ConversationTile>
-							<div key={0.75} className="gradient-bar"></div>
+							<div key={0.75} className='gradient-bar'></div>
 							{connectionsResult.map((tile: any) => (
-								<li className="conversation-list-item" style={{ listStyleType: 'none' }} key={tile.id}>
+								<li className='conversation-list-item' style={{ listStyleType: 'none' }} key={tile.id}>
 									<ConversationTile
 										key={tile.id}
 										{...tile}
 										currentlyOpenConvo={currentConvo}
-										isPublicChat="false"
+										isPublicChat='false'
 										callOpenConversation={(connectionId: number) => {
 											openConversation(connectionId);
 										}}
@@ -311,19 +312,19 @@ export default function ProfilePage() {
 			)}
 			{/* MENU 3- Incoming Connections */}
 			{selection === 3 ? (
-				<div className="content-container">{incomingResult.length > 0 ? incomingResult : noResultsDiv}</div>
+				<div className='content-container'>{incomingResult.length > 0 ? incomingResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}
 			{/* MENU 4- Outgoing Connections */}
 			{selection === 4 ? (
-				<div className="content-container">{outgoingResult.length > 0 ? outgoingResult : noResultsDiv}</div>
+				<div className='content-container'>{outgoingResult.length > 0 ? outgoingResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}
 			{/* MENU 5- Blocked People */}
 			{selection === 5 ? (
-				<div className="content-container">{blockedResult.length > 0 ? blockedResult : noResultsDiv}</div>
+				<div className='content-container'>{blockedResult.length > 0 ? blockedResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}

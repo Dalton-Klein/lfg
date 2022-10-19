@@ -74,6 +74,12 @@ module.exports = {
 						description: 'electrician',
 						...defaultValues,
 					},
+					{
+						id: 11,
+						platform_id: 1,
+						description: 'diabolical',
+						...defaultValues,
+					},
 				],
 				{ transaction }
 			);

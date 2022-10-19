@@ -1,11 +1,13 @@
 const express = require('express');
 const authController = require('../controllers/auth-controller');
 const connectionsController = require('../controllers/connections-controller');
-const userController = require('../controllers/profile-general-controller');
-const publishController = require('../controllers/publish-controller');
+const endorsementsController = require('../controllers/endorsements-controller');
 const messageController = require('../controllers/message-controller');
 const notificationsController = require('../controllers/notification-controller');
+const publishController = require('../controllers/publish-controller');
 const tilesController = require('../controllers/tiles-controller');
+const userController = require('../controllers/profile-general-controller');
+
 const testController = require('../controllers/test-controller');
 
 const router = express.Router();
@@ -41,10 +43,13 @@ router.post('/accept-connection', connectionsController.acceptConnectionRequest)
 router.post('/connections', connectionsController.getConnectionsForUser);
 router.post('/pending-connections', connectionsController.getPendingConnectionsForUser);
 
+//ENDORSEMENT RELATED ROUTES
+router.post('/endorsement-options', endorsementsController.getEndorsementOptions);
+
 //PUBLISH/ PROFILE COMPLETENESS RELATED ROUTES
 router.post('/publish-rust', publishController.checkIfUserCanPublishRustProfile);
 
-//PUBLISH RELATED ROUTES
+//TILES RELATED ROUTES
 router.post('/rust-tiles', tilesController.getRustTiles);
 
 //TESTING ROUTES Coffee Disable
