@@ -6,6 +6,7 @@ import { getProfileSocialData, createConnectionRequest } from '../../utils/rest'
 import { howLongAgo } from '../../utils/helperFunctions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import EndorsementTile from '../tiles/endorsementTile';
 
 type Props = {
   toggleExpandedProfile: any;
@@ -20,6 +21,7 @@ const ExpandedProfile = (props: Props) => {
   const [connectionText, setConnectionText] = useState<string>('');
   const [requestSent, setRequestSent] = useState<boolean>(false);
   const [socialData, setSocialData] = useState<any>({ connections: 0, mutual: 0 });
+  const [endorsementFeed, setendorsementFeed] = useState(<li></li>);
   const lastSeen = howLongAgo(props.userInfo.last_seen);
   const userState = useSelector((state: RootState) => state.user.user);
 
@@ -58,7 +60,19 @@ const ExpandedProfile = (props: Props) => {
 
   const fetchSocialData = async () => {
     const socialData = await getProfileSocialData(userState.id, props.userInfo.id, 'nothing');
+    console.log('social result? ', socialData);
     setSocialData(socialData);
+    setendorsementFeed(
+      socialData.endorsements && socialData.endorsements.length ? (
+        socialData.endorsements.map((endorsement: any) => (
+          <li style={{ listStyleType: 'none' }} key={endorsement.id}>
+            <EndorsementTile title={endorsement.description} value={endorsement.value}></EndorsementTile>
+          </li>
+        ))
+      ) : (
+        <div>no endorsements yet</div>
+      )
+    );
   };
 
   const handleMouseEnter = () => {
@@ -198,19 +212,8 @@ const ExpandedProfile = (props: Props) => {
             </div>
             <div className="expanded-gradient-bar"></div>
             {/* Endorsements */}
-            <div className="expanded-endorsement-container">
-              <div className="expanded-endorsement-box">
-                <label>sharpshooter</label>
-              </div>
-              <div className="expanded-endorsement-box">
-                <label>game sense</label>
-              </div>
-              <div className="expanded-endorsement-box">
-                <label>easy going</label>
-              </div>
-            </div>
+            <div className="expanded-endorsement-container">{endorsementFeed}</div>
             <div className="expanded-gradient-bar"></div>
-            {/* Social Section */}
             {/* Connect Section */}
             {props.showConnectForm ? (
               <div className="expanded-connect-box">

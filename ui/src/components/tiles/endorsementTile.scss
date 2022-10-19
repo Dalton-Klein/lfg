@@ -1,0 +1,22 @@
+@import '../../styling/config';
+
+.endorsement-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $colorGreyBg;
+  border-radius: $borderRadius1;
+  padding: 1vh 0.75vw;
+  margin: 1vh 0.5vw;
+  .endorsement-value {
+    color: white;
+    font-size: $font2;
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
+  }
+  .endorsement-title {
+    color: $colorTextAlt;
+    font-size: $font2;
+    margin-right: 0.5vw;
+  }
+}
