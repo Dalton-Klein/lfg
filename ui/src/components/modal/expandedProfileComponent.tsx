@@ -230,6 +230,7 @@ const ExpandedProfile = (props: Props) => {
             {/* Connect Section */}
             {props.showConnectForm ? (
               <div className='expanded-connect-box'>
+                <div className='expanded-core-info-title'>connect</div>
                 {props.isProfileComplete ? (
                   <input
                     onChange={(event) => {

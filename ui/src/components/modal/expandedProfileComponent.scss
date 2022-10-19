@@ -166,6 +166,12 @@
         align-items: center;
         min-width: 100%;
         margin-bottom: 5vh;
+        .expanded-core-info-title {
+          text-align: center;
+          font-size: $font2;
+          color: $colorTextAlt;
+          margin-bottom: 1.5vh;
+        }
         input {
           min-width: 80%;
           text-align: center;
