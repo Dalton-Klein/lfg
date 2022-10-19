@@ -127,7 +127,6 @@ const ExpandedProfile = (props: Props) => {
               )}
               <div className='expanded-basic-info'>
                 <div className='expanded-username'>{props.userInfo.username}</div>
-                <div className='expanded-basic-text'>{lastSeen}</div>
                 <div className='expanded-basic-text'>{props.userInfo.about}</div>
               </div>
             </div>
@@ -135,6 +134,10 @@ const ExpandedProfile = (props: Props) => {
             {/* Core Info Section */}
             <div className='expanded-core-info'>
               <div className='expanded-core-info-title'>general info</div>
+              <div className='expanded-core-info-field'>
+                <label>last seen</label>
+                <div>{lastSeen}</div>
+              </div>
               <div className='expanded-core-info-field'>
                 <label>language</label>
                 <div>{props.userInfo.languages}</div>
