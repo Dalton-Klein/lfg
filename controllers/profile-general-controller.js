@@ -3,6 +3,7 @@ const { sequelize } = require('../models/index');
 const format = require('pg-format');
 const { getUserInfo, updateUserGenInfoField } = require('../services/user-common');
 const moment = require('moment');
+const { getEndorsementsForUser } = require('../services/endorsement-queries');
 
 const getUserDetails = async (req, res) => {
 	try {
@@ -96,7 +97,6 @@ const updateRustInfoField = async (req, res) => {
 				value,
 			},
 		});
-		console.log('reply: ', reply);
 		res.status(200).send(reply);
 	} catch (err) {
 		console.log(err);
@@ -139,7 +139,7 @@ const getSocialDetails = async (req, res) => {
 				userId: fromUserId,
 			},
 		});
-		//logic to find number of mutuals between two unused arrays
+		//Find number of mutuals between two unused arrays
 		connectionListFor = connectionListFor.map(({ acceptor }) => acceptor);
 		connectionListFrom = connectionListFrom.map(({ acceptor }) => acceptor);
 		let intersection = connectionListFor.filter((e) => connectionListFrom.indexOf(e) !== -1);
@@ -147,6 +147,15 @@ const getSocialDetails = async (req, res) => {
 			connections: connectionCount ? connectionCount[0].count : 0,
 			mutual: intersection ? intersection.length : 0,
 		};
+		query = getEndorsementsForUser();
+		//Get Endorsements
+		const endorsementResult = await sequelize.query(query, {
+			type: Sequelize.QueryTypes.SELECT,
+			replacements: {
+				receiverId: forUserId,
+			},
+		});
+		result.endorsements = endorsementResult;
 		res.status(200).send(result);
 	} catch (err) {
 		console.log(err);

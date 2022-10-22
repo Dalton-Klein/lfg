@@ -115,18 +115,18 @@ export default function ProfileGeneral(props: any) {
 			const rustFields = ['hours', 'weekdays', 'weekends'];
 			//Check for overlap in general fields
 			if (generalFields.some((value) => completenessResult.data.includes(value))) {
-				setgenProfileComplete(<i className="pi pi-times" />);
+				setgenProfileComplete(<i className='pi pi-times' />);
 			} else {
-				setgenProfileComplete(<i className="pi pi-check-circle" />);
+				setgenProfileComplete(<i className='pi pi-check-circle' />);
 			}
 			//Check for overlap in rust fields
 			if (rustFields.some((value) => completenessResult.data.includes(value))) {
-				setrustProfileComplete(<i className="pi pi-times" />);
-			} else setrustProfileComplete(<i className="pi pi-check-circle" />);
+				setrustProfileComplete(<i className='pi pi-times' />);
+			} else setrustProfileComplete(<i className='pi pi-check-circle' />);
 		} else {
 			//If no error set all completeness to checked
-			setgenProfileComplete(<i className="pi pi-check-circle" />);
-			setrustProfileComplete(<i className="pi pi-check-circle" />);
+			setgenProfileComplete(<i className='pi pi-check-circle' />);
+			setrustProfileComplete(<i className='pi pi-check-circle' />);
 		}
 	};
 	// End Logic to load saved values to ui
@@ -304,7 +304,7 @@ export default function ProfileGeneral(props: any) {
 
 	const conditionalClass = isUploadFormShown ? 'conditionalZ2' : 'conditionalZ1';
 	return (
-		<div className="my-profile-containers">
+		<div className='my-profile-containers'>
 			<Toast ref={toast} />
 			{/* Conditionally render hamburger modal */}
 			{expandedProfileVis ? (
@@ -314,52 +314,53 @@ export default function ProfileGeneral(props: any) {
 					refreshTiles={() => {}}
 					showConnectForm={false}
 					isProfileComplete={true}
+					isConnected={false}
 				/>
 			) : (
 				<></>
 			)}
-			<div className="submenu-container" style={{ display: props.submenuId === 1 ? 'inline-block' : 'none' }}>
+			<div className='submenu-container' style={{ display: props.submenuId === 1 ? 'inline-block' : 'none' }}>
 				{/* EDIT PHTO MODAL */}
 				<div className={`edit-profile-form ${conditionalClass}`}>
 					<p>{'upload avatar'}</p>
 					{
-						<div className="avatar-upload-form">
+						<div className='avatar-upload-form'>
 							<input
-								className="avatar-input"
-								type="file"
+								className='avatar-input'
+								type='file'
 								ref={hiddenFileInput}
 								style={{ display: 'none' }}
 								onChange={handleFileUpload}
 							></input>
-							<button onClick={chooseFileHandler} className="upload-form-btns">
+							<button onClick={chooseFileHandler} className='upload-form-btns'>
 								choose photo
 							</button>
-							<div className="photo-label">{photoFile ? photoFile.name : ''}</div>
+							<div className='photo-label'>{photoFile ? photoFile.name : ''}</div>
 						</div>
 					}
-					<div className="upload-form-btns">
+					<div className='upload-form-btns'>
 						<button onClick={changeSubmitHandler}>save</button>
 						<button onClick={closeAvatar}>close</button>
 					</div>
 				</div>
 				{/* START Profile Widgets */}
-				<div className="widgets-container">
+				<div className='widgets-container'>
 					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
 					<ProfileWidget value={genProfileComplete} label={'gen profile complete?'}></ProfileWidget>
 					<ProfileWidget value={rustProfileComplete} label={'rust profile complete?'}></ProfileWidget>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END Profile Widgets */}
 				{/* AVATAR PHTO */}
-				<div className="banner-container-top">
+				<div className='banner-container-top'>
 					{!userData.avatar_url || userData.avatar_url === '/assets/avatarIcon.png' ? (
 						<div
-							className="dynamic-avatar-bg"
+							className='dynamic-avatar-bg'
 							onClick={() => startEditingAvatar('avatar_url')}
 							data-tip
-							data-for="avatarTip"
+							data-for='avatarTip'
 						>
-							<div className="dynamic-avatar-text">
+							<div className='dynamic-avatar-text'>
 								{userData.username
 									? userData.username
 											.split(' ')
@@ -371,76 +372,76 @@ export default function ProfileGeneral(props: any) {
 						</div>
 					) : (
 						<img
-							className="prof-banner-avatar"
+							className='prof-banner-avatar'
 							src={userData.avatar_url}
-							alt="my-avatar"
+							alt='my-avatar'
 							onClick={() => startEditingAvatar('avatar_url')}
 							data-tip
-							data-for="avatarTip"
+							data-for='avatarTip'
 						></img>
 					)}
 
 					<button
-						className="expand-button"
+						className='expand-button'
 						onClick={() => {
 							toggleExpandedProfile();
 						}}
 					>
-						<i className="pi pi-plus" />
+						<i className='pi pi-plus' />
 						&nbsp; view my profile
 					</button>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* DISPLAY NAME */}
-				<div className="banner-container-username">
-					<div className="my-profile-text">{userData.username ? userData.username : 'No user name...'}</div>
+				<div className='banner-container-username'>
+					<div className='my-profile-text'>{userData.username ? userData.username : 'No user name...'}</div>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* ABOUT */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text">about</div>
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text'>about</div>
 					<input
 						onChange={(event) => {
 							setAboutText(event.target.value);
 							setHasUnsavedChanges(true);
 						}}
 						value={aboutText ? aboutText : ''}
-						type="text"
-						className="input-box"
+						type='text'
+						className='input-box'
 						placeholder={userData.about && userData.about !== null && userData.about !== '' ? userData.about : 'blank'}
 					></input>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END ABOUT */}
 				{/* AGE */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text">age</div>
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text'>age</div>
 					<input
 						onChange={(event) => {
 							setAgeText(parseInt(event.target.value));
 							setHasUnsavedChanges(true);
 						}}
 						value={ageText ? ageText : ''}
-						type="number"
-						className="input-box"
+						type='number'
+						className='input-box'
 						placeholder={userData.age && userData.age !== null && userData.age !== '' ? userData.age : 'blank'}
 					></input>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END AGE */}
 				{/* GENDER */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text">gender</div>
-					<div className="banner-change-box"></div>
-					<div className="gender-container">
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text'>gender</div>
+					<div className='banner-change-box'></div>
+					<div className='gender-container'>
 						<div
 							className={`gender-box ${gender === 1 ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeSelectedGender(1);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/gender-icon-male.png'} alt="male gender"></img>
-							<div className="box-text">m</div>
+							<img className='gender-icon' src={'/assets/gender-icon-male.png'} alt='male gender'></img>
+							<div className='box-text'>m</div>
 						</div>
 						<div
 							className={`gender-box ${gender === 2 ? 'box-selected' : ''}`}
@@ -448,8 +449,8 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedGender(2);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/gender-icon-female.png'} alt="female gender"></img>
-							<div className="box-text">f</div>
+							<img className='gender-icon' src={'/assets/gender-icon-female.png'} alt='female gender'></img>
+							<div className='box-text'>f</div>
 						</div>
 						<div
 							className={`gender-box ${gender === 3 ? 'box-selected' : ''}`}
@@ -457,20 +458,20 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedGender(3);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/gender-icon-non-binary.png'} alt="non-binary gender"></img>
-							<div className="box-text">nb</div>
+							<img className='gender-icon' src={'/assets/gender-icon-non-binary.png'} alt='non-binary gender'></img>
+							<div className='box-text'>nb</div>
 						</div>
 					</div>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END GENDER */}
 				{/* REGION */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text">region</div>
-					<div className="select-container">
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text'>region</div>
+					<div className='select-container'>
 						<SelectComponent
 							publicMethods={regionRef}
-							title="region"
+							title='region'
 							options={regionOptions}
 							multi={false}
 							setSelection={changeRegion}
@@ -478,17 +479,17 @@ export default function ProfileGeneral(props: any) {
 						></SelectComponent>
 					</div>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END REGION */}
 				{/* LANGUAGE */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text" data-tip data-for="languageTip">
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text' data-tip data-for='languageTip'>
 						language
 					</div>
-					<div className="select-container">
+					<div className='select-container'>
 						<SelectComponent
 							publicMethods={languageRef}
-							title="language"
+							title='language'
 							options={languageOptions}
 							multi={false}
 							setSelection={changeLanguage}
@@ -496,21 +497,21 @@ export default function ProfileGeneral(props: any) {
 						></SelectComponent>
 					</div>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END LANGUAGE */}
 				{/* PLATFORM */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text" data-tip data-for="platformTip">
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text' data-tip data-for='platformTip'>
 						platform
 					</div>
-					<div className="gender-container">
+					<div className='gender-container'>
 						<div
 							className={`gender-box ${platform === 1 ? 'box-selected' : ''}`}
 							onClick={() => {
 								changeSelectedPlatform(1);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/discord-logo-small.png'} alt="discord selector"></img>
+							<img className='gender-icon' src={'/assets/discord-logo-small.png'} alt='discord selector'></img>
 						</div>
 						<div
 							className={`gender-box ${platform === 2 ? 'box-selected' : ''}`}
@@ -518,7 +519,7 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedPlatform(2);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/psn-logo-small.png'} alt="psn selector"></img>
+							<img className='gender-icon' src={'/assets/psn-logo-small.png'} alt='psn selector'></img>
 						</div>
 						<div
 							className={`gender-box ${platform === 3 ? 'box-selected' : ''}`}
@@ -526,24 +527,24 @@ export default function ProfileGeneral(props: any) {
 								changeSelectedPlatform(3);
 							}}
 						>
-							<img className="gender-icon" src={'/assets/xbox-logo-small.png'} alt="xbox selector"></img>
+							<img className='gender-icon' src={'/assets/xbox-logo-small.png'} alt='xbox selector'></img>
 						</div>
 					</div>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END PLATFORM */}
 				{/* DISCORD */}
 				{platform === 1 ? (
-					<div className="banner-container">
-						<div className="prof-banner-detail-text">discord name</div>
+					<div className='banner-container'>
+						<div className='prof-banner-detail-text'>discord name</div>
 						<input
 							onChange={(event) => {
 								setDiscord(event.target.value);
 								setHasUnsavedChanges(true);
 							}}
 							value={discord ? discord : ''}
-							type="text"
-							className="input-box"
+							type='text'
+							className='input-box'
 							placeholder={userData.discord ? userData.discord : 'blank'}
 						></input>
 					</div>
@@ -553,16 +554,16 @@ export default function ProfileGeneral(props: any) {
 				{/* END DISCORD */}
 				{/* PLAYSTATION */}
 				{platform === 2 ? (
-					<div className="banner-container">
-						<div className="prof-banner-detail-text">psn name</div>
+					<div className='banner-container'>
+						<div className='prof-banner-detail-text'>psn name</div>
 						<input
 							onChange={(event) => {
 								setPSN(event.target.value);
 								setHasUnsavedChanges(true);
 							}}
 							value={psn ? psn : ''}
-							type="text"
-							className="input-box"
+							type='text'
+							className='input-box'
 							placeholder={userData.psn ? userData.psn : 'blank'}
 						></input>
 					</div>
@@ -572,16 +573,16 @@ export default function ProfileGeneral(props: any) {
 				{/* END PLAYSTATION */}
 				{/* XBOX */}
 				{platform === 3 ? (
-					<div className="banner-container">
-						<div className="prof-banner-detail-text">xbox name</div>
+					<div className='banner-container'>
+						<div className='prof-banner-detail-text'>xbox name</div>
 						<input
 							onChange={(event) => {
 								setXbox(event.target.value);
 								setHasUnsavedChanges(true);
 							}}
 							value={xbox ? xbox : ''}
-							type="text"
-							className="input-box"
+							type='text'
+							className='input-box'
 							placeholder={userData.xbox ? userData.xbox : 'blank'}
 						></input>
 					</div>
@@ -589,23 +590,23 @@ export default function ProfileGeneral(props: any) {
 					<></>
 				)}
 				{/* END XBOX */}
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* PASSWORD */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text" data-tip data-for="passwordTip">
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text' data-tip data-for='passwordTip'>
 						password
 					</div>
-					<div className="banner-change-box">
-						<button className="text-only-button" onClick={() => startEditingAvatar('password')}>
-							<img className="edit-icon" src="/assets/editiconw.png" alt="edit password"></img>
+					<div className='banner-change-box'>
+						<button className='text-only-button' onClick={() => startEditingAvatar('password')}>
+							<img className='edit-icon' src='/assets/editiconw.png' alt='edit password'></img>
 						</button>
 					</div>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END PASSWORD */}
 				{/* START SAVE BOX */}
-				<div className="save-box">
-					<button className="save-button" disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
+				<div className='save-box'>
+					<button className='save-button' disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
 						save
 					</button>
 				</div>
@@ -614,33 +615,33 @@ export default function ProfileGeneral(props: any) {
 
 			{/* START ACCOUNT SETTINGS */}
 
-			<div className="submenu-container" style={{ display: props.submenuId === 6 ? 'inline-block' : 'none' }}>
+			<div className='submenu-container' style={{ display: props.submenuId === 6 ? 'inline-block' : 'none' }}>
 				{/* START Profile Widgets */}
-				<div className="widgets-container">
+				<div className='widgets-container'>
 					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
 					<ProfileWidget value={genProfileComplete} label={'gen profile completed?'}></ProfileWidget>
 					<ProfileWidget value={rustProfileComplete} label={'rust profile completed?'}></ProfileWidget>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END Profile Widgets */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text">email notifications</div>
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text'>email notifications</div>
 					<input
 						checked={isEmailNotifications}
 						onChange={() => {
 							setIsEmailNotifications(!isEmailNotifications);
 							setHasUnsavedChanges(true);
 						}}
-						className="react-switch-checkbox"
+						className='react-switch-checkbox'
 						id={`react-switch-emails-notifications`}
-						type="checkbox"
+						type='checkbox'
 					/>
-					<label className="react-switch-label" htmlFor={`react-switch-emails-notifications`}>
+					<label className='react-switch-label' htmlFor={`react-switch-emails-notifications`}>
 						<span className={`react-switch-button`} />
 					</label>
 				</div>
-				<div className="banner-container">
-					<div className="prof-banner-detail-text">email news/offers</div>
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text'>email news/offers</div>
 
 					<input
 						checked={isEmailMarketing}
@@ -648,24 +649,24 @@ export default function ProfileGeneral(props: any) {
 							setIsEmailMarketing(!isEmailMarketing);
 							setHasUnsavedChanges(true);
 						}}
-						className="react-switch-checkbox"
+						className='react-switch-checkbox'
 						id={`react-switch-emails-marketing`}
-						type="checkbox"
+						type='checkbox'
 					/>
-					<label className="react-switch-label" htmlFor={`react-switch-emails-marketing`}>
+					<label className='react-switch-label' htmlFor={`react-switch-emails-marketing`}>
 						<span className={`react-switch-button`} />
 					</label>
 				</div>
 				{/* START Delete Account */}
-				<div className="save-box">
-					<button className="save-button" onClick={() => deleteAccount()}>
+				<div className='save-box'>
+					<button className='save-button' onClick={() => deleteAccount()}>
 						delete account
 					</button>
 				</div>
 				{/* END Delete Account */}
 				{/* START SAVE BOX */}
-				<div className="save-box">
-					<button className="save-button" disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
+				<div className='save-box'>
+					<button className='save-button' disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
 						save
 					</button>
 				</div>
@@ -673,17 +674,17 @@ export default function ProfileGeneral(props: any) {
 			</div>
 
 			{/* START RUST SETTINGS */}
-			<div className="submenu-container" style={{ display: props.submenuId === 7 ? 'inline-block' : 'none' }}>
+			<div className='submenu-container' style={{ display: props.submenuId === 7 ? 'inline-block' : 'none' }}>
 				{/* START Profile Widgets */}
-				<div className="widgets-container">
+				<div className='widgets-container'>
 					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
 					<ProfileWidget value={genProfileComplete} label={'gen profile completed?'}></ProfileWidget>
 					<ProfileWidget value={rustProfileComplete} label={'rust profile completed?'}></ProfileWidget>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END Profile Widgets */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text" data-tip data-for="publishTip">
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text' data-tip data-for='publishTip'>
 						publish rust profile
 					</div>
 					<input
@@ -691,35 +692,35 @@ export default function ProfileGeneral(props: any) {
 						onChange={() => {
 							tryPublishRustProfile();
 						}}
-						className="react-switch-checkbox"
+						className='react-switch-checkbox'
 						id={`react-switch-rust-published`}
-						type="checkbox"
+						type='checkbox'
 					/>
-					<label className="react-switch-label" htmlFor={`react-switch-rust-published`}>
+					<label className='react-switch-label' htmlFor={`react-switch-rust-published`}>
 						<span className={`react-switch-button`} />
 					</label>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* RUST HOURS */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text">hours played</div>
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text'>hours played</div>
 					<input
 						onChange={(event) => {
 							setRustHoursText(parseInt(event.target.value));
 							setHasUnsavedChanges(true);
 						}}
 						value={rustHoursText ? rustHoursText : ''}
-						type="number"
-						className="input-box"
+						type='number'
+						className='input-box'
 						placeholder={userData.hours && userData.hours !== null && userData.hours !== '' ? userData.hours : 'none'}
 					></input>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END RUST HOURS */}
 				{/* Availability- Weekdays */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text">weekday availabilty</div>
-					<div className="gender-container">
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text'>weekday availabilty</div>
+					<div className='gender-container'>
 						<div
 							className={`gender-box ${rustWeekday === 'none' ? 'box-selected' : ''}`}
 							onClick={() => {
@@ -727,7 +728,7 @@ export default function ProfileGeneral(props: any) {
 							}}
 							onMouseEnter={() => setavailabilityTooltipString('0 hours')}
 							data-tip
-							data-for="availabilityTip"
+							data-for='availabilityTip'
 						>
 							none
 						</div>
@@ -738,7 +739,7 @@ export default function ProfileGeneral(props: any) {
 							}}
 							onMouseEnter={() => setavailabilityTooltipString('0-2 hours')}
 							data-tip
-							data-for="availabilityTip"
+							data-for='availabilityTip'
 						>
 							some
 						</div>
@@ -749,7 +750,7 @@ export default function ProfileGeneral(props: any) {
 							}}
 							onMouseEnter={() => setavailabilityTooltipString('2-6 hours')}
 							data-tip
-							data-for="availabilityTip"
+							data-for='availabilityTip'
 						>
 							a lot
 						</div>
@@ -760,18 +761,18 @@ export default function ProfileGeneral(props: any) {
 							}}
 							onMouseEnter={() => setavailabilityTooltipString('6+ hours')}
 							data-tip
-							data-for="availabilityTip"
+							data-for='availabilityTip'
 						>
 							all day
 						</div>
 					</div>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END Availability- Weekdays */}
 				{/* Availability- Weekends */}
-				<div className="banner-container">
-					<div className="prof-banner-detail-text">weekend availability</div>
-					<div className="gender-container">
+				<div className='banner-container'>
+					<div className='prof-banner-detail-text'>weekend availability</div>
+					<div className='gender-container'>
 						<div
 							className={`gender-box ${rustWeekend === 'none' ? 'box-selected' : ''}`}
 							onClick={() => {
@@ -779,7 +780,7 @@ export default function ProfileGeneral(props: any) {
 							}}
 							onMouseEnter={() => setavailabilityTooltipString('0 hours')}
 							data-tip
-							data-for="availabilityTip"
+							data-for='availabilityTip'
 						>
 							none
 						</div>
@@ -790,7 +791,7 @@ export default function ProfileGeneral(props: any) {
 							}}
 							onMouseEnter={() => setavailabilityTooltipString('0-2 hours')}
 							data-tip
-							data-for="availabilityTip"
+							data-for='availabilityTip'
 						>
 							some
 						</div>
@@ -801,7 +802,7 @@ export default function ProfileGeneral(props: any) {
 							}}
 							onMouseEnter={() => setavailabilityTooltipString('2-6 hours')}
 							data-tip
-							data-for="availabilityTip"
+							data-for='availabilityTip'
 						>
 							a lot
 						</div>
@@ -812,38 +813,38 @@ export default function ProfileGeneral(props: any) {
 							}}
 							onMouseEnter={() => setavailabilityTooltipString('6+ hours')}
 							data-tip
-							data-for="availabilityTip"
+							data-for='availabilityTip'
 						>
 							all day
 						</div>
 					</div>
 				</div>
-				<div className="gradient-bar"></div>
+				<div className='gradient-bar'></div>
 				{/* END Availability- Weekends */}
 				{/* START SAVE BOX */}
-				<div className="save-box">
-					<button className="save-button" disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
+				<div className='save-box'>
+					<button className='save-button' disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
 						save
 					</button>
 				</div>
 				{/* END SAVE BOX */}
 			</div>
-			<ReactTooltip id="availabilityTip" place="top" effect="solid">
+			<ReactTooltip id='availabilityTip' place='top' effect='solid'>
 				{availabilityTooltipString}
 			</ReactTooltip>
-			<ReactTooltip id="publishTip" place="right" effect="solid">
+			<ReactTooltip id='publishTip' place='right' effect='solid'>
 				Controls whether your profile is discoverable. You must have both general and rust profiles complete to publish.
 			</ReactTooltip>
-			<ReactTooltip id="avatarTip" place="right" effect="solid">
+			<ReactTooltip id='avatarTip' place='right' effect='solid'>
 				Click here to upload profile image
 			</ReactTooltip>
-			<ReactTooltip id="languageTip" place="right" effect="solid">
+			<ReactTooltip id='languageTip' place='right' effect='solid'>
 				Choose the language you will use in text and voice while gaming.
 			</ReactTooltip>
-			<ReactTooltip id="platformTip" place="right" effect="solid">
+			<ReactTooltip id='platformTip' place='right' effect='solid'>
 				Select your primary gaming communication platform (voice). Then enter your username for the platform below.
 			</ReactTooltip>
-			<ReactTooltip id="passwordTip" place="right" effect="solid">
+			<ReactTooltip id='passwordTip' place='right' effect='solid'>
 				You can change your password here. No password edit is required to complete profile. Will have no affect on
 				google auth accounts.
 			</ReactTooltip>
