@@ -291,13 +291,14 @@ export const updateGeneralInfoField = async (id: number, field: string, value: a
 	}
 };
 
-export const updateRustInfoField = async (id: number, field: string, value: any) => {
+export const updateGameSpecificInfoField = async (id: number, table: string, field: string, value: any) => {
 	try {
-		const httpResult = await fetch(`${endpointURL}/updateRustInfoField`, {
+		const httpResult = await fetch(`${endpointURL}/updateGameSpecificInfoField`, {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				userId: id,
+				table,
 				field,
 				value,
 			}),

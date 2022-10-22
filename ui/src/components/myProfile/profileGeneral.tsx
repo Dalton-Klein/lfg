@@ -10,7 +10,7 @@ import {
 	uploadAvatarCloud,
 	updateUserField,
 	updateGeneralInfoField,
-	updateRustInfoField,
+	updateGameSpecificInfoField,
 	attemptPublishRustProfile,
 } from '../../utils/rest';
 import SelectComponent from './selectComponent';
@@ -192,7 +192,7 @@ export default function ProfileGeneral(props: any) {
 			//execute http req
 			const result = await attemptPublishRustProfile(userData.id, '');
 			if (result.status === 'success') {
-				await updateRustInfoField(userData.id, 'is_published', true);
+				await updateGameSpecificInfoField(userData.id, 'public.user_rust_infos', 'is_published', true);
 				setIsProfileDiscoverable(true);
 				toast.current.clear();
 				toast.current.show({
@@ -217,7 +217,7 @@ export default function ProfileGeneral(props: any) {
 				});
 			}
 		} else {
-			await updateRustInfoField(userData.id, 'is_published', false);
+			await updateGameSpecificInfoField(userData.id, 'public.user_rust_infos', 'is_published', false);
 			setIsProfileDiscoverable(false);
 			toast.current.clear();
 			toast.current.show({
@@ -265,13 +265,13 @@ export default function ProfileGeneral(props: any) {
 		if (userData.psn !== psn) await updateGeneralInfoField(userData.id, 'psn', psn);
 		if (userData.xbox !== xbox) await updateGeneralInfoField(userData.id, 'xbox', xbox);
 		if (rustHoursText > 0 && userData.rust_hours !== rustHoursText) {
-			await updateRustInfoField(userData.id, 'hours', rustHoursText);
+			await updateGameSpecificInfoField(userData.id, 'public.user_rust_infos', 'hours', rustHoursText);
 		}
 		if (rustWeekday !== '' && userData.rust_weekdays !== rustWeekday) {
-			await updateRustInfoField(userData.id, 'weekdays', rustWeekdayIdValue);
+			await updateGameSpecificInfoField(userData.id, 'public.user_rust_infos', 'weekdays', rustWeekdayIdValue);
 		}
 		if (rustWeekend !== '' && userData.rust_weekends !== rustWeekend) {
-			await updateRustInfoField(userData.id, 'weekends', rustWeekendIdValue);
+			await updateGameSpecificInfoField(userData.id, 'public.user_rust_infos', 'weekends', rustWeekendIdValue);
 		}
 		if (userData.is_email_notifications !== isEmailNotifications) {
 			await updateUserField(userData.id, 'is_email_notifications', isEmailNotifications);

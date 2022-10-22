@@ -25,7 +25,7 @@ router.post('/reset-password', authController.resetPassword);
 router.post('/getUserDetails', userController.getUserDetails);
 router.post('/updateUserInfoField', userController.updateProfileField);
 router.put('/updateGeneralInfoField', userController.updateGeneralInfoField);
-router.put('/updateRustInfoField', userController.updateRustInfoField);
+router.put('/updateGameSpecificInfoField', userController.updateGameSpecificInfoField);
 
 //NOTIFICATIONS RELATED ROUTES
 router.post('/get-notifications', notificationsController.getNotificationsForUser);
