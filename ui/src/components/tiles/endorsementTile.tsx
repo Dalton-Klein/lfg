@@ -1,26 +1,44 @@
 import { useEffect, useRef, useState } from 'react';
 import { Menu } from 'primereact/menu';
 import './endorsementTile.scss';
+import { addEndorsement } from '../../utils/rest';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 type Props = {
+	id: number;
+	forUser: number;
 	title: string;
 	value: number;
 	isInput: boolean;
 	alreadyEndorsed: number;
+	refreshSocial: any;
 };
 
 export default function EndorsementTile(props: Props) {
 	const [tile, settile] = useState(<li></li>);
+
+	const userState = useSelector((state: RootState) => state.user.user);
+
 	useEffect(() => {
 		createTile();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	useEffect(() => {
+		createTile();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props]);
+
 	const endorseMenu: any = useRef(null);
 
-	const endorsementPressed = (value: number) => {
-		console.log('endoresement pressed! ', value);
+	const endorsementPressed = async (value: number) => {
+		const endorsementResult = await addEndorsement(props.id, userState.id, props.forUser, value);
+		if (endorsementResult.status === 'success') {
+			props.refreshSocial();
+		}
 	};
+
 	const createEndorsementOptions = () => {
 		const items: any = [];
 		items.push({

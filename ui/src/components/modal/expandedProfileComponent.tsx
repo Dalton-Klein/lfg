@@ -69,10 +69,13 @@ const ExpandedProfile = (props: Props) => {
 				socialData.endorsements.map((endorsement: any) => (
 					<div key={endorsement.id}>
 						<EndorsementTile
+							id={endorsement.id}
+							forUser={props.userInfo.id}
 							title={endorsement.description}
 							value={endorsement.value}
 							isInput={false}
 							alreadyEndorsed={0}
+							refreshSocial={fetchSocialData}
 						></EndorsementTile>
 					</div>
 				))
@@ -87,16 +90,18 @@ const ExpandedProfile = (props: Props) => {
 				props.userInfo.id,
 				props.userInfo.rust_is_published
 			);
-			console.log(' hehe ', allEndorsementResult);
 			setendorsementInput(
 				allEndorsementResult.data && allEndorsementResult.data.length ? (
 					allEndorsementResult.data.map((endorsement: any) => (
 						<div key={endorsement.id}>
 							<EndorsementTile
+								id={endorsement.id}
+								forUser={props.userInfo.id}
 								title={endorsement.description}
 								value={0}
 								isInput={true}
 								alreadyEndorsed={endorsement.already_endorsed}
+								refreshSocial={fetchSocialData}
 							></EndorsementTile>
 						</div>
 					))

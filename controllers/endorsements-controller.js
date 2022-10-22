@@ -8,11 +8,12 @@ const {
 } = require('../services/endorsement-queries');
 const { saveNotification } = require('./notification-controller');
 
-const addOrRemoveEndorsement = async (typeId, senderId, receiverId, value) => {
+const addOrRemoveEndorsement = async (req, res) => {
+	const { typeId, senderId, receiverId, value } = req.body;
 	try {
 		//First, clean up similar endorsements
 		const query = removeEndorsementQuery();
-		await sequelize.query(query, {
+		const removeResult = await sequelize.query(query, {
 			type: Sequelize.QueryTypes.DELETE,
 			replacements: {
 				typeId,
@@ -21,10 +22,9 @@ const addOrRemoveEndorsement = async (typeId, senderId, receiverId, value) => {
 			},
 		});
 		//Second, insert endorsement into endorsements table as long as value isn't neutral (0)
-		let endorsementResult;
 		if (value !== 0) {
 			const query = createEndorsementQuery();
-			endorsementResult = await sequelize.query(query, {
+			await sequelize.query(query, {
 				type: Sequelize.QueryTypes.INSERT,
 				replacements: {
 					typeId,
@@ -37,7 +37,7 @@ const addOrRemoveEndorsement = async (typeId, senderId, receiverId, value) => {
 		//Third, send receiver a notification
 		await saveNotification(receiverId, 5, senderId);
 		//Finally, return result
-		return endorsementResult ? { status: 'success' } : { status: 'error' };
+		res.status(200).send(removeResult ? { status: 'success' } : { status: 'error' });
 	} catch (err) {
 		console.log(err);
 	}
@@ -70,7 +70,6 @@ const getEndorsementOptions = async (req, res) => {
 		endorsementOptions.forEach((option) => {
 			existingEndorsements.forEach((endorsement) => {
 				if (option.id === endorsement.type_id) {
-					console.log('valll?? ', endorsement);
 					option.already_endorsed = endorsement.value;
 				}
 			});

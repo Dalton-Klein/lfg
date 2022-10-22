@@ -56,40 +56,44 @@ exports.sendEmail = async (req, vKey, subjectId, username = '') => {
 	if (username != '') {
 		username = ' ' + username;
 	}
-	const emailSubjects = {
-		1: `${appName} sign up verification`,
-		2: `${appName} password reset verification`,
-		3: `you received a new connection request on ${appName}`,
-		4: `your connection request was accepted on ${appName}`,
-		5: `you received a new message on ${appName}`,
-	};
-	const emailTemplates = {
-		1: 'verification',
-		2: 'password-reset',
-		3: 'connection-request',
-		4: 'connection-accepted',
-		5: 'new-message',
-		6: 'welcome',
-	};
-	const data = {
-		from: `${appName} <${process.env.EMAIL}>`,
-		to: `${req.body.email}`,
-		subject: `${emailSubjects[subjectId]}`,
-		template: `${emailTemplates[subjectId]}`,
-		context: {
-			username,
-			appName,
-			vKey,
-			supportEmail,
-		},
-	};
-	transporter.sendMail(data, (err, info) => {
-		if (err) {
-			console.log('error sending email: ', err);
-			return;
-		} else {
-			console.log('email sent: ', info.response);
-			return;
-		}
-	});
+	// Some notifs dont need emails, so dont execute for subject 0
+	if (subjectId != 0) {
+		const emailSubjects = {
+			1: `${appName} sign up verification`,
+			2: `${appName} password reset verification`,
+			3: `you received a new connection request on ${appName}`,
+			4: `your connection request was accepted on ${appName}`,
+			5: `you received a new message on ${appName}`,
+			6: `your ${appName} account has been created`,
+		};
+		const emailTemplates = {
+			1: 'verification',
+			2: 'password-reset',
+			3: 'connection-request',
+			4: 'connection-accepted',
+			5: 'new-message',
+			6: 'welcome',
+		};
+		const data = {
+			from: `${appName} <${process.env.EMAIL}>`,
+			to: `${req.body.email}`,
+			subject: `${emailSubjects[subjectId]}`,
+			template: `${emailTemplates[subjectId]}`,
+			context: {
+				username,
+				appName,
+				vKey,
+				supportEmail,
+			},
+		};
+		transporter.sendMail(data, (err, info) => {
+			if (err) {
+				console.log('error sending email: ', err);
+				return;
+			} else {
+				console.log('email sent: ', info.response);
+				return;
+			}
+		});
+	}
 };

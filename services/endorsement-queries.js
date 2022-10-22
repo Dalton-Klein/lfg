@@ -53,6 +53,7 @@ const getEndorsementOptionsQuery = () => {
       select et.*
         from public.endorsement_types et
        where et.platform_id in (:platformIdsToConsider)
+    order by platform_id asc
   `;
 };
 

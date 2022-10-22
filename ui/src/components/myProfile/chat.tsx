@@ -209,9 +209,6 @@ export default function Chat(props: any) {
 		setchatUserData(userData.data);
 		setexpandedProfileVis(!expandedProfileVis);
 	};
-	const refreshEndorsements = () => {
-		console.log('trigger refresh endorsements!');
-	};
 	//END Expanded Profile Logic
 
 	return (
@@ -222,7 +219,7 @@ export default function Chat(props: any) {
 				<ExpandedProfile
 					toggleExpandedProfile={toggleExpandedProfile}
 					userInfo={chatUserData}
-					refreshTiles={refreshEndorsements}
+					refreshTiles={() => {}}
 					showConnectForm={false}
 					isProfileComplete={props.isProfileComplete}
 					isConnected={true}

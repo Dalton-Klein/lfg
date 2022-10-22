@@ -45,6 +45,7 @@ router.post('/pending-connections', connectionsController.getPendingConnectionsF
 
 //ENDORSEMENT RELATED ROUTES
 router.post('/endorsement-options', endorsementsController.getEndorsementOptions);
+router.post('/endorsement', endorsementsController.addOrRemoveEndorsement);
 
 //PUBLISH/ PROFILE COMPLETENESS RELATED ROUTES
 router.post('/publish-rust', publishController.checkIfUserCanPublishRustProfile);

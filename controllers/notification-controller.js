@@ -67,6 +67,7 @@ const saveNotification = async (userId, typeId, otherUserId) => {
 			2: 4,
 			3: 5,
 			4: 6,
+			5: 0,
 		};
 		if (ownerUserDetails.is_email_notifications) {
 			emailService.sendEmail(

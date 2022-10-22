@@ -52,7 +52,7 @@
 			overflow-y: scroll;
 			.expanded-gradient-bar {
 				width: 80%;
-				max-width: 600px;
+				max-width: 900px;
 				min-height: 1px;
 				max-height: 1px;
 				margin-top: 2vh;
@@ -62,7 +62,7 @@
 			.expanded-banner {
 				display: flex;
 				width: 100%;
-				max-width: 500px;
+				max-width: 800px;
 				.expanded-photo {
 					width: 12vh;
 					height: 12vh;
@@ -113,7 +113,7 @@
 				flex-direction: column;
 				align-content: space-evenly;
 				width: 80%;
-				max-width: 500px;
+				max-width: 800px;
 				.expanded-core-info-title {
 					text-align: center;
 					font-size: $font2;
@@ -131,12 +131,12 @@
 					justify-content: center;
 					flex-wrap: wrap;
 					width: 100%;
-					max-width: 500px;
+					max-width: 800px;
 				}
 				.expanded-social-container {
 					display: flex;
 					justify-content: space-between;
-					max-width: 500px;
+					max-width: 800px;
 					.platform-image-container {
 						width: 33%;
 						display: flex;
