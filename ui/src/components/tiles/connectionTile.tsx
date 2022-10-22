@@ -37,8 +37,8 @@ export default function ConnectionTile(props: any) {
 	};
 
 	return (
-		<div className="connection-tile">
-			<div className="connection-main-container">
+		<div className='connection-tile'>
+			<div className='connection-main-container'>
 				{/* Conditionally render hamburger modal */}
 				{expandedProfileVis ? (
 					<ExpandedProfile
@@ -47,20 +47,21 @@ export default function ConnectionTile(props: any) {
 						refreshTiles={props.refreshTiles}
 						showConnectForm={false}
 						isProfileComplete={true}
+						isConnected={false}
 					/>
 				) : (
 					<></>
 				)}
 				{/* User Connection Info Section */}
-				<div className="connection-user-box">
+				<div className='connection-user-box'>
 					{props.avatar_url === '' || props.avatar_url === '/assets/avatarIcon.png' ? (
 						<div
-							className="dynamic-avatar-border"
+							className='dynamic-avatar-border'
 							onClick={() => {
 								toggleExpandedProfile();
 							}}
 						>
-							<div className="dynamic-avatar-text-small">
+							<div className='dynamic-avatar-text-small'>
 								{props.username
 									.split(' ')
 									.map((word: string[]) => word[0])
@@ -73,46 +74,46 @@ export default function ConnectionTile(props: any) {
 							onClick={() => {
 								toggleExpandedProfile();
 							}}
-							className="connection-profile-image"
+							className='connection-profile-image'
 							src={props.avatar_url}
 							alt={`${props.username}'s profile`}
 						/>
 					)}
 				</div>
-				<div className="stackable-container">
-					<div className="stackable-container-left">
-						<div className="connection-name">{props.username}</div>
+				<div className='stackable-container'>
+					<div className='stackable-container-left'>
+						<div className='connection-name'>{props.username}</div>
 						<img
-							className="connection-game-image"
-							src="/assets/rust-logo-small.png"
+							className='connection-game-image'
+							src='/assets/rust-logo-small.png'
 							alt={`${props.username} profile`}
 						/>
 					</div>
 					{/* If full connection, show platform/social section */}
 					{props.type === 2 ? (
-						<div className="stackable-container-right">
+						<div className='stackable-container-right'>
 							<div className={`connection-chat-platform-box ${props.preferred_platform === 1 ? 'box-selected' : ''}`}>
 								<img
-									className="connection-platform-image"
-									src="/assets/discord-logo-small.png"
+									className='connection-platform-image'
+									src='/assets/discord-logo-small.png'
 									alt={`${props.username} profile`}
 								/>
 							</div>
 							<div className={`connection-chat-platform-box ${props.preferred_platform === 2 ? 'box-selected' : ''}`}>
 								<img
-									className="connection-platform-image"
-									src="/assets/psn-logo-small.png"
+									className='connection-platform-image'
+									src='/assets/psn-logo-small.png'
 									alt={`${props.username} profile`}
 								/>
 							</div>
 							<div className={`connection-chat-platform-box ${props.preferred_platform === 3 ? 'box-selected' : ''}`}>
 								<img
-									className="connection-platform-image"
+									className='connection-platform-image'
 									src={props.platform === 1 ? '/assets/xbox-logo-small.png' : ''}
 									alt={`${props.username} profile`}
 								/>
 							</div>
-							<div className="connection-chat-platform-text">{platformUsername}</div>
+							<div className='connection-chat-platform-text'>{platformUsername}</div>
 						</div>
 					) : (
 						<></>
@@ -120,27 +121,27 @@ export default function ConnectionTile(props: any) {
 					{/* If incoming connection, show accept buttton */}
 					{props.type === 3 ? (
 						<button
-							className="accept-button"
+							className='accept-button'
 							onClick={() => {
 								props.callAcceptRequest(props.user_id, props.requestid);
 							}}
 						>
-							<i className="pi pi-user-plus" />
+							<i className='pi pi-user-plus' />
 							&nbsp; accept
 						</button>
 					) : (
 						<></>
 					)}
 				</div>
-				<Menu model={items} popup ref={menu} id="popup_menu" />
-				<button className="text-only-button" onClick={(event) => menu.current.toggle(event)}>
-					<i className="pi pi-ellipsis-h"></i>
+				<Menu model={items} popup ref={menu} id='popup_menu' />
+				<button className='text-only-button' onClick={(event) => menu.current.toggle(event)}>
+					<i className='pi pi-ellipsis-h'></i>
 				</button>
 			</div>
 			{props.message ? (
-				<div className="incoming-message">
-					<div className="incoming-message-title">{props.username}:</div>
-					<div className="incoming-message-content">{props.message}</div>
+				<div className='incoming-message'>
+					<div className='incoming-message-title'>{props.username}:</div>
+					<div className='incoming-message-content'>{props.message}</div>
 				</div>
 			) : (
 				<></>

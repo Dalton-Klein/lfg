@@ -1,0 +1,40 @@
+@import '../../styling/config';
+
+.hover-class {
+	transition: $transition1;
+}
+
+.master-endorse-box {
+	background-color: $colorGreyBg;
+	border-radius: $borderRadius1;
+	padding: 1vh 0.75vw;
+	margin: 1vh 0.5vw;
+	outline-width: 2px;
+	outline-color: $colorText;
+	.endorsement-box {
+		min-width: 100%;
+		min-height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		.endorsement-value {
+			color: white;
+			font-size: $font2;
+			margin-left: 0.5vw;
+			margin-right: 0.5vw;
+			font-weight: 300;
+		}
+		.endorsement-title {
+			color: $colorTextAlt;
+			font-size: $font2;
+			font-weight: 300;
+		}
+	}
+	.endorsement-input-box {
+		@extend .endorsement-box;
+		cursor: pointer;
+	}
+}
+.hover-class:hover {
+	transform: scale(1.05);
+}

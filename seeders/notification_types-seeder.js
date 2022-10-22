@@ -34,6 +34,11 @@ module.exports = {
 						name: 'signup',
 						...defaultValues,
 					},
+					{
+						id: 5,
+						name: 'endorsement',
+						...defaultValues,
+					},
 				],
 				{ transaction }
 			);

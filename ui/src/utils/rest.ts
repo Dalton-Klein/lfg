@@ -155,6 +155,47 @@ export const getProfileSocialData = async (fromUserId: number, forUserId: number
 	}
 };
 
+export const getEndorsementOptions = async (inputterId: number, receiverId: number, rust_is_published: boolean) => {
+	try {
+		const httpResult = await fetch(`${endpointURL}/endorsement-options`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				inputterId,
+				receiverId,
+				rust_is_published,
+			}),
+		});
+		const jsonify = httpResult.json();
+		return jsonify;
+	} catch (error) {
+		console.log(`${error} while fetching endorsement options`);
+	}
+};
+
+export const addEndorsement = async (typeId: number, senderId: number, receiverId: number, value: number) => {
+	try {
+		const httpResult = await fetch(`${endpointURL}/endorsement`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				typeId,
+				senderId,
+				receiverId,
+				value,
+			}),
+		});
+		const jsonify = httpResult.json();
+		return jsonify;
+	} catch (error) {
+		console.log(`${error} while adding endorsement`);
+	}
+};
+
 export const createConnectionRequest = async (
 	fromUserId: number,
 	forUserId: number,
