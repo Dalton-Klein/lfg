@@ -1,17 +1,17 @@
 /* eslint-disable */
+import './profileGeneral.scss';
 import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { updateUserAvatarUrl, updateUserThunk } from '../../store/userSlice';
-import './profileGeneral.scss';
 import { avatarFormIn, avatarFormOut } from '../../utils/animations';
 import {
 	uploadAvatarCloud,
 	updateUserField,
 	updateGeneralInfoField,
-	updateGameSpecificInfoField,
-	attemptPublishRustProfile,
+	checkGeneralProfileCompletion,
+	checkRustProfileCompletion,
 } from '../../utils/rest';
 import SelectComponent from './selectComponent';
 import { languageOptions, regionOptions } from '../../utils/selectOptions';
@@ -19,12 +19,13 @@ import ExpandedProfile from '../modal/expandedProfileComponent';
 import { Toast } from 'primereact/toast';
 import ProfileWidget from './profileWidget';
 import ReactTooltip from 'react-tooltip';
+import ProfileRust from './profileRust';
+import ProfileRocketLeague from './profileRocketLeague';
 
 export default function ProfileGeneral(props: any) {
 	const dispatch = useDispatch();
 	const hiddenFileInput: any = React.useRef(null);
 	const userData = useSelector((state: RootState) => state.user.user);
-	const [isProfileDiscoverable, setIsProfileDiscoverable] = useState<boolean>(false);
 	const [isUploadFormShown, setIsUploadFormShown] = useState<boolean>(false);
 	//View Profile
 	const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
@@ -45,10 +46,6 @@ export default function ProfileGeneral(props: any) {
 	const [discord, setDiscord] = useState<string>('');
 	const [psn, setPSN] = useState<string>('');
 	const [xbox, setXbox] = useState<string>('');
-	const [rustHoursText, setRustHoursText] = useState<number>(0);
-	const [availabilityTooltipString, setavailabilityTooltipString] = useState<string>('');
-	const [rustWeekday, setRustWeekday] = useState<string>('');
-	const [rustWeekend, setRustWeekend] = useState<string>('');
 	const [isEmailNotifications, setIsEmailNotifications] = useState<boolean>(true);
 	const [isEmailMarketing, setIsEmailMarketing] = useState<boolean>(true);
 	//End Profile Fields Form Tracking
@@ -73,7 +70,7 @@ export default function ProfileGeneral(props: any) {
 	useEffect(() => {
 		//Having this logic in the user state use effect means it will await the dispatch to get the latest info. It is otherwise hard to await the dispatch
 		if (userData.email && userData.email !== '') {
-			setCompletenessWidgets();
+			setCompletenessWidget();
 			setconnectionCount(parseInt(userData.connection_count_sender) + parseInt(userData.connection_count_acceptor));
 			setAboutText(userData.about);
 			setAgeText(userData.age);
@@ -92,10 +89,6 @@ export default function ProfileGeneral(props: any) {
 			setDiscord(userData.discord);
 			setPSN(userData.psn);
 			setXbox(userData.xbox);
-			setRustHoursText(userData.rust_hours === null ? '' : userData.rust_hours);
-			setRustWeekday(userData.rust_weekdays === null ? '' : userData.rust_weekdays);
-			setRustWeekend(userData.rust_weekends === null ? '' : userData.rust_weekends);
-			setIsProfileDiscoverable(userData.rust_is_published);
 			setIsEmailNotifications(userData.is_email_notifications);
 			setIsEmailMarketing(userData.is_email_marketing);
 		}
@@ -105,29 +98,26 @@ export default function ProfileGeneral(props: any) {
 	const loadSavedInfo = () => {
 		dispatch(updateUserThunk(userData.id));
 	};
-
-	const setCompletenessWidgets = async () => {
-		const completenessResult = await attemptPublishRustProfile(userData.id, '');
+	const setCompletenessWidget = async () => {
+		// ***When more games get rolled out, this will need to be modified***
+		//Check general completion
+		let completenessResult = await checkGeneralProfileCompletion(userData.id, '');
 		if (completenessResult.status === 'error') {
 			// If error start checking problem fields to determine what profiles incomplete
-			// ***When more games get rolled out, this will need to be modified***
-			const generalFields = ['about', 'age', 'gender', 'region', 'languages', 'preferred_platform'];
-			const rustFields = ['hours', 'weekdays', 'weekends'];
 			//Check for overlap in general fields
-			if (generalFields.some((value) => completenessResult.data.includes(value))) {
-				setgenProfileComplete(<i className='pi pi-times' />);
-			} else {
-				setgenProfileComplete(<i className='pi pi-check-circle' />);
-			}
-			//Check for overlap in rust fields
-			if (rustFields.some((value) => completenessResult.data.includes(value))) {
-				setrustProfileComplete(<i className='pi pi-times' />);
-			} else setrustProfileComplete(<i className='pi pi-check-circle' />);
+			setgenProfileComplete(<i className='pi pi-times' />);
 		} else {
 			//If no error set all completeness to checked
 			setgenProfileComplete(<i className='pi pi-check-circle' />);
+		}
+		//Check rust completion
+		completenessResult = await checkRustProfileCompletion(userData.id, '');
+		if (completenessResult.status === 'error') {
+			setrustProfileComplete(<i className='pi pi-times' />);
+		} else {
 			setrustProfileComplete(<i className='pi pi-check-circle' />);
 		}
+		//Check for overlap in rust fields
 	};
 	// End Logic to load saved values to ui
 
@@ -142,93 +132,47 @@ export default function ProfileGeneral(props: any) {
 		if (hiddenFileInput.current !== null) {
 			hiddenFileInput.current!.click();
 		}
+		return;
 	};
 	const handleFileUpload = (event: any) => {
 		setPhotoFile(event.target.files[0]);
+		return;
 	};
 	const closeAvatar = () => {
 		avatarFormOut();
 		setIsUploadFormShown(false);
+		return;
 	};
 	const startEditingAvatar = async (field: string) => {
 		if (userData.id === 0) alert('You must be logged in to edit this field');
 		setIsUploadFormShown(true);
 		avatarFormIn();
+		return;
 	};
 	// END AVATAR LOGIC
 
 	const changeSelectedGender = (selection: number) => {
 		if (gender !== selection) setHasUnsavedChanges(true);
 		setGender(selection);
+		return;
 	};
 
 	const changeRegion = (selection: any) => {
 		if (!language || region !== selection.value) setHasUnsavedChanges(true);
 		setRegion(selection);
+		return;
 	};
 
 	const changeLanguage = (selection: any) => {
 		if (!language || language.value !== selection.value) setHasUnsavedChanges(true);
 		setLanguage(selection);
+		return;
 	};
 
 	const changeSelectedPlatform = (selection: number) => {
 		if (platform !== selection) setHasUnsavedChanges(true);
 		setPlatform(selection);
-	};
-
-	const changeRustWeekday = (selection: string) => {
-		if (rustWeekday !== selection) setHasUnsavedChanges(true);
-		setRustWeekday(selection);
-	};
-
-	const changeRustWeekend = (selection: string) => {
-		if (rustWeekend !== selection) setHasUnsavedChanges(true);
-		setRustWeekend(selection);
-	};
-
-	const tryPublishRustProfile = async () => {
-		if (!isProfileDiscoverable) {
-			//execute http req
-			const result = await attemptPublishRustProfile(userData.id, '');
-			if (result.status === 'success') {
-				await updateGameSpecificInfoField(userData.id, 'public.user_rust_infos', 'is_published', true);
-				setIsProfileDiscoverable(true);
-				toast.current.clear();
-				toast.current.show({
-					severity: 'success',
-					summary: 'rust profile published!',
-					detail: ``,
-					sticky: false,
-				});
-			} else if (result.data.length) {
-				let fieldsString = '';
-				result.data.forEach((field: any) => {
-					fieldsString += `${field},  `;
-				});
-				fieldsString = fieldsString.slice(0, -3);
-				//error handling here
-				toast.current.clear();
-				toast.current.show({
-					severity: 'warn',
-					summary: 'missing profile fields: ',
-					detail: `${fieldsString}`,
-					sticky: true,
-				});
-			}
-		} else {
-			await updateGameSpecificInfoField(userData.id, 'public.user_rust_infos', 'is_published', false);
-			setIsProfileDiscoverable(false);
-			toast.current.clear();
-			toast.current.show({
-				severity: 'success',
-				summary: 'rust profile now hidden!',
-				detail: ``,
-				sticky: false,
-			});
-		}
-		// After all data is comitted to db, get fresh copy of user object to update state
-		dispatch(updateUserThunk(userData.id));
+		return;
 	};
 
 	//MODAL SAVE LOGIC
@@ -250,8 +194,6 @@ export default function ProfileGeneral(props: any) {
 			'a lot': 3,
 			'all day': 4,
 		};
-		const rustWeekdayIdValue = availabilityValues[rustWeekday];
-		const rustWeekendIdValue = availabilityValues[rustWeekend];
 		if (userData.about !== aboutText) await updateGeneralInfoField(userData.id, 'about', aboutText);
 		if (parseInt(userData.age) !== ageText) await updateGeneralInfoField(userData.id, 'age', ageText);
 		if (userData.gender !== gender) await updateGeneralInfoField(userData.id, 'gender', gender);
@@ -264,15 +206,6 @@ export default function ProfileGeneral(props: any) {
 		if (userData.discord !== discord) await updateGeneralInfoField(userData.id, 'discord', discord);
 		if (userData.psn !== psn) await updateGeneralInfoField(userData.id, 'psn', psn);
 		if (userData.xbox !== xbox) await updateGeneralInfoField(userData.id, 'xbox', xbox);
-		if (rustHoursText > 0 && userData.rust_hours !== rustHoursText) {
-			await updateGameSpecificInfoField(userData.id, 'public.user_rust_infos', 'hours', rustHoursText);
-		}
-		if (rustWeekday !== '' && userData.rust_weekdays !== rustWeekday) {
-			await updateGameSpecificInfoField(userData.id, 'public.user_rust_infos', 'weekdays', rustWeekdayIdValue);
-		}
-		if (rustWeekend !== '' && userData.rust_weekends !== rustWeekend) {
-			await updateGameSpecificInfoField(userData.id, 'public.user_rust_infos', 'weekends', rustWeekendIdValue);
-		}
 		if (userData.is_email_notifications !== isEmailNotifications) {
 			await updateUserField(userData.id, 'is_email_notifications', isEmailNotifications);
 		}
@@ -289,7 +222,7 @@ export default function ProfileGeneral(props: any) {
 			detail: ``,
 			sticky: false,
 		});
-		setCompletenessWidgets();
+		setCompletenessWidget();
 	};
 
 	const deleteAccount = () => {
@@ -612,9 +545,19 @@ export default function ProfileGeneral(props: any) {
 				</div>
 				{/* END SAVE BOX */}
 			</div>
-
+			<ProfileRust
+				submenuId={props.submenuId}
+				hasUnsavedChanges={hasUnsavedChanges}
+				setHasUnsavedChanges={setHasUnsavedChanges}
+				setgenProfileComplete={setgenProfileComplete}
+			></ProfileRust>
+			<ProfileRocketLeague
+				submenuId={props.submenuId}
+				hasUnsavedChanges={hasUnsavedChanges}
+				setHasUnsavedChanges={setHasUnsavedChanges}
+				setgenProfileComplete={setgenProfileComplete}
+			></ProfileRocketLeague>
 			{/* START ACCOUNT SETTINGS */}
-
 			<div className='submenu-container' style={{ display: props.submenuId === 6 ? 'inline-block' : 'none' }}>
 				{/* START Profile Widgets */}
 				<div className='widgets-container'>
@@ -673,167 +616,8 @@ export default function ProfileGeneral(props: any) {
 				{/* END SAVE BOX */}
 			</div>
 
-			{/* START RUST SETTINGS */}
-			<div className='submenu-container' style={{ display: props.submenuId === 7 ? 'inline-block' : 'none' }}>
-				{/* START Profile Widgets */}
-				<div className='widgets-container'>
-					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
-					<ProfileWidget value={genProfileComplete} label={'gen profile completed?'}></ProfileWidget>
-					<ProfileWidget value={rustProfileComplete} label={'rust profile completed?'}></ProfileWidget>
-				</div>
-				<div className='gradient-bar'></div>
-				{/* END Profile Widgets */}
-				<div className='banner-container'>
-					<div className='prof-banner-detail-text' data-tip data-for='publishTip'>
-						publish rust profile
-					</div>
-					<input
-						checked={isProfileDiscoverable}
-						onChange={() => {
-							tryPublishRustProfile();
-						}}
-						className='react-switch-checkbox'
-						id={`react-switch-rust-published`}
-						type='checkbox'
-					/>
-					<label className='react-switch-label' htmlFor={`react-switch-rust-published`}>
-						<span className={`react-switch-button`} />
-					</label>
-				</div>
-				<div className='gradient-bar'></div>
-				{/* RUST HOURS */}
-				<div className='banner-container'>
-					<div className='prof-banner-detail-text'>hours played</div>
-					<input
-						onChange={(event) => {
-							setRustHoursText(parseInt(event.target.value));
-							setHasUnsavedChanges(true);
-						}}
-						value={rustHoursText ? rustHoursText : ''}
-						type='number'
-						className='input-box'
-						placeholder={userData.hours && userData.hours !== null && userData.hours !== '' ? userData.hours : 'none'}
-					></input>
-				</div>
-				<div className='gradient-bar'></div>
-				{/* END RUST HOURS */}
-				{/* Availability- Weekdays */}
-				<div className='banner-container'>
-					<div className='prof-banner-detail-text'>weekday availabilty</div>
-					<div className='gender-container'>
-						<div
-							className={`gender-box ${rustWeekday === 'none' ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeRustWeekday('none');
-							}}
-							onMouseEnter={() => setavailabilityTooltipString('0 hours')}
-							data-tip
-							data-for='availabilityTip'
-						>
-							none
-						</div>
-						<div
-							className={`gender-box ${rustWeekday === 'some' ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeRustWeekday('some');
-							}}
-							onMouseEnter={() => setavailabilityTooltipString('0-2 hours')}
-							data-tip
-							data-for='availabilityTip'
-						>
-							some
-						</div>
-						<div
-							className={`gender-box ${rustWeekday === 'a lot' ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeRustWeekday('a lot');
-							}}
-							onMouseEnter={() => setavailabilityTooltipString('2-6 hours')}
-							data-tip
-							data-for='availabilityTip'
-						>
-							a lot
-						</div>
-						<div
-							className={`gender-box ${rustWeekday === 'all day' ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeRustWeekday('all day');
-							}}
-							onMouseEnter={() => setavailabilityTooltipString('6+ hours')}
-							data-tip
-							data-for='availabilityTip'
-						>
-							all day
-						</div>
-					</div>
-				</div>
-				<div className='gradient-bar'></div>
-				{/* END Availability- Weekdays */}
-				{/* Availability- Weekends */}
-				<div className='banner-container'>
-					<div className='prof-banner-detail-text'>weekend availability</div>
-					<div className='gender-container'>
-						<div
-							className={`gender-box ${rustWeekend === 'none' ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeRustWeekend('none');
-							}}
-							onMouseEnter={() => setavailabilityTooltipString('0 hours')}
-							data-tip
-							data-for='availabilityTip'
-						>
-							none
-						</div>
-						<div
-							className={`gender-box ${rustWeekend === 'some' ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeRustWeekend('some');
-							}}
-							onMouseEnter={() => setavailabilityTooltipString('0-2 hours')}
-							data-tip
-							data-for='availabilityTip'
-						>
-							some
-						</div>
-						<div
-							className={`gender-box ${rustWeekend === 'a lot' ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeRustWeekend('a lot');
-							}}
-							onMouseEnter={() => setavailabilityTooltipString('2-6 hours')}
-							data-tip
-							data-for='availabilityTip'
-						>
-							a lot
-						</div>
-						<div
-							className={`gender-box ${rustWeekend === 'all day' ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeRustWeekend('all day');
-							}}
-							onMouseEnter={() => setavailabilityTooltipString('6+ hours')}
-							data-tip
-							data-for='availabilityTip'
-						>
-							all day
-						</div>
-					</div>
-				</div>
-				<div className='gradient-bar'></div>
-				{/* END Availability- Weekends */}
-				{/* START SAVE BOX */}
-				<div className='save-box'>
-					<button className='save-button' disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
-						save
-					</button>
-				</div>
-				{/* END SAVE BOX */}
-			</div>
-			<ReactTooltip id='availabilityTip' place='top' effect='solid'>
-				{availabilityTooltipString}
-			</ReactTooltip>
 			<ReactTooltip id='publishTip' place='right' effect='solid'>
-				Controls whether your profile is discoverable. You must have both general and rust profiles complete to publish.
+				Controls whether your profile is discoverable. You must have both general and game profiles complete to publish.
 			</ReactTooltip>
 			<ReactTooltip id='avatarTip' place='right' effect='solid'>
 				Click here to upload profile image

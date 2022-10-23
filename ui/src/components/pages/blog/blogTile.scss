@@ -12,7 +12,7 @@
 	background-size: cover;
 	display: grid;
 	place-items: center;
-	margin: 1vh 2vw;
+	margin: 2vh 2vw;
 	cursor: pointer;
 	transition: $transition1;
 
@@ -52,4 +52,14 @@
 
 .blog-tile-box:hover {
 	transform: scale(1.05);
+}
+
+@media screen and (max-width: $screenBreak2) {
+	.blog-tile-box {
+		background-color: $colorGreyPop;
+		border-radius: $borderRadius2;
+		min-height: 50vh;
+		max-height: 50vh;
+		margin: 2vh 4vw;
+	}
 }

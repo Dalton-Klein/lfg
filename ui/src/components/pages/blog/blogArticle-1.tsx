@@ -57,7 +57,7 @@ export default function BlogArticle1() {
 			<div className='article-master-container'>
 				<BannerTitle title={'how to find great rust teammates'}></BannerTitle>
 				<div className='article-header-info'>
-					<h4 className='article-header-date'>Updated 10/15/2022</h4>
+					<h4 className='article-header-date'>updated 10/15/2022</h4>
 					<button
 						onClick={() => {
 							navigate(`/blog`);
