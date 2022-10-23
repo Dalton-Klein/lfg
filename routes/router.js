@@ -25,7 +25,7 @@ router.post('/reset-password', authController.resetPassword);
 router.post('/getUserDetails', userController.getUserDetails);
 router.post('/updateUserInfoField', userController.updateProfileField);
 router.put('/updateGeneralInfoField', userController.updateGeneralInfoField);
-router.put('/updateRustInfoField', userController.updateRustInfoField);
+router.put('/updateGameSpecificInfoField', userController.updateGameSpecificInfoField);
 
 //NOTIFICATIONS RELATED ROUTES
 router.post('/get-notifications', notificationsController.getNotificationsForUser);
@@ -48,6 +48,9 @@ router.post('/endorsement-options', endorsementsController.getEndorsementOptions
 router.post('/endorsement', endorsementsController.addOrRemoveEndorsement);
 
 //PUBLISH/ PROFILE COMPLETENESS RELATED ROUTES
+router.post('/general-profile-completion', publishController.checkGeneralProfileCompletion);
+router.post('/rust-profile-completion', publishController.checkRustProfileCompletion);
+router.post('/rocket-league-profile-completion', publishController.checkRocketLeagueProfileCompletion);
 router.post('/publish-rust', publishController.checkIfUserCanPublishRustProfile);
 
 //TILES RELATED ROUTES

@@ -76,8 +76,14 @@ module.exports = {
 					},
 					{
 						id: 11,
-						platform_id: 1,
+						platform_id: 0,
 						description: 'diabolical',
+						...defaultValues,
+					},
+					{
+						id: 12,
+						platform_id: 0,
+						description: 'comedian',
 						...defaultValues,
 					},
 				],

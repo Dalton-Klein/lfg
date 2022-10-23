@@ -7,6 +7,7 @@ const {
 	createUserQuery,
 	createGeneralInfoQuery,
 	createRustInfoQuery,
+	createRocketLeagueInfoQuery,
 } = require('../services/user-queries');
 const { users, user_tokens, v_keys, sequelize } = require('../models/index');
 const Sequelize = require('sequelize');
@@ -261,6 +262,8 @@ const insertNewUser = async (userObj) => {
 		queryOptions.replacements.userId = userResult[0][0].id;
 		await sequelize.query(query, queryOptions);
 		query = createRustInfoQuery();
+		await sequelize.query(query, queryOptions);
+		query = createRocketLeagueInfoQuery();
 		await sequelize.query(query, queryOptions);
 		await transaction.commit();
 		return userResult;
