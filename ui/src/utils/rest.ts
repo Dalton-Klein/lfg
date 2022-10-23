@@ -291,13 +291,14 @@ export const updateGeneralInfoField = async (id: number, field: string, value: a
 	}
 };
 
-export const updateRustInfoField = async (id: number, field: string, value: any) => {
+export const updateGameSpecificInfoField = async (id: number, table: string, field: string, value: any) => {
 	try {
-		const httpResult = await fetch(`${endpointURL}/updateRustInfoField`, {
+		const httpResult = await fetch(`${endpointURL}/updateGameSpecificInfoField`, {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				userId: id,
+				table,
 				field,
 				value,
 			}),
@@ -311,6 +312,53 @@ export const updateRustInfoField = async (id: number, field: string, value: any)
 /*
 	Publish Calls
 */
+export const checkGeneralProfileCompletion = async (userId: number, token: string) => {
+	return await fetch(`${endpointURL}/general-profile-completion`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			userId,
+		}),
+	})
+		.then((res) => res.json())
+		.catch((err) => {
+			console.log(`${err} trying to validate the publishing of rust profile`);
+		});
+};
+export const checkRustProfileCompletion = async (userId: number, token: string) => {
+	return await fetch(`${endpointURL}/rust-profile-completion`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			userId,
+		}),
+	})
+		.then((res) => res.json())
+		.catch((err) => {
+			console.log(`${err} trying to validate the publishing of rust profile`);
+		});
+};
+
+export const checkRocketLeagueProfileCompletion = async (userId: number, token: string) => {
+	return await fetch(`${endpointURL}/rocket-league-profile-completion`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			userId,
+		}),
+	})
+		.then((res) => res.json())
+		.catch((err) => {
+			console.log(`${err} trying to validate the publishing of rust profile`);
+		});
+};
+
 export const attemptPublishRustProfile = async (userId: number, token: string) => {
 	return await fetch(`${endpointURL}/publish-rust`, {
 		method: 'POST',

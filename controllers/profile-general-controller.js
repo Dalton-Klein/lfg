@@ -77,16 +77,17 @@ const updateGeneralInfoField = async (req, res) => {
 	}
 };
 
-const updateRustInfoField = async (req, res) => {
+const updateGameSpecificInfoField = async (req, res) => {
 	try {
-		const { userId, field, value } = req.body;
+		const { userId, table, field, value } = req.body;
 		const query = format(
 			`
-      update public.user_rust_infos
-        set %I = :value,
-            updated_at = current_timestamp
-      where user_id = :userId
+      update %s
+         set %I = :value,
+             updated_at = current_timestamp
+       where user_id = :userId
     `,
+			table,
 			field
 		);
 		const reply = await sequelize.query(query, {
@@ -188,7 +189,7 @@ module.exports = {
 	getEmailPrefs,
 	updateProfileField,
 	updateGeneralInfoField,
-	updateRustInfoField,
+	updateGameSpecificInfoField,
 	getSocialDetails,
 	deleteAccount,
 };

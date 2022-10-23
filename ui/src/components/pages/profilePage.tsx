@@ -34,6 +34,15 @@ export default function ProfilePage() {
 	};
 	const dispatch = useDispatch();
 	const [selection, setSelection] = useState(1);
+	// 1: General Profile
+	// 2: Messagin
+	// 3: Incoming
+	// 4: Outgoing
+	// 5: Blocked
+	// 6: Account Settings
+	// 7: Rust Profile
+	// 8: Rocket League Profile
+
 	const [chatBox, setchatBox] = useState<any>(<></>);
 	const [currentConvo, setCurrentConvo] = useState<any>(rustChatObject);
 	const [connectionsResult, setconnectionsResult] = useState<any>([]);

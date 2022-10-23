@@ -57,7 +57,7 @@ export default function BlogArticle2() {
 			<div className='article-master-container'>
 				<BannerTitle title={'rocket league & minecraft support'}></BannerTitle>
 				<div className='article-header-info'>
-					<h4 className='article-header-date'>Updated 10/18/2022</h4>
+					<h4 className='article-header-date'>updated 10/18/2022</h4>
 					<button
 						onClick={() => {
 							navigate(`/blog`);
