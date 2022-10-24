@@ -328,12 +328,12 @@ export default function ProfileGeneral(props: Props) {
 						title={'rust profile'}
 						changeBanner={props.changeBanner}
 					></GameTile>
-					<GameTile
+					{/* <GameTile
 						imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'}
 						routerLink={'/rocket-league-profile'}
 						title={'rocket league profile'}
 						changeBanner={props.changeBanner}
-					></GameTile>
+					></GameTile> */}
 				</div>
 				<div className='gradient-bar'></div>
 				{/* ABOUT */}
