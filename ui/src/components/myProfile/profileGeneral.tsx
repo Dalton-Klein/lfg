@@ -529,20 +529,6 @@ export default function ProfileGeneral(props: Props) {
 					<></>
 				)}
 				{/* END XBOX */}
-				<div className='gradient-bar'></div>
-				{/* PASSWORD */}
-				<div className='banner-container'>
-					<div className='prof-banner-detail-text' data-tip data-for='passwordTip'>
-						password
-					</div>
-					<div className='banner-change-box'>
-						<button className='text-only-button' onClick={() => startEditingAvatar('password')}>
-							<img className='edit-icon' src='/assets/editiconw.png' alt='edit password'></img>
-						</button>
-					</div>
-				</div>
-				<div className='gradient-bar'></div>
-				{/* END PASSWORD */}
 				{/* START SAVE BOX */}
 				<div className='save-box'>
 					<button className='save-button' disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
@@ -594,6 +580,21 @@ export default function ProfileGeneral(props: Props) {
 						<span className={`react-switch-button`} />
 					</label>
 				</div>
+				<div className='gradient-bar'></div>
+				{/* PASSWORD */}
+				{/* ***DISABLED UNTIL CODED PROPERLY */}
+				{/* <div className='banner-container'>
+					<div className='prof-banner-detail-text' data-tip data-for='passwordTip'>
+						password
+					</div>
+					<div className='banner-change-box'>
+						<button className='text-only-button' onClick={() => startEditingAvatar('password')}>
+							<img className='edit-icon' src='/assets/editiconw.png' alt='edit password'></img>
+						</button>
+					</div>
+				</div>
+				<div className='gradient-bar'></div> */}
+				{/* END PASSWORD */}
 				{/* START Delete Account */}
 				<div className='save-box'>
 					<button className='save-button' onClick={() => deleteAccount()}>
