@@ -41,7 +41,10 @@ export default function BlogPage() {
 		<div>
 			<HeaderComponent></HeaderComponent>
 			<div className='blog-master-container'>
-				<BannerTitle title={'blog'}></BannerTitle>
+				<BannerTitle
+					title={'blog'}
+					imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'}
+				></BannerTitle>
 				{/* Welcome */}
 				<div className='blog-content-container'>
 					<BlogTile

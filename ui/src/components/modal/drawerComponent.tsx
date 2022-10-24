@@ -5,7 +5,6 @@ import './drawerComponent.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { logoutUser } from '../../store/userSlice';
-import { setPreferences } from '../../store/userPreferencesSlice';
 import { GoogleLogout } from 'react-google-login';
 const clientId = '244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com';
 
@@ -17,7 +16,6 @@ type Props = {
 
 const DrawerComponent = (props: Props) => {
 	const navigate = useNavigate();
-	const preferencesState = useSelector((state: RootState) => state.preferences);
 	const userState = useSelector((state: RootState) => state.user.user);
 	const dispatch = useDispatch();
 	const [exitIcon, setExitIcon] = useState<string>('/assets/exit-icon.png');
@@ -70,54 +68,17 @@ const DrawerComponent = (props: Props) => {
 		props.toggleDrawer();
 		//Decide between sub-sections of a url
 		let link = destination;
+		//***Fix this so that the destination is just the url
 		if (destination === 'genProfile') {
-			link = 'profile';
-			dispatch(
-				setPreferences({
-					...preferencesState,
-					lastProfileMenu: 1,
-				})
-			);
+			link = 'general-profile';
 		} else if (destination === 'messaging') {
-			link = 'profile';
-			dispatch(
-				setPreferences({
-					...preferencesState,
-					lastProfileMenu: 2,
-				})
-			);
+			link = 'messaging';
 		} else if (destination === 'incoming') {
-			link = 'profile';
-			dispatch(
-				setPreferences({
-					...preferencesState,
-					lastProfileMenu: 3,
-				})
-			);
+			link = 'incoming-requests';
 		} else if (destination === 'outgoing') {
-			link = 'profile';
-			dispatch(
-				setPreferences({
-					...preferencesState,
-					lastProfileMenu: 4,
-				})
-			);
+			link = 'outgoing-requests';
 		} else if (destination === 'accountSettings') {
-			link = 'profile';
-			dispatch(
-				setPreferences({
-					...preferencesState,
-					lastProfileMenu: 6,
-				})
-			);
-		} else if (destination === 'rustProfile') {
-			link = 'profile';
-			dispatch(
-				setPreferences({
-					...preferencesState,
-					lastProfileMenu: 7,
-				})
-			);
+			link = 'account-settings';
 		} else if (destination === 'help') {
 			link = 'help';
 		}
@@ -126,94 +87,86 @@ const DrawerComponent = (props: Props) => {
 	};
 
 	return (
-		<div className="hamburger-red-panel">
-			<div className="hamburger-green-panel">
-				<div className="hamburger-nav">
+		<div className='hamburger-red-panel'>
+			<div className='hamburger-green-panel'>
+				<div className='hamburger-nav'>
 					<img
 						onClick={props.toggleDrawer}
-						className="hamburger-exit"
+						className='hamburger-exit'
 						src={exitIcon}
 						onMouseOver={handleMouseEnter}
 						onMouseOut={handleMouseLeave}
-						alt="exit"
+						alt='exit'
 					/>
 					<div
 						onClick={() => {
 							navigationButtonPressed('discover');
 						}}
-						className="hamburger-links"
+						className='hamburger-links'
 					>
-						<button className="hamburger-button">discover</button>
+						<button className='hamburger-button'>discover</button>
 					</div>
 					<div
 						onClick={() => {
 							navigationButtonPressed('messaging');
 						}}
-						className="hamburger-links"
+						className='hamburger-links'
 					>
-						<button className="hamburger-button">messaging</button>
+						<button className='hamburger-button'>messaging</button>
 					</div>
 					<div
 						onClick={() => {
 							navigationButtonPressed('genProfile');
 						}}
-						className="hamburger-links"
+						className='hamburger-links'
 					>
-						<button className="hamburger-button">general profile</button>
-					</div>
-					<div
-						onClick={() => {
-							navigationButtonPressed('rustProfile');
-						}}
-						className="hamburger-links"
-					>
-						<button className="hamburger-button">rust profile</button>
+						<button className='hamburger-button'>general profile</button>
 					</div>
 					<div
 						onClick={() => {
 							navigationButtonPressed('accountSettings');
 						}}
-						className="hamburger-links"
+						className='hamburger-links'
 					>
-						<button className="hamburger-button">account settings</button>
+						<button className='hamburger-button'>account settings</button>
 					</div>
 					<div
 						onClick={() => {
 							navigationButtonPressed('incoming');
 						}}
-						className="hamburger-links"
+						className='hamburger-links'
 					>
-						<button className="hamburger-button">incoming requests</button>
+						<button className='hamburger-button'>incoming requests</button>
 					</div>
 					<div
 						onClick={() => {
 							navigationButtonPressed('outgoing');
 						}}
-						className="hamburger-links"
+						className='hamburger-links'
 					>
-						<button className="hamburger-button">outgoing requests</button>
+						<button className='hamburger-button'>outgoing requests</button>
 					</div>
 					<div
 						onClick={() => {
 							navigationButtonPressed('blog');
 						}}
-						className="hamburger-links"
+						className='hamburger-links'
 					>
-						<button className="hamburger-button">blog</button>
+						<button className='hamburger-button'>blog</button>
 					</div>
 					<div
 						onClick={() => {
 							navigationButtonPressed('help');
 						}}
-						className="hamburger-links"
+						className='hamburger-links'
 					>
-						<button className="hamburger-button">help | faq</button>
+						<button className='hamburger-button'>help | faq</button>
 					</div>
-					<div className="hamburger-links">
+					<div className='hamburger-links'>
 						<GoogleLogout
-							className="google-button"
+							className='google-button'
 							clientId={clientId}
-							buttonText="logout"
+							buttonText='logout'
 							onLogoutSuccess={logoutFunction}
 							onFailure={logoutFunction}
 						/>
@@ -222,19 +175,19 @@ const DrawerComponent = (props: Props) => {
 						onClick={() => {
 							navigationButtonPressed('privacy-policy');
 						}}
-						className="hamburger-links"
+						className='hamburger-links'
 					>
-						<button className="text-only-button boring-button">privacy policy</button>
+						<button className='text-only-button boring-button'>privacy policy</button>
 					</div>
 					<div
 						onClick={() => {
 							navigationButtonPressed('terms-of-service');
 						}}
-						className="hamburger-links"
+						className='hamburger-links'
 					>
-						<button className="text-only-button boring-button">terms of service</button>
+						<button className='text-only-button boring-button'>terms of service</button>
 					</div>
-					<img className="small-logo" src="/assets/logo-v2-gangs.gg-transparent-white.png" alt="gangs-logo-small" />
+					<img className='small-logo' src='/assets/logo-v2-gangs.gg-transparent-white.png' alt='gangs-logo-small' />
 					<h5>gangs</h5>
 				</div>
 			</div>

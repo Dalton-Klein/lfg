@@ -375,6 +375,22 @@ export const attemptPublishRustProfile = async (userId: number, token: string) =
 		});
 };
 
+export const attemptPublishRocketLeagueProfile = async (userId: number, token: string) => {
+	return await fetch(`${endpointURL}/publish-rocket-league`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			userId,
+		}),
+	})
+		.then((res) => res.json())
+		.catch((err) => {
+			console.log(`${err} trying to validate the publishing of rust profile`);
+		});
+};
+
 /*
 	Connections Calls
 */

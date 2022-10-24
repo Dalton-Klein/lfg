@@ -48,7 +48,6 @@ export default function HomePage() {
 			let ownerName;
 			let otherName;
 			notifications.forEach((notif: any) => {
-				console.log('notif: ', notif);
 				ownerName = notif.owner_username;
 				otherName = notif.other_username;
 				const user1Key: any = {

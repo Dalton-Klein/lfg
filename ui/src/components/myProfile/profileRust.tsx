@@ -4,41 +4,40 @@ import { useSelector, useDispatch } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import { RootState } from '../../store/store';
 import ProfileWidget from './profileWidget';
-import {
-	updateGameSpecificInfoField,
-	attemptPublishRustProfile,
-	checkGeneralProfileCompletion,
-	checkRustProfileCompletion,
-} from '../../utils/rest';
+import { updateGameSpecificInfoField, attemptPublishRustProfile } from '../../utils/rest';
 import { Toast } from 'primereact/toast';
 import { updateUserThunk } from '../../store/userSlice';
+import { useNavigate } from 'react-router-dom';
+import ProfileWidgetsContainer from './profileWidgetsContainer';
 
 type Props = {
-	submenuId: number;
-	hasUnsavedChanges: boolean;
-	setHasUnsavedChanges: any;
-	setgenProfileComplete: any;
+	locationPath: string;
+	changeBanner: any;
 };
 
 export default function ProfileRust(props: Props) {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const userData = useSelector((state: RootState) => state.user.user);
 	const toast: any = useRef({ current: '' });
+	const profileWidgetsRef: any = useRef();
 
+	const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
 	const [isProfileDiscoverable, setIsProfileDiscoverable] = useState<boolean>(false);
-	const [connectionCount, setconnectionCount] = useState<number>(0);
-	const [genProfileComplete, setgenProfileComplete] = useState<any>(<> </>);
-	const [rustProfileComplete, setrustProfileComplete] = useState<any>(<> </>);
 	const [rustHoursText, setRustHoursText] = useState<number>(0);
 	const [availabilityTooltipString, setavailabilityTooltipString] = useState<string>('');
 	const [rustWeekday, setRustWeekday] = useState<string>('');
 	const [rustWeekend, setRustWeekend] = useState<string>('');
 
 	useEffect(() => {
+		props.changeBanner('https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png');
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	useEffect(() => {
 		//Having this logic in the user state use effect means it will await the dispatch to get the latest info. It is otherwise hard to await the dispatch
 		if (userData.email && userData.email !== '') {
-			setCompletenessWidget();
-			setconnectionCount(parseInt(userData.connection_count_sender) + parseInt(userData.connection_count_acceptor));
+			profileWidgetsRef.current.updateWidgets();
 			setRustHoursText(userData.rust_hours === null ? '' : userData.rust_hours);
 			setRustWeekday(userData.rust_weekdays === null ? '' : userData.rust_weekdays);
 			setRustWeekend(userData.rust_weekends === null ? '' : userData.rust_weekends);
@@ -48,12 +47,12 @@ export default function ProfileRust(props: Props) {
 	}, [userData]);
 
 	const changeRustWeekday = (selection: string) => {
-		if (rustWeekday !== selection) props.setHasUnsavedChanges(true);
+		if (rustWeekday !== selection) setHasUnsavedChanges(true);
 		setRustWeekday(selection);
 	};
 
 	const changeRustWeekend = (selection: string) => {
-		if (rustWeekend !== selection) props.setHasUnsavedChanges(true);
+		if (rustWeekend !== selection) setHasUnsavedChanges(true);
 		setRustWeekend(selection);
 	};
 
@@ -79,7 +78,7 @@ export default function ProfileRust(props: Props) {
 		}
 		// After all data is comitted to db, get fresh copy of user object to update state
 		dispatch(updateUserThunk(userData.id));
-		props.setHasUnsavedChanges(false);
+		setHasUnsavedChanges(false);
 		toast.current.clear();
 		toast.current.show({
 			severity: 'success',
@@ -87,30 +86,7 @@ export default function ProfileRust(props: Props) {
 			detail: ``,
 			sticky: false,
 		});
-		setCompletenessWidget();
-	};
-
-	const setCompletenessWidget = async () => {
-		// ***When more games get rolled out, this will need to be modified***
-		//Check general completion
-		let completenessResult = await checkGeneralProfileCompletion(userData.id, '');
-		console.log('compekte? ', completenessResult);
-		if (completenessResult.status === 'error') {
-			// If error start checking problem fields to determine what profiles incomplete
-			//Check for overlap in general fields
-			setgenProfileComplete(<i className='pi pi-times' />);
-		} else {
-			//If no error set all completeness to checked
-			setgenProfileComplete(<i className='pi pi-check-circle' />);
-		}
-		//Check rust completion
-		completenessResult = await checkRustProfileCompletion(userData.id, '');
-		if (completenessResult.status === 'error') {
-			setrustProfileComplete(<i className='pi pi-times' />);
-		} else {
-			setrustProfileComplete(<i className='pi pi-check-circle' />);
-		}
-		//Check for overlap in rust fields
+		profileWidgetsRef.current.updateWidgets();
 	};
 	// END SAVE
 
@@ -164,13 +140,22 @@ export default function ProfileRust(props: Props) {
 		<div>
 			<Toast ref={toast} />
 			{/* START RUST SETTINGS */}
-			<div className='submenu-container' style={{ display: props.submenuId === 7 ? 'inline-block' : 'none' }}>
-				{/* START Profile Widgets */}
-				<div className='widgets-container'>
-					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
-					<ProfileWidget value={genProfileComplete} label={'gen profile completed?'}></ProfileWidget>
-					<ProfileWidget value={rustProfileComplete} label={'rust profile completed?'}></ProfileWidget>
+			<div
+				className='submenu-container'
+				style={{ display: props.locationPath === '/rust-profile' ? 'inline-block' : 'none' }}
+			>
+				<div className='back-container'>
+					<button
+						className='back-button'
+						onClick={() => {
+							navigate('/general-profile');
+						}}
+					>
+						&nbsp; back to general profile
+					</button>
 				</div>
+				{/* START Profile Widgets */}
+				<ProfileWidgetsContainer ref={profileWidgetsRef}></ProfileWidgetsContainer>
 				<div className='gradient-bar'></div>
 				{/* END Profile Widgets */}
 				<div className='banner-container'>
@@ -197,7 +182,7 @@ export default function ProfileRust(props: Props) {
 					<input
 						onChange={(event) => {
 							setRustHoursText(parseInt(event.target.value));
-							props.setHasUnsavedChanges(true);
+							setHasUnsavedChanges(true);
 						}}
 						value={rustHoursText ? rustHoursText : ''}
 						type='number'
@@ -313,7 +298,7 @@ export default function ProfileRust(props: Props) {
 				{/* END Availability- Weekends */}
 				{/* START SAVE BOX */}
 				<div className='save-box'>
-					<button className='save-button' disabled={!props.hasUnsavedChanges} onClick={() => saveChanges()}>
+					<button className='save-button' disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
 						save
 					</button>
 				</div>
