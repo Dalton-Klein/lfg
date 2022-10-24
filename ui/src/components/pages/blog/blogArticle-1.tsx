@@ -55,7 +55,10 @@ export default function BlogArticle1() {
 		<div>
 			<HeaderComponent></HeaderComponent>
 			<div className='article-master-container'>
-				<BannerTitle title={'how to find great rust teammates'}></BannerTitle>
+				<BannerTitle
+					title={'how to find great rust teammates'}
+					imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'}
+				></BannerTitle>
 				<div className='article-header-info'>
 					<h4 className='article-header-date'>updated 10/15/2022</h4>
 					<button

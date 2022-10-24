@@ -27,11 +27,35 @@
 	justify-content: center;
 	.submenu-container {
 		min-width: 60%;
+		.back-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 9vh;
+			max-height: 9vh;
+			.back-button {
+				display: flex;
+				align-items: center;
+				vertical-align: middle;
+				font-size: $font2;
+			}
+		}
 		.widgets-container {
 			margin: 2vh 2vw;
 			display: flex;
 			justify-content: space-around;
 			align-items: center;
+			flex-wrap: wrap;
+		}
+		.game-profile-container {
+			display: flex;
+			justify-content: space-evenly;
+			align-items: flex-start;
+			flex-wrap: wrap;
+			overflow-y: scroll;
+			min-height: 25vh;
+			max-height: 50vh;
+			margin: 2vh 1vw;
 		}
 	}
 }
@@ -141,14 +165,16 @@
 		min-height: 4.5vw;
 		border-radius: calc(4.5vw / 2);
 		object-fit: cover;
+		margin-left: 2vw;
 		cursor: pointer;
 	}
 	.expand-button {
-		margin-left: 0.5em;
+		margin-right: 2vw;
 		padding: 0 1vw;
 		padding-top: 0.5vh;
 		display: flex;
 		align-items: center;
+		vertical-align: middle;
 		img {
 			min-width: 18px;
 			max-width: 1.75vw;
@@ -288,10 +314,17 @@
 		margin: 1vh 1vw;
 		padding: 1.25vh 1vw;
 		font-size: $font2;
-		min-width: 50px;
+		min-width: 75px;
 		min-height: 45px;
 		width: 4vw;
 		height: 4vw;
+		img {
+			width: 4vw;
+			height: 4vw;
+			max-width: 4vw;
+			max-height: 4vw;
+			border-radius: $borderRadius1;
+		}
 		.gender-icon {
 			width: 2vw;
 			height: 2vw;
@@ -378,7 +411,15 @@
 
 	.gender-container {
 		.gender-box {
+			min-width: 50px;
 			font-size: $font1;
+			img {
+				width: 8vw;
+				height: 8vw;
+				max-width: 8vw;
+				max-height: 8vw;
+				border-radius: $borderRadius1;
+			}
 			.gender-icon {
 				width: 4vw;
 				height: 4vw;

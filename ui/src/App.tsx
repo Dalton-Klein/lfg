@@ -44,7 +44,16 @@ function App() {
 							<Route path='/blog' element={<BlogPage />} />
 							<Route path='/blog/how-to-find-great-rust-teammates' element={<BlogArticle1 />} />
 							<Route path='/blog/rocket-league-minecraft-support' element={<BlogArticle2 />} />
-							<Route path='/profile' element={<ProfilePage />} />
+							{/* Profile Paths */}
+							<Route path='/account-settings' element={<ProfilePage />} />
+							<Route path='/general-profile' element={<ProfilePage />} />
+							<Route path='/rust-profile' element={<ProfilePage />} />
+							<Route path='/rocket-league-profile' element={<ProfilePage />} />
+							<Route path='/messaging' element={<ProfilePage />} />
+							<Route path='/incoming-requests' element={<ProfilePage />} />
+							<Route path='/outgoing-requests' element={<ProfilePage />} />
+							<Route path='/blocked' element={<ProfilePage />} />
+							{/* Less Used Pages */}
 							<Route path='/help' element={<FAQPage />} />
 							<Route path='/login' element={<LoginPage />} />
 							<Route path='/privacy-policy' element={<PrivacyPolicyPage />} />

@@ -17,24 +17,29 @@ import SelectComponent from './selectComponent';
 import { languageOptions, regionOptions } from '../../utils/selectOptions';
 import ExpandedProfile from '../modal/expandedProfileComponent';
 import { Toast } from 'primereact/toast';
-import ProfileWidget from './profileWidget';
 import ReactTooltip from 'react-tooltip';
-import ProfileRust from './profileRust';
-import ProfileRocketLeague from './profileRocketLeague';
+import { useLocation } from 'react-router-dom';
+import GameTile from '../tiles/gameTile';
+import ProfileWidgetsContainer from './profileWidgetsContainer';
 
-export default function ProfileGeneral(props: any) {
+type Props = {
+	changeBanner: any;
+};
+
+export default function ProfileGeneral(props: Props) {
 	const dispatch = useDispatch();
 	const hiddenFileInput: any = React.useRef(null);
+	const profileWidgetsRef: any = React.useRef();
 	const userData = useSelector((state: RootState) => state.user.user);
+
+	// Location Variables
+	const locationPath: string = useLocation().pathname;
+
 	const [isUploadFormShown, setIsUploadFormShown] = useState<boolean>(false);
 	//View Profile
 	const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
 	//Profile Fields Form Tracking
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
-	//START WidgetData
-	const [connectionCount, setconnectionCount] = useState<number>(0);
-	const [genProfileComplete, setgenProfileComplete] = useState<any>(<> </>);
-	const [rustProfileComplete, setrustProfileComplete] = useState<any>(<> </>);
 	//END WidgetData
 	const [photoFile, setPhotoFile] = useState<File>({ name: '' } as File);
 	const [aboutText, setAboutText] = useState<string>('');
@@ -59,6 +64,16 @@ export default function ProfileGeneral(props: any) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	//Setup hook for when url changes to track what banner image should be
+	const pathname = window.location.pathname;
+	useEffect(() => {
+		//Gen profile needs this block to manually set image for the gen profile page
+		//Game profiles house seperate logic to change banner
+		if (pathname === '/general-profile') {
+			props.changeBanner('https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png');
+		}
+	}, [pathname]);
+
 	useEffect(() => {
 		languageRef.current.detectChangeFromParent(language);
 	}, [language]);
@@ -70,8 +85,6 @@ export default function ProfileGeneral(props: any) {
 	useEffect(() => {
 		//Having this logic in the user state use effect means it will await the dispatch to get the latest info. It is otherwise hard to await the dispatch
 		if (userData.email && userData.email !== '') {
-			setCompletenessWidget();
-			setconnectionCount(parseInt(userData.connection_count_sender) + parseInt(userData.connection_count_acceptor));
 			setAboutText(userData.about);
 			setAgeText(userData.age);
 			setGender(userData.gender);
@@ -97,27 +110,6 @@ export default function ProfileGeneral(props: any) {
 	// BEGIN Logic to load saved values to ui
 	const loadSavedInfo = () => {
 		dispatch(updateUserThunk(userData.id));
-	};
-	const setCompletenessWidget = async () => {
-		// ***When more games get rolled out, this will need to be modified***
-		//Check general completion
-		let completenessResult = await checkGeneralProfileCompletion(userData.id, '');
-		if (completenessResult.status === 'error') {
-			// If error start checking problem fields to determine what profiles incomplete
-			//Check for overlap in general fields
-			setgenProfileComplete(<i className='pi pi-times' />);
-		} else {
-			//If no error set all completeness to checked
-			setgenProfileComplete(<i className='pi pi-check-circle' />);
-		}
-		//Check rust completion
-		completenessResult = await checkRustProfileCompletion(userData.id, '');
-		if (completenessResult.status === 'error') {
-			setrustProfileComplete(<i className='pi pi-times' />);
-		} else {
-			setrustProfileComplete(<i className='pi pi-check-circle' />);
-		}
-		//Check for overlap in rust fields
 	};
 	// End Logic to load saved values to ui
 
@@ -222,7 +214,7 @@ export default function ProfileGeneral(props: any) {
 			detail: ``,
 			sticky: false,
 		});
-		setCompletenessWidget();
+		profileWidgetsRef.current.updateWidgets();
 	};
 
 	const deleteAccount = () => {
@@ -252,7 +244,10 @@ export default function ProfileGeneral(props: any) {
 			) : (
 				<></>
 			)}
-			<div className='submenu-container' style={{ display: props.submenuId === 1 ? 'inline-block' : 'none' }}>
+			<div
+				className='submenu-container'
+				style={{ display: locationPath === '/general-profile' ? 'inline-block' : 'none' }}
+			>
 				{/* EDIT PHTO MODAL */}
 				<div className={`edit-profile-form ${conditionalClass}`}>
 					<p>{'upload avatar'}</p>
@@ -277,11 +272,7 @@ export default function ProfileGeneral(props: any) {
 					</div>
 				</div>
 				{/* START Profile Widgets */}
-				<div className='widgets-container'>
-					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
-					<ProfileWidget value={genProfileComplete} label={'gen profile complete?'}></ProfileWidget>
-					<ProfileWidget value={rustProfileComplete} label={'rust profile complete?'}></ProfileWidget>
-				</div>
+				<ProfileWidgetsContainer ref={profileWidgetsRef}></ProfileWidgetsContainer>
 				<div className='gradient-bar'></div>
 				{/* END Profile Widgets */}
 				{/* AVATAR PHTO */}
@@ -313,7 +304,6 @@ export default function ProfileGeneral(props: any) {
 							data-for='avatarTip'
 						></img>
 					)}
-
 					<button
 						className='expand-button'
 						onClick={() => {
@@ -328,6 +318,22 @@ export default function ProfileGeneral(props: any) {
 				{/* DISPLAY NAME */}
 				<div className='banner-container-username'>
 					<div className='my-profile-text'>{userData.username ? userData.username : 'No user name...'}</div>
+				</div>
+				<div className='gradient-bar'></div>
+				{/* GAME PROFILE LINKS */}
+				<div className='game-profile-container'>
+					<GameTile
+						imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'}
+						routerLink={'/rust-profile'}
+						title={'rust profile'}
+						changeBanner={props.changeBanner}
+					></GameTile>
+					{/* <GameTile
+						imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'}
+						routerLink={'/rocket-league-profile'}
+						title={'rocket league profile'}
+						changeBanner={props.changeBanner}
+					></GameTile> */}
 				</div>
 				<div className='gradient-bar'></div>
 				{/* ABOUT */}
@@ -545,26 +551,14 @@ export default function ProfileGeneral(props: any) {
 				</div>
 				{/* END SAVE BOX */}
 			</div>
-			<ProfileRust
-				submenuId={props.submenuId}
-				hasUnsavedChanges={hasUnsavedChanges}
-				setHasUnsavedChanges={setHasUnsavedChanges}
-				setgenProfileComplete={setgenProfileComplete}
-			></ProfileRust>
-			<ProfileRocketLeague
-				submenuId={props.submenuId}
-				hasUnsavedChanges={hasUnsavedChanges}
-				setHasUnsavedChanges={setHasUnsavedChanges}
-				setgenProfileComplete={setgenProfileComplete}
-			></ProfileRocketLeague>
+
 			{/* START ACCOUNT SETTINGS */}
-			<div className='submenu-container' style={{ display: props.submenuId === 6 ? 'inline-block' : 'none' }}>
+			<div
+				className='submenu-container'
+				style={{ display: locationPath === '/account-settings' ? 'inline-block' : 'none' }}
+			>
 				{/* START Profile Widgets */}
-				<div className='widgets-container'>
-					<ProfileWidget value={connectionCount} label={'connections'}></ProfileWidget>
-					<ProfileWidget value={genProfileComplete} label={'gen profile completed?'}></ProfileWidget>
-					<ProfileWidget value={rustProfileComplete} label={'rust profile completed?'}></ProfileWidget>
-				</div>
+				<ProfileWidgetsContainer ref={profileWidgetsRef}></ProfileWidgetsContainer>
 				<div className='gradient-bar'></div>
 				{/* END Profile Widgets */}
 				<div className='banner-container'>

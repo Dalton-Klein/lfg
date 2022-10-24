@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './profilePage.scss';
 import ConnectionTile from '../tiles/connectionTile';
 import HeaderComponent from '../nav/headerComponent';
@@ -7,11 +7,14 @@ import { acceptConnectionRequest, getConnectionsForUser, getPendingConnectionsFo
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setPreferences } from '../../store/userPreferencesSlice';
-import { Menu } from 'primereact/menu';
 import 'primereact/resources/primereact.min.css';
 import Confetti from 'react-confetti';
 import ConversationTile from '../tiles/conversationTile';
 import Chat from '../myProfile/chat';
+import { useLocation } from 'react-router-dom';
+import BannerTitle from '../nav/banner-title';
+import ProfileRust from '../myProfile/profileRust';
+import ProfileRocketLeague from '../myProfile/profileRocketLeague';
 
 export default function ProfilePage() {
 	const rustChatObject = {
@@ -34,15 +37,26 @@ export default function ProfilePage() {
 	};
 	const dispatch = useDispatch();
 	const [selection, setSelection] = useState(1);
-	// 1: General Profile
-	// 2: Messagin
-	// 3: Incoming
-	// 4: Outgoing
-	// 5: Blocked
-	// 6: Account Settings
-	// 7: Rust Profile
-	// 8: Rocket League Profile
 
+	// Location Variables
+	const locationPath: string = useLocation().pathname;
+	const accountProfilePaths: string[] = ['/account-settings', '/general-profile'];
+	const gameProfilePaths: string[] = ['/rust-profile', '/rocket-league-profile'];
+	const menuTitleKey: any = {
+		'/general-profile': 'general profile',
+		'/messaging': 'messaging',
+		'/incoming-requests': 'incoming requests',
+		'/outgoing-requests': 'outgoing requests',
+		'/blocked': 'blocked',
+		'/account-settings': 'account settings',
+		'/rust-profile': 'rust profile',
+		'/rocket-league-profile': 'rocket league profile',
+	};
+	const menuTitle = menuTitleKey[locationPath];
+
+	const [bannerImageUrl, setbannerImageUrl] = useState<string>(
+		'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'
+	);
 	const [chatBox, setchatBox] = useState<any>(<></>);
 	const [currentConvo, setCurrentConvo] = useState<any>(rustChatObject);
 	const [connectionsResult, setconnectionsResult] = useState<any>([]);
@@ -50,7 +64,6 @@ export default function ProfilePage() {
 	const [incomingResult, setIncomingResult] = useState<any>([]);
 	const [blockedResult, setBlockedResult] = useState<any>([]);
 	const [isConfetti, setIsConfetti] = useState<any>(false);
-	const [submenuTitle, setSubmenuTitle] = useState<any>('');
 
 	const noResultsDiv = <div className='no-results-box'>nothing at the moment!</div>;
 	const preferencesState = useSelector((state: RootState) => state.preferences);
@@ -69,6 +82,10 @@ export default function ProfilePage() {
 		setChatboxContents();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentConvo]);
+
+	const changeBannerImage = (newuRL: string) => {
+		setbannerImageUrl(newuRL);
+	};
 
 	const setChatboxContents = () => {
 		setchatBox(<Chat {...currentConvo}></Chat>);
@@ -150,97 +167,17 @@ export default function ProfilePage() {
 	}, [preferencesState.lastProfileMenu]);
 
 	const changeSelection = (value: number) => {
-		const menuTitleKey: any = {
-			1: 'general profile',
-			2: 'messaging',
-			3: 'incoming requests',
-			4: 'outgoing requests',
-			5: 'blocked',
-			6: 'account settings',
-			7: 'rust profile',
-		};
-		setSubmenuTitle(menuTitleKey[value]);
-		setSelection(value);
-		dispatch(
-			setPreferences({
-				...preferencesState,
-				lastProfileMenu: value,
-			})
-		);
+		// setSelection(value);
+		// dispatch(
+		// 	setPreferences({
+		// 		...preferencesState,
+		// 		lastProfileMenu: value,
+		// 	})
+		// );
 	};
 	//END Nav logic
 	const width = 1920;
 	const height = 1080;
-
-	//BEGIN Nav Variables
-	const menu: any = useRef(null);
-	const navItems = [
-		{
-			label: 'profile',
-			items: [
-				{
-					label: 'general profile',
-					icon: 'pi pi-fw pi-user',
-					command: () => {
-						changeSelection(1);
-					},
-				},
-				{
-					label: 'rust profile',
-					icon: 'pi pi-fw pi-map',
-					command: () => {
-						changeSelection(7);
-					},
-				},
-				{
-					label: 'account settings',
-					icon: 'pi pi-fw pi-cog',
-					command: () => {
-						changeSelection(6);
-					},
-				},
-			],
-		},
-		{
-			label: 'messaging',
-			items: [
-				{
-					label: 'messaging',
-					icon: 'pi pi-fw pi-users',
-					command: () => {
-						changeSelection(2);
-					},
-				},
-			],
-		},
-		{
-			label: 'requests',
-			items: [
-				{
-					label: 'incoming',
-					icon: 'pi pi-fw pi-arrow-circle-up',
-					command: () => {
-						changeSelection(3);
-					},
-				},
-				{
-					label: 'outgoing',
-					icon: 'pi pi-fw pi-arrow-circle-down',
-					command: () => {
-						changeSelection(4);
-					},
-				},
-				{
-					label: 'blocked',
-					icon: 'pi pi-fw pi-ban',
-					command: () => {
-						changeSelection(5);
-					},
-				},
-			],
-		},
-	];
-	//END Nav Variables
 
 	return (
 		<div>
@@ -256,21 +193,26 @@ export default function ProfilePage() {
 				<></>
 			)}
 			<HeaderComponent></HeaderComponent>
+			{/* Title Section */}
+			<BannerTitle title={menuTitle} imageLink={bannerImageUrl}></BannerTitle>
+
+			{/* Game Profiles (Conditional) */}
+			<div className='content-container' style={{ display: gameProfilePaths.includes(locationPath) ? 'flex' : 'none' }}>
+				<div className='my-profile-containers'>
+					<ProfileRust locationPath={locationPath} changeBanner={changeBannerImage}></ProfileRust>
+					<ProfileRocketLeague locationPath={locationPath} changeBanner={changeBannerImage}></ProfileRocketLeague>
+				</div>
+			</div>
 			{/* MENU 1- My Prof */}
-			<div className='nav-menu'>
-				<Menu model={navItems} popup ref={menu} id='popup_menu' />
-				<button className='submenu-navigator' onClick={(event) => menu.current.toggle(event)}>
-					<i className='pi pi-bars' />
-				</button>
-				<h1 className='submenu-title'>{submenuTitle}</h1>
+			<div
+				className='content-container'
+				style={{ display: accountProfilePaths.includes(locationPath) ? 'flex' : 'none' }}
+			>
+				<ProfileGeneral changeBanner={changeBannerImage}></ProfileGeneral>
 			</div>
 
-			<div className='content-container' style={{ display: [1, 6, 7].includes(selection) ? 'flex' : 'none' }}>
-				<ProfileGeneral submenuId={selection}></ProfileGeneral>
-			</div>
-
-			{/* MENU 2- Connections/ Messaging */}
-			{selection === 2 ? (
+			{/* MENU 2- Connections || Messaging */}
+			{locationPath === '/messaging' ? (
 				<div className='content-container'>
 					<div className='chat-container'>
 						<div className='conversations-box'>
@@ -320,19 +262,19 @@ export default function ProfilePage() {
 				<></>
 			)}
 			{/* MENU 3- Incoming Connections */}
-			{selection === 3 ? (
+			{locationPath === '/incoming-requests' ? (
 				<div className='content-container'>{incomingResult.length > 0 ? incomingResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}
 			{/* MENU 4- Outgoing Connections */}
-			{selection === 4 ? (
+			{locationPath === '/outgoing-requests' ? (
 				<div className='content-container'>{outgoingResult.length > 0 ? outgoingResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}
 			{/* MENU 5- Blocked People */}
-			{selection === 5 ? (
+			{locationPath === '/blocked' ? (
 				<div className='content-container'>{blockedResult.length > 0 ? blockedResult : noResultsDiv}</div>
 			) : (
 				<></>
