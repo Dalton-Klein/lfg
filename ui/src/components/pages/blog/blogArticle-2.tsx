@@ -55,7 +55,10 @@ export default function BlogArticle2() {
 		<div>
 			<HeaderComponent></HeaderComponent>
 			<div className='article-master-container'>
-				<BannerTitle title={'rocket league & minecraft support'}></BannerTitle>
+				<BannerTitle
+					title={'rocket league & minecraft support'}
+					imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'}
+				></BannerTitle>
 				<div className='article-header-info'>
 					<h4 className='article-header-date'>updated 10/18/2022</h4>
 					<button

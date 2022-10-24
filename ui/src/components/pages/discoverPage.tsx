@@ -192,9 +192,12 @@ export default function DiscoverPage() {
 	return (
 		<div>
 			<HeaderComponent></HeaderComponent>
-			<BannerTitle title={'find rust players'}></BannerTitle>
+			<BannerTitle
+				title={'find rust players'}
+				imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'}
+			></BannerTitle>
 			<FilterBarComponent clearFiltersMethod={clearAllFiltersAndSorting}></FilterBarComponent>
-			<div className="feed">{tilesFeed}</div>
+			<div className='feed'>{tilesFeed}</div>
 			<FooterComponent></FooterComponent>
 		</div>
 	);

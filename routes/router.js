@@ -52,6 +52,7 @@ router.post('/general-profile-completion', publishController.checkGeneralProfile
 router.post('/rust-profile-completion', publishController.checkRustProfileCompletion);
 router.post('/rocket-league-profile-completion', publishController.checkRocketLeagueProfileCompletion);
 router.post('/publish-rust', publishController.checkIfUserCanPublishRustProfile);
+router.post('/publish-rocket-league', publishController.checkIfUserCanPublishRocketLeagueProfile);
 
 //TILES RELATED ROUTES
 router.post('/rust-tiles', tilesController.getRustTiles);

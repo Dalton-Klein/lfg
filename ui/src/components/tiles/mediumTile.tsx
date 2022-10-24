@@ -18,10 +18,10 @@ export default function MediumTile(props: Props) {
 	return (
 		// <article className="tile-box" style={{ backgroundImage: `url(${props.imageLink})` }}>
 		<article
-			className="tile-box"
+			className='tile-box'
 			onClick={() => {
 				if (props.routerLink === 'https://discord.gg/MMaYZ8bUQc') window.open(props.routerLink);
-				else if (props.routerLink === '/profile') {
+				else if (props.routerLink === '/general-profile') {
 					dispatch(
 						setPreferences({
 							...preferencesState,
@@ -32,8 +32,8 @@ export default function MediumTile(props: Props) {
 				} else navigate(`${props.routerLink}`);
 			}}
 		>
-			<div className="medium-gradient-overlay">
-				<h3 className="medium-title">{props.title}</h3>
+			<div className='medium-gradient-overlay'>
+				<h3 className='medium-title'>{props.title}</h3>
 				<i className={props.imageLink}></i>
 			</div>
 		</article>

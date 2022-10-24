@@ -69,7 +69,7 @@ export default function ProfileInlayComponet() {
 				items.push({
 					label: (
 						<div
-							className="notification-container"
+							className='notification-container'
 							onClick={() => {
 								notificationPressed(notif.type_id);
 							}}
@@ -77,8 +77,8 @@ export default function ProfileInlayComponet() {
 							{notif.other_user_avatar_url === '' ||
 							notif.other_user_avatar_url === '/assets/avatarIcon.png' ||
 							notif.other_user_avatar_url === null ? (
-								<div className="dynamic-avatar-border">
-									<div className="dynamic-avatar-text-small">
+								<div className='dynamic-avatar-border'>
+									<div className='dynamic-avatar-text-small'>
 										{notif.other_username === null
 											? 'gg'
 											: notif.other_username
@@ -90,14 +90,14 @@ export default function ProfileInlayComponet() {
 								</div>
 							) : (
 								<img
-									className="notification-profile-image"
+									className='notification-profile-image'
 									src={notif.other_user_avatar_url}
 									alt={`${notif.other_username}'s avatar`}
 								/>
 							)}
-							<div className="notification-username"> {notif.other_username}</div>
+							<div className='notification-username'> {notif.other_username}</div>
 							{actionPhrases[notif.type_id]}
-							<div className="notification-timestamp">{howLongAgo(notif.created_at)}</div>
+							<div className='notification-timestamp'>{howLongAgo(notif.created_at)}</div>
 						</div>
 					),
 				});
@@ -107,7 +107,7 @@ export default function ProfileInlayComponet() {
 			return [
 				{
 					label: (
-						<div className="notification-container" onClick={() => {}}>
+						<div className='notification-container' onClick={() => {}}>
 							no notifications yet!
 						</div>
 					),
@@ -118,31 +118,17 @@ export default function ProfileInlayComponet() {
 	//END SOCKET Functions
 
 	const notificationPressed = (notificationType: number) => {
+		let newUrl = '/general-profile';
 		//Decide between sub-sections of a url
 		if (notificationType === 1) {
-			dispatch(
-				setPreferences({
-					...preferencesState,
-					lastProfileMenu: 3,
-				})
-			);
+			newUrl = '/incoming-requests';
 		} else if (notificationType === 2 || notificationType === 3) {
-			dispatch(
-				setPreferences({
-					...preferencesState,
-					lastProfileMenu: 2,
-				})
-			);
+			newUrl = '/messaging';
 		} else if (notificationType === 4) {
-			dispatch(
-				setPreferences({
-					...preferencesState,
-					lastProfileMenu: 1,
-				})
-			);
+			newUrl = `/general-profile`;
 		}
 		// Navigates to dynamic url (new page)
-		navigate(`/profile`);
+		navigate(`${newUrl}`);
 	};
 
 	const toggleDrawer = () => {
@@ -150,31 +136,30 @@ export default function ProfileInlayComponet() {
 	};
 
 	return (
-		<div className="my-profile-overlay">
+		<div className='my-profile-overlay'>
 			{/* Conditionally render hamburger modal */}
 			{drawerVis ? <Backdrop toggleDrawer={toggleDrawer} /> : <></>}
 			{/* Conditionally render log in options or show profile info */}
 			{userState.email === '' ? (
-				<div className="my-profile-overlay-link prof-overlay-text" onClick={() => navigate('/login')}>
+				<div className='my-profile-overlay-link prof-overlay-text' onClick={() => navigate('/login')}>
 					Log In | Sign Up
 				</div>
 			) : (
-				<div className="my-profile-overlay-wrapper">
-					{/* <i onClick={() => navigate("/messages")} className="pi pi-comments " /> */}
-					<Menu model={renderNotifications()} popup ref={notifsMenu} id="popup_menu" />
+				<div className='my-profile-overlay-wrapper'>
+					<Menu model={renderNotifications()} popup ref={notifsMenu} id='popup_menu' />
 					<button
-						className="text-only-button notifications-button"
+						className='text-only-button notifications-button'
 						onClick={(event) => notifsMenu.current.toggle(event)}
 					>
-						<i className="pi pi-bell" />
+						<i className='pi pi-bell' />
 					</button>
-					<button className="text-only-button notifications-button" onClick={(event) => notificationPressed(3)}>
-						<i className="pi pi-envelope" />
+					<button className='text-only-button notifications-button' onClick={(event) => notificationPressed(3)}>
+						<i className='pi pi-envelope' />
 					</button>
-					<div className="my-profile-overlay-link">
+					<div className='my-profile-overlay-link'>
 						{profileImage === '' || profileImage === '/assets/avatarIcon.png' ? (
-							<div className="dynamic-avatar-border" onClick={toggleDrawer}>
-								<div className="dynamic-avatar-text-small">
+							<div className='dynamic-avatar-border' onClick={toggleDrawer}>
+								<div className='dynamic-avatar-text-small'>
 									{userState.username
 										? userState.username
 												.split(' ')
@@ -185,7 +170,7 @@ export default function ProfileInlayComponet() {
 								</div>
 							</div>
 						) : (
-							<img className="nav-overlay-img" onClick={toggleDrawer} src={profileImage} alt="my avatar" />
+							<img className='nav-overlay-img' onClick={toggleDrawer} src={profileImage} alt='my avatar' />
 						)}
 					</div>
 				</div>
