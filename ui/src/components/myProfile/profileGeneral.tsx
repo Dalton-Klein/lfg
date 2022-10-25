@@ -46,7 +46,7 @@ export default function ProfileGeneral(props: Props) {
 	const [ageText, setAgeText] = useState<number>(0);
 	const [gender, setGender] = useState<number>(0);
 	const [region, setRegion] = useState<any>({ label: 'region' });
-	const [language, setLanguage] = useState<any>({ label: 'language' });
+	const [language, setlanguage] = useState<any>({ label: 'language' });
 	const [platform, setPlatform] = useState<number>(0);
 	const [discord, setDiscord] = useState<string>('');
 	const [psn, setPSN] = useState<string>('');
@@ -61,6 +61,7 @@ export default function ProfileGeneral(props: Props) {
 
 	useEffect(() => {
 		loadSavedInfo();
+		props.changeBanner('https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -69,9 +70,7 @@ export default function ProfileGeneral(props: Props) {
 	useEffect(() => {
 		//Gen profile needs this block to manually set image for the gen profile page
 		//Game profiles house seperate logic to change banner
-		if (pathname === '/general-profile') {
-			props.changeBanner('https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png');
-		}
+		props.changeBanner('https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png');
 	}, [pathname]);
 
 	useEffect(() => {
@@ -88,7 +87,7 @@ export default function ProfileGeneral(props: Props) {
 			setAboutText(userData.about);
 			setAgeText(userData.age);
 			setGender(userData.gender);
-			setLanguage(
+			setlanguage(
 				userData.languages === ''
 					? { label: 'language' }
 					: languageOptions.find(({ label }) => label === userData.languages)
@@ -99,9 +98,9 @@ export default function ProfileGeneral(props: Props) {
 					: regionOptions.find(({ label }) => label === userData.region_name)
 			);
 			setPlatform(userData.preferred_platform);
-			setDiscord(userData.discord);
-			setPSN(userData.psn);
-			setXbox(userData.xbox);
+			setDiscord(!userData.discord ? '' : userData.discord);
+			setPSN(!userData.psn ? ' ' : userData.psn);
+			setXbox(!userData.xbox ? '' : userData.xbox);
 			setIsEmailNotifications(userData.is_email_notifications);
 			setIsEmailMarketing(userData.is_email_marketing);
 		}
@@ -157,7 +156,7 @@ export default function ProfileGeneral(props: Props) {
 
 	const changeLanguage = (selection: any) => {
 		if (!language || language.value !== selection.value) setHasUnsavedChanges(true);
-		setLanguage(selection);
+		setlanguage(selection);
 		return;
 	};
 
@@ -229,7 +228,7 @@ export default function ProfileGeneral(props: Props) {
 
 	const conditionalClass = isUploadFormShown ? 'conditionalZ2' : 'conditionalZ1';
 	return (
-		<div className='my-profile-containers'>
+		<div className='profile-master'>
 			<Toast ref={toast} />
 			{/* Conditionally render hamburger modal */}
 			{expandedProfileVis ? (
@@ -244,299 +243,291 @@ export default function ProfileGeneral(props: Props) {
 			) : (
 				<></>
 			)}
-			<div
-				className='submenu-container'
-				style={{ display: locationPath === '/general-profile' ? 'inline-block' : 'none' }}
-			>
-				{/* EDIT PHTO MODAL */}
-				<div className={`edit-profile-form ${conditionalClass}`}>
-					<p>{'upload avatar'}</p>
-					{
-						<div className='avatar-upload-form'>
-							<input
-								className='avatar-input'
-								type='file'
-								ref={hiddenFileInput}
-								style={{ display: 'none' }}
-								onChange={handleFileUpload}
-							></input>
-							<button onClick={chooseFileHandler} className='upload-form-btns'>
-								choose photo
-							</button>
-							<div className='photo-label'>{photoFile ? photoFile.name : ''}</div>
-						</div>
-					}
-					<div className='upload-form-btns'>
-						<button onClick={changeSubmitHandler}>save</button>
-						<button onClick={closeAvatar}>close</button>
+
+			{/* EDIT PHTO MODAL */}
+			<div className={`edit-profile-form ${conditionalClass}`}>
+				<p>{'upload avatar'}</p>
+				{
+					<div className='avatar-upload-form'>
+						<input
+							className='avatar-input'
+							type='file'
+							ref={hiddenFileInput}
+							style={{ display: 'none' }}
+							onChange={handleFileUpload}
+						></input>
+						<button onClick={chooseFileHandler} className='upload-form-btns'>
+							choose photo
+						</button>
+						<div className='photo-label'>{photoFile ? photoFile.name : ''}</div>
 					</div>
+				}
+				<div className='upload-form-btns'>
+					<button onClick={changeSubmitHandler}>save</button>
+					<button onClick={closeAvatar}>close</button>
 				</div>
-				{/* START Profile Widgets */}
-				<ProfileWidgetsContainer ref={profileWidgetsRef}></ProfileWidgetsContainer>
-				<div className='gradient-bar'></div>
-				{/* END Profile Widgets */}
-				{/* AVATAR PHTO */}
-				<div className='banner-container-top'>
-					{!userData.avatar_url || userData.avatar_url === '/assets/avatarIcon.png' ? (
-						<div
-							className='dynamic-avatar-bg'
-							onClick={() => startEditingAvatar('avatar_url')}
-							data-tip
-							data-for='avatarTip'
-						>
-							<div className='dynamic-avatar-text'>
-								{userData.username
-									? userData.username
-											.split(' ')
-											.map((word: string[]) => word[0])
-											.join('')
-											.slice(0, 2)
-									: 'gg'}
-							</div>
+			</div>
+			{/* AVATAR PHTO */}
+			<div className='banner-container-top'>
+				{!userData.avatar_url || userData.avatar_url === '/assets/avatarIcon.png' ? (
+					<div
+						className='dynamic-avatar-bg'
+						onClick={() => startEditingAvatar('avatar_url')}
+						data-tip
+						data-for='avatarTip'
+					>
+						<div className='dynamic-avatar-text'>
+							{userData.username
+								? userData.username
+										.split(' ')
+										.map((word: string[]) => word[0])
+										.join('')
+										.slice(0, 2)
+								: 'gg'}
 						</div>
-					) : (
-						<img
-							className='prof-banner-avatar'
-							src={userData.avatar_url}
-							alt='my-avatar'
-							onClick={() => startEditingAvatar('avatar_url')}
-							data-tip
-							data-for='avatarTip'
-						></img>
-					)}
-					<button
-						className='expand-button'
+					</div>
+				) : (
+					<img
+						className='prof-banner-avatar'
+						src={userData.avatar_url}
+						alt='my-avatar'
+						onClick={() => startEditingAvatar('avatar_url')}
+						data-tip
+						data-for='avatarTip'
+					></img>
+				)}
+				<button
+					className='expand-button'
+					onClick={() => {
+						toggleExpandedProfile();
+					}}
+				>
+					<i className='pi pi-plus' />
+					&nbsp; view my profile
+				</button>
+			</div>
+			<div className='gradient-bar'></div>
+			{/* DISPLAY NAME */}
+			<div className='banner-container-username'>
+				<div className='my-profile-text'>{userData.username ? userData.username : 'No user name...'}</div>
+			</div>
+			<div className='gradient-bar'></div>
+			{/* GAME PROFILE LINKS */}
+			<div className='game-profile-container'>
+				<GameTile
+					imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'}
+					routerLink={'/rust-profile'}
+					title={'rust profile'}
+					changeBanner={props.changeBanner}
+				></GameTile>
+				<GameTile
+					imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'}
+					routerLink={'/rocket-league-profile'}
+					title={'rocket league profile'}
+					changeBanner={props.changeBanner}
+				></GameTile>
+			</div>
+			<div className='gradient-bar'></div>
+			{/* ABOUT */}
+			<div className='banner-container'>
+				<div className='prof-banner-detail-text'>about</div>
+				<input
+					onChange={(event) => {
+						setAboutText(event.target.value);
+						setHasUnsavedChanges(true);
+					}}
+					value={aboutText ? aboutText : ''}
+					type='text'
+					className='input-box'
+					placeholder={userData.about && userData.about !== null && userData.about !== '' ? userData.about : 'blank'}
+				></input>
+			</div>
+			<div className='gradient-bar'></div>
+			{/* END ABOUT */}
+			{/* AGE */}
+			<div className='banner-container'>
+				<div className='prof-banner-detail-text'>age</div>
+				<input
+					onChange={(event) => {
+						setAgeText(parseInt(event.target.value));
+						setHasUnsavedChanges(true);
+					}}
+					value={ageText ? ageText : ''}
+					type='number'
+					className='input-box'
+					placeholder={userData.age && userData.age !== null && userData.age !== '' ? userData.age : 'blank'}
+				></input>
+			</div>
+			<div className='gradient-bar'></div>
+			{/* END AGE */}
+			{/* GENDER */}
+			<div className='banner-container'>
+				<div className='prof-banner-detail-text'>gender</div>
+				<div className='banner-change-box'></div>
+				<div className='gender-container'>
+					<div
+						className={`gender-box ${gender === 1 ? 'box-selected' : ''}`}
 						onClick={() => {
-							toggleExpandedProfile();
+							changeSelectedGender(1);
 						}}
 					>
-						<i className='pi pi-plus' />
-						&nbsp; view my profile
-					</button>
+						<img className='gender-icon' src={'/assets/gender-icon-male.png'} alt='male gender'></img>
+						<div className='box-text'>m</div>
+					</div>
+					<div
+						className={`gender-box ${gender === 2 ? 'box-selected' : ''}`}
+						onClick={() => {
+							changeSelectedGender(2);
+						}}
+					>
+						<img className='gender-icon' src={'/assets/gender-icon-female.png'} alt='female gender'></img>
+						<div className='box-text'>f</div>
+					</div>
+					<div
+						className={`gender-box ${gender === 3 ? 'box-selected' : ''}`}
+						onClick={() => {
+							changeSelectedGender(3);
+						}}
+					>
+						<img className='gender-icon' src={'/assets/gender-icon-non-binary.png'} alt='non-binary gender'></img>
+						<div className='box-text'>nb</div>
+					</div>
 				</div>
-				<div className='gradient-bar'></div>
-				{/* DISPLAY NAME */}
-				<div className='banner-container-username'>
-					<div className='my-profile-text'>{userData.username ? userData.username : 'No user name...'}</div>
+			</div>
+			<div className='gradient-bar'></div>
+			{/* END GENDER */}
+			{/* REGION */}
+			<div className='banner-container'>
+				<div className='prof-banner-detail-text'>region</div>
+				<div className='select-container'>
+					<SelectComponent
+						publicMethods={regionRef}
+						title='region'
+						options={regionOptions}
+						multi={false}
+						setSelection={changeRegion}
+						selection={region}
+					></SelectComponent>
 				</div>
-				<div className='gradient-bar'></div>
-				{/* GAME PROFILE LINKS */}
-				<div className='game-profile-container'>
-					<GameTile
-						imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'}
-						routerLink={'/rust-profile'}
-						title={'rust profile'}
-						changeBanner={props.changeBanner}
-					></GameTile>
-					{/* <GameTile
-						imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'}
-						routerLink={'/rocket-league-profile'}
-						title={'rocket league profile'}
-						changeBanner={props.changeBanner}
-					></GameTile> */}
+			</div>
+			<div className='gradient-bar'></div>
+			{/* END REGION */}
+			{/* LANGUAGE */}
+			<div className='banner-container'>
+				<div className='prof-banner-detail-text' data-tip data-for='languageTip'>
+					language
 				</div>
-				<div className='gradient-bar'></div>
-				{/* ABOUT */}
+				<div className='select-container'>
+					<SelectComponent
+						publicMethods={languageRef}
+						title='language'
+						options={languageOptions}
+						multi={false}
+						setSelection={changeLanguage}
+						selection={language}
+					></SelectComponent>
+				</div>
+			</div>
+			<div className='gradient-bar'></div>
+			{/* END LANGUAGE */}
+			{/* PLATFORM */}
+			<div className='banner-container'>
+				<div className='prof-banner-detail-text' data-tip data-for='platformTip'>
+					platform
+				</div>
+				<div className='gender-container'>
+					<div
+						className={`gender-box ${platform === 1 ? 'box-selected' : ''}`}
+						onClick={() => {
+							changeSelectedPlatform(1);
+						}}
+					>
+						<img className='gender-icon' src={'/assets/discord-logo-small.png'} alt='discord selector'></img>
+					</div>
+					<div
+						className={`gender-box ${platform === 2 ? 'box-selected' : ''}`}
+						onClick={() => {
+							changeSelectedPlatform(2);
+						}}
+					>
+						<img className='gender-icon' src={'/assets/psn-logo-small.png'} alt='psn selector'></img>
+					</div>
+					<div
+						className={`gender-box ${platform === 3 ? 'box-selected' : ''}`}
+						onClick={() => {
+							changeSelectedPlatform(3);
+						}}
+					>
+						<img className='gender-icon' src={'/assets/xbox-logo-small.png'} alt='xbox selector'></img>
+					</div>
+				</div>
+			</div>
+			<div className='gradient-bar'></div>
+			{/* END PLATFORM */}
+			{/* DISCORD */}
+			{platform === 1 ? (
 				<div className='banner-container'>
-					<div className='prof-banner-detail-text'>about</div>
+					<div className='prof-banner-detail-text'>discord name</div>
 					<input
 						onChange={(event) => {
-							setAboutText(event.target.value);
+							setDiscord(event.target.value);
 							setHasUnsavedChanges(true);
 						}}
-						value={aboutText ? aboutText : ''}
+						value={discord ? discord : ''}
 						type='text'
 						className='input-box'
-						placeholder={userData.about && userData.about !== null && userData.about !== '' ? userData.about : 'blank'}
+						placeholder={userData.discord ? userData.discord : 'blank'}
 					></input>
 				</div>
-				<div className='gradient-bar'></div>
-				{/* END ABOUT */}
-				{/* AGE */}
+			) : (
+				<></>
+			)}
+			{/* END DISCORD */}
+			{/* PLAYSTATION */}
+			{platform === 2 ? (
 				<div className='banner-container'>
-					<div className='prof-banner-detail-text'>age</div>
+					<div className='prof-banner-detail-text'>psn name</div>
 					<input
 						onChange={(event) => {
-							setAgeText(parseInt(event.target.value));
+							setPSN(event.target.value);
 							setHasUnsavedChanges(true);
 						}}
-						value={ageText ? ageText : ''}
-						type='number'
+						value={psn ? psn : ''}
+						type='text'
 						className='input-box'
-						placeholder={userData.age && userData.age !== null && userData.age !== '' ? userData.age : 'blank'}
+						placeholder={userData.psn ? userData.psn : 'blank'}
 					></input>
 				</div>
-				<div className='gradient-bar'></div>
-				{/* END AGE */}
-				{/* GENDER */}
+			) : (
+				<></>
+			)}
+			{/* END PLAYSTATION */}
+			{/* XBOX */}
+			{platform === 3 ? (
 				<div className='banner-container'>
-					<div className='prof-banner-detail-text'>gender</div>
-					<div className='banner-change-box'></div>
-					<div className='gender-container'>
-						<div
-							className={`gender-box ${gender === 1 ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeSelectedGender(1);
-							}}
-						>
-							<img className='gender-icon' src={'/assets/gender-icon-male.png'} alt='male gender'></img>
-							<div className='box-text'>m</div>
-						</div>
-						<div
-							className={`gender-box ${gender === 2 ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeSelectedGender(2);
-							}}
-						>
-							<img className='gender-icon' src={'/assets/gender-icon-female.png'} alt='female gender'></img>
-							<div className='box-text'>f</div>
-						</div>
-						<div
-							className={`gender-box ${gender === 3 ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeSelectedGender(3);
-							}}
-						>
-							<img className='gender-icon' src={'/assets/gender-icon-non-binary.png'} alt='non-binary gender'></img>
-							<div className='box-text'>nb</div>
-						</div>
-					</div>
+					<div className='prof-banner-detail-text'>xbox name</div>
+					<input
+						onChange={(event) => {
+							setXbox(event.target.value);
+							setHasUnsavedChanges(true);
+						}}
+						value={xbox ? xbox : ''}
+						type='text'
+						className='input-box'
+						placeholder={userData.xbox ? userData.xbox : 'blank'}
+					></input>
 				</div>
-				<div className='gradient-bar'></div>
-				{/* END GENDER */}
-				{/* REGION */}
-				<div className='banner-container'>
-					<div className='prof-banner-detail-text'>region</div>
-					<div className='select-container'>
-						<SelectComponent
-							publicMethods={regionRef}
-							title='region'
-							options={regionOptions}
-							multi={false}
-							setSelection={changeRegion}
-							selection={region}
-						></SelectComponent>
-					</div>
-				</div>
-				<div className='gradient-bar'></div>
-				{/* END REGION */}
-				{/* LANGUAGE */}
-				<div className='banner-container'>
-					<div className='prof-banner-detail-text' data-tip data-for='languageTip'>
-						language
-					</div>
-					<div className='select-container'>
-						<SelectComponent
-							publicMethods={languageRef}
-							title='language'
-							options={languageOptions}
-							multi={false}
-							setSelection={changeLanguage}
-							selection={language}
-						></SelectComponent>
-					</div>
-				</div>
-				<div className='gradient-bar'></div>
-				{/* END LANGUAGE */}
-				{/* PLATFORM */}
-				<div className='banner-container'>
-					<div className='prof-banner-detail-text' data-tip data-for='platformTip'>
-						platform
-					</div>
-					<div className='gender-container'>
-						<div
-							className={`gender-box ${platform === 1 ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeSelectedPlatform(1);
-							}}
-						>
-							<img className='gender-icon' src={'/assets/discord-logo-small.png'} alt='discord selector'></img>
-						</div>
-						<div
-							className={`gender-box ${platform === 2 ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeSelectedPlatform(2);
-							}}
-						>
-							<img className='gender-icon' src={'/assets/psn-logo-small.png'} alt='psn selector'></img>
-						</div>
-						<div
-							className={`gender-box ${platform === 3 ? 'box-selected' : ''}`}
-							onClick={() => {
-								changeSelectedPlatform(3);
-							}}
-						>
-							<img className='gender-icon' src={'/assets/xbox-logo-small.png'} alt='xbox selector'></img>
-						</div>
-					</div>
-				</div>
-				<div className='gradient-bar'></div>
-				{/* END PLATFORM */}
-				{/* DISCORD */}
-				{platform === 1 ? (
-					<div className='banner-container'>
-						<div className='prof-banner-detail-text'>discord name</div>
-						<input
-							onChange={(event) => {
-								setDiscord(event.target.value);
-								setHasUnsavedChanges(true);
-							}}
-							value={discord ? discord : ''}
-							type='text'
-							className='input-box'
-							placeholder={userData.discord ? userData.discord : 'blank'}
-						></input>
-					</div>
-				) : (
-					<></>
-				)}
-				{/* END DISCORD */}
-				{/* PLAYSTATION */}
-				{platform === 2 ? (
-					<div className='banner-container'>
-						<div className='prof-banner-detail-text'>psn name</div>
-						<input
-							onChange={(event) => {
-								setPSN(event.target.value);
-								setHasUnsavedChanges(true);
-							}}
-							value={psn ? psn : ''}
-							type='text'
-							className='input-box'
-							placeholder={userData.psn ? userData.psn : 'blank'}
-						></input>
-					</div>
-				) : (
-					<></>
-				)}
-				{/* END PLAYSTATION */}
-				{/* XBOX */}
-				{platform === 3 ? (
-					<div className='banner-container'>
-						<div className='prof-banner-detail-text'>xbox name</div>
-						<input
-							onChange={(event) => {
-								setXbox(event.target.value);
-								setHasUnsavedChanges(true);
-							}}
-							value={xbox ? xbox : ''}
-							type='text'
-							className='input-box'
-							placeholder={userData.xbox ? userData.xbox : 'blank'}
-						></input>
-					</div>
-				) : (
-					<></>
-				)}
-				{/* END XBOX */}
-				{/* START SAVE BOX */}
-				<div className='save-box'>
-					<button className='save-button' disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
-						save
-					</button>
-				</div>
-				{/* END SAVE BOX */}
+			) : (
+				<></>
+			)}
+			{/* END XBOX */}
+			{/* START SAVE BOX */}
+			<div className='save-box'>
+				<button className='save-button' disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
+					save
+				</button>
 			</div>
+			{/* END SAVE BOX */}
 
 			{/* START ACCOUNT SETTINGS */}
 			<div

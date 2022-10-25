@@ -4,17 +4,17 @@ import ConnectionTile from '../tiles/connectionTile';
 import HeaderComponent from '../nav/headerComponent';
 import ProfileGeneral from '../myProfile/profileGeneral';
 import { acceptConnectionRequest, getConnectionsForUser, getPendingConnectionsForUser } from '../../utils/rest';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { setPreferences } from '../../store/userPreferencesSlice';
 import 'primereact/resources/primereact.min.css';
 import Confetti from 'react-confetti';
 import ConversationTile from '../tiles/conversationTile';
 import Chat from '../myProfile/chat';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import BannerTitle from '../nav/banner-title';
 import ProfileRust from '../myProfile/profileRust';
 import ProfileRocketLeague from '../myProfile/profileRocketLeague';
+import ProfileWidgetsContainer from '../myProfile/profileWidgetsContainer';
 
 export default function ProfilePage() {
 	const rustChatObject = {
@@ -35,8 +35,8 @@ export default function ProfilePage() {
 		avatar_url: 'https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png',
 		isPublicChat: 'true',
 	};
-	const dispatch = useDispatch();
-	const [selection, setSelection] = useState(1);
+	const navigate = useNavigate();
+	const profileWidgetsRef: any = React.useRef();
 
 	// Location Variables
 	const locationPath: string = useLocation().pathname;
@@ -196,19 +196,55 @@ export default function ProfilePage() {
 			{/* Title Section */}
 			<BannerTitle title={menuTitle} imageLink={bannerImageUrl}></BannerTitle>
 
-			{/* Game Profiles (Conditional) */}
-			<div className='content-container' style={{ display: gameProfilePaths.includes(locationPath) ? 'flex' : 'none' }}>
-				<div className='my-profile-containers'>
-					<ProfileRust locationPath={locationPath} changeBanner={changeBannerImage}></ProfileRust>
-					<ProfileRocketLeague locationPath={locationPath} changeBanner={changeBannerImage}></ProfileRocketLeague>
+			<div className='my-profile-containers'>
+				{/* Conditionally render hamburger modal */}
+
+				<div className='submenu-container'>
+					{/* START CONDITIONAL BACK BUTTON */}
+					<div
+						className='back-container'
+						style={{ display: gameProfilePaths.includes(locationPath) ? 'flex' : 'none' }}
+					>
+						<button
+							className='back-button'
+							onClick={() => {
+								navigate('/general-profile');
+							}}
+						>
+							&nbsp; back to general profile
+						</button>
+					</div>
+					{/* END CONDITIONAL BACK BUTTON */}
+					{/* START Profile Widgets */}
+					<ProfileWidgetsContainer ref={profileWidgetsRef}></ProfileWidgetsContainer>
+					<div className='gradient-bar'></div>
+					{/* END Profile Widgets */}
+					{/* Game Profiles (Conditional) */}
+					{locationPath === '/rust-profile' ? (
+						<ProfileRust
+							locationPath={locationPath}
+							changeBanner={changeBannerImage}
+							widgetsRef={profileWidgetsRef}
+						></ProfileRust>
+					) : (
+						<> </>
+					)}
+					{locationPath === '/rocket-league-profile' ? (
+						<ProfileRocketLeague
+							locationPath={locationPath}
+							changeBanner={changeBannerImage}
+							widgetsRef={profileWidgetsRef}
+						></ProfileRocketLeague>
+					) : (
+						<> </>
+					)}
+					{accountProfilePaths.includes(locationPath) ? (
+						<ProfileGeneral changeBanner={changeBannerImage}></ProfileGeneral>
+					) : (
+						<> </>
+					)}
+					{/* MENU 1- My Prof */}
 				</div>
-			</div>
-			{/* MENU 1- My Prof */}
-			<div
-				className='content-container'
-				style={{ display: accountProfilePaths.includes(locationPath) ? 'flex' : 'none' }}
-			>
-				<ProfileGeneral changeBanner={changeBannerImage}></ProfileGeneral>
 			</div>
 
 			{/* MENU 2- Connections || Messaging */}
