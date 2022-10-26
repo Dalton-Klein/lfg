@@ -3,16 +3,13 @@ import HeaderComponent from '../../nav/headerComponent';
 import './blogArticle.scss';
 import { useNavigate } from 'react-router-dom';
 import BannerTitle from '../../nav/banner-title';
-import { useDispatch, useSelector } from 'react-redux';
-import { setPreferences } from '../../../store/userPreferencesSlice';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import React, { useEffect, useState } from 'react';
 import MediumTile from '../../tiles/mediumTile';
 
 export default function BlogArticle2() {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
-	const preferencesState = useSelector((state: RootState) => state.preferences);
 	const userState = useSelector((state: RootState) => state.user.user);
 
 	const [conditionalAuthTile, setconditionalAuthTile] = useState<any>(true);
@@ -27,29 +24,6 @@ export default function BlogArticle2() {
 		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-	const changeSelection = (value: number) => {
-		const menuLinkKey: any = {
-			1: 'profile',
-			2: 'profile',
-			3: 'profile',
-			4: 'profile',
-			5: 'profile',
-			6: 'profile',
-			7: 'profile',
-			8: 'discover',
-			9: 'login',
-		};
-		if (value < 8) {
-			dispatch(
-				setPreferences({
-					...preferencesState,
-					lastProfileMenu: value,
-				})
-			);
-		}
-		navigate(`/${menuLinkKey[value]}`);
-	};
 
 	return (
 		<div>

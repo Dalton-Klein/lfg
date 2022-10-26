@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import './profileInlayComponent.scss';
 import { useNavigate } from 'react-router-dom';
 import Backdrop from '../modal/backdropComponent';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { setPreferences } from '../../store/userPreferencesSlice';
 import { Menu } from 'primereact/menu';
 import * as io from 'socket.io-client';
 import { howLongAgo } from '../../utils/helperFunctions';
@@ -14,12 +13,9 @@ const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://lo
 export default function ProfileInlayComponet() {
 	const navigate = useNavigate();
 	const userState = useSelector((state: RootState) => state.user.user);
-	const preferencesState = useSelector((state: RootState) => state.preferences);
 	const [drawerVis, setDrawerVis] = useState<boolean>(false);
 	const [profileImage, setProfileImage] = useState<string>('');
 	const [notifications, setnotifications] = useState<any>([]);
-
-	const dispatch = useDispatch();
 
 	const notifsMenu: any = useRef(null);
 	useEffect(() => {

@@ -1,8 +1,8 @@
-import "./selectComponent.scss";
-import "primeicons/primeicons.css";
-import makeAnimated from "react-select/animated";
-import { useEffect, useState } from "react";
-import Select from "react-select";
+import './selectComponent.scss';
+import 'primeicons/primeicons.css';
+import makeAnimated from 'react-select/animated';
+import { useEffect, useState } from 'react';
+import Select from 'react-select';
 
 const animatedComponents = makeAnimated();
 interface props {
@@ -18,12 +18,12 @@ const style = {
   control: (base: any) => ({
     ...base,
     // This line disables the default blue border in react-select
-    boxShadow: "none",
+    boxShadow: 'none',
   }),
 };
 
 const SelectComponent = (props: props) => {
-  const [selected, setSelected] = useState<any>();
+  const [selected, setSelected] = useState<any>({ label: '' });
 
   useEffect(() => {
     props.publicMethods.current = {
@@ -41,15 +41,15 @@ const SelectComponent = (props: props) => {
   };
 
   return (
-    <div className=" container">
+    <div className=' container'>
       {props.multi ? (
         <Select
           name={props.title}
           value={selected || { value: props.title, label: props.title }}
           components={animatedComponents}
           options={props.options}
-          className="react-select-container"
-          classNamePrefix="react-select"
+          className='react-select-container'
+          classNamePrefix='react-select'
           isClearable={false}
           isSearchable={false}
           styles={style}
@@ -61,8 +61,8 @@ const SelectComponent = (props: props) => {
           name={props.title}
           components={animatedComponents}
           options={props.options}
-          className="react-select-container"
-          classNamePrefix="react-select"
+          className='react-select-container'
+          classNamePrefix='react-select'
           value={selected || { value: props.title, label: props.title }}
           isClearable={false}
           isSearchable={false}
