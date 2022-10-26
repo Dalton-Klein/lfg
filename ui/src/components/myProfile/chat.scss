@@ -1,195 +1,195 @@
 @import '../../styling/config';
 
 .messages-box {
-	min-width: 85vw;
-	min-height: 80vh;
-	.messages-title-container {
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		margin-bottom: 1vh;
-		.conversation-profile-image {
-			min-width: 3.5vw;
-			max-width: 3.5vw;
-			min-height: 3.5vw;
-			max-height: 3.5vw;
-			border-radius: calc(3.5vw / 2);
-			transition: $transition1;
-			cursor: pointer;
-		}
-		.dynamic-conversation-border {
-			@extend .conversation-profile-image;
-			background-color: $colorShadowLight;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			cursor: pointer;
-			.dynamic-conversation-text-small {
-				font-size: $font4;
-			}
-		}
-		.conversation-profile-image:hover {
-			transform: scale(1.05);
-		}
-		.dynamic-conversation-border:hover {
-			transform: scale(1.05);
-		}
+  min-width: 85vw;
+  min-height: 75vh;
+  .messages-title-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 1vh;
+    .conversation-profile-image {
+      min-width: 3.5vw;
+      max-width: 3.5vw;
+      min-height: 3.5vw;
+      max-height: 3.5vw;
+      border-radius: calc(3.5vw / 2);
+      transition: $transition1;
+      cursor: pointer;
+    }
+    .dynamic-conversation-border {
+      @extend .conversation-profile-image;
+      background-color: $colorShadowLight;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      .dynamic-conversation-text-small {
+        font-size: $font4;
+      }
+    }
+    .conversation-profile-image:hover {
+      transform: scale(1.05);
+    }
+    .dynamic-conversation-border:hover {
+      transform: scale(1.05);
+    }
 
-		.messages-title-text {
-			font-size: $font3;
-			font-weight: 1000;
-		}
+    .messages-title-text {
+      font-size: $font3;
+      font-weight: 1000;
+    }
 
-		.stackable-container-right {
-			.messaging-platform-box {
-				cursor: pointer;
-				background-color: $colorGreyBg;
-				border-radius: $borderRadius1;
-				margin: 0 0.5vw;
-				.connection-platform-image {
-					min-width: 2.5vw;
-					min-height: 2.5vw;
-					max-width: 2.5vw;
-					max-height: 2.5vw;
-				}
-			}
-		}
+    .stackable-container-right {
+      .messaging-platform-box {
+        cursor: pointer;
+        background-color: $colorGreyBg;
+        border-radius: $borderRadius1;
+        margin: 0 0.5vw;
+        .connection-platform-image {
+          min-width: 2.5vw;
+          min-height: 2.5vw;
+          max-width: 2.5vw;
+          max-height: 2.5vw;
+        }
+      }
+    }
 
-		.options-button:hover {
-			color: $colorButtonHover;
-			background-color: $colorGreyHover;
-		}
+    .options-button:hover {
+      color: $colorButtonHover;
+      background-color: $colorGreyHover;
+    }
 
-		.options-button {
-			margin: 0 0;
-			background-color: rgba(205, 92, 92, 0);
-		}
-	}
-	.render-chat {
-		padding-top: 2vh;
-		padding-left: 2vw;
-		padding-right: 2vw;
-		overflow: scroll;
-		min-height: 64vh;
-		max-height: 64vh;
+    .options-button {
+      margin: 0 0;
+      background-color: rgba(205, 92, 92, 0);
+    }
+  }
+  .render-chat {
+    padding-top: 2vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    overflow: scroll;
+    min-height: 61vh;
+    max-height: 61vh;
 
-		.message-bubble {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: flex-start;
-			padding: 1vh 1vw;
-			margin: 1vh 0;
-			.message-sender-box {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				margin-bottom: 1vh;
-				.message-sender-name {
-					font-size: $font2;
-					color: $colorPrimary;
-					margin: 0 1vw;
-				}
-				.message-timestamp {
-					font-size: $font1;
-					color: $colorTextAlt;
-					margin: 0 1vw;
-				}
-			}
-			.message-content {
-				font-size: $font2;
-				margin: 0 1vw;
-			}
-		}
-		.message-border-owner {
-			border-radius: $borderRadius1;
-			margin-left: 3vw;
-			background-color: $colorGreyPop;
-		}
-		.message-border-non-owner {
-			border-radius: $borderRadius1;
-			margin-right: 3vw;
-			background-color: $colorPrimaryDarker;
-		}
-	}
-	.message-form {
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		margin: 0 2vw;
-		.messaging-input {
-			min-width: 85%;
-			min-height: 35px;
-			height: 80%;
-		}
-		button {
-			margin-left: 1vw;
-		}
-	}
+    .message-bubble {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1vh 1vw;
+      margin: 1vh 0;
+      .message-sender-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1vh;
+        .message-sender-name {
+          font-size: $font2;
+          color: $colorPrimary;
+          margin: 0 1vw;
+        }
+        .message-timestamp {
+          font-size: $font1;
+          color: $colorTextAlt;
+          margin: 0 1vw;
+        }
+      }
+      .message-content {
+        font-size: $font2;
+        margin: 0 1vw;
+      }
+    }
+    .message-border-owner {
+      border-radius: $borderRadius1;
+      margin-left: 3vw;
+      background-color: $colorGreyPop;
+    }
+    .message-border-non-owner {
+      border-radius: $borderRadius1;
+      margin-right: 3vw;
+      background-color: $colorPrimaryDarker;
+    }
+  }
+  .message-form {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 2vw;
+    .messaging-input {
+      min-width: 85%;
+      min-height: 35px;
+      height: 80%;
+    }
+    button {
+      margin-left: 1vw;
+    }
+  }
 }
 
 @media screen and (max-height: 800px) {
-	.messages-box {
-		min-height: 75vh;
-		.render-chat {
-			min-height: 57vh;
-			max-height: 57vh;
-		}
-	}
+  .messages-box {
+    min-height: 75vh;
+    .render-chat {
+      min-height: 57vh;
+      max-height: 57vh;
+    }
+  }
 }
 @media screen and (max-height: 550px) {
-	.messages-box {
-		min-height: 73vh;
-		.render-chat {
-			min-height: 49vh;
-			max-height: 49vh;
-		}
-	}
+  .messages-box {
+    min-height: 73vh;
+    .render-chat {
+      min-height: 49vh;
+      max-height: 49vh;
+    }
+  }
 }
 
 @media screen and (max-width: $screenBreak1) {
-	.messages-box {
-		.messages-title-container {
-			.conversation-profile-image {
-				min-width: 5.5vw;
-				max-width: 5.5vw;
-				min-height: 5.5vw;
-				max-height: 5.5vw;
-				border-radius: calc(5.5vw / 2);
-			}
-			.stackable-container-right {
-				.messaging-platform-box {
-					.connection-platform-image {
-						min-width: 4vw;
-						min-height: 4vw;
-					}
-				}
-			}
-		}
-	}
+  .messages-box {
+    .messages-title-container {
+      .conversation-profile-image {
+        min-width: 5.5vw;
+        max-width: 5.5vw;
+        min-height: 5.5vw;
+        max-height: 5.5vw;
+        border-radius: calc(5.5vw / 2);
+      }
+      .stackable-container-right {
+        .messaging-platform-box {
+          .connection-platform-image {
+            min-width: 4vw;
+            min-height: 4vw;
+          }
+        }
+      }
+    }
+  }
 }
 @media screen and (max-width: $screenBreak2) {
-	.messages-box {
-		.messages-title-container {
-			.conversation-profile-image {
-				min-width: 10vw;
-				max-width: 10vw;
-				min-height: 10vw;
-				max-height: 10vw;
-				border-radius: calc(10vw / 2);
-			}
-			.stackable-container-right {
-				.messaging-platform-box {
-					.connection-platform-image {
-						min-width: 5vw;
-						min-height: 5vw;
-					}
-				}
-			}
-		}
+  .messages-box {
+    .messages-title-container {
+      .conversation-profile-image {
+        min-width: 10vw;
+        max-width: 10vw;
+        min-height: 10vw;
+        max-height: 10vw;
+        border-radius: calc(10vw / 2);
+      }
+      .stackable-container-right {
+        .messaging-platform-box {
+          .connection-platform-image {
+            min-width: 5vw;
+            min-height: 5vw;
+          }
+        }
+      }
+    }
 
-		.messaging-input {
-			min-width: 75% !important;
-		}
-	}
+    .messaging-input {
+      min-width: 75% !important;
+    }
+  }
 }

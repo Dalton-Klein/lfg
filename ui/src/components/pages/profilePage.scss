@@ -1,11 +1,13 @@
 @import '../../styling/config';
 
-.content-container {
+.messaging-container {
+  min-height: 75vh;
+  max-height: 75vh;
   .chat-container {
     display: flex;
     justify-content: space-between;
-    min-height: 80vh;
-    max-height: 80vh;
+    min-height: 75vh;
+    max-height: 75vh;
     .conversations-box {
       display: flex;
       flex-direction: column;
@@ -13,6 +15,9 @@
       justify-content: flex-start;
       min-width: 15vw;
       max-width: 15vw;
+      min-height: 75vh;
+      max-height: 75vh;
+      overflow-y: scroll;
       .gradient-bar {
         min-width: 80%;
         min-height: 1px;
@@ -144,7 +149,7 @@
 }
 
 @media screen and (max-height: 800px) {
-  .content-container {
+  .messaging-container {
     min-height: 75vh;
     .chat-container {
       min-height: 75vh;
@@ -154,7 +159,7 @@
 }
 
 @media screen and (max-height: 550px) {
-  .content-container {
+  .messaging-container {
     min-height: 73vh;
     .chat-container {
       min-height: 73vh;
