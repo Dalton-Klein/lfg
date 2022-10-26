@@ -15,6 +15,92 @@ type Props = {
 };
 
 export default function ProfileRocketLeague(props: Props) {
+	const rankOptions = [
+		{
+			label: (
+				<img
+					src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-bronze-transp_fw3ar3.png'
+					alt='rocket league bronze rank'
+					style={{ maxHeight: '5vh', maxWidth: '5vh', minHeight: '5vh', minWidth: '5vh' }}
+				></img>
+			),
+			type: 'rank',
+			value: 1,
+			id: '1',
+		},
+		{
+			label: (
+				<img
+					src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-silver-transp_ovmdbx.png'
+					alt='rocket league silver rank'
+					style={{ maxHeight: '5vh', maxWidth: '5vh', minHeight: '5vh', minWidth: '5vh' }}
+				></img>
+			),
+			type: 'rank',
+			value: 2,
+			id: '2',
+		},
+		{
+			label: (
+				<img
+					src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-gold-transp_vwr4dz.png'
+					alt='rocket league gold rank'
+					style={{ maxHeight: '5vh', maxWidth: '5vh', minHeight: '5vh', minWidth: '5vh' }}
+				></img>
+			),
+			type: 'rank',
+			value: 3,
+			id: '3',
+		},
+		{
+			label: (
+				<img
+					src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-plat-transp_rgbpdw.png'
+					alt='rocket league platinum rank'
+					style={{ maxHeight: '5vh', maxWidth: '5vh', minHeight: '5vh', minWidth: '5vh' }}
+				></img>
+			),
+			type: 'rank',
+			value: 4,
+			id: '4',
+		},
+		{
+			label: (
+				<img
+					src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-diamond-transp_j0vmlx.png'
+					alt='rocket league diamond rank'
+					style={{ maxHeight: '5vh', maxWidth: '5vh', minHeight: '5vh', minWidth: '5vh' }}
+				></img>
+			),
+			type: 'rank',
+			value: 5,
+			id: '5',
+		},
+		{
+			label: (
+				<img
+					src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-champ-transp_v2xt1q.png'
+					alt='rocket league champ rank'
+					style={{ maxHeight: '5vh', maxWidth: '5vh', minHeight: '5vh', minWidth: '5vh' }}
+				></img>
+			),
+			type: 'rank',
+			value: 6,
+			id: '6',
+		},
+		{
+			label: (
+				<img
+					src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-grand-champ-transp_jflaeq.png'
+					alt='rocket league grand champ rank'
+					style={{ maxHeight: '5vh', maxWidth: '5vh', minHeight: '5vh', minWidth: '5vh' }}
+				></img>
+			),
+			type: 'rank',
+			value: 7,
+			id: '7',
+		},
+	];
 	const dispatch = useDispatch();
 	const userData = useSelector((state: RootState) => state.user.user);
 	const toast: any = useRef({ current: '' });
@@ -23,13 +109,14 @@ export default function ProfileRocketLeague(props: Props) {
 	const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
 	const [isProfileDiscoverable, setisProfileDiscoverable] = useState<boolean>(false);
 	const [rocketLeaguePlaylist, setrocketLeaguePlaylist] = useState<number>(0);
-	const [rocketLeagueRank, setrocketLeagueRank] = useState<any>({ label: '' });
+	const [rocketLeagueRank, setrocketLeagueRank] = useState<any>({ label: 'rank' });
 	const [rocketLeagueHoursText, setrocketLeagueHoursText] = useState<number>(0);
 	const [availabilityTooltipString, setavailabilityTooltipString] = useState<string>('');
 	const [rocketLeagueWeekday, setrocketLeagueWeekday] = useState<string>('');
 	const [rocketLeagueWeekend, setrocketLeagueWeekend] = useState<string>('');
 
 	useEffect(() => {
+		dispatch(updateUserThunk(userData.id));
 		props.changeBanner('https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -39,22 +126,15 @@ export default function ProfileRocketLeague(props: Props) {
 	}, [rocketLeagueRank]);
 
 	useEffect(() => {
-		console.log('why? ', rocketLeagueRank);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [rocketLeagueRank]);
-
-	useEffect(() => {
+		console.log('user data: ', userData);
 		//Having this logic in the user state use effect means it will await the dispatch to get the latest info. It is otherwise hard to await the dispatch
 		if (userData.email && userData.email !== '') {
 			props.widgetsRef.current.updateWidgets();
-			setrocketLeaguePlaylist(
-				userData.rocket_league_preffered_playlist === null ? '' : userData.rocket_league_preffered_playlist
-			);
-			console.log('debug: ', userData);
+			setrocketLeaguePlaylist(userData.rocket_league_playlist === null ? '' : userData.rocket_league_playlist);
 			setrocketLeagueRank(
 				!userData.rocket_league_rank || userData.rocket_league_rank === null
-					? { label: '' }
-					: userData.rocket_league_rank
+					? { label: 'rank' }
+					: { label: rankOptions[userData.rocket_league_rank - 1] }
 			);
 			setrocketLeagueHoursText(userData.rocket_league_hours === null ? 0 : userData.rocket_league_hours);
 			setrocketLeagueWeekday(userData.rocket_league_weekdays === null ? '' : userData.rocket_league_weekdays);
@@ -92,16 +172,9 @@ export default function ProfileRocketLeague(props: Props) {
 	//NON-MODAL SAVE LOGIC
 	const saveChanges = async () => {
 		const playlistValues: any = {
-			none: 1,
-			some: 2,
-			'a lot': 3,
-			'all day': 4,
-		};
-		const rankValues: any = {
-			none: 1,
-			some: 2,
-			'a lot': 3,
-			'all day': 4,
+			casual: 1,
+			'2s': 2,
+			'3s': 3,
 		};
 		const availabilityValues: any = {
 			none: 1,
@@ -109,10 +182,22 @@ export default function ProfileRocketLeague(props: Props) {
 			'a lot': 3,
 			'all day': 4,
 		};
+		const rocketLeaguePlaylistIdValue = playlistValues[rocketLeaguePlaylist];
 		const rocketLeagueWeekdayIdValue = availabilityValues[rocketLeagueWeekday];
 		const rocketLeagueWeekendIdValue = availabilityValues[rocketLeagueWeekend];
 		if (rocketLeagueHoursText > 0 && userData.rocket_league_hours !== rocketLeagueHoursText) {
 			await updateGameSpecificInfoField(userData.id, 'user_rocket_league_infos', 'hours', rocketLeagueHoursText);
+		}
+		if (rocketLeaguePlaylist !== 0 && userData.rocket_league_weekdays !== rocketLeaguePlaylistIdValue) {
+			await updateGameSpecificInfoField(
+				userData.id,
+				'user_rocket_league_infos',
+				'playlist',
+				rocketLeaguePlaylistIdValue
+			);
+		}
+		if (rocketLeagueRank.value !== '' && userData.rocket_league_weekdays !== rocketLeagueRank.value) {
+			await updateGameSpecificInfoField(userData.id, 'user_rocket_league_infos', 'rank', rocketLeagueRank.value);
 		}
 		if (rocketLeagueWeekday !== '' && userData.rocket_league_weekdays !== rocketLeagueWeekday) {
 			await updateGameSpecificInfoField(
@@ -197,65 +282,6 @@ export default function ProfileRocketLeague(props: Props) {
 		return;
 	};
 
-	const rankOptions = [
-		{
-			label: (
-				<img src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-bronze-transp_fw3ar3.png'></img>
-			),
-			type: 'rank',
-			value: 1,
-			id: '1',
-		},
-		{
-			label: (
-				<img src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-silver-transp_ovmdbx.png'></img>
-			),
-			type: 'rank',
-			value: 2,
-			id: '2',
-		},
-		{
-			label: (
-				<img src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-gold-transp_vwr4dz.png'></img>
-			),
-			type: 'rank',
-			value: 3,
-			id: '3',
-		},
-		{
-			label: (
-				<img src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-plat-transp_rgbpdw.png'></img>
-			),
-			type: 'rank',
-			value: 4,
-			id: '4',
-		},
-		{
-			label: (
-				<img src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-diamond-transp_j0vmlx.png'></img>
-			),
-			type: 'rank',
-			value: 5,
-			id: '5',
-		},
-		{
-			label: (
-				<img src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-champ-transp_v2xt1q.png'></img>
-			),
-			type: 'rank',
-			value: 6,
-			id: '6',
-		},
-		{
-			label: (
-				<img src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-grand-champ-transp_jflaeq.png'></img>
-			),
-			type: 'rank',
-			value: 7,
-			id: '7',
-		},
-	];
-
 	return (
 		<div className='profile-master'>
 			<Toast ref={toast} />
@@ -283,7 +309,7 @@ export default function ProfileRocketLeague(props: Props) {
 				<div className='prof-banner-detail-text'>playlist</div>
 				<div className='gender-container'>
 					<div
-						className={`gender-box ${rocketLeagueWeekday === 'none' ? 'box-selected' : ''}`}
+						className={`gender-box ${rocketLeaguePlaylist === 1 ? 'box-selected' : ''}`}
 						onClick={() => {
 							changeRocketLeaguePlaylist(1);
 						}}
@@ -294,7 +320,7 @@ export default function ProfileRocketLeague(props: Props) {
 						casual
 					</div>
 					<div
-						className={`gender-box ${rocketLeagueWeekday === 'some' ? 'box-selected' : ''}`}
+						className={`gender-box ${rocketLeaguePlaylist === 2 ? 'box-selected' : ''}`}
 						onClick={() => {
 							changeRocketLeaguePlaylist(2);
 						}}
@@ -305,7 +331,7 @@ export default function ProfileRocketLeague(props: Props) {
 						2's
 					</div>
 					<div
-						className={`gender-box ${rocketLeagueWeekday === 'a lot' ? 'box-selected' : ''}`}
+						className={`gender-box ${rocketLeaguePlaylist === 3 ? 'box-selected' : ''}`}
 						onClick={() => {
 							changeRocketLeaguePlaylist(4);
 						}}

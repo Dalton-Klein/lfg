@@ -26,6 +26,7 @@ export default function ProfileRust(props: Props) {
 	const [rustWeekend, setRustWeekend] = useState<string>('');
 
 	useEffect(() => {
+		dispatch(updateUserThunk(userData.id));
 		props.changeBanner('https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
