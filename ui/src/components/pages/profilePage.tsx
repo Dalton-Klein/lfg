@@ -222,7 +222,7 @@ export default function ProfilePage() {
 
       {/* MENU 2- Connections || Messaging */}
       {locationPath === '/messaging' ? (
-        <div className='content-container'>
+        <div className='messaging-container'>
           <div className='chat-container'>
             <div className='conversations-box'>
               <ConversationTile
