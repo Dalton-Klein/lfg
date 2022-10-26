@@ -1,187 +1,182 @@
 @import '../../styling/config';
 
+.content-container {
+  .chat-container {
+    display: flex;
+    justify-content: space-between;
+    min-height: 80vh;
+    max-height: 80vh;
+    .conversations-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-width: 15vw;
+      max-width: 15vw;
+      .gradient-bar {
+        min-width: 80%;
+        min-height: 1px;
+        max-height: 1px;
+        background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+      }
+    }
+  }
+}
 .nav-menu {
-	margin-top: 1vh;
-	min-height: 7vh;
-	max-height: 7vh;
-	min-width: 100%;
-	max-width: 100%;
-	display: flex;
-	align-items: center;
-	// put bg image here when a good one is decided background-color: #0d5678b0;
-	.submenu-navigator {
-		margin: 2% 10%;
-		margin-right: 1vw;
-	}
-	.submenu-title {
-		font-size: $font4;
-		margin-left: 1vw;
-		font-weight: 600;
-	}
+  margin-top: 1vh;
+  min-height: 7vh;
+  max-height: 7vh;
+  min-width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  // put bg image here when a good one is decided background-color: #0d5678b0;
+  .submenu-navigator {
+    margin: 2% 10%;
+    margin-right: 1vw;
+  }
+  .submenu-title {
+    font-size: $font4;
+    margin-left: 1vw;
+    font-weight: 600;
+  }
 }
 .my-profile-containers {
-	min-width: 100%;
-	width: 100%;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	.back-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		min-height: 9vh;
-		max-height: 9vh;
-		.back-button {
-			display: flex;
-			align-items: center;
-			vertical-align: middle;
-			font-size: $font2;
-		}
-	}
-	.gradient-bar {
-		min-width: 95%;
-		max-width: 95%;
-		min-height: 1px;
-		max-height: 1px;
-		background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
-	}
-	.submenu-container {
-		min-width: 60%;
-		background-color: $colorGreyPop;
-		border-radius: $borderRadius2;
-		margin-bottom: 2vh;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		.back-container {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			min-height: 9vh;
-			max-height: 9vh;
-			.back-button {
-				display: flex;
-				align-items: center;
-				vertical-align: middle;
-				font-size: $font2;
-			}
-		}
-		.widgets-container {
-			margin: 2vh 2vw;
-			display: flex;
-			justify-content: space-around;
-			align-items: center;
-			flex-wrap: wrap;
-		}
-		.content-container {
-			width: 100%;
-			min-height: 80vh;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			.no-results-box {
-				margin-top: 5vh;
-				text-align: center;
-				font-size: $font3;
-				margin-left: 3.25vw;
-			}
-			.chat-container {
-				display: flex;
-				justify-content: space-between;
-				min-height: 80vh;
-				max-height: 80vh;
-				.conversations-box {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					justify-content: flex-start;
-					min-width: 15vw;
-					.gradient-bar {
-						min-width: 80%;
-						min-height: 1px;
-						max-height: 1px;
-						background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
-					}
-				}
-			}
-		}
-		.game-profile-container {
-			display: flex;
-			justify-content: space-evenly;
-			align-items: flex-start;
-			flex-wrap: wrap;
-			overflow-y: scroll;
-			min-height: 25vh;
-			max-height: 50vh;
-			margin: 2vh 1vw;
-		}
-	}
+  min-width: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .back-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 9vh;
+    max-height: 9vh;
+    .back-button {
+      display: flex;
+      align-items: center;
+      vertical-align: middle;
+      font-size: $font2;
+    }
+  }
+  .gradient-bar {
+    min-width: 95%;
+    max-width: 95%;
+    min-height: 1px;
+    max-height: 1px;
+    background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+  }
+  .submenu-container {
+    min-width: 60%;
+    background-color: $colorGreyPop;
+    border-radius: $borderRadius2;
+    margin-bottom: 2vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .back-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 9vh;
+      max-height: 9vh;
+      .back-button {
+        display: flex;
+        align-items: center;
+        vertical-align: middle;
+        font-size: $font2;
+      }
+    }
+    .widgets-container {
+      margin: 2vh 2vw;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .content-container {
+      width: 100%;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .no-results-box {
+        margin-top: 5vh;
+        text-align: center;
+        font-size: $font3;
+        margin-left: 3.25vw;
+      }
+    }
+    .game-profile-container {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      overflow-y: scroll;
+      min-height: 25vh;
+      max-height: 50vh;
+      margin: 2vh 1vw;
+    }
+  }
 }
 
 .p-submenu-header {
-	font-weight: 1000 !important;
-	margin-left: 1vw !important;
+  font-weight: 1000 !important;
+  margin-left: 1vw !important;
 }
 
 .p-menuitem-icon {
-	margin-left: 1.5vw !important;
+  margin-left: 1.5vw !important;
 }
 
 .p-menuitem-text {
-	font-weight: 200 !important;
-	margin-left: 1vw !important;
-	margin-right: 1vw !important;
+  font-weight: 200 !important;
+  margin-left: 1vw !important;
+  margin-right: 1vw !important;
 }
 
 .connection-list-item {
-	min-width: 70%;
+  min-width: 70%;
 }
 
 @media screen and (max-height: 800px) {
-	.my-profile-containers {
-		.submenu-container {
-			.content-container {
-				min-height: 75vh;
-				.chat-container {
-					min-height: 75vh;
-					max-height: 75vh;
-				}
-			}
-		}
-	}
+  .content-container {
+    min-height: 75vh;
+    .chat-container {
+      min-height: 75vh;
+      max-height: 75vh;
+    }
+  }
 }
 
 @media screen and (max-height: 550px) {
-	.my-profile-containers {
-		.submenu-container {
-			.content-container {
-				min-height: 73vh;
-				.chat-container {
-					min-height: 73vh;
-					max-height: 73vh;
-				}
-			}
-		}
-	}
+  .content-container {
+    min-height: 73vh;
+    .chat-container {
+      min-height: 73vh;
+      max-height: 73vh;
+    }
+  }
 }
 
 @media screen and (max-width: $screenBreak1) {
-	.my-profile-containers {
-		.submenu-container {
-			width: 90vw;
-			min-width: 75%;
-		}
-	}
+  .my-profile-containers {
+    .submenu-container {
+      width: 90vw;
+      min-width: 75%;
+    }
+  }
 }
 
 @media screen and (max-width: $screenBreak2) {
-	.my-profile-containers {
-		.submenu-container {
-			width: 95vw;
-			min-width: 90%;
-		}
-	}
+  .my-profile-containers {
+    .submenu-container {
+      width: 95vw;
+      min-width: 90%;
+    }
+  }
 }
