@@ -1,5 +1,5 @@
 const getUserDataByEmailQuery = () => {
-	return `
+  return `
        select u.id,
               u.email,
               u.username,
@@ -37,7 +37,7 @@ const getUserDataByEmailQuery = () => {
 };
 
 const getUserDataByIdQuery = () => {
-	return `
+  return `
              select u.id,
                     u.email,
                     u.username,
@@ -64,18 +64,30 @@ const getUserDataByIdQuery = () => {
                     ur.roles,
                     ur.play_styles,
                     ur.hours as rust_hours,
-                    ur.is_published as rust_is_published
+                    ur.is_published as rust_is_published,
+                    rl.preferred_playlist as rocket_league_playlist,
+                    rl.rank as rocket_league_rank,
+                    rl.hours as rocket_league_hours, 
+                    avrl1.name as rocket_league_weekdays,
+                    avrl2.name as rocket_league_weekends,
+                    rl.is_published as rocket_league_is_published
                from public.users u
           left join public.user_general_infos ug
                  on ug.user_id = u.id
           left join public.user_rust_infos ur
                  on ur.user_id = u.id
+          left join public.user_rocket_league_infos rl
+                 on rl.user_id = u.id
           left join public.regions r
                  on r.id = ug.region
           left join public.availabilities av1
                  on av1.id = ur.weekdays
           left join public.availabilities av2
                  on av2.id = ur.weekends
+               left join public.availabilities avrl1
+                 on avrl1.id = rl.weekdays
+          left join public.availabilities avrl2
+                 on avrl2.id = rl.weekends
               where u.id = :userId
            group by u.id, 
                     ug.about,
@@ -94,12 +106,18 @@ const getUserDataByIdQuery = () => {
                     ur.roles,
                     ur.play_styles,
                     ur.hours,
-                    ur.is_published
+                    ur.is_published,
+                    rl.preferred_playlist,
+                    rl.rank,
+                    rl.hours,
+                    avrl1.name,
+                    avrl2.name,
+                    rl.is_published 
   `;
 };
 
 const createUserQuery = () => {
-	return `
+  return `
   insert into public.users (id, email, username, hashed, created_at, updated_at)
        values ((select max(id) + 1 from public.users), :email, :username, :hashed, current_timestamp, current_timestamp)
     returning id, email, hashed, username
@@ -107,31 +125,31 @@ const createUserQuery = () => {
 };
 
 const createGeneralInfoQuery = () => {
-	return `
+  return `
   insert into public.user_general_infos (id, user_id, last_seen, created_at, updated_at)
        values ((select max(id) + 1 from public.user_general_infos), :userId, current_timestamp, current_timestamp, current_timestamp)
   `;
 };
 
 const createRustInfoQuery = () => {
-	return `
+  return `
   insert into public.user_rust_infos (id, user_id, created_at, updated_at)
        values ((select max(id) + 1 from public.user_rust_infos), :userId, current_timestamp, current_timestamp)
   `;
 };
 
 const createRocketLeagueInfoQuery = () => {
-	return `
+  return `
   insert into public.user_rocket_league_infos (id, user_id, created_at, updated_at)
        values ((select max(id) + 1 from public.user_rust_infos), :userId, current_timestamp, current_timestamp)
   `;
 };
 
 module.exports = {
-	getUserDataByEmailQuery,
-	getUserDataByIdQuery,
-	createUserQuery,
-	createGeneralInfoQuery,
-	createRustInfoQuery,
-	createRocketLeagueInfoQuery,
+  getUserDataByEmailQuery,
+  getUserDataByIdQuery,
+  createUserQuery,
+  createGeneralInfoQuery,
+  createRustInfoQuery,
+  createRocketLeagueInfoQuery,
 };
