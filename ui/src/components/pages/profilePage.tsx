@@ -177,7 +177,7 @@ export default function ProfilePage() {
       {/* Title Section */}
       <BannerTitle title={menuTitle} imageLink={bannerImageUrl}></BannerTitle>
 
-      <div className='my-profile-containers'>
+      <div className='my-profile-containers' style={{ display: locationPath !== '/messaging' ? 'flex' : 'none' }}>
         {/* Conditionally render hamburger modal */}
 
         <div className='submenu-container'>
