@@ -174,7 +174,6 @@ export default function ProfileRocketLeague(props: Props) {
       'a lot': 3,
       'all day': 4,
     };
-    console.log('test: ', rocketLeaguePlaylist, '  data: ', userData.rocket_league_playlist);
     const rocketLeagueWeekdayIdValue = availabilityValues[rocketLeagueWeekday];
     const rocketLeagueWeekendIdValue = availabilityValues[rocketLeagueWeekend];
     if (rocketLeagueHoursText > 0 && userData.rocket_league_hours !== rocketLeagueHoursText) {
@@ -208,7 +207,7 @@ export default function ProfileRocketLeague(props: Props) {
       );
     }
     // After all data is comitted to db, get fresh copy of user object to update state
-
+    dispatch(updateUserThunk(userData.id));
     setHasUnsavedChanges(false);
     toast.current.clear();
     toast.current.show({
@@ -231,7 +230,7 @@ export default function ProfileRocketLeague(props: Props) {
         toast.current.clear();
         toast.current.show({
           severity: 'success',
-          summary: 'rocket_league profile published!',
+          summary: 'rocket league profile published!',
           detail: ``,
           sticky: false,
         });
@@ -256,7 +255,7 @@ export default function ProfileRocketLeague(props: Props) {
       toast.current.clear();
       toast.current.show({
         severity: 'success',
-        summary: 'rocket_league profile now hidden!',
+        summary: 'rocket league profile now hidden!',
         detail: ``,
         sticky: false,
       });

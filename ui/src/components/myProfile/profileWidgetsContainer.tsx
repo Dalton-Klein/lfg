@@ -17,7 +17,6 @@ const ProfileWidgetsContainer = () => {
   const [rustProfileComplete, setrustProfileComplete] = useState<any>(<> </>);
   const [rocketLeagueProfileComplete, setrocketLeagueProfileComplete] = useState<any>(<> </>);
   useEffect(() => {
-    console.log('updating?, ', userData);
     //Having this logic in the user state use effect means it will await the dispatch to get the latest info. It is otherwise hard to await the dispatch
     if (userData.email && userData.email !== '') {
       setCompletenessWidget();
