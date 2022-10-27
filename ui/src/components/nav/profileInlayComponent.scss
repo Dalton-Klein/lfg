@@ -2,6 +2,19 @@
 
 .p-menu {
 	.p-menuitem-text {
+		.discover-navigator-option-image {
+			min-width: 2vw;
+			max-width: 2vw;
+			min-height: 2vw;
+			max-height: 2vw;
+			border-radius: calc(2vw / 2);
+			transition: $transition1;
+			margin-right: 3vw;
+			cursor: pointer;
+			align-self: center;
+			margin-left: auto;
+			margin-right: auto;
+		}
 		.notification-container {
 			display: flex;
 			align-items: center;
@@ -70,6 +83,16 @@
 	// i:hover {
 	//   transform: scale(1.05);
 	// }
+	.discover-navigator-image {
+		min-width: 2.5vw;
+		max-width: 2.5vw;
+		min-height: 2.5vw;
+		max-height: 2.5vw;
+		border-radius: calc(2.5vw / 2);
+		transition: $transition1;
+		margin-right: 3vw;
+		cursor: pointer;
+	}
 	.notifications-button {
 		transition: $transition1;
 		margin-top: 0;

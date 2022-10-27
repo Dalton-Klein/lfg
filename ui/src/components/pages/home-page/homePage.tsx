@@ -41,7 +41,7 @@ export default function HomePage() {
 			<div className='tile-container'>
 				<div className='discover-tiles'>
 					<DaddyTile
-						routerLink='/discover'
+						routerLink='/discover-rust'
 						image='https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'
 						title='rust'
 					></DaddyTile>
