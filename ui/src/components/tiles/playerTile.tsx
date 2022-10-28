@@ -188,7 +188,7 @@ export default function PlayerTile(props: any) {
 				</div>
 				{/* footer details */}
 				<div className='footer-details'>
-					<div className='footer-platform-box' data-tip data-for='platformTip'>
+					<div className='footer-platform-box' data-tip data-for='commPlatformTip'>
 						{/* <i className={`platform-icon pi pi-discord`}></i> */}
 						{props.preferred_platform === 1 ? (
 							<img
@@ -230,7 +230,7 @@ export default function PlayerTile(props: any) {
 			<ReactTooltip id='weekendTip' place='top' effect='solid'>
 				weekend availability
 			</ReactTooltip>
-			<ReactTooltip id='platformTip' place='top' effect='solid'>
+			<ReactTooltip id='commPlatformTip' place='top' effect='solid'>
 				communication platform
 			</ReactTooltip>
 			<ReactTooltip id='seenTip' place='top' effect='solid'>
