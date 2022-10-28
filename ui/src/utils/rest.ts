@@ -135,6 +135,25 @@ export const getRustTiles = async (userId: number, token: string) => {
 	}
 };
 
+export const getRocketLeagueTiles = async (userId: number, token: string) => {
+	try {
+		const httpResult = await fetch(`${endpointURL}/rocket-league-tiles`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				userId,
+				token,
+			}),
+		});
+		const jsonify = httpResult.json();
+		return jsonify;
+	} catch (error) {
+		console.log(`${error} while fetching rocket league tiles`);
+	}
+};
+
 export const getProfileSocialData = async (fromUserId: number, forUserId: number, token: string) => {
 	try {
 		const httpResult = await fetch(`${endpointURL}/social`, {

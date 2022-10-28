@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { attemptPublishRustProfile, getRustTiles } from '../../utils/rest';
+import { attemptPublishRustProfile, getRustTiles, getRocketLeagueTiles } from '../../utils/rest';
 import FooterComponent from '../nav/footerComponent';
 import HeaderComponent from '../nav/headerComponent';
 import FilterBarComponent from '../nav/filter/filterBarComponent';
@@ -10,8 +10,10 @@ import { RootState } from '../../store/store';
 import { findUnionForObjectArrays, generateRange } from '../../utils/helperFunctions';
 import { resetFilterPreferences } from '../../store/userPreferencesSlice';
 import BannerTitle from '../nav/banner-title';
+import { useLocation } from 'react-router-dom';
 
 export default function DiscoverPage() {
+	const locationPath: string = useLocation().pathname;
 	const [tilesFeed, setTilesFeed] = useState(<li></li>);
 	const [tilesFromDB, setTilesFromDB] = useState<any>([]);
 	const [isProfileComplete, setisProfileComplete] = useState<boolean>(false);
@@ -29,6 +31,16 @@ export default function DiscoverPage() {
 		dispatch(resetFilterPreferences());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	useEffect(() => {
+		if (userState.id && userState.id > 0) {
+			checkIfProfileComplete();
+		} else {
+			fetchTilesData();
+		}
+		dispatch(resetFilterPreferences());
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [locationPath]);
 
 	//Used to fetch tiles only after profile completeness is decided
 	useEffect(() => {
@@ -49,13 +61,19 @@ export default function DiscoverPage() {
 	}, [preferencesState.discoverFilters]);
 
 	const fetchTilesData = async () => {
-		const tiles = await getRustTiles(userState.id && userState.id > 0 ? userState.id : 0, 'nothing');
+		let tiles: any = [];
+		if (locationPath === '/discover-rust') {
+			tiles = await getRustTiles(userState.id && userState.id > 0 ? userState.id : 0, 'nothing');
+		} else if (locationPath === '/discover-rocket-league') {
+			tiles = await getRocketLeagueTiles(userState.id && userState.id > 0 ? userState.id : 0, 'nothing');
+		}
 		setTilesFromDB(tiles);
 	};
 
 	const checkIfProfileComplete = async () => {
 		const isCompleteResult = await attemptPublishRustProfile(userState.id, 'nothing');
 		setisProfileComplete(isCompleteResult.status === 'success' ? true : false);
+		fetchTilesData();
 	};
 
 	const turnDataIntoTiles = (tileData: any) => {
@@ -193,8 +211,12 @@ export default function DiscoverPage() {
 		<div>
 			<HeaderComponent></HeaderComponent>
 			<BannerTitle
-				title={'find rust players'}
-				imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'}
+				title={locationPath === '/discover-rust' ? 'find rust players' : 'find rocket league players'}
+				imageLink={
+					locationPath === '/discover-rust'
+						? 'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'
+						: 'https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'
+				}
 			></BannerTitle>
 			<FilterBarComponent clearFiltersMethod={clearAllFiltersAndSorting}></FilterBarComponent>
 			<div className='feed'>{tilesFeed}</div>

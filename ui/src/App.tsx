@@ -41,6 +41,7 @@ function App() {
 						<Routes>
 							<Route path='/' element={<HomePage />} />
 							<Route path='/discover-rust' element={<DiscoverPage />} />
+							<Route path='/discover-rocket-league' element={<DiscoverPage />} />
 							<Route path='/blog' element={<BlogPage />} />
 							<Route path='/blog/how-to-find-great-rust-teammates' element={<BlogArticle1 />} />
 							<Route path='/blog/rocket-league-minecraft-support' element={<BlogArticle2 />} />

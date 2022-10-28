@@ -56,6 +56,7 @@ router.post('/publish-rocket-league', publishController.checkIfUserCanPublishRoc
 
 //TILES RELATED ROUTES
 router.post('/rust-tiles', tilesController.getRustTiles);
+router.post('/rocket-league-tiles', tilesController.getRocketLeagueTiles);
 
 //TESTING ROUTES Coffee Disable
 router.post('/test-email', testController.testEmails);

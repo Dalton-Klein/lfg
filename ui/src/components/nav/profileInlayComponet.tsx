@@ -8,6 +8,7 @@ import { Menu } from 'primereact/menu';
 import * as io from 'socket.io-client';
 import { howLongAgo } from '../../utils/helperFunctions';
 import { getNotificationsUser } from '../../utils/rest';
+import ReactTooltip from 'react-tooltip';
 const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.gangs.gg');
 
 export default function ProfileInlayComponet() {
@@ -173,7 +174,7 @@ export default function ProfileInlayComponet() {
 				<div className='my-profile-overlay-wrapper'>
 					<Menu model={renderNotifications()} popup ref={notifsMenu} id='popup_menu' />
 					<Menu model={renderDiscoverOptions()} popup ref={discoverMenu} id='popup_menu' />
-					{locationPath === '/discover-rust' ? (
+					{locationPath === '/discover-rust' || locationPath === '/discover-rocket-league' ? (
 						<img
 							onClick={(event) => discoverMenu.current.toggle(event)}
 							className='discover-navigator-image'
@@ -183,6 +184,8 @@ export default function ProfileInlayComponet() {
 									: 'https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png'
 							}
 							alt={`discover page navigator`}
+							data-tip
+							data-for='platformTip'
 						/>
 					) : (
 						<></>
@@ -215,6 +218,9 @@ export default function ProfileInlayComponet() {
 					</div>
 				</div>
 			)}
+			<ReactTooltip id='platformTip' place='left' effect='solid'>
+				select game for player discovery
+			</ReactTooltip>
 		</div>
 	);
 }

@@ -3,12 +3,74 @@ import 'primeicons/primeicons.css';
 import { howLongAgo } from '../../utils/helperFunctions';
 import { useState } from 'react';
 import ExpandedProfile from '../modal/expandedProfileComponent';
+import { useLocation } from 'react-router-dom';
+import ReactTooltip from 'react-tooltip';
 
 export default function PlayerTile(props: any) {
+	const locationPath: string = useLocation().pathname;
+
 	const genderImageLinks: any = {
 		1: 'male',
 		2: 'female',
 		3: 'non-binary',
+	};
+
+	const rocketLeaguePlaylists: any = {
+		1: 'casual',
+		2: 'ranked 2s',
+		3: 'ranked 3s',
+	};
+
+	const rocketLeagueRanks: any = {
+		1: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-bronze-transp_fw3ar3.png'
+				alt='rocket league bronze rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		2: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-silver-transp_ovmdbx.png'
+				alt='rocket league silver rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		3: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-gold-transp_vwr4dz.png'
+				alt='rocket league gold rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		4: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-plat-transp_rgbpdw.png'
+				alt='rocket league platinum rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		5: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-diamond-transp_j0vmlx.png'
+				alt='rocket league diamond rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		6: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-champ-transp_v2xt1q.png'
+				alt='rocket league champ rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		7: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-grand-champ-transp_jflaeq.png'
+				alt='rocket league grand champ rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
 	};
 	const lastSeen = howLongAgo(props.last_seen);
 	const genderIcon = `/assets/gender-icon-${genderImageLinks[props.gender]}.png`;
@@ -95,11 +157,31 @@ export default function PlayerTile(props: any) {
 							</div>
 						</div>
 					</div>
+					{locationPath === '/discover-rocket-league' ? (
+						<div className='details-rocket-league'>
+							<div className='details-rocket-league-playlist' data-tip data-for='playlistTip'>
+								{rocketLeaguePlaylists[props.preferred_playlist]}
+							</div>
+							<div data-tip data-for='rankTip'>
+								{rocketLeagueRanks[props.rank]}
+							</div>
+						</div>
+					) : (
+						<></>
+					)}
 					<div className='details-availability'>
-						<div className='detail-label'>weekdays: </div>
-						<div className='details-availabilty-text'>{props.rust_weekdays}</div>
-						<div className='detail-label'>weekends: </div>
-						<div className='details-availabilty-text'>{props.rust_weekends}</div>
+						<div className='detail-label' data-tip data-for='weekdayTip'>
+							weekdays:{' '}
+						</div>
+						<div className='details-availabilty-text'>
+							{locationPath === '/discover-rust' ? props.rust_weekdays : props.rocket_league_weekdays}
+						</div>
+						<div className='detail-label' data-tip data-for='weekendTip'>
+							weekends:{' '}
+						</div>
+						<div className='details-availabilty-text'>
+							{locationPath === '/discover-rust' ? props.rust_weekends : props.rocket_league_weekends}
+						</div>
 					</div>
 				</div>
 				{/* footer details */}
@@ -129,6 +211,18 @@ export default function PlayerTile(props: any) {
 					<div className='footer-timestamp'>{lastSeen}</div>
 				</div>
 			</div>
+			<ReactTooltip id='rankTip' place='top' effect='solid'>
+				rank
+			</ReactTooltip>
+			<ReactTooltip id='playlistTip' place='top' effect='solid'>
+				preferred playlist
+			</ReactTooltip>
+			<ReactTooltip id='weekdayTip' place='top' effect='solid'>
+				weekday availability
+			</ReactTooltip>
+			<ReactTooltip id='weekendTip' place='top' effect='solid'>
+				weekend availability
+			</ReactTooltip>
 		</div>
 	);
 }
