@@ -153,7 +153,9 @@ export default function PlayerTile(props: any) {
 					<div className='details-hours-played'>
 						<div className='hours-belt-outer'>
 							<div className='hours-belt-inner'>
-								<div className='details-hours-played-text'>{props.hours} hours</div>
+								<div className='details-hours-played-text' data-tip data-for='hoursTip'>
+									{props.hours} hours
+								</div>
 							</div>
 						</div>
 					</div>
@@ -186,7 +188,7 @@ export default function PlayerTile(props: any) {
 				</div>
 				{/* footer details */}
 				<div className='footer-details'>
-					<div className='footer-platform-box'>
+					<div className='footer-platform-box' data-tip data-for='platformTip'>
 						{/* <i className={`platform-icon pi pi-discord`}></i> */}
 						{props.preferred_platform === 1 ? (
 							<img
@@ -208,9 +210,14 @@ export default function PlayerTile(props: any) {
 							<></>
 						)}
 					</div>
-					<div className='footer-timestamp'>{lastSeen}</div>
+					<div className='footer-timestamp' data-tip data-for='seenTip'>
+						{lastSeen}
+					</div>
 				</div>
 			</div>
+			<ReactTooltip id='hoursTip' place='top' effect='solid'>
+				hours played
+			</ReactTooltip>
 			<ReactTooltip id='rankTip' place='top' effect='solid'>
 				rank
 			</ReactTooltip>
@@ -222,6 +229,12 @@ export default function PlayerTile(props: any) {
 			</ReactTooltip>
 			<ReactTooltip id='weekendTip' place='top' effect='solid'>
 				weekend availability
+			</ReactTooltip>
+			<ReactTooltip id='platformTip' place='top' effect='solid'>
+				communication platform
+			</ReactTooltip>
+			<ReactTooltip id='seenTip' place='top' effect='solid'>
+				last time player was seen on gangs
 			</ReactTooltip>
 		</div>
 	);
