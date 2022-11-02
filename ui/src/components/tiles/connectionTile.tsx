@@ -48,6 +48,7 @@ export default function ConnectionTile(props: any) {
 						showConnectForm={false}
 						isProfileComplete={true}
 						isConnected={false}
+						game={'all'}
 					/>
 				) : (
 					<></>

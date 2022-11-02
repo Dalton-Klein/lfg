@@ -1,6 +1,6 @@
 import './playerTile.scss';
 import 'primeicons/primeicons.css';
-import { howLongAgo } from '../../utils/helperFunctions';
+import { getRocketLeaguePlaylists, howLongAgo } from '../../utils/helperFunctions';
 import { useState } from 'react';
 import ExpandedProfile from '../modal/expandedProfileComponent';
 import { useLocation } from 'react-router-dom';
@@ -15,12 +15,7 @@ export default function PlayerTile(props: any) {
 		3: 'non-binary',
 	};
 
-	const rocketLeaguePlaylists: any = {
-		1: 'casual',
-		2: 'ranked 2s',
-		3: 'ranked 3s',
-	};
-
+	const rocketLeaguePlaylists: any = getRocketLeaguePlaylists();
 	const rocketLeagueRanks: any = {
 		1: (
 			<img
@@ -92,6 +87,7 @@ export default function PlayerTile(props: any) {
 					showConnectForm={true}
 					isProfileComplete={props.isProfileComplete}
 					isConnected={false}
+					game={locationPath === '/discover-rust' ? 'rust' : 'rocket-league'}
 				/>
 			) : (
 				<></>
@@ -162,10 +158,10 @@ export default function PlayerTile(props: any) {
 					{locationPath === '/discover-rocket-league' ? (
 						<div className='details-rocket-league'>
 							<div className='details-rocket-league-playlist' data-tip data-for='playlistTip'>
-								{rocketLeaguePlaylists[props.preferred_playlist]}
+								{rocketLeaguePlaylists[props.rocket_league_playlist]}
 							</div>
 							<div data-tip data-for='rankTip'>
-								{rocketLeagueRanks[props.rank]}
+								{rocketLeagueRanks[props.rocket_league_rank]}
 							</div>
 						</div>
 					) : (

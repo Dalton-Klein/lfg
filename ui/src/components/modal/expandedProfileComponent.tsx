@@ -2,8 +2,13 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
 import './expandedProfileComponent.scss';
-import { getProfileSocialData, createConnectionRequest, getEndorsementOptions } from '../../utils/rest';
-import { howLongAgo } from '../../utils/helperFunctions';
+import {
+	getProfileSocialData,
+	createConnectionRequest,
+	getEndorsementOptions,
+	getAllPublishStatus,
+} from '../../utils/rest';
+import { getRocketLeaguePlaylists, howLongAgo } from '../../utils/helperFunctions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import EndorsementTile from '../tiles/endorsementTile';
@@ -15,13 +20,68 @@ type Props = {
 	showConnectForm: boolean;
 	isProfileComplete: boolean;
 	isConnected: boolean;
+	game: string;
 };
 
 const ExpandedProfile = (props: Props) => {
+	const rocketLeaguePlaylists: any = getRocketLeaguePlaylists();
+	const rocketLeagueRanks: any = {
+		1: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-bronze-transp_fw3ar3.png'
+				alt='rocket league bronze rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		2: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-silver-transp_ovmdbx.png'
+				alt='rocket league silver rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		3: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-gold-transp_vwr4dz.png'
+				alt='rocket league gold rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		4: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-plat-transp_rgbpdw.png'
+				alt='rocket league platinum rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		5: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-diamond-transp_j0vmlx.png'
+				alt='rocket league diamond rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		6: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-champ-transp_v2xt1q.png'
+				alt='rocket league champ rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+		7: (
+			<img
+				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-grand-champ-transp_jflaeq.png'
+				alt='rocket league grand champ rank'
+				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
+			></img>
+		),
+	};
+
 	const [exitIcon, setExitIcon] = useState<string>('/assets/exit-icon.png');
 	const [connectionText, setConnectionText] = useState<string>('');
 	const [requestSent, setRequestSent] = useState<boolean>(false);
-	const [socialData, setSocialData] = useState<any>({ connections: 0, mutual: 0 });
+	const [publishData, setpublishData] = useState<any>({ rust_status: false, rocket_league_status: false });
+	const [socialData, setsocialData] = useState<any>({ connections: 0, mutual: 0 });
 	const [endorsementFeed, setendorsementFeed] = useState(<li></li>);
 	const [endorsementInput, setendorsementInput] = useState(<li></li>);
 	const lastSeen = howLongAgo(props.userInfo.last_seen);
@@ -32,6 +92,7 @@ const ExpandedProfile = (props: Props) => {
 
 	useEffect(() => {
 		fetchSocialData();
+		getPublishInfo();
 		document.querySelector('.backdrop-event-listener')!.addEventListener('click', () => {
 			props.toggleExpandedProfile();
 		});
@@ -58,12 +119,19 @@ const ExpandedProfile = (props: Props) => {
 			delay: 0.25,
 		});
 		handleMouseLeave();
+		console.log('expanded props: ', props.userInfo);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	const getPublishInfo = async () => {
+		const publishData = await getAllPublishStatus(props.userInfo.id, '');
+		console.log('publish data: ', publishData);
+		setpublishData(publishData.data);
+	};
+
 	const fetchSocialData = async () => {
 		const socialData = await getProfileSocialData(userState.id, props.userInfo.id, 'nothing');
-		setSocialData(socialData);
+		setsocialData(socialData);
 		setendorsementFeed(
 			socialData.endorsements && socialData.endorsements.length ? (
 				socialData.endorsements.map((endorsement: any) => (
@@ -197,23 +265,66 @@ const ExpandedProfile = (props: Props) => {
 							</div>
 						</div>
 						<div className='expanded-gradient-bar'></div>
-						{/* Game Info Section */}
-						<div className='expanded-core-info'>
-							<div className='expanded-core-info-title'>rust info</div>
-							<div className='expanded-core-info-field'>
-								<label>hours</label>
-								<div>{props.userInfo.rust_hours}</div>
+						{/* Rust Info Section */}
+						{(props.game === 'all' || props.game === 'rust') && publishData.rust_status ? (
+							<div className='expanded-core-info'>
+								<div className='expanded-core-info-title'>rust info</div>
+								<div className='expanded-core-info-field'>
+									<label>hours</label>
+									<div>{props.userInfo.rust_hours}</div>
+								</div>
+								<div className='expanded-core-info-field'>
+									<label>weekdays</label>
+									<div>{props.userInfo.rust_weekdays}</div>
+								</div>
+								<div className='expanded-core-info-field'>
+									<label>weekends</label>
+									<div>{props.userInfo.rust_weekends}</div>
+								</div>
 							</div>
-							<div className='expanded-core-info-field'>
-								<label>weekdays</label>
-								<div>{props.userInfo.rust_weekdays}</div>
+						) : (
+							<></>
+						)}
+						{(props.game === 'all' || props.game === 'rust') && publishData.rust_status ? (
+							<div className='expanded-gradient-bar'></div>
+						) : (
+							<></>
+						)}
+						{/* Rocket League Info Section */}
+						{(props.game === 'all' || props.game === 'rocket-league') && publishData.rocket_league_status ? (
+							<div className='expanded-core-info'>
+								<div className='expanded-core-info-title'>rocket league info</div>
+								<div className='expanded-core-info-field'>
+									<label>playlist</label>
+									<div className='details-rocket-league-playlist'>
+										{rocketLeaguePlaylists[props.userInfo.rocket_league_playlist]}
+									</div>
+								</div>
+								<div className='expanded-core-info-field'>
+									<label>rank</label>
+									<div>{rocketLeagueRanks[props.userInfo.rocket_league_rank]}</div>
+								</div>
+								<div className='expanded-core-info-field'>
+									<label>hours</label>
+									<div>{props.userInfo.rocket_league_hours}</div>
+								</div>
+								<div className='expanded-core-info-field'>
+									<label>weekdays</label>
+									<div>{props.userInfo.rocket_league_weekdays}</div>
+								</div>
+								<div className='expanded-core-info-field'>
+									<label>weekends</label>
+									<div>{props.userInfo.rocket_league_weekends}</div>
+								</div>
 							</div>
-							<div className='expanded-core-info-field'>
-								<label>weekends</label>
-								<div>{props.userInfo.rust_weekends}</div>
-							</div>
-						</div>
-						<div className='expanded-gradient-bar'></div>
+						) : (
+							<></>
+						)}
+						{(props.game === 'all' || props.game === 'rocket-league') && publishData.rocket_league_status ? (
+							<div className='expanded-gradient-bar'></div>
+						) : (
+							<></>
+						)}
 						{/* Social Section */}
 						<div className='expanded-core-info'>
 							<div className='expanded-core-info-title'>social</div>

@@ -331,6 +331,21 @@ export const updateGameSpecificInfoField = async (id: number, table: string, fie
 /*
 	Publish Calls
 */
+export const getAllPublishStatus = async (userId: number, token: string) => {
+	return await fetch(`${endpointURL}/all-publication-status`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			userId,
+		}),
+	})
+		.then((res) => res.json())
+		.catch((err) => {
+			console.log(`${err} trying to validate the publishing of rust profile`);
+		});
+};
 export const checkGeneralProfileCompletion = async (userId: number, token: string) => {
 	return await fetch(`${endpointURL}/general-profile-completion`, {
 		method: 'POST',

@@ -45,6 +45,11 @@ export default function HomePage() {
 						image='https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'
 						title='rust'
 					></DaddyTile>
+					<DaddyTile
+						routerLink='/discover-rocket-league'
+						image='https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'
+						title='rocket league'
+					></DaddyTile>
 				</div>
 				<div className='nav-tiles'>
 					{conditionalAuthTile}
@@ -66,11 +71,6 @@ export default function HomePage() {
 					routerLink='/blog/rocket-league-minecraft-support'
 					image='https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/minecraft_bscq2s.png'
 					title='minecraft'
-				></DaddyTile>
-				<DaddyTile
-					routerLink='/blog/rocket-league-minecraft-support'
-					image='https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'
-					title='rocket league'
 				></DaddyTile>
 			</div>
 			<div className='extra-tiles'>

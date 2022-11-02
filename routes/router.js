@@ -48,6 +48,7 @@ router.post('/endorsement-options', endorsementsController.getEndorsementOptions
 router.post('/endorsement', endorsementsController.addOrRemoveEndorsement);
 
 //PUBLISH/ PROFILE COMPLETENESS RELATED ROUTES
+router.post('/all-publication-status', publishController.getAllProfilesPublicationStatusForUser);
 router.post('/general-profile-completion', publishController.checkGeneralProfileCompletion);
 router.post('/rust-profile-completion', publishController.checkRustProfileCompletion);
 router.post('/rocket-league-profile-completion', publishController.checkRocketLeagueProfileCompletion);

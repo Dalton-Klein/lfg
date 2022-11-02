@@ -122,9 +122,16 @@ export default function DiscoverPage() {
 			preferencesState.discoverFilters.availability.forEach((availabiltyObj: any) => {
 				acceptedAvailability.push(availabiltyObj.label);
 			});
-			availabilityResult = tilesFromDB.filter((tile: any) =>
-				acceptedAvailability.includes(tile.rust_weekdays || tile.rust_weekends)
-			);
+			availabilityResult = tilesFromDB.filter((tile: any) => {
+				const weekdayResult = acceptedAvailability.includes(
+					locationPath === '/discover-rust' ? tile.rust_weekdays : tile.rocket_league_weekends
+				);
+				const weekendResult = acceptedAvailability.includes(
+					locationPath === '/discover-rust' ? tile.rust_weekends : tile.rocket_league_weekdays
+				);
+				if (weekdayResult || weekendResult) return tile;
+				else return;
+			});
 		} else availabilityResult = tilesFromDB;
 		//Filter by language
 		if (preferencesState.discoverFilters.language[0]) {
