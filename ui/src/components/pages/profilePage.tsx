@@ -40,7 +40,8 @@ export default function ProfilePage() {
 
 	// Location Variables
 	const locationPath: string = useLocation().pathname;
-	const gameProfilePaths: string[] = ['/rust-profile', '/rocket-league-profile'];
+  const gameProfilePaths: string[] = ['/rust-profile', '/rocket-league-profile'];
+  const requestPaths: string[] = ['/incoming-requests', '/outgoing-requests', '/blocked'];
 	const menuTitleKey: any = {
 		'/general-profile': 'general profile',
 		'/messaging': 'messaging',
@@ -197,8 +198,11 @@ export default function ProfilePage() {
 					</div>
 					{/* END CONDITIONAL BACK BUTTON */}
 					{/* START Profile Widgets */}
-					<ProfileWidgetsContainer></ProfileWidgetsContainer>
-					<div className='gradient-bar'></div>
+          {!requestPaths.includes(locationPath) ?
+					<ProfileWidgetsContainer></ProfileWidgetsContainer> : <></>}
+          {!requestPaths.includes(locationPath) ?
+					  <div className='gradient-bar'></div>: <></>
+          }
 					{/* END Profile Widgets */}
 					{/* Game Profiles (Conditional) */}
 					{locationPath === '/rust-profile' ? (
@@ -225,7 +229,7 @@ export default function ProfilePage() {
 				</div>
 			</div>
 
-			{/* MENU 2- Connections || Messaging */}
+			{/* MENU 2- Messaging */}
 			{locationPath === '/messaging' ? (
 				<div className='messaging-container'>
 					<div className='chat-container'>
@@ -277,19 +281,19 @@ export default function ProfilePage() {
 			)}
 			{/* MENU 3- Incoming Connections */}
 			{locationPath === '/incoming-requests' ? (
-				<div className='content-container'>{incomingResult.length > 0 ? incomingResult : noResultsDiv}</div>
+				<div className='connection-container'>{incomingResult.length > 0 ? incomingResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}
 			{/* MENU 4- Outgoing Connections */}
 			{locationPath === '/outgoing-requests' ? (
-				<div className='content-container'>{outgoingResult.length > 0 ? outgoingResult : noResultsDiv}</div>
+				<div className='connection-container'>{outgoingResult.length > 0 ? outgoingResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}
 			{/* MENU 5- Blocked People */}
 			{locationPath === '/blocked' ? (
-				<div className='content-container'>{blockedResult.length > 0 ? blockedResult : noResultsDiv}</div>
+				<div className='connection-container'>{blockedResult.length > 0 ? blockedResult : noResultsDiv}</div>
 			) : (
 				<></>
 			)}

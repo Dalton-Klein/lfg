@@ -59,6 +59,7 @@ export default function FilterComponent(props: props) {
 	const selectionChange = (options: any, filterAction: any, isClearing = false) => {
 		setSelected(options);
 		if (!isClearing) {
+      console.log('actionL:  ', filterAction)
 			const filterName = filterAction.name;
 			dispatch(
 				setPreferences({

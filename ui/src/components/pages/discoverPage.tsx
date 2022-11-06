@@ -87,13 +87,26 @@ export default function DiscoverPage() {
 	};
 
 	const updateTilesFeed = () => {
-		let filteredData: any;
+    let filteredData: any;
+    let rocketLeaguePlaylistResult = [];
+    let rocketLeagueRankResult = [];
 		let ageResult = [];
 		let hoursResult = [];
 		let availabilityResult = [];
 		let languageResult = [];
 		let regionResult = [];
-
+    //Filter by RL Playlist
+    if (locationPath === '/discover-rocket-league' && preferencesState.discoverFilters.rocketLeaguePlaylist[0]) {
+			let acceptedPlaylists: number[] = [];
+			preferencesState.discoverFilters.age.forEach((filterRange: any) => {
+				const rangeArray = generateRange(filterRange.value[0], filterRange.value[1]);
+				rangeArray.forEach((playlistValue: number) => {
+					acceptedPlaylists.push(playlistValue);
+				});
+			});
+			rocketLeaguePlaylistResult = tilesFromDB.filter((tile: any) => acceptedPlaylists.includes(tile.rocket_league_playlist));
+		} else rocketLeaguePlaylistResult = tilesFromDB;
+    //Filter by RL Rank
 		//Filter by age
 		if (preferencesState.discoverFilters.age[0]) {
 			let acceptedAges: number[] = [];
