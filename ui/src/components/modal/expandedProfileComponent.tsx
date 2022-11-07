@@ -12,6 +12,7 @@ import { getRocketLeaguePlaylists, howLongAgo } from '../../utils/helperFunction
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import EndorsementTile from '../tiles/endorsementTile';
+import { useLocation } from 'react-router-dom';
 
 type Props = {
 	toggleExpandedProfile: any;
@@ -24,6 +25,19 @@ type Props = {
 };
 
 const ExpandedProfile = (props: Props) => {
+  const locationPath: string = useLocation().pathname;
+  let platformId = 0;
+  switch(locationPath) {
+    case '/lfg-rust':
+      platformId = 1
+      break;
+    case '/lfg-rocket-league':
+      platformId = 2
+      break;
+    default:
+      break;
+  }
+  
 	const rocketLeaguePlaylists: any = getRocketLeaguePlaylists();
 	const rocketLeagueRanks: any = {
 		1: (
@@ -189,7 +203,7 @@ const ExpandedProfile = (props: Props) => {
 	};
 
 	const sendConnectionRequest = async () => {
-		const requestResult = await createConnectionRequest(userState.id, props.userInfo.id, 1, connectionText, 'nothing');
+		const requestResult = await createConnectionRequest(userState.id, props.userInfo.id, platformId, connectionText, 'nothing');
 		if (requestResult.status === 'success') {
 			setRequestSent(true);
 			props.refreshTiles();

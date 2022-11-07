@@ -59,11 +59,11 @@ export default function ProfileInlayComponet() {
 				label: (
 					<img
 						onClick={() => {
-							navigate(`/discover-rust`);
+							navigate(`/lfg-rust`);
 						}}
 						className='discover-navigator-option-image'
 						src={'https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png'}
-						alt={`link to rust discover page`}
+						alt={`link to rust lfg page`}
 					/>
 				),
 			},
@@ -71,11 +71,11 @@ export default function ProfileInlayComponet() {
 				label: (
 					<img
 						onClick={() => {
-							navigate(`/discover-rocket-league`);
+							navigate(`/lfg-rocket-league`);
 						}}
 						className='discover-navigator-option-image'
 						src={'https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png'}
-						alt={`link to rocket league discover page`}
+						alt={`link to rocket league lfg page`}
 					/>
 				),
 			},
@@ -174,16 +174,16 @@ export default function ProfileInlayComponet() {
 				<div className='my-profile-overlay-wrapper'>
 					<Menu model={renderNotifications()} popup ref={notifsMenu} id='popup_menu' />
 					<Menu model={renderDiscoverOptions()} popup ref={discoverMenu} id='popup_menu' />
-					{locationPath === '/discover-rust' || locationPath === '/discover-rocket-league' ? (
+					{locationPath === '/lfg-rust' || locationPath === '/lfg-rocket-league' ? (
 						<img
 							onClick={(event) => discoverMenu.current.toggle(event)}
 							className='discover-navigator-image'
 							src={
-								locationPath === '/discover-rust'
+								locationPath === '/lfg-rust'
 									? 'https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png'
 									: 'https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png'
 							}
-							alt={`discover page navigator`}
+							alt={`lfg page navigator`}
 							data-tip
 							data-for='platformTip'
 						/>

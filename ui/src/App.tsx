@@ -15,7 +15,8 @@ import FAQPage from './components/pages/faqPage';
 import TermsOfServicePage from './components/pages/tosPage';
 import PrivacyPolicyPage from './components/pages/privacyPolicyPage';
 import { gapi } from 'gapi-script';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import LFGSplashPage from './components/pages/lfgSplashPage';
 const clientId = '244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com';
 
 function App() {
@@ -40,8 +41,9 @@ function App() {
 					<div className='App'>
 						<Routes>
 							<Route path='/' element={<HomePage />} />
-							<Route path='/discover-rust' element={<DiscoverPage />} />
-							<Route path='/discover-rocket-league' element={<DiscoverPage />} />
+							<Route path='/lfg-rust' element={<DiscoverPage />} />
+							<Route path='/lfg-rocket-league' element={<DiscoverPage />} />
+              <Route path='/lfg' element={<LFGSplashPage />} />
 							<Route path='/blog' element={<BlogPage />} />
 							<Route path='/blog/how-to-find-great-rust-teammates' element={<BlogArticle1 />} />
 							<Route path='/blog/rocket-league-minecraft-support' element={<BlogArticle2 />} />

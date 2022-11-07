@@ -70,8 +70,9 @@
 				.connection-game-image {
 					width: 3vw;
 					width: 3vw;
-					min-width: 35px;
-					max-width: 35px;
+					min-width: 3vw;
+          max-width: 3vw;
+          border-radius: calc(3vw / 2);
 					opacity: 0.6;
 					margin: 0.5vw 0.5vw;
 				}
@@ -149,7 +150,23 @@
 		min-height: 65px !important;
 		max-height: 65px !important;
 		border-radius: calc(65px / 2) !important;
-	}
+  }
+  .connection-tile {
+		.connection-main-container {
+			.stackable-container {
+        .stackable-container-left {
+          .connection-game-image {
+            width: 5vw;
+            width: 5vw;
+            min-width: 5vw;
+            max-width: 5vw;
+            border-radius: calc(5vw / 2);
+            margin: 1vw 1vw;
+          }
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 1000px) {
@@ -175,5 +192,21 @@
 		min-height: 55px !important;
 		max-height: 55px !important;
 		border-radius: calc(55px / 2) !important;
-	}
+  }
+  .connection-tile {
+		.connection-main-container {
+			.stackable-container {
+        .stackable-container-left {
+          .connection-game-image {
+            width: 7vw;
+            width: 7vw;
+            min-width: 7vw;
+            max-width: 7vw;
+            border-radius: calc(7vw / 2);
+            margin: 1.5vw 1.5vw;
+          }
+        }
+      }
+    }
+  }
 }

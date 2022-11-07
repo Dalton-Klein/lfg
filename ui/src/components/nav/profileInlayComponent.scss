@@ -184,11 +184,11 @@
 	.p-menu {
 		.p-menuitem-text {
 			.discover-navigator-option-image {
-				min-width: 8vw;
-				max-width: 8vw;
-				min-height: 8vw;
-				max-height: 8vw;
-				border-radius: calc(8vw / 2);
+				min-width: 5vw;
+				max-width: 5vw;
+				min-height: 5vw;
+				max-height: 5vw;
+				border-radius: calc(5vw / 2);
 			}
 			.notification-container {
 				font-size: $font2;
@@ -238,8 +238,16 @@
 	.my-profile-overlay-link {
 		min-width: 8vw;
 	}
+
 	.p-menu {
 		.p-menuitem-text {
+			.discover-navigator-option-image {
+				min-width: 8vw;
+				max-width: 8vw;
+				min-height: 8vw;
+				max-height: 8vw;
+				border-radius: calc(8vw / 2);
+			}
 			.notification-container {
 				font-size: $font1;
 				.notification-profile-image {

@@ -57,14 +57,21 @@ export default function FilterComponent(props: props) {
 	}));
 
 	const selectionChange = (options: any, filterAction: any, isClearing = false) => {
-		setSelected(options);
+    setSelected(options);
+    let formattedOptions:any = [];
+    //For options that are pictures, use this if block
+    if (filterAction.name === 'rank') {
+      options.forEach((option:any) => {
+        formattedOptions.push(option.label.props.alt)
+      });
+    }
+    //Update preferences state with filter objects
 		if (!isClearing) {
-      console.log('actionL:  ', filterAction)
 			const filterName = filterAction.name;
 			dispatch(
 				setPreferences({
 					...preferencesState,
-					discoverFilters: { ...preferencesState.discoverFilters, [filterName]: options },
+					discoverFilters: { ...preferencesState.discoverFilters, [filterName]: formattedOptions.length ? formattedOptions:options },
 				})
 			);
 		}

@@ -87,7 +87,7 @@ export default function PlayerTile(props: any) {
 					showConnectForm={true}
 					isProfileComplete={props.isProfileComplete}
 					isConnected={false}
-					game={locationPath === '/discover-rust' ? 'rust' : 'rocket-league'}
+					game={locationPath === '/lfg-rust' ? 'rust' : 'rocket-league'}
 				/>
 			) : (
 				<></>
@@ -155,7 +155,7 @@ export default function PlayerTile(props: any) {
 							</div>
 						</div>
 					</div>
-					{locationPath === '/discover-rocket-league' ? (
+					{locationPath === '/lfg-rocket-league' ? (
 						<div className='details-rocket-league'>
 							<div className='details-rocket-league-playlist' data-tip data-for='playlistTip'>
 								{rocketLeaguePlaylists[props.rocket_league_playlist]}
@@ -172,13 +172,13 @@ export default function PlayerTile(props: any) {
 							weekdays:{' '}
 						</div>
 						<div className='details-availabilty-text'>
-							{locationPath === '/discover-rust' ? props.rust_weekdays : props.rocket_league_weekdays}
+							{locationPath === '/lfg-rust' ? props.rust_weekdays : props.rocket_league_weekdays}
 						</div>
 						<div className='detail-label' data-tip data-for='weekendTip'>
 							weekends:{' '}
 						</div>
 						<div className='details-availabilty-text'>
-							{locationPath === '/discover-rust' ? props.rust_weekends : props.rocket_league_weekends}
+							{locationPath === '/lfg-rust' ? props.rust_weekends : props.rocket_league_weekends}
 						</div>
 					</div>
 				</div>

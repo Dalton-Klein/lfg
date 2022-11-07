@@ -131,7 +131,7 @@ export default function FilterBarComponent(props: any) {
 				<div className='filter-bar'>
 					<i className='pi pi-filter'></i>
 					<FilterComponent title='sort' options={sortOptions} multi={false} innerRef={sortRef}></FilterComponent>
-					{locationPath === '/discover-rocket-league' ? (
+					{locationPath === '/lfg-rocket-league' ? (
 						<FilterComponent
 							title='playlist'
 							options={rocketLeaguePlaylistOptions}
@@ -141,7 +141,7 @@ export default function FilterBarComponent(props: any) {
 					) : (
 						<></>
 					)}
-					{locationPath === '/discover-rocket-league' ? (
+					{locationPath === '/lfg-rocket-league' ? (
 						<FilterComponent
 							title='rank'
 							options={rocketLeagueRankOptions}

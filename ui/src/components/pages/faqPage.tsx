@@ -11,7 +11,7 @@ export default function FAQPage() {
 	const welcomeRef: any = useRef(null);
 	const createAccountRef: any = useRef(null);
 	const manageProfileRef: any = useRef(null);
-	const discoveringRef: any = useRef(null);
+	const lfgRef: any = useRef(null);
 	const sendingRef: any = useRef(null);
 	const acceptingRef: any = useRef(null);
 	const messagingRef: any = useRef(null);
@@ -61,10 +61,10 @@ export default function FAQPage() {
 							</div>
 							<div
 								onClick={() => {
-									scrollToSection(discoveringRef);
+									scrollToSection(lfgRef);
 								}}
 							>
-								Discovering Players
+								Finding Players
 							</div>
 						</div>
 						<div className='faq-list'>
@@ -212,25 +212,25 @@ export default function FAQPage() {
 					<div className='faq-sub-heading'>Publishing/ Unpublishing Profiles</div>
 					<div className='faq-paragraph'>
 						You have control on whether your game specific profile is disvoverable to others. Each game specific profile
-						has a toggle switch to control if others can view your profile in the discover page. To publish your
+						has a toggle switch to control if others can view your profile in the lfg page. To publish your
 						profile, both your general and game specific profiles must be completed. Upon switching your published
 						status, a toast message will appear at the top of your screen confirming the change.
 					</div>
 				</div>
-				{/* Discover */}
-				<div className='faq-content-container' ref={discoveringRef}>
-					<div className='faq-sub-title'>Discovering Players</div>
+				{/* LFG */}
+				<div className='faq-content-container' ref={lfgRef}>
+					<div className='faq-sub-title'>Finding Players</div>
 					<div className='faq-sub-heading'>Player Cards</div>
 					<div className='faq-paragraph'>
 						The{' '}
 						<span
 							onClick={() => {
-								changeSelection('discover');
+								changeSelection('lfg');
 							}}
 							className='link-text'
 						>
 							{' '}
-							discover page
+							lfg page
 						</span>{' '}
 						is populated with player cards. These cards display all the important details of that player's profile. On
 						each player card, a view button can be pressed to bring up the detailed view of that player's profile.
@@ -250,17 +250,17 @@ export default function FAQPage() {
 						You connect with others from the{' '}
 						<span
 							onClick={() => {
-								changeSelection('discover');
+								changeSelection('lfg');
 							}}
 							className='link-text'
 						>
 							{' '}
-							discover page
+							lfg page
 						</span>{' '}
 						. On each player card, a view button can be pressed to bring up the detailed view of that player's profile.
 						At the bottom of this expanded view, fill out the message box and press connect. The message you type will
 						appear for that user alongside your request. After pressing connect, your request will have been sent, and
-						that player will be removed from your discover feed until they take action on your request. You can review
+						that player will be removed from your lfg feed until they take action on your request. You can review
 						your pending outgoing requests on the{' '}
 						<span
 							onClick={() => {

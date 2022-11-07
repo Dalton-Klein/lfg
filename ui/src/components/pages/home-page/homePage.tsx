@@ -41,12 +41,12 @@ export default function HomePage() {
 			<div className='tile-container'>
 				<div className='discover-tiles'>
 					<DaddyTile
-						routerLink='/discover-rust'
+						routerLink='/lfg-rust'
 						image='https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'
 						title='rust'
 					></DaddyTile>
 					<DaddyTile
-						routerLink='/discover-rocket-league'
+						routerLink='/lfg-rocket-league'
 						image='https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'
 						title='rocket league'
 					></DaddyTile>
