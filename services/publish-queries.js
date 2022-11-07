@@ -22,7 +22,18 @@ const checkIfUserCanPublishRustProfileQuery = () => {
   `;
 };
 
+const getAllProfilesPublicationStatusQuery = () => {
+	return `
+      select ur.is_published as rust_status, url.is_published as rocket_league_status
+        from public.user_rust_infos ur
+   left join public.user_rocket_league_infos url
+          on url.user_id = :userId 
+       where ur.user_id  = :userId
+  `;
+};
+
 module.exports = {
 	checkGameProfileCompletionQuery,
 	checkIfUserCanPublishRustProfileQuery,
+	getAllProfilesPublicationStatusQuery,
 };

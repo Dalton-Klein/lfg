@@ -223,6 +223,7 @@ export default function Chat(props: any) {
 					showConnectForm={false}
 					isProfileComplete={props.isProfileComplete}
 					isConnected={true}
+					game={'all'}
 				/>
 			) : (
 				<></>

@@ -20,6 +20,28 @@ const style = {
     // This line disables the default blue border in react-select
     boxShadow: 'none',
   }),
+  menu: (base: any) => ({
+		...base,
+		// This line disables the default blue border in react-select
+		backgroundColor: '#1c1c1e',
+		borderRadius: 'calc(8px + 0.25vw)',
+  }),
+  menuList: (base: any) => ({
+		...base,
+		// This line disables the default blue border in react-select
+		backgroundColor: 'transparent',
+  }),
+  option: (base: any) => ({
+		...base,
+    borderRadius: 'calc(8px + 0.25vw)',
+    backgroundColor: ' #1c1c1e',
+    color: '#ffffff',
+    fontSize: 'calc(16px + 0.25vw)',
+    opacity: 1,
+    "&:hover": {
+      backgroundColor: '#232026',
+    },
+  }),
 };
 
 const SelectComponent = (props: props) => {
@@ -55,6 +77,9 @@ const SelectComponent = (props: props) => {
           styles={style}
           onChange={selectionChange}
           isMulti
+					menuPortalTarget={document.body}
+					menuPosition={'fixed'}
+					menuShouldBlockScroll={true}
         />
       ) : (
         <Select
@@ -68,6 +93,9 @@ const SelectComponent = (props: props) => {
           isSearchable={false}
           styles={style}
           onChange={selectionChange}
+					menuPortalTarget={document.body}
+					menuPosition={'fixed'}
+					menuShouldBlockScroll={true}
         />
       )}
     </div>

@@ -33,7 +33,6 @@ export const availabilityOptions = [
 ];
 
 export const languageOptions = [
-	{ label: '', type: 'language', value: '', id: '0' },
 	{ label: 'english', type: 'language', value: 'english', id: '1' },
 	{ label: 'mandarin chinese', type: 'language', value: 'mandarin chinese', id: '2' },
 	{ label: 'spanish', type: 'language', value: 'spanish', id: '3' },
@@ -52,4 +51,10 @@ export const regionOptions = [
 	{ label: 'asia', type: 'region', value: 5, id: '5' },
 	{ label: 'oceania', type: 'region', value: 6, id: '6' },
 	{ label: 'africa', type: 'region', value: 7, id: '7' },
+];
+
+export const rocketLeaguePlaylistOptions = [
+	{ label: 'casual', type: 'rocketLeaguePlaylist', value: 1, id: '1' },
+	{ label: 'ranked 2s', type: 'rocketLeaguePlaylist', value: 2, id: '2' },
+	{ label: 'ranked 3s', type: 'rocketLeaguePlaylist', value: 3, id: '3' },
 ];

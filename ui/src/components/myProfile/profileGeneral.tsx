@@ -200,6 +200,7 @@ export default function ProfileGeneral(props: Props) {
 					showConnectForm={false}
 					isProfileComplete={true}
 					isConnected={false}
+					game={'all'}
 				/>
 			) : (
 				<></>

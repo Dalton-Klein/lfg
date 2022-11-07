@@ -57,7 +57,7 @@ export default function BlogArticle2() {
 				<div className='article-content-container'>
 					<h3 className='article-sub-title'>How will it work?</h3>
 					<div className='article-paragraph'>
-						There will be new options in the discover page to switch between supported games. These views will only show
+						There will be new options in the lfg page to switch between supported games. These views will only show
 						members who have selected to publish that specific games profile. This bring us to the additions to the
 						profile page. There will be an additional profile to manage for each game, with a form specific for that
 						game. Once both the general and game specific profile is complete, you can publish your Rocket League or
