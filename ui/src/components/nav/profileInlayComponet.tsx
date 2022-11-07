@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './profileInlayComponent.scss';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Backdrop from '../modal/backdropComponent';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
@@ -8,9 +8,11 @@ import { Menu } from 'primereact/menu';
 import * as io from 'socket.io-client';
 import { howLongAgo } from '../../utils/helperFunctions';
 import { getNotificationsUser } from '../../utils/rest';
+import ReactTooltip from 'react-tooltip';
 const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.gangs.gg');
 
 export default function ProfileInlayComponet() {
+	const locationPath: string = useLocation().pathname;
 	const navigate = useNavigate();
 	const userState = useSelector((state: RootState) => state.user.user);
 	const [drawerVis, setDrawerVis] = useState<boolean>(false);
@@ -18,6 +20,7 @@ export default function ProfileInlayComponet() {
 	const [notifications, setnotifications] = useState<any>([]);
 
 	const notifsMenu: any = useRef(null);
+	const discoverMenu: any = useRef(null);
 	useEffect(() => {
 		if (typeof userState.avatar_url === 'string' && userState.avatar_url.length > 1) {
 			setProfileImage('userState.avatar_url');
@@ -50,7 +53,34 @@ export default function ProfileInlayComponet() {
 			socketRef.emit('join_room', `notifications-${userState.id}`);
 		}
 	};
-
+	const renderDiscoverOptions = () => {
+		return [
+			{
+				label: (
+					<img
+						onClick={() => {
+							navigate(`/lfg-rust`);
+						}}
+						className='discover-navigator-option-image'
+						src={'https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png'}
+						alt={`link to rust lfg page`}
+					/>
+				),
+			},
+			{
+				label: (
+					<img
+						onClick={() => {
+							navigate(`/lfg-rocket-league`);
+						}}
+						className='discover-navigator-option-image'
+						src={'https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png'}
+						alt={`link to rocket league lfg page`}
+					/>
+				),
+			},
+		] as any;
+	};
 	const renderNotifications = () => {
 		if (notifications.length) {
 			let items: any = [];
@@ -143,6 +173,23 @@ export default function ProfileInlayComponet() {
 			) : (
 				<div className='my-profile-overlay-wrapper'>
 					<Menu model={renderNotifications()} popup ref={notifsMenu} id='popup_menu' />
+					<Menu model={renderDiscoverOptions()} popup ref={discoverMenu} id='popup_menu' />
+					{locationPath === '/lfg-rust' || locationPath === '/lfg-rocket-league' ? (
+						<img
+							onClick={(event) => discoverMenu.current.toggle(event)}
+							className='discover-navigator-image'
+							src={
+								locationPath === '/lfg-rust'
+									? 'https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png'
+									: 'https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png'
+							}
+							alt={`lfg page navigator`}
+							data-tip
+							data-for='platformTip'
+						/>
+					) : (
+						<></>
+					)}
 					<button
 						className='text-only-button notifications-button'
 						onClick={(event) => notifsMenu.current.toggle(event)}
@@ -171,6 +218,9 @@ export default function ProfileInlayComponet() {
 					</div>
 				</div>
 			)}
+			<ReactTooltip id='platformTip' place='left' effect='solid'>
+				select game for player discovery
+			</ReactTooltip>
 		</div>
 	);
 }

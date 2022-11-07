@@ -48,6 +48,7 @@ router.post('/endorsement-options', endorsementsController.getEndorsementOptions
 router.post('/endorsement', endorsementsController.addOrRemoveEndorsement);
 
 //PUBLISH/ PROFILE COMPLETENESS RELATED ROUTES
+router.post('/all-publication-status', publishController.getAllProfilesPublicationStatusForUser);
 router.post('/general-profile-completion', publishController.checkGeneralProfileCompletion);
 router.post('/rust-profile-completion', publishController.checkRustProfileCompletion);
 router.post('/rocket-league-profile-completion', publishController.checkRocketLeagueProfileCompletion);
@@ -56,6 +57,7 @@ router.post('/publish-rocket-league', publishController.checkIfUserCanPublishRoc
 
 //TILES RELATED ROUTES
 router.post('/rust-tiles', tilesController.getRustTiles);
+router.post('/rocket-league-tiles', tilesController.getRocketLeagueTiles);
 
 //TESTING ROUTES Coffee Disable
 router.post('/test-email', testController.testEmails);

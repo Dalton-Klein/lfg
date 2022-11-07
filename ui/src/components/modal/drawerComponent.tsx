@@ -100,11 +100,11 @@ const DrawerComponent = (props: Props) => {
 					/>
 					<div
 						onClick={() => {
-							navigationButtonPressed('discover');
+							navigationButtonPressed('lfg');
 						}}
 						className='hamburger-links'
 					>
-						<button className='hamburger-button'>discover</button>
+						<button className='hamburger-button'>lfg</button>
 					</div>
 					<div
 						onClick={() => {

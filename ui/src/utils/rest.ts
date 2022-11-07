@@ -135,6 +135,25 @@ export const getRustTiles = async (userId: number, token: string) => {
 	}
 };
 
+export const getRocketLeagueTiles = async (userId: number, token: string) => {
+	try {
+		const httpResult = await fetch(`${endpointURL}/rocket-league-tiles`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				userId,
+				token,
+			}),
+		});
+		const jsonify = httpResult.json();
+		return jsonify;
+	} catch (error) {
+		console.log(`${error} while fetching rocket league tiles`);
+	}
+};
+
 export const getProfileSocialData = async (fromUserId: number, forUserId: number, token: string) => {
 	try {
 		const httpResult = await fetch(`${endpointURL}/social`, {
@@ -312,6 +331,21 @@ export const updateGameSpecificInfoField = async (id: number, table: string, fie
 /*
 	Publish Calls
 */
+export const getAllPublishStatus = async (userId: number, token: string) => {
+	return await fetch(`${endpointURL}/all-publication-status`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			userId,
+		}),
+	})
+		.then((res) => res.json())
+		.catch((err) => {
+			console.log(`${err} trying to validate the publishing of rust profile`);
+		});
+};
 export const checkGeneralProfileCompletion = async (userId: number, token: string) => {
 	return await fetch(`${endpointURL}/general-profile-completion`, {
 		method: 'POST',

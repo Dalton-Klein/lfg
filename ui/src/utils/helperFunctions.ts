@@ -163,3 +163,11 @@ const checkIfIdInEveryArray = (id: number, arrays: any) => {
 	}
 	return true;
 };
+
+export const getRocketLeaguePlaylists = () => {
+	return {
+		1: 'casual',
+		2: 'ranked 2s',
+		3: 'ranked 3s',
+	};
+};

@@ -112,7 +112,7 @@ export default function PrivacyPolicyPage() {
 						with public areas of the gangs website, such personal information may be viewed by all users and may be
 						publicly made available outisde of the gangs website in perpetuity. If you interact with other users of our
 						website, any communication or profile information will be available to them to view. You can also view
-						others' profiles and messages in the discover page and public chat rooms.
+						others' profiles and messages in the lfg page and public chat rooms.
 					</div>
 				</div>
 				<div className='pp-content-container'>

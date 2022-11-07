@@ -2,6 +2,19 @@
 
 .p-menu {
 	.p-menuitem-text {
+		.discover-navigator-option-image {
+			min-width: 2vw;
+			max-width: 2vw;
+			min-height: 2vw;
+			max-height: 2vw;
+			border-radius: calc(2vw / 2);
+			transition: $transition1;
+			margin-right: 3vw;
+			cursor: pointer;
+			align-self: center;
+			margin-left: auto;
+			margin-right: auto;
+		}
 		.notification-container {
 			display: flex;
 			align-items: center;
@@ -70,6 +83,18 @@
 	// i:hover {
 	//   transform: scale(1.05);
 	// }
+	.discover-navigator-image {
+		min-width: 2.25vw;
+		max-width: 2.25vw;
+		min-height: 2.25vw;
+		max-height: 2.25vw;
+		border-radius: calc(2.25vw / 2);
+		transition: $transition1;
+		margin-right: 3vw;
+		margin-top: auto;
+		margin-bottom: auto;
+		cursor: pointer;
+	}
 	.notifications-button {
 		transition: $transition1;
 		margin-top: 0;
@@ -131,6 +156,13 @@
 
 @media screen and (max-width: $screenBreak1) {
 	.my-profile-overlay-wrapper {
+		.discover-navigator-image {
+			min-width: 4.5vw;
+			max-width: 4.5vw;
+			min-height: 4.5vw;
+			max-height: 4.5vw;
+			border-radius: calc(4.5vw / 2);
+		}
 		.nav-overlay-img {
 			min-width: 35px !important;
 			max-width: 35px !important;
@@ -151,6 +183,13 @@
 	}
 	.p-menu {
 		.p-menuitem-text {
+			.discover-navigator-option-image {
+				min-width: 5vw;
+				max-width: 5vw;
+				min-height: 5vw;
+				max-height: 5vw;
+				border-radius: calc(5vw / 2);
+			}
 			.notification-container {
 				font-size: $font2;
 				.notification-profile-image {
@@ -173,6 +212,14 @@
 
 @media screen and (max-width: $screenBreak2) {
 	.my-profile-overlay-wrapper {
+		.discover-navigator-image {
+			min-width: 8vw;
+			max-width: 8vw;
+			min-height: 8vw;
+			max-height: 8vw;
+			border-radius: calc(8vw / 2);
+			margin-right: 3vw;
+		}
 		.nav-overlay-img {
 			min-width: 30px !important;
 			max-width: 30px !important;
@@ -191,8 +238,16 @@
 	.my-profile-overlay-link {
 		min-width: 8vw;
 	}
+
 	.p-menu {
 		.p-menuitem-text {
+			.discover-navigator-option-image {
+				min-width: 8vw;
+				max-width: 8vw;
+				min-height: 8vw;
+				max-height: 8vw;
+				border-radius: calc(8vw / 2);
+			}
 			.notification-container {
 				font-size: $font1;
 				.notification-profile-image {

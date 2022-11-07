@@ -107,8 +107,8 @@ select:hover {
 
 .react-select-container {
 	min-width: 30vw;
-	color: $colorGreyBg;
-	background-color: transparent;
+	color: $colorGreyBg !important;
+  background-color: transparent;
 	.react-select__control {
 		padding: 0 0.5vw;
 		padding-left: 0.6vw;
@@ -147,14 +147,12 @@ select:hover {
 			background-color: transparent;
 			.react-select__option {
 				border-radius: $borderRadius2;
-				background-color: $colorGreyBg;
+				background-color: $colorGreyBg !important;
 				color: $colorText;
 				font-size: $font2;
 				opacity: 1;
-				z-index: 999 !important;
 			}
 			.react-select__option:hover {
-				border-radius: $borderRadius2;
 				background-color: $colorGreyPop;
 			}
 		}
