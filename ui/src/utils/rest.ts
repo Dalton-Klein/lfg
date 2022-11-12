@@ -116,9 +116,28 @@ export const resetPassword = async (email: string, vKey: string, password: strin
 };
 
 // SOCIAL RELATED REQUESTS
-export const getRustTiles = async (userId: number, token: string) => {
+export const getRustPlayerTiles = async (userId: number, token: string) => {
 	try {
 		const httpResult = await fetch(`${endpointURL}/rust-tiles`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				userId,
+				token,
+			}),
+		});
+		const jsonify = httpResult.json();
+		return jsonify;
+	} catch (error) {
+		console.log(`${error} while fetching rust tiles`);
+	}
+};
+
+export const getRustGangTiles = async (userId: number, token: string) => {
+	try {
+		const httpResult = await fetch(`${endpointURL}/rust-gang-tiles`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

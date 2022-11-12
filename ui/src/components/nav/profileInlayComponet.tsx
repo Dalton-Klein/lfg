@@ -152,7 +152,10 @@ export default function ProfileInlayComponet() {
 			newUrl = '/messaging';
 		} else if (notificationType === 4) {
 			newUrl = `/general-profile`;
+		} else if (notificationType === 99) {
+			newUrl = `/my-gangs`;
 		}
+
 		// Navigates to dynamic url (new page)
 		navigate(`${newUrl}`);
 	};
@@ -198,6 +201,9 @@ export default function ProfileInlayComponet() {
 					</button>
 					<button className='text-only-button notifications-button' onClick={(event) => notificationPressed(3)}>
 						<i className='pi pi-envelope' />
+					</button>
+					<button className='text-only-button notifications-button' onClick={(event) => notificationPressed(99)}>
+						<i className='pi pi-users' />
 					</button>
 					<div className='my-profile-overlay-link'>
 						{profileImage === '' || profileImage === '/assets/avatarIcon.png' ? (

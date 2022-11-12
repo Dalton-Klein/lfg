@@ -41,14 +41,22 @@ export default function HomePage() {
 			<div className='tile-container'>
 				<div className='discover-tiles'>
 					<DaddyTile
-						routerLink='/lfg-rust'
+						has2Buttons={true}
+						routerLinkLFG='/lfg-rust'
+						routerLinkLFM='/lfm-rust'
 						image='https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'
 						title='rust'
+						buttonTextLFG='lfg'
+						buttonTextLFM='lfm'
 					></DaddyTile>
 					<DaddyTile
-						routerLink='/lfg-rocket-league'
+						has2Buttons={true}
+						routerLinkLFG='/lfg-rocket-league'
+						routerLinkLFM='/lfm-rocket-league'
 						image='https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'
 						title='rocket league'
+						buttonTextLFG='lfg'
+						buttonTextLFM='lfm'
 					></DaddyTile>
 				</div>
 				<div className='nav-tiles'>
@@ -68,7 +76,9 @@ export default function HomePage() {
 			</div>
 			<div className='extra-tiles'>
 				<DaddyTile
-					routerLink='/blog/rocket-league-minecraft-support'
+					has2Buttons={false}
+					routerLinkLFG='/blog/rocket-league-minecraft-support'
+					buttonTextLFG='info'
 					image='https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/minecraft_bscq2s.png'
 					title='minecraft'
 				></DaddyTile>

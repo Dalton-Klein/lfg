@@ -46,8 +46,8 @@ button {
 	background-color: $colorPrimary;
 	font-family: 'questial';
 	font-weight: 500;
-	padding: 0.75em;
-	transition: 125ms;
+	padding: 0.5em;
+	transition: $transition1;
 	font-size: $font2;
 	margin-top: 1em;
 	margin-bottom: 1em;
@@ -108,7 +108,7 @@ select:hover {
 .react-select-container {
 	min-width: 30vw;
 	color: $colorGreyBg !important;
-  background-color: transparent;
+	background-color: transparent;
 	.react-select__control {
 		padding: 0 0.5vw;
 		padding-left: 0.6vw;

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { attemptPublishRustProfile, getRustTiles, getRocketLeagueTiles } from '../../utils/rest';
+import React, { useEffect, useState } from 'react';
+import { attemptPublishRustProfile, getRustPlayerTiles, getRocketLeagueTiles } from '../../utils/rest';
 import FooterComponent from '../nav/footerComponent';
 import HeaderComponent from '../nav/headerComponent';
 import FilterBarComponent from '../nav/filter/filterBarComponent';
@@ -11,6 +11,7 @@ import { findUnionForObjectArrays, generateRange } from '../../utils/helperFunct
 import { resetFilterPreferences } from '../../store/userPreferencesSlice';
 import BannerTitle from '../nav/banner-title';
 import { useLocation } from 'react-router-dom';
+import BannerAlt from '../nav/banner-alt';
 
 export default function DiscoverPage() {
 	const locationPath: string = useLocation().pathname;
@@ -63,7 +64,7 @@ export default function DiscoverPage() {
 	const fetchTilesData = async () => {
 		let tiles: any = [];
 		if (locationPath === '/lfg-rust') {
-			tiles = await getRustTiles(userState.id && userState.id > 0 ? userState.id : 0, 'nothing');
+			tiles = await getRustPlayerTiles(userState.id && userState.id > 0 ? userState.id : 0, 'nothing');
 		} else if (locationPath === '/lfg-rocket-league') {
 			tiles = await getRocketLeagueTiles(userState.id && userState.id > 0 ? userState.id : 0, 'nothing');
 		}
@@ -87,51 +88,46 @@ export default function DiscoverPage() {
 	};
 
 	const updateTilesFeed = () => {
-    let filteredData: any;
-    let rocketLeaguePlaylistResult = [];
-    let rocketLeagueRankResult:any = [];
+		let filteredData: any;
+		let rocketLeaguePlaylistResult = [];
+		let rocketLeagueRankResult: any = [];
 		let ageResult = [];
 		let hoursResult = [];
 		let availabilityResult = [];
 		let languageResult = [];
 		let regionResult = [];
-    //Filter by RL Playlist
-    if (locationPath === '/lfg-rocket-league' && preferencesState.discoverFilters.playlist[0]) {
-      const playlistKey:any = {
-        1: 'casual',
-        2: 'ranked 2s',
-        3: 'ranked 3s'
-      }
+		//Filter by RL Playlist
+		if (locationPath === '/lfg-rocket-league' && preferencesState.discoverFilters.playlist[0]) {
+			const playlistKey: any = {
+				1: 'casual',
+				2: 'ranked 2s',
+				3: 'ranked 3s',
+			};
 			let acceptedPlaylists: number[] = [];
-      preferencesState.discoverFilters.playlist.forEach((availabiltyObj: any) => {
-        acceptedPlaylists.push(availabiltyObj.label);
-      });
-      rocketLeaguePlaylistResult = tilesFromDB.filter((tile: any) => {
-				return acceptedPlaylists.includes(
-					playlistKey[tile.rocket_league_playlist]
-				);
+			preferencesState.discoverFilters.playlist.forEach((availabiltyObj: any) => {
+				acceptedPlaylists.push(availabiltyObj.label);
+			});
+			rocketLeaguePlaylistResult = tilesFromDB.filter((tile: any) => {
+				return acceptedPlaylists.includes(playlistKey[tile.rocket_league_playlist]);
 			});
 		} else rocketLeaguePlaylistResult = tilesFromDB;
-    //Filter by RL Rank
-    if (locationPath === '/lfg-rocket-league' && preferencesState.discoverFilters.rank[0]) {
-      const rankKey:any = {
-        1: 'rocket league bronze rank',
-        2: 'rocket league silver rank',
-        3: 'rocket league gold rank',
-        4: 'rocket league paltinum rank',
-        5: 'rocket league diamond rank',
-        6: 'rocket league champ rank',
-        7: 'rocket league grand champ rank',
-      }
+		//Filter by RL Rank
+		if (locationPath === '/lfg-rocket-league' && preferencesState.discoverFilters.rank[0]) {
+			const rankKey: any = {
+				1: 'rocket league bronze rank',
+				2: 'rocket league silver rank',
+				3: 'rocket league gold rank',
+				4: 'rocket league paltinum rank',
+				5: 'rocket league diamond rank',
+				6: 'rocket league champ rank',
+				7: 'rocket league grand champ rank',
+			};
 			let acceptedRanks: any = [];
-      preferencesState.discoverFilters.rank.forEach((availabiltyObj: any) => {
-        acceptedRanks.push(availabiltyObj);
-      });
-      rocketLeagueRankResult = tilesFromDB.filter((tile: any) => {
-        console.log('accepted', acceptedRanks, ' tile ', rankKey[tile.rocket_league_rank])
-				return acceptedRanks.includes(
-					rankKey[tile.rocket_league_rank]
-				);
+			preferencesState.discoverFilters.rank.forEach((availabiltyObj: any) => {
+				acceptedRanks.push(availabiltyObj);
+			});
+			rocketLeagueRankResult = tilesFromDB.filter((tile: any) => {
+				return acceptedRanks.includes(rankKey[tile.rocket_league_rank]);
 			});
 		} else rocketLeagueRankResult = tilesFromDB;
 		//Filter by age
@@ -197,9 +193,9 @@ export default function DiscoverPage() {
 			regionResult = tilesFromDB.filter((tile: any) => acceptedRegion.includes(tile.region_name));
 		} else regionResult = tilesFromDB;
 		//Stack filter results and find union
-    const resultsArray = [];
-    resultsArray.push(rocketLeaguePlaylistResult);
-    resultsArray.push(rocketLeagueRankResult);
+		const resultsArray = [];
+		resultsArray.push(rocketLeaguePlaylistResult);
+		resultsArray.push(rocketLeagueRankResult);
 		resultsArray.push(ageResult);
 		resultsArray.push(hoursResult);
 		resultsArray.push(availabilityResult);
@@ -259,14 +255,11 @@ export default function DiscoverPage() {
 	return (
 		<div>
 			<HeaderComponent></HeaderComponent>
-			<BannerTitle
+			<BannerAlt
 				title={locationPath === '/lfg-rust' ? 'find rust players' : 'find rocket league players'}
-				imageLink={
-					locationPath === '/lfg-rust'
-						? 'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'
-						: 'https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'
-				}
-			></BannerTitle>
+				buttonText={locationPath === '/lfg-rust' ? 'my rust profile' : 'my rl profile'}
+				buttonLink={locationPath === '/lfg-rust' ? '/rust-profile' : '/rocket-league-profile'}
+			></BannerAlt>
 			<FilterBarComponent clearFiltersMethod={clearAllFiltersAndSorting}></FilterBarComponent>
 			<div className='feed'>{tilesFeed}</div>
 			<FooterComponent></FooterComponent>

@@ -5,7 +5,6 @@ import DaddyTile from '../tiles/daddyTile';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import BannerTitle from '../nav/banner-title';
 
 export default function LFGSplashPage() {
 	const userState = useSelector((state: RootState) => state.user.user);
@@ -20,19 +19,26 @@ export default function LFGSplashPage() {
 			<div className='tile-container'>
 				<div className='discover-tiles'>
 					<DaddyTile
-						routerLink='/lfg-rust'
+						has2Buttons={true}
+						routerLinkLFG='/lfg-rust'
+						routerLinkLFM='/lfm-rust'
 						image='https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'
-						title='rust'
+						title='lfg rust'
+						buttonTextLFG='lfg'
+						buttonTextLFM='lfm'
 					></DaddyTile>
 					<DaddyTile
-						routerLink='/lfg-rocket-league'
+						has2Buttons={true}
+						routerLinkLFG='/lfg-rocket-league'
+						routerLinkLFM='/lfm-rocket-league'
 						image='https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'
-						title='rocket league'
+						title='lfg rocket league'
+						buttonTextLFG='lfg'
+						buttonTextLFM='lfm'
 					></DaddyTile>
 				</div>
-				
 			</div>
-			
+
 			<FooterComponent></FooterComponent>
 		</div>
 	);
