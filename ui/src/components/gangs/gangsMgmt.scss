@@ -1,0 +1,147 @@
+@import '../../styling/config';
+.gang-mgmt-master {
+  min-width: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .gang-mgmt-container {
+    min-width: 70%;
+    background-color: $colorGreyPop;
+    border-radius: $borderRadius2;
+    margin-bottom: 2vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .gradient-bar {
+      min-width: 97%;
+      max-width: 97%;
+      min-height: 1px;
+      max-height: 1px;
+      background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+    }
+    .gang-container {
+      height: 7vh;
+      min-height: 40px;
+      margin: 2vh 0.5vw;
+      min-width: 95%;
+      max-width: 95%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .react-switch-checkbox {
+        height: 0;
+        width: 0;
+        visibility: hidden;
+      }
+
+      .react-switch-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        width: 50px;
+        height: 25px;
+        background: grey;
+        border-radius: 50px;
+        position: relative;
+        transition: background-color 0.3s;
+        margin-right: 4vw;
+      }
+
+      .react-switch-label .react-switch-button {
+        content: '';
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        width: 23px;
+        height: 23px;
+        border-radius: 23px;
+        transition: 0.3s;
+        background: #fff;
+        box-shadow: 0 0 1px 0 rgba(10, 10, 10, 0.29);
+      }
+
+      .react-switch-checkbox:checked + .react-switch-label {
+        background: $colorPrimary;
+      }
+      .react-switch-checkbox:checked + .react-switch-label .react-switch-button {
+        left: calc(100% - 1px);
+        transform: translateX(-100%);
+      }
+
+      .react-switch-label:active .react-switch-button {
+        width: 30px;
+      }
+
+      .prof-banner-detail-text {
+        font-size: $font2;
+        color: $colorText;
+        margin: 0 1vw;
+      }
+      .input-box {
+        min-width: 80%;
+        align-self: center;
+        word-wrap: normal;
+        font-size: $font2;
+        background-color: $colorGreyBg;
+      }
+      .select-container {
+        min-width: 80%;
+        max-height: 100%;
+        display: flex;
+        padding-right: 2vw;
+        justify-content: flex-end;
+      }
+    }
+
+    .gang-container-top {
+      @extend .gang-container;
+      justify-content: center;
+      margin-top: 2vh;
+      margin-bottom: 2vh;
+      z-index: 2;
+      .dynamic-avatar-bg {
+        width: 4.5vw;
+        height: 4.5vw;
+        min-width: 4.5vw;
+        min-height: 4.5vw;
+        border-radius: calc(4.5vw / 2);
+        background-color: $colorShadowLight;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        .dynamic-avatar-text {
+          font-size: $font4;
+        }
+      }
+      .gang-avatar {
+        width: 4.5vw;
+        height: 4.5vw;
+        min-width: 4.5vw;
+        min-height: 4.5vw;
+        border-radius: calc(4.5vw / 2);
+        object-fit: cover;
+        margin-left: 2vw;
+        cursor: pointer;
+      }
+      .expand-button {
+        margin-right: 2vw;
+        padding: 0 1vw;
+        padding-top: 0.5vh;
+        display: flex;
+        align-items: center;
+        vertical-align: middle;
+        img {
+          min-width: 18px;
+          max-width: 1.75vw;
+        }
+      }
+    }
+  }
+}

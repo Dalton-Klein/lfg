@@ -150,9 +150,11 @@ export default function ProfileRocketLeague(props: Props) {
     setrocketLeaguePlaylist(selection);
   };
 
-  const changeRocketLeagueRank = (selection: number) => {
-    if (rocketLeagueRank !== selection) setHasUnsavedChanges(true);
+  const changeRank = (selection: any) => {
+    if (!rocketLeagueRank || rocketLeagueRank.value !== selection.value) setHasUnsavedChanges(true);
     setrocketLeagueRank(selection);
+    console.log('selection:', selection);
+    return;
   };
 
   const changeRocketLeagueWeekday = (selection: string) => {
@@ -264,13 +266,6 @@ export default function ProfileRocketLeague(props: Props) {
     dispatch(updateUserThunk(userData.id));
   };
   // END PUBLISH
-
-  const changeRank = (selection: any) => {
-    if (!rocketLeagueRank || rocketLeagueRank.value !== selection.value) setHasUnsavedChanges(true);
-    setrocketLeagueRank(selection);
-    console.log('selection:', selection);
-    return;
-  };
 
   return (
     <div className='profile-master'>
