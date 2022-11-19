@@ -185,7 +185,6 @@ export default function PlayerTile(props: any) {
 				{/* footer details */}
 				<div className='footer-details'>
 					<div className='footer-platform-box' data-tip data-for='commPlatformTip'>
-						{/* <i className={`platform-icon pi pi-discord`}></i> */}
 						{props.preferred_platform === 1 ? (
 							<img
 								className='footer-platform-image'

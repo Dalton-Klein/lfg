@@ -1,83 +1,45 @@
 import './gangTile.scss';
 import 'primeicons/primeicons.css';
 import { getRocketLeaguePlaylists, howLongAgo } from '../../utils/helperFunctions';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ExpandedProfile from '../modal/expandedProfileComponent';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 
 export default function GangTile(props: any) {
+	const navigate = useNavigate();
 	const locationPath: string = useLocation().pathname;
-
-	const genderImageLinks: any = {
-		1: 'male',
-		2: 'female',
-		3: 'non-binary',
-	};
-
-	const rocketLeaguePlaylists: any = getRocketLeaguePlaylists();
-	const rocketLeagueRanks: any = {
-		1: (
-			<img
-				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-bronze-transp_fw3ar3.png'
-				alt='rocket league bronze rank'
-				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
-			></img>
-		),
-		2: (
-			<img
-				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-silver-transp_ovmdbx.png'
-				alt='rocket league silver rank'
-				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
-			></img>
-		),
-		3: (
-			<img
-				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-gold-transp_vwr4dz.png'
-				alt='rocket league gold rank'
-				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
-			></img>
-		),
-		4: (
-			<img
-				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-plat-transp_rgbpdw.png'
-				alt='rocket league platinum rank'
-				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
-			></img>
-		),
-		5: (
-			<img
-				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-diamond-transp_j0vmlx.png'
-				alt='rocket league diamond rank'
-				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
-			></img>
-		),
-		6: (
-			<img
-				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-champ-transp_v2xt1q.png'
-				alt='rocket league champ rank'
-				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
-			></img>
-		),
-		7: (
-			<img
-				src='https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-grand-champ-transp_jflaeq.png'
-				alt='rocket league grand champ rank'
-				style={{ maxHeight: '7vh', maxWidth: '7vh', minHeight: '7vh', minWidth: '7vh' }}
-			></img>
-		),
-	};
-	const lastSeen = howLongAgo(props.last_seen);
-	const genderIcon = `/assets/gender-icon-${genderImageLinks[props.gender]}.png`;
-
 	const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
-
+	const [platformImgLink, setplatformImgLink] = useState<string>('');
+	const first5Members = props.members.slice(0, 5);
 	const toggleExpandedProfile = () => {
 		setExpandedProfileVis(!expandedProfileVis);
 	};
 
+	useEffect(() => {
+		switch (props.game_platform_id) {
+			case 1:
+				setplatformImgLink(
+					'https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png'
+				);
+				break;
+			case 2:
+				setplatformImgLink(
+					'https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png'
+				);
+				break;
+			default:
+				break;
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	return (
-		<div>
+		<div
+			onClick={() => {
+				navigate(`/gang/${props.id}`);
+			}}
+		>
 			{/* Conditionally render hamburger modal */}
 			{expandedProfileVis ? (
 				<ExpandedProfile
@@ -92,101 +54,56 @@ export default function GangTile(props: any) {
 			) : (
 				<></>
 			)}
-			<div className='player-card'>
+			<div className='gang-card'>
 				{/* main details */}
-				<div className='main-details'>
-					<div className='image-column'>
-						{props.avatar_url === '' || props.avatar_url === '/assets/avatarIcon.png' ? (
-							<div
-								className='dynamic-avatar-border'
-								onClick={() => {
-									toggleExpandedProfile();
-								}}
-							>
-								<div className='dynamic-avatar-text-med'>
-									{props.username
-										.split(' ')
-										.map((word: string[]) => word[0])
-										.join('')
-										.slice(0, 2)}
+				<div className='top-bar'>
+					<div className='main-details'>
+						<div className='image-column'>
+							{props.avatar_url === '' || props.avatar_url === '/assets/avatarIcon.png' ? (
+								<div
+									className='dynamic-avatar-border'
+									onClick={() => {
+										toggleExpandedProfile();
+									}}
+								>
+									<div className='dynamic-avatar-text-med'>
+										{props.username
+											.split(' ')
+											.map((word: string[]) => word[0])
+											.join('')
+											.slice(0, 2)}
+									</div>
 								</div>
-							</div>
-						) : (
-							<img
-								className='card-photo'
-								onClick={() => {}}
-								src={props.avatar_url}
-								alt={`${props.username}'s avatar`}
-							/>
-						)}
-					</div>
-					<div className='info-column'>
-						<div className='info-title-row'>
-							<div>{props.username}</div>
-							<button
-								className='connect-button'
-								onClick={() => {
-									toggleExpandedProfile();
-								}}
-							>
-								<i className='pi pi-plus' />
-								&nbsp; view
-							</button>
+							) : (
+								<img
+									className='card-photo'
+									onClick={() => {}}
+									src={props.avatar_url}
+									alt={`${props.username}'s avatar`}
+								/>
+							)}
 						</div>
-						<div className='info-stats-row'>
-							<div className='info-stats-attribute'>{props.languages}</div>
-							<div className='info-stats-attribute'>{props.age}</div>
-							<img className='gender-icon' src={genderIcon} alt='gender icon'></img>
-							<div className='info-stats-attribute'>{props.region_abbreviation}</div>
+						<div className='gang-info'>
+							<div className='gang-name'>{props.name}</div>
+							<div className='gang-role-text'>{props.role_name}</div>
 						</div>
 					</div>
+					<img className='gang-game-image' src={platformImgLink} alt={`game this team supports`} />
 				</div>
-				{/* lesser details */}
-				<div className='lesser-details'>
-					<div className='details-about'>
-						<div className='details-about-text'>{props.about}</div>
-					</div>
-					<div className='details-hours-played'>
-						<div className='hours-belt-outer'>
-							<div className='hours-belt-inner'>
-								<div className='details-hours-played-text' data-tip data-for='hoursTip'>
-									{props.hours} hours
-								</div>
-							</div>
-						</div>
-					</div>
-					{locationPath === '/lfg-rocket-league' ? (
-						<div className='details-rocket-league'>
-							<div className='details-rocket-league-playlist' data-tip data-for='playlistTip'>
-								{rocketLeaguePlaylists[props.rocket_league_playlist]}
-							</div>
-							<div data-tip data-for='rankTip'>
-								{rocketLeagueRanks[props.rocket_league_rank]}
-							</div>
-						</div>
-					) : (
-						<></>
-					)}
-					<div className='details-availability'>
-						<div className='detail-label' data-tip data-for='weekdayTip'>
-							weekdays:{' '}
-						</div>
-						<div className='details-availabilty-text'>
-							{locationPath === '/lfg-rust' ? props.rust_weekdays : props.rocket_league_weekdays}
-						</div>
-						<div className='detail-label' data-tip data-for='weekendTip'>
-							weekends:{' '}
-						</div>
-						<div className='details-availabilty-text'>
-							{locationPath === '/lfg-rust' ? props.rust_weekends : props.rocket_league_weekends}
-						</div>
-					</div>
+				<div className='gang-about-container'>
+					<div>{props.about}</div>
 				</div>
-				{/* footer details */}
-				<div className='footer-details'>
+				<div className='gang-roster-container'>
+					{first5Members.map((member: any) => (
+						<div className='list-member-photo' key={member.id}>
+							<img className='member-photo' onClick={() => {}} src={member.avatar_url} alt={`member avatar`} />
+						</div>
+					))}
+					<div className='number-of-members'>{props.members.length} members</div>
+				</div>
+				<div className='gang-footer'>
 					<div className='footer-platform-box' data-tip data-for='commPlatformTip'>
-						{/* <i className={`platform-icon pi pi-discord`}></i> */}
-						{props.preferred_platform === 1 ? (
+						{props.chat_platform_id === 1 ? (
 							<img
 								className='footer-platform-image'
 								src='/assets/discord-logo-small.png'
@@ -195,40 +112,22 @@ export default function GangTile(props: any) {
 						) : (
 							<></>
 						)}
-						{props.preferred_platform === 2 ? (
+						{props.chat_platform_id === 2 ? (
 							<img className='footer-platform-image' src='/assets/psn-logo-small.png' alt={`${props.username} psn`} />
 						) : (
 							<></>
 						)}
-						{props.preferred_platform === 3 ? (
+						{props.chat_platform_id === 3 ? (
 							<img className='footer-platform-image' src='/assets/xbox-logo-small.png' alt={`${props.username} xbox`} />
 						) : (
 							<></>
 						)}
 					</div>
-					<div className='footer-timestamp' data-tip data-for='seenTip'>
-						{lastSeen}
+					<div>
+						<div className='privacy-text'>{props.is_public ? 'public gang' : 'private gang'}</div>
 					</div>
 				</div>
 			</div>
-			<ReactTooltip id='hoursTip' place='top' effect='solid'>
-				hours played
-			</ReactTooltip>
-			<ReactTooltip id='rankTip' place='top' effect='solid'>
-				rank
-			</ReactTooltip>
-			<ReactTooltip id='playlistTip' place='top' effect='solid'>
-				preferred playlist
-			</ReactTooltip>
-			<ReactTooltip id='weekdayTip' place='top' effect='solid'>
-				weekday availability
-			</ReactTooltip>
-			<ReactTooltip id='weekendTip' place='top' effect='solid'>
-				weekend availability
-			</ReactTooltip>
-			<ReactTooltip id='commPlatformTip' place='top' effect='solid'>
-				communication platform
-			</ReactTooltip>
 			<ReactTooltip id='seenTip' place='top' effect='solid'>
 				last time player was seen on gangs
 			</ReactTooltip>

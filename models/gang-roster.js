@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const gang_roster = sequelize.define(
+  const gang_roster = sequelize.define( 
     'gang_roster',
     {
       id: {

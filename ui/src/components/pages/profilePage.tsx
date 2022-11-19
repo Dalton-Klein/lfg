@@ -44,7 +44,7 @@ export default function ProfilePage() {
 	const requestPaths: string[] = ['/incoming-requests', '/outgoing-requests', '/blocked'];
 	const menuTitleKey: any = {
 		'/general-profile': 'general profile',
-		'/messaging': 'messaging',
+		'/messaging': 'direct messaging',
 		'/incoming-requests': 'incoming requests',
 		'/outgoing-requests': 'outgoing requests',
 		'/blocked': 'blocked',
