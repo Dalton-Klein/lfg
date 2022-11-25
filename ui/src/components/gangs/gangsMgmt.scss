@@ -97,6 +97,52 @@
         padding-right: 2vw;
         justify-content: flex-end;
       }
+
+      .gender-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-width: 80%;
+        margin: 1vh 0;
+        padding: 0 2vw;
+        .box-text {
+          font-size: $font2;
+        }
+
+        .gender-box {
+          cursor: pointer;
+          background-color: $colorGreyBg;
+          border-radius: $borderRadius1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 1vh 1vw;
+          padding: 1.25vh 1vw;
+          font-size: $font2;
+          min-width: 75px;
+          min-height: 45px;
+          width: 4vw;
+          height: 4vw;
+          img {
+            width: 4vw;
+            height: 4vw;
+            max-width: 4vw;
+            max-height: 4vw;
+            border-radius: $borderRadius1;
+          }
+          .gender-icon {
+            width: 2vw;
+            height: 2vw;
+            max-width: 2vw;
+            max-height: 2vw;
+          }
+        }
+        .gender-box:hover {
+          outline-style: solid;
+          outline-width: 2px;
+          outline-color: rgba(255, 255, 255, 0.6);
+        }
+      }
     }
 
     .gang-container-top {

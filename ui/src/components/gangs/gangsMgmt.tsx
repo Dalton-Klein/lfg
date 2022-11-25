@@ -24,6 +24,9 @@ export default function GangsMgmt(props: Props) {
   const [photoFile, setPhotoFile] = useState<File>({ name: '' } as File);
   const [nameText, setnameText] = useState<string>('');
   const [aboutText, setaboutText] = useState<string>('');
+  const [chatPlatform, setchatPlatform] = useState<number>(0);
+  const [game, setgame] = useState<number>(0);
+  const [isPublic, setisPublic] = useState<boolean>(true);
   const [tilesFromDB, setTilesFromDB] = useState<any>([]);
   const [tilesFeed, setTilesFeed] = useState(<li></li>);
 
@@ -36,6 +39,18 @@ export default function GangsMgmt(props: Props) {
     turnDataIntoTiles(tilesFromDB);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tilesFromDB]);
+
+  const changeSelectedPlatform = (selection: number) => {
+    if (chatPlatform !== selection) sethasUnsavedChanges(true);
+    setchatPlatform(selection);
+    return;
+  };
+
+  const changeSelectedGame = (selection: number) => {
+    if (game !== selection) sethasUnsavedChanges(true);
+    setgame(selection);
+    return;
+  };
 
   const fetchTilesData = async () => {
     let tiles: any = [];
@@ -170,6 +185,91 @@ export default function GangsMgmt(props: Props) {
           </div>
           <div className='gradient-bar'></div>
           {/* END ABOUT */}
+          {/* CHAT PLATFROM */}
+          <div className='gang-container'>
+            <div className='gang-about-text'>chat platform</div>
+            <div className='gender-container'>
+              <div
+                className={`gender-box ${chatPlatform === 1 ? 'box-selected' : ''}`}
+                onClick={() => {
+                  changeSelectedPlatform(1);
+                }}
+              >
+                <img className='gender-icon' src={'/assets/discord-logo-small.png'} alt='discord selector'></img>
+              </div>
+              <div
+                className={`gender-box ${chatPlatform === 2 ? 'box-selected' : ''}`}
+                onClick={() => {
+                  changeSelectedPlatform(2);
+                }}
+              >
+                <img className='gender-icon' src={'/assets/psn-logo-small.png'} alt='psn selector'></img>
+              </div>
+              <div
+                className={`gender-box ${chatPlatform === 3 ? 'box-selected' : ''}`}
+                onClick={() => {
+                  changeSelectedPlatform(3);
+                }}
+              >
+                <img className='gender-icon' src={'/assets/xbox-logo-small.png'} alt='xbox selector'></img>
+              </div>
+            </div>
+          </div>
+          <div className='gradient-bar'></div>
+          {/* END CHAT PLATFROM */}
+          {/* GAME PLATFROM */}
+          <div className='gang-container'>
+            <div className='gang-about-text'>primary game</div>
+            <div className='gender-container'>
+              <div
+                className={`gender-box ${game === 1 ? 'box-selected' : ''}`}
+                onClick={() => {
+                  changeSelectedGame(1);
+                }}
+              >
+                <img
+                  className='gender-icon'
+                  src={'https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png'}
+                  alt='rust selector'
+                ></img>
+              </div>
+              <div
+                className={`gender-box ${game === 2 ? 'box-selected' : ''}`}
+                onClick={() => {
+                  changeSelectedGame(2);
+                }}
+              >
+                <img
+                  className='gender-icon'
+                  src={
+                    'https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png'
+                  }
+                  alt='rocket league selector'
+                ></img>
+              </div>
+            </div>
+          </div>
+          <div className='gradient-bar'></div>
+          {/* END GAME PLATFROM */}
+          {/* IS PUBLIC */}
+          <div className='gang-container'>
+            <div className='gang-about-text'>is public</div>
+            <input
+              checked={isPublic}
+              onChange={() => {
+                setisPublic(!isPublic);
+                sethasUnsavedChanges(true);
+              }}
+              className='react-switch-checkbox'
+              id={`react-switch-emails-marketing`}
+              type='checkbox'
+            />
+            <label className='react-switch-label' htmlFor={`react-switch-emails-marketing`}>
+              <span className={`react-switch-button`} />
+            </label>
+          </div>
+          <div className='gradient-bar'></div>
+          {/* END IS PUBLIC */}
           {/* START SAVE BOX */}
           <div className='save-box'>
             <button className='save-button' disabled={!hasUnsavedChanges} onClick={() => saveChanges()}>
