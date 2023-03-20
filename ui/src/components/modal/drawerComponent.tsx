@@ -108,14 +108,6 @@ const DrawerComponent = (props: Props) => {
           </div>
           <div
             onClick={() => {
-              navigationButtonPressed('lfg-lfm');
-            }}
-            className='hamburger-links'
-          >
-            <button className='hamburger-button'>lfg | lfm</button>
-          </div>
-          <div
-            onClick={() => {
               navigationButtonPressed('messaging');
             }}
             className='hamburger-links'

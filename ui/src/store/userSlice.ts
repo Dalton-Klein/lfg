@@ -28,6 +28,10 @@ const initialState: any = {
     rust_weekdays: '',
     rust_weekends: '',
     rust_is_published: false,
+    rocket_league_is_published: false,
+    connection_count_sender: 0,
+    connection_count_acceptor: 0,
+    gang_count: 0,
     created_at: undefined,
     updated_at: undefined,
     error: false,
@@ -141,6 +145,11 @@ export const logoutUser =
             weekends: '',
             roles: [],
             play_styles: [],
+            rust_is_published: false,
+            rocket_league_is_published: false,
+            connection_count_sender: 0,
+            connection_count_acceptor: 0,
+            gang_count: 0,
             created_at: undefined,
             updated_at: undefined,
             error: false,
@@ -161,7 +170,6 @@ export const resetPasswordInState =
       let response: any;
       response = await resetPassword(email, vKey, password);
       if (!response.error) {
-        console.log('reset pass!!!, ', response.data);
         dispatch(setUser(response.data));
       }
       return response;

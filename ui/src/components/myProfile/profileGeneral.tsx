@@ -498,7 +498,7 @@ export default function ProfileGeneral(props: Props) {
 				Click here to upload profile image
 			</ReactTooltip>
 			<ReactTooltip id='languageTip' place='right' effect='solid'>
-				Choose the language you will use in text and voice while gaming.
+				Language you will use in text and voice communications.
 			</ReactTooltip>
 			<ReactTooltip id='platformTip' place='right' effect='solid'>
 				Select your primary gaming communication platform (voice). Then enter your username for the platform below.

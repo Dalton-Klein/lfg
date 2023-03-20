@@ -261,6 +261,7 @@ const insertNewUser = async (userObj) => {
 		query = createGeneralInfoQuery();
 		queryOptions.replacements.userId = userResult[0][0].id;
 		await sequelize.query(query, queryOptions);
+		//Add additional queries here for each new game supported
 		query = createRustInfoQuery();
 		await sequelize.query(query, queryOptions);
 		query = createRocketLeagueInfoQuery();

@@ -153,7 +153,7 @@ export default function ProfileInlayComponet() {
 		} else if (notificationType === 4) {
 			newUrl = `/general-profile`;
 		} else if (notificationType === 99) {
-			newUrl = `/my-gangs`;
+			newUrl = `/dashboard`;
 		}
 
 		// Navigates to dynamic url (new page)
@@ -199,11 +199,21 @@ export default function ProfileInlayComponet() {
 					>
 						<i className='pi pi-bell' />
 					</button>
-					<button className='text-only-button notifications-button' onClick={(event) => notificationPressed(3)}>
-						<i className='pi pi-envelope' />
-					</button>
-					<button className='text-only-button notifications-button' onClick={(event) => notificationPressed(99)}>
+					<button 
+						className='text-only-button notifications-button' 
+						onClick={(event) => notificationPressed(99)} 
+						data-tip
+						data-for='dashboardTip'
+					>
 						<i className='pi pi-users' />
+					</button>
+					<button 
+						className='text-only-button notifications-button' 
+						onClick={(event) => notificationPressed(3)} 
+						data-tip
+						data-for='messagingTip'
+					>
+						<i className='pi pi-envelope' />
 					</button>
 					<div className='my-profile-overlay-link'>
 						{profileImage === '' || profileImage === '/assets/avatarIcon.png' ? (
@@ -226,6 +236,12 @@ export default function ProfileInlayComponet() {
 			)}
 			<ReactTooltip id='platformTip' place='left' effect='solid'>
 				select game for player discovery
+			</ReactTooltip>
+			<ReactTooltip id='dashboardTip' place='bottom' effect='solid'>
+				my dashboard
+			</ReactTooltip>
+			<ReactTooltip id='messagingTip' place='bottom' effect='solid'>
+				messaging
 			</ReactTooltip>
 		</div>
 	);

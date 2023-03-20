@@ -37,6 +37,7 @@ export default function GangTile(props: any) {
       onClick={() => {
         navigate(`/gang/${props.id}`);
       }}
+      className='gang-card-master'
     >
       {/* Conditionally render hamburger modal */}
       {expandedProfileVis ? (

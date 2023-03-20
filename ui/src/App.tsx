@@ -17,7 +17,6 @@ import TermsOfServicePage from './components/pages/tosPage';
 import PrivacyPolicyPage from './components/pages/privacyPolicyPage';
 import { gapi } from 'gapi-script';
 import React, { useEffect } from 'react';
-import LFGSplashPage from './components/pages/lfgSplashPage';
 import LFMPage from './components/pages/lfmPage';
 import GangsPage from './components/pages/gangsPage';
 import GangPage from './components/pages/gangPage';
@@ -51,7 +50,6 @@ function App() {
               <Route path='/lfg-rust' element={<DiscoverPage />} />
               <Route path='/lfg-rocket-league' element={<DiscoverPage />} />
               {/* LFM */}
-              <Route path='/lfg-lfm' element={<LFGSplashPage />} />
               <Route path='/lfm-rocket-league' element={<LFMPage />} />
               {/* Blog */}
               <Route path='/blog' element={<BlogPage />} />
@@ -59,7 +57,6 @@ function App() {
               <Route path='/blog/rocket-league-minecraft-support' element={<BlogArticle2 />} />
               {/* Gangs Paths */}
               <Route path='/manage-gang' element={<GangsPage />} />
-              <Route path='/my-gangs' element={<GangsPage />} />
               <Route path='/gang/:gangId' element={<GangPage />} />
               {/* Profile Paths */}
               <Route path='/general-profile' element={<ProfilePage />} />

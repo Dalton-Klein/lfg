@@ -48,6 +48,7 @@ const getUserDataByIdQuery = () => {
                     u.is_email_marketing,
                     (select count(id) from public.connections where sender = :userId) as connection_count_sender,
                     (select count(id) from public.connections where acceptor = :userId) as connection_count_acceptor,
+                    (select count(id) from public.gang_roster g where g.user_id = :userId) as gang_count,
                     ug.about,
                     ug.age,
                     ug.gender,

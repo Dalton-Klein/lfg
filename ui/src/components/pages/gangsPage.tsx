@@ -3,7 +3,6 @@ import HeaderComponent from '../nav/headerComponent';
 import './gangsPage.scss';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import GangsList from '../gangs/gangsList';
 import GangsMgmt from '../gangs/gangsMgmt';
 
 export default function GangsPage() {
@@ -18,10 +17,7 @@ export default function GangsPage() {
 	return (
 		<div>
 			<HeaderComponent></HeaderComponent>
-
-			{locationPath === '/my-gangs' ? <GangsList></GangsList> : <></>}
-			{locationPath === '/manage-gang' ? <GangsMgmt gangId={gangId}></GangsMgmt> : <></>}
-
+				<GangsMgmt gangId={gangId}></GangsMgmt>
 			<FooterComponent></FooterComponent>
 		</div>
 	);

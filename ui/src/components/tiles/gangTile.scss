@@ -1,120 +1,123 @@
 @import '../../styling/config';
-
-.gang-card {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-content: space-between;
-	min-width: 40vw;
-	max-width: 40vw;
-	min-height: 200px;
-	max-height: 45vh;
-	background-color: $colorGreyPop;
-	border-radius: $borderRadius1;
-	outline-style: solid;
-	outline-width: 2px;
-	outline-color: $colorSecondary;
-	transition: $transition1;
-	.top-bar {
+.gang-card-master {
+	height: max-content;
+	width: max-content;
+	.gang-card {
 		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
-		align-items: center;
-		.main-details {
+		align-content: space-between;
+		min-width: 40vw;
+		max-width: 40vw;
+		min-height: 200px;
+		max-height: 45vh;
+		background-color: $colorGreyPop;
+		border-radius: $borderRadius1;
+		outline-style: solid;
+		outline-width: 2px;
+		outline-color: $colorSecondary;
+		transition: $transition1;
+		.top-bar {
 			display: flex;
+			justify-content: space-between;
 			align-items: center;
-			min-width: 85%;
-			margin: 1vh 1vw;
-			.image-column {
-				min-width: 60px;
-				max-width: 30%;
-				min-height: 100%;
-				margin: 0 0.5vw;
+			.main-details {
 				display: flex;
-				flex-direction: column;
-				margin-left: 1vw;
-				.dynamic-avatar-border {
-					width: 5vw;
-					height: 5vw;
-					min-height: 5vw;
-					min-width: 5vw;
-					object-fit: cover;
-					border-radius: calc(5vw / 2);
-					background-color: $colorShadowLight;
+				align-items: center;
+				min-width: 85%;
+				margin: 1vh 1vw;
+				.image-column {
+					min-width: 60px;
+					max-width: 30%;
+					min-height: 100%;
+					margin: 0 0.5vw;
 					display: flex;
-					justify-content: center;
-					align-items: center;
-					.dynamic-avatar-text-med {
-						font-size: $font4;
+					flex-direction: column;
+					margin-left: 1vw;
+					.dynamic-avatar-border {
+						width: 5vw;
+						height: 5vw;
+						min-height: 5vw;
+						min-width: 5vw;
+						object-fit: cover;
+						border-radius: calc(5vw / 2);
+						background-color: $colorShadowLight;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						.dynamic-avatar-text-med {
+							font-size: $font4;
+						}
+					}
+					.card-photo {
+						width: 5vw;
+						height: 5vw;
+						min-height: 5vw;
+						min-width: 5vw;
+						object-fit: cover;
+						border-radius: calc(5vw / 2);
 					}
 				}
-				.card-photo {
-					width: 5vw;
-					height: 5vw;
-					min-height: 5vw;
-					min-width: 5vw;
-					object-fit: cover;
-					border-radius: calc(5vw / 2);
+				.gang-info {
+					.gang-name {
+						font-size: $font3;
+					}
+					.gang-role-text {
+						font-size: $font2;
+						color: $colorTextAlt;
+					}
 				}
 			}
-			.gang-info {
-				.gang-name {
-					font-size: $font3;
-				}
-				.gang-role-text {
-					font-size: $font2;
-					color: $colorTextAlt;
-				}
+			.gang-game-image {
+				margin-right: 2vw;
+				width: 2.75vw;
+				height: 2.75vw;
+				min-height: 2.75vw;
+				min-width: 2.75vw;
+				object-fit: cover;
+				border-radius: calc(2.75vw / 2);
 			}
 		}
-		.gang-game-image {
-			margin-right: 2vw;
-			width: 2.75vw;
-			height: 2.75vw;
-			min-height: 2.75vw;
-			min-width: 2.75vw;
-			object-fit: cover;
-			border-radius: calc(2.75vw / 2);
+	
+		.gang-about-container {
+			margin: 1.5vh 2vw;
 		}
-	}
-
-	.gang-about-container {
-		margin: 1.5vh 2vw;
-	}
-	.gang-roster-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background-color: $colorGreyBg;
-		padding-top: 1vh;
-		padding-bottom: 1vh;
-		.list-member-photo {
-			margin: 0;
-			.member-photo {
-				max-width: 3vw;
-				max-height: 3vw;
-				min-width: 3vw;
-				min-height: 3vw;
-				border-radius: calc(3vw / 2);
-				margin: 0;
-			}
-		}
-		.number-of-members {
-			margin-left: 1vw;
-		}
-	}
-	.gang-footer {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin: 1vh 2vw;
-		.footer-platform-box {
-			margin: 0.5vw 1vw;
-			opacity: 0.6;
+		.gang-roster-container {
 			display: flex;
-			.footer-platform-image {
-				min-width: 25px;
-				max-width: 1.75vw;
+			justify-content: center;
+			align-items: center;
+			background-color: $colorGreyBg;
+			padding-top: 1vh;
+			padding-bottom: 1vh;
+			.list-member-photo {
+				margin: 0;
+				.member-photo {
+					max-width: 3vw;
+					max-height: 3vw;
+					min-width: 3vw;
+					min-height: 3vw;
+					border-radius: calc(3vw / 2);
+					margin: 0;
+				}
+			}
+			.number-of-members {
+				margin-left: 1vw;
+			}
+		}
+		.gang-footer {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin: 1vh 2vw;
+			.footer-platform-box {
+				margin: 0.5vw 1vw;
 				opacity: 0.6;
+				display: flex;
+				.footer-platform-image {
+					min-width: 25px;
+					max-width: 1.75vw;
+					opacity: 0.6;
+				}
 			}
 		}
 	}
@@ -124,81 +127,36 @@
 }
 
 @media only screen and (max-width: 1350px) {
-	.gang-card {
-		min-width: 45vw;
-		max-width: 45vw;
-		.top-bar {
-			.main-details {
-				.image-column {
-					min-width: 7vw;
-					.dynamic-avatar-border {
-						width: 7vw;
-						height: 7vw;
-						min-height: 7vw;
+	.gang-card-master {
+		.gang-card {
+			min-width: 45vw;
+			max-width: 45vw;
+			.top-bar {
+				.main-details {
+					.image-column {
 						min-width: 7vw;
-						border-radius: calc(7vw / 2);
-					}
-					.card-photo {
-						width: 7vw;
-						height: 7vw;
-						min-height: 7vw;
-						min-width: 7vw;
-						border-radius: calc(7vw / 2);
+						.dynamic-avatar-border {
+							width: 7vw;
+							height: 7vw;
+							min-height: 7vw;
+							min-width: 7vw;
+							border-radius: calc(7vw / 2);
+						}
+						.card-photo {
+							width: 7vw;
+							height: 7vw;
+							min-height: 7vw;
+							min-width: 7vw;
+							border-radius: calc(7vw / 2);
+						}
 					}
 				}
-			}
-			.gang-game-image {
-				width: 4vw;
-				height: 4vw;
-				min-height: 4vw;
-				min-width: 4vw;
-				object-fit: cover;
-				border-radius: calc(4vw / 2);
-			}
-		}
-	}
-}
-
-@media only screen and (max-width: 1000px) {
-	.gang-card {
-		.top-bar {
-			.main-details {
-				max-width: 75%;
-				min-width: 75%;
-				.image-column {
-					min-width: 9vw;
-					.dynamic-avatar-border {
-						width: 9vw;
-						height: 9vw;
-						min-height: 9vw;
-						min-width: 9vw;
-						border-radius: calc(9vw / 2);
-					}
-					.card-photo {
-						width: 9vw;
-						height: 9vw;
-						min-height: 9vw;
-						min-width: 9vw;
-						border-radius: calc(9vw / 2);
-					}
-				}
-			}
-			.gang-game-image {
-				width: 5vw;
-				height: 5vw;
-				min-height: 5vw;
-				min-width: 5vw;
-				object-fit: cover;
-				border-radius: calc(5vw / 2);
-			}
-		}
-		.gang-roster-container {
-			.list-member-photo {
-				.member-photo {
-					max-width: 4vw;
-					max-height: 4vw;
-					min-width: 4vw;
+				.gang-game-image {
+					width: 4vw;
+					height: 4vw;
 					min-height: 4vw;
+					min-width: 4vw;
+					object-fit: cover;
 					border-radius: calc(4vw / 2);
 				}
 			}
@@ -206,55 +164,106 @@
 	}
 }
 
-@media only screen and (max-width: 800px) {
-	.gang-card {
-		min-width: 95vw;
-		min-height: 200px;
-		max-height: 55vh;
-		.top-bar {
-			.main-details {
-				.image-column {
-					min-width: 12vw;
-					width: 18vw;
-					max-width: 40%;
-					.dynamic-avatar-border {
-						width: 12vw;
-						height: 12vw;
-						min-height: 12vw;
-						min-width: 12vw;
-						border-radius: calc(12vw / 2);
-					}
-					.card-photo {
-						width: 12vw;
-						height: 12vw;
-						min-height: 12vw;
-						min-width: 12vw;
-						border-radius: calc(12vw / 2);
+@media only screen and (max-width: 1000px) {
+	.gang-card-master {
+		.gang-card {
+			.top-bar {
+				.main-details {
+					max-width: 75%;
+					min-width: 75%;
+					.image-column {
+						min-width: 9vw;
+						.dynamic-avatar-border {
+							width: 9vw;
+							height: 9vw;
+							min-height: 9vw;
+							min-width: 9vw;
+							border-radius: calc(9vw / 2);
+						}
+						.card-photo {
+							width: 9vw;
+							height: 9vw;
+							min-height: 9vw;
+							min-width: 9vw;
+							border-radius: calc(9vw / 2);
+						}
 					}
 				}
-				.info-column {
-					.info-stats-attribute {
-						font-size: $font2;
-					}
+				.gang-game-image {
+					width: 5vw;
+					height: 5vw;
+					min-height: 5vw;
+					min-width: 5vw;
+					object-fit: cover;
+					border-radius: calc(5vw / 2);
 				}
 			}
-			.gang-game-image {
-				width: 7vw;
-				height: 7vw;
-				min-height: 7vw;
-				min-width: 7vw;
-				object-fit: cover;
-				border-radius: calc(7vw / 2);
+			.gang-roster-container {
+				.list-member-photo {
+					.member-photo {
+						max-width: 4vw;
+						max-height: 4vw;
+						min-width: 4vw;
+						min-height: 4vw;
+						border-radius: calc(4vw / 2);
+					}
+				}
 			}
 		}
-		.gang-roster-container {
-			.list-member-photo {
-				.member-photo {
-					max-width: 5vw;
-					max-height: 5vw;
-					min-width: 5vw;
-					min-height: 5vw;
-					border-radius: calc(5vw / 2);
+	}
+}
+
+@media only screen and (max-width: 800px) {
+	.gang-card-master {
+		.gang-card {
+			min-width: 95vw;
+			min-height: 200px;
+			max-height: 55vh;
+			.top-bar {
+				.main-details {
+					.image-column {
+						min-width: 12vw;
+						width: 18vw;
+						max-width: 40%;
+						.dynamic-avatar-border {
+							width: 12vw;
+							height: 12vw;
+							min-height: 12vw;
+							min-width: 12vw;
+							border-radius: calc(12vw / 2);
+						}
+						.card-photo {
+							width: 12vw;
+							height: 12vw;
+							min-height: 12vw;
+							min-width: 12vw;
+							border-radius: calc(12vw / 2);
+						}
+					}
+					.info-column {
+						.info-stats-attribute {
+							font-size: $font2;
+						}
+					}
+				}
+				.gang-game-image {
+					width: 7vw;
+					height: 7vw;
+					min-height: 7vw;
+					min-width: 7vw;
+					object-fit: cover;
+					border-radius: calc(7vw / 2);
+				}
+			}
+			.gang-roster-container {
+				.list-member-photo {
+					.member-photo {
+						max-width: 5vw;
+						max-height: 5vw;
+						min-width: 5vw;
+						min-height: 5vw;
+						border-radius: calc(5vw / 2);
+					}
 				}
 			}
 		}
@@ -262,34 +271,36 @@
 }
 
 @media only screen and (max-width: 500px) {
-	.gang-card {
-		.top-bar {
-			.main-details {
-				.image-column {
-					min-width: 15vw;
-					.dynamic-avatar-border {
-						width: 15vw;
-						height: 15vw;
-						min-height: 15vw;
+	.gang-card-master {
+		.gang-card {
+			.top-bar {
+				.main-details {
+					.image-column {
 						min-width: 15vw;
-						border-radius: calc(15vw / 2);
-					}
-					.card-photo {
-						width: 15vw;
-						height: 15vw;
-						min-height: 15vw;
-						min-width: 15vw;
-						border-radius: calc(15vw / 2);
+						.dynamic-avatar-border {
+							width: 15vw;
+							height: 15vw;
+							min-height: 15vw;
+							min-width: 15vw;
+							border-radius: calc(15vw / 2);
+						}
+						.card-photo {
+							width: 15vw;
+							height: 15vw;
+							min-height: 15vw;
+							min-width: 15vw;
+							border-radius: calc(15vw / 2);
+						}
 					}
 				}
-			}
-			.gang-game-image {
-				width: 8vw;
-				height: 8vw;
-				min-height: 8vw;
-				min-width: 8vw;
-				object-fit: cover;
-				border-radius: calc(8vw / 2);
+				.gang-game-image {
+					width: 8vw;
+					height: 8vw;
+					min-height: 8vw;
+					min-width: 8vw;
+					object-fit: cover;
+					border-radius: calc(8vw / 2);
+				}
 			}
 		}
 	}

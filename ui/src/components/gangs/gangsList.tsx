@@ -35,9 +35,9 @@ export default function GangsList() {
 	const turnDataIntoTiles = (tileData: any) => {
 		setTilesFeed(
 			tileData.map((tile: any) => (
-				<li style={{ listStyleType: 'none' }} key={tile.id}>
+				<span style={{ display: 'inline-block' }} key={tile.id}>
 					<GangTile {...tile} refreshTiles={fetchTilesData}></GangTile>
-				</li>
+				</span>
 			))
 		);
 	};
