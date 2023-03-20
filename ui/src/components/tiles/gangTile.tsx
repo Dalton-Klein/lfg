@@ -66,7 +66,7 @@ export default function GangTile(props: any) {
                   }}
                 >
                   <div className='dynamic-avatar-text-med'>
-                    {props.username
+                    {props.name
                       .split(' ')
                       .map((word: string[]) => word[0])
                       .join('')
@@ -78,7 +78,7 @@ export default function GangTile(props: any) {
                   className='card-photo'
                   onClick={() => {}}
                   src={props.avatar_url}
-                  alt={`${props.username}'s avatar`}
+                  alt={`${props.name}'s avatar`}
                 />
               )}
             </div>
