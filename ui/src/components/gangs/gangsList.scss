@@ -1,0 +1,33 @@
+@import '../../styling/config';
+
+.lfm-feed {
+	margin: 2vh 1vw;
+	display: flex;
+	min-height: 85%;
+	justify-content: space-evenly;
+	align-content: center;
+	flex-wrap: wrap;
+	li {
+		max-width: 40vw;
+		margin: 2vh 1vw;
+	}
+}
+
+@media screen and (max-width: 1350px) {
+	.lfm-feed {
+		li {
+			max-width: 45vw;
+		}
+	}
+}
+@media screen and (max-width: 800px) {
+	.lfm-feed {
+		li {
+			max-width: 95vw;
+		}
+	}
+	.gang-card {
+		min-width: 95vw;
+		max-width: 95vw;
+	}
+}

@@ -25,19 +25,19 @@ type Props = {
 };
 
 const ExpandedProfile = (props: Props) => {
-  const locationPath: string = useLocation().pathname;
-  let platformId = 0;
-  switch(locationPath) {
-    case '/lfg-rust':
-      platformId = 1
-      break;
-    case '/lfg-rocket-league':
-      platformId = 2
-      break;
-    default:
-      break;
-  }
-  
+	const locationPath: string = useLocation().pathname;
+	let platformId = 0;
+	switch (locationPath) {
+		case '/lfg-rust':
+			platformId = 1;
+			break;
+		case '/lfg-rocket-league':
+			platformId = 2;
+			break;
+		default:
+			break;
+	}
+
 	const rocketLeaguePlaylists: any = getRocketLeaguePlaylists();
 	const rocketLeagueRanks: any = {
 		1: (
@@ -203,7 +203,13 @@ const ExpandedProfile = (props: Props) => {
 	};
 
 	const sendConnectionRequest = async () => {
-		const requestResult = await createConnectionRequest(userState.id, props.userInfo.id, platformId, connectionText, 'nothing');
+		const requestResult = await createConnectionRequest(
+			userState.id,
+			props.userInfo.id,
+			platformId,
+			connectionText,
+			'nothing'
+		);
 		if (requestResult.status === 'success') {
 			setRequestSent(true);
 			props.refreshTiles();
@@ -421,7 +427,7 @@ const ExpandedProfile = (props: Props) => {
 									}}
 									disabled={connectionText === '' || requestSent || hasSendError}
 								>
-									<i className='pi pi-users' />
+									<i className='pi pi-user-plus' />
 									&nbsp; {requestSent ? 'pending' : 'send request'}
 								</button>
 								{hasSendError ? (

@@ -1,6 +1,6 @@
 'use strinct';
 
-const { connections } = require('../models/index');
+const { connections } = require('../../models/index');
 const created_by = (updated_by = 'seeder_script');
 const created_at = (updated_at = Date.now());
 const defaultValues = { created_by, updated_by, created_at, updated_at };
@@ -23,27 +23,48 @@ module.exports = {
 					},
 					{
 						id: 2,
+						sender: 0,
+						acceptor: 0,
+						platform: 1,
+						...defaultValues,
+					},
+					{
+						id: 3,
+						sender: 0,
+						acceptor: 0,
+						platform: 1,
+						...defaultValues,
+					},
+					{
+						id: 4,
+						sender: 0,
+						acceptor: 0,
+						platform: 1,
+						...defaultValues,
+					},
+					{
+						id: 5,
 						sender: 1,
 						acceptor: 2,
 						platform: 1,
 						...defaultValues,
 					},
 					{
-						id: 3,
+						id: 6,
 						sender: 1,
 						acceptor: 3,
 						platform: 1,
 						...defaultValues,
 					},
 					{
-						id: 4,
+						id: 7,
 						sender: 2,
 						acceptor: 3,
 						platform: 1,
 						...defaultValues,
 					},
 					{
-						id: 5,
+						id: 8,
 						sender: 1,
 						acceptor: 4,
 						platform: 1,

@@ -3,8 +3,8 @@
 .tile-container {
 	display: flex;
 	flex-direction: column;
-  min-width: 100vw;
-  min-height: 82vh;
+	min-width: 100vw;
+	min-height: 82vh;
 	flex-wrap: wrap;
 	align-items: center;
 	margin-bottom: 4vh;
@@ -31,6 +31,19 @@
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
+}
+
+.lfm-feed {
+	margin: 2vh 1vw;
+	display: flex;
+	min-height: 85%;
+	justify-content: space-evenly;
+	align-content: center;
+	flex-wrap: wrap;
+	li {
+		max-width: 30vw;
+		margin: 2vh 1vw;
+	}
 }
 
 @media screen and (max-width: $screenBreak1) {
