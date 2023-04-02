@@ -20,7 +20,6 @@ import React, { useEffect } from "react";
 import LFMPage from "./components/pages/lfmPage";
 import GangsPage from "./components/pages/gangsPage";
 import GangPage from "./components/pages/gangPage";
-import { TestRoom } from "./components/pages/chatTest";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 function App() {
@@ -45,8 +44,6 @@ function App() {
           <div className="App">
             <Routes>
               {/* test */}
-              <Route path="/testing" element={<TestRoom />} />
-              <Route path="/testing/:roomID" element={<TestRoom />} />
               {/* Main Paths */}
               <Route path="/" element={<HomePage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
