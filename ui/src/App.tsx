@@ -20,6 +20,7 @@ import React, { useEffect } from "react";
 import LFMPage from "./components/pages/lfmPage";
 import GangsPage from "./components/pages/gangsPage";
 import GangPage from "./components/pages/gangPage";
+import ScrollToTop from "./components/nav/scrollToTop";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <HashRouter>
           <div className="App">
+            <ScrollToTop />
             <Routes>
               {/* test */}
               {/* Main Paths */}
