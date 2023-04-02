@@ -116,7 +116,7 @@ export const resetPassword = async (email: string, vKey: string, password: strin
 };
 
 // SOCIAL RELATED REQUESTS
-export const getRustTiles = async (userId: number, token: string) => {
+export const getRustPlayerTiles = async (userId: number, token: string) => {
 	try {
 		const httpResult = await fetch(`${endpointURL}/rust-tiles`, {
 			method: 'POST',
@@ -691,3 +691,78 @@ export const sendMessage = (sender: number, content: string, PrivateChatId: numb
 		.then((res) => res.json)
 		.catch((err) => console.log('CREATE MESSAGE ERROR', err));
 };
+
+// ** START GANG ROUTES
+export const updateGangInfoField = async (id: number, field: string, value: any) => {
+	try {
+		const httpResult = await fetch(`${endpointURL}/updateGangInfoField`, {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				userId: id,
+				field,
+				value,
+			}),
+		});
+		return httpResult.json();
+	} catch (error) {
+		console.log(`${error} while updating general profile info`);
+	}
+};
+export const getMyGangTiles = async (userId: number, token: string) => {
+	try {
+		const httpResult = await fetch(`${endpointURL}/my-gangs`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				userId,
+				token,
+			}),
+		});
+		const jsonify = httpResult.json();
+		return jsonify;
+	} catch (error) {
+		console.log(`${error} while fetching rust tiles`);
+	}
+};
+export const getRustGangTiles = async (userId: number, token: string) => {
+	try {
+		const httpResult = await fetch(`${endpointURL}/rust-gang-tiles`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				userId,
+				token,
+			}),
+		});
+		const jsonify = httpResult.json();
+		return jsonify;
+	} catch (error) {
+		console.log(`${error} while fetching rust tiles`);
+	}
+};
+
+export const getGangActivity = async (gangId: number, userId: number, token: string) => {
+	try {
+		const httpResult = await fetch(`${endpointURL}/gang-activity`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				gangId,
+				userId,
+				token,
+			}),
+		});
+		const jsonify = httpResult.json();
+		return jsonify;
+	} catch (error) {
+		console.log(`${error} while fetching rust tiles`);
+	}
+};
+// ** END GANG ROUTES

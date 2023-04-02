@@ -40,11 +40,11 @@ export default function ProfilePage() {
 
 	// Location Variables
 	const locationPath: string = useLocation().pathname;
-  const gameProfilePaths: string[] = ['/rust-profile', '/rocket-league-profile'];
-  const requestPaths: string[] = ['/incoming-requests', '/outgoing-requests', '/blocked'];
+	const gameProfilePaths: string[] = ['/rust-profile', '/rocket-league-profile'];
+	const requestPaths: string[] = ['/incoming-requests', '/outgoing-requests', '/blocked'];
 	const menuTitleKey: any = {
 		'/general-profile': 'general profile',
-		'/messaging': 'messaging',
+		'/messaging': 'direct messaging',
 		'/incoming-requests': 'incoming requests',
 		'/outgoing-requests': 'outgoing requests',
 		'/blocked': 'blocked',
@@ -176,7 +176,8 @@ export default function ProfilePage() {
 			)}
 			<HeaderComponent></HeaderComponent>
 			{/* Title Section */}
-			<BannerTitle title={menuTitle} imageLink={bannerImageUrl}></BannerTitle>
+			{locationPath === '/messaging' ? <></> : <BannerTitle title={menuTitle} imageLink={bannerImageUrl}></BannerTitle>}
+			
 
 			<div className='my-profile-containers' style={{ display: locationPath !== '/messaging' ? 'flex' : 'none' }}>
 				{/* Conditionally render hamburger modal */}
@@ -193,16 +194,13 @@ export default function ProfilePage() {
 								navigate('/general-profile');
 							}}
 						>
-							&nbsp; back to general profile
+							&nbsp; general profile
 						</button>
 					</div>
 					{/* END CONDITIONAL BACK BUTTON */}
 					{/* START Profile Widgets */}
-          {!requestPaths.includes(locationPath) ?
-					<ProfileWidgetsContainer></ProfileWidgetsContainer> : <></>}
-          {!requestPaths.includes(locationPath) ?
-					  <div className='gradient-bar'></div>: <></>
-          }
+					{!requestPaths.includes(locationPath) ? <ProfileWidgetsContainer></ProfileWidgetsContainer> : <></>}
+					{!requestPaths.includes(locationPath) ? <div className='gradient-bar'></div> : <></>}
 					{/* END Profile Widgets */}
 					{/* Game Profiles (Conditional) */}
 					{locationPath === '/rust-profile' ? (

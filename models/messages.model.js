@@ -1,5 +1,4 @@
 // 'use strict';
-const { sequelize, DataTypes } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
 	const messages = sequelize.define(

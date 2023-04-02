@@ -14,9 +14,6 @@
 	place-items: center;
 	transition: $transition1;
 }
-.daddy-box:hover {
-	transform: scale(1.05);
-}
 
 .daddy-gradient-overlay {
 	border-radius: $borderRadius2;
@@ -27,6 +24,23 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	.button-rack {
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+		.daddy-alt-button {
+			margin-left: 1.5vh;
+			margin-right: 1.5vh;
+			transition: $transition1;
+			border: 2px solid white;
+			font-size: $font2;
+			padding: 0.25em 1.25em;
+		}
+		.daddy-alt-button:hover {
+			background-color: transparent;
+			transform: scale(1.05);
+		}
+	}
 }
 
 .daddy-title {

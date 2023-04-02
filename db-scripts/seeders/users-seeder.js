@@ -1,6 +1,6 @@
 'use strinct';
 
-const { users } = require('../models/index');
+const { users } = require('../../models/index');
 const created_by = (updated_by = 'seeder_script');
 const created_at = (updated_at = Date.now());
 const defaultValues = { created_by, updated_by, created_at, updated_at };

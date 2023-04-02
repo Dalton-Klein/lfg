@@ -50,7 +50,7 @@ export default function BlogArticle1() {
 					<div className='article-paragraph'>
 						Well, if your irl friends aren't playing this wipe or don't play at all, you have get to know someone in one
 						of the most notoriously toxic playerbases. Anyone who plays Rust knows that it's 100% a terrible idea to
-						team with people you meet in game. Doing so results in getting indsided (betrayed and locked out of your own
+						team with people you meet in game. Doing so results in getting insided (betrayed and locked out of your own
 						base) soon as you have something to lose. Because you can't trust anyone in game, you have to meet people
 						outside of the game, and get to know each other to develop a level of trust before playing.
 					</div>

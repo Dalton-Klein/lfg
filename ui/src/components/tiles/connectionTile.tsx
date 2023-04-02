@@ -4,31 +4,35 @@ import ExpandedProfile from '../modal/expandedProfileComponent';
 import { Menu } from 'primereact/menu';
 
 export default function ConnectionTile(props: any) {
-  console.log('propsL ', props);
-  const [platformUsername, setPlatformUsername] = useState<any>('');
-  const [platformImgLink, setplatformImgLink] = useState<string>('');
+	console.log('propsL ', props);
+	const [platformUsername, setPlatformUsername] = useState<any>('');
+	const [platformImgLink, setplatformImgLink] = useState<string>('');
 	const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
 
 	const menu: any = useRef(null);
 
 	useEffect(() => {
-    switch (props.platform) {
-      case 1:
-        setplatformImgLink('https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png')
-        break;
-      case 2:
-        setplatformImgLink('https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png')
-        break;
-      default:
-        break;
-    }
+		switch (props.platform) {
+			case 1:
+				setplatformImgLink(
+					'https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png'
+				);
+				break;
+			case 2:
+				setplatformImgLink(
+					'https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png'
+				);
+				break;
+			default:
+				break;
+		}
 		if (props.preferred_platform === 1) setPlatformUsername(props.discord);
 		else if (props.preferred_platform === 2) setPlatformUsername(props.psn);
 		else if (props.preferred_platform === 3) setPlatformUsername(props.xbox);
 		return () => {
 			setPlatformUsername('');
 			setExpandedProfileVis(false);
-    };
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -99,7 +103,7 @@ export default function ConnectionTile(props: any) {
 						<img
 							className='connection-game-image'
 							src={platformImgLink}
-							alt={`${props.username} profile`}
+							alt={`game this player wants to connect over`}
 						/>
 					</div>
 					{/* If full connection, show platform/social section */}

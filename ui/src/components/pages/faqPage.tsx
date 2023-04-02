@@ -103,7 +103,7 @@ export default function FAQPage() {
 				<div className='faq-content-container' ref={welcomeRef}>
 					<div className='faq-sub-title'>Welcome</div>
 					<div className='faq-paragraph'>
-						Welcome to gangs, the most efficient place to find your gamer gang. This is a looking for group (lfg)
+						Welcome to gangs, the most efficient place to find your gamer gang. This is a looking for gang (lfg)
 						platform that was designed from the ground up to make it easier to find the right teammates for you. No more
 						endless scrolling through nonstandardized forum posts, gangs lets you take control of what type of gamers
 						are in front of you.
@@ -212,9 +212,9 @@ export default function FAQPage() {
 					<div className='faq-sub-heading'>Publishing/ Unpublishing Profiles</div>
 					<div className='faq-paragraph'>
 						You have control on whether your game specific profile is disvoverable to others. Each game specific profile
-						has a toggle switch to control if others can view your profile in the lfg page. To publish your
-						profile, both your general and game specific profiles must be completed. Upon switching your published
-						status, a toast message will appear at the top of your screen confirming the change.
+						has a toggle switch to control if others can view your profile in the lfg page. To publish your profile,
+						both your general and game specific profiles must be completed. Upon switching your published status, a
+						toast message will appear at the top of your screen confirming the change.
 					</div>
 				</div>
 				{/* LFG */}
@@ -225,7 +225,7 @@ export default function FAQPage() {
 						The{' '}
 						<span
 							onClick={() => {
-								changeSelection('lfg');
+								changeSelection('lfg-lfm');
 							}}
 							className='link-text'
 						>
@@ -250,7 +250,7 @@ export default function FAQPage() {
 						You connect with others from the{' '}
 						<span
 							onClick={() => {
-								changeSelection('lfg');
+								changeSelection('lfg-lfm');
 							}}
 							className='link-text'
 						>
@@ -260,8 +260,8 @@ export default function FAQPage() {
 						. On each player card, a view button can be pressed to bring up the detailed view of that player's profile.
 						At the bottom of this expanded view, fill out the message box and press connect. The message you type will
 						appear for that user alongside your request. After pressing connect, your request will have been sent, and
-						that player will be removed from your lfg feed until they take action on your request. You can review
-						your pending outgoing requests on the{' '}
+						that player will be removed from your lfg feed until they take action on your request. You can review your
+						pending outgoing requests on the{' '}
 						<span
 							onClick={() => {
 								changeSelection('outgoing-requests');

@@ -1,6 +1,6 @@
 'use strinct';
 
-const { user_rust_infos } = require('../models/index');
+const { user_rocket_league_infos } = require('../../models/index');
 const created_by = (updated_by = 'seeder_script');
 const created_at = (updated_at = Date.now());
 const defaultValues = { created_by, updated_by, created_at, updated_at };
@@ -8,11 +8,11 @@ const defaultValues = { created_by, updated_by, created_at, updated_at };
 module.exports = {
 	up: async ({ context: sequelize }) => {
 		const transaction = await sequelize.transaction();
-		const existingRecords = await sequelize.query('select id from public.user_rust_infos', {
+		const existingRecords = await sequelize.query('select id from public.user_rocket_league_infos', {
 			type: sequelize.QueryTypes.SELECT,
 		});
 		if (!existingRecords.length) {
-			await user_rust_infos.bulkCreate(
+			await user_rocket_league_infos.bulkCreate(
 				[
 					{
 						id: 1,
@@ -20,7 +20,7 @@ module.exports = {
 						weekdays: 1,
 						weekends: 4,
 						roles: [1],
-						play_styles: [1],
+						preferred_playlist: 1,
 						hours: 500,
 						is_published: true,
 						...defaultValues,
@@ -31,7 +31,7 @@ module.exports = {
 						weekdays: 2,
 						weekends: 2,
 						roles: [2],
-						play_styles: [3, 4],
+						preferred_playlist: 3,
 						hours: 1100,
 						is_published: true,
 						...defaultValues,
@@ -42,7 +42,7 @@ module.exports = {
 						weekdays: 4,
 						weekends: 4,
 						roles: [3],
-						play_styles: [1, 3],
+						preferred_playlist: 3,
 						hours: 950,
 						is_published: true,
 						...defaultValues,
@@ -53,7 +53,7 @@ module.exports = {
 						weekdays: 2,
 						weekends: 3,
 						roles: [2],
-						play_styles: [3],
+						preferred_playlist: 3,
 						hours: 28,
 						is_published: true,
 						...defaultValues,
@@ -64,7 +64,7 @@ module.exports = {
 						weekdays: 1,
 						weekends: 2,
 						roles: [1, 2],
-						play_styles: [2, 3],
+						preferred_playlist: 2,
 						hours: 3000,
 						is_published: true,
 						...defaultValues,
@@ -75,7 +75,7 @@ module.exports = {
 						weekdays: 1,
 						weekends: 2,
 						roles: [1, 2],
-						play_styles: [2, 3],
+						preferred_playlist: 2,
 						hours: 960,
 						is_published: true,
 						...defaultValues,
@@ -84,11 +84,11 @@ module.exports = {
 				{ transaction }
 			);
 		} else {
-			console.log('Found existing data in user_rust_infos table, so seeder script will not insert data.');
+			console.log('Found existing data in user_rocket_league_infos table, so seeder script will not insert data.');
 		}
 		return await transaction.commit();
 	},
 	down: async ({ context: sequelize }) => {
-		await sequelize.getQueryInterface().bulkDelete('user_rust_infos', null, { truncate: true });
+		await sequelize.getQueryInterface().bulkDelete('user_rocket_league_infos', null, { truncate: true });
 	},
 };

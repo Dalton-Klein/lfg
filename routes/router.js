@@ -2,6 +2,7 @@ const express = require('express');
 const authController = require('../controllers/auth-controller');
 const connectionsController = require('../controllers/connections-controller');
 const endorsementsController = require('../controllers/endorsements-controller');
+const gangsController = require('../controllers/gangs-controller');
 const messageController = require('../controllers/message-controller');
 const notificationsController = require('../controllers/notification-controller');
 const publishController = require('../controllers/publish-controller');
@@ -57,7 +58,12 @@ router.post('/publish-rocket-league', publishController.checkIfUserCanPublishRoc
 
 //TILES RELATED ROUTES
 router.post('/rust-tiles', tilesController.getRustTiles);
+router.post('/rust-gang-tiles', tilesController.getRustTiles);
 router.post('/rocket-league-tiles', tilesController.getRocketLeagueTiles);
+
+//GANGS RELATED ROUTES
+router.post('/my-gangs', gangsController.getMyGangsTiles);
+router.post('/gang-activity', gangsController.getGangActivity);
 
 //TESTING ROUTES Coffee Disable
 router.post('/test-email', testController.testEmails);

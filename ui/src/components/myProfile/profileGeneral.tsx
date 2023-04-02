@@ -229,6 +229,22 @@ export default function ProfileGeneral(props: Props) {
 					<button onClick={closeAvatar}>close</button>
 				</div>
 			</div>
+			{/* GAME PROFILE LINKS */}
+			<div className='game-profile-container'>
+				<GameTile
+					imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'}
+					routerLink={'/rust-profile'}
+					title={'rust profile'}
+					changeBanner={props.changeBanner}
+				></GameTile>
+				<GameTile
+					imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'}
+					routerLink={'/rocket-league-profile'}
+					title={'rocket league profile'}
+					changeBanner={props.changeBanner}
+				></GameTile>
+			</div>
+			<div className='gradient-bar'></div>
 			{/* AVATAR PHTO */}
 			<div className='banner-container-top'>
 				{!userData.avatar_url || userData.avatar_url === '/assets/avatarIcon.png' ? (
@@ -272,22 +288,6 @@ export default function ProfileGeneral(props: Props) {
 			{/* DISPLAY NAME */}
 			<div className='banner-container-username'>
 				<div className='my-profile-text'>{userData.username ? userData.username : 'No user name...'}</div>
-			</div>
-			<div className='gradient-bar'></div>
-			{/* GAME PROFILE LINKS */}
-			<div className='game-profile-container'>
-				<GameTile
-					imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png'}
-					routerLink={'/rust-profile'}
-					title={'rust profile'}
-					changeBanner={props.changeBanner}
-				></GameTile>
-				<GameTile
-					imageLink={'https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg'}
-					routerLink={'/rocket-league-profile'}
-					title={'rocket league profile'}
-					changeBanner={props.changeBanner}
-				></GameTile>
 			</div>
 			<div className='gradient-bar'></div>
 			{/* ABOUT */}
@@ -498,7 +498,7 @@ export default function ProfileGeneral(props: Props) {
 				Click here to upload profile image
 			</ReactTooltip>
 			<ReactTooltip id='languageTip' place='right' effect='solid'>
-				Choose the language you will use in text and voice while gaming.
+				Language you will use in text and voice communications.
 			</ReactTooltip>
 			<ReactTooltip id='platformTip' place='right' effect='solid'>
 				Select your primary gaming communication platform (voice). Then enter your username for the platform below.
