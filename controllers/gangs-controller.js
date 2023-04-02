@@ -95,7 +95,7 @@ const getGangActivity = async (req, res) => {
                 from public.gang_chats gc
                where gc.gang_id = :gangId
             `;
-    let gangChats = await sequelize.query(gangQuery, {
+    let gangChannels = await sequelize.query(gangQuery, {
       type: Sequelize.QueryTypes.SELECT,
       replacements: {
         userId,
@@ -108,14 +108,14 @@ const getGangActivity = async (req, res) => {
       gangData = {
         basicInfo: finalizedGangInfo[0],
         role: foundRole[0],
-        chats: gangChats,
+        channels: gangChannels,
       };
     } else {
       //Prepare partial gang data, because they are non-member
       gangData = {
         basicInfo: finalizedGangInfo[0],
         role: foundRole[0],
-        chats: {},
+        channels: {},
       };
     }
     res.status(200).send(gangData);

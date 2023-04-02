@@ -1,9 +1,9 @@
-import './aboutComponent.scss';
-import { howLongAgo } from '../../../utils/helperFunctions';
-import { getNotificationsGeneral } from '../../../utils/rest';
-import * as io from 'socket.io-client';
-import { useEffect, useState } from 'react';
-const socketRef = io.connect(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.gangs.gg');
+import "./aboutComponent.scss";
+import { howLongAgo } from "../../../utils/helperFunctions";
+import { getNotificationsGeneral } from "../../../utils/rest";
+import * as io from "socket.io-client";
+import { useEffect, useState } from "react";
+const socketRef = io.connect(process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg");
 
 export default function HomePage() {
   const [notifications, setnotifications] = useState<any>([]);
@@ -16,7 +16,7 @@ export default function HomePage() {
   //BEGIN Update notifications list after each notification sent
   useEffect(() => {
     socketRef.on(
-      'notification',
+      "notification",
       ({
         owner_id,
         owner_username,
@@ -40,7 +40,7 @@ export default function HomePage() {
   const loadNotificationHistory = async () => {
     const historicalNotifications = await getNotificationsGeneral();
     setnotifications([...historicalNotifications]);
-    socketRef.emit('join_room', `notifications-general`);
+    socketRef.emit("join_room", `notifications-general`);
   };
   const renderNotifications = () => {
     if (notifications.length) {
@@ -68,73 +68,73 @@ export default function HomePage() {
           1: ` ${ownerName}`,
           2: ` ${ownerName}`,
           3: ` ${ownerName}`,
-          4: '',
+          4: "",
           5: ` ${ownerName}`,
         };
         const user1 = user1Key[notif.type_id];
         const actionPhrase = actionPhraseKey[notif.type_id];
         const user2 = user2Key[notif.type_id];
         items.push(
-          <div className='notification-container' key={notif.id}>
-            <div className='info-stackable-container'>
-              <div className='user-1-container'>
-                {notif.other_user_avatar_url === '' ||
-                notif.other_user_avatar_url === '/assets/avatarIcon.png' ||
+          <div className="notification-container" key={notif.id}>
+            <div className="info-stackable-container">
+              <div className="user-1-container">
+                {notif.other_user_avatar_url === "" ||
+                notif.other_user_avatar_url === "/assets/avatarIcon.png" ||
                 notif.other_user_avatar_url === null ? (
-                  <div className='dynamic-avatar-border'>
-                    <div className='dynamic-avatar-text-small'>
+                  <div className="dynamic-avatar-border">
+                    <div className="dynamic-avatar-text-small">
                       {notif.other_username === null
-                        ? 'gg'
+                        ? "gg"
                         : notif.other_username
-                            .split(' ')
+                            .split(" ")
                             .map((word: string[]) => word[0])
-                            .join('')
+                            .join("")
                             .slice(0, 2)}
                     </div>
                   </div>
                 ) : (
                   <img
-                    className='notification-profile-image'
+                    className="notification-profile-image"
                     src={notif.other_user_avatar_url}
                     alt={`${notif.other_username}'s avatar`}
                   />
                 )}
-                <div className='notification-username'> {user1}</div>
+                <div className="notification-username"> {user1}</div>
                 {actionPhrase}
               </div>
               {notif.type_id !== 4 ? (
-                notif.owner_avatar_url === '' ||
-                notif.owner_avatar_url === '/assets/avatarIcon.png' ||
+                notif.owner_avatar_url === "" ||
+                notif.owner_avatar_url === "/assets/avatarIcon.png" ||
                 notif.owner_avatar_url === null ? (
-                  <div className='user-2-container'>
-                    <div className='dynamic-avatar-border'>
-                      <div className='dynamic-avatar-text-small'>
+                  <div className="user-2-container">
+                    <div className="dynamic-avatar-border">
+                      <div className="dynamic-avatar-text-small">
                         {notif.owner_username === null
-                          ? 'gg'
+                          ? "gg"
                           : notif.owner_username
-                              .split(' ')
+                              .split(" ")
                               .map((word: string[]) => word[0])
-                              .join('')
+                              .join("")
                               .slice(0, 2)}
                       </div>
                     </div>
-                    <div className='notification-username2'> {user2}</div>
+                    <div className="notification-username2"> {user2}</div>
                   </div>
                 ) : (
-                  <div className='user-2-container'>
+                  <div className="user-2-container">
                     <img
-                      className='notification-profile-image'
+                      className="notification-profile-image"
                       src={notif.owner_avatar_url}
                       alt={`${notif.owner_username}'s avatar`}
                     />
-                    <div className='notification-username2'> {user2}</div>
+                    <div className="notification-username2"> {user2}</div>
                   </div>
                 )
               ) : (
                 <></>
               )}
             </div>
-            <div className='notification-timestamp'>{howLongAgo(notif.created_at)}</div>
+            <div className="notification-timestamp">{howLongAgo(notif.created_at)}</div>
           </div>
         );
       });
@@ -144,14 +144,14 @@ export default function HomePage() {
   //END SOCKET Functions
 
   return (
-    <div className='about-container'>
-      <div className='column-1'>
-        <div className='about-text'>
+    <div className="about-container">
+      <div className="column-1">
+        <div className="about-text">
           Finding suitable teammates is tough. Finding them here isn't. <br /> <br />
           Find, chat, and play with teammates based on criteria that matters to you. <br /> <br />
         </div>
       </div>
-      <div className='column-2'>{renderNotifications()}</div>
+      <div className="column-2">{renderNotifications()}</div>
     </div>
   );
 }

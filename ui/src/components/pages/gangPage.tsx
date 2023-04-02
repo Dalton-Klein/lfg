@@ -1,21 +1,54 @@
 import FooterComponent from "../nav/footerComponent";
 import HeaderComponent from "../nav/headerComponent";
 import "./gangPage.scss";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getGangActivity } from "../../utils/rest";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import styled from "styled-components";
+
+import Peer from "simple-peer";
+import * as io from "socket.io-client";
+const socketRef = io.connect(process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg");
+
+const StyledVideo = styled.video`
+  height: 40%;
+  width: 50%;
+`;
+
+const Video = (props: any) => {
+  const ref = useRef<any>();
+
+  useEffect(() => {
+    props.peer.on("stream", (stream: any) => {
+      ref.current.srcObject = stream;
+    });
+  }, []);
+
+  return <StyledVideo playsInline autoPlay ref={ref} />;
+};
+
+const videoConstraints = {
+  height: window.innerHeight / 2,
+  width: window.innerWidth / 2,
+};
 
 export default function GangPage() {
   const locationPath: string = useLocation().pathname;
   const userState = useSelector((state: RootState) => state.user.user);
+  //Gang Specific
   const [gangInfo, setgangInfo] = useState<any>({});
-  const [chatList, setchatList] = useState<any>([]);
+  const [channelList, setchannelList] = useState<any>([]);
   const [currentChannel, setcurrentChannel] = useState<string>("");
-
   const [first5Members, setfirst5Members] = useState<any>([]);
   const [platformImgLink, setplatformImgLink] = useState<string>("");
+  //Voice Specific
+  const [peers, setPeers] = useState<any>([]);
+  const userAudio = useRef<any>();
+  const peersRef = useRef<any>([]);
+  const channelId = 2;
+
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
   const toggleExpandedProfile = () => {
     setExpandedProfileVis(!expandedProfileVis);
@@ -24,14 +57,88 @@ export default function GangPage() {
   useEffect(() => {
     const locationOfLastSlash = locationPath.lastIndexOf("/");
     const extractedGangId = locationPath.substring(locationOfLastSlash + 1);
-
     loadGangPage(parseInt(extractedGangId));
+
+    //VOICE SETUP
+    // Get audio media
+    // navigator.mediaDevices.getUserMedia({ audio: true }).then((currentStream: any) => {
+    //   setlocalStream(currentStream);
+    //   myAudio.current = {};
+    //   myAudio.current.srcObject = currentStream;
+    // });
+    navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((currentStream) => {
+      userAudio.current = {};
+      userAudio.current.srcObject = currentStream;
+      socketRef.emit("join room", { channelId: channelId, userId: userState.id });
+      socketRef.on("all users", (users) => {
+        const peers: any = [];
+        // Loop through all users in channel and create a peer
+        users.forEach((userID: number) => {
+          console.log("all users? ", userID);
+          const peer = createPeer(userID, socketRef.id, currentStream);
+          peersRef.current.push({
+            peerID: userID,
+            peer,
+          });
+          peers.push(peer);
+        });
+        setPeers(peers);
+      });
+
+      socketRef.on("user joined", (payload) => {
+        console.log("incoming person requesting handshake: ", payload.callerID);
+        const peer = addPeer(payload.signal, payload.callerID, currentStream);
+        peersRef.current.push({
+          peerID: payload.callerID,
+          peer,
+        });
+        console.log("peers: ", peersRef.current.length);
+        setPeers((users: any) => [...users, peer]);
+      });
+
+      socketRef.on("receiving returned signal", (payload) => {
+        const item = peersRef.current.find((p: any) => p.peerID === payload.id);
+        item.peer.signal(payload.signal);
+      });
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  //START VOICE LOGIC
+  // Create Peer is called within a loop, runs once per user in the channel
+  function createPeer(userToSignal: any, callerID: any, stream: any) {
+    const peer = new Peer({
+      initiator: true,
+      trickle: false,
+      stream: stream,
+    });
+    //Listen for signal event, which starts handshake request to other users
+    peer.on("signal", (signal) => {
+      socketRef.emit("sending signal", { userToSignal, callerID, signal });
+    });
+    return peer;
+  }
+  // Add Peer is called whenever someone joins the channel after we are already in the channel
+  function addPeer(incomingSignal: any, callerID: any, stream: any) {
+    const peer = new Peer({
+      initiator: false,
+      trickle: false,
+      stream,
+    });
+    //Listen for signal event, which completes handshake request from other user
+    peer.on("signal", (signal) => {
+      socketRef.emit("returning signal", { signal, callerID });
+    });
+    //Accept the signal
+    peer.signal(incomingSignal);
+    return peer;
+  }
+  //END VOICE LOGIC
+  //Start non-voice page Logic
   useEffect(() => {
     console.log("gang: ", gangInfo);
-    if (gangInfo.chats) {
+    if (gangInfo.channels) {
       turnChatsIntoTiles();
       if (gangInfo.basicInfo?.members) {
         setfirst5Members(gangInfo.basicInfo.members.slice(0, 5));
@@ -60,14 +167,21 @@ export default function GangPage() {
   };
 
   const channelButtonPressed = (id: number) => {
-    console.log("joining channel: ", id);
+    if (id == 0) {
+      setcurrentChannel("");
+    } else {
+      const foundChannel = gangInfo.channels.find((channel: any) => channel.id === id);
+      if (foundChannel) {
+        setcurrentChannel(foundChannel.name);
+      }
+    }
   };
 
   const turnChatsIntoTiles = () => {
     if (gangInfo.role?.role_id) {
       //If in gang, show list of channels
-      setchatList(
-        gangInfo.chats.map((tile: any) => (
+      setchannelList(
+        gangInfo.channels.map((tile: any) => (
           <button
             key={tile.id}
             className="alt-button"
@@ -81,7 +195,7 @@ export default function GangPage() {
       );
     } else {
       //If not in gang, show join button
-      setchatList(
+      setchannelList(
         <button className="alt-button">join {gangInfo.basicInfo?.name ? gangInfo.basicInfo?.name : ""}</button>
       );
     }
@@ -125,7 +239,7 @@ export default function GangPage() {
           </div>
           <img className="gang-game-image" src={platformImgLink} alt={`game this team supports`} />
         </div>
-        <div className="about-box">{gangInfo.basicInfo?.about ? gangInfo.basicInfo.about : ""}</div>
+        {/* <div className="about-box">{gangInfo.basicInfo?.about ? gangInfo.basicInfo.about : ""}</div> */}
         <div className="channel-specific-contents" style={{ display: currentChannel == "" ? "flex" : "none" }}>
           <div className="gang-roster-container">
             {first5Members.map((member: any) => (
@@ -137,11 +251,36 @@ export default function GangPage() {
               {gangInfo.basicInfo?.members?.length ? gangInfo.basicInfo?.members?.length : ""} members
             </div>
           </div>
-          <div className="chat-list">{chatList}</div>
+          {/* List of channels */}
+          <div className="chat-list">{channelList}</div>
         </div>
-        <div className="channel-specific-contents"></div>
+        {/* This area shows contents of a specific channel */}
+        <div className="channel-specific-contents" style={{ display: currentChannel !== "" ? "flex" : "none" }}>
+          {/* Return to list of channels */}
+          <div className="channel-title-bar">
+            <button
+              className="channel-return-button"
+              onClick={() => {
+                channelButtonPressed(0);
+              }}
+            >
+              <i className="pi pi-angle-left"></i>
+            </button>
+            <div className="gang-channel-title">{currentChannel}</div>
+          </div>
+          {/* Voice Specific Contents */}
+          <div className="peers-info">
+            <div>now in voice: {peers.length}</div>
+
+            <div>
+              <StyledVideo muted ref={userAudio} autoPlay playsInline />
+              {peers.map((peer: any, index: any) => {
+                return <Video key={index} peer={peer} />;
+              })}
+            </div>
+          </div>
+        </div>
       </div>
-      <FooterComponent></FooterComponent>
     </div>
   );
 }

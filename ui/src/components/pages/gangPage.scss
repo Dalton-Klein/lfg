@@ -5,6 +5,27 @@
   .channel-specific-contents {
     display: flex;
     flex-direction: column;
+    .channel-title-bar {
+      display: flex;
+      align-items: center;
+      .channel-return-button {
+        aspect-ratio: 1 / 1;
+        margin-top: 1vh;
+        margin-left: 3vh;
+        margin-bottom: 1vh;
+      }
+      .gang-channel-title {
+        margin-left: 2vw;
+        font-size: $font3;
+      }
+    }
+    .peers-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
   }
 }
 .top-bar {
