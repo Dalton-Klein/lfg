@@ -10,11 +10,10 @@ import styled from "styled-components";
 
 import Peer from "simple-peer";
 import * as io from "socket.io-client";
-const socketRef = io.connect(process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg");
 
 const StyledVideo = styled.video`
-  height: 40%;
-  width: 50%;
+  height: 60%;
+  width: 70%;
 `;
 
 const Video = (props: any) => {
@@ -35,12 +34,13 @@ const videoConstraints = {
 };
 
 export default function GangPage() {
+  const socketRef = useRef<any>();
   const locationPath: string = useLocation().pathname;
   const userState = useSelector((state: RootState) => state.user.user);
   //Gang Specific
   const [gangInfo, setgangInfo] = useState<any>({});
   const [channelList, setchannelList] = useState<any>([]);
-  const [currentChannel, setcurrentChannel] = useState<string>("");
+  const [currentChannel, setcurrentChannel] = useState<any>({ name: "" });
   const [first5Members, setfirst5Members] = useState<any>([]);
   const [platformImgLink, setplatformImgLink] = useState<string>("");
   //Voice Specific
@@ -55,6 +55,9 @@ export default function GangPage() {
   };
 
   useEffect(() => {
+    socketRef.current = io.connect(
+      process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg"
+    );
     const locationOfLastSlash = locationPath.lastIndexOf("/");
     const extractedGangId = locationPath.substring(locationOfLastSlash + 1);
     loadGangPage(parseInt(extractedGangId));
@@ -66,44 +69,17 @@ export default function GangPage() {
     //   myAudio.current = {};
     //   myAudio.current.srcObject = currentStream;
     // });
-    navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((currentStream) => {
-      userAudio.current = {};
-      userAudio.current.srcObject = currentStream;
-      socketRef.emit("join room", { channelId: channelId, userId: userState.id });
-      socketRef.on("all users", (users) => {
-        const peers: any = [];
-        // Loop through all users in channel and create a peer
-        users.forEach((userID: number) => {
-          console.log("all users? ", userID);
-          const peer = createPeer(userID, socketRef.id, currentStream);
-          peersRef.current.push({
-            peerID: userID,
-            peer,
-          });
-          peers.push(peer);
-        });
-        setPeers(peers);
-      });
 
-      socketRef.on("user joined", (payload) => {
-        console.log("incoming person requesting handshake: ", payload.callerID);
-        const peer = addPeer(payload.signal, payload.callerID, currentStream);
-        peersRef.current.push({
-          peerID: payload.callerID,
-          peer,
-        });
-        console.log("peers: ", peersRef.current.length);
-        setPeers((users: any) => [...users, peer]);
-      });
-
-      socketRef.on("receiving returned signal", (payload) => {
-        const item = peersRef.current.find((p: any) => p.peerID === payload.id);
-        item.peer.signal(payload.signal);
-      });
-    });
-
+    return () => {
+      socketRef.current.disconnect();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    turnChatsIntoTiles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentChannel]);
 
   //START VOICE LOGIC
   // Create Peer is called within a loop, runs once per user in the channel
@@ -115,7 +91,7 @@ export default function GangPage() {
     });
     //Listen for signal event, which starts handshake request to other users
     peer.on("signal", (signal) => {
-      socketRef.emit("sending signal", { userToSignal, callerID, signal });
+      socketRef.current.emit("sending signal", { userToSignal, callerID, signal });
     });
     return peer;
   }
@@ -128,7 +104,7 @@ export default function GangPage() {
     });
     //Listen for signal event, which completes handshake request from other user
     peer.on("signal", (signal) => {
-      socketRef.emit("returning signal", { signal, callerID });
+      socketRef.current.emit("returning signal", { signal, callerID });
     });
     //Accept the signal
     peer.signal(incomingSignal);
@@ -166,13 +142,60 @@ export default function GangPage() {
     setgangInfo(result);
   };
 
-  const channelButtonPressed = (id: number) => {
-    if (id == 0) {
-      setcurrentChannel("");
+  const channelButtonPressed = (tile: any) => {
+    const foundChannel = gangInfo.channels.find((channel: any) => channel.id === tile.id);
+    if (tile.is_voice) {
+      //Here we can connect or disconnect from the voice socket chat
+      if (tile.id === currentChannel.id) {
+        //Disconnect from voice
+        setcurrentChannel({ name: "" });
+        socketRef.current.disconnect();
+      } else {
+        //Connect To Voice
+        setcurrentChannel(foundChannel);
+        navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((currentStream) => {
+          userAudio.current = {};
+          userAudio.current.srcObject = currentStream;
+          socketRef.current.emit("join_channel", { channelId: channelId, userId: userState.id });
+          socketRef.current.on("all users", (users) => {
+            const peers: any = [];
+            // Loop through all users in channel and create a peer
+            users.forEach((userID: number) => {
+              console.log("all users? ", userID);
+              const peer = createPeer(userID, socketRef.current.id, currentStream);
+              peersRef.current.push({
+                peerID: userID,
+                peer,
+              });
+              peers.push(peer);
+            });
+            setPeers(peers);
+          });
+
+          socketRef.current.on("user joined", (payload) => {
+            console.log("incoming person requesting handshake: ", payload.callerID);
+            const peer = addPeer(payload.signal, payload.callerID, currentStream);
+            peersRef.current.push({
+              peerID: payload.callerID,
+              peer,
+            });
+            console.log("peers: ", peersRef.current.length);
+            setPeers((users: any) => [...users, peer]);
+          });
+
+          socketRef.current.on("receiving returned signal", (payload) => {
+            const item = peersRef.current.find((p: any) => p.peerID === payload.id);
+            item.peer.signal(payload.signal);
+          });
+        });
+      }
     } else {
-      const foundChannel = gangInfo.channels.find((channel: any) => channel.id === id);
-      if (foundChannel) {
-        setcurrentChannel(foundChannel.name);
+      if (tile.id == 0) {
+        setcurrentChannel({ name: "" });
+      } else {
+        if (foundChannel) {
+          setcurrentChannel(foundChannel);
+        }
       }
     }
   };
@@ -186,10 +209,14 @@ export default function GangPage() {
             key={tile.id}
             className="alt-button"
             onClick={() => {
-              channelButtonPressed(tile.id);
+              channelButtonPressed(tile);
             }}
           >
-            {tile.name}
+            {tile.is_voice
+              ? tile.id === currentChannel.id
+                ? `leave ${tile.name} (${peers.length})`
+                : `join ${tile.name} (${peers.length})`
+              : tile.name}
           </button>
         ))
       );
@@ -240,7 +267,13 @@ export default function GangPage() {
           <img className="gang-game-image" src={platformImgLink} alt={`game this team supports`} />
         </div>
         {/* <div className="about-box">{gangInfo.basicInfo?.about ? gangInfo.basicInfo.about : ""}</div> */}
-        <div className="channel-specific-contents" style={{ display: currentChannel == "" ? "flex" : "none" }}>
+        {/* Gang Default Page */}
+        <div
+          className="channel-specific-contents"
+          style={{
+            display: currentChannel.is_voice === true || currentChannel.is_voice == undefined ? "flex" : "none",
+          }}
+        >
           <div className="gang-roster-container">
             {first5Members.map((member: any) => (
               <div className="list-member-photo" key={member.id}>
@@ -255,7 +288,10 @@ export default function GangPage() {
           <div className="chat-list">{channelList}</div>
         </div>
         {/* This area shows contents of a specific channel */}
-        <div className="channel-specific-contents" style={{ display: currentChannel !== "" ? "flex" : "none" }}>
+        <div
+          className="channel-specific-contents"
+          style={{ display: currentChannel.is_voice === false ? "flex" : "none" }}
+        >
           {/* Return to list of channels */}
           <div className="channel-title-bar">
             <button
@@ -266,18 +302,7 @@ export default function GangPage() {
             >
               <i className="pi pi-angle-left"></i>
             </button>
-            <div className="gang-channel-title">{currentChannel}</div>
-          </div>
-          {/* Voice Specific Contents */}
-          <div className="peers-info">
-            <div>now in voice: {peers.length}</div>
-
-            <div>
-              <StyledVideo muted ref={userAudio} autoPlay playsInline />
-              {peers.map((peer: any, index: any) => {
-                return <Video key={index} peer={peer} />;
-              })}
-            </div>
+            <div className="gang-channel-title">{currentChannel.name}</div>
           </div>
         </div>
       </div>

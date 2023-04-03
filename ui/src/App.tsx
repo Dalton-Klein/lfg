@@ -43,9 +43,9 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <HashRouter>
           <div className="App">
+            {/* This scroll component scrolls user to top of each page when navigating */}
             <ScrollToTop />
             <Routes>
-              {/* test */}
               {/* Main Paths */}
               <Route path="/" element={<HomePage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
@@ -59,7 +59,8 @@ function App() {
               <Route path="/blog/how-to-find-great-rust-teammates" element={<BlogArticle1 />} />
               <Route path="/blog/rocket-league-minecraft-support" element={<BlogArticle2 />} />
               {/* Gangs Paths */}
-              <Route path="/manage-gang" element={<GangsPage />} />
+              <Route path="/create-gang" element={<GangsPage />} />
+              <Route path="/manage-gang/:gangId" element={<GangsPage />} />
               <Route path="/gang/:gangId" element={<GangPage />} />
               {/* Profile Paths */}
               <Route path="/general-profile" element={<ProfilePage />} />

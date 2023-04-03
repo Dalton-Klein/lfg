@@ -1,11 +1,11 @@
 const { sequelize } = require("../../models");
 
 const schemaName = "public";
-const tableName = "gangs";
-const columnName = "chat_platform_id";
-const dataType = "bit"; //bit | int | char(5) | varchar(255)
+const tableName = "gang_chats";
+const columnName = "is_voice";
+const dataType = "boolean"; //bit | int | char(5) | varchar(255)
 const nullSetting = "not null"; // 'not null' | ''
-const defaultValue = 0;
+const defaultValue = false;
 
 module.exports = {
   up: async ({ context: sequelize }) => {
@@ -20,7 +20,7 @@ module.exports = {
                       )
 				then
                  alter table ${schemaName}.${tableName}
-                         add column ${columnName} ${dataType} default ${defaultValue} ${nullSetting};
+                         add column ${columnName} BOOLEAN default '${defaultValue}';
 				end if;
 				end;
 				$$;
