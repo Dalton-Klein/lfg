@@ -8,9 +8,26 @@ import { getGangActivity } from "../../utils/rest";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { Toast } from "primereact/toast";
+import styled from "styled-components";
 
 import Peer from "simple-peer";
 import * as io from "socket.io-client";
+//
+const StyledVideo = styled.video`
+  height: 0%;
+  width: 0%;
+`;
+const Video = (props: any) => {
+  const ref = useRef<any>();
+
+  useEffect(() => {
+    props.peer.on("stream", (stream) => {
+      ref.current.srcObject = stream;
+    });
+  }, []);
+
+  return <StyledVideo playsInline autoPlay ref={ref} />;
+};
 
 export default function GangPage() {
   const socketRef = useRef<any>();
@@ -280,6 +297,9 @@ export default function GangPage() {
             <Accordion activeIndex={currentChannel.index} onTabChange={(e) => channelButtonPressed(e.index)}>
               {channelList}
             </Accordion>
+            {peers.map((peer, index) => {
+              return <Video key={index} peer={peer} />;
+            })}
           </div>
         </div>
       </div>
