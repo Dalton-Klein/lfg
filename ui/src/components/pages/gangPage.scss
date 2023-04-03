@@ -32,10 +32,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-left: 1vw;
+  padding-right: 3vw;
   .main-details {
     display: flex;
     align-items: center;
-    min-width: 85%;
+    min-width: 75%;
     margin: 1vh 1vw;
     .image-column {
       min-width: 60px;
@@ -82,13 +84,21 @@
     }
   }
   .gang-game-image {
-    margin-right: 2vw;
     width: 2.75vw;
     height: 2.75vw;
     min-height: 2.75vw;
     min-width: 2.75vw;
     object-fit: cover;
     border-radius: calc(2.75vw / 2);
+  }
+  .options-button:hover {
+    color: $colorButtonHover;
+    background-color: $colorGreyHover;
+  }
+
+  .options-button {
+    margin: 0 0;
+    background-color: rgba(205, 92, 92, 0);
   }
 }
 
