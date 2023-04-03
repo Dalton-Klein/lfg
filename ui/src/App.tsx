@@ -20,6 +20,7 @@ import React, { useEffect } from "react";
 import LFMPage from "./components/pages/lfmPage";
 import GangsPage from "./components/pages/gangsPage";
 import GangPage from "./components/pages/gangPage";
+import ScrollToTop from "./components/nav/scrollToTop";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 function App() {
@@ -42,8 +43,9 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <HashRouter>
           <div className="App">
+            {/* This scroll component scrolls user to top of each page when navigating */}
+            <ScrollToTop />
             <Routes>
-              {/* test */}
               {/* Main Paths */}
               <Route path="/" element={<HomePage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
@@ -57,7 +59,8 @@ function App() {
               <Route path="/blog/how-to-find-great-rust-teammates" element={<BlogArticle1 />} />
               <Route path="/blog/rocket-league-minecraft-support" element={<BlogArticle2 />} />
               {/* Gangs Paths */}
-              <Route path="/manage-gang" element={<GangsPage />} />
+              <Route path="/create-gang" element={<GangsPage />} />
+              <Route path="/manage-gang/:gangId" element={<GangsPage />} />
               <Route path="/gang/:gangId" element={<GangPage />} />
               {/* Profile Paths */}
               <Route path="/general-profile" element={<ProfilePage />} />

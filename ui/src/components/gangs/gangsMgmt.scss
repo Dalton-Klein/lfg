@@ -1,4 +1,4 @@
-@import '../../styling/config';
+@import "../../styling/config";
 .gang-mgmt-master {
   min-width: 100%;
   width: 100%;
@@ -54,7 +54,7 @@
       }
 
       .react-switch-label .react-switch-button {
-        content: '';
+        content: "";
         position: absolute;
         top: 1px;
         left: 1px;
@@ -141,6 +141,15 @@
           outline-style: solid;
           outline-width: 2px;
           outline-color: rgba(255, 255, 255, 0.6);
+        }
+        .box-selected {
+          outline-style: solid;
+          outline-width: 2px;
+          outline-color: white;
+          min-width: 50px;
+          min-height: 50px;
+          width: 4vw;
+          height: 4vw;
         }
       }
     }

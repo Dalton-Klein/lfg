@@ -58,13 +58,13 @@ const getGangActivity = async (req, res) => {
     const { gangId, userId } = req.body;
     //Get Gang Public Info
     const basicGangInfoQuery = `
-			select id, 
-				   name, 
-				   about, 
-				   avatar_url,
-				   game_platform_id
+		  select id, 
+				     name, 
+				     about, 
+				     avatar_url,
+				     game_platform_id
 			  from public.gangs
-			  where id = :gangId
+			 where id = :gangId
 		`;
     let foundGangInfo = await sequelize.query(basicGangInfoQuery, {
       type: Sequelize.QueryTypes.SELECT,
@@ -91,7 +91,10 @@ const getGangActivity = async (req, res) => {
     });
     console.log("role result: ", foundRole);
     gangQuery = `
-              select gc.id, gc.name, gc.privacy_level
+              select gc.id, 
+                     gc.name, 
+                     gc.privacy_level,
+                     is_voice
                 from public.gang_chats gc
                where gc.gang_id = :gangId
             `;

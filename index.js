@@ -38,15 +38,7 @@ io.on("connection", (socket) => {
   });
 
   // User Starts a voice channel (group voice)
-  //MY OWN HOME GROWN, FALLBACK
-  // socket.on("join_channel", (payload) => {
-  //   console.log("User JOINED Voice Channel ", payload.channelId);
-  //   peers.push(payload.peer);
-  //   socket.join(payload.channelId);
-  //   // Send update of connected peers data to all connected peers
-  //   io.to(payload.channelId).emit("update_channel", { channelId: payload.channelId, peers: peers });
-  // });
-  socket.on("join room", (payload) => {
+  socket.on("join_channel", (payload) => {
     console.log("joining payload: ", payload);
     if (users[payload.channelId]) {
       const length = users[payload.channelId].length;
