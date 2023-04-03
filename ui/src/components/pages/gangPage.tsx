@@ -14,9 +14,13 @@ import Peer from "simple-peer";
 import * as io from "socket.io-client";
 //
 const StyledVideo = styled.video`
-  height: 0%;
-  width: 0%;
+  height: 10%;
+  width: 10%;
 `;
+const videoConstraints = {
+  height: window.innerHeight / 2,
+  width: window.innerWidth / 2,
+};
 const Video = (props: any) => {
   const ref = useRef<any>();
 
@@ -42,7 +46,7 @@ export default function GangPage() {
   const [platformImgLink, setplatformImgLink] = useState<string>("");
   const toast: any = useRef({ current: "" });
   //Voice Specific
-  const [peers, setPeers] = useState<any>([]);
+  const [peers, setpeers] = useState<any>([]);
   const userAudio = useRef<any>();
   const peersRef = useRef<any>([]);
   const channelId = 2;
@@ -80,10 +84,11 @@ export default function GangPage() {
     if (channel.id === currentAudioChannel.id) {
       socketRef.current.disconnect();
       setcurrentAudioChannel({});
+      setpeers([]);
     } else {
       console.log("connecting! ", channel);
       setcurrentAudioChannel(channel);
-      navigator.mediaDevices.getUserMedia({ audio: true }).then((currentStream) => {
+      navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((currentStream) => {
         userAudio.current = {};
         userAudio.current.srcObject = currentStream;
         socketRef.current.emit("join_channel", { channelId: channelId, userId: userState.id });
@@ -100,7 +105,7 @@ export default function GangPage() {
             tempPeers.push(peer);
           });
           console.log("temp peers? ", tempPeers.length);
-          setPeers(tempPeers);
+          setpeers(tempPeers);
         });
 
         socketRef.current.on("user joined", (payload) => {
@@ -111,7 +116,7 @@ export default function GangPage() {
             peer,
           });
           console.log("peers: ", peersRef.current.length);
-          setPeers((users: any) => [...users, peer]);
+          setpeers((users: any) => [...users, peer]);
         });
 
         socketRef.current.on("receiving returned signal", (payload) => {
