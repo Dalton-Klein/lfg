@@ -14,8 +14,8 @@ import Peer from "simple-peer";
 import * as io from "socket.io-client";
 //
 const StyledVideo = styled.video`
-  height: 10%;
-  width: 10%;
+  height: 0%;
+  width: 0%;
 `;
 const videoConstraints = {
   height: window.innerHeight / 2,
@@ -86,7 +86,6 @@ export default function GangPage() {
       setcurrentAudioChannel({});
       setpeers([]);
     } else {
-      console.log("connecting! ", channel);
       setcurrentAudioChannel(channel);
       navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((currentStream) => {
         userAudio.current = {};
@@ -96,7 +95,6 @@ export default function GangPage() {
           const tempPeers: any = [];
           // Loop through all users in channel and create a peer
           users.forEach((userID: number) => {
-            console.log("all users? ", userID);
             const peer = createPeer(userID, socketRef.current.id, currentStream);
             peersRef.current.push({
               peerID: userID,
@@ -104,7 +102,7 @@ export default function GangPage() {
             });
             tempPeers.push(peer);
           });
-          console.log("temp peers? ", tempPeers.length);
+          //TODO, make array of user objects to display in voice chat with name and avatar
           setpeers(tempPeers);
         });
 
