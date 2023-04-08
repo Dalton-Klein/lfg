@@ -1,6 +1,25 @@
 const db = require("../models/index");
 const { sequelize } = require("../models/index");
 const Sequelize = require("sequelize");
+const { createGangRecord, createGangDefaultChannels } = require("../services/gangs");
+
+const createGang = async (req, res) => {
+  console.log(" ♛ A User Requested To Create A Gang ♛ ");
+  try {
+    const { userId, gang } = req.body;
+    //Create gang record
+    const gangResult = await createGangRecord(gang, result);
+    //Create default gang channels
+    console.log("gang result: ");
+    await createGangDefaultChannels(gangResult[0].id);
+    //Create initial roster record for owner
+
+    res.status(200).send(result);
+  } catch (err) {
+    console.log("CREATE GANG ERROR", err);
+    res.status(500).send(`GET ERROR: ${err}`);
+  }
+};
 
 const getMyGangsTiles = async (req, res) => {
   console.log(" ♛ A User Requested Their Gangs ♛ ");
@@ -129,6 +148,7 @@ const getGangActivity = async (req, res) => {
 };
 
 module.exports = {
+  createGang,
   getMyGangsTiles,
   getGangActivity,
 };

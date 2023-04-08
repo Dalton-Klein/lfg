@@ -193,7 +193,10 @@ export default function GangPage() {
 
   const channelButtonPressed = (index: number) => {
     const destinationChannel = gangInfo.channels.find((channel: any) => channel.index === index);
-    if (destinationChannel.id == 0) {
+    console.log("hi: ", index, "  ", gangInfo.channels);
+    console.log("yo: ", destinationChannel);
+
+    if (!destinationChannel || destinationChannel.id == 0) {
       setcurrentChannel({ name: "" });
     } else {
       if (destinationChannel) {
