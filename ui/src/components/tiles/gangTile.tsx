@@ -74,12 +74,7 @@ export default function GangTile(props: any) {
                   </div>
                 </div>
               ) : (
-                <img
-                  className='card-photo'
-                  onClick={() => {}}
-                  src={props.avatar_url}
-                  alt={`${props.name}'s avatar`}
-                />
+                <img className='card-photo' onClick={() => {}} src={props.avatar_url} alt={`${props.name}'s avatar`} />
               )}
             </div>
             <div className='gang-info'>
@@ -105,7 +100,7 @@ export default function GangTile(props: any) {
             {props.chat_platform_id === 1 ? (
               <img
                 className='footer-platform-image'
-                src='/assets/discord-logo-small.png'
+                src='/assets/logoWhiteSmall.png'
                 alt={`${props.username} discord`}
               />
             ) : (

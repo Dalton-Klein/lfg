@@ -1,28 +1,29 @@
-const db = require("../models/index");
-const { sequelize } = require("../models/index");
-const Sequelize = require("sequelize");
-const { createGangRecord, createGangDefaultChannels } = require("../services/gangs");
+const db = require('../models/index');
+const { sequelize } = require('../models/index');
+const Sequelize = require('sequelize');
+const { createGangRecord, createGangDefaultChannels, createGangRosterRecord } = require('../services/gangs');
 
 const createGang = async (req, res) => {
-  console.log(" ♛ A User Requested To Create A Gang ♛ ");
+  console.log(' ♛ A User Requested To Create A Gang ♛ ');
   try {
     const { userId, gang } = req.body;
     //Create gang record
-    const gangResult = await createGangRecord(gang, result);
-    //Create default gang channels
-    console.log("gang result: ");
+    console.log('options: ', gang);
+    const gangResult = await createGangRecord(gang);
+    //Create default gang channel records
+    console.log('gang result: ', gangResult);
     await createGangDefaultChannels(gangResult[0].id);
     //Create initial roster record for owner
-
-    res.status(200).send(result);
+    await createGangRosterRecord(gangResult[0].id, userId, 1);
+    res.status(200).send(true);
   } catch (err) {
-    console.log("CREATE GANG ERROR", err);
+    console.log('CREATE GANG ERROR', err);
     res.status(500).send(`GET ERROR: ${err}`);
   }
 };
 
 const getMyGangsTiles = async (req, res) => {
-  console.log(" ♛ A User Requested Their Gangs ♛ ");
+  console.log(' ♛ A User Requested Their Gangs ♛ ');
   try {
     const { userId } = req.body;
     gangsQuery = `
@@ -43,7 +44,7 @@ const getMyGangsTiles = async (req, res) => {
     foundGangs = await findRosterAvatars(foundGangs);
     res.status(200).send(foundGangs);
   } catch (err) {
-    console.log("GET CHATS ERROR", err);
+    console.log('GET CHATS ERROR', err);
     res.status(500).send(`GET ERROR: ${err}`);
   }
 };
@@ -72,7 +73,7 @@ const findRosterAvatars = async (gangsArray) => {
 };
 
 const getGangActivity = async (req, res) => {
-  console.log(" ♛ A User Requested To Load Gang Page ♛ ");
+  console.log(' ♛ A User Requested To Load Gang Page ♛ ');
   try {
     const { gangId, userId } = req.body;
     //Get Gang Public Info
@@ -108,7 +109,7 @@ const getGangActivity = async (req, res) => {
         gangId,
       },
     });
-    console.log("role result: ", foundRole);
+    console.log('role result: ', foundRole);
     gangQuery = `
               select gc.id, 
                      gc.name, 
@@ -142,7 +143,7 @@ const getGangActivity = async (req, res) => {
     }
     res.status(200).send(gangData);
   } catch (err) {
-    console.log("GET GANG PAGE INFO ERROR", err);
+    console.log('GET GANG PAGE INFO ERROR', err);
     res.status(500).send(`GET ERROR: ${err}`);
   }
 };
