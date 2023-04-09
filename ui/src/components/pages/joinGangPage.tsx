@@ -21,6 +21,8 @@ export default function JoinGangPage() {
     return;
   };
 
+  const tryGangInviteCode = () => {};
+
   return (
     <div className='join-gang-container'>
       <h1 className='join-gang-text'>join a gang in two ways</h1>
@@ -38,7 +40,7 @@ export default function JoinGangPage() {
         className='input-box'
         placeholder={'...invite code'}
       ></input>
-      <button className='join-gang-return-button' onClick={returnHome}>
+      <button className='join-gang-return-button' onClick={tryGangInviteCode}>
         join
       </button>
     </div>
