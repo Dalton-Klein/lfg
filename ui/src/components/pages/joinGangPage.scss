@@ -1,0 +1,33 @@
+@import '../../styling/config';
+
+.join-gang-container {
+  min-width: 100%;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .join-gang-text {
+    color: $colorSecondary;
+    font-size: $font5;
+  }
+  .input-box {
+    min-width: 80%;
+    margin-top: 2vh;
+    text-align: center;
+    align-self: center;
+    word-wrap: normal;
+    font-size: $font3;
+    background-color: $colorGreyBg;
+  }
+  .info-text {
+    margin-top: 4vh;
+    font-size: $font2;
+  }
+
+  .join-gang-return-button {
+    margin-top: 4vh;
+    width: 25%;
+    min-width: 210px;
+  }
+}
