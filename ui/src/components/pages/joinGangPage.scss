@@ -1,33 +1,51 @@
-@import '../../styling/config';
+@import "../../styling/config";
 
-.join-gang-container {
-  min-width: 100%;
-  min-height: 85vh;
+.master-alignment-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  .join-gang-text {
-    color: $colorSecondary;
-    font-size: $font5;
-  }
-  .input-box {
-    min-width: 80%;
-    margin-top: 2vh;
-    text-align: center;
+  .join-gang-container {
+    min-width: 50%;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: $borderRadius2;
+    background-color: $colorGreyPop;
     align-self: center;
-    word-wrap: normal;
-    font-size: $font3;
-    background-color: $colorGreyBg;
-  }
-  .info-text {
-    margin-top: 4vh;
-    font-size: $font2;
-  }
+    .join-gang-text {
+      color: $colorSecondary;
+      font-size: $font5;
+      margin-bottom: 2vh;
+    }
+    .input-box {
+      max-width: 60%;
+      min-width: 25%;
+      margin-top: 2vh;
+      text-align: center;
+      align-self: center;
+      word-wrap: normal;
+      font-size: $font3;
+      background-color: $colorGreyBg;
+    }
+    .info-text {
+      margin-top: 2vh;
+      font-size: $font2;
+    }
 
-  .join-gang-return-button {
-    margin-top: 4vh;
-    width: 25%;
-    min-width: 210px;
+    .join-gang-return-button {
+      margin-top: 4vh;
+      width: 25%;
+      min-width: 210px;
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .master-alignment-container {
+    .join-gang-container {
+      min-width: 90%;
+    }
   }
 }

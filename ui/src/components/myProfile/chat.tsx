@@ -90,14 +90,15 @@ export default function Chat(props: any) {
 
   const determinePlatformImageAndUsername = () => {
     const assetLinks: any = {
-      1: "/assets/discord-logo-small.png",
+      1: "/assets/logoWhiteSmall.png",
       2: "/assets/psn-logo-small.png",
       3: "/assets/xbox-logo-small.png",
     };
     let assetLink = assetLinks[props.preferred_platform];
     setisPublic(props.isPublicChat === "true" ? true : false);
+    console.log("props???", props);
     if (props.preferred_platform) {
-      if (props.preferred_platform === 1) setplatformUsername(props.discord);
+      if (props.preferred_platform === 1) setplatformUsername(props.username);
       if (props.preferred_platform === 2) setplatformUsername(props.psn);
       if (props.preferred_platform === 3) setplatformUsername(props.xbox);
       setplatformImage(<img className="connection-platform-image" src={assetLink} alt={`platform type`} />);
@@ -291,7 +292,7 @@ export default function Chat(props: any) {
         <button type="submit">send</button>
       </form>
 
-      <ReactTooltip id="platformTip" place="top" effect="solid">
+      <ReactTooltip id="platformTip" place="bottom" effect="solid">
         {platformUsername}
       </ReactTooltip>
     </div>
