@@ -1,6 +1,6 @@
-import { SignUpForm, SignInForm } from "./interfaces";
-require("dotenv").config();
-const endpointURL: String = "";
+import { SignUpForm, SignInForm } from './interfaces';
+require('dotenv').config();
+const endpointURL: String = '';
 
 const avatarCloud = `https://api.cloudinary.com/v1_1/kultured-dev/upload`;
 
@@ -9,9 +9,9 @@ const avatarCloud = `https://api.cloudinary.com/v1_1/kultured-dev/upload`;
 */
 export const verifyUser = async (email: string, vKey: string, name: string, password: string) => {
   let result = await fetch(`${endpointURL}/verify`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       vKey,
@@ -22,16 +22,16 @@ export const verifyUser = async (email: string, vKey: string, name: string, pass
   })
     .then((res) => res.json())
     .then((data) => data)
-    .catch((err) => console.log("VERIFY USER ERROR", err));
+    .catch((err) => console.log('VERIFY USER ERROR', err));
   return result;
 };
 
 export const createUser = async (user: SignUpForm) => {
   const { name, email } = user;
   let result = await fetch(`${endpointURL}/signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       username: name,
@@ -40,16 +40,16 @@ export const createUser = async (user: SignUpForm) => {
   })
     .then((res) => res.json())
     .then((data) => data)
-    .catch((err) => console.log("CREATE USER ERROR", err));
+    .catch((err) => console.log('CREATE USER ERROR', err));
   return result;
 };
 
 export const signInUser = async (user: SignInForm, isGoogleSignIn: boolean) => {
   const { email, password } = user;
   let result = await fetch(`${endpointURL}/signin`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       email: email,
@@ -59,15 +59,15 @@ export const signInUser = async (user: SignInForm, isGoogleSignIn: boolean) => {
   })
     .then((res) => res.json())
     .then((data) => data)
-    .catch((err) => console.log("SIGN IN USER ERROR", err));
+    .catch((err) => console.log('SIGN IN USER ERROR', err));
   return result;
 };
 
 export const googleSignIn = async (email: string) => {
   let result = await fetch(`${endpointURL}/google-signin`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       email,
@@ -75,15 +75,15 @@ export const googleSignIn = async (email: string) => {
   })
     .then((res) => res.json())
     .then((data) => data)
-    .catch((err) => console.log("SIGN IN USER ERROR", err));
+    .catch((err) => console.log('SIGN IN USER ERROR', err));
   return result;
 };
 
 export const requestPasswordReset = async (email: string) => {
   let result = await fetch(`${endpointURL}/forgot-password`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       email,
@@ -91,16 +91,16 @@ export const requestPasswordReset = async (email: string) => {
   })
     .then((res) => res.json())
     .then((data) => data)
-    .catch((err) => console.log("Password Reset Request ERROR", err));
+    .catch((err) => console.log('Password Reset Request ERROR', err));
   return result;
 };
 
 export const resetPassword = async (email: string, vKey: string, password: string) => {
   try {
     let httpResult = await fetch(`${endpointURL}/reset-password`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         vKey,
@@ -111,7 +111,7 @@ export const resetPassword = async (email: string, vKey: string, password: strin
     const jsonify = httpResult.json();
     return jsonify;
   } catch (error) {
-    console.log("Password Reset ERROR", error);
+    console.log('Password Reset ERROR', error);
   }
 };
 
@@ -119,9 +119,9 @@ export const resetPassword = async (email: string, vKey: string, password: strin
 export const getRustPlayerTiles = async (userId: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/rust-tiles`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         userId,
@@ -138,9 +138,9 @@ export const getRustPlayerTiles = async (userId: number, token: string) => {
 export const getRustGangTiles = async (userId: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/rust-gang-tiles`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         userId,
@@ -157,9 +157,9 @@ export const getRustGangTiles = async (userId: number, token: string) => {
 export const getRocketLeagueTiles = async (userId: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/rocket-league-tiles`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         userId,
@@ -173,12 +173,12 @@ export const getRocketLeagueTiles = async (userId: number, token: string) => {
   }
 };
 
-export const getRocketLeagueGangTiles = async (userId: number, token: string) => {
+export const getGangTiles = async (userId: number, token: string) => {
   try {
-    const httpResult = await fetch(`${endpointURL}/rocket-league-gang-tiles`, {
-      method: "POST",
+    const httpResult = await fetch(`${endpointURL}/get-gang-tiles`, {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         userId,
@@ -195,9 +195,9 @@ export const getRocketLeagueGangTiles = async (userId: number, token: string) =>
 export const getProfileSocialData = async (fromUserId: number, forUserId: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/social`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         fromUserId,
@@ -215,9 +215,9 @@ export const getProfileSocialData = async (fromUserId: number, forUserId: number
 export const getEndorsementOptions = async (inputterId: number, receiverId: number, rust_is_published: boolean) => {
   try {
     const httpResult = await fetch(`${endpointURL}/endorsement-options`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         inputterId,
@@ -235,9 +235,9 @@ export const getEndorsementOptions = async (inputterId: number, receiverId: numb
 export const addEndorsement = async (typeId: number, senderId: number, receiverId: number, value: number) => {
   try {
     const httpResult = await fetch(`${endpointURL}/endorsement`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         typeId,
@@ -262,9 +262,9 @@ export const createConnectionRequest = async (
 ) => {
   try {
     const httpResult = await fetch(`${endpointURL}/connection-request`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         fromUserId,
@@ -286,9 +286,9 @@ export const createConnectionRequest = async (
 */
 export const fetchUserData = async (userId: number) => {
   let result = await fetch(`${endpointURL}/getUserDetails`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -296,30 +296,30 @@ export const fetchUserData = async (userId: number) => {
   })
     .then((res) => res.json())
     .then((data) => data)
-    .catch((err) => console.log("FETCH USER DATA ERROR", err));
+    .catch((err) => console.log('FETCH USER DATA ERROR', err));
   return result;
 };
 
 export const uploadAvatarCloud = async (avatar: any) => {
   const formData = new FormData();
-  formData.append("upload_preset", "ribyujnm");
-  formData.append("file", avatar.files[0]);
+  formData.append('upload_preset', 'ribyujnm');
+  formData.append('file', avatar.files[0]);
   let response;
   await fetch(avatarCloud, {
-    method: "POST",
+    method: 'POST',
     body: formData,
   })
     .then((response) => response.json())
     .then((data) => (response = data.url))
-    .catch((err) => console.log("Fetch error (CLOUDINARY)", err));
+    .catch((err) => console.log('Fetch error (CLOUDINARY)', err));
   return response;
 };
 
 export const updateUserField = async (id: number, field: string, value: any) => {
-  console.log("val?? ", value);
+  console.log('val?? ', value);
   await fetch(`${endpointURL}/updateUserInfoField`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       userId: id,
       field,
@@ -327,15 +327,15 @@ export const updateUserField = async (id: number, field: string, value: any) => 
     }),
   })
     .then((res) => res.json())
-    .catch((err) => console.log("Fetch Error (avatar)", err));
+    .catch((err) => console.log('Fetch Error (avatar)', err));
   return;
 };
 
 export const updateGeneralInfoField = async (id: number, field: string, value: any) => {
   try {
     const httpResult = await fetch(`${endpointURL}/updateGeneralInfoField`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         userId: id,
         field,
@@ -351,8 +351,8 @@ export const updateGeneralInfoField = async (id: number, field: string, value: a
 export const updateGameSpecificInfoField = async (id: number, table: string, field: string, value: any) => {
   try {
     const httpResult = await fetch(`${endpointURL}/updateGameSpecificInfoField`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         userId: id,
         table,
@@ -371,9 +371,9 @@ export const updateGameSpecificInfoField = async (id: number, table: string, fie
 */
 export const getAllPublishStatus = async (userId: number, token: string) => {
   return await fetch(`${endpointURL}/all-publication-status`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -386,9 +386,9 @@ export const getAllPublishStatus = async (userId: number, token: string) => {
 };
 export const checkGeneralProfileCompletion = async (userId: number, token: string) => {
   return await fetch(`${endpointURL}/general-profile-completion`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -401,9 +401,9 @@ export const checkGeneralProfileCompletion = async (userId: number, token: strin
 };
 export const checkRustProfileCompletion = async (userId: number, token: string) => {
   return await fetch(`${endpointURL}/rust-profile-completion`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -417,9 +417,9 @@ export const checkRustProfileCompletion = async (userId: number, token: string) 
 
 export const checkRocketLeagueProfileCompletion = async (userId: number, token: string) => {
   return await fetch(`${endpointURL}/rocket-league-profile-completion`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -433,9 +433,9 @@ export const checkRocketLeagueProfileCompletion = async (userId: number, token: 
 
 export const attemptPublishRustProfile = async (userId: number, token: string) => {
   return await fetch(`${endpointURL}/publish-rust`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -449,9 +449,9 @@ export const attemptPublishRustProfile = async (userId: number, token: string) =
 
 export const attemptPublishRocketLeagueProfile = async (userId: number, token: string) => {
   return await fetch(`${endpointURL}/publish-rocket-league`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -468,9 +468,9 @@ export const attemptPublishRocketLeagueProfile = async (userId: number, token: s
 */
 export const getConnectionsForUser = async (userId: number, token: string) => {
   return await fetch(`${endpointURL}/connections`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -484,9 +484,9 @@ export const getConnectionsForUser = async (userId: number, token: string) => {
 
 export const getPendingConnectionsForUser = async (userId: number, token: string) => {
   return await fetch(`${endpointURL}/pending-connections`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -506,9 +506,9 @@ export const acceptConnectionRequest = async (
   token: string
 ) => {
   return await fetch(`${endpointURL}/accept-connection`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       acceptorId,
@@ -529,9 +529,9 @@ export const acceptConnectionRequest = async (
 */
 export const getChatHistoryForUser = async (userId: number, chatId: number, token: string) => {
   let result = await fetch(`${endpointURL}/get-chat-history`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -541,15 +541,15 @@ export const getChatHistoryForUser = async (userId: number, chatId: number, toke
   })
     .then((res) => res.json())
     .then((data) => data)
-    .catch((err) => console.log("Error while fetching chat history", err));
+    .catch((err) => console.log('Error while fetching chat history', err));
   return result;
 };
 
 export const getNotificationsUser = async (userId: number, token: string) => {
   let result = await fetch(`${endpointURL}/get-notifications`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -558,21 +558,21 @@ export const getNotificationsUser = async (userId: number, token: string) => {
   })
     .then((res) => res.json())
     .then((data) => data)
-    .catch((err) => console.log("Error while fetching notification history", err));
+    .catch((err) => console.log('Error while fetching notification history', err));
   return result;
 };
 
 export const getNotificationsGeneral = async () => {
   let result = await fetch(`${endpointURL}/get-notifications-general`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({}),
   })
     .then((res) => res.json())
     .then((data) => data)
-    .catch((err) => console.log("Error while fetching notification history", err));
+    .catch((err) => console.log('Error while fetching notification history', err));
   return result;
 };
 
@@ -582,12 +582,12 @@ export const getNotificationsGeneral = async () => {
 export const getCategoriesAndTopics = async () => {
   try {
   } catch (error) {
-    console.log("Get categories error: ", error);
+    console.log('Get categories error: ', error);
   }
   const httpResult = await fetch(`${endpointURL}/tags`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
   const jsonify = httpResult.json();
@@ -597,9 +597,9 @@ export const getCategoriesAndTopics = async () => {
 export const createPost = async (post: any) => {
   let call = {};
   await fetch(`${endpointURL}/create-post`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       post,
@@ -607,7 +607,7 @@ export const createPost = async (post: any) => {
   })
     .then((res) => res.json())
     .then((data) => (call = data))
-    .catch((err) => console.log("GET USER ERROR", err));
+    .catch((err) => console.log('GET USER ERROR', err));
   return call;
 };
 
@@ -617,9 +617,9 @@ export const createPost = async (post: any) => {
 export const getUserPublicDetails = async (id: number) => {
   let call = {};
   await fetch(`${endpointURL}/getPublicDetails`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       id: id,
@@ -627,16 +627,16 @@ export const getUserPublicDetails = async (id: number) => {
   })
     .then((res) => res.json())
     .then((data) => (call = data))
-    .catch((err) => console.log("GET USER ERROR", err));
+    .catch((err) => console.log('GET USER ERROR', err));
   return call;
 };
 
 export const seeIfChatExists = async (seller: number, buyer: number, itemId: number) => {
   let result;
   await fetch(`${endpointURL}/seeIfChatExists`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       seller,
@@ -646,15 +646,15 @@ export const seeIfChatExists = async (seller: number, buyer: number, itemId: num
   })
     .then((res) => res.json())
     .then((data) => (result = data))
-    .catch((err) => console.log("CREATE CHAT ERROR", err));
+    .catch((err) => console.log('CREATE CHAT ERROR', err));
   return result;
 };
 
 export const getAllChatsForUser = async (userId: number) => {
   return await fetch(`${endpointURL}/getAllChatsForUser`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
@@ -668,9 +668,9 @@ export const getAllChatsForUser = async (userId: number) => {
 
 export const getSingleChatForUser = async (chatId: number) => {
   return await fetch(`${endpointURL}/getSingleChatForUser`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       chatId,
@@ -684,9 +684,9 @@ export const getSingleChatForUser = async (chatId: number) => {
 
 export const getChatById = async (chatId: number) => {
   return await fetch(`${endpointURL}/getMessages`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       chatId: chatId,
@@ -700,9 +700,9 @@ export const getChatById = async (chatId: number) => {
 
 export const getNumChatsByItem = async (itemId: number) => {
   return await fetch(`${endpointURL}/getNumChatsByItem`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       itemId,
@@ -716,9 +716,9 @@ export const getNumChatsByItem = async (itemId: number) => {
 
 export const sendMessage = (sender: number, content: string, PrivateChatId: number) => {
   fetch(`${endpointURL}/sendMessage`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       sender,
@@ -727,16 +727,16 @@ export const sendMessage = (sender: number, content: string, PrivateChatId: numb
     }),
   })
     .then((res) => res.json)
-    .catch((err) => console.log("CREATE MESSAGE ERROR", err));
+    .catch((err) => console.log('CREATE MESSAGE ERROR', err));
 };
 
 // ** START GANG ROUTES
 export const createNewGang = async (userId: number, gang: any) => {
   try {
-    console.log("??? ", gang);
+    console.log('??? ', gang);
     const httpResult = await fetch(`${endpointURL}/create-gang`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         userId,
         gang,
@@ -750,8 +750,8 @@ export const createNewGang = async (userId: number, gang: any) => {
 export const updateGangInfoField = async (id: number, field: string, value: any) => {
   try {
     const httpResult = await fetch(`${endpointURL}/updateGangInfoField`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         userId: id,
         field,
@@ -766,9 +766,9 @@ export const updateGangInfoField = async (id: number, field: string, value: any)
 export const getMyGangTiles = async (userId: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/my-gangs`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         userId,
@@ -785,9 +785,9 @@ export const getMyGangTiles = async (userId: number, token: string) => {
 export const getGangActivity = async (gangId: number, userId: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/gang-activity`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         gangId,
