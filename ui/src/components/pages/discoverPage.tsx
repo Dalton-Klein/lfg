@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { attemptPublishRustProfile, getRustPlayerTiles, getRocketLeagueTiles } from "../../utils/rest";
+import {
+  attemptPublishRustProfile,
+  getRustPlayerTiles,
+  getRocketLeagueTiles,
+  getRustGangTiles,
+  getRocketLeagueGangTiles,
+} from "../../utils/rest";
 import FooterComponent from "../nav/footerComponent";
 import HeaderComponent from "../nav/headerComponent";
 import FilterBarComponent from "../nav/filter/filterBarComponent";
@@ -11,9 +17,11 @@ import { findUnionForObjectArrays, generateRange } from "../../utils/helperFunct
 import { resetFilterPreferences } from "../../store/userPreferencesSlice";
 import { useLocation } from "react-router-dom";
 import BannerAlt from "../nav/banner-alt";
+import GangTile from "../tiles/gangTile";
 
 export default function DiscoverPage() {
   const locationPath: string = useLocation().pathname;
+  const [discoverTitle, setdiscoverTitle] = useState<string>("");
   const [tilesFeed, setTilesFeed] = useState(<li></li>);
   const [tilesFromDB, setTilesFromDB] = useState<any>([]);
   const [isProfileComplete, setisProfileComplete] = useState<boolean>(false);
@@ -23,6 +31,7 @@ export default function DiscoverPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    determineTitle();
     if (userState.id && userState.id > 0) {
       checkIfProfileComplete();
     } else {
@@ -33,6 +42,7 @@ export default function DiscoverPage() {
   }, []);
 
   useEffect(() => {
+    determineTitle();
     if (userState.id && userState.id > 0) {
       checkIfProfileComplete();
     } else {
@@ -60,12 +70,37 @@ export default function DiscoverPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preferencesState.discoverFilters]);
 
+  const determineTitle = () => {
+    switch (locationPath) {
+      case "/lfg-rust":
+        setdiscoverTitle("find rust players");
+        break;
+      case "/lfg-rocket-league":
+        setdiscoverTitle("find rocket league players");
+        break;
+      case "/lfm-rust":
+        setdiscoverTitle("find rust gangs");
+        break;
+      case "/lfm-rocket-league":
+        setdiscoverTitle("find rocket league gangs");
+        break;
+    }
+  };
   const fetchTilesData = async () => {
     let tiles: any = [];
-    if (locationPath === "/lfg-rust") {
-      tiles = await getRustPlayerTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
-    } else if (locationPath === "/lfg-rocket-league") {
-      tiles = await getRocketLeagueTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
+    switch (locationPath) {
+      case "/lfg-rust":
+        tiles = await getRustPlayerTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
+        break;
+      case "/lfg-rocket-league":
+        tiles = await getRocketLeagueTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
+        break;
+      case "/lfm-rust":
+        tiles = await getRustGangTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
+        break;
+      case "/lfm-rocket-league":
+        tiles = await getRocketLeagueGangTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
+        break;
     }
     setTilesFromDB(tiles);
   };
@@ -77,13 +112,24 @@ export default function DiscoverPage() {
   };
 
   const turnDataIntoTiles = (tileData: any) => {
-    setTilesFeed(
-      tileData.map((tile: any) => (
-        <li style={{ listStyleType: "none" }} key={tile.id}>
-          <PlayerTile {...tile} isProfileComplete={isProfileComplete} refreshTiles={fetchTilesData}></PlayerTile>
-        </li>
-      ))
-    );
+    const lfgORlfm = locationPath.slice(0, 4);
+    if (lfgORlfm === "/lfg") {
+      setTilesFeed(
+        tileData.map((tile: any) => (
+          <li style={{ listStyleType: "none" }} key={tile.id}>
+            <PlayerTile {...tile} isProfileComplete={isProfileComplete} refreshTiles={fetchTilesData}></PlayerTile>
+          </li>
+        ))
+      );
+    } else {
+      setTilesFeed(
+        tileData.map((tile: any) => (
+          <li style={{ listStyleType: "none" }} key={tile.id}>
+            <GangTile {...tile} refreshTiles={fetchTilesData}></GangTile>
+          </li>
+        ))
+      );
+    }
   };
 
   const updateTilesFeed = () => {
@@ -254,7 +300,7 @@ export default function DiscoverPage() {
     <div>
       <HeaderComponent></HeaderComponent>
       <BannerAlt
-        title={locationPath === "/lfg-rust" ? "find rust players" : "find rocket league players"}
+        title={discoverTitle}
         buttonText={locationPath === "/lfg-rust" ? "my rust profile" : "my rl profile"}
         buttonLink={locationPath === "/lfg-rust" ? "/rust-profile" : "/rocket-league-profile"}
       ></BannerAlt>
