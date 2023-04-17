@@ -1,9 +1,11 @@
-@import '../../styling/config';
+@import "../../styling/config";
 .gang-card-master {
   height: max-content;
   width: max-content;
   margin-top: 1vh;
   margin-bottom: 1vh;
+  min-width: 40vw;
+  max-width: 40vw;
   .gang-card {
     display: flex;
     flex-direction: column;

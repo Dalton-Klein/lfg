@@ -1,6 +1,6 @@
-const { async } = require('rxjs');
-const { sequelize } = require('../models/index');
-const Sequelize = require('sequelize');
+const { async } = require("rxjs");
+const { sequelize } = require("../models/index");
+const Sequelize = require("sequelize");
 
 const createGangRecord = async (gang) => {
   gangsQuery = `
@@ -23,8 +23,8 @@ const createGangRecord = async (gang) => {
 };
 
 const createGangDefaultChannels = async (gangId) => {
-  await createGangChannel(gangId, 'general', 5, false);
-  await createGangChannel(gangId, 'voice', 5, true);
+  await createGangChannel(gangId, "general", 5, false);
+  await createGangChannel(gangId, "voice", 5, true);
   return;
 };
 
@@ -61,9 +61,26 @@ const createGangRosterRecord = async (gang_id, user_id, role_id) => {
   });
 };
 
+const createGangRequestRecord = async (gang_id, user_id, is_user_asking_to_join) => {
+  gangsQuery = `
+  insert into public.gang_requests (gang_id, user_id, is_user_asking_to_join, created_at, updated_at)
+       values (:gang_id, :user_id, :is_user_asking_to_join, current_timestamp, current_timestamp)
+    returning id
+`;
+  return await sequelize.query(gangsQuery, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      gang_id,
+      user_id,
+      is_user_asking_to_join,
+    },
+  });
+};
+
 module.exports = {
   createGangRecord,
   createGangDefaultChannels,
   createGangChannel,
   createGangRosterRecord,
+  createGangRequestRecord,
 };

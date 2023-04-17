@@ -17,6 +17,7 @@ export default function JoinGangPage() {
   const checkIfFormComplete = () => {
     if (joinCodeText && joinCodeText.length >= 3) {
       sethasCompletedForm(true);
+      console.log("eyyyo", hasCompletedForm);
     } else {
       sethasCompletedForm(false);
     }

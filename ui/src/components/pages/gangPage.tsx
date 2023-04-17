@@ -3,7 +3,7 @@ import HeaderComponent from "../nav/headerComponent";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import "./gangPage.scss";
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getGangActivity } from "../../utils/rest";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -34,6 +34,7 @@ const Video = (props: any) => {
 };
 
 export default function GangPage() {
+  const navigate = useNavigate();
   const socketRef = useRef<any>();
   const locationPath: string = useLocation().pathname;
   const userState = useSelector((state: RootState) => state.user.user);
@@ -160,10 +161,12 @@ export default function GangPage() {
     if (gangInfo.channels) {
       let tempIndex = 0;
       //Sets index property for use by accordion
-      gangInfo.channels.forEach((channel: any) => {
-        channel.index = tempIndex;
-        tempIndex++;
-      });
+      if (gangInfo.channels.length) {
+        gangInfo.channels?.forEach((channel: any) => {
+          channel.index = tempIndex;
+          tempIndex++;
+        });
+      }
       makeChannelTabs();
       if (gangInfo.basicInfo?.members) {
         setfirst5Members(gangInfo.basicInfo.members.slice(0, 5));
@@ -188,6 +191,7 @@ export default function GangPage() {
 
   const loadGangPage = async (id: number) => {
     const result = await getGangActivity(id, userState.id, "");
+    console.log("gang info: ", result);
     setgangInfo(result);
   };
 
@@ -196,7 +200,7 @@ export default function GangPage() {
     console.log("hi: ", index, "  ", gangInfo.channels);
     console.log("yo: ", destinationChannel);
 
-    if (!destinationChannel || destinationChannel.id == 0) {
+    if (!destinationChannel || destinationChannel.id === 0) {
       setcurrentChannel({ name: "" });
     } else {
       if (destinationChannel) {
@@ -277,9 +281,10 @@ export default function GangPage() {
           </div>
           <img className="gang-game-image" src={platformImgLink} alt={`game this team supports`} />
           <button
+            style={{ display: gangInfo!.role && gangInfo!.role!.role_id === 1 ? "inline-block" : "none" }}
             className="options-button"
             onClick={(event) => {
-              /* NAVIGATE TO MGMT PAGE TODO*/
+              navigate(`/manage-gang/${gangInfo.basicInfo.id}`);
             }}
           >
             <i className="pi pi-ellipsis-h"></i>
@@ -309,6 +314,7 @@ export default function GangPage() {
           </div>
         </div>
       </div>
+      <FooterComponent></FooterComponent>
     </div>
   );
 }

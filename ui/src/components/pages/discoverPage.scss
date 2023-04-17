@@ -7,8 +7,12 @@
   justify-content: space-evenly;
   align-content: center;
   flex-wrap: wrap;
-  li {
+  .player-card {
     max-width: 30vw;
+    margin: 2vh 1vw;
+  }
+  .gang-card {
+    max-width: 40vw;
     margin: 2vh 1vw;
   }
 }

@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  attemptPublishRustProfile,
-  getRustPlayerTiles,
-  getRocketLeagueTiles,
-  getRustGangTiles,
-  getRocketLeagueGangTiles,
-} from "../../utils/rest";
+import { attemptPublishRustProfile, getRustPlayerTiles, getRocketLeagueTiles, getLFMGangTiles } from "../../utils/rest";
 import FooterComponent from "../nav/footerComponent";
 import HeaderComponent from "../nav/headerComponent";
 import FilterBarComponent from "../nav/filter/filterBarComponent";
@@ -22,7 +16,7 @@ import GangTile from "../tiles/gangTile";
 export default function DiscoverPage() {
   const locationPath: string = useLocation().pathname;
   const [discoverTitle, setdiscoverTitle] = useState<string>("");
-  const [tilesFeed, setTilesFeed] = useState(<li></li>);
+  const [tilesFeed, settilesFeed] = useState(<li></li>);
   const [tilesFromDB, setTilesFromDB] = useState<any>([]);
   const [isProfileComplete, setisProfileComplete] = useState<boolean>(false);
   const preferencesState = useSelector((state: RootState) => state.preferences);
@@ -96,10 +90,10 @@ export default function DiscoverPage() {
         tiles = await getRocketLeagueTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
         break;
       case "/lfm-rust":
-        tiles = await getRustGangTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
+        tiles = await getLFMGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 1, "nothing");
         break;
       case "/lfm-rocket-league":
-        tiles = await getRocketLeagueGangTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
+        tiles = await getLFMGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 2, "nothing");
         break;
     }
     setTilesFromDB(tiles);
@@ -112,19 +106,20 @@ export default function DiscoverPage() {
   };
 
   const turnDataIntoTiles = (tileData: any) => {
+    console.log("tiles: ", tileData);
     const lfgORlfm = locationPath.slice(0, 4);
     if (lfgORlfm === "/lfg") {
-      setTilesFeed(
+      settilesFeed(
         tileData.map((tile: any) => (
-          <li style={{ listStyleType: "none" }} key={tile.id}>
+          <li className="player-card" style={{ listStyleType: "none" }} key={tile.id}>
             <PlayerTile {...tile} isProfileComplete={isProfileComplete} refreshTiles={fetchTilesData}></PlayerTile>
           </li>
         ))
       );
     } else {
-      setTilesFeed(
+      settilesFeed(
         tileData.map((tile: any) => (
-          <li style={{ listStyleType: "none" }} key={tile.id}>
+          <li className="gang-card" style={{ listStyleType: "none" }} key={tile.id}>
             <GangTile {...tile} refreshTiles={fetchTilesData}></GangTile>
           </li>
         ))

@@ -135,15 +135,16 @@ export const getRustPlayerTiles = async (userId: number, token: string) => {
   }
 };
 
-export const getRustGangTiles = async (userId: number, token: string) => {
+export const getLFMGangTiles = async (user_id: number, game_platform_id: number, token: string) => {
   try {
-    const httpResult = await fetch(`${endpointURL}/rust-gang-tiles`, {
+    const httpResult = await fetch(`${endpointURL}/gang-tiles`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId,
+        user_id,
+        game_platform_id,
         token,
       }),
     });
@@ -800,5 +801,41 @@ export const getGangActivity = async (gangId: number, userId: number, token: str
   } catch (error) {
     console.log(`${error} while fetching rust tiles`);
   }
+};
+
+export const getGangRequests = async (id: number, is_for_user: boolean, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/gang-requests`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id,
+        is_for_user,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while fetching rust tiles`);
+  }
+};
+
+export const updateGangField = async (id: number, field: string, value: any) => {
+  console.log("val?? ", value);
+  await fetch(`${endpointURL}/update-gang-field`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      gangId: id,
+      field,
+      value,
+    }),
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log("Fetch Error (avatar)", err));
+  return;
 };
 // ** END GANG ROUTES

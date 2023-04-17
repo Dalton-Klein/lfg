@@ -1,29 +1,30 @@
-const db = require('../models/index');
-const { sequelize } = require('../models/index');
-const Sequelize = require('sequelize');
-const { createGangRecord, createGangDefaultChannels, createGangRosterRecord } = require('../services/gangs');
+const db = require("../models/index");
+const { sequelize } = require("../models/index");
+const Sequelize = require("sequelize");
+const { createGangRecord, createGangDefaultChannels, createGangRosterRecord } = require("../services/gangs");
+const format = require("pg-format");
 
 const createGang = async (req, res) => {
-  console.log(' ♛ A User Requested To Create A Gang ♛ ');
+  console.log(" ♛ A User Requested To Create A Gang ♛ ");
   try {
     const { userId, gang } = req.body;
     //Create gang record
-    console.log('options: ', gang);
+    console.log("options: ", gang);
     const gangResult = await createGangRecord(gang);
     //Create default gang channel records
-    console.log('gang result: ', gangResult);
+    console.log("gang result: ", gangResult);
     await createGangDefaultChannels(gangResult[0].id);
     //Create initial roster record for owner
     await createGangRosterRecord(gangResult[0].id, userId, 1);
     res.status(200).send(true);
   } catch (err) {
-    console.log('CREATE GANG ERROR', err);
+    console.log("CREATE GANG ERROR", err);
     res.status(500).send(`GET ERROR: ${err}`);
   }
 };
 
 const getMyGangsTiles = async (req, res) => {
-  console.log(' ♛ A User Requested Their Gangs ♛ ');
+  console.log(" ♛ A User Requested Their Gangs ♛ ");
   try {
     const { userId } = req.body;
     gangsQuery = `
@@ -44,7 +45,7 @@ const getMyGangsTiles = async (req, res) => {
     foundGangs = await findRosterAvatars(foundGangs);
     res.status(200).send(foundGangs);
   } catch (err) {
-    console.log('GET CHATS ERROR', err);
+    console.log("GET CHATS ERROR", err);
     res.status(500).send(`GET ERROR: ${err}`);
   }
 };
@@ -54,7 +55,7 @@ const findRosterAvatars = async (gangsArray) => {
     const gang = gangsArray[i];
     //Find other members within this gang, pull in avatars
     const membersQuery = `
-        select u.avatar_url, u.id
+        select u.avatar_url, u.username, u.id, r.id as role_id
           from public.gang_roster r
           join public.users u
             on u.id = r.user_id
@@ -72,8 +73,44 @@ const findRosterAvatars = async (gangsArray) => {
   return gangsArray;
 };
 
+const fetchGangConnectionRequests = async (req, res) => {
+  console.log("iiiiii", req.body);
+  try {
+    const { id, is_for_user } = req.body;
+    //Find other members within this gang, pull in avatars
+    let gangConenctionsQuery;
+    if (is_for_user) {
+      gangConenctionsQuery = `
+        select r.*, g.*
+          from public.gang_requests r
+          join public.gangs g
+            on g.id = r.gang_id
+         where r.gang_id = :id 
+      `;
+    } else {
+      gangConenctionsQuery = `
+      select r.*, u.username, u.avatar_url
+        from public.gang_requests r
+        join public.users u
+          on u.id = r.user_id
+       where r.gang_id = :id 
+      `;
+    }
+    const foundRequests = await sequelize.query(gangConenctionsQuery, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        id,
+      },
+    });
+    res.status(200).send(foundRequests);
+  } catch (err) {
+    console.log("GET GANG REQUESTS ERROR", err);
+    res.status(500).send(`GET ERROR: ${err}`);
+  }
+};
+
 const getGangActivity = async (req, res) => {
-  console.log(' ♛ A User Requested To Load Gang Page ♛ ');
+  console.log(" ♛ A User Requested To Load Gang Page ♛ ");
   try {
     const { gangId, userId } = req.body;
     //Get Gang Public Info
@@ -82,7 +119,9 @@ const getGangActivity = async (req, res) => {
 				     name, 
 				     about, 
 				     avatar_url,
-				     game_platform_id
+				     game_platform_id,
+             chat_platform_id,
+             is_public
 			  from public.gangs
 			 where id = :gangId
 		`;
@@ -109,7 +148,7 @@ const getGangActivity = async (req, res) => {
         gangId,
       },
     });
-    console.log('role result: ', foundRole);
+    console.log("role result: ", foundRole);
     gangQuery = `
               select gc.id, 
                      gc.name, 
@@ -143,13 +182,48 @@ const getGangActivity = async (req, res) => {
     }
     res.status(200).send(gangData);
   } catch (err) {
-    console.log('GET GANG PAGE INFO ERROR', err);
+    console.log("GET GANG PAGE INFO ERROR", err);
     res.status(500).send(`GET ERROR: ${err}`);
   }
+};
+
+const updateGangField = async (req, res) => {
+  try {
+    const { gangId, field, value } = req.body;
+    const reply = await updateGangFieldQuery(gangId, field, value);
+    res.status(200).send(reply);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("POST ERROR");
+  }
+};
+
+const updateGangFieldQuery = async (gangId, field, value) => {
+  const query = format(
+    `
+    update public.gangs
+      set %I = :value,
+          updated_at = current_timestamp
+    where id = :gangId
+  `,
+    field
+  );
+  const result = await sequelize.query(query, {
+    type: Sequelize.QueryTypes.UPDATE,
+    replacements: {
+      gangId,
+      field,
+      value,
+    },
+  });
+  return result;
 };
 
 module.exports = {
   createGang,
   getMyGangsTiles,
+  fetchGangConnectionRequests,
   getGangActivity,
+  updateGangField,
+  findRosterAvatars,
 };

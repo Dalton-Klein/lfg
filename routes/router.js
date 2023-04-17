@@ -58,13 +58,16 @@ router.post("/publish-rocket-league", publishController.checkIfUserCanPublishRoc
 
 //TILES RELATED ROUTES
 router.post("/rust-tiles", tilesController.getRustTiles);
-router.post("/rust-gang-tiles", tilesController.getRustTiles);
+router.post("/gang-tiles", tilesController.getLFMGangTiles);
+router.post("/rocket-league-gang-tiles", tilesController.getRustTiles);
 router.post("/rocket-league-tiles", tilesController.getRocketLeagueTiles);
 
 //GANGS RELATED ROUTES
 router.post("/create-gang", gangsController.createGang);
 router.post("/my-gangs", gangsController.getMyGangsTiles);
+router.post("/gang-requests", gangsController.fetchGangConnectionRequests);
 router.post("/gang-activity", gangsController.getGangActivity);
+router.post("/update-gang-field", gangsController.updateGangField);
 
 //TESTING ROUTES Coffee Disable
 router.post("/test-email", testController.testEmails);
