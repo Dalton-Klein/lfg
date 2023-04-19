@@ -340,7 +340,7 @@ export default function GangsMgmt(props: Props) {
       {locationPath === "/create-gang" || loadedGangInfo.basicInfo?.id ? (
         <BannerAlt
           title={locationPath === "/create-gang" ? "create gang" : "gang management"}
-          buttonText={locationPath === "/create-gang" ? "cancel" : "dashboard"}
+          buttonText={locationPath === "/create-gang" ? "cancel" : "back to gang"}
           buttonLink={locationPath === "/create-gang" ? "/dashboard" : `/gang/${loadedGangInfo.basicInfo?.id}`}
         ></BannerAlt>
       ) : (
