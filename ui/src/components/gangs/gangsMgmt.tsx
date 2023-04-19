@@ -141,51 +141,69 @@ export default function GangsMgmt(props: Props) {
     );
   };
   const createMemberTiles = () => {
-    setmemberTiles(
-      loadedGangInfo.basicInfo?.members?.map((tile: any) => (
-        <div key={tile.id} className="channels-mgmt-tile">
-          <div className="channels-mgmt-naming">
-            {tile.username}
-            <SelectComponent
-              publicMethods={rolesRef}
-              title="role"
-              options={roleOptions}
-              multi={false}
-              setSelection={changeRole}
-              selection={temporaryRoles.find(({ value }) => value === tile.role_id)}
-            ></SelectComponent>
-            <button
-              onClick={() => {
-                removeChannel(tile);
-              }}
-            >
-              kick
-            </button>
-          </div>
+    const tempMemberTiles: any = [];
+    tempMemberTiles.push(
+      <div key={0} className="channels-mgmt-tile">
+        <div className="channels-mgmt-naming">
+          <button
+            onClick={() => {
+              showPlayerSearchModal();
+            }}
+          >
+            add members
+          </button>
         </div>
-      ))
+      </div>
     );
+    const mappedTiles = loadedGangInfo.basicInfo?.members?.map((tile: any) => (
+      <div key={tile.id} className="channels-mgmt-tile">
+        <div className="channels-mgmt-naming">
+          {tile.username}
+          <SelectComponent
+            publicMethods={rolesRef}
+            title="role"
+            options={roleOptions}
+            multi={false}
+            setSelection={changeRole}
+            selection={temporaryRoles.find(({ value }) => value === tile.role_id)}
+          ></SelectComponent>
+          <button
+            onClick={() => {
+              removeChannel(tile);
+            }}
+          >
+            kick
+          </button>
+        </div>
+      </div>
+    ));
+    setmemberTiles(tempMemberTiles.concat(mappedTiles));
   };
+
+  const showPlayerSearchModal = () => {};
+
   const createRequestTiles = () => {
-    console.log("reqests? ", requests);
     //Make property for game image
     let copyOfRequests = requests;
-    copyOfRequests.forEach((request) => {
-      request.platform = loadedGangInfo.basicInfo.game_platform_id;
-    });
-    console.log("copy of reqs", copyOfRequests);
-    setrequestTiles(
-      copyOfRequests.map((tile: any) => (
-        <ConnectionTile
-          key={tile.id}
-          {...tile}
-          type={3}
-          callAcceptRequest={(requestId: number) => {
-            acceptRequest(tile.id);
-          }}
-        ></ConnectionTile>
-      ))
-    );
+    if (requests.length) {
+      copyOfRequests.forEach((request) => {
+        request.platform = loadedGangInfo.basicInfo.game_platform_id;
+      });
+      setrequestTiles(
+        copyOfRequests.map((tile: any) => (
+          <ConnectionTile
+            key={tile.id}
+            {...tile}
+            type={3}
+            callAcceptRequest={(requestId: number) => {
+              acceptRequest(tile.id);
+            }}
+          ></ConnectionTile>
+        ))
+      );
+    } else {
+      setrequestTiles(<div className="nothing-pending">no pending requests!</div>);
+    }
   };
   //END Loading UI
 
@@ -403,7 +421,7 @@ export default function GangsMgmt(props: Props) {
                   ) : (
                     <i className="pi pi-times"></i>
                   )}
-                  manage messaegs
+                  manage messages
                 </div>
               </div>
             </div>
@@ -415,7 +433,7 @@ export default function GangsMgmt(props: Props) {
       {locationPath !== "/create-gang" ? (
         <div className="gang-mgmt-master">
           <div className="gang-mgmt-container">
-            <div className="gang-mgmt-title">manage requests to join</div>
+            <div className="gang-mgmt-title">requests to join</div>
             {requestTiles}
           </div>
         </div>
