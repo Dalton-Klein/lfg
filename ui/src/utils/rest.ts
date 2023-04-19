@@ -783,7 +783,7 @@ export const getMyGangTiles = async (userId: number, token: string) => {
   }
 };
 
-export const getGangActivity = async (gangId: number, userId: number, token: string) => {
+export const getGangActivity = async (gang_id: number, user_id: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/gang-activity`, {
       method: "POST",
@@ -791,8 +791,8 @@ export const getGangActivity = async (gangId: number, userId: number, token: str
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        gangId,
-        userId,
+        gang_id,
+        user_id,
         token,
       }),
     });
@@ -813,6 +813,52 @@ export const getGangRequests = async (id: number, is_for_user: boolean, token: s
       body: JSON.stringify({
         id,
         is_for_user,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while fetching rust tiles`);
+  }
+};
+
+export const acceptGangConnectionRequest = async (gang_id: number, request_id: number, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/accept-gang-request`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        gang_id,
+        request_id,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while fetching rust tiles`);
+  }
+};
+
+export const requestToJoinGang = async (
+  gang_id: number,
+  user_id: number,
+  is_user_asking_to_join: boolean,
+  token: string
+) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/request-join-gang`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        gang_id,
+        user_id,
+        is_user_asking_to_join,
         token,
       }),
     });

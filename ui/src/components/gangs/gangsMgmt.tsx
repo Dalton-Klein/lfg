@@ -4,12 +4,20 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useLocation, useNavigate } from "react-router-dom";
-import { createNewGang, getGangActivity, updateGangField, getGangRequests } from "../../utils/rest";
+import {
+  createNewGang,
+  getGangActivity,
+  updateGangField,
+  getGangRequests,
+  acceptGangConnectionRequest,
+} from "../../utils/rest";
 import { Toast } from "primereact/toast";
 import ReactTooltip from "react-tooltip";
 import BannerAlt from "../nav/banner-alt";
 import SelectComponent from "../myProfile/selectComponent";
 import { roleOptions } from "../../utils/selectOptions";
+import ConnectionTile from "../tiles/connectionTile";
+import Confetti from "react-confetti";
 
 type Props = {
   gangId: number;
@@ -21,6 +29,8 @@ export default function GangsMgmt(props: Props) {
   const userState = useSelector((state: RootState) => state.user.user);
   const toast: any = useRef({ current: "" });
   const navigate = useNavigate();
+
+  const [isConfetti, setIsConfetti] = useState<any>(false);
   // Requests Mgmt
   const [requests, setrequests] = useState<any>([]);
   const [requestTiles, setrequestTiles] = useState<any>();
@@ -68,17 +78,13 @@ export default function GangsMgmt(props: Props) {
     createRequestTiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requests]);
+
   // START Loading UI
   const loadGangInfos = async (id: number) => {
-    console.log("location: ", id);
     const gangResult = await getGangActivity(id, userState.id, "");
 
     const formattedMembers: any = [];
     gangResult.basicInfo.members.forEach((member) => {
-      console.log(
-        "selection: ",
-        roleOptions.find(({ value }) => value === member.role_id)
-      );
       formattedMembers.push({ label: "test", value: member.id });
     });
     settemporaryRoles(formattedMembers);
@@ -94,6 +100,10 @@ export default function GangsMgmt(props: Props) {
     } else {
       //TODO prevent non-owner from managing gang
     }
+    loadGangRequests(id);
+  };
+
+  const loadGangRequests = async (id: number) => {
     const requestsResult = await getGangRequests(id, false, "");
     setrequests(requestsResult);
   };
@@ -158,28 +168,22 @@ export default function GangsMgmt(props: Props) {
   };
   const createRequestTiles = () => {
     console.log("reqests? ", requests);
+    //Make property for game image
+    let copyOfRequests = requests;
+    copyOfRequests.forEach((request) => {
+      request.platform = loadedGangInfo.basicInfo.game_platform_id;
+    });
+    console.log("copy of reqs", copyOfRequests);
     setrequestTiles(
-      requests.map((tile: any) => (
-        <div key={tile.id} className="channels-mgmt-tile">
-          <div className="channels-mgmt-naming">
-            {tile.username}
-            <SelectComponent
-              publicMethods={rolesRef}
-              title="role"
-              options={roleOptions}
-              multi={false}
-              setSelection={changeRole}
-              selection={temporaryRoles.find(({ value }) => value === tile.role_id)}
-            ></SelectComponent>
-            <button
-              onClick={() => {
-                removeChannel(tile);
-              }}
-            >
-              kick
-            </button>
-          </div>
-        </div>
+      copyOfRequests.map((tile: any) => (
+        <ConnectionTile
+          key={tile.id}
+          {...tile}
+          type={3}
+          callAcceptRequest={(requestId: number) => {
+            acceptRequest(tile.id);
+          }}
+        ></ConnectionTile>
       ))
     );
   };
@@ -309,6 +313,20 @@ export default function GangsMgmt(props: Props) {
     settemporaryRoles(copyOfTemp);
     return;
   };
+  const acceptRequest = async (requestId: number) => {
+    const acceptResult = await acceptGangConnectionRequest(loadedGangInfo.basicInfo.id, requestId, "");
+    console.log("accept result? ", acceptResult);
+    const blastConfetti = async () => {
+      setTimeout(function () {
+        setIsConfetti(false);
+      }, 4000);
+    };
+    if (acceptResult && acceptResult.length) {
+      setIsConfetti(true);
+      await blastConfetti();
+      loadGangRequests(parseInt(locationPath.slice(13, 55)));
+    }
+  };
   //END Member Edit Logic
 
   return (
@@ -398,6 +416,7 @@ export default function GangsMgmt(props: Props) {
         <div className="gang-mgmt-master">
           <div className="gang-mgmt-container">
             <div className="gang-mgmt-title">manage requests to join</div>
+            {requestTiles}
           </div>
         </div>
       ) : (

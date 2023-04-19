@@ -17,7 +17,6 @@ import TermsOfServicePage from "./components/pages/tosPage";
 import PrivacyPolicyPage from "./components/pages/privacyPolicyPage";
 import { gapi } from "gapi-script";
 import React, { useEffect } from "react";
-import LFMPage from "./components/pages/lfmPage";
 import GangsPage from "./components/pages/gangsPage";
 import GangPage from "./components/pages/gangPage";
 import JoinGangPage from "./components/pages/joinGangPage";

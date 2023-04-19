@@ -4,7 +4,7 @@ import { Accordion, AccordionTab } from "primereact/accordion";
 import "./gangPage.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getGangActivity } from "../../utils/rest";
+import { getGangActivity, requestToJoinGang } from "../../utils/rest";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { Toast } from "primereact/toast";
@@ -157,7 +157,7 @@ export default function GangPage() {
 
   //Start non-voice page Logic
   useEffect(() => {
-    console.log("gang: ", gangInfo);
+    console.log("gang info!!!: ", gangInfo);
     if (gangInfo.channels) {
       let tempIndex = 0;
       //Sets index property for use by accordion
@@ -191,15 +191,11 @@ export default function GangPage() {
 
   const loadGangPage = async (id: number) => {
     const result = await getGangActivity(id, userState.id, "");
-    console.log("gang info: ", result);
     setgangInfo(result);
   };
 
   const channelButtonPressed = (index: number) => {
     const destinationChannel = gangInfo.channels.find((channel: any) => channel.index === index);
-    console.log("hi: ", index, "  ", gangInfo.channels);
-    console.log("yo: ", destinationChannel);
-
     if (!destinationChannel || destinationChannel.id === 0) {
       setcurrentChannel({ name: "" });
     } else {
@@ -207,6 +203,20 @@ export default function GangPage() {
         setcurrentChannel(destinationChannel);
       }
     }
+  };
+
+  const requestJoinGang = async () => {
+    const result = await requestToJoinGang(gangInfo.basicInfo.id, userState.id, true, "");
+    let copyOfGangInfo = Object.assign({}, gangInfo);
+    copyOfGangInfo.requestStatus = [result[0]];
+    setgangInfo(copyOfGangInfo);
+    toast.current.clear();
+    toast.current.show({
+      severity: "success",
+      summary: "request sent!",
+      detail: ``,
+      sticky: false,
+    });
   };
 
   // Create Channel AccordianTabs
@@ -235,9 +245,22 @@ export default function GangPage() {
         ))
       );
     } else {
-      //If not in gang, show join button
+      //If not in gang, and no request exists, show join button
       setchannelList(
-        <button className="alt-button">join {gangInfo.basicInfo?.name ? gangInfo.basicInfo?.name : ""}</button>
+        <div className="join-gang-box">
+          <div>you do not have access to this gang's channels because you are not a member of this gang</div>
+          <button
+            className="alt-button"
+            disabled={gangInfo.requestStatus?.length}
+            onClick={() => {
+              requestJoinGang();
+            }}
+          >
+            {gangInfo.requestStatus?.length
+              ? "request pending"
+              : `request to join ${gangInfo.basicInfo?.name ? gangInfo.basicInfo?.name : ""}`}
+          </button>
+        </div>
       );
     }
   };
@@ -304,14 +327,18 @@ export default function GangPage() {
             </div>
           </div>
           {/* List of channels */}
-          <div className="chat-list">
-            <Accordion activeIndex={currentChannel.index} onTabChange={(e) => channelButtonPressed(e.index)}>
-              {channelList}
-            </Accordion>
-            {peers.map((peer, index) => {
-              return <Video key={index} peer={peer} />;
-            })}
-          </div>
+          {gangInfo.role?.role_id ? (
+            <div className="chat-list">
+              <Accordion activeIndex={currentChannel.index} onTabChange={(e) => channelButtonPressed(e.index)}>
+                {channelList}
+              </Accordion>
+              {peers.map((peer, index) => {
+                return <Video key={index} peer={peer} />;
+              })}
+            </div>
+          ) : (
+            channelList
+          )}
         </div>
       </div>
       <FooterComponent></FooterComponent>

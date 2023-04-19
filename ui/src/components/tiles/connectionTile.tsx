@@ -4,7 +4,6 @@ import ExpandedProfile from "../modal/expandedProfileComponent";
 import { Menu } from "primereact/menu";
 
 export default function ConnectionTile(props: any) {
-  console.log("propsL ", props);
   const [platformUsername, setPlatformUsername] = useState<any>("");
   const [platformImgLink, setplatformImgLink] = useState<string>("");
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
@@ -12,6 +11,7 @@ export default function ConnectionTile(props: any) {
   const menu: any = useRef(null);
 
   useEffect(() => {
+    console.log("props", props);
     switch (props.platform) {
       case 1:
         setplatformImgLink(

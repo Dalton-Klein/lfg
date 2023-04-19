@@ -77,10 +77,56 @@ const createGangRequestRecord = async (gang_id, user_id, is_user_asking_to_join)
   });
 };
 
+const checkGangRequestStatusByUserId = async (user_id, gang_id) => {
+  gangsQuery = `
+    select * 
+      from public.gang_requests gr
+     where gr.gang_id = :gang_id
+       and gr.user_id = :user_id
+  
+`;
+  return await sequelize.query(gangsQuery, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      gang_id,
+      user_id,
+    },
+  });
+};
+const checkGangRequestStatusByRequestId = async (request_id) => {
+  gangsQuery = `
+    select * 
+      from public.gang_requests gr
+     where gr.id = :request_id
+  
+`;
+  return await sequelize.query(gangsQuery, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      request_id,
+    },
+  });
+};
+
+const deleteGangRequestRecord = async (id) => {
+  const query = `
+      delete from gang_requests where id = :id
+  `;
+  return await sequelize.query(query, {
+    type: Sequelize.QueryTypes.DELETE,
+    replacements: {
+      id,
+    },
+  });
+};
+
 module.exports = {
   createGangRecord,
   createGangDefaultChannels,
   createGangChannel,
   createGangRosterRecord,
   createGangRequestRecord,
+  checkGangRequestStatusByUserId,
+  checkGangRequestStatusByRequestId,
+  deleteGangRequestRecord,
 };
