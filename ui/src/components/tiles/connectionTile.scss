@@ -1,159 +1,160 @@
-@import '../../styling/config';
+@import "../../styling/config";
 
 .connection-list-item {
-	min-width: 80%;
+  min-width: 80%;
 }
 
 .connection-tile {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-color: $colorGreyPop;
-	border-radius: $borderRadius1;
-	padding: 1vw;
-	margin: 2vh 0;
-	.connection-main-container {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		min-width: 100%;
-		min-height: 15vh;
-		.connection-user-box {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			min-width: 6vw;
-			max-width: 6vw;
-			min-height: 14vh;
-			.connection-profile-image {
-				min-width: 6vw;
-				max-width: 6vw;
-				min-height: 6vw;
-				max-height: 6vw;
-				border-radius: calc(6vw / 2);
-				transition: $transition1;
-				cursor: pointer;
-			}
-			.dynamic-avatar-border {
-				@extend .connection-profile-image;
-				background-color: $colorShadowLight;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				cursor: pointer;
-				.dynamic-avatar-text-small {
-					font-size: $font4;
-				}
-			}
-			.connection-profile-image:hover {
-				transform: scale(1.05);
-			}
-			.dynamic-avatar-border:hover {
-				transform: scale(1.05);
-			}
-		}
-		.stackable-container {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
-			align-items: center;
-			min-width: 80%;
-			min-height: 10vh;
-			.stackable-container-left {
-				display: flex;
-				align-items: center;
-				justify-content: space-around;
-				.connection-name {
-					font-size: $font4;
-					margin: 0 0.5vw;
-				}
-				.connection-game-image {
-					width: 3vw;
-					width: 3vw;
-					min-width: 3vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $colorGreyPop;
+  border-radius: $borderRadius1;
+  padding: 1vw;
+  margin: 2vh 0;
+  .connection-main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 100%;
+    min-height: 15vh;
+    .connection-user-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-width: 6vw;
+      max-width: 6vw;
+      min-height: 14vh;
+      .connection-profile-image {
+        min-width: 6vw;
+        max-width: 6vw;
+        min-height: 6vw;
+        max-height: 6vw;
+        object-fit: cover;
+        border-radius: calc(6vw / 2);
+        transition: $transition1;
+        cursor: pointer;
+      }
+      .dynamic-avatar-border {
+        @extend .connection-profile-image;
+        background-color: $colorShadowLight;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        .dynamic-avatar-text-small {
+          font-size: $font4;
+        }
+      }
+      .connection-profile-image:hover {
+        transform: scale(1.05);
+      }
+      .dynamic-avatar-border:hover {
+        transform: scale(1.05);
+      }
+    }
+    .stackable-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      min-width: 80%;
+      min-height: 10vh;
+      .stackable-container-left {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        .connection-name {
+          font-size: $font4;
+          margin: 0 0.5vw;
+        }
+        .connection-game-image {
+          width: 3vw;
+          width: 3vw;
+          min-width: 3vw;
           max-width: 3vw;
           border-radius: calc(3vw / 2);
-					opacity: 0.6;
-					margin: 0.5vw 0.5vw;
-				}
-			}
-			.stackable-container-right {
-				display: flex;
-				align-items: center;
-				.connection-chat-platform-box {
-					cursor: pointer;
-					background-color: $colorGreyBg;
-					border-radius: $borderRadius1;
-					margin: 0 0.5vw;
-				}
-				.connection-chat-platform-box:hover {
-					outline-style: solid;
-					outline-width: 2px;
-					outline-color: rgba(255, 255, 255, 0.6);
-				}
-				.connection-chat-platform-text {
-					font-size: $font2;
-					margin-left: 0.5vw;
-				}
-			}
-		}
-		.accept-button {
-			background: $colorSecondary;
-		}
-		.accept-button:hover {
-			background: $colorSecondaryDarker;
-		}
-	}
-	.incoming-message {
-		display: flex;
-		max-width: 90vw;
-		margin-bottom: 2vh;
-		.incoming-message-title {
-			color: $colorPrimary;
-			margin: 0 1vw;
-			word-wrap: normal;
-		}
-		.incoming-message-content {
-			margin: 0 1vw;
-			word-wrap: normal;
-		}
-	}
+          opacity: 0.6;
+          margin: 0.5vw 0.5vw;
+        }
+      }
+      .stackable-container-right {
+        display: flex;
+        align-items: center;
+        .connection-chat-platform-box {
+          cursor: pointer;
+          background-color: $colorGreyBg;
+          border-radius: $borderRadius1;
+          margin: 0 0.5vw;
+        }
+        .connection-chat-platform-box:hover {
+          outline-style: solid;
+          outline-width: 2px;
+          outline-color: rgba(255, 255, 255, 0.6);
+        }
+        .connection-chat-platform-text {
+          font-size: $font2;
+          margin-left: 0.5vw;
+        }
+      }
+    }
+    .accept-button {
+      background: $colorSecondary;
+    }
+    .accept-button:hover {
+      background: $colorSecondaryDarker;
+    }
+  }
+  .incoming-message {
+    display: flex;
+    max-width: 90vw;
+    margin-bottom: 2vh;
+    .incoming-message-title {
+      color: $colorPrimary;
+      margin: 0 1vw;
+      word-wrap: normal;
+    }
+    .incoming-message-content {
+      margin: 0 1vw;
+      word-wrap: normal;
+    }
+  }
 }
 
 .connection-platform-image {
-	min-width: 3vw;
-	max-width: 3vw;
-	opacity: 0.6;
-	margin: 0.5vw 0.5vw;
+  min-width: 3vw;
+  max-width: 3vw;
+  opacity: 0.6;
+  margin: 0.5vw 0.5vw;
 }
 
 .p-menu {
-	background: $colorGreyPop;
-	border-radius: $borderRadius1;
-	box-shadow: 1px 1px 4px 0 $colorShadowDark;
-	.p-submenu-header {
-		margin: 1vh 0.5vw;
-	}
-	.p-menuitem {
-		margin: 1vh 0;
-		padding: 1vh 0.5vw;
-	}
-	.p-menuitem:hover {
-		background: $colorShadowLight;
-	}
+  background: $colorGreyPop;
+  border-radius: $borderRadius1;
+  box-shadow: 1px 1px 4px 0 $colorShadowDark;
+  .p-submenu-header {
+    margin: 1vh 0.5vw;
+  }
+  .p-menuitem {
+    margin: 1vh 0;
+    padding: 1vh 0.5vw;
+  }
+  .p-menuitem:hover {
+    background: $colorShadowLight;
+  }
 }
 
 @media screen and (max-width: $screenBreak1) {
-	.connection-profile-image {
-		min-width: 65px !important;
-		max-width: 65px !important;
-		min-height: 65px !important;
-		max-height: 65px !important;
-		border-radius: calc(65px / 2) !important;
+  .connection-profile-image {
+    min-width: 65px !important;
+    max-width: 65px !important;
+    min-height: 65px !important;
+    max-height: 65px !important;
+    border-radius: calc(65px / 2) !important;
   }
   .connection-tile {
-		.connection-main-container {
-			.stackable-container {
+    .connection-main-container {
+      .stackable-container {
         .stackable-container-left {
           .connection-game-image {
             width: 5vw;
@@ -170,32 +171,32 @@
 }
 
 @media screen and (max-width: 1000px) {
-	.connection-list-item {
-		min-width: 95vw;
-	}
-	.connection-tile {
-		.connection-main-container {
-			.stackable-container {
-				display: flex;
-				flex-direction: column;
-				justify-content: space-around;
-				align-items: space-between;
-			}
-		}
-	}
+  .connection-list-item {
+    min-width: 95vw;
+  }
+  .connection-tile {
+    .connection-main-container {
+      .stackable-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: space-between;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: $screenBreak2) {
-	.connection-profile-image {
-		min-width: 55px !important;
-		max-width: 55px !important;
-		min-height: 55px !important;
-		max-height: 55px !important;
-		border-radius: calc(55px / 2) !important;
+  .connection-profile-image {
+    min-width: 55px !important;
+    max-width: 55px !important;
+    min-height: 55px !important;
+    max-height: 55px !important;
+    border-radius: calc(55px / 2) !important;
   }
   .connection-tile {
-		.connection-main-container {
-			.stackable-container {
+    .connection-main-container {
+      .stackable-container {
         .stackable-container-left {
           .connection-game-image {
             width: 7vw;

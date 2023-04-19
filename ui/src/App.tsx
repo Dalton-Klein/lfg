@@ -17,9 +17,9 @@ import TermsOfServicePage from "./components/pages/tosPage";
 import PrivacyPolicyPage from "./components/pages/privacyPolicyPage";
 import { gapi } from "gapi-script";
 import React, { useEffect } from "react";
-import LFMPage from "./components/pages/lfmPage";
 import GangsPage from "./components/pages/gangsPage";
 import GangPage from "./components/pages/gangPage";
+import JoinGangPage from "./components/pages/joinGangPage";
 import ScrollToTop from "./components/nav/scrollToTop";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
@@ -52,14 +52,16 @@ function App() {
               {/* LFG  */}
               <Route path="/lfg-rust" element={<DiscoverPage />} />
               <Route path="/lfg-rocket-league" element={<DiscoverPage />} />
-              {/* LFM */}
-              <Route path="/lfm-rocket-league" element={<LFMPage />} />
+              {/* LFM  */}
+              <Route path="/lfm-rust" element={<DiscoverPage />} />
+              <Route path="/lfm-rocket-league" element={<DiscoverPage />} />
               {/* Blog */}
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/how-to-find-great-rust-teammates" element={<BlogArticle1 />} />
               <Route path="/blog/rocket-league-minecraft-support" element={<BlogArticle2 />} />
               {/* Gangs Paths */}
               <Route path="/create-gang" element={<GangsPage />} />
+              <Route path="/join-gang" element={<JoinGangPage />} />
               <Route path="/manage-gang/:gangId" element={<GangsPage />} />
               <Route path="/gang/:gangId" element={<GangPage />} />
               {/* Profile Paths */}

@@ -3,8 +3,8 @@ import HeaderComponent from "../nav/headerComponent";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import "./gangPage.scss";
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { getGangActivity } from "../../utils/rest";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getGangActivity, requestToJoinGang } from "../../utils/rest";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { Toast } from "primereact/toast";
@@ -14,8 +14,8 @@ import Peer from "simple-peer";
 import * as io from "socket.io-client";
 //
 const StyledVideo = styled.video`
-  height: 10%;
-  width: 10%;
+  height: 0%;
+  width: 0%;
 `;
 const videoConstraints = {
   height: window.innerHeight / 2,
@@ -34,6 +34,7 @@ const Video = (props: any) => {
 };
 
 export default function GangPage() {
+  const navigate = useNavigate();
   const socketRef = useRef<any>();
   const locationPath: string = useLocation().pathname;
   const userState = useSelector((state: RootState) => state.user.user);
@@ -86,7 +87,6 @@ export default function GangPage() {
       setcurrentAudioChannel({});
       setpeers([]);
     } else {
-      console.log("connecting! ", channel);
       setcurrentAudioChannel(channel);
       navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((currentStream) => {
         userAudio.current = {};
@@ -96,7 +96,6 @@ export default function GangPage() {
           const tempPeers: any = [];
           // Loop through all users in channel and create a peer
           users.forEach((userID: number) => {
-            console.log("all users? ", userID);
             const peer = createPeer(userID, socketRef.current.id, currentStream);
             peersRef.current.push({
               peerID: userID,
@@ -104,7 +103,7 @@ export default function GangPage() {
             });
             tempPeers.push(peer);
           });
-          console.log("temp peers? ", tempPeers.length);
+          //TODO, make array of user objects to display in voice chat with name and avatar
           setpeers(tempPeers);
         });
 
@@ -158,14 +157,16 @@ export default function GangPage() {
 
   //Start non-voice page Logic
   useEffect(() => {
-    console.log("gang: ", gangInfo);
+    console.log("gang info!!!: ", gangInfo);
     if (gangInfo.channels) {
       let tempIndex = 0;
       //Sets index property for use by accordion
-      gangInfo.channels.forEach((channel: any) => {
-        channel.index = tempIndex;
-        tempIndex++;
-      });
+      if (gangInfo.channels.length) {
+        gangInfo.channels?.forEach((channel: any) => {
+          channel.index = tempIndex;
+          tempIndex++;
+        });
+      }
       makeChannelTabs();
       if (gangInfo.basicInfo?.members) {
         setfirst5Members(gangInfo.basicInfo.members.slice(0, 5));
@@ -195,13 +196,27 @@ export default function GangPage() {
 
   const channelButtonPressed = (index: number) => {
     const destinationChannel = gangInfo.channels.find((channel: any) => channel.index === index);
-    if (destinationChannel.id == 0) {
+    if (!destinationChannel || destinationChannel.id === 0) {
       setcurrentChannel({ name: "" });
     } else {
       if (destinationChannel) {
         setcurrentChannel(destinationChannel);
       }
     }
+  };
+
+  const requestJoinGang = async () => {
+    const result = await requestToJoinGang(gangInfo.basicInfo.id, userState.id, true, "");
+    let copyOfGangInfo = Object.assign({}, gangInfo);
+    copyOfGangInfo.requestStatus = [result[0]];
+    setgangInfo(copyOfGangInfo);
+    toast.current.clear();
+    toast.current.show({
+      severity: "success",
+      summary: "request sent!",
+      detail: ``,
+      sticky: false,
+    });
   };
 
   // Create Channel AccordianTabs
@@ -230,9 +245,22 @@ export default function GangPage() {
         ))
       );
     } else {
-      //If not in gang, show join button
+      //If not in gang, and no request exists, show join button
       setchannelList(
-        <button className="alt-button">join {gangInfo.basicInfo?.name ? gangInfo.basicInfo?.name : ""}</button>
+        <div className="join-gang-box">
+          <div>you do not have access to this gang's channels because you are not a member of this gang</div>
+          <button
+            className="alt-button"
+            disabled={gangInfo.requestStatus?.length}
+            onClick={() => {
+              requestJoinGang();
+            }}
+          >
+            {gangInfo.requestStatus?.length
+              ? "request pending"
+              : `request to join ${gangInfo.basicInfo?.name ? gangInfo.basicInfo?.name : ""}`}
+          </button>
+        </div>
       );
     }
   };
@@ -276,9 +304,10 @@ export default function GangPage() {
           </div>
           <img className="gang-game-image" src={platformImgLink} alt={`game this team supports`} />
           <button
+            style={{ display: gangInfo!.role && gangInfo!.role!.role_id === 1 ? "inline-block" : "none" }}
             className="options-button"
             onClick={(event) => {
-              /* NAVIGATE TO MGMT PAGE TODO*/
+              navigate(`/manage-gang/${gangInfo.basicInfo.id}`);
             }}
           >
             <i className="pi pi-ellipsis-h"></i>
@@ -298,16 +327,21 @@ export default function GangPage() {
             </div>
           </div>
           {/* List of channels */}
-          <div className="chat-list">
-            <Accordion activeIndex={currentChannel.index} onTabChange={(e) => channelButtonPressed(e.index)}>
-              {channelList}
-            </Accordion>
-            {peers.map((peer, index) => {
-              return <Video key={index} peer={peer} />;
-            })}
-          </div>
+          {gangInfo.role?.role_id ? (
+            <div className="chat-list">
+              <Accordion activeIndex={currentChannel.index} onTabChange={(e) => channelButtonPressed(e.index)}>
+                {channelList}
+              </Accordion>
+              {peers.map((peer, index) => {
+                return <Video key={index} peer={peer} />;
+              })}
+            </div>
+          ) : (
+            channelList
+          )}
         </div>
       </div>
+      <FooterComponent></FooterComponent>
     </div>
   );
 }
