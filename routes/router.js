@@ -44,11 +44,11 @@ router.post("/accept-connection", connectionsController.acceptConnectionRequest)
 router.post("/connections", connectionsController.getConnectionsForUser);
 router.post("/pending-connections", connectionsController.getPendingConnectionsForUser);
 
-//ENDORSEMENT RELATED ROUTES
+//ENDORSEMENT ROUTES
 router.post("/endorsement-options", endorsementsController.getEndorsementOptions);
 router.post("/endorsement", endorsementsController.addOrRemoveEndorsement);
 
-//PUBLISH/ PROFILE COMPLETENESS RELATED ROUTES
+//PUBLISH/ PROFILE COMPLETENESS ROUTES
 router.post("/all-publication-status", publishController.getAllProfilesPublicationStatusForUser);
 router.post("/general-profile-completion", publishController.checkGeneralProfileCompletion);
 router.post("/rust-profile-completion", publishController.checkRustProfileCompletion);
@@ -70,6 +70,18 @@ router.post("/update-gang-field", gangsController.updateGangField);
 router.post("/request-join-gang", gangsController.createGangRequest);
 router.post("/gang-requests", gangsController.fetchGangConnectionRequests);
 router.post("/accept-gang-request", gangsController.acceptGangConnectionRequest);
+
+//PLAYER TILES ROUTES
+router.post("/rust-tiles", tilesController.getRustTiles);
+router.post("/rocket-league-tiles", tilesController.getRocketLeagueTiles);
+
+//GANG TILES ROUTES
+router.post("/get-gang-tiles", gangsController.getGangTiles);
+
+//GANGS RELATED ROUTES
+router.post("/create-gang", gangsController.createGang);
+router.post("/my-gangs", gangsController.getMyGangsTiles);
+router.post("/gang-activity", gangsController.getGangActivity);
 
 //TESTING ROUTES Coffee Disable
 router.post("/test-email", testController.testEmails);

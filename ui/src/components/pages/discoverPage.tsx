@@ -96,6 +96,7 @@ export default function DiscoverPage() {
         tiles = await getLFMGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 2, "nothing");
         break;
     }
+    console.log("tiles: ", tiles);
     setTilesFromDB(tiles);
   };
 

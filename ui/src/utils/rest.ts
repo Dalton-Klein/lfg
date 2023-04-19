@@ -174,9 +174,9 @@ export const getRocketLeagueTiles = async (userId: number, token: string) => {
   }
 };
 
-export const getRocketLeagueGangTiles = async (userId: number, token: string) => {
+export const getGangTiles = async (userId: number, token: string) => {
   try {
-    const httpResult = await fetch(`${endpointURL}/rocket-league-gang-tiles`, {
+    const httpResult = await fetch(`${endpointURL}/get-gang-tiles`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
