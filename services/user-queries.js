@@ -117,6 +117,14 @@ const getUserDataByIdQuery = () => {
   `;
 };
 
+const searchUserByUsernameQuery = () => {
+  return `
+                  select u.id
+                    from public.users u
+                   where u.username = :inputString
+       `;
+};
+
 const createUserQuery = () => {
   return `
   insert into public.users (id, email, username, hashed, created_at, updated_at)
@@ -149,6 +157,7 @@ const createRocketLeagueInfoQuery = () => {
 module.exports = {
   getUserDataByEmailQuery,
   getUserDataByIdQuery,
+  searchUserByUsernameQuery,
   createUserQuery,
   createGeneralInfoQuery,
   createRustInfoQuery,

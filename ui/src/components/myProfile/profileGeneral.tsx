@@ -23,7 +23,7 @@ export default function ProfileGeneral(props: Props) {
   const hiddenFileInput: any = React.useRef(null);
   const userData = useSelector((state: RootState) => state.user.user);
 
-  const [isUploadFormShown, setIsUploadFormShown] = useState<boolean>(false);
+  const [isUploadFormShown, setisUploadFormShown] = useState<boolean>(false);
   //View Profile
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
   //Profile Fields Form Tracking
@@ -115,12 +115,12 @@ export default function ProfileGeneral(props: Props) {
   };
   const closeAvatar = () => {
     avatarFormOut();
-    setIsUploadFormShown(false);
+    setisUploadFormShown(false);
     return;
   };
   const startEditingAvatar = async (field: string) => {
     if (userData.id === 0) alert("You must be logged in to edit this field");
-    setIsUploadFormShown(true);
+    setisUploadFormShown(true);
     avatarFormIn();
     return;
   };
@@ -153,7 +153,7 @@ export default function ProfileGeneral(props: Props) {
   //MODAL SAVE LOGIC
   const changeSubmitHandler = async (e: any) => {
     avatarFormOut();
-    setIsUploadFormShown(false);
+    setisUploadFormShown(false);
     const avatar = document.querySelector(".avatar-input");
     const url: string | undefined = await uploadAvatarCloud(avatar);
     dispatch(updateUserAvatarUrl(url));

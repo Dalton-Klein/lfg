@@ -157,7 +157,6 @@ export default function GangPage() {
 
   //Start non-voice page Logic
   useEffect(() => {
-    console.log("gang info!!!: ", gangInfo);
     if (gangInfo.channels) {
       let tempIndex = 0;
       //Sets index property for use by accordion

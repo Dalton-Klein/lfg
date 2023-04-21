@@ -27,6 +27,7 @@ router.post("/getUserDetails", userController.getUserDetails);
 router.post("/updateUserInfoField", userController.updateProfileField);
 router.put("/updateGeneralInfoField", userController.updateGeneralInfoField);
 router.put("/updateGameSpecificInfoField", userController.updateGameSpecificInfoField);
+router.post("/search-user-by-username", userController.searchForUser);
 
 //NOTIFICATIONS RELATED ROUTES
 router.post("/get-notifications", notificationsController.getNotificationsForUser);
@@ -67,21 +68,19 @@ router.post("/create-gang", gangsController.createGang);
 router.post("/my-gangs", gangsController.getMyGangsTiles);
 router.post("/gang-activity", gangsController.getGangActivity);
 router.post("/update-gang-field", gangsController.updateGangField);
+
+//GANG REQUESTS
+router.post("/check-gang-request", gangsController.checkIfRequestExistsForUser);
 router.post("/request-join-gang", gangsController.createGangRequest);
 router.post("/gang-requests", gangsController.fetchGangConnectionRequests);
 router.post("/accept-gang-request", gangsController.acceptGangConnectionRequest);
 
-//PLAYER TILES ROUTES
-router.post("/rust-tiles", tilesController.getRustTiles);
-router.post("/rocket-league-tiles", tilesController.getRocketLeagueTiles);
-
 //GANG TILES ROUTES
 router.post("/get-gang-tiles", gangsController.getGangTiles);
 
-//GANGS RELATED ROUTES
-router.post("/create-gang", gangsController.createGang);
-router.post("/my-gangs", gangsController.getMyGangsTiles);
-router.post("/gang-activity", gangsController.getGangActivity);
+//PLAYER TILES ROUTES
+router.post("/rust-tiles", tilesController.getRustTiles);
+router.post("/rocket-league-tiles", tilesController.getRocketLeagueTiles);
 
 //TESTING ROUTES Coffee Disable
 router.post("/test-email", testController.testEmails);

@@ -93,6 +93,22 @@ const checkGangRequestStatusByUserId = async (user_id, gang_id) => {
     },
   });
 };
+
+const checkIfUserIsInGang = async (user_id, gang_id) => {
+  gangsQuery = `
+    select * 
+      from public.gang_roster gr
+     where gr.gang_id = :gang_id
+       and gr.user_id = :user_id
+`;
+  return await sequelize.query(gangsQuery, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      gang_id,
+      user_id,
+    },
+  });
+};
 const checkGangRequestStatusByRequestId = async (request_id) => {
   gangsQuery = `
     select * 
@@ -127,6 +143,7 @@ module.exports = {
   createGangRosterRecord,
   createGangRequestRecord,
   checkGangRequestStatusByUserId,
+  checkIfUserIsInGang,
   checkGangRequestStatusByRequestId,
   deleteGangRequestRecord,
 };

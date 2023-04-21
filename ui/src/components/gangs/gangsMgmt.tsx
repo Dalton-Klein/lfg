@@ -1,4 +1,4 @@
-import { avatarFormIn, avatarFormOut } from "../../utils/animations";
+import { avatarFormIn, avatarFormOut, memberSearchFormIn, memberSearchFormOut } from "../../utils/animations";
 import "./gangsMgmt.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -10,6 +10,10 @@ import {
   updateGangField,
   getGangRequests,
   acceptGangConnectionRequest,
+  uploadAvatarCloud,
+  requestToJoinGang,
+  searchUserByUsername,
+  checkGangRequest,
 } from "../../utils/rest";
 import { Toast } from "primereact/toast";
 import ReactTooltip from "react-tooltip";
@@ -28,6 +32,10 @@ export default function GangsMgmt(props: Props) {
   const hiddenFileInput: any = React.useRef(null);
   const userState = useSelector((state: RootState) => state.user.user);
   const toast: any = useRef({ current: "" });
+  const topOfPageRef: any = useRef(null);
+  const scrollToSection = (ref: any) => {
+    ref.current?.scrollIntoView();
+  };
   const navigate = useNavigate();
 
   const [isConfetti, setIsConfetti] = useState<any>(false);
@@ -39,7 +47,8 @@ export default function GangsMgmt(props: Props) {
   const [hasCompletedForm, sethasCompletedForm] = useState<boolean>(false);
   const [hasUnsavedChanges, sethasUnsavedChanges] = useState<boolean>(false);
   const [isUploadFormShown, setisUploadFormShown] = useState<boolean>(false);
-  const [photoFile, setPhotoFile] = useState<File>({ name: "" } as File);
+  const [isAddMembersFormShown, setisAddMembersFormShown] = useState<boolean>(false);
+  const [photoFile, setphotoFile] = useState<File>({ name: "" } as File);
   const [gangAvatarUrl, setgangAvatarUrl] = useState<string>("");
   const [nameText, setnameText] = useState<string>("");
   const [aboutText, setaboutText] = useState<string>("");
@@ -53,7 +62,8 @@ export default function GangsMgmt(props: Props) {
   const [memberTiles, setmemberTiles] = useState<any>();
   const [temporaryRoles, settemporaryRoles] = useState<any>({});
   const rolesRef: any = useRef([{ current: "" }]);
-
+  // Adding Gang Memebers
+  const [usernameSearchText, setusernameSearchText] = useState<string>("");
   useEffect(() => {
     if (locationPath[13] && parseInt(locationPath[13]) > 0) {
       //Get gang info to manage the gang
@@ -180,7 +190,23 @@ export default function GangsMgmt(props: Props) {
     setmemberTiles(tempMemberTiles.concat(mappedTiles));
   };
 
-  const showPlayerSearchModal = () => {};
+  const photoSubmitHandler = async (e: any) => {
+    avatarFormOut();
+    setisUploadFormShown(false);
+    const avatar = document.querySelector(".avatar-input");
+    const url: string = await uploadAvatarCloud(avatar);
+    if (locationPath === "/create-gang") {
+      //If creating gang, store url until ready to submit entire form
+    } else {
+      //If managing gang, we can update the db with the new url
+      updateGangField(loadedGangInfo.basicInfo.id, "avatar_url", url!);
+      setphotoFile({ name: "" } as File);
+      let copyOfGang = Object.assign({}, loadedGangInfo);
+      copyOfGang.basicInfo.avatar_url = url;
+      setloadedGangInfo(copyOfGang);
+    }
+    setgangAvatarUrl(url);
+  };
 
   const createRequestTiles = () => {
     //Make property for game image
@@ -229,7 +255,7 @@ export default function GangsMgmt(props: Props) {
   };
   //END Gang Gen Editing
 
-  //START AVATAR EDIT LOGIC
+  //START Modal EDIT LOGIC
   const chooseFileHandler = (event: any) => {
     if (hiddenFileInput.current !== null) {
       hiddenFileInput.current!.click();
@@ -237,21 +263,71 @@ export default function GangsMgmt(props: Props) {
     return;
   };
   const handleFileUpload = (event: any) => {
-    setPhotoFile(event.target.files[0]);
+    setphotoFile(event.target.files[0]);
     return;
   };
   const closeAvatar = () => {
     avatarFormOut();
+    memberSearchFormOut();
     setisUploadFormShown(false);
+    setisAddMembersFormShown(false);
     return;
   };
   const startEditingAvatar = async (field: string) => {
     if (userState.id === 0) alert("You must be logged in to edit this field");
     setisUploadFormShown(true);
     avatarFormIn();
+    scrollToSection(topOfPageRef);
     return;
   };
-  //END AVATAR EDIT LOGIC
+  const showPlayerSearchModal = () => {
+    if (userState.id === 0) alert("You must be logged in to edit this field");
+    setisAddMembersFormShown(true);
+    memberSearchFormIn();
+    scrollToSection(topOfPageRef);
+    return;
+  };
+
+  const trySendInvite = async () => {
+    const searchResult = await searchUserByUsername(usernameSearchText, "");
+    if (searchResult.data?.id) {
+      const inviteResult = await requestToJoinGang(loadedGangInfo.basicInfo.id, searchResult.data.id, false, "");
+      if (inviteResult && inviteResult[0] && inviteResult[0].id) {
+        toast.current.clear();
+        toast.current.show({
+          severity: "success",
+          summary: "invite sent!",
+          detail: ``,
+          sticky: false,
+        });
+      } else if (inviteResult && inviteResult.error) {
+        toast.current.clear();
+        toast.current.show({
+          severity: "warn",
+          summary: `${inviteResult.error}`,
+          detail: ``,
+          sticky: false,
+        });
+      } else {
+        toast.current.clear();
+        toast.current.show({
+          severity: "warn",
+          summary: "error sending request!",
+          detail: ``,
+          sticky: false,
+        });
+      }
+    } else {
+      toast.current.clear();
+      toast.current.show({
+        severity: "warn",
+        summary: "no user exists with that name!",
+        detail: ``,
+        sticky: false,
+      });
+    }
+  };
+  //END Modal EDIT LOGIC
 
   //START NON-MODAL SAVE LOGIC
   const saveChanges = async () => {
@@ -333,7 +409,6 @@ export default function GangsMgmt(props: Props) {
   };
   const acceptRequest = async (requestId: number) => {
     const acceptResult = await acceptGangConnectionRequest(loadedGangInfo.basicInfo.id, requestId, "");
-    console.log("accept result? ", acceptResult);
     const blastConfetti = async () => {
       setTimeout(function () {
         setIsConfetti(false);
@@ -346,14 +421,24 @@ export default function GangsMgmt(props: Props) {
     }
   };
   //END Member Edit Logic
-
+  const conditionalUploadFormClass = isUploadFormShown ? "conditionalZ2" : "conditionalZ1";
+  const conditionalAddMembersClass = isAddMembersFormShown ? "conditionalZ2" : "conditionalZ1";
+  const width = 1920;
+  const height = 1080;
   return (
     <div>
       <Toast ref={toast} />
-      {/* <BannerTitle
-        title={locationPath === "/create-gang" ? "create gang" : "gang management"}
-        imageLink={""}
-      ></BannerTitle> */}
+      {isConfetti ? (
+        <Confetti
+          numberOfPieces={isConfetti ? 500 : 0}
+          recycle={false}
+          width={width}
+          height={height}
+          tweenDuration={1000}
+        />
+      ) : (
+        <></>
+      )}
       {/* Show stuff only if creating gang, or after existing gang info is loaded */}
       {locationPath === "/create-gang" || loadedGangInfo.basicInfo?.id ? (
         <BannerAlt
@@ -367,7 +452,7 @@ export default function GangsMgmt(props: Props) {
       {locationPath !== "/create-gang" ? (
         <div className="gang-mgmt-master">
           <div className="gang-mgmt-container">
-            <div className="gang-mgmt-title">
+            <div className="gang-mgmt-title" ref={topOfPageRef}>
               based on your role of
               <span className="link-text"> {loadedGangInfo.role?.role_name}</span> you can...
             </div>
@@ -643,6 +728,52 @@ export default function GangsMgmt(props: Props) {
       ) : (
         <></>
       )}
+      {/* EDIT PHOTO MODAL */}
+      <div className={`edit-profile-form ${conditionalUploadFormClass}`}>
+        <p>{"upload avatar"}</p>
+        {
+          <div className="avatar-upload-form">
+            <input
+              className="avatar-input"
+              type="file"
+              ref={hiddenFileInput}
+              style={{ display: "none" }}
+              onChange={handleFileUpload}
+            ></input>
+            <button onClick={chooseFileHandler} className="upload-form-btns">
+              choose photo
+            </button>
+            <div className="photo-label">{photoFile ? photoFile.name : ""}</div>
+          </div>
+        }
+        <div className="upload-form-btns">
+          <button onClick={photoSubmitHandler}>save</button>
+          <button onClick={closeAvatar}>close</button>
+        </div>
+      </div>
+      {/* Add Members MODAL */}
+      <div className={`member-search-form ${conditionalAddMembersClass}`}>
+        <p>{"add gang members"}</p>
+        {
+          <div className="avatar-upload-form">
+            <input
+              onChange={(event) => {
+                setusernameSearchText(event.target.value);
+              }}
+              value={usernameSearchText}
+              type="text"
+              className="search-member-input"
+              placeholder={"username must be exact..."}
+            ></input>
+            <button onClick={trySendInvite} className="upload-form-btns">
+              send invite
+            </button>
+          </div>
+        }
+        <div className="upload-form-btns">
+          <button onClick={closeAvatar}>close</button>
+        </div>
+      </div>
       <ReactTooltip id="gang-name-tooltip" place="right" effect="solid">
         must be 3 or more characters
       </ReactTooltip>
