@@ -7,6 +7,7 @@ const {
   createGangRosterRecord,
   createGangRequestRecord,
   checkGangRequestStatusByUserId,
+  checkIfUserIsInGang,
   checkGangRequestStatusByRequestId,
   deleteGangRequestRecord,
 } = require("../services/gangs");
@@ -82,7 +83,6 @@ const findRosterAvatars = async (gangsArray) => {
 };
 
 const fetchGangConnectionRequests = async (req, res) => {
-  console.log("iiiiii", req.body);
   try {
     const { id, is_for_user } = req.body;
     //Find other members within this gang, pull in avatars
@@ -94,6 +94,7 @@ const fetchGangConnectionRequests = async (req, res) => {
           join public.gangs g
             on g.id = r.gang_id
          where r.gang_id = :id 
+           and r.is_user_asking_to_join = false
       `;
     } else {
       gangConenctionsQuery = `
@@ -102,6 +103,7 @@ const fetchGangConnectionRequests = async (req, res) => {
         join public.users u
           on u.id = r.user_id
        where r.gang_id = :id 
+         and r.is_user_asking_to_join = true
       `;
     }
     const foundRequests = await sequelize.query(gangConenctionsQuery, {
@@ -183,7 +185,6 @@ const getGangActivity = async (req, res) => {
       //Prepare partial gang data, because they are non-member
       //Check if user has already requested to join or not
       const requestResult = await checkGangRequestStatusByUserId(user_id, gang_id);
-      console.log("heyyyy", requestResult);
       gangData = {
         basicInfo: finalizedGangInfo[0],
         role: foundRole[0],
@@ -195,6 +196,17 @@ const getGangActivity = async (req, res) => {
   } catch (err) {
     console.log("GET GANG PAGE INFO ERROR", err);
     res.status(500).send(`GET ERROR: ${err}`);
+  }
+};
+
+const checkIfRequestExistsForUser = async (req, res) => {
+  try {
+    const { user_id, gang_id } = req.body;
+    const requestResult = await checkGangRequestStatusByUserId(user_id, gang_id);
+    res.status(200).send(requestResult);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error checking if request exists ERROR");
   }
 };
 
@@ -233,10 +245,20 @@ const updateGangFieldQuery = async (gangId, field, value) => {
 const createGangRequest = async (req, res) => {
   try {
     const { gang_id, user_id, is_user_asking_to_join } = req.body;
-    const result = await createGangRequestRecord(gang_id, user_id, is_user_asking_to_join);
-    res.status(200).send(result);
+    const doesAlreadyExist = await checkGangRequestStatusByUserId(user_id, gang_id);
+    if (doesAlreadyExist && doesAlreadyExist.length) {
+      res.status(200).send({ error: "request already exists for that user!" });
+    } else {
+      const alreadyInGang = await checkIfUserIsInGang(user_id, gang_id);
+      if (alreadyInGang && alreadyInGang.length) {
+        res.status(200).send({ error: "user is already in gang!" });
+      } else {
+        const result = await createGangRequestRecord(gang_id, user_id, is_user_asking_to_join);
+        res.status(200).send(result);
+      }
+    }
   } catch (error) {
-    console.log(err);
+    console.log(error);
     res.status(500).send("Create Gang Request ERROR");
   }
 };
@@ -271,7 +293,6 @@ const getGangTiles = async (req, res) => {
       replacements: {},
     });
     foundGangs = await findRosterAvatars(foundGangs);
-    console.log("heyyyyyyyyyy, ", foundGangs);
     res.status(200).send(foundGangs);
   } catch (err) {
     console.log("GET CHATS ERROR", err);
@@ -285,6 +306,7 @@ module.exports = {
   fetchGangConnectionRequests,
   getGangActivity,
   updateGangField,
+  checkIfRequestExistsForUser,
   findRosterAvatars,
   createGangRequest,
   acceptGangConnectionRequest,

@@ -823,6 +823,26 @@ export const getGangRequests = async (id: number, is_for_user: boolean, token: s
   }
 };
 
+export const checkGangRequest = async (user_id: number, gang_id: number, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/check-gang-request`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id,
+        gang_id,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while fetching rust tiles`);
+  }
+};
+
 export const acceptGangConnectionRequest = async (gang_id: number, request_id: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/accept-gang-request`, {
@@ -833,6 +853,25 @@ export const acceptGangConnectionRequest = async (gang_id: number, request_id: n
       body: JSON.stringify({
         gang_id,
         request_id,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while fetching rust tiles`);
+  }
+};
+
+export const searchUserByUsername = async (inputString: string, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/search-user-by-username`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        inputString,
         token,
       }),
     });
@@ -870,7 +909,7 @@ export const requestToJoinGang = async (
 };
 
 export const updateGangField = async (id: number, field: string, value: any) => {
-  console.log("val?? ", value);
+  console.log("val?? ", field, "   ", value);
   await fetch(`${endpointURL}/update-gang-field`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

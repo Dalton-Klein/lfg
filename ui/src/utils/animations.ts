@@ -223,6 +223,22 @@ export const avatarFormOut = () => {
   });
 };
 
+export const memberSearchFormIn = () => {
+  gsap.from(".member-search-form", 0.6, {
+    y: -500,
+    ease: "back.out(1.3)",
+  });
+  gsap.to(".member-search-form", 0.1, {
+    opacity: 1,
+  });
+};
+
+export const memberSearchFormOut = () => {
+  gsap.to(".member-search-form", 0.6, {
+    opacity: 0,
+  });
+};
+
 //Confirm Trade Delete Form
 export const confirmFormIn = () => {
   gsap.from(".confirm-delete-form", 0.6, {
