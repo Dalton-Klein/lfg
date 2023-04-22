@@ -21,6 +21,7 @@ import GangsPage from "./components/pages/gangsPage";
 import GangPage from "./components/pages/gangPage";
 import JoinGangPage from "./components/pages/joinGangPage";
 import ScrollToTop from "./components/nav/scrollToTop";
+import SettingsPage from "./components/pages/settingsPage";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
               <Route path="/incoming-requests" element={<ProfilePage />} />
               <Route path="/outgoing-requests" element={<ProfilePage />} />
               <Route path="/blocked" element={<ProfilePage />} />
+              <Route path="/user-settings" element={<SettingsPage />} />
               {/* Less Used Pages */}
               <Route path="/help" element={<FAQPage />} />
               <Route path="/login" element={<LoginPage />} />

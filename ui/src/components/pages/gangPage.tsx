@@ -12,8 +12,10 @@ import styled from "styled-components";
 
 import Peer from "simple-peer";
 import * as io from "socket.io-client";
+import { Menu } from "primereact/menu";
+
 //
-const StyledVideo = styled.video`
+const StyledAudio = styled.audio`
   height: 0%;
   width: 0%;
 `;
@@ -30,12 +32,13 @@ const Video = (props: any) => {
     });
   }, []);
 
-  return <StyledVideo playsInline autoPlay ref={ref} />;
+  return <StyledAudio playsInline autoPlay ref={ref} />;
 };
 
 export default function GangPage() {
   const navigate = useNavigate();
   const socketRef = useRef<any>();
+  const gangOptionsMenu: any = useRef(null);
   const locationPath: string = useLocation().pathname;
   const userState = useSelector((state: RootState) => state.user.user);
   //Gang Specific
@@ -88,7 +91,8 @@ export default function GangPage() {
       setpeers([]);
     } else {
       setcurrentAudioChannel(channel);
-      navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((currentStream) => {
+      console.log("devices: ", navigator.mediaDevices.enumerateDevices());
+      navigator.mediaDevices.getUserMedia({ audio: true }).then((currentStream) => {
         userAudio.current = {};
         userAudio.current.srcObject = currentStream;
         socketRef.current.emit("join_channel", { channelId: channelId, userId: userState.id });
@@ -264,6 +268,33 @@ export default function GangPage() {
     }
   };
 
+  const renderGangOptions = () => {
+    return [
+      {
+        label: (
+          <div
+            onClick={() => {
+              navigate(`/manage-gang/${gangInfo.basicInfo.id}`);
+            }}
+          >
+            manage gang
+          </div>
+        ),
+      },
+      {
+        label: (
+          <div
+            onClick={() => {
+              navigate(`/user-settings`);
+            }}
+          >
+            my settings
+          </div>
+        ),
+      },
+    ] as any;
+  };
+
   return (
     <div>
       <HeaderComponent></HeaderComponent>
@@ -302,12 +333,11 @@ export default function GangPage() {
             </div>
           </div>
           <img className="gang-game-image" src={platformImgLink} alt={`game this team supports`} />
+          <Menu model={renderGangOptions()} popup ref={gangOptionsMenu} id="popup_menu" />
           <button
             style={{ display: gangInfo!.role && gangInfo!.role!.role_id === 1 ? "inline-block" : "none" }}
             className="options-button"
-            onClick={(event) => {
-              navigate(`/manage-gang/${gangInfo.basicInfo.id}`);
-            }}
+            onClick={(event) => gangOptionsMenu.current.toggle(event)}
           >
             <i className="pi pi-ellipsis-h"></i>
           </button>
