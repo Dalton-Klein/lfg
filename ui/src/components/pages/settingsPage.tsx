@@ -5,9 +5,18 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BannerTitle from "../nav/banner-title";
 import { Menu } from "primereact/menu";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { updateUserField } from "../../utils/rest";
+import { updateUserThunk } from "../../store/userSlice";
+import { Toast } from "primereact/toast";
 
 export default function SettingsPage() {
   const navigate = useNavigate();
+  const userState = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch();
+  const toast: any = useRef({ current: "" });
+
   const inputdevicesMenu: any = useRef(null);
   const outputDevicesMenu: any = useRef(null);
   const [currentInputDevice, setcurrentInputDevice] = useState<any>();
@@ -21,8 +30,21 @@ export default function SettingsPage() {
   // END Auto Scroll Logic
 
   useEffect(() => {
+    loadSavedDevices();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userState]);
+
+  const loadSavedDevices = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    if (userState.input_device_id && userState.input_device_id.length) {
+      const foundDevice = devices.find(({ deviceId }) => deviceId === userState.input_device_id);
+      setcurrentInputDevice(foundDevice);
+    }
+    if (userState.output_device_id && userState.output_device_id.length) {
+      const foundDevice = devices.find(({ deviceId }) => deviceId === userState.output_device_id);
+      setcurrentOutputDevice(foundDevice);
+    }
+  };
 
   //START Audio Input
   const renderDeviceOptions = (isInput: boolean) => {
@@ -63,19 +85,36 @@ export default function SettingsPage() {
     return deviceLabels as any;
   };
 
-  const selectAudioDevice = (device: any) => {
-    console.log("tring to select device!", device);
+  const selectAudioDevice = async (device: any) => {
     if (device.kind === "audioinput") {
       setcurrentInputDevice(device);
-    } else {
+      await updateUserField(userState.id, "input_device_id", device.deviceId);
+      toast.current.clear();
+      toast.current.show({
+        severity: "success",
+        summary: "input device set!",
+        detail: ``,
+        sticky: false,
+      });
+    } else if (device.kind === "audiooutput") {
       setcurrentOutputDevice(device);
+      await updateUserField(userState.id, "output_device_id", device.deviceId);
+      toast.current.clear();
+      toast.current.show({
+        severity: "success",
+        summary: "output device set!",
+        detail: ``,
+        sticky: false,
+      });
     }
+    dispatch(updateUserThunk(userState.id));
   };
   //END Audio Input
 
   return (
     <div>
       <HeaderComponent></HeaderComponent>
+      <Toast ref={toast} />
       <div className="faq-master-container">
         <BannerTitle
           title={"user settings"}
