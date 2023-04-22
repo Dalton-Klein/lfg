@@ -1,37 +1,39 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppThunk } from './store';
-import { User, SignIn } from './interfaces';
-import { resetPassword, signInUser, verifyUser, fetchUserData } from '../utils/rest';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AppThunk } from "./store";
+import { User, SignIn } from "./interfaces";
+import { resetPassword, signInUser, verifyUser, fetchUserData } from "../utils/rest";
 
 const initialState: any = {
   user: {
-    token: '',
+    token: "",
     id: 0,
-    email: '',
-    avatar_url: '/assets/avatarIcon.png',
+    email: "",
+    avatar_url: "/assets/avatarIcon.png",
     is_email_notifications: false,
     is_email_nmarketing: false,
-    username: 'none',
+    username: "none",
     num_of_strikes: 0,
-    about: '',
+    about: "",
     age: 0,
     gender: 0,
-    region: '',
+    region: "",
     languages: [],
     preferred_platform: 0,
-    discord: '',
-    psn: '',
-    xbox: '',
+    discord: "",
+    psn: "",
+    xbox: "",
     last_seen: undefined,
     user_id: 0,
     rust_hours: 0,
-    rust_weekdays: '',
-    rust_weekends: '',
+    rust_weekdays: "",
+    rust_weekends: "",
     rust_is_published: false,
     rocket_league_is_published: false,
     connection_count_sender: 0,
     connection_count_acceptor: 0,
     gang_count: 0,
+    input_device_id: "",
+    output_device_id: "",
     created_at: undefined,
     updated_at: undefined,
     error: false,
@@ -39,7 +41,7 @@ const initialState: any = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setUser(state, { payload }: PayloadAction<User>) {
@@ -107,6 +109,7 @@ export const updateUserThunk =
     try {
       let response: any;
       response = await fetchUserData(userId);
+      console.log("fetched??? ", response.data);
       if (!response.error) {
         dispatch(setUser(response.data));
       }
@@ -124,25 +127,25 @@ export const logoutUser =
       if (userId !== 0) {
         dispatch(
           setUser({
-            token: '',
+            token: "",
             id: 0,
-            email: '',
-            avatar_url: '/assets/avatarIcon.png',
-            username: 'none',
+            email: "",
+            avatar_url: "/assets/avatarIcon.png",
+            username: "none",
             numOfStrikes: 0,
-            about: '',
+            about: "",
             age: 0,
             gender: 0,
-            region: '',
+            region: "",
             languages: [],
             preferred_platform: 0,
-            discord: '',
-            psn: '',
-            xbox: '',
+            discord: "",
+            psn: "",
+            xbox: "",
             last_seen: undefined,
             user_id: 0,
-            weekdays: '',
-            weekends: '',
+            weekdays: "",
+            weekends: "",
             roles: [],
             play_styles: [],
             rust_is_published: false,
@@ -150,13 +153,15 @@ export const logoutUser =
             connection_count_sender: 0,
             connection_count_acceptor: 0,
             gang_count: 0,
+            input_device_id: "",
+            output_device_id: "",
             created_at: undefined,
             updated_at: undefined,
             error: false,
           })
         );
       }
-      return { success: 'true' };
+      return { success: "true" };
     } catch (err: any) {
       dispatch(setUserError(err.toString()));
     }

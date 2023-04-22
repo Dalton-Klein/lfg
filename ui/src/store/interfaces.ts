@@ -20,11 +20,13 @@ export interface User {
   weekends: string;
   roles: [];
   play_styles: [];
-  rust_is_published: boolean,
-  rocket_league_is_published: boolean,
-  connection_count_sender: number,
-  connection_count_acceptor: number,
-  gang_count: number,
+  rust_is_published: boolean;
+  rocket_league_is_published: boolean;
+  connection_count_sender: number;
+  connection_count_acceptor: number;
+  gang_count: number;
+  input_device_id: string;
+  output_device_id: string;
   created_at?: Date;
   updated_at?: Date;
   error: React.SetStateAction<boolean>;
