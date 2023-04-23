@@ -32,6 +32,83 @@
       flex-direction: column;
       align-items: center;
     }
+    .channels-container {
+      display: flex;
+      justify-content: space-between;
+      .chat-list {
+        min-width: 15vw;
+        margin-left: 2vw;
+        margin-right: 2vw;
+        display: flex;
+        flex-direction: column;
+
+        button {
+          margin-top: 0.3vh;
+          margin-bottom: 0.3vh;
+        }
+        .selected-channel {
+          border: 2px solid white;
+        }
+      }
+      .channel-contents {
+        min-width: 85vw;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        .voice-channel {
+          .text-channel-title {
+            font-size: $font2;
+            margin-bottom: 2vh;
+          }
+          .voice-participant-box {
+            display: flex;
+            align-items: center;
+            .dynamic-avatar-border {
+              width: 2vw;
+              height: 2vw;
+              min-height: 2vw;
+              min-width: 2vw;
+              border-radius: calc(2vw / 2);
+              background-color: $colorShadowLight;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              .dynamic-avatar-text-small {
+                font-size: $font2;
+              }
+            }
+            .nav-overlay-img {
+              display: block;
+              object-fit: contain;
+              width: 2vw;
+              height: 2vw;
+              min-height: 2vw;
+              min-width: 2vw;
+              object-fit: cover;
+              border-radius: calc(2vw / 2);
+              transition: $transition1;
+              margin: 0 1vw;
+            }
+          }
+          .voice-channel-helper {
+            .link-text {
+              color: $colorSecondary;
+              cursor: pointer;
+            }
+          }
+        }
+        .text-channel-container {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          .text-channel-title {
+            font-size: $font2;
+            margin-bottom: 2vh;
+          }
+        }
+      }
+    }
   }
 }
 .top-bar {
@@ -141,95 +218,10 @@
   }
 }
 
-.chat-list {
-  margin-left: 2vw;
-  margin-right: 2vw;
-  display: flex;
-  flex-direction: column;
-  .voice-channel {
-    .voice-channel-helper {
-      .link-text {
-        color: $colorSecondary;
-        cursor: pointer;
-      }
-    }
-  }
-}
-
 @media only screen and (max-width: 1350px) {
-  .gang-card-master {
-    .gang-card {
-      min-width: 45vw;
-      max-width: 45vw;
-      .top-bar {
-        .main-details {
-          .image-column {
-            min-width: 7vw;
-            .dynamic-avatar-border {
-              width: 7vw;
-              height: 7vw;
-              min-height: 7vw;
-              min-width: 7vw;
-              border-radius: calc(7vw / 2);
-            }
-            .card-photo {
-              width: 7vw;
-              height: 7vw;
-              min-height: 7vw;
-              min-width: 7vw;
-              border-radius: calc(7vw / 2);
-            }
-          }
-        }
-        .gang-game-image {
-          width: 4vw;
-          height: 4vw;
-          min-height: 4vw;
-          min-width: 4vw;
-          object-fit: cover;
-          border-radius: calc(4vw / 2);
-        }
-      }
-    }
-  }
 }
 
 @media only screen and (max-width: 1000px) {
-  .gang-card-master {
-    .gang-card {
-      .top-bar {
-        .main-details {
-          max-width: 75%;
-          min-width: 75%;
-          .image-column {
-            min-width: 9vw;
-            .dynamic-avatar-border {
-              width: 9vw;
-              height: 9vw;
-              min-height: 9vw;
-              min-width: 9vw;
-              border-radius: calc(9vw / 2);
-            }
-            .card-photo {
-              width: 9vw;
-              height: 9vw;
-              min-height: 9vw;
-              min-width: 9vw;
-              border-radius: calc(9vw / 2);
-            }
-          }
-        }
-        .gang-game-image {
-          width: 5vw;
-          height: 5vw;
-          min-height: 5vw;
-          min-width: 5vw;
-          object-fit: cover;
-          border-radius: calc(5vw / 2);
-        }
-      }
-    }
-  }
   .gang-roster-container {
     .list-member-photo {
       .member-photo {
@@ -241,52 +233,21 @@
       }
     }
   }
-}
-
-@media only screen and (max-width: 800px) {
-  .gang-card-master {
-    .gang-card {
-      min-width: 95vw;
-      min-height: 200px;
-      max-height: 55vh;
-      .top-bar {
-        .main-details {
-          .image-column {
-            min-width: 12vw;
-            width: 18vw;
-            max-width: 40%;
-            .dynamic-avatar-border {
-              width: 12vw;
-              height: 12vw;
-              min-height: 12vw;
-              min-width: 12vw;
-              border-radius: calc(12vw / 2);
-            }
-            .card-photo {
-              width: 12vw;
-              height: 12vw;
-              min-height: 12vw;
-              min-width: 12vw;
-              border-radius: calc(12vw / 2);
-            }
-          }
-          .info-column {
-            .info-stats-attribute {
-              font-size: $font2;
-            }
-          }
+  .master-gang-contents {
+    .channel-specific-contents {
+      .channels-container {
+        .chat-list {
+          min-width: 20vw;
         }
-        .gang-game-image {
-          width: 7vw;
-          height: 7vw;
-          min-height: 7vw;
-          min-width: 7vw;
-          object-fit: cover;
-          border-radius: calc(7vw / 2);
+        .channel-contents {
+          min-width: 80vw;
         }
       }
     }
   }
+}
+
+@media only screen and (max-width: 800px) {
   .gang-roster-container {
     .list-member-photo {
       .member-photo {
@@ -295,6 +256,18 @@
         min-width: 5vw;
         min-height: 5vw;
         border-radius: calc(5vw / 2);
+      }
+    }
+  }
+  .master-gang-contents {
+    .channel-specific-contents {
+      .channels-container {
+        .chat-list {
+          min-width: 25vw;
+        }
+        .channel-contents {
+          min-width: 75vw;
+        }
       }
     }
   }

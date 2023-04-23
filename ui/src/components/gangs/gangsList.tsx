@@ -1,11 +1,11 @@
-import './gangsList.scss';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { useLocation } from 'react-router-dom';
-import { getMyGangTiles } from '../../utils/rest';
-import GangTile from '../tiles/gangTile';
-import BannerAlt from '../nav/banner-alt';
+import "./gangsList.scss";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { useLocation } from "react-router-dom";
+import { getMyGangTiles } from "../../utils/rest";
+import GangTile from "../tiles/gangTile";
+import BannerAlt from "../nav/banner-alt";
 
 export default function GangsList() {
   const locationPath: string = useLocation().pathname;
@@ -26,16 +26,16 @@ export default function GangsList() {
   }, [tilesFromDB]);
 
   const fetchTilesData = async () => {
-    let tiles = await getMyGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 'nothing');
+    let tiles = await getMyGangTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
 
-    console.log('teams ', tiles);
+    console.log("teams ", tiles);
     setTilesFromDB(tiles);
   };
 
   const turnDataIntoTiles = (tileData: any) => {
     setTilesFeed(
       tileData.map((tile: any) => (
-        <span style={{ display: 'inline-block' }} key={tile.id}>
+        <span className="gang-span" key={tile.id}>
           <GangTile {...tile} refreshTiles={fetchTilesData}></GangTile>
         </span>
       ))
@@ -45,13 +45,13 @@ export default function GangsList() {
   return (
     <div>
       <BannerAlt
-        title='my gangs'
-        buttonText='+ join gang'
-        buttonLink={'/join-gang'}
-        button2Text='+ create gang'
-        button2Link={'/create-gang'}
+        title="my gangs"
+        buttonText="+ join gang"
+        buttonLink={"/join-gang"}
+        button2Text="+ create gang"
+        button2Link={"/create-gang"}
       ></BannerAlt>
-      <div className='lfm-feed'>{tilesFeed}</div>
+      <div className="lfm-feed">{tilesFeed}</div>
     </div>
   );
 }

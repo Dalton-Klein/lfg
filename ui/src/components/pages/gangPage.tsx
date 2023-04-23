@@ -16,7 +16,13 @@ import { Menu } from "primereact/menu";
 import { loadSavedDevices } from "../../utils/helperFunctions";
 import { updateUserThunk } from "../../store/userSlice";
 
-//
+function isMobileDevice() {
+  const userAgent = window.navigator.userAgent;
+  const mobileKeywords = ["Android", "iOS", "iPhone", "iPad", "iPod", "Windows Phone"];
+
+  return mobileKeywords.some((keyword) => userAgent.includes(keyword));
+}
+// Some stuff for video can be used for screen sharing perhaps
 const StyledAudio = styled.audio`
   height: 0%;
   width: 0%;
@@ -38,6 +44,8 @@ const Video = (props: any) => {
 };
 
 export default function GangPage() {
+  const isMobile = isMobileDevice();
+
   const navigate = useNavigate();
   const socketRef = useRef<any>();
   const gangOptionsMenu: any = useRef(null);
@@ -47,6 +55,7 @@ export default function GangPage() {
   //Gang Specific
   const [gangInfo, setgangInfo] = useState<any>({});
   const [channelList, setchannelList] = useState<any>([]);
+  const [channelContents, setchannelContents] = useState<any>();
   const [currentChannel, setcurrentChannel] = useState<any>({ name: "" });
   const [currentAudioChannel, setcurrentAudioChannel] = useState<any>({});
   const [first5Members, setfirst5Members] = useState<any>([]);
@@ -54,6 +63,7 @@ export default function GangPage() {
   const toast: any = useRef({ current: "" });
   //Voice Specific
   const [peers, setpeers] = useState<any>([]);
+  const [callParticipants, setcallParticipants] = useState<any>([]);
   const userAudio = useRef<any>();
   const peersRef = useRef<any>([]);
   const channelId = 2;
@@ -82,7 +92,7 @@ export default function GangPage() {
   }, []);
 
   useEffect(() => {
-    makeChannelTabs();
+    makeChannelTabsAndContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentChannel, currentAudioChannel]);
 
@@ -90,6 +100,61 @@ export default function GangPage() {
     console.log("peers: ", peers);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [peers]);
+
+  useEffect(() => {
+    setchannelContents(
+      <div className="voice-channel">
+        <div className="text-channel-title">{currentChannel.name}</div>
+        {/* Join/Leave Call Button */}
+        <button
+          onClick={() => {
+            connectToVoice(currentChannel);
+          }}
+        >
+          {currentChannel.is_voice
+            ? currentAudioChannel.id && currentChannel.id === currentAudioChannel.id
+              ? `leave ${currentChannel.name} (${peers.length + 1})`
+              : `join ${currentChannel.name} (${peers.length})`
+            : currentChannel.name}
+        </button>
+        {/* List of participants in call */}
+        {callParticipants}
+        {/* show conditional help messages to set devices */}
+        {currentChannel.is_voice && !currentInputDevice && !isMobile ? (
+          <div>
+            {" "}
+            no input device set, set device in{" "}
+            <span
+              onClick={() => {
+                navigate("/user-settings");
+              }}
+              className="link-text"
+            >
+              {" "}
+              user settings
+            </span>{" "}
+          </div>
+        ) : currentChannel.is_voice && !currentOutputDevice && !isMobile ? (
+          <div className="voice-channel-helper">
+            {" "}
+            no output device set, set device in{" "}
+            <span
+              onClick={() => {
+                navigate("/user-settings");
+              }}
+              className="link-text"
+            >
+              {" "}
+              user settings
+            </span>{" "}
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [callParticipants]);
 
   //START VOICE LOGIC
   const loadDevices = async () => {
@@ -110,7 +175,7 @@ export default function GangPage() {
       setcurrentAudioChannel(channel);
       console.log("saved devices: ", userState.input_device_id);
       let constraints: any = {};
-      if (!currentInputDevice || !currentOutputDevice) {
+      if (isMobile || !currentInputDevice || !currentOutputDevice) {
         //Use default devices if not set
         constraints.audio = true;
       } else {
@@ -196,7 +261,7 @@ export default function GangPage() {
           tempIndex++;
         });
       }
-      makeChannelTabs();
+      makeChannelTabsAndContents();
       if (gangInfo.basicInfo?.members) {
         setfirst5Members(gangInfo.basicInfo.members.slice(0, 5));
       }
@@ -220,7 +285,9 @@ export default function GangPage() {
 
   const loadGangPage = async (id: number) => {
     const result = await getGangActivity(id, userState.id, "");
+    console.log("gang?? ", result);
     setgangInfo(result);
+    setcurrentChannel(result.channels[0]);
   };
 
   const channelButtonPressed = (index: number) => {
@@ -249,64 +316,36 @@ export default function GangPage() {
   };
 
   // Create Channel AccordianTabs
-  const makeChannelTabs = () => {
+  const makeChannelTabsAndContents = () => {
     if (gangInfo.role?.role_id) {
       //If in gang, show list of channels
       setchannelList(
         gangInfo.channels.map((tile: any) => (
-          <AccordionTab header={`‎ ‎ ${tile.name}`} key={tile.id} className="alt-button">
-            {tile.is_voice ? (
-              <div className="voice-channel">
-                <button
-                  onClick={() => {
-                    connectToVoice(tile);
-                  }}
-                >
-                  {tile.is_voice
-                    ? currentAudioChannel.id && tile.id === currentAudioChannel.id
-                      ? `leave ${tile.name} (${peers.length + 1})`
-                      : `join ${tile.name} (${peers.length})`
-                    : tile.name}
-                </button>
-                {/* show conditional help messages to set devices */}
-                {tile.is_voice && !currentInputDevice ? (
-                  <div>
-                    {" "}
-                    no input device set, set device in{" "}
-                    <span
-                      onClick={() => {
-                        navigate("/user-settings");
-                      }}
-                      className="link-text"
-                    >
-                      {" "}
-                      user settings
-                    </span>{" "}
-                  </div>
-                ) : tile.is_voice && !currentOutputDevice ? (
-                  <div className="voice-channel-helper">
-                    {" "}
-                    no output device set, set device in{" "}
-                    <span
-                      onClick={() => {
-                        navigate("/user-settings");
-                      }}
-                      className="link-text"
-                    >
-                      {" "}
-                      user settings
-                    </span>{" "}
-                  </div>
-                ) : (
-                  <></>
-                )}
-              </div>
-            ) : (
-              `text chats will go here`
-            )}
-          </AccordionTab>
+          <button
+            className={`alt-button ${tile.id === currentChannel.id ? "selected-channel" : ""}`}
+            key={tile.id}
+            onClick={() => {
+              channelButtonPressed(tile.index);
+            }}
+          >
+            <div className="channel-title">{tile.name}</div>
+          </button>
         ))
       );
+      //If a channel is selected, load channel contents
+      if (currentChannel) {
+        if (currentChannel.is_voice) {
+          //Call async event for use later in fucntion
+          renderCallParticipants();
+        } else {
+          setchannelContents(
+            <div className="text-channel-container">
+              <div className="text-channel-title">{currentChannel.name}</div>
+              <div>gang messging coming soon!</div>
+            </div>
+          );
+        }
+      }
     } else {
       //If not in gang, and no request exists, show join button
       setchannelList(
@@ -326,6 +365,34 @@ export default function GangPage() {
         </div>
       );
     }
+  };
+
+  const renderCallParticipants = () => {
+    let tempParticipants: any = [];
+    if (currentAudioChannel.id && currentChannel.id === currentAudioChannel.id) {
+      tempParticipants.push(
+        <div className="voice-participant-box">
+          {userState.avatar_url === "" || userState.avatar_url === "/assets/avatarIcon.png" ? (
+            <div className="dynamic-avatar-border">
+              <div className="dynamic-avatar-text-small">
+                {userState.username
+                  ? userState.username
+                      .split(" ")
+                      .map((word: string[]) => word[0])
+                      .join("")
+                      .slice(0, 2)
+                  : "gg"}
+              </div>
+            </div>
+          ) : (
+            <img className="nav-overlay-img" src={userState.avatar_url} alt="my avatar" />
+          )}
+          <div className="voice-participant-name">{userState.username}</div>
+        </div>
+      );
+    }
+    console.log("peers?? ", peers);
+    setcallParticipants(tempParticipants);
   };
 
   const renderGangOptions = () => {
@@ -405,6 +472,7 @@ export default function GangPage() {
         {/* <div className="about-box">{gangInfo.basicInfo?.about ? gangInfo.basicInfo.about : ""}</div> */}
         {/* Gang Default Page */}
         <div className="channel-specific-contents">
+          {/* Roster Row */}
           <div className="gang-roster-container">
             {first5Members.map((member: any) => (
               <div className="list-member-photo" key={member.id}>
@@ -415,15 +483,16 @@ export default function GangPage() {
               {gangInfo.basicInfo?.members?.length ? gangInfo.basicInfo?.members?.length : ""} members
             </div>
           </div>
-          {/* List of channels */}
+          {/* List of channels on left, Channel contents on right */}
           {gangInfo.role?.role_id ? (
-            <div className="chat-list">
-              <Accordion activeIndex={currentChannel.index} onTabChange={(e) => channelButtonPressed(e.index)}>
+            <div className="channels-container">
+              <div className="chat-list">
                 {channelList}
-              </Accordion>
-              {peers.map((peer, index) => {
-                return <Video key={index} peer={peer} />;
-              })}
+                {peers.map((peer, index) => {
+                  return <Video key={index} peer={peer} />;
+                })}
+              </div>
+              <div className="channel-contents">{channelContents}</div>
             </div>
           ) : (
             channelList
