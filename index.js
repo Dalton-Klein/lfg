@@ -85,11 +85,11 @@ io.on("connection", (socket) => {
     console.log(clientDisconnectedMsg);
 
     // Handle removal from voice
-    const roomID = socketToRoom[socket.id];
-    let room = allUsersInAllChannels[roomID];
+    const channel_id = socketToRoom[socket.id];
+    let room = allUsersInAllChannels[channel_id];
     if (room) {
       room = room.filter((id) => id !== socket.id);
-      allUsersInAllChannels[roomID] = room;
+      allUsersInAllChannels[channel_id] = room;
     }
   });
 });
