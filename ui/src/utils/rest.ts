@@ -317,7 +317,6 @@ export const uploadAvatarCloud = async (avatar: any) => {
 };
 
 export const updateUserField = async (id: number, field: string, value: any) => {
-  console.log("val?? ", value);
   await fetch(`${endpointURL}/updateUserInfoField`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -909,7 +908,6 @@ export const requestToJoinGang = async (
 };
 
 export const updateGangField = async (id: number, field: string, value: any) => {
-  console.log("val?? ", field, "   ", value);
   await fetch(`${endpointURL}/update-gang-field`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

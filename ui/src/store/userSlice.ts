@@ -109,7 +109,6 @@ export const updateUserThunk =
     try {
       let response: any;
       response = await fetchUserData(userId);
-      console.log("fetched??? ", response.data);
       if (!response.error) {
         dispatch(setUser(response.data));
       }
