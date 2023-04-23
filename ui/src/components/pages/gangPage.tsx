@@ -181,7 +181,6 @@ export default function GangPage() {
         constraints.output = currentOutputDevice.deviceId;
       }
       navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
-        console.log("audio channel ", channel);
         userAudio.current = {};
         userAudio.current.srcObject = currentStream;
         socketRef.current.emit("join_channel", {
@@ -190,14 +189,17 @@ export default function GangPage() {
           username: userState.username,
           user_avatar_url: userState.avatar_url,
         });
-        socketRef.current.on("all_users", (users) => {
+        socketRef.current.on("all_users", (users: any) => {
           const tempPeers: any = [];
           // Loop through all users in channel and create a peer
-          users.forEach((userID: number) => {
-            const peer = createPeer(userID, socketRef.current.id, currentStream);
+          users.forEach((user: any) => {
+            const peer = createPeer(user.socket_id, socketRef.current.id, currentStream);
             peersRef.current.push({
-              peerID: userID,
+              peerID: user.socket_id,
               peer,
+              user_id: user.user_id,
+              username: user.username,
+              user_avatar_url: user.user_avatar_url,
             });
             tempPeers.push(peer);
           });
