@@ -10,6 +10,7 @@ import { RootState } from "../../store/store";
 import { updateUserField } from "../../utils/rest";
 import { updateUserThunk } from "../../store/userSlice";
 import { Toast } from "primereact/toast";
+import { loadSavedDevices } from "../../utils/helperFunctions";
 
 export default function SettingsPage() {
   const navigate = useNavigate();
@@ -28,22 +29,21 @@ export default function SettingsPage() {
     ref.current?.scrollIntoView();
   };
   // END Auto Scroll Logic
-
   useEffect(() => {
-    loadSavedDevices();
+    dispatch(updateUserThunk(userState.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    loadDevices();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userState]);
 
-  const loadSavedDevices = async () => {
+  const loadDevices = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
-    if (userState.input_device_id && userState.input_device_id.length) {
-      const foundDevice = devices.find(({ deviceId }) => deviceId === userState.input_device_id);
-      setcurrentInputDevice(foundDevice);
-    }
-    if (userState.output_device_id && userState.output_device_id.length) {
-      const foundDevice = devices.find(({ deviceId }) => deviceId === userState.output_device_id);
-      setcurrentOutputDevice(foundDevice);
-    }
+    console.log("devices", devices);
+    const savedDevices = loadSavedDevices(devices, userState);
+    setcurrentInputDevice(savedDevices.input_device);
+    setcurrentOutputDevice(savedDevices.output_device);
   };
 
   //START Audio Input
@@ -96,7 +96,8 @@ export default function SettingsPage() {
         detail: ``,
         sticky: false,
       });
-    } else if (device.kind === "audiooutput") {
+    }
+    if (device.kind === "audiooutput") {
       setcurrentOutputDevice(device);
       await updateUserField(userState.id, "output_device_id", device.deviceId);
       toast.current.clear();

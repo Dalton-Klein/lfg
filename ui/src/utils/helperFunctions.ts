@@ -171,3 +171,22 @@ export const getRocketLeaguePlaylists = () => {
     3: "ranked 3s",
   };
 };
+
+export const loadSavedDevices = (devices: any, userState: any) => {
+  let result: any = { input_device: undefined, output_device: undefined };
+  if (userState.input_device_id && userState.input_device_id.length) {
+    const foundDevice = devices.find(({ deviceId, kind }) => {
+      if (deviceId === userState.input_device_id && kind == "audioinput") return true;
+      else return false;
+    });
+    result.input_device = foundDevice;
+  }
+  if (userState.output_device_id && userState.output_device_id.length) {
+    const foundDevice = devices.find(({ deviceId, kind }) => {
+      if (deviceId === userState.output_device_id && kind == "audiooutput") return true;
+      else return false;
+    });
+    result.output_device = foundDevice;
+  }
+  return result;
+};

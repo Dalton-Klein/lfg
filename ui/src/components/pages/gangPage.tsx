@@ -5,7 +5,7 @@ import "./gangPage.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getGangActivity, requestToJoinGang } from "../../utils/rest";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { Toast } from "primereact/toast";
 import styled from "styled-components";
@@ -13,6 +13,8 @@ import styled from "styled-components";
 import Peer from "simple-peer";
 import * as io from "socket.io-client";
 import { Menu } from "primereact/menu";
+import { loadSavedDevices } from "../../utils/helperFunctions";
+import { updateUserThunk } from "../../store/userSlice";
 
 //
 const StyledAudio = styled.audio`
@@ -41,6 +43,7 @@ export default function GangPage() {
   const gangOptionsMenu: any = useRef(null);
   const locationPath: string = useLocation().pathname;
   const userState = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch();
   //Gang Specific
   const [gangInfo, setgangInfo] = useState<any>({});
   const [channelList, setchannelList] = useState<any>([]);
@@ -55,18 +58,23 @@ export default function GangPage() {
   const peersRef = useRef<any>([]);
   const channelId = 2;
 
+  const [currentInputDevice, setcurrentInputDevice] = useState<any>();
+  const [currentOutputDevice, setcurrentOutputDevice] = useState<any>();
+
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
   const toggleExpandedProfile = () => {
     setExpandedProfileVis(!expandedProfileVis);
   };
 
   useEffect(() => {
+    dispatch(updateUserThunk(userState.id));
     socketRef.current = io.connect(
       process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg"
     );
     const locationOfLastSlash = locationPath.lastIndexOf("/");
     const extractedGangId = locationPath.substring(locationOfLastSlash + 1);
     loadGangPage(parseInt(extractedGangId));
+    loadDevices();
     return () => {
       socketRef.current.disconnect();
     };
@@ -84,15 +92,33 @@ export default function GangPage() {
   }, [peers]);
 
   //START VOICE LOGIC
+  const loadDevices = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const savedDevices = loadSavedDevices(devices, userState);
+    console.log("saved ", savedDevices);
+    setcurrentInputDevice(savedDevices.input_device);
+    setcurrentOutputDevice(savedDevices.output_device);
+  };
   const connectToVoice = (channel: any) => {
     if (channel.id === currentAudioChannel.id) {
+      //Disconnect from voice
       socketRef.current.disconnect();
       setcurrentAudioChannel({});
       setpeers([]);
     } else {
+      //Connect to voice
       setcurrentAudioChannel(channel);
-      console.log("devices: ", navigator.mediaDevices.enumerateDevices());
-      navigator.mediaDevices.getUserMedia({ audio: true }).then((currentStream) => {
+      console.log("saved devices: ", userState.input_device_id);
+      let constraints: any = {};
+      if (!currentInputDevice || !currentOutputDevice) {
+        //Use default devices if not set
+        constraints.audio = true;
+      } else {
+        //Use saved devices if set
+        constraints.audio = currentInputDevice.deviceId;
+        constraints.output = currentOutputDevice.deviceId;
+      }
+      navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
         userAudio.current = {};
         userAudio.current.srcObject = currentStream;
         socketRef.current.emit("join_channel", { channelId: channelId, userId: userState.id });
@@ -230,17 +256,51 @@ export default function GangPage() {
         gangInfo.channels.map((tile: any) => (
           <AccordionTab header={`‎ ‎ ${tile.name}`} key={tile.id} className="alt-button">
             {tile.is_voice ? (
-              <button
-                onClick={() => {
-                  connectToVoice(tile);
-                }}
-              >
-                {tile.is_voice
-                  ? currentAudioChannel.id && tile.id === currentAudioChannel.id
-                    ? `leave ${tile.name} (${peers.length + 1})`
-                    : `join ${tile.name} (${peers.length})`
-                  : tile.name}
-              </button>
+              <div className="voice-channel">
+                <button
+                  onClick={() => {
+                    connectToVoice(tile);
+                  }}
+                >
+                  {tile.is_voice
+                    ? currentAudioChannel.id && tile.id === currentAudioChannel.id
+                      ? `leave ${tile.name} (${peers.length + 1})`
+                      : `join ${tile.name} (${peers.length})`
+                    : tile.name}
+                </button>
+                {/* show conditional help messages to set devices */}
+                {tile.is_voice && !currentInputDevice ? (
+                  <div>
+                    {" "}
+                    no input device set, set device in{" "}
+                    <span
+                      onClick={() => {
+                        navigate("/user-settings");
+                      }}
+                      className="link-text"
+                    >
+                      {" "}
+                      user settings
+                    </span>{" "}
+                  </div>
+                ) : tile.is_voice && !currentOutputDevice ? (
+                  <div className="voice-channel-helper">
+                    {" "}
+                    no output device set, set device in{" "}
+                    <span
+                      onClick={() => {
+                        navigate("/user-settings");
+                      }}
+                      className="link-text"
+                    >
+                      {" "}
+                      user settings
+                    </span>{" "}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
             ) : (
               `text chats will go here`
             )}
