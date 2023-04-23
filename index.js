@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
       ];
     }
     socketToRoom[socket.id] = payload.channelId;
-    const usersInThisRoom = allUsersInAllChannels[payload.channelId].filter((id) => id !== socket.id);
+    const usersInThisRoom = allUsersInAllChannels[payload.channelId].filter((socket_id) => socket_id !== socket.id);
     console.log("usersInThisRoom?", usersInThisRoom);
     console.log("all users?", allUsersInAllChannels);
     socket.emit("all_users", usersInThisRoom);
