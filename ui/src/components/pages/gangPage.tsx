@@ -63,6 +63,7 @@ export default function GangPage() {
   const toast: any = useRef({ current: "" });
   //Voice Specific
   const [peers, setpeers] = useState<any>([]);
+  const [callParticipants, setcallParticipants] = useState<any>([]);
   const userAudio = useRef<any>();
   const peersRef = useRef<any>([]);
   const channelId = 2;
@@ -91,7 +92,7 @@ export default function GangPage() {
   }, []);
 
   useEffect(() => {
-    makeChannelTabs();
+    makeChannelTabsAndContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentChannel, currentAudioChannel]);
 
@@ -99,6 +100,61 @@ export default function GangPage() {
     console.log("peers: ", peers);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [peers]);
+
+  useEffect(() => {
+    setchannelContents(
+      <div className="voice-channel">
+        <div className="text-channel-title">{currentChannel.name}</div>
+        {/* Join/Leave Call Button */}
+        <button
+          onClick={() => {
+            connectToVoice(currentChannel);
+          }}
+        >
+          {currentChannel.is_voice
+            ? currentAudioChannel.id && currentChannel.id === currentAudioChannel.id
+              ? `leave ${currentChannel.name} (${peers.length + 1})`
+              : `join ${currentChannel.name} (${peers.length})`
+            : currentChannel.name}
+        </button>
+        {/* List of participants in call */}
+        {callParticipants}
+        {/* show conditional help messages to set devices */}
+        {currentChannel.is_voice && !currentInputDevice && !isMobile ? (
+          <div>
+            {" "}
+            no input device set, set device in{" "}
+            <span
+              onClick={() => {
+                navigate("/user-settings");
+              }}
+              className="link-text"
+            >
+              {" "}
+              user settings
+            </span>{" "}
+          </div>
+        ) : currentChannel.is_voice && !currentOutputDevice && !isMobile ? (
+          <div className="voice-channel-helper">
+            {" "}
+            no output device set, set device in{" "}
+            <span
+              onClick={() => {
+                navigate("/user-settings");
+              }}
+              className="link-text"
+            >
+              {" "}
+              user settings
+            </span>{" "}
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [callParticipants]);
 
   //START VOICE LOGIC
   const loadDevices = async () => {
@@ -205,7 +261,7 @@ export default function GangPage() {
           tempIndex++;
         });
       }
-      makeChannelTabs();
+      makeChannelTabsAndContents();
       if (gangInfo.basicInfo?.members) {
         setfirst5Members(gangInfo.basicInfo.members.slice(0, 5));
       }
@@ -260,7 +316,7 @@ export default function GangPage() {
   };
 
   // Create Channel AccordianTabs
-  const makeChannelTabs = () => {
+  const makeChannelTabsAndContents = () => {
     if (gangInfo.role?.role_id) {
       //If in gang, show list of channels
       setchannelList(
@@ -279,54 +335,8 @@ export default function GangPage() {
       //If a channel is selected, load channel contents
       if (currentChannel) {
         if (currentChannel.is_voice) {
-          setchannelContents(
-            <div className="voice-channel">
-              <div className="text-channel-title">{currentChannel.name}</div>
-              <button
-                onClick={() => {
-                  connectToVoice(currentChannel);
-                }}
-              >
-                {currentChannel.is_voice
-                  ? currentAudioChannel.id && currentChannel.id === currentAudioChannel.id
-                    ? `leave ${currentChannel.name} (${peers.length + 1})`
-                    : `join ${currentChannel.name} (${peers.length})`
-                  : currentChannel.name}
-              </button>
-              {/* show conditional help messages to set devices */}
-              {currentChannel.is_voice && !currentInputDevice && !isMobile ? (
-                <div>
-                  {" "}
-                  no input device set, set device in{" "}
-                  <span
-                    onClick={() => {
-                      navigate("/user-settings");
-                    }}
-                    className="link-text"
-                  >
-                    {" "}
-                    user settings
-                  </span>{" "}
-                </div>
-              ) : currentChannel.is_voice && !currentOutputDevice && !isMobile ? (
-                <div className="voice-channel-helper">
-                  {" "}
-                  no output device set, set device in{" "}
-                  <span
-                    onClick={() => {
-                      navigate("/user-settings");
-                    }}
-                    className="link-text"
-                  >
-                    {" "}
-                    user settings
-                  </span>{" "}
-                </div>
-              ) : (
-                <></>
-              )}
-            </div>
-          );
+          //Call async event for use later in fucntion
+          renderCallParticipants();
         } else {
           setchannelContents(
             <div className="text-channel-container">
@@ -357,7 +367,33 @@ export default function GangPage() {
     }
   };
 
-  const renderChannelContents = () => {};
+  const renderCallParticipants = () => {
+    let tempParticipants: any = [];
+    if (currentAudioChannel.id && currentChannel.id === currentAudioChannel.id) {
+      tempParticipants.push(
+        <div className="voice-participant-box">
+          {userState.avatar_url === "" || userState.avatar_url === "/assets/avatarIcon.png" ? (
+            <div className="dynamic-avatar-border">
+              <div className="dynamic-avatar-text-small">
+                {userState.username
+                  ? userState.username
+                      .split(" ")
+                      .map((word: string[]) => word[0])
+                      .join("")
+                      .slice(0, 2)
+                  : "gg"}
+              </div>
+            </div>
+          ) : (
+            <img className="nav-overlay-img" src={userState.avatar_url} alt="my avatar" />
+          )}
+          <div className="voice-participant-name">{userState.username}</div>
+        </div>
+      );
+    }
+    console.log("peers?? ", peers);
+    setcallParticipants(tempParticipants);
+  };
 
   const renderGangOptions = () => {
     return [
