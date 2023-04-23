@@ -21,7 +21,7 @@ const util = require("util");
 
 const peers = [];
 
-const users = {};
+const allUsersInAllChannels = {};
 const socketToRoom = {};
 
 io.on("connection", (socket) => {
@@ -40,21 +40,29 @@ io.on("connection", (socket) => {
   // User Starts a voice channel (group voice)
   socket.on("join_channel", (payload) => {
     console.log("joining payload: ", payload);
-    if (users[payload.channelId]) {
-      const length = users[payload.channelId].length;
-      if (length === 4) {
-        socket.emit("room full");
-        return;
-      }
-      users[payload.channelId].push(socket.id);
+    if (allUsersInAllChannels[payload.channelId]) {
+      allUsersInAllChannels[payload.channelId].push({
+        socket_id: socket.id,
+        user_id: payload.user_id,
+        username: payload.username,
+        user_avatar_url: payload.user_avatar_url,
+      });
     } else {
-      users[payload.channelId] = [socket.id];
+      //Create channel object for room id
+      allUsersInAllChannels[payload.channelId] = [
+        {
+          socket_id: socket.id,
+          user_id: payload.user_id,
+          username: payload.username,
+          user_avatar_url: payload.user_avatar_url,
+        },
+      ];
     }
     socketToRoom[socket.id] = payload.channelId;
-    const usersInThisRoom = users[payload.channelId].filter((id) => id !== socket.id);
+    const usersInThisRoom = allUsersInAllChannels[payload.channelId].filter((id) => id !== socket.id);
     console.log("usersInThisRoom?", usersInThisRoom);
-
-    socket.emit("all users", usersInThisRoom);
+    console.log("all users?", allUsersInAllChannels);
+    socket.emit("all_users", usersInThisRoom);
   });
 
   socket.on("sending signal", (payload) => {
@@ -78,10 +86,10 @@ io.on("connection", (socket) => {
 
     // Handle removal from voice
     const roomID = socketToRoom[socket.id];
-    let room = users[roomID];
+    let room = allUsersInAllChannels[roomID];
     if (room) {
       room = room.filter((id) => id !== socket.id);
-      users[roomID] = room;
+      allUsersInAllChannels[roomID] = room;
     }
   });
 });

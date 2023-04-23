@@ -66,7 +66,6 @@ export default function GangPage() {
   const [callParticipants, setcallParticipants] = useState<any>([]);
   const userAudio = useRef<any>();
   const peersRef = useRef<any>([]);
-  const channelId = 2;
 
   const [currentInputDevice, setcurrentInputDevice] = useState<any>();
   const [currentOutputDevice, setcurrentOutputDevice] = useState<any>();
@@ -160,7 +159,6 @@ export default function GangPage() {
   const loadDevices = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
     const savedDevices = loadSavedDevices(devices, userState);
-    console.log("saved ", savedDevices);
     setcurrentInputDevice(savedDevices.input_device);
     setcurrentOutputDevice(savedDevices.output_device);
   };
@@ -173,7 +171,6 @@ export default function GangPage() {
     } else {
       //Connect to voice
       setcurrentAudioChannel(channel);
-      console.log("saved devices: ", userState.input_device_id);
       let constraints: any = {};
       if (isMobile || !currentInputDevice || !currentOutputDevice) {
         //Use default devices if not set
@@ -184,10 +181,16 @@ export default function GangPage() {
         constraints.output = currentOutputDevice.deviceId;
       }
       navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
+        console.log("audio channel ", channel);
         userAudio.current = {};
         userAudio.current.srcObject = currentStream;
-        socketRef.current.emit("join_channel", { channelId: channelId, userId: userState.id });
-        socketRef.current.on("all users", (users) => {
+        socketRef.current.emit("join_channel", {
+          channelId: channel.id,
+          user_id: userState.id,
+          username: userState.username,
+          user_avatar_url: userState.avatar_url,
+        });
+        socketRef.current.on("all_users", (users) => {
           const tempPeers: any = [];
           // Loop through all users in channel and create a peer
           users.forEach((userID: number) => {
@@ -209,7 +212,7 @@ export default function GangPage() {
             peerID: payload.callerID,
             peer,
           });
-          console.log("peers: ", peersRef.current.length);
+          console.log("number of peers: ", peersRef.current.length);
           setpeers((users: any) => [...users, peer]);
         });
 
@@ -371,7 +374,7 @@ export default function GangPage() {
     let tempParticipants: any = [];
     if (currentAudioChannel.id && currentChannel.id === currentAudioChannel.id) {
       tempParticipants.push(
-        <div className="voice-participant-box">
+        <div className="voice-participant-box" key={0}>
           {userState.avatar_url === "" || userState.avatar_url === "/assets/avatarIcon.png" ? (
             <div className="dynamic-avatar-border">
               <div className="dynamic-avatar-text-small">
@@ -391,7 +394,6 @@ export default function GangPage() {
         </div>
       );
     }
-    console.log("peers?? ", peers);
     setcallParticipants(tempParticipants);
   };
 
