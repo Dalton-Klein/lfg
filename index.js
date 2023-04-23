@@ -59,9 +59,10 @@ io.on("connection", (socket) => {
       ];
     }
     socketToRoom[socket.id] = payload.channelId;
-    const usersInThisRoomOtherThanYou = allUsersInAllChannels[payload.channelId].filter(
-      (socket_id) => socket_id !== socket.id
-    );
+    let usersInThisRoomOtherThanYou = [];
+    allUsersInAllChannels[payload.channelId].forEach((userObj) => {
+      if (userObj.socket_id !== socket.id) usersInThisRoomOtherThanYou.push(userObj);
+    });
     console.log("usersInThisRoomOtherThanYou?", usersInThisRoomOtherThanYou);
     console.log("all users?", allUsersInAllChannels);
     socket.emit("all_users", usersInThisRoomOtherThanYou);
