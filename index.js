@@ -81,7 +81,7 @@ io.on("connection", (socket) => {
       if (participant.user_id !== payload.user_id) usersInThisRoomOtherThanYou.push(participant);
     });
     console.log("join channel: ", payload.user_id, "   ", usersInThisRoomOtherThanYou);
-    console.log("all users?", allUsersInAllChannels);
+    console.log("all users?", allUsersInAllChannels[payload.channelId].length);
     socket.emit("all_users", usersInThisRoomOtherThanYou);
   });
 
@@ -129,7 +129,7 @@ io.on("connection", (socket) => {
     const channel_id = socketToRoom[socket.id];
     let room = allUsersInAllChannels[channel_id];
     if (room) {
-      room = room.filter((id) => id !== socket.id);
+      room = room.filter((participant) => participant.socket_id !== socket.id);
       allUsersInAllChannels[channel_id] = room;
     }
   });
