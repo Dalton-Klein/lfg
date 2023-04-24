@@ -64,6 +64,7 @@ export default function GangPage() {
   //Voice Specific
   const [peers, setpeers] = useState<any>([]);
   const [callParticipants, setcallParticipants] = useState<any>([]);
+  const [callParticipantsJSX, setcallParticipantsJSX] = useState<any>([]);
   const userAudio = useRef<any>();
   const peersRef = useRef<any>([]);
 
@@ -97,11 +98,11 @@ export default function GangPage() {
 
   useEffect(() => {
     console.log("peers: ", peers);
-    renderCallParticipants();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [peers]);
 
   useEffect(() => {
+    renderCallParticipantsJSX();
     setchannelContents(
       <div className="voice-channel">
         <div className="text-channel-title">{currentChannel.name}</div>
@@ -118,7 +119,7 @@ export default function GangPage() {
             : currentChannel.name}
         </button>
         {/* List of participants in call */}
-        {callParticipants}
+        {callParticipantsJSX}
         {/* show conditional help messages to set devices */}
         {currentChannel.is_voice && !currentInputDevice && !isMobile ? (
           <div>
@@ -181,23 +182,32 @@ export default function GangPage() {
       console.log("here4????");
       userAudio.current = {};
       userAudio.current.srcObject = currentStream;
+
+      //Testing getting participants right away
+      socketRef.current.emit("get_channel_participants", {
+        channelId: currentChannel.id,
+      });
+
       socketRef.current.on("all_users", (users: any) => {
         const tempPeers: any = [];
+        const tempParticipants: any = [];
         // Loop through all users in channel and create a peer
         users.forEach((user: any) => {
           const peer = createPeer(user.socket_id, socketRef.current.id, currentStream);
           peersRef.current.push({
             peerID: user.socket_id,
             peer,
+          });
+          tempPeers.push(peer);
+          tempParticipants.push({
             user_id: user.user_id,
             username: user.username,
             user_avatar_url: user.user_avatar_url,
           });
-          tempPeers.push(peer);
         });
         //TODO, make array of user objects to display in voice chat with name and avatar
-
         setpeers(tempPeers);
+        setcallParticipants(tempParticipants);
       });
 
       socketRef.current.on("user_joined", (payload) => {
@@ -206,15 +216,19 @@ export default function GangPage() {
         peersRef.current.push({
           peerID: payload.callerID,
           peer,
+        });
+        console.log("number of peers: ", peersRef.current.length);
+        setpeers((users: any) => [...users, peer]);
+        const copyOfParticipants = callParticipants;
+        copyOfParticipants.push({
           user_id: payload.user_id,
           username: payload.username,
           user_avatar_url: payload.user_avatar_url,
         });
-        console.log("number of peers: ", peersRef.current.length);
-        setpeers((users: any) => [...users, peer]);
+        setcallParticipants(copyOfParticipants);
       });
 
-      socketRef.current.on("receiving returned signal", (payload) => {
+      socketRef.current.on("receiving_returned_signal", (payload) => {
         const item = peersRef.current.find((p: any) => p.peerID === payload.id);
         item.peer.signal(payload.signal);
       });
@@ -223,7 +237,15 @@ export default function GangPage() {
   const joinLeaveVoiceChat = (channel: any) => {
     if (currentAudioChannel && currentAudioChannel.id) {
       //Disconnect from voice
-      socketRef.current.disconnect();
+
+      //I don't think we need to disconnect entirely, just remove ourselves from users list
+      // socketRef.current.disconnect();
+      console.log("exiting voice");
+      socketRef.current.emit("exit_voice", {
+        channelId: currentChannel.id,
+        user_id: userState.id,
+      });
+
       setcurrentAudioChannel({});
       setpeers([]);
     } else {
@@ -390,12 +412,12 @@ export default function GangPage() {
     }
   };
 
-  const renderCallParticipants = () => {
+  const renderCallParticipantsJSX = () => {
     let tempParticipants: any = [];
     if (currentAudioChannel.id && currentChannel.id === currentAudioChannel.id) {
-      peers.forEach((peer: any) => {
+      callParticipants.forEach((peer: any) => {
         //TODO create participant box for each peer
-        console.log("peer in loop: ", peer);
+        console.log("participant in loop: ", peer);
         tempParticipants.push(
           <div className="voice-participant-box" key={0}>
             {peer.user_avatar_url === "" || peer.user_avatar_url === "/assets/avatarIcon.png" ? (
@@ -440,7 +462,7 @@ export default function GangPage() {
         );
       }
     }
-    setcallParticipants(tempParticipants);
+    setcallParticipantsJSX(tempParticipants);
   };
 
   const renderGangOptions = () => {
