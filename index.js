@@ -53,6 +53,11 @@ io.on("connection", (socket) => {
   socket.on("join_channel", (payload) => {
     console.log("joining payload: ", payload);
     if (allUsersInAllChannels[payload.channelId]) {
+      allUsersInAllChannels[payload.channelId] = allUsersInAllChannels[payload.channelId].filter(function (
+        participant
+      ) {
+        return participant.user_id !== payload.user_id;
+      });
       allUsersInAllChannels[payload.channelId].push({
         socket_id: socket.id,
         user_id: payload.user_id,
