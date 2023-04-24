@@ -37,6 +37,18 @@ io.on("connection", (socket) => {
     io.to(roomId).emit("message", { roomId, senderId, sender, message, timestamp });
   });
 
+  socket.on("get_channel_participants", (payload) => {
+    let usersInThisRoomOtherThanYou = [];
+    if (allUsersInAllChannels[payload.channelId] && allUsersInAllChannels[payload.channelId].length) {
+      allUsersInAllChannels[payload.channelId].forEach((userObj) => {
+        if (userObj.socket_id !== socket.id) usersInThisRoomOtherThanYou.push(userObj);
+      });
+    }
+    console.log("usersInThisRoomOtherThanYou?", usersInThisRoomOtherThanYou);
+    console.log("all users?", allUsersInAllChannels);
+    socket.emit("all_users", usersInThisRoomOtherThanYou);
+  });
+
   // User Starts a voice channel (group voice)
   socket.on("join_channel", (payload) => {
     console.log("joining payload: ", payload);
@@ -80,7 +92,22 @@ io.on("connection", (socket) => {
   });
 
   socket.on("returning_signal", (payload) => {
-    io.to(payload.callerID).emit("receiving returned signal", { signal: payload.signal, id: socket.id });
+    io.to(payload.callerID).emit("receiving_returned_signal", { signal: payload.signal, id: socket.id });
+  });
+
+  socket.on("exit_voice", (payload) => {
+    let channel = allUsersInAllChannels[payload.channelId];
+    console.log("channel???? ", channel);
+    let remainingParticipants = [];
+    if (channel) {
+      channel.forEach((participant) => {
+        if (participant.user_id !== payload.user_id) {
+          remainingParticipants.push(participant);
+        }
+      });
+      allUsersInAllChannels[payload.channelId] = remainingParticipants;
+      socket.emit("all_users", remainingParticipants);
+    }
   });
 
   //When client disconnects, handle it
