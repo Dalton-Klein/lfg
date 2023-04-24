@@ -1,6 +1,5 @@
 import FooterComponent from "../nav/footerComponent";
 import HeaderComponent from "../nav/headerComponent";
-import { Accordion, AccordionTab } from "primereact/accordion";
 import "./gangPage.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -64,7 +63,6 @@ export default function GangPage() {
   //Voice Specific
   const [peers, setpeers] = useState<any>([]);
   const [callParticipants, setcallParticipants] = useState<any>([]);
-  const [callParticipantsJSX, setcallParticipantsJSX] = useState<any>([]);
   const userAudio = useRef<any>();
   const peersRef = useRef<any>([]);
 
@@ -102,24 +100,23 @@ export default function GangPage() {
   }, [peers]);
 
   useEffect(() => {
-    renderCallParticipantsJSX();
     setchannelContents(
       <div className="voice-channel">
         <div className="text-channel-title">{currentChannel.name}</div>
         {/* Join/Leave Call Button */}
         <button
           onClick={() => {
-            joinLeaveVoiceChat(currentChannel);
+            connectToVoice(currentChannel);
           }}
         >
           {currentChannel.is_voice
             ? currentAudioChannel.id && currentChannel.id === currentAudioChannel.id
-              ? `leave ${currentChannel.name}`
-              : `join ${currentChannel.name}`
+              ? `leave ${currentChannel.name} (${peers.length + 1})`
+              : `join ${currentChannel.name} (${peers.length})`
             : currentChannel.name}
         </button>
         {/* List of participants in call */}
-        {callParticipantsJSX}
+        {callParticipants}
         {/* show conditional help messages to set devices */}
         {currentChannel.is_voice && !currentInputDevice && !isMobile ? (
           <div>
@@ -164,100 +161,67 @@ export default function GangPage() {
     setcurrentInputDevice(savedDevices.input_device);
     setcurrentOutputDevice(savedDevices.output_device);
   };
-  const connectToVoiceSocket = () => {
-    console.log("making channel contents: ", currentChannel);
-    //Init blank peers to load initil content
-    setpeers([]);
-    //Connects to voice socket to get info on participants, but doesn't actually join the voice room
-    let constraints: any = {};
-    if (isMobile || !currentInputDevice || !currentOutputDevice) {
-      //Use default devices if not set
-      constraints.audio = true;
-    } else {
-      //Use saved devices if set
-      constraints.audio = currentInputDevice.deviceId;
-      constraints.output = currentOutputDevice.deviceId;
-    }
-    navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
-      console.log("here4????");
-      userAudio.current = {};
-      userAudio.current.srcObject = currentStream;
-
-      //Testing getting participants right away
-      socketRef.current.emit("get_channel_participants", {
-        channelId: currentChannel.id,
-        user_id: userState.id,
-      });
-
-      socketRef.current.on("all_users", (users: any) => {
-        const tempPeers: any = [];
-        const tempParticipants: any = [];
-        // Loop through all users in channel and create a peer
-        users.forEach((user: any) => {
-          const peer = createPeer(user.socket_id, socketRef.current.id, currentStream);
-          peersRef.current.push({
-            peerID: user.socket_id,
-            peer,
-          });
-          tempPeers.push(peer);
-          tempParticipants.push({
-            user_id: user.user_id,
-            username: user.username,
-            user_avatar_url: user.user_avatar_url,
-          });
-        });
-        console.log("received copy of all users: ", users.length);
-        //TODO, make array of user objects to display in voice chat with name and avatar
-        setpeers(tempPeers);
-        setcallParticipants(tempParticipants);
-      });
-
-      socketRef.current.on("user_joined", (payload) => {
-        console.log("incoming person requesting handshake: ", payload.callerID);
-        const peer = addPeer(payload.signal, payload.callerID, currentStream);
-        peersRef.current.push({
-          peerID: payload.callerID,
-          peer,
-        });
-        console.log("user has joined: ", payload.user_id, "total connected", peersRef.current.length);
-        setpeers((users: any) => [...users, peer]);
-        const copyOfParticipants = callParticipants;
-        copyOfParticipants.push({
-          user_id: payload.user_id,
-          username: payload.username,
-          user_avatar_url: payload.user_avatar_url,
-        });
-        setcallParticipants(copyOfParticipants);
-      });
-
-      socketRef.current.on("receiving_returned_signal", (payload) => {
-        const item = peersRef.current.find((p: any) => p.peerID === payload.id);
-        item.peer.signal(payload.signal);
-      });
-    });
-  };
-  const joinLeaveVoiceChat = (channel: any) => {
-    if (currentAudioChannel && currentAudioChannel.id) {
+  const connectToVoice = (channel: any) => {
+    if (channel.id === currentAudioChannel.id) {
       //Disconnect from voice
-
-      //I don't think we need to disconnect entirely, just remove ourselves from users list
-      // socketRef.current.disconnect();
-      console.log("exiting voice");
-      socketRef.current.emit("exit_voice", {
-        channelId: currentChannel.id,
-        user_id: userState.id,
-      });
-
+      socketRef.current.disconnect();
       setcurrentAudioChannel({});
       setpeers([]);
     } else {
-      socketRef.current.emit("join_channel", {
-        channelId: channel.id,
-        user_id: userState.id,
-        username: userState.username,
-        user_avatar_url: userState.avatar_url,
-      });
+      //Connect to voice
       setcurrentAudioChannel(channel);
+      let constraints: any = {};
+      if (isMobile || !currentInputDevice || !currentOutputDevice) {
+        //Use default devices if not set
+        constraints.audio = true;
+      } else {
+        //Use saved devices if set
+        constraints.audio = currentInputDevice.deviceId;
+        constraints.output = currentOutputDevice.deviceId;
+      }
+      navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
+        userAudio.current = {};
+        userAudio.current.srcObject = currentStream;
+        socketRef.current.emit("join_channel", {
+          channelId: channel.id,
+          user_id: userState.id,
+          username: userState.username,
+          user_avatar_url: userState.avatar_url,
+        });
+        socketRef.current.on("all_users", (users: any) => {
+          const tempPeers: any = [];
+          // Loop through all users in channel and create a peer
+          users.forEach((user: any) => {
+            const peer = createPeer(user.socket_id, socketRef.current.id, currentStream);
+            peersRef.current.push({
+              peerID: user.socket_id,
+              peer,
+              user_id: user.user_id,
+              username: user.username,
+              user_avatar_url: user.user_avatar_url,
+            });
+            tempPeers.push(peer);
+          });
+          //TODO, make array of user objects to display in voice chat with name and avatar
+          setpeers(tempPeers);
+        });
+
+        socketRef.current.on("user joined", (payload) => {
+          console.log("incoming person requesting handshake: ", payload.callerID);
+          const peer = addPeer(payload.signal, payload.callerID, currentStream);
+          peersRef.current.push({
+            peerID: payload.callerID,
+            peer,
+          });
+          console.log("number of peers: ", peersRef.current.length);
+          setpeers((users: any) => [...users, peer]);
+        });
+
+        socketRef.current.on("receiving returned signal", (payload) => {
+          const item = peersRef.current.find((p: any) => p.peerID === payload.id);
+          item.peer.signal(payload.signal);
+        });
+      });
     }
   };
   // Create Peer is called within a loop, runs once per user in the channel
@@ -269,14 +233,7 @@ export default function GangPage() {
     });
     //Listen for signal event, which starts handshake request to other users
     peer.on("signal", (signal) => {
-      socketRef.current.emit("sending_signal", {
-        userToSignal,
-        callerID,
-        signal,
-        user_id: userState.id,
-        username: userState.username,
-        user_avatar_url: userState.avatar_url,
-      });
+      socketRef.current.emit("sending signal", { userToSignal, callerID, signal });
     });
     return peer;
   }
@@ -289,7 +246,7 @@ export default function GangPage() {
     });
     //Listen for signal event, which completes handshake request from other user
     peer.on("signal", (signal) => {
-      socketRef.current.emit("returning_signal", { signal, callerID });
+      socketRef.current.emit("returning signal", { signal, callerID });
     });
     //Accept the signal
     peer.signal(incomingSignal);
@@ -383,7 +340,7 @@ export default function GangPage() {
       if (currentChannel) {
         if (currentChannel.is_voice) {
           //Call async event for use later in fucntion
-          connectToVoiceSocket();
+          renderCallParticipants();
         } else {
           setchannelContents(
             <div className="text-channel-container">
@@ -414,57 +371,31 @@ export default function GangPage() {
     }
   };
 
-  const renderCallParticipantsJSX = () => {
+  const renderCallParticipants = () => {
     let tempParticipants: any = [];
     if (currentAudioChannel.id && currentChannel.id === currentAudioChannel.id) {
-      callParticipants.forEach((peer: any) => {
-        //TODO create participant box for each peer
-        console.log("participant in loop: ", peer);
-        tempParticipants.push(
-          <div className="voice-participant-box" key={0}>
-            {peer.user_avatar_url === "" || peer.user_avatar_url === "/assets/avatarIcon.png" ? (
-              <div className="dynamic-avatar-border">
-                <div className="dynamic-avatar-text-small">
-                  {peer.username
-                    ? peer.username
-                        .split(" ")
-                        .map((word: string[]) => word[0])
-                        .join("")
-                        .slice(0, 2)
-                    : "gg"}
-                </div>
+      tempParticipants.push(
+        <div className="voice-participant-box" key={0}>
+          {userState.avatar_url === "" || userState.avatar_url === "/assets/avatarIcon.png" ? (
+            <div className="dynamic-avatar-border">
+              <div className="dynamic-avatar-text-small">
+                {userState.username
+                  ? userState.username
+                      .split(" ")
+                      .map((word: string[]) => word[0])
+                      .join("")
+                      .slice(0, 2)
+                  : "gg"}
               </div>
-            ) : (
-              <img className="nav-overlay-img" src={peer.user_avatar_url} alt="my avatar" />
-            )}
-            <div className="voice-participant-name">{peer.username}</div>
-          </div>
-        );
-      });
-      if (currentAudioChannel && currentAudioChannel.id) {
-        tempParticipants.push(
-          <div className="voice-participant-box" key={0}>
-            {userState.avatar_url === "" || userState.avatar_url === "/assets/avatarIcon.png" ? (
-              <div className="dynamic-avatar-border">
-                <div className="dynamic-avatar-text-small">
-                  {userState.username
-                    ? userState.username
-                        .split(" ")
-                        .map((word: string[]) => word[0])
-                        .join("")
-                        .slice(0, 2)
-                    : "gg"}
-                </div>
-              </div>
-            ) : (
-              <img className="nav-overlay-img" src={userState.avatar_url} alt="my avatar" />
-            )}
-            <div className="voice-participant-name">{userState.username}</div>
-          </div>
-        );
-      }
+            </div>
+          ) : (
+            <img className="nav-overlay-img" src={userState.avatar_url} alt="my avatar" />
+          )}
+          <div className="voice-participant-name">{userState.username}</div>
+        </div>
+      );
     }
-    setcallParticipantsJSX(tempParticipants);
+    setcallParticipants(tempParticipants);
   };
 
   const renderGangOptions = () => {
