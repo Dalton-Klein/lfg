@@ -68,12 +68,18 @@ io.on("connection", (socket) => {
     socket.emit("all_users", usersInThisRoomOtherThanYou);
   });
 
-  socket.on("sending signal", (payload) => {
+  socket.on("sending_signal", (payload) => {
     console.log("sending handshake API", payload.callerID, " signaling: ", payload.userToSignal);
-    io.to(payload.userToSignal).emit("user joined", { signal: payload.signal, callerID: payload.callerID });
+    io.to(payload.userToSignal).emit("user_joined", {
+      signal: payload.signal,
+      callerID: payload.callerID,
+      user_id: payload.user_id,
+      username: payload.username,
+      user_avatar_url: payload.user_avatar_url,
+    });
   });
 
-  socket.on("returning signal", (payload) => {
+  socket.on("returning_signal", (payload) => {
     io.to(payload.callerID).emit("receiving returned signal", { signal: payload.signal, id: socket.id });
   });
 
