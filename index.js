@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
         if (participant.user_id !== payload.user_id) usersInThisRoomOtherThanYou.push(participant);
       });
     }
-    console.log("usersInThisRoomOtherThanYou?", usersInThisRoomOtherThanYou);
+    console.log("get participants: ", payload.user_id, "  ", usersInThisRoomOtherThanYou);
     console.log("all users?", allUsersInAllChannels);
     socket.emit("all_users", usersInThisRoomOtherThanYou);
   });
@@ -75,7 +75,7 @@ io.on("connection", (socket) => {
     allUsersInAllChannels[payload.channelId].forEach((participant) => {
       if (participant.user_id !== payload.user_id) usersInThisRoomOtherThanYou.push(participant);
     });
-    console.log("usersInThisRoomOtherThanYou?", usersInThisRoomOtherThanYou);
+    console.log("join channel: ", payload.user_id, "   ", usersInThisRoomOtherThanYou);
     console.log("all users?", allUsersInAllChannels);
     socket.emit("all_users", usersInThisRoomOtherThanYou);
   });

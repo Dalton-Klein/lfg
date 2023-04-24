@@ -186,6 +186,7 @@ export default function GangPage() {
       //Testing getting participants right away
       socketRef.current.emit("get_channel_participants", {
         channelId: currentChannel.id,
+        user_id: userState.id,
       });
 
       socketRef.current.on("all_users", (users: any) => {
