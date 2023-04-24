@@ -40,8 +40,8 @@ io.on("connection", (socket) => {
   socket.on("get_channel_participants", (payload) => {
     let usersInThisRoomOtherThanYou = [];
     if (allUsersInAllChannels[payload.channelId] && allUsersInAllChannels[payload.channelId].length) {
-      allUsersInAllChannels[payload.channelId].forEach((userObj) => {
-        if (userObj.socket_id !== socket.id) usersInThisRoomOtherThanYou.push(userObj);
+      allUsersInAllChannels[payload.channelId].forEach((participant) => {
+        if (participant.user_id !== payload.user_id) usersInThisRoomOtherThanYou.push(participant);
       });
     }
     console.log("usersInThisRoomOtherThanYou?", usersInThisRoomOtherThanYou);
@@ -72,8 +72,8 @@ io.on("connection", (socket) => {
     }
     socketToRoom[socket.id] = payload.channelId;
     let usersInThisRoomOtherThanYou = [];
-    allUsersInAllChannels[payload.channelId].forEach((userObj) => {
-      if (userObj.socket_id !== socket.id) usersInThisRoomOtherThanYou.push(userObj);
+    allUsersInAllChannels[payload.channelId].forEach((participant) => {
+      if (participant.user_id !== payload.user_id) usersInThisRoomOtherThanYou.push(participant);
     });
     console.log("usersInThisRoomOtherThanYou?", usersInThisRoomOtherThanYou);
     console.log("all users?", allUsersInAllChannels);
