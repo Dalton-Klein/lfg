@@ -205,6 +205,7 @@ export default function GangPage() {
             user_avatar_url: user.user_avatar_url,
           });
         });
+        console.log("received copy of all users: ", payload.user_id, "total connected", peersRef.current.length);
         //TODO, make array of user objects to display in voice chat with name and avatar
         setpeers(tempPeers);
         setcallParticipants(tempParticipants);
@@ -217,7 +218,7 @@ export default function GangPage() {
           peerID: payload.callerID,
           peer,
         });
-        console.log("number of peers: ", peersRef.current.length);
+        console.log("user has joined: ", payload.user_id, "total connected", peersRef.current.length);
         setpeers((users: any) => [...users, peer]);
         const copyOfParticipants = callParticipants;
         copyOfParticipants.push({
