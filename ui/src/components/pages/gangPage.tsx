@@ -54,7 +54,8 @@ export default function GangPage() {
   //Gang Specific
   const [gangInfo, setgangInfo] = useState<any>({});
   const [channelList, setchannelList] = useState<any>([]);
-  const [channelContents, setchannelContents] = useState<any>();
+  const [channelTitleContents, setchannelTitleContents] = useState<any>();
+  const [channelDynamicContents, setchannelDynamicContents] = useState<any>();
   const [currentChannel, setcurrentChannel] = useState<any>({ name: "" });
   const [currentAudioChannel, setcurrentAudioChannel] = useState<any>({});
   const [first5Members, setfirst5Members] = useState<any>([]);
@@ -90,172 +91,6 @@ export default function GangPage() {
   }, []);
 
   useEffect(() => {
-    makeChannelTabsAndContents();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentChannel, currentAudioChannel]);
-
-  useEffect(() => {
-    console.log("peers: ", peers);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [peers]);
-
-  useEffect(() => {
-    setchannelContents(
-      <div className="voice-channel">
-        <div className="text-channel-title">{currentChannel.name}</div>
-        {/* Join/Leave Call Button */}
-        <button
-          onClick={() => {
-            connectToVoice(currentChannel);
-          }}
-        >
-          {currentChannel.is_voice
-            ? currentAudioChannel.id && currentChannel.id === currentAudioChannel.id
-              ? `leave ${currentChannel.name} (${peers.length + 1})`
-              : `join ${currentChannel.name} (${peers.length})`
-            : currentChannel.name}
-        </button>
-        {/* List of participants in call */}
-        {callParticipants}
-        {/* show conditional help messages to set devices */}
-        {currentChannel.is_voice && !currentInputDevice && !isMobile ? (
-          <div>
-            {" "}
-            no input device set, set device in{" "}
-            <span
-              onClick={() => {
-                navigate("/user-settings");
-              }}
-              className="link-text"
-            >
-              {" "}
-              user settings
-            </span>{" "}
-          </div>
-        ) : currentChannel.is_voice && !currentOutputDevice && !isMobile ? (
-          <div className="voice-channel-helper">
-            {" "}
-            no output device set, set device in{" "}
-            <span
-              onClick={() => {
-                navigate("/user-settings");
-              }}
-              className="link-text"
-            >
-              {" "}
-              user settings
-            </span>{" "}
-          </div>
-        ) : (
-          <></>
-        )}
-      </div>
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [callParticipants]);
-
-  //START VOICE LOGIC
-  const loadDevices = async () => {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const savedDevices = loadSavedDevices(devices, userState);
-    setcurrentInputDevice(savedDevices.input_device);
-    setcurrentOutputDevice(savedDevices.output_device);
-  };
-  const connectToVoice = (channel: any) => {
-    if (channel.id === currentAudioChannel.id) {
-      //Disconnect from voice
-      socketRef.current.disconnect();
-      setcurrentAudioChannel({});
-      setpeers([]);
-    } else {
-      //Connect to voice
-      setcurrentAudioChannel(channel);
-      let constraints: any = {};
-      if (isMobile || !currentInputDevice || !currentOutputDevice) {
-        //Use default devices if not set
-        constraints.audio = true;
-      } else {
-        //Use saved devices if set
-        constraints.audio = currentInputDevice.deviceId;
-        constraints.output = currentOutputDevice.deviceId;
-      }
-      navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
-        userAudio.current = {};
-        userAudio.current.srcObject = currentStream;
-        socketRef.current.emit("join_channel", {
-          channelId: channel.id,
-          user_id: userState.id,
-          username: userState.username,
-          user_avatar_url: userState.avatar_url,
-        });
-        socketRef.current.on("all_users", (users: any) => {
-          const tempPeers: any = [];
-          // Loop through all users in channel and create a peer
-          users.forEach((user: any) => {
-            const peer = createPeer(user.socket_id, socketRef.current.id, currentStream);
-            peersRef.current.push({
-              peerID: user.socket_id,
-              peer,
-              user_id: user.user_id,
-              username: user.username,
-              user_avatar_url: user.user_avatar_url,
-            });
-            tempPeers.push(peer);
-          });
-          //TODO, make array of user objects to display in voice chat with name and avatar
-          setpeers(tempPeers);
-        });
-
-        socketRef.current.on("user joined", (payload) => {
-          console.log("incoming person requesting handshake: ", payload.callerID);
-          const peer = addPeer(payload.signal, payload.callerID, currentStream);
-          peersRef.current.push({
-            peerID: payload.callerID,
-            peer,
-          });
-          console.log("number of peers: ", peersRef.current.length);
-          setpeers((users: any) => [...users, peer]);
-        });
-
-        socketRef.current.on("receiving returned signal", (payload) => {
-          const item = peersRef.current.find((p: any) => p.peerID === payload.id);
-          item.peer.signal(payload.signal);
-        });
-      });
-    }
-  };
-  // Create Peer is called within a loop, runs once per user in the channel
-  function createPeer(userToSignal: any, callerID: any, stream: any) {
-    const peer = new Peer({
-      initiator: true,
-      trickle: false,
-      stream: stream,
-    });
-    //Listen for signal event, which starts handshake request to other users
-    peer.on("signal", (signal) => {
-      socketRef.current.emit("sending signal", { userToSignal, callerID, signal });
-    });
-    return peer;
-  }
-  // Add Peer is called whenever someone joins the channel after we are already in the channel
-  function addPeer(incomingSignal: any, callerID: any, stream: any) {
-    const peer = new Peer({
-      initiator: false,
-      trickle: false,
-      stream,
-    });
-    //Listen for signal event, which completes handshake request from other user
-    peer.on("signal", (signal) => {
-      socketRef.current.emit("returning signal", { signal, callerID });
-    });
-    //Accept the signal
-    peer.signal(incomingSignal);
-    return peer;
-  }
-  //END VOICE LOGIC
-
-  //Start non-voice page Logic
-  useEffect(() => {
     if (gangInfo.channels) {
       let tempIndex = 0;
       //Sets index property for use by accordion
@@ -264,8 +99,8 @@ export default function GangPage() {
           channel.index = tempIndex;
           tempIndex++;
         });
+        makeChannelTabs();
       }
-      makeChannelTabsAndContents();
       if (gangInfo.basicInfo?.members) {
         setfirst5Members(gangInfo.basicInfo.members.slice(0, 5));
       }
@@ -287,6 +122,31 @@ export default function GangPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gangInfo]);
 
+  useEffect(() => {
+    //Run this to change which channel is selected
+    makeChannelTabs();
+    //Run this to load contents of selected channel
+    renderChannelTitleContents();
+    renderChannelDynamicContents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentChannel]);
+
+  useEffect(() => {
+    renderChannelDynamicContents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [callParticipants]);
+
+  //START VOICE LOGIC
+  const loadDevices = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const savedDevices = loadSavedDevices(devices, userState);
+    setcurrentInputDevice(savedDevices.input_device);
+    setcurrentOutputDevice(savedDevices.output_device);
+  };
+
+  //END VOICE LOGIC
+
+  //START Loading Contents Logic
   const loadGangPage = async (id: number) => {
     const result = await getGangActivity(id, userState.id, "");
     console.log("gang?? ", result);
@@ -294,33 +154,8 @@ export default function GangPage() {
     setcurrentChannel(result.channels[0]);
   };
 
-  const channelButtonPressed = (index: number) => {
-    const destinationChannel = gangInfo.channels.find((channel: any) => channel.index === index);
-    if (!destinationChannel || destinationChannel.id === 0) {
-      setcurrentChannel({ name: "" });
-    } else {
-      if (destinationChannel) {
-        setcurrentChannel(destinationChannel);
-      }
-    }
-  };
-
-  const requestJoinGang = async () => {
-    const result = await requestToJoinGang(gangInfo.basicInfo.id, userState.id, true, "");
-    let copyOfGangInfo = Object.assign({}, gangInfo);
-    copyOfGangInfo.requestStatus = [result[0]];
-    setgangInfo(copyOfGangInfo);
-    toast.current.clear();
-    toast.current.show({
-      severity: "success",
-      summary: "request sent!",
-      detail: ``,
-      sticky: false,
-    });
-  };
-
-  // Create Channel AccordianTabs
-  const makeChannelTabsAndContents = () => {
+  const makeChannelTabs = () => {
+    //This will run on page load
     if (gangInfo.role?.role_id) {
       //If in gang, show list of channels
       setchannelList(
@@ -336,20 +171,6 @@ export default function GangPage() {
           </button>
         ))
       );
-      //If a channel is selected, load channel contents
-      if (currentChannel) {
-        if (currentChannel.is_voice) {
-          //Call async event for use later in fucntion
-          renderCallParticipants();
-        } else {
-          setchannelContents(
-            <div className="text-channel-container">
-              <div className="text-channel-title">{currentChannel.name}</div>
-              <div>gang messging coming soon!</div>
-            </div>
-          );
-        }
-      }
     } else {
       //If not in gang, and no request exists, show join button
       setchannelList(
@@ -368,6 +189,181 @@ export default function GangPage() {
           </button>
         </div>
       );
+    }
+  };
+
+  const channelButtonPressed = (index: number) => {
+    const destinationChannel = gangInfo.channels.find((channel: any) => channel.index === index);
+    if (!destinationChannel || destinationChannel.id === 0) {
+      setcurrentChannel({ name: "" });
+    } else {
+      if (destinationChannel) {
+        if (destinationChannel.is_voice) {
+          //Connect to voice
+          setcurrentAudioChannel(destinationChannel);
+        }
+        setcurrentChannel(destinationChannel);
+      }
+    }
+  };
+
+  const connectToVoice = (channel: any) => {
+    // Create Peer is called within a loop, runs once per user in the channel
+    function createPeer(userToSignal: any, callerID: any, stream: any) {
+      const peer = new Peer({
+        initiator: true,
+        trickle: false,
+        stream: stream,
+      });
+      //Listen for signal event, which starts handshake request to other users
+      peer.on("signal", (signal) => {
+        socketRef.current.emit("sending signal", { userToSignal, callerID, signal });
+      });
+      return peer;
+    }
+    // Add Peer is called whenever someone joins the channel after we are already in the channel
+    function addPeer(incomingSignal: any, callerID: any, stream: any) {
+      const peer = new Peer({
+        initiator: false,
+        trickle: false,
+        stream,
+      });
+      //Listen for signal event, which completes handshake request from other user
+      peer.on("signal", (signal) => {
+        socketRef.current.emit("returning signal", { signal, callerID });
+      });
+      //Accept the signal
+      peer.signal(incomingSignal);
+      return peer;
+    }
+    let constraints: any = {};
+    if (isMobile || !currentInputDevice || !currentOutputDevice) {
+      //Use default devices if not set
+      constraints.audio = true;
+    } else {
+      //Use saved devices if set
+      constraints.audio = currentInputDevice.deviceId;
+      constraints.output = currentOutputDevice.deviceId;
+    }
+    navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
+      userAudio.current = {};
+      userAudio.current.srcObject = currentStream;
+      socketRef.current.emit("join_channel", {
+        channelId: channel.id,
+        user_id: userState.id,
+        username: userState.username,
+        user_avatar_url: userState.avatar_url,
+      });
+      socketRef.current.on("all_users", (participants: any) => {
+        const tempPeers: any = [];
+        // Loop through all participants in channel and create a peer
+        console.log("entered call, current participants: ", participants);
+        participants.forEach((participant: any) => {
+          const peer = createPeer(participant.socket_id, socketRef.current.id, currentStream);
+          peersRef.current.push({
+            peerID: participant.socket_id,
+            peer,
+            user_id: participant.user_id,
+            username: participant.username,
+            user_avatar_url: participant.user_avatar_url,
+          });
+          tempPeers.push(peer);
+        });
+        //TODO, make array of user objects to display in voice chat with name and avatar
+        setpeers(tempPeers);
+      });
+      socketRef.current.on("user joined", (payload) => {
+        console.log("incoming person requesting handshake: ", payload.callerID);
+        const peer = addPeer(payload.signal, payload.callerID, currentStream);
+        peersRef.current.push({
+          peerID: payload.callerID,
+          peer,
+        });
+        console.log("number of peers: ", peersRef.current.length);
+        setpeers((users: any) => [...users, peer]);
+      });
+      socketRef.current.on("receiving returned signal", (payload) => {
+        const item = peersRef.current.find((p: any) => p.peerID === payload.id);
+        item.peer.signal(payload.signal);
+      });
+    });
+    renderCallParticipants();
+  };
+
+  const disconnectFromVoice = () => {
+    //Disconnect from voice
+    socketRef.current.disconnect();
+    setcurrentAudioChannel({});
+    setpeers([]);
+  };
+
+  const renderChannelTitleContents = () => {
+    //If a channel is selected, load channel contents
+    if (currentChannel) {
+      if (currentChannel.is_voice) {
+        //If loading voice channel, connect
+        //***TODO, implement a proper disconnect from any previous channel
+        connectToVoice(currentChannel);
+        setchannelTitleContents(
+          <div className="voice-channel">
+            <div className="text-channel-title">
+              {currentChannel.name}
+              {currentAudioChannel.id == currentChannel.id ? ": connected" : ": disconnected"}
+            </div>
+            {/* Join/Leave Call Button */}
+            {/* <button
+              onClick={() => {
+                connectToVoice(currentChannel);
+              }}
+            >
+              {currentChannel.is_voice
+                ? currentAudioChannel.id && currentChannel.id === currentAudioChannel.id
+                  ? `leave ${currentChannel.name} (${peers.length + 1})`
+                  : `join ${currentChannel.name} (${peers.length})`
+                : currentChannel.name}
+            </button> */}
+            {/* show conditional help messages to set devices */}
+            {currentChannel.is_voice && !currentInputDevice && !isMobile ? (
+              <div>
+                {" "}
+                no input device set, set device in{" "}
+                <span
+                  onClick={() => {
+                    navigate("/user-settings");
+                  }}
+                  className="link-text"
+                >
+                  {" "}
+                  user settings
+                </span>{" "}
+              </div>
+            ) : currentChannel.is_voice && !currentOutputDevice && !isMobile ? (
+              <div className="voice-channel-helper">
+                {" "}
+                no output device set, set device in{" "}
+                <span
+                  onClick={() => {
+                    navigate("/user-settings");
+                  }}
+                  className="link-text"
+                >
+                  {" "}
+                  user settings
+                </span>{" "}
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+        );
+        //Call async event for use later in fucntion
+      } else {
+        setchannelTitleContents(
+          <div className="text-channel-container">
+            <div className="text-channel-title">{currentChannel.name}</div>
+          </div>
+        );
+      }
     }
   };
 
@@ -398,6 +394,24 @@ export default function GangPage() {
     setcallParticipants(tempParticipants);
   };
 
+  const renderChannelDynamicContents = () => {
+    console.log("testing ", callParticipants);
+    if (currentChannel.is_voice) {
+      setchannelDynamicContents(
+        <div className="voice-channel">
+          {/* List of participants in call */}
+          {callParticipants}
+        </div>
+      );
+    } else {
+      setchannelDynamicContents(
+        <div className="text-channel-container">
+          <div>gang messging coming soon!</div>
+        </div>
+      );
+    }
+  };
+
   const renderGangOptions = () => {
     return [
       {
@@ -424,6 +438,23 @@ export default function GangPage() {
       },
     ] as any;
   };
+  //END Loading Contents Logic
+
+  //START MISC LOGIC
+  const requestJoinGang = async () => {
+    const result = await requestToJoinGang(gangInfo.basicInfo.id, userState.id, true, "");
+    let copyOfGangInfo = Object.assign({}, gangInfo);
+    copyOfGangInfo.requestStatus = [result[0]];
+    setgangInfo(copyOfGangInfo);
+    toast.current.clear();
+    toast.current.show({
+      severity: "success",
+      summary: "request sent!",
+      detail: ``,
+      sticky: false,
+    });
+  };
+  //END MISC LOGIC
 
   return (
     <div>
@@ -495,7 +526,10 @@ export default function GangPage() {
                   return <Video key={index} peer={peer} />;
                 })}
               </div>
-              <div className="channel-contents">{channelContents}</div>
+              <div className="channel-contents">
+                <div className="channel-contents-title">{channelTitleContents}</div>
+                <div className="channel-contents-dynamic">{channelDynamicContents}</div>
+              </div>
             </div>
           ) : (
             channelList
