@@ -41,6 +41,15 @@ io.on("connection", (socket) => {
   socket.on("join_channel", (payload) => {
     console.log("joining payload: ", payload);
     if (allUsersInAllChannels[payload.channelId]) {
+      //Get rid of duplicate users
+      allUsersInAllChannels[payload.channelId] = allUsersInAllChannels[payload.channelId].filter((participant) => {
+        console.log("filtering: ", participant.user_id == payload.user_id);
+        if (participant.user_id == payload.user_id) {
+          return false;
+        } else {
+          return true;
+        }
+      });
       allUsersInAllChannels[payload.channelId].push({
         socket_id: socket.id,
         user_id: payload.user_id,
