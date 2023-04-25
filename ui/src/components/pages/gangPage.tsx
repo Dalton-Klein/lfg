@@ -263,16 +263,14 @@ export default function GangPage() {
           peersRef.current.push({
             peerID: participant.socket_id,
             peer,
-            user_id: participant.user_id,
-            username: participant.username,
-            user_avatar_url: participant.user_avatar_url,
           });
           tempPeers.push(peer);
         });
         //TODO, make array of user objects to display in voice chat with name and avatar
+        renderCallParticipants(false, participants);
         setpeers(tempPeers);
       });
-      socketRef.current.on("user joined", (payload) => {
+      socketRef.current.on("user_joined", (payload) => {
         console.log("incoming person requesting handshake: ", payload.callerID);
         const peer = addPeer(payload.signal, payload.callerID, currentStream);
         peersRef.current.push({
@@ -281,13 +279,14 @@ export default function GangPage() {
         });
         console.log("number of peers: ", peersRef.current.length);
         setpeers((users: any) => [...users, peer]);
+        renderCallParticipants(true, [payload]);
       });
       socketRef.current.on("receiving returned signal", (payload) => {
         const item = peersRef.current.find((p: any) => p.peerID === payload.id);
         item.peer.signal(payload.signal);
       });
     });
-    renderCallParticipants();
+    renderCallParticipants(false, []);
   };
 
   const disconnectFromVoice = () => {
@@ -367,31 +366,59 @@ export default function GangPage() {
     }
   };
 
-  const renderCallParticipants = () => {
-    let tempParticipants: any = [];
-    if (currentAudioChannel.id && currentChannel.id === currentAudioChannel.id) {
-      tempParticipants.push(
-        <div className="voice-participant-box" key={0}>
-          {userState.avatar_url === "" || userState.avatar_url === "/assets/avatarIcon.png" ? (
-            <div className="dynamic-avatar-border">
-              <div className="dynamic-avatar-text-small">
-                {userState.username
-                  ? userState.username
-                      .split(" ")
-                      .map((word: string[]) => word[0])
-                      .join("")
-                      .slice(0, 2)
-                  : "gg"}
+  const renderCallParticipants = (isAddingOne: boolean, participants: any) => {
+    if (isAddingOne) {
+      const newParticipantsArray = callParticipants;
+      newParticipantsArray.push(participants[0]);
+      setcallParticipants(newParticipantsArray);
+    } else {
+      let tempParticipants: any = [];
+      participants.forEach((participant: any) => {
+        tempParticipants.push(
+          <div className="voice-participant-box" key={0}>
+            {participant.user_avatar_url === "" || participant.user_avatar_url === "/assets/avatarIcon.png" ? (
+              <div className="dynamic-avatar-border">
+                <div className="dynamic-avatar-text-small">
+                  {participant.username
+                    ? participant.username
+                        .split(" ")
+                        .map((word: string[]) => word[0])
+                        .join("")
+                        .slice(0, 2)
+                    : "gg"}
+                </div>
               </div>
-            </div>
-          ) : (
-            <img className="nav-overlay-img" src={userState.avatar_url} alt="my avatar" />
-          )}
-          <div className="voice-participant-name">{userState.username}</div>
-        </div>
-      );
+            ) : (
+              <img className="nav-overlay-img" src={participant.user_avatar_url} alt="my avatar" />
+            )}
+            <div className="voice-participant-name">{participant.username}</div>
+          </div>
+        );
+      });
+      if (currentAudioChannel.id && currentChannel.id === currentAudioChannel.id) {
+        tempParticipants.push(
+          <div className="voice-participant-box" key={0}>
+            {userState.avatar_url === "" || userState.avatar_url === "/assets/avatarIcon.png" ? (
+              <div className="dynamic-avatar-border">
+                <div className="dynamic-avatar-text-small">
+                  {userState.username
+                    ? userState.username
+                        .split(" ")
+                        .map((word: string[]) => word[0])
+                        .join("")
+                        .slice(0, 2)
+                    : "gg"}
+                </div>
+              </div>
+            ) : (
+              <img className="nav-overlay-img" src={userState.avatar_url} alt="my avatar" />
+            )}
+            <div className="voice-participant-name">{userState.username}</div>
+          </div>
+        );
+        setcallParticipants(tempParticipants);
+      }
     }
-    setcallParticipants(tempParticipants);
   };
 
   const renderChannelDynamicContents = () => {

@@ -79,7 +79,7 @@ io.on("connection", (socket) => {
 
   socket.on("sending signal", (payload) => {
     console.log("sending handshake API", payload.callerID, " signaling: ", payload.userToSignal);
-    io.to(payload.userToSignal).emit("user joined", { signal: payload.signal, callerID: payload.callerID });
+    io.to(payload.userToSignal).emit("user_joined", { signal: payload.signal, callerID: payload.callerID });
   });
 
   socket.on("returning signal", (payload) => {
