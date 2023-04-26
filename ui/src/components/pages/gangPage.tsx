@@ -196,13 +196,15 @@ export default function GangPage() {
     const destinationChannel = gangInfo.channels.find((channel: any) => channel.index === index);
     if (!destinationChannel || destinationChannel.id === 0) {
       setcurrentChannel({ name: "" });
+      disconnectFromVoice();
     } else {
       if (destinationChannel) {
-        if (destinationChannel.is_voice) {
-          //Connect to voice
-          setcurrentAudioChannel(destinationChannel);
-        }
         setcurrentChannel(destinationChannel);
+        if (destinationChannel.is_voice) {
+          setcurrentAudioChannel(destinationChannel);
+        } else {
+          disconnectFromVoice();
+        }
       }
     }
   };
@@ -281,7 +283,7 @@ export default function GangPage() {
         setpeers((users: any) => [...users, peer]);
         renderCallParticipants(true, [payload]);
       });
-      socketRef.current.on("receiving returned signal", (payload) => {
+      socketRef.current.on("receiving_returned_signal", (payload) => {
         const item = peersRef.current.find((p: any) => p.peerID === payload.id);
         item.peer.signal(payload.signal);
       });
@@ -291,6 +293,7 @@ export default function GangPage() {
 
   const disconnectFromVoice = () => {
     //Disconnect from voice
+    console.log("disconnecting! ");
     socketRef.current.disconnect();
     setcurrentAudioChannel({});
     setpeers([]);
@@ -303,6 +306,7 @@ export default function GangPage() {
         //If loading voice channel, connect
         //***TODO, implement a proper disconnect from any previous channel
         connectToVoice(currentChannel);
+        console.log("matching? ", currentAudioChannel, "  || ", currentChannel);
         setchannelTitleContents(
           <div className="voice-channel">
             <div className="text-channel-title">
