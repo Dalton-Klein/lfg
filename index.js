@@ -76,13 +76,19 @@ io.on("connection", (socket) => {
     socket.emit("all_users", usersInThisRoomOtherThanYou);
   });
 
-  socket.on("sending signal", (payload) => {
+  socket.on("sending_signal", (payload) => {
     console.log("sending handshake API", payload.callerID, " signaling: ", payload.userToSignal);
     io.to(payload.userToSignal).emit("user_joined", { signal: payload.signal, callerID: payload.callerID });
   });
 
-  socket.on("returning signal", (payload) => {
-    io.to(payload.callerID).emit("receiving_returned_signal", { signal: payload.signal, id: socket.id });
+  socket.on("returning_signal", (payload) => {
+    io.to(payload.callerID).emit("receiving_returned_signal", {
+      signal: payload.signal,
+      id: socket.id,
+      user_id: payload.id,
+      username: payload.username,
+      user_avatar_url: payload.avatar_url,
+    });
   });
 
   //When client disconnects, handle it
