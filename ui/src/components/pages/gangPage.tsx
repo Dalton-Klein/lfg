@@ -87,7 +87,7 @@ export default function GangPage() {
     loadGangPage(parseInt(extractedGangId));
     loadDevices();
     return () => {
-      socketRef.current.disconnect();
+      disconnectFromVoice();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -386,10 +386,11 @@ export default function GangPage() {
           <div className="voice-participant-name">{individualAdding.username}</div>
         </div>
       );
-
       const newParticipantsArray = [...callParticipants];
+      console.log("adding one participant old: ", newParticipantsArray.length);
       newParticipantsArray.push(formattedParticipant);
       setcallParticipants(newParticipantsArray);
+      console.log("adding one participant new: ", newParticipantsArray.length);
     } else {
       let tempParticipants: any = [];
       let tempCallSocketObjs: any = [];
@@ -437,13 +438,14 @@ export default function GangPage() {
             <div className="voice-participant-name">{userState.username}</div>
           </div>
         );
-        setcallParticipants(tempParticipants);
       }
+      console.log("rendering group participants: ", tempParticipants.length);
+      setcallParticipants(tempParticipants);
     }
   };
 
   const renderChannelDynamicContents = () => {
-    console.log("rendering participants: ", callParticipants.length);
+    console.log("rendering dynamic content: ", callParticipants.length);
     if (currentChannel.is_voice) {
       setchannelDynamicContents(
         <div className="voice-channel">
