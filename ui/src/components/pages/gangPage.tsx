@@ -362,8 +362,30 @@ export default function GangPage() {
 
   const renderCallParticipants = (isAddingOne: boolean, participants: any) => {
     if (isAddingOne) {
+      let individualAdding = participants[0];
+      let formattedParticipant: any = (
+        <div className="voice-participant-box" key={0}>
+          {individualAdding.user_avatar_url === "" || individualAdding.user_avatar_url === "/assets/avatarIcon.png" ? (
+            <div className="dynamic-avatar-border">
+              <div className="dynamic-avatar-text-small">
+                {individualAdding.username
+                  ? individualAdding.username
+                      .split(" ")
+                      .map((word: string[]) => word[0])
+                      .join("")
+                      .slice(0, 2)
+                  : "gg"}
+              </div>
+            </div>
+          ) : (
+            <img className="nav-overlay-img" src={individualAdding.user_avatar_url} alt="my avatar" />
+          )}
+          <div className="voice-participant-name">{individualAdding.username}</div>
+        </div>
+      );
+
       const newParticipantsArray = [...callParticipants];
-      newParticipantsArray.push(participants[0]);
+      newParticipantsArray.push(formattedParticipant);
       setcallParticipants(newParticipantsArray);
     } else {
       let tempParticipants: any = [];
@@ -549,7 +571,7 @@ export default function GangPage() {
               </div>
               <div className="channel-contents">
                 <div className="channel-contents-title">{channelTitleContents}</div>
-                {/* <div className="channel-contents-dynamic">{channelDynamicContents}</div> */}
+                <div className="channel-contents-dynamic">{channelDynamicContents}</div>
               </div>
             </div>
           ) : (
