@@ -49,6 +49,7 @@ io.on("connection", (socket) => {
           return true;
         }
       });
+      //Add fresh copy of joining user
       allUsersInAllChannels[payload.channelId].push({
         socket_id: socket.id,
         user_id: payload.user_id,
@@ -56,7 +57,7 @@ io.on("connection", (socket) => {
         user_avatar_url: payload.user_avatar_url,
       });
     } else {
-      //Create channel object for room id
+      //Create channel object for channel id
       allUsersInAllChannels[payload.channelId] = [
         {
           socket_id: socket.id,
@@ -71,8 +72,9 @@ io.on("connection", (socket) => {
     allUsersInAllChannels[payload.channelId].forEach((userObj) => {
       if (userObj.socket_id !== socket.id) usersInThisRoomOtherThanYou.push(userObj);
     });
-    console.log("usersInThisRoomOtherThanYou?", usersInThisRoomOtherThanYou);
+    console.log("joining channel -> usersInThisRoomOtherThanYou?", usersInThisRoomOtherThanYou);
     console.log("all users?", allUsersInAllChannels);
+    //Send joining user array of participants other than self
     socket.emit("all_users", usersInThisRoomOtherThanYou);
   });
 
@@ -98,29 +100,30 @@ io.on("connection", (socket) => {
   });
 
   //When client disconnects, handle it
+  socket.on("pre_disconnect", (payload) => {
+    allUsersInAllChannels[payload.channelId] = allUsersInAllChannels[payload.channelId].filter((participant) => {
+      if (participant.user_id == payload.user_id) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    console.log("pre_disconnect: ", payload, "      *** ", allUsersInAllChannels[payload.channelId]);
+    allUsersInAllChannels[payload.channelId].forEach((participant) => {
+      io.to(participant.socket_id).emit("user_left", {
+        id: socket.id,
+        remaining_participants: allUsersInAllChannels[payload.channelId],
+      });
+    });
+  });
   socket.on("disconnect", () => {
     const clientDisconnectedMsg = "User disconnected " + util.inspect(socket.id);
-    // Remove client from peers list TODO
-    // peers = peers.filter(function (peer) {
-    //   return peer.userId !== ;
-    // });
-    io.emit(clientDisconnectedMsg);
+    socket.emit(clientDisconnectedMsg);
     console.log(clientDisconnectedMsg);
-
-    // Handle removal from voice
-    const channel_id = socketToRoom[socket.id];
-    let room = allUsersInAllChannels[channel_id];
-    if (room) {
-      console.log("b4 filter: ", room);
-      room = room.filter((id) => id !== socket.id);
-      console.log("after filter: ", room);
-      allUsersInAllChannels[channel_id] = room;
-      socket.broadcast.to(channel_id).emit("user_left", allUsersInAllChannels[channel_id]);
-    }
   });
 });
-
 //END SOCKET
+
 (async () => {
   try {
     // await db.sequelize.sync({ force: true });
