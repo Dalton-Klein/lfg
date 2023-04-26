@@ -198,7 +198,6 @@ export default function GangPage() {
     const destinationChannel = gangInfo.channels.find((channel: any) => channel.index === index);
     if (!destinationChannel || destinationChannel.id === 0) {
       setcurrentChannel({ name: "" });
-      disconnectFromVoice();
     } else {
       if (destinationChannel) {
         setcurrentChannel(destinationChannel);
@@ -274,20 +273,24 @@ export default function GangPage() {
         setpeers(tempPeers);
         renderCallParticipants(false, [...participants]);
       });
-      socketRef.current.on("user_joined", (payload) => {
+      socketRef.current.on("user_joined", (payload: any) => {
         console.log("incoming person requesting handshake: ", payload.callerID);
         const peer = addPeer(payload.signal, payload.callerID, currentStream);
         peersRef.current.push({
           peerID: payload.callerID,
           peer,
         });
-        console.log("number of peers: ", peersRef.current.length);
         setpeers((users: any) => [...users, peer]);
         renderCallParticipants(true, [payload]);
       });
       socketRef.current.on("receiving_returned_signal", (payload: any) => {
         const item = peersRef.current.find((p: any) => p.peerID === payload.id);
         item.peer.signal(payload.signal);
+      });
+      socketRef.current.on("user_left", (payload: any) => {
+        console.log("User left, remaining users: ", payload);
+        // TODO: Handle user leaving the room
+        renderCallParticipants(false, payload);
       });
     });
     renderCallParticipants(false, []);
@@ -389,7 +392,9 @@ export default function GangPage() {
       setcallParticipants(newParticipantsArray);
     } else {
       let tempParticipants: any = [];
+      let tempCallSocketObjs: any = [];
       participants.forEach((participant: any) => {
+        tempCallSocketObjs.push({ user_id: participant.user_id });
         tempParticipants.push(
           <div className="voice-participant-box" key={0}>
             {participant.user_avatar_url === "" || participant.user_avatar_url === "/assets/avatarIcon.png" ? (
@@ -438,7 +443,7 @@ export default function GangPage() {
   };
 
   const renderChannelDynamicContents = () => {
-    console.log("testing ", callParticipants);
+    console.log("rendering participants: ", callParticipants.length);
     if (currentChannel.is_voice) {
       setchannelDynamicContents(
         <div className="voice-channel">

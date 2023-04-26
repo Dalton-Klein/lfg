@@ -43,7 +43,6 @@ io.on("connection", (socket) => {
     if (allUsersInAllChannels[payload.channelId]) {
       //Get rid of duplicate users
       allUsersInAllChannels[payload.channelId] = allUsersInAllChannels[payload.channelId].filter((participant) => {
-        console.log("filtering: ", participant.user_id == payload.user_id);
         if (participant.user_id == payload.user_id) {
           return false;
         } else {
@@ -104,6 +103,7 @@ io.on("connection", (socket) => {
       room = room.filter((id) => id !== socket.id);
       console.log("after filter: ", room);
       allUsersInAllChannels[channel_id] = room;
+      socket.broadcast.to(channel_id).emit("user_left", allUsersInAllChannels[channel_id]);
     }
   });
 });
