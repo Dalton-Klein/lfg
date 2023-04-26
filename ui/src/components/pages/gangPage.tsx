@@ -285,7 +285,7 @@ export default function GangPage() {
         setpeers((users: any) => [...users, peer]);
         renderCallParticipants(true, [payload]);
       });
-      socketRef.current.on("receiving_returned_signal", (payload) => {
+      socketRef.current.on("receiving_returned_signal", (payload: any) => {
         const item = peersRef.current.find((p: any) => p.peerID === payload.id);
         item.peer.signal(payload.signal);
       });
@@ -315,18 +315,6 @@ export default function GangPage() {
               {currentChannel.name}
               {currentAudioChannel.id == currentChannel.id ? ": connected" : ": disconnected"}
             </div>
-            {/* Join/Leave Call Button */}
-            {/* <button
-              onClick={() => {
-                connectToVoice(currentChannel);
-              }}
-            >
-              {currentChannel.is_voice
-                ? currentAudioChannel.id && currentChannel.id === currentAudioChannel.id
-                  ? `leave ${currentChannel.name} (${peers.length + 1})`
-                  : `join ${currentChannel.name} (${peers.length})`
-                : currentChannel.name}
-            </button> */}
             {/* show conditional help messages to set devices */}
             {currentChannel.is_voice && !currentInputDevice && !isMobile ? (
               <div>
@@ -561,7 +549,7 @@ export default function GangPage() {
               </div>
               <div className="channel-contents">
                 <div className="channel-contents-title">{channelTitleContents}</div>
-                <div className="channel-contents-dynamic">{channelDynamicContents}</div>
+                {/* <div className="channel-contents-dynamic">{channelDynamicContents}</div> */}
               </div>
             </div>
           ) : (
