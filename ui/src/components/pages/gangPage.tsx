@@ -220,7 +220,14 @@ export default function GangPage() {
       });
       //Listen for signal event, which starts handshake request to other users
       peer.on("signal", (signal) => {
-        socketRef.current.emit("sending signal", { userToSignal, callerID, signal });
+        socketRef.current.emit("sending_signal", {
+          userToSignal,
+          callerID,
+          signal,
+          user_id: userState.id,
+          username: userState.username,
+          user_avatar_url: userState.avatar_url,
+        });
       });
       return peer;
     }
@@ -233,7 +240,13 @@ export default function GangPage() {
       });
       //Listen for signal event, which completes handshake request from other user
       peer.on("signal", (signal) => {
-        socketRef.current.emit("returning signal", { signal, callerID });
+        socketRef.current.emit("returning_signal", {
+          signal,
+          callerID,
+          user_id: userState.id,
+          username: userState.username,
+          user_avatar_url: userState.avatar_url,
+        });
       });
       //Accept the signal
       peer.signal(incomingSignal);
@@ -302,6 +315,7 @@ export default function GangPage() {
     socketRef.current.disconnect();
     setcurrentAudioChannel({});
     setpeers([]);
+    setcallParticipants([]);
   };
 
   const renderChannelTitleContents = () => {
