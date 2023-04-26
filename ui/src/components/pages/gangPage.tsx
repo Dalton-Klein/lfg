@@ -287,7 +287,7 @@ export default function GangPage() {
         renderCallParticipants(false, [...participants]);
       });
       socketRef.current.on("user_joined", (payload: any) => {
-        console.log("incoming person requesting handshake: ", payload.callerID);
+        console.log("incoming person requesting handshake: ", payload.username);
         const peer = addPeer(payload.signal, payload.callerID, currentStream);
         peersRef.current.push({
           peerID: payload.callerID,
@@ -401,10 +401,17 @@ export default function GangPage() {
         </div>
       );
       const newParticipantsArray = [...callParticipants];
-      console.log("adding one participant old: ", newParticipantsArray.length);
+      console.log(
+        "adding one participant old: ",
+        participants[0],
+        "xxxxxx",
+        callParticipants,
+        "      ||    ",
+        newParticipantsArray
+      );
       newParticipantsArray.push(formattedParticipant);
       setcallParticipants(newParticipantsArray);
-      console.log("adding one participant new: ", newParticipantsArray.length);
+      console.log("adding one participant new: ", newParticipantsArray);
     } else {
       let tempParticipants: any = [];
       let tempCallSocketObjs: any = [];
@@ -453,7 +460,7 @@ export default function GangPage() {
           </div>
         );
       }
-      console.log("rendering group participants: ", tempParticipants.length);
+      console.log("rendering group participants: ", tempParticipants);
       setcallParticipants(tempParticipants);
     }
   };
