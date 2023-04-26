@@ -273,7 +273,6 @@ export default function GangPage() {
       socketRef.current.on("all_users", (participants: any) => {
         const tempPeers: any = [];
         // Loop through all participants in channel and create a peer
-        console.log("entered call, current participants: ", participants);
         participants.forEach((participant: any) => {
           const peer = createPeer(participant.socket_id, socketRef.current.id, currentStream);
           peersRef.current.push({
@@ -325,7 +324,6 @@ export default function GangPage() {
         //If loading voice channel, connect
         //***TODO, implement a proper disconnect from any previous channel
         connectToVoice(currentChannel);
-        console.log("matching? ", currentAudioChannel, "  || ", currentChannel);
         setchannelTitleContents(
           <div className="voice-channel">
             <div className="text-channel-title">
@@ -400,18 +398,7 @@ export default function GangPage() {
           <div className="voice-participant-name">{individualAdding.username}</div>
         </div>
       );
-      const newParticipantsArray = [...callParticipants];
-      console.log(
-        "adding one participant old: ",
-        participants[0],
-        "xxxxxx",
-        callParticipants,
-        "      ||    ",
-        newParticipantsArray
-      );
-      newParticipantsArray.push(formattedParticipant);
-      setcallParticipants(newParticipantsArray);
-      console.log("adding one participant new: ", newParticipantsArray);
+      setcallParticipants((previousParticipants: any) => [formattedParticipant, ...previousParticipants]);
     } else {
       let tempParticipants: any = [];
       let tempCallSocketObjs: any = [];
@@ -466,7 +453,7 @@ export default function GangPage() {
   };
 
   const renderChannelDynamicContents = () => {
-    console.log("rendering dynamic content: ", callParticipants.length);
+    console.log("rendering dynamic content: ", callParticipants);
     if (currentChannel.is_voice) {
       setchannelDynamicContents(
         <div className="voice-channel">
