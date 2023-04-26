@@ -285,7 +285,7 @@ export default function GangPage() {
         setpeers((users: any) => [...users, peer]);
         renderCallParticipants(true, [payload]);
       });
-      socketRef.current.on("receiving_returned_signal", (payload) => {
+      socketRef.current.on("receiving_returned_signal", (payload: any) => {
         const item = peersRef.current.find((p: any) => p.peerID === payload.id);
         item.peer.signal(payload.signal);
       });
@@ -315,18 +315,6 @@ export default function GangPage() {
               {currentChannel.name}
               {currentAudioChannel.id == currentChannel.id ? ": connected" : ": disconnected"}
             </div>
-            {/* Join/Leave Call Button */}
-            {/* <button
-              onClick={() => {
-                connectToVoice(currentChannel);
-              }}
-            >
-              {currentChannel.is_voice
-                ? currentAudioChannel.id && currentChannel.id === currentAudioChannel.id
-                  ? `leave ${currentChannel.name} (${peers.length + 1})`
-                  : `join ${currentChannel.name} (${peers.length})`
-                : currentChannel.name}
-            </button> */}
             {/* show conditional help messages to set devices */}
             {currentChannel.is_voice && !currentInputDevice && !isMobile ? (
               <div>
@@ -374,8 +362,30 @@ export default function GangPage() {
 
   const renderCallParticipants = (isAddingOne: boolean, participants: any) => {
     if (isAddingOne) {
+      let individualAdding = participants[0];
+      let formattedParticipant: any = (
+        <div className="voice-participant-box" key={0}>
+          {individualAdding.user_avatar_url === "" || individualAdding.user_avatar_url === "/assets/avatarIcon.png" ? (
+            <div className="dynamic-avatar-border">
+              <div className="dynamic-avatar-text-small">
+                {individualAdding.username
+                  ? individualAdding.username
+                      .split(" ")
+                      .map((word: string[]) => word[0])
+                      .join("")
+                      .slice(0, 2)
+                  : "gg"}
+              </div>
+            </div>
+          ) : (
+            <img className="nav-overlay-img" src={individualAdding.user_avatar_url} alt="my avatar" />
+          )}
+          <div className="voice-participant-name">{individualAdding.username}</div>
+        </div>
+      );
+
       const newParticipantsArray = [...callParticipants];
-      newParticipantsArray.push(participants[0]);
+      newParticipantsArray.push(formattedParticipant);
       setcallParticipants(newParticipantsArray);
     } else {
       let tempParticipants: any = [];
