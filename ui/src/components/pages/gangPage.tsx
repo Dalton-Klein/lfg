@@ -34,9 +34,11 @@ const Video = (props: any) => {
   const ref = useRef<any>();
 
   useEffect(() => {
-    props.peer.on("stream", (stream) => {
-      ref.current.srcObject = stream;
-    });
+    if (ref.current && props.peer) {
+      props.peer.on("stream", (stream: any) => {
+        ref.current.srcObject = stream;
+      });
+    }
   }, []);
 
   return <StyledAudio playsInline autoPlay ref={ref} />;
@@ -269,8 +271,8 @@ export default function GangPage() {
           tempPeers.push(peer);
         });
         //TODO, make array of user objects to display in voice chat with name and avatar
-        renderCallParticipants(false, participants);
         setpeers(tempPeers);
+        renderCallParticipants(false, [...participants]);
       });
       socketRef.current.on("user_joined", (payload) => {
         console.log("incoming person requesting handshake: ", payload.callerID);
@@ -372,7 +374,7 @@ export default function GangPage() {
 
   const renderCallParticipants = (isAddingOne: boolean, participants: any) => {
     if (isAddingOne) {
-      const newParticipantsArray = callParticipants;
+      const newParticipantsArray = [...callParticipants];
       newParticipantsArray.push(participants[0]);
       setcallParticipants(newParticipantsArray);
     } else {
