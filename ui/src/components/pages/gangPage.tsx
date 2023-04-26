@@ -301,8 +301,18 @@ export default function GangPage() {
       });
       socketRef.current.on("user_left", (payload: any) => {
         console.log("User left, remaining users: ", payload);
-        // TODO: Handle user leaving the room
-        renderCallParticipants(false, payload);
+        const item = peersRef.current.find((p: any) => p.peerID === payload.id);
+        // item.peer.close();
+        setpeers((previousPeers) => {
+          const tempPeers: any = [];
+          previousPeers.forEach((loopPeer) => {
+            if (loopPeer._id !== item.peer._id) {
+              tempPeers.push(loopPeer);
+            }
+          });
+          return tempPeers;
+        });
+        renderCallParticipants(false, payload.remaining_participants);
       });
     });
     renderCallParticipants(false, []);
@@ -311,6 +321,12 @@ export default function GangPage() {
   const disconnectFromVoice = () => {
     //Disconnect from voice
     console.log("disconnecting! ");
+    socketRef.current.emit("pre_disconnect", {
+      channelId: currentAudioChannel.id,
+      user_id: userState.id,
+      username: userState.username,
+      user_avatar_url: userState.avatar_url,
+    });
     socketRef.current.disconnect();
     setcurrentAudioChannel({});
     setpeers([]);
@@ -379,7 +395,7 @@ export default function GangPage() {
     if (isAddingOne) {
       let individualAdding = participants[0];
       let formattedParticipant: any = (
-        <div className="voice-participant-box" key={0}>
+        <div className="voice-participant-box" key={individualAdding.user_id}>
           {individualAdding.user_avatar_url === "" || individualAdding.user_avatar_url === "/assets/avatarIcon.png" ? (
             <div className="dynamic-avatar-border">
               <div className="dynamic-avatar-text-small">
@@ -401,29 +417,31 @@ export default function GangPage() {
       setcallParticipants((previousParticipants: any) => [formattedParticipant, ...previousParticipants]);
     } else {
       let tempParticipants: any = [];
-      let tempCallSocketObjs: any = [];
       participants.forEach((participant: any) => {
-        tempCallSocketObjs.push({ user_id: participant.user_id });
-        tempParticipants.push(
-          <div className="voice-participant-box" key={0}>
-            {participant.user_avatar_url === "" || participant.user_avatar_url === "/assets/avatarIcon.png" ? (
-              <div className="dynamic-avatar-border">
-                <div className="dynamic-avatar-text-small">
-                  {participant.username
-                    ? participant.username
-                        .split(" ")
-                        .map((word: string[]) => word[0])
-                        .join("")
-                        .slice(0, 2)
-                    : "gg"}
+        //When user leaves, we get full copy of users, so dont add duplicate of self
+        if (participant.user_id !== userState.id) {
+          //Push users other than self into array
+          tempParticipants.push(
+            <div className="voice-participant-box" key={participant.user_id}>
+              {participant.user_avatar_url === "" || participant.user_avatar_url === "/assets/avatarIcon.png" ? (
+                <div className="dynamic-avatar-border">
+                  <div className="dynamic-avatar-text-small">
+                    {participant.username
+                      ? participant.username
+                          .split(" ")
+                          .map((word: string[]) => word[0])
+                          .join("")
+                          .slice(0, 2)
+                      : "gg"}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <img className="nav-overlay-img" src={participant.user_avatar_url} alt="my avatar" />
-            )}
-            <div className="voice-participant-name">{participant.username}</div>
-          </div>
-        );
+              ) : (
+                <img className="nav-overlay-img" src={participant.user_avatar_url} alt="my avatar" />
+              )}
+              <div className="voice-participant-name">{participant.username}</div>
+            </div>
+          );
+        }
       });
       if (currentAudioChannel.id && currentChannel.id === currentAudioChannel.id) {
         tempParticipants.push(
@@ -447,13 +465,11 @@ export default function GangPage() {
           </div>
         );
       }
-      console.log("rendering group participants: ", tempParticipants);
       setcallParticipants(tempParticipants);
     }
   };
 
   const renderChannelDynamicContents = () => {
-    console.log("rendering dynamic content: ", callParticipants);
     if (currentChannel.is_voice) {
       setchannelDynamicContents(
         <div className="voice-channel">
