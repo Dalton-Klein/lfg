@@ -83,7 +83,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("returning signal", (payload) => {
-    io.to(payload.callerID).emit("receiving returned signal", { signal: payload.signal, id: socket.id });
+    io.to(payload.callerID).emit("receiving_returned_signal", { signal: payload.signal, id: socket.id });
   });
 
   //When client disconnects, handle it
@@ -100,7 +100,9 @@ io.on("connection", (socket) => {
     const channel_id = socketToRoom[socket.id];
     let room = allUsersInAllChannels[channel_id];
     if (room) {
+      console.log("b4 filter: ", room);
       room = room.filter((id) => id !== socket.id);
+      console.log("after filter: ", room);
       allUsersInAllChannels[channel_id] = room;
     }
   });
