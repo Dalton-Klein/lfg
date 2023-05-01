@@ -212,13 +212,25 @@
       border-radius: calc(3vw / 2);
       margin: 0;
     }
+    .dynamic-avatar-bg {
+      width: 3vw;
+      height: 3vw;
+      min-width: 3vw;
+      min-height: 3vw;
+      border-radius: calc(3vw / 2);
+      background-color: $colorShadowLight;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      .dynamic-avatar-text {
+        font-size: $font4;
+      }
+    }
   }
   .number-of-members {
     margin-left: 1vw;
   }
-}
-
-@media only screen and (max-width: 1350px) {
 }
 
 @media only screen and (max-width: 1000px) {
@@ -230,6 +242,16 @@
         min-width: 4vw;
         min-height: 4vw;
         border-radius: calc(4vw / 2);
+      }
+      .dynamic-avatar-bg {
+        width: 4vw;
+        height: 4vw;
+        min-width: 4vw;
+        min-height: 4vw;
+        border-radius: calc(4vw / 2);
+        .dynamic-avatar-text {
+          font-size: $font2;
+        }
       }
     }
   }
@@ -256,6 +278,16 @@
         min-width: 5vw;
         min-height: 5vw;
         border-radius: calc(5vw / 2);
+      }
+      .dynamic-avatar-bg {
+        width: 5vw;
+        height: 5vw;
+        min-width: 5vw;
+        min-height: 5vw;
+        border-radius: calc(5vw / 2);
+        .dynamic-avatar-text {
+          font-size: 16px;
+        }
       }
     }
   }
@@ -301,6 +333,27 @@
       min-width: 8vw;
       object-fit: cover;
       border-radius: calc(8vw / 2);
+    }
+  }
+  .gang-roster-container {
+    .list-member-photo {
+      .member-photo {
+        max-width: 6vw;
+        max-height: 6vw;
+        min-width: 6vw;
+        min-height: 6vw;
+        border-radius: calc(6vw / 2);
+      }
+      .dynamic-avatar-bg {
+        width: 6vw;
+        height: 6vw;
+        min-width: 6vw;
+        min-height: 6vw;
+        border-radius: calc(6vw / 2);
+        .dynamic-avatar-text {
+          font-size: 12px;
+        }
+      }
     }
   }
 }
