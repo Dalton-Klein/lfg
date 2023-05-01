@@ -7,6 +7,7 @@
   justify-content: flex-start;
   min-height: 95vh;
   max-height: 95vh;
+  max-width: 5vw;
   border-right: 1px solid $colorGreyHover;
   margin: 0;
   .switch-box {
@@ -22,6 +23,7 @@
       background-color: $colorGreyHover;
     }
   }
+
   .chat-container {
     display: flex;
     justify-content: space-between;
@@ -33,6 +35,33 @@
       min-width: 6vw;
       max-width: 6vw;
       overflow-y: scroll;
+    }
+  }
+}
+
+@media screen and (max-width: $screenBreak1) {
+  .nav-container {
+    max-width: 9vw;
+    .chat-container {
+      .conversations-box {
+        min-width: 7vw;
+        max-width: 7vw;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $screenBreak2) {
+  .nav-container {
+    max-width: 12vw;
+    .switch-box {
+      flex-direction: column;
+    }
+    .chat-container {
+      .conversations-box {
+        min-width: 10vw;
+        max-width: 10vw;
+      }
     }
   }
 }
