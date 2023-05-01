@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./profilePage.scss";
 import ConnectionTile from "../tiles/connectionTile";
 import ProfileGeneral from "../myProfile/profileGeneral";
-import { acceptConnectionRequest, getConnectionsForUser, getPendingConnectionsForUser } from "../../utils/rest";
+import { acceptConnectionRequest, getPendingConnectionsForUser } from "../../utils/rest";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import "primereact/resources/primereact.min.css";

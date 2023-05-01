@@ -38,6 +38,7 @@ const Video = (props: any) => {
         ref.current.srcObject = stream;
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <StyledAudio playsInline autoPlay ref={ref} />;

@@ -59,6 +59,7 @@ export default function Chat({ socketRef, convo }) {
       setChat([...chat, { roomId, senderId, sender, message, timestamp }]);
     });
     lastMessageRef.current?.scrollIntoView();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chat]);
   //END Update messages list after each chat sent
 
