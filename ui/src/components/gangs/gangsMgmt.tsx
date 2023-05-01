@@ -13,7 +13,6 @@ import {
   uploadAvatarCloud,
   requestToJoinGang,
   searchUserByUsername,
-  checkGangRequest,
 } from "../../utils/rest";
 import { Toast } from "primereact/toast";
 import ReactTooltip from "react-tooltip";
@@ -23,11 +22,7 @@ import { roleOptions } from "../../utils/selectOptions";
 import ConnectionTile from "../tiles/connectionTile";
 import Confetti from "react-confetti";
 
-type Props = {
-  gangId: number;
-};
-
-export default function GangsMgmt(props: Props) {
+export default function GangsMgmt() {
   const locationPath: string = useLocation().pathname;
   const hiddenFileInput: any = React.useRef(null);
   const userState = useSelector((state: RootState) => state.user.user);
@@ -568,7 +563,7 @@ export default function GangsMgmt(props: Props) {
                 value={nameText ? nameText : ""}
                 type="text"
                 className="input-box"
-                placeholder={locationPath == "/create-gang" ? "name..." : "name..."}
+                placeholder={locationPath === "/create-gang" ? "name..." : "name..."}
               ></input>
             </div>
             <div className="gradient-bar"></div>
@@ -586,7 +581,7 @@ export default function GangsMgmt(props: Props) {
                 value={aboutText ? aboutText : ""}
                 type="text"
                 className="input-box"
-                placeholder={locationPath == "create-gang" ? "about..." : "about..."}
+                placeholder={locationPath === "create-gang" ? "about..." : "about..."}
               ></input>
             </div>
             <div className="gradient-bar"></div>

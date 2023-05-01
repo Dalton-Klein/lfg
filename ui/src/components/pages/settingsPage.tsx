@@ -1,8 +1,6 @@
 import FooterComponent from "../nav/footerComponent";
-import HeaderComponent from "../nav/headerComponent";
 import "./settingsPage.scss";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import BannerTitle from "../nav/banner-title";
 import { Menu } from "primereact/menu";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +11,6 @@ import { Toast } from "primereact/toast";
 import { loadSavedDevices } from "../../utils/helperFunctions";
 
 export default function SettingsPage() {
-  const navigate = useNavigate();
   const userState = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
   const toast: any = useRef({ current: "" });
@@ -114,7 +111,6 @@ export default function SettingsPage() {
 
   return (
     <div>
-      <HeaderComponent></HeaderComponent>
       <Toast ref={toast} />
       <div className="faq-master-container">
         <BannerTitle

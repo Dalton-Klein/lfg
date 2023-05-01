@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./joinGangPage.scss";
 import { useNavigate } from "react-router-dom";
-import HeaderComponent from "../nav/headerComponent";
 import BannerTitle from "../nav/banner-title";
 
 export default function JoinGangPage() {
@@ -28,7 +27,6 @@ export default function JoinGangPage() {
 
   return (
     <div>
-      <HeaderComponent></HeaderComponent>
       <BannerTitle
         title={"join a gang in two ways"}
         imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}

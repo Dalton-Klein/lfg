@@ -1,5 +1,4 @@
 import FooterComponent from "../nav/footerComponent";
-import HeaderComponent from "../nav/headerComponent";
 import "./gangPage.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,9 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { Toast } from "primereact/toast";
 import styled from "styled-components";
+import { useBeforeunload } from "react-beforeunload";
 
 import Peer from "simple-peer";
-import * as io from "socket.io-client";
 import { Menu } from "primereact/menu";
 import { loadSavedDevices } from "../../utils/helperFunctions";
 import { updateUserThunk } from "../../store/userSlice";
@@ -44,11 +43,10 @@ const Video = (props: any) => {
   return <StyledAudio playsInline autoPlay ref={ref} />;
 };
 
-export default function GangPage() {
+export default function GangPage({ socketRef }) {
   const isMobile = isMobileDevice();
 
   const navigate = useNavigate();
-  const socketRef = useRef<any>();
   const gangOptionsMenu: any = useRef(null);
   const locationPath: string = useLocation().pathname;
   const userState = useSelector((state: RootState) => state.user.user);
@@ -77,18 +75,19 @@ export default function GangPage() {
     setExpandedProfileVis(!expandedProfileVis);
   };
 
+  //Catch if user tries to leave page while connected to voice
+  useBeforeunload((event) => {
+    if (currentAudioChannel.id) {
+      disconnectFromVoice();
+    }
+  });
+
   useEffect(() => {
     dispatch(updateUserThunk(userState.id));
-    socketRef.current = io.connect(
-      process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg"
-    );
     const locationOfLastSlash = locationPath.lastIndexOf("/");
     const extractedGangId = locationPath.substring(locationOfLastSlash + 1);
     loadGangPage(parseInt(extractedGangId));
     loadDevices();
-    return () => {
-      disconnectFromVoice();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -264,6 +263,7 @@ export default function GangPage() {
     navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
       userAudio.current = {};
       userAudio.current.srcObject = currentStream;
+      console.log("socket id??? ", socketRef.current.id);
       socketRef.current.emit("join_channel", {
         channelId: channel.id,
         user_id: userState.id,
@@ -284,6 +284,9 @@ export default function GangPage() {
         //TODO, make array of user objects to display in voice chat with name and avatar
         setpeers(tempPeers);
         renderCallParticipants(false, [...participants]);
+        //Only Set saved socket after JOINING a voice room
+        localStorage.setItem("voiceSocketId", socketRef.current.id);
+        console.log("setting socket storage: ", localStorage.getItem("voiceSocketId"));
       });
       socketRef.current.on("user_joined", (payload: any) => {
         console.log("incoming person requesting handshake: ", payload.username);
@@ -302,7 +305,6 @@ export default function GangPage() {
       socketRef.current.on("user_left", (payload: any) => {
         console.log("User left, remaining users: ", payload);
         const item = peersRef.current.find((p: any) => p.peerID === payload.id);
-        // item.peer.close();
         setpeers((previousPeers) => {
           const tempPeers: any = [];
           previousPeers.forEach((loopPeer) => {
@@ -314,22 +316,54 @@ export default function GangPage() {
         });
         renderCallParticipants(false, payload.remaining_participants);
       });
+      socketRef.current.on("user_disconnected", (payload: any) => {
+        console.log("User disconnected: ", payload.id);
+
+        const item = peersRef.current.find((p: any) => p.peerID === payload.id);
+        let storedID = "";
+        if (item) {
+          storedID = item.peer._id;
+          item.peer.destory();
+        }
+        const peers = peersRef.current.filter((p) => p.peerID !== payload.id);
+        peersRef.current = peers;
+        setpeers((previousPeers) => {
+          const tempPeers: any = [];
+          previousPeers.forEach((loopPeer) => {
+            if (loopPeer._id !== storedID) {
+              tempPeers.push(loopPeer);
+            }
+          });
+          return tempPeers;
+        });
+        console.log("********* ", payload.participants);
+        if (payload.participants) {
+          renderCallParticipants(false, payload.participants);
+        }
+      });
+      //Called after user disconnects, responds with active participants
     });
     renderCallParticipants(false, []);
   };
 
   const disconnectFromVoice = () => {
     //Disconnect from voice
-    console.log("disconnecting! ");
-    socketRef.current.emit("pre_disconnect", {
-      channelId: currentAudioChannel.id,
-      user_id: userState.id,
-      username: userState.username,
-      user_avatar_url: userState.avatar_url,
+    console.log("disconnecting! ", socketRef.current);
+    // const locationOfLastSlash = locationPath.lastIndexOf("/");
+    // const channelId = parseInt(locationPath.substring(locationOfLastSlash + 1));
+    // socketRef.current.emit("pre_disconnect", {
+    //   channelId,
+    //   user_id: userState.id,
+    //   username: userState.username,
+    //   user_avatar_url: userState.avatar_url,
+    // });
+    peers.forEach((tempPeer) => {
+      tempPeer.disconnect();
+      tempPeer.destroy();
     });
+    setpeers([]);
     socketRef.current.disconnect();
     setcurrentAudioChannel({});
-    setpeers([]);
     setcallParticipants([]);
   };
 
@@ -344,7 +378,7 @@ export default function GangPage() {
           <div className="voice-channel">
             <div className="text-channel-title">
               {currentChannel.name}
-              {currentAudioChannel.id == currentChannel.id ? ": connected" : ": disconnected"}
+              {currentAudioChannel.id === currentChannel.id ? ": connected" : ": disconnected"}
             </div>
             {/* show conditional help messages to set devices */}
             {currentChannel.is_voice && !currentInputDevice && !isMobile ? (
@@ -532,9 +566,15 @@ export default function GangPage() {
 
   return (
     <div>
-      <HeaderComponent></HeaderComponent>
       <Toast ref={toast} />
       <div className="master-gang-contents">
+        <button
+          onClick={() => {
+            console.log(socketRef.current.id);
+          }}
+        >
+          test
+        </button>
         <div className="top-bar">
           <div className="main-details">
             <div className="image-column">

@@ -1,5 +1,5 @@
 import "./App.scss";
-import { Route, BrowserRouter as HashRouter, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store/store";
@@ -16,16 +16,24 @@ import FAQPage from "./components/pages/faqPage";
 import TermsOfServicePage from "./components/pages/tosPage";
 import PrivacyPolicyPage from "./components/pages/privacyPolicyPage";
 import { gapi } from "gapi-script";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import GangsPage from "./components/pages/gangsPage";
 import GangPage from "./components/pages/gangPage";
 import JoinGangPage from "./components/pages/joinGangPage";
 import ScrollToTop from "./components/nav/scrollToTop";
 import SettingsPage from "./components/pages/settingsPage";
+import * as io from "socket.io-client";
+import HeaderComponent from "./components/nav/headerComponent";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 function App() {
+  const socketRef = useRef<any>();
+  const locationPath: string = useLocation().pathname;
+
   useEffect(() => {
+    //Master connect to socket so each client only connects to server once
+    connectToSocketMaster();
+    //Google api init
     const startGoogleAPI = () => {
       gapi.auth2.init({
         clientId: clientId,
@@ -38,52 +46,69 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const connectToSocketMaster = async () => {
+    console.log("connecting to socket****************************************");
+    const storedSocketId = localStorage.getItem("voiceSocketId");
+    if (storedSocketId) {
+      console.log("loading saved socket: ", localStorage.getItem("voiceSocketId"));
+      socketRef.current = io.connect(
+        process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg",
+        {
+          query: { socketId: storedSocketId },
+        }
+      );
+    } else {
+      socketRef.current = io.connect(
+        process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg"
+      );
+    }
+  };
+
   // html goes here (components that you see)
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <HashRouter>
-          <div className="App">
-            {/* This scroll component scrolls user to top of each page when navigating */}
-            <ScrollToTop />
-            <Routes>
-              {/* Main Paths */}
-              <Route path="/" element={<HomePage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              {/* LFG  */}
-              <Route path="/lfg-rust" element={<DiscoverPage />} />
-              <Route path="/lfg-rocket-league" element={<DiscoverPage />} />
-              {/* LFM  */}
-              <Route path="/lfm-rust" element={<DiscoverPage />} />
-              <Route path="/lfm-rocket-league" element={<DiscoverPage />} />
-              {/* Blog */}
-              <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/how-to-find-great-rust-teammates" element={<BlogArticle1 />} />
-              <Route path="/blog/rocket-league-minecraft-support" element={<BlogArticle2 />} />
-              {/* Gangs Paths */}
-              <Route path="/create-gang" element={<GangsPage />} />
-              <Route path="/join-gang" element={<JoinGangPage />} />
-              <Route path="/manage-gang/:gangId" element={<GangsPage />} />
-              <Route path="/gang/:gangId" element={<GangPage />} />
-              {/* Profile Paths */}
-              <Route path="/general-profile" element={<ProfilePage />} />
-              <Route path="/account-settings" element={<ProfilePage />} />
-              <Route path="/rust-profile" element={<ProfilePage />} />
-              <Route path="/rocket-league-profile" element={<ProfilePage />} />
-              <Route path="/messaging" element={<ProfilePage />} />
-              <Route path="/incoming-requests" element={<ProfilePage />} />
-              <Route path="/outgoing-requests" element={<ProfilePage />} />
-              <Route path="/blocked" element={<ProfilePage />} />
-              <Route path="/user-settings" element={<SettingsPage />} />
-              {/* Less Used Pages */}
-              <Route path="/help" element={<FAQPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-              <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-              <Route path="/*" element={<FourOFourPage />} />
-            </Routes>
-          </div>
-        </HashRouter>
+        <div className="App">
+          {/* This scroll component scrolls user to top of each page when navigating */}
+          <ScrollToTop />
+          {locationPath === "/login" ? <></> : <HeaderComponent socketRef={socketRef}></HeaderComponent>}
+          <Routes>
+            {/* Main Paths */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            {/* LFG  */}
+            <Route path="/lfg-rust" element={<DiscoverPage />} />
+            <Route path="/lfg-rocket-league" element={<DiscoverPage />} />
+            {/* LFM  */}
+            <Route path="/lfm-rust" element={<DiscoverPage />} />
+            <Route path="/lfm-rocket-league" element={<DiscoverPage />} />
+            {/* Blog */}
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/how-to-find-great-rust-teammates" element={<BlogArticle1 />} />
+            <Route path="/blog/rocket-league-minecraft-support" element={<BlogArticle2 />} />
+            {/* Gangs Paths */}
+            <Route path="/create-gang" element={<GangsPage />} />
+            <Route path="/join-gang" element={<JoinGangPage />} />
+            <Route path="/manage-gang/:gangId" element={<GangsPage />} />
+            <Route path="/gang/:gangId" element={<GangPage socketRef={socketRef} />} />
+            {/* Profile Paths */}
+            <Route path="/general-profile" element={<ProfilePage socketRef={socketRef} />} />
+            <Route path="/account-settings" element={<ProfilePage socketRef={socketRef} />} />
+            <Route path="/rust-profile" element={<ProfilePage socketRef={socketRef} />} />
+            <Route path="/rocket-league-profile" element={<ProfilePage socketRef={socketRef} />} />
+            <Route path="/messaging" element={<ProfilePage socketRef={socketRef} />} />
+            <Route path="/incoming-requests" element={<ProfilePage socketRef={socketRef} />} />
+            <Route path="/outgoing-requests" element={<ProfilePage socketRef={socketRef} />} />
+            <Route path="/blocked" element={<ProfilePage socketRef={socketRef} />} />
+            <Route path="/user-settings" element={<SettingsPage />} />
+            {/* Less Used Pages */}
+            <Route path="/help" element={<FAQPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+            <Route path="/*" element={<FourOFourPage />} />
+          </Routes>
+        </div>
       </PersistGate>
     </Provider>
   );

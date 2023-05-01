@@ -92,7 +92,7 @@ export default function PlayerTile(props: any) {
       ) : (
         <></>
       )}
-      <div className="player-card">
+      <div>
         {/* main details */}
         <div className="main-details">
           <div className="image-column">
@@ -159,9 +159,6 @@ export default function PlayerTile(props: any) {
             <div className="details-rocket-league">
               <div className="details-rocket-league-playlist" data-tip data-for="playlistTip">
                 {rocketLeaguePlaylists[props.rocket_league_playlist]}
-              </div>
-              <div data-tip data-for="rankTip">
-                {rocketLeagueRanks[props.rocket_league_rank]}
               </div>
             </div>
           ) : (
