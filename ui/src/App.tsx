@@ -7,7 +7,6 @@ import BlogPage from "./components/pages/blog/blogPage";
 import BlogArticle1 from "./components/pages/blog/blogArticle-1";
 import BlogArticle2 from "./components/pages/blog/blogArticle-2";
 import HomePage from "./components/pages/home-page/homePage";
-import DashboardPage from "./components/pages/dashboardPage";
 import DiscoverPage from "./components/pages/discoverPage";
 import LoginPage from "./components/pages/authenticationPage";
 import FourOFourPage from "./components/pages/FourOFourPage";
@@ -24,6 +23,7 @@ import ScrollToTop from "./components/nav/scrollToTop";
 import SettingsPage from "./components/pages/settingsPage";
 import * as io from "socket.io-client";
 import HeaderComponent from "./components/nav/headerComponent";
+import VerticalNav from "./components/nav/verticalNav";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 function App() {
@@ -72,42 +72,46 @@ function App() {
           {/* This scroll component scrolls user to top of each page when navigating */}
           <ScrollToTop />
           {locationPath === "/login" ? <></> : <HeaderComponent socketRef={socketRef}></HeaderComponent>}
-          <Routes>
-            {/* Main Paths */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            {/* LFG  */}
-            <Route path="/lfg-rust" element={<DiscoverPage />} />
-            <Route path="/lfg-rocket-league" element={<DiscoverPage />} />
-            {/* LFM  */}
-            <Route path="/lfm-rust" element={<DiscoverPage />} />
-            <Route path="/lfm-rocket-league" element={<DiscoverPage />} />
-            {/* Blog */}
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/blog/how-to-find-great-rust-teammates" element={<BlogArticle1 />} />
-            <Route path="/blog/rocket-league-minecraft-support" element={<BlogArticle2 />} />
-            {/* Gangs Paths */}
-            <Route path="/create-gang" element={<GangsPage />} />
-            <Route path="/join-gang" element={<JoinGangPage />} />
-            <Route path="/manage-gang/:gangId" element={<GangsPage />} />
-            <Route path="/gang/:gangId" element={<GangPage socketRef={socketRef} />} />
-            {/* Profile Paths */}
-            <Route path="/general-profile" element={<ProfilePage socketRef={socketRef} />} />
-            <Route path="/account-settings" element={<ProfilePage socketRef={socketRef} />} />
-            <Route path="/rust-profile" element={<ProfilePage socketRef={socketRef} />} />
-            <Route path="/rocket-league-profile" element={<ProfilePage socketRef={socketRef} />} />
-            <Route path="/messaging" element={<ProfilePage socketRef={socketRef} />} />
-            <Route path="/incoming-requests" element={<ProfilePage socketRef={socketRef} />} />
-            <Route path="/outgoing-requests" element={<ProfilePage socketRef={socketRef} />} />
-            <Route path="/blocked" element={<ProfilePage socketRef={socketRef} />} />
-            <Route path="/user-settings" element={<SettingsPage />} />
-            {/* Less Used Pages */}
-            <Route path="/help" element={<FAQPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-            <Route path="/*" element={<FourOFourPage />} />
-          </Routes>
+          <div className="app-container">
+            {locationPath === "/login" ? <></> : <VerticalNav></VerticalNav>}
+            <div className="app-content-scrollbox">
+              <Routes>
+                {/* Main Paths */}
+                <Route path="/" element={<HomePage />} />
+                {/* LFG  */}
+                <Route path="/lfg-rust" element={<DiscoverPage />} />
+                <Route path="/lfg-rocket-league" element={<DiscoverPage />} />
+                {/* LFM  */}
+                <Route path="/lfm-rust" element={<DiscoverPage />} />
+                <Route path="/lfm-rocket-league" element={<DiscoverPage />} />
+                {/* Blog */}
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/blog/how-to-find-great-rust-teammates" element={<BlogArticle1 />} />
+                <Route path="/blog/rocket-league-minecraft-support" element={<BlogArticle2 />} />
+                {/* Gangs Paths */}
+                <Route path="/create-gang" element={<GangsPage />} />
+                <Route path="/join-gang" element={<JoinGangPage />} />
+                <Route path="/manage-gang/:gangId" element={<GangsPage />} />
+                <Route path="/gang/:gangId" element={<GangPage socketRef={socketRef} />} />
+                {/* Profile Paths */}
+                <Route path="/general-profile" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/account-settings" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/rust-profile" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/rocket-league-profile" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/messaging" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/incoming-requests" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/outgoing-requests" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/blocked" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/user-settings" element={<SettingsPage />} />
+                {/* Less Used Pages */}
+                <Route path="/help" element={<FAQPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+                <Route path="/*" element={<FourOFourPage />} />
+              </Routes>
+            </div>
+          </div>
         </div>
       </PersistGate>
     </Provider>

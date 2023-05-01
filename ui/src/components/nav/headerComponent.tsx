@@ -7,9 +7,12 @@ export default function HeaderComponent({ socketRef }) {
   return (
     <div className="master-container">
       <div className="header-container">
-        <div className="header-site-title" onClick={() => navigate(`/`)}>
-          gangs
-        </div>
+        <img
+          className="site-titlebar-image"
+          src="/assets/logoWhiteSmall.png"
+          alt={`gangs.gg app logo`}
+          onClick={() => navigate(`/`)}
+        />
         <ProfileInlayComponet socketRef={socketRef} />
       </div>
       <div className="gradient-bar"></div>

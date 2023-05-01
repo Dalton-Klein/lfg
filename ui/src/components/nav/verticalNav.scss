@@ -1,0 +1,38 @@
+@import "../../styling/config";
+
+.nav-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 95vh;
+  max-height: 95vh;
+  border-right: 1px solid $colorGreyHover;
+  margin: 0;
+  .switch-box {
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
+    display: flex;
+    .vert-nav-button {
+      transition: $transition1;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .selected-nav {
+      background-color: $colorGreyHover;
+    }
+  }
+  .chat-container {
+    display: flex;
+    justify-content: space-between;
+    .conversations-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-width: 6vw;
+      max-width: 6vw;
+      overflow-y: scroll;
+    }
+  }
+}

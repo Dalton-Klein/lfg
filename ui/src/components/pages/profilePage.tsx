@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import "primereact/resources/primereact.min.css";
 import Confetti from "react-confetti";
-import ConversationTile from "../tiles/conversationTile";
 import Chat from "../myProfile/chat";
 import { useLocation, useNavigate } from "react-router-dom";
 import BannerTitle from "../nav/banner-title";
@@ -17,24 +16,6 @@ import ProfileWidgetsContainer from "../myProfile/profileWidgetsContainer";
 import AccountSettings from "../myProfile/profileAccountSettings";
 
 export default function ProfilePage({ socketRef }) {
-  const rustChatObject = {
-    id: 1,
-    username: "rust general",
-    avatar_url: "https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png",
-    isPublicChat: "true",
-  };
-  const minecraftChatObject = {
-    id: 2,
-    username: "minecraft general",
-    avatar_url: "https://res.cloudinary.com/kultured-dev/image/upload/v1665619101/Minecraft_ttasx5.png",
-    isPublicChat: "true",
-  };
-  const rocketLeagueChatObject = {
-    id: 3,
-    username: "rocket league general",
-    avatar_url: "https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png",
-    isPublicChat: "true",
-  };
   const navigate = useNavigate();
 
   // Location Variables
@@ -57,19 +38,18 @@ export default function ProfilePage({ socketRef }) {
     "https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"
   );
   const [chatBox, setchatBox] = useState<any>(<></>);
-  const [currentConvo, setCurrentConvo] = useState<any>(rustChatObject);
-  const [connectionsResult, setconnectionsResult] = useState<any>([]);
   const [outgoingResult, setOutgoingResult] = useState<any>([]);
   const [incomingResult, setIncomingResult] = useState<any>([]);
   const [blockedResult, setBlockedResult] = useState<any>([]);
   const [isConfetti, setIsConfetti] = useState<any>(false);
 
   const noResultsDiv = <div className="no-results-box">nothing at the moment!</div>;
+
   const userData = useSelector((state: RootState) => state.user.user);
+  const preferencesState = useSelector((state: RootState) => state.preferences);
 
   useEffect(() => {
     if (userData.id && userData.id > 0) {
-      fetchExistingConnections();
       fetchPendingConnections();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,21 +58,17 @@ export default function ProfilePage({ socketRef }) {
   useEffect(() => {
     setChatboxContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentConvo]);
+  }, [preferencesState.currentConvo]);
 
   const changeBannerImage = (newuRL: string) => {
     setbannerImageUrl(newuRL);
   };
 
   const setChatboxContents = () => {
-    setchatBox(<Chat socketRef={socketRef} currentConvo={currentConvo}></Chat>);
+    setchatBox(<Chat socketRef={socketRef} currentConvo={preferencesState.currentConvo}></Chat>);
   };
 
   //BEGIN Fetch Connections
-  const fetchExistingConnections = async () => {
-    setconnectionsResult(await getConnectionsForUser(userData.id, "blank"));
-    setChatboxContents();
-  };
   const fetchPendingConnections = async () => {
     const httpResults = await getPendingConnectionsForUser(userData.id, "blank");
     console.log("reqs????", httpResults);
@@ -124,23 +100,6 @@ export default function ProfilePage({ socketRef }) {
   };
   //END Fetch Connections
 
-  //BEGIN Chat Logic
-  const openConversation = async (tile: any) => {
-    setCurrentConvo({
-      id: tile.id,
-      user_id: tile.user_id,
-      username: tile.username,
-      avatar_url: tile.avatar_url,
-      isPublicChat: tile.isPublicChat,
-      preferred_platform: tile.preferred_platform,
-      currentlyOpenConvo: tile.id,
-      discord: tile.discord,
-      psn: tile.psn,
-      xbox: tile.xbox,
-    });
-  };
-  //END Chat Logic
-
   //BEGIN Social Actions Logic
   const acceptRequest = async (senderId: number, requestId: number) => {
     const acceptResult = await acceptConnectionRequest(userData.id, senderId, 1, requestId, userData.token);
@@ -153,7 +112,8 @@ export default function ProfilePage({ socketRef }) {
       setIsConfetti(true);
       await blastConfetti();
       fetchPendingConnections();
-      fetchExistingConnections();
+      //***** TODO ***** call event on vertical nav to refresh list */
+      // fetchExistingConnections();
     }
   };
   //END Social Actions Logic
@@ -162,7 +122,7 @@ export default function ProfilePage({ socketRef }) {
   const height = 1080;
 
   return (
-    <div>
+    <div className="profile-page-master">
       {isConfetti ? (
         <Confetti
           numberOfPieces={isConfetti ? 500 : 0}
@@ -226,55 +186,7 @@ export default function ProfilePage({ socketRef }) {
       </div>
 
       {/* MENU 2- Messaging */}
-      {locationPath === "/messaging" ? (
-        <div className="messaging-container">
-          <div className="chat-container">
-            <div className="conversations-box">
-              <ConversationTile
-                key={0.1}
-                {...rustChatObject}
-                currentlyOpenConvo={currentConvo}
-                callOpenConversation={(connectionId: number) => {
-                  openConversation(connectionId);
-                }}
-              ></ConversationTile>
-              <ConversationTile
-                key={0.2}
-                {...minecraftChatObject}
-                currentlyOpenConvo={currentConvo}
-                callOpenConversation={(connectionId: number) => {
-                  openConversation(connectionId);
-                }}
-              ></ConversationTile>
-              <ConversationTile
-                key={0.3}
-                {...rocketLeagueChatObject}
-                currentlyOpenConvo={currentConvo}
-                callOpenConversation={(connectionId: number) => {
-                  openConversation(connectionId);
-                }}
-              ></ConversationTile>
-              <div key={0.75} className="gradient-bar"></div>
-              {connectionsResult.map((tile: any) => (
-                <li className="conversation-list-item" style={{ listStyleType: "none" }} key={tile.id}>
-                  <ConversationTile
-                    key={tile.id}
-                    {...tile}
-                    currentlyOpenConvo={currentConvo}
-                    isPublicChat="false"
-                    callOpenConversation={(connectionId: number) => {
-                      openConversation(connectionId);
-                    }}
-                  ></ConversationTile>
-                </li>
-              ))}
-            </div>
-            {chatBox}
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
+      {locationPath === "/messaging" ? <div className="messaging-container">{chatBox}</div> : <></>}
       {/* MENU 3- Incoming Connections */}
       {locationPath === "/incoming-requests" ? (
         <div className="connection-container">{incomingResult.length > 0 ? incomingResult : noResultsDiv}</div>

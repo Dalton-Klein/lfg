@@ -117,7 +117,8 @@ export default function ProfileInlayComponet({ socketRef }) {
                           .split(" ")
                           .map((word: string[]) => word[0])
                           .join("")
-                          .slice(0, 2)}
+                          .slice(0, 2)
+                          .toLowerCase()}
                   </div>
                 </div>
               ) : (
@@ -205,22 +206,6 @@ export default function ProfileInlayComponet({ socketRef }) {
           >
             <i className="pi pi-bell" />
           </button>
-          <button
-            className="text-only-button notifications-button"
-            onClick={(event) => notificationPressed(99)}
-            data-tip
-            data-for="dashboardTip"
-          >
-            <i className="pi pi-users" />
-          </button>
-          <button
-            className="text-only-button notifications-button"
-            onClick={(event) => notificationPressed(3)}
-            data-tip
-            data-for="messagingTip"
-          >
-            <i className="pi pi-envelope" />
-          </button>
           <div className="my-profile-overlay-link">
             {profileImage === "" || profileImage === "/assets/avatarIcon.png" ? (
               <div className="dynamic-avatar-border" onClick={toggleDrawer}>
@@ -231,6 +216,7 @@ export default function ProfileInlayComponet({ socketRef }) {
                         .map((word: string[]) => word[0])
                         .join("")
                         .slice(0, 2)
+                        .toLowerCase()
                     : "gg"}
                 </div>
               </div>
@@ -244,10 +230,10 @@ export default function ProfileInlayComponet({ socketRef }) {
         select game for player discovery
       </ReactTooltip>
       <ReactTooltip id="dashboardTip" place="bottom" effect="solid">
-        my dashboard
+        my gangs
       </ReactTooltip>
       <ReactTooltip id="messagingTip" place="bottom" effect="solid">
-        messaging
+        direct messaging
       </ReactTooltip>
     </div>
   );

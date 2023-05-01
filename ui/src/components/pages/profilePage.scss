@@ -1,32 +1,12 @@
-@import '../../styling/config';
+@import "../../styling/config";
 
+.profile-page-master {
+  min-width: 95vw;
+}
 .messaging-container {
-  margin-top: 2vh;
-  min-height: 75vh;
-  max-height: 75vh;
-  .chat-container {
-    display: flex;
-    justify-content: space-between;
-    min-height: 75vh;
-    max-height: 75vh;
-    .conversations-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-width: 15vw;
-      max-width: 15vw;
-      min-height: 75vh;
-      max-height: 75vh;
-      overflow-y: scroll;
-      .gradient-bar {
-        min-width: 80%;
-        min-height: 1px;
-        max-height: 1px;
-        background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
-      }
-    }
-  }
+  margin-top: 1vh;
+  min-height: 92vh;
+  max-height: 92vh;
 }
 .nav-menu {
   margin-top: 1vh;
@@ -164,10 +144,10 @@
 
 @media screen and (max-height: 800px) {
   .messaging-container {
-    min-height: 75vh;
+    min-height: 95vh;
     .chat-container {
-      min-height: 75vh;
-      max-height: 75vh;
+      min-height: 95vh;
+      max-height: 95vh;
     }
   }
 }

@@ -1,107 +1,109 @@
-@import '../../../styling/config';
+@import "../../../styling/config";
 
 .article-menu {
-	margin-top: 1vh;
-	min-height: 7vh;
-	max-height: 7vh;
-	min-width: 100%;
-	max-width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	// put bg image here when a good one is decided background-color: #0d5678b0;
-	.article-navigator {
-		margin: 2% 10%;
-		margin-right: 1vw;
-	}
+  margin-top: 1vh;
+  min-height: 7vh;
+  max-height: 7vh;
+  min-width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // put bg image here when a good one is decided background-color: #0d5678b0;
+  .article-navigator {
+    margin: 2% 10%;
+    margin-right: 1vw;
+  }
 }
 .article-master-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	.gradient-bar {
-		min-width: 100%;
-		min-height: 1px;
-		max-height: 1px;
-		background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
-	}
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 95vw;
+  max-width: 95vw;
+  .gradient-bar {
+    min-width: 100%;
+    min-height: 1px;
+    max-height: 1px;
+    background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+  }
 
-	.article-content-container {
-		margin: 1vh 2vw;
-		padding: 1vh 1vw;
-		background-color: $colorGreyPop;
-		border-radius: $borderRadius1;
-		max-width: 900px;
-		min-width: 80%;
-		.article-header-date {
-			text-align: left;
-			color: $colorTextAlt;
-			min-width: 33%;
-		}
-		.article-sub-title {
-			text-align: center;
-			margin: 2vh 1vw;
-			font-size: $font4;
-			font-weight: 400;
-		}
-		.article-sub-heading {
-			text-align: left;
-			margin: 2vh 4vw;
-			font-size: $font3;
-		}
-		.article-paragraph {
-			text-align: left;
-			margin: 1vh 4vw;
-			font-size: $font2;
-			color: $colorTextAlt;
-			line-height: 25px;
-			li {
-				margin: 2.5vh 0;
-			}
-			.link-text {
-				color: $colorSecondary;
-				cursor: pointer;
-			}
-		}
-		.article-closing {
-			margin-top: 2vh;
-			@extend .article-paragraph;
-			text-align: center;
-			color: white;
-		}
-		.article-list {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: flex-start;
-			margin: 1vh 2vw;
-			div {
-				margin-bottom: 1vh;
-				transition: $transition1;
-			}
-			div:hover {
-				transform: scale(1.05);
-			}
-		}
-	}
-	.article-header-info {
-		@extend .article-content-container;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		.article-header-date {
-			text-align: left;
-			color: $colorTextAlt;
-			font-size: $font2;
-			min-width: 33%;
-		}
-		.article-read-time {
-			@extend .article-header-date;
-			text-align: right;
-		}
-		button {
-			min-width: 33%;
-		}
-	}
+  .article-content-container {
+    margin: 1vh 2vw;
+    padding: 1vh 1vw;
+    background-color: $colorGreyPop;
+    border-radius: $borderRadius1;
+    max-width: 900px;
+    min-width: 80%;
+    .article-header-date {
+      text-align: left;
+      color: $colorTextAlt;
+      min-width: 33%;
+    }
+    .article-sub-title {
+      text-align: center;
+      margin: 2vh 1vw;
+      font-size: $font4;
+      font-weight: 400;
+    }
+    .article-sub-heading {
+      text-align: left;
+      margin: 2vh 4vw;
+      font-size: $font3;
+    }
+    .article-paragraph {
+      text-align: left;
+      margin: 1vh 4vw;
+      font-size: $font2;
+      color: $colorTextAlt;
+      line-height: 25px;
+      li {
+        margin: 2.5vh 0;
+      }
+      .link-text {
+        color: $colorSecondary;
+        cursor: pointer;
+      }
+    }
+    .article-closing {
+      margin-top: 2vh;
+      @extend .article-paragraph;
+      text-align: center;
+      color: white;
+    }
+    .article-list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      margin: 1vh 2vw;
+      div {
+        margin-bottom: 1vh;
+        transition: $transition1;
+      }
+      div:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+  .article-header-info {
+    @extend .article-content-container;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .article-header-date {
+      text-align: left;
+      color: $colorTextAlt;
+      font-size: $font2;
+      min-width: 33%;
+    }
+    .article-read-time {
+      @extend .article-header-date;
+      text-align: right;
+    }
+    button {
+      min-width: 33%;
+    }
+  }
 }

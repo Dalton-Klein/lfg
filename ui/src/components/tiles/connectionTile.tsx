@@ -83,7 +83,8 @@ export default function ConnectionTile(props: any) {
                   .split(" ")
                   .map((word: string[]) => word[0])
                   .join("")
-                  .slice(0, 2)}
+                  .slice(0, 2)
+                  .toLowerCase()}
               </div>
             </div>
           ) : (
