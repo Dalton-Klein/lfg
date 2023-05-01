@@ -89,7 +89,8 @@ export default function HomePage() {
                             .split(" ")
                             .map((word: string[]) => word[0])
                             .join("")
-                            .slice(0, 2)}
+                            .slice(0, 2)
+                            .toLowerCase()}
                     </div>
                   </div>
                 ) : (
@@ -115,7 +116,8 @@ export default function HomePage() {
                               .split(" ")
                               .map((word: string[]) => word[0])
                               .join("")
-                              .slice(0, 2)}
+                              .slice(0, 2)
+                              .toLowerCase()}
                       </div>
                     </div>
                     <div className="notification-username2"> {user2}</div>

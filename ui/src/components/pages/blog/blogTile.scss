@@ -1,65 +1,65 @@
-@import '../../../styling/config';
+@import "../../../styling/config";
 
 .blog-tile-box {
-	background-color: $colorGreyPop;
-	border-radius: $borderRadius2;
-	min-height: 30vh;
-	max-height: 30vh;
-	min-width: 90vw;
-	max-width: 90vw;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: cover;
-	display: grid;
-	place-items: center;
-	margin: 2vh 2vw;
-	cursor: pointer;
-	transition: $transition1;
+  background-color: $colorGreyPop;
+  border-radius: $borderRadius2;
+  min-height: 30vh;
+  max-height: 30vh;
+  min-width: 90vw;
+  max-width: 90vw;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: grid;
+  place-items: center;
+  margin: 2vh 2vw;
+  cursor: pointer;
+  transition: $transition1;
 
-	.blog-tile-overlay {
-		border-radius: $borderRadius2;
-		min-width: 100%;
-		min-height: 100%;
-		background: $colorGreyPop;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		outline-style: solid;
-		outline-width: 2px;
-		outline-color: $colorSecondary;
-		.blog-tile-title {
-			font-size: $font4;
-			margin: 2vh 4vw;
-			text-align: center;
-		}
-		.blog-tile-logo {
-			min-width: 5vw;
-			max-width: 5vw;
-			margin-top: 1.5vh;
-			margin-bottom: 1.5vh;
-		}
-		p {
-			text-align: center;
-		}
-		.blog-preview {
-			margin-top: 2vh;
-			text-align: center;
-			color: $colorTextAlt;
-		}
-	}
+  .blog-tile-overlay {
+    border-radius: $borderRadius2;
+    min-width: 100%;
+    min-height: 100%;
+    background: $colorGreyPop;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: $colorSecondary;
+    .blog-tile-title {
+      font-size: $font4;
+      margin: 2vh 4vw;
+      text-align: center;
+    }
+    .blog-tile-logo {
+      min-width: 5vw;
+      max-width: 5vw;
+      margin-top: 1.5vh;
+      margin-bottom: 1.5vh;
+    }
+    p {
+      text-align: center;
+    }
+    .blog-preview {
+      margin-top: 2vh;
+      text-align: center;
+      color: $colorTextAlt;
+    }
+  }
 }
 
 .blog-tile-box:hover {
-	transform: scale(1.05);
+  transform: scale(1.01);
 }
 
 @media screen and (max-width: $screenBreak2) {
-	.blog-tile-box {
-		background-color: $colorGreyPop;
-		border-radius: $borderRadius2;
-		min-height: 50vh;
-		max-height: 50vh;
-		margin: 2vh 4vw;
-	}
+  .blog-tile-box {
+    background-color: $colorGreyPop;
+    border-radius: $borderRadius2;
+    min-height: 50vh;
+    max-height: 50vh;
+    margin: 2vh 4vw;
+  }
 }

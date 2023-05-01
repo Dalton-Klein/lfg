@@ -1,5 +1,19 @@
 @import "./styling/config";
 
+.app-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0;
+  margin: 0;
+  max-height: 94vh;
+  overflow: visible;
+  .app-content-scrollbox {
+    overflow: scroll;
+    max-height: 95vh;
+    min-height: 95vh;
+  }
+}
 ::-webkit-scrollbar {
   display: none;
 }
@@ -14,8 +28,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+html {
+  height: auto;
+  width: 100vw;
+}
 
 body {
+  height: auto;
+  width: 100vw;
   background-color: $colorGreyBg;
   color: $colorText;
   font-family: "questial";

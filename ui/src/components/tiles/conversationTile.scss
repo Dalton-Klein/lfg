@@ -1,62 +1,63 @@
-@import '../../styling/config';
+@import "../../styling/config";
 
 .selected-convo {
-	border: 2px solid $colorPrimary;
+  border: 2px solid $colorPrimary;
 }
 .conversation-tile {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	border-radius: 60px;
-	padding: 0.5vw;
-	margin: 0.75vh 0;
-	.conversation-profile-image {
-		min-width: 3.5vw;
-		max-width: 3.5vw;
-		min-height: 3.5vw;
-		max-height: 3.5vw;
-		border-radius: calc(3.5vw / 2);
-		transition: $transition1;
-		cursor: pointer;
-	}
-	.dynamic-conversation-border {
-		@extend .conversation-profile-image;
-		background-color: $colorShadowLight;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		cursor: pointer;
-		.dynamic-conversation-text-small {
-			font-size: $font4;
-		}
-	}
-	.conversation-profile-image:hover {
-		transform: scale(1.05);
-	}
-	.dynamic-conversation-border:hover {
-		transform: scale(1.05);
-	}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 60px;
+  padding: 0.25vw;
+  margin: 0.25vh 0;
+  .conversation-profile-image {
+    min-width: 2vw;
+    max-width: 2vw;
+    min-height: 2vw;
+    max-height: 2vw;
+    border-radius: calc(2vw / 2);
+    transition: $transition1;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  .dynamic-conversation-border {
+    @extend .conversation-profile-image;
+    background-color: $colorShadowLight;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    .dynamic-conversation-text-small {
+      font-size: $font4;
+    }
+  }
+  .conversation-profile-image:hover {
+    transform: scale(1.05);
+  }
+  .dynamic-conversation-border:hover {
+    transform: scale(1.05);
+  }
 }
 
 @media screen and (max-width: $screenBreak1) {
-	.conversation-tile {
-		.conversation-profile-image {
-			min-width: 5.5vw;
-			max-width: 5.5vw;
-			min-height: 5.5vw;
-			max-height: 5.5vw;
-			border-radius: calc(5.5vw / 2);
-		}
-	}
+  .conversation-tile {
+    .conversation-profile-image {
+      min-width: 5.5vw;
+      max-width: 5.5vw;
+      min-height: 5.5vw;
+      max-height: 5.5vw;
+      border-radius: calc(5.5vw / 2);
+    }
+  }
 }
 @media screen and (max-width: $screenBreak2) {
-	.conversation-tile {
-		.conversation-profile-image {
-			min-width: 10vw;
-			max-width: 10vw;
-			min-height: 10vw;
-			max-height: 10vw;
-			border-radius: calc(10vw / 2);
-		}
-	}
+  .conversation-tile {
+    .conversation-profile-image {
+      min-width: 10vw;
+      max-width: 10vw;
+      min-height: 10vw;
+      max-height: 10vw;
+      border-radius: calc(10vw / 2);
+    }
+  }
 }

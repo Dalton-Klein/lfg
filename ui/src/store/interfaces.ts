@@ -44,6 +44,7 @@ export interface Preferences {
   messages: any;
   lastProfileMenu: number;
   discoverFilters: any;
+  currentConvo: any;
 }
 
 export interface SignIn {

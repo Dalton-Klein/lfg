@@ -261,6 +261,7 @@ export default function ProfileGeneral(props: Props) {
                     .map((word: string[]) => word[0])
                     .join("")
                     .slice(0, 2)
+                    .toLowerCase()
                 : "gg"}
             </div>
           </div>

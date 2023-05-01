@@ -92,6 +92,15 @@ export default function GangPage({ socketRef }) {
   }, []);
 
   useEffect(() => {
+    dispatch(updateUserThunk(userState.id));
+    const locationOfLastSlash = locationPath.lastIndexOf("/");
+    const extractedGangId = locationPath.substring(locationOfLastSlash + 1);
+    loadGangPage(parseInt(extractedGangId));
+    loadDevices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationPath]);
+
+  useEffect(() => {
     if (gangInfo.channels) {
       let tempIndex = 0;
       //Sets index property for use by accordion
@@ -439,6 +448,7 @@ export default function GangPage({ socketRef }) {
                       .map((word: string[]) => word[0])
                       .join("")
                       .slice(0, 2)
+                      .toLowerCase()
                   : "gg"}
               </div>
             </div>
@@ -466,6 +476,7 @@ export default function GangPage({ socketRef }) {
                           .map((word: string[]) => word[0])
                           .join("")
                           .slice(0, 2)
+                          .toLowerCase()
                       : "gg"}
                   </div>
                 </div>
@@ -489,6 +500,7 @@ export default function GangPage({ socketRef }) {
                         .map((word: string[]) => word[0])
                         .join("")
                         .slice(0, 2)
+                        .toLowerCase()
                     : "gg"}
                 </div>
               </div>
@@ -568,13 +580,6 @@ export default function GangPage({ socketRef }) {
     <div>
       <Toast ref={toast} />
       <div className="master-gang-contents">
-        <button
-          onClick={() => {
-            console.log(socketRef.current.id);
-          }}
-        >
-          test
-        </button>
         <div className="top-bar">
           <div className="main-details">
             <div className="image-column">
@@ -590,7 +595,8 @@ export default function GangPage({ socketRef }) {
                       .split(" ")
                       .map((word: string[]) => word[0])
                       .join("")
-                      .slice(0, 2)}
+                      .slice(0, 2)
+                      .toLowerCase()}
                   </div>
                 </div>
               ) : (
