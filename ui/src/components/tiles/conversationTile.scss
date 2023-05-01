@@ -53,11 +53,11 @@
 @media screen and (max-width: $screenBreak2) {
   .conversation-tile {
     .conversation-profile-image {
-      min-width: 10vw;
-      max-width: 10vw;
-      min-height: 10vw;
-      max-height: 10vw;
-      border-radius: calc(10vw / 2);
+      min-width: 8vw;
+      max-width: 8vw;
+      min-height: 8vw;
+      max-height: 8vw;
+      border-radius: calc(8vw / 2);
     }
   }
 }

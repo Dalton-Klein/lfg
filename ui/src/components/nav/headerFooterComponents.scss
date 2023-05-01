@@ -32,3 +32,37 @@
     font-size: $font2;
   }
 }
+
+@media screen and (max-width: $screenBreak1) {
+  .header-container {
+    .site-titlebar-image {
+      max-width: 3.5vw;
+      max-height: 3.5vw;
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .header-container {
+    .site-titlebar-image {
+      max-width: 4.5vw;
+      max-height: 4.5vw;
+    }
+  }
+}
+@media screen and (max-width: $screenBreak2) {
+  .header-container {
+    .site-titlebar-image {
+      max-width: 6.5vw;
+      max-height: 6.5vw;
+    }
+  }
+}
+@media screen and (max-width: $screenBreak3) {
+  .header-container {
+    .site-titlebar-image {
+      max-width: 7.5vw;
+      max-height: 7.5vw;
+    }
+  }
+}

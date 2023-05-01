@@ -53,17 +53,13 @@ export default function Chat({ socketRef, convo }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.log("setting current convo in chat?????", currentConvo);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentConvo]);
-
   //BEGIN Update messages list after each chat sent
   useEffect(() => {
     socketRef.current.on("message", ({ roomId, senderId, sender, message, timestamp }: any) => {
       setChat([...chat, { roomId, senderId, sender, message, timestamp }]);
     });
     lastMessageRef.current?.scrollIntoView();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chat]);
   //END Update messages list after each chat sent
 
@@ -116,7 +112,6 @@ export default function Chat({ socketRef, convo }) {
 
   //BEGIN SOCKET Functions
   const updateCurrentConvo = () => {
-    console.log("currentConvo?????", currentConvo);
     if (convo.id === 0) {
       // @ts-ignore
       setcurrentConvo(JSON.parse(localStorage.getItem("currentConvo")));

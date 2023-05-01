@@ -69,8 +69,8 @@ io.on("connection", (socket) => {
       user_avatar_url: payload.user_avatar_url,
     };
     socket.request.session.save();
-    console.log("socket id??? ", socket.id);
-    console.log("joining and setting info: ", socket.request.session.user);
+    console.log("joining socket id: ", socket.id);
+    console.log("joining user id: ", socket.request.session.user.user_id);
     if (allUsersInAllChannels[payload.channelId]) {
       //Get rid of duplicate users
       allUsersInAllChannels[payload.channelId] = allUsersInAllChannels[payload.channelId].filter((participant) => {
