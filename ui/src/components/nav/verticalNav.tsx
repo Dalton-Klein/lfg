@@ -70,7 +70,6 @@ export default function VerticalNav() {
   };
 
   const fetchMyConnections = async () => {
-    console.log("fetching my connections: ", currentConvo);
     const httpResult = await getConnectionsForUser(userState.id, "blank");
     let tiles: any;
     if (httpResult.length) {
@@ -93,7 +92,6 @@ export default function VerticalNav() {
 
   const fetchMyGangs = async () => {
     const httpResult = await getMyGangTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
-    console.log("gang result??? ", httpResult);
     let tiles: any;
     httpResult.forEach((tile: any) => {
       tile.username = tile.name;
@@ -117,7 +115,7 @@ export default function VerticalNav() {
   };
 
   const openConversation = async (tile: any) => {
-    setcurrentConvo({
+    const convoItem: any = {
       id: tile.id,
       user_id: tile.user_id,
       username: tile.username,
@@ -128,7 +126,9 @@ export default function VerticalNav() {
       discord: tile.discord,
       psn: tile.psn,
       xbox: tile.xbox,
-    });
+    };
+    setcurrentConvo(convoItem);
+    localStorage.setItem("currentConvo", JSON.stringify(convoItem));
     let newUrl = "/";
     //Decide between sub-sections of a url
     if (currentNavSelection === 0) {
