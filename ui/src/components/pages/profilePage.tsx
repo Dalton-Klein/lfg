@@ -65,13 +65,12 @@ export default function ProfilePage({ socketRef }) {
   };
 
   const setChatboxContents = () => {
-    setchatBox(<Chat socketRef={socketRef} currentConvo={preferencesState.currentConvo}></Chat>);
+    setchatBox(<Chat socketRef={socketRef} convo={preferencesState.currentConvo}></Chat>);
   };
 
   //BEGIN Fetch Connections
   const fetchPendingConnections = async () => {
     const httpResults = await getPendingConnectionsForUser(userData.id, "blank");
-    console.log("reqs????", httpResults);
     const formattedIncomingTiles = httpResults.incoming.map((tile: any) => (
       <li className="connection-list-item" style={{ listStyleType: "none" }} key={tile.id}>
         <ConnectionTile

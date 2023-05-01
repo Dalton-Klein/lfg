@@ -10,9 +10,10 @@ import { Toast } from "primereact/toast";
 import ReactTooltip from "react-tooltip";
 import ExpandedProfile from "../modal/expandedProfileComponent";
 
-export default function Chat({ socketRef, currentConvo }) {
+export default function Chat({ socketRef, convo }) {
   const userState = useSelector((state: RootState) => state.user.user);
 
+  const [currentConvo, setcurrentConvo] = useState<any>({ id: 0 });
   const [isPublic, setisPublic] = useState<boolean>(true);
   const [platformImage, setplatformImage] = useState<any>([]);
   const [platformUsername, setplatformUsername] = useState<any>("");
@@ -35,8 +36,6 @@ export default function Chat({ socketRef, currentConvo }) {
   useEffect(() => {
     determinePlatformImageAndUsername();
     if (userState.id && userState.id > 0) {
-      loadChatHistory();
-      socketRef.current.emit("join_room", currentConvo.id);
       return () => {
         setisPublic(true);
         setplatformImage([]);
@@ -53,6 +52,11 @@ export default function Chat({ socketRef, currentConvo }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log("setting current convo in chat?????", currentConvo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentConvo]);
 
   //BEGIN Update messages list after each chat sent
   useEffect(() => {
@@ -79,10 +83,15 @@ export default function Chat({ socketRef, currentConvo }) {
     if (userState.id && userState.id > 0) {
       setMessageState({ ...messageState, roomId: currentConvo.id });
       determinePlatformImageAndUsername();
-      loadChatHistory();
+      updateCurrentConvo();
       socketRef.current.emit("join_room", currentConvo.id);
       lastMessageRef.current?.scrollIntoView();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [convo]);
+
+  useEffect(() => {
+    loadChat();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentConvo]);
 
@@ -94,7 +103,6 @@ export default function Chat({ socketRef, currentConvo }) {
     };
     let assetLink = assetLinks[currentConvo.preferred_platform];
     setisPublic(currentConvo.isPublicChat === "true" ? true : false);
-    console.log("currentConvo???", currentConvo);
     if (currentConvo.preferred_platform) {
       if (currentConvo.preferred_platform === 1) setplatformUsername(currentConvo.username);
       if (currentConvo.preferred_platform === 2) setplatformUsername(currentConvo.psn);
@@ -107,10 +115,28 @@ export default function Chat({ socketRef, currentConvo }) {
   };
 
   //BEGIN SOCKET Functions
-  const loadChatHistory = async () => {
-    const historicalChatData = await getChatHistoryForUser(userState.id, currentConvo.id, "");
-    if (historicalChatData && historicalChatData.length) setChat([...historicalChatData]);
-    else setChat([]);
+  const updateCurrentConvo = () => {
+    console.log("currentConvo?????", currentConvo);
+    if (convo.id === 0) {
+      // @ts-ignore
+      setcurrentConvo(JSON.parse(localStorage.getItem("currentConvo")));
+    } else {
+      setcurrentConvo(convo);
+    }
+  };
+
+  const loadChat = async () => {
+    if (currentConvo.id !== 0) {
+      const historicalChatData = await getChatHistoryForUser(userState.id, currentConvo.id, "");
+      if (historicalChatData && historicalChatData.length) {
+        setChat([...historicalChatData]);
+        socketRef.current.emit("join_room", currentConvo.id);
+      } else {
+        setChat([]);
+      }
+    } else {
+      setChat([]);
+    }
   };
 
   const onTextChange = (e: any) => {

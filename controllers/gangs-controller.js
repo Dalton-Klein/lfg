@@ -21,7 +21,6 @@ const createGang = async (req, res) => {
     console.log("options: ", gang);
     const gangResult = await createGangRecord(gang);
     //Create default gang channel records
-    console.log("gang result: ", gangResult);
     await createGangDefaultChannels(gangResult[0].id);
     //Create initial roster record for owner
     await createGangRosterRecord(gangResult[0].id, userId, 1);
