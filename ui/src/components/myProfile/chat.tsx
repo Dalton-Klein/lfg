@@ -36,7 +36,7 @@ export default function Chat({ socketRef, currentConvo }) {
     determinePlatformImageAndUsername();
     if (userState.id && userState.id > 0) {
       loadChatHistory();
-      socketRef.emit("join_room", currentConvo.id);
+      socketRef.current.emit("join_room", currentConvo.id);
       return () => {
         setisPublic(true);
         setplatformImage([]);
@@ -56,7 +56,7 @@ export default function Chat({ socketRef, currentConvo }) {
 
   //BEGIN Update messages list after each chat sent
   useEffect(() => {
-    socketRef.on("message", ({ roomId, senderId, sender, message, timestamp }: any) => {
+    socketRef.current.on("message", ({ roomId, senderId, sender, message, timestamp }: any) => {
       setChat([...chat, { roomId, senderId, sender, message, timestamp }]);
     });
     lastMessageRef.current?.scrollIntoView();
@@ -80,7 +80,7 @@ export default function Chat({ socketRef, currentConvo }) {
       setMessageState({ ...messageState, roomId: currentConvo.id });
       determinePlatformImageAndUsername();
       loadChatHistory();
-      socketRef.emit("join_room", currentConvo.id);
+      socketRef.current.emit("join_room", currentConvo.id);
       lastMessageRef.current?.scrollIntoView();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,7 +129,7 @@ export default function Chat({ socketRef, currentConvo }) {
         sticky: true,
       });
     } else {
-      socketRef.emit("message", { roomId, senderId, sender, message, timestamp });
+      socketRef.current.emit("message", { roomId, senderId, sender, message, timestamp });
       e.preventDefault();
       setMessageState({ roomId, senderId, sender, message: "", timestamp });
     }
