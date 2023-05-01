@@ -1,13 +1,11 @@
 import React from "react";
 import FooterComponent from "../nav/footerComponent";
-import HeaderComponent from "../nav/headerComponent";
 import BannerTitle from "../nav/banner-title";
 import "./privacyPolicyPage.scss";
 
 export default function PrivacyPolicyPage() {
   return (
     <div>
-      <HeaderComponent></HeaderComponent>
       <BannerTitle
         title={"privacy policy"}
         imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}

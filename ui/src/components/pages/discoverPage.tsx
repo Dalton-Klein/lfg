@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { attemptPublishRustProfile, getRustPlayerTiles, getRocketLeagueTiles, getLFMGangTiles } from "../../utils/rest";
 import FooterComponent from "../nav/footerComponent";
-import HeaderComponent from "../nav/headerComponent";
 import FilterBarComponent from "../nav/filter/filterBarComponent";
 import PlayerTile from "../tiles/playerTile";
 import "./discoverPage.scss";
@@ -294,7 +293,6 @@ export default function DiscoverPage() {
 
   return (
     <div>
-      <HeaderComponent></HeaderComponent>
       <BannerAlt
         title={discoverTitle}
         buttonText={locationPath === "/lfg-rust" ? "my rust profile" : "my rl profile"}

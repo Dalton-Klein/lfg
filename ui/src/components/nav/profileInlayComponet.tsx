@@ -5,16 +5,16 @@ import Backdrop from "../modal/backdropComponent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { Menu } from "primereact/menu";
-import * as io from "socket.io-client";
 import { howLongAgo } from "../../utils/helperFunctions";
 import { getNotificationsUser } from "../../utils/rest";
 import ReactTooltip from "react-tooltip";
 
-export default function ProfileInlayComponet() {
-  const socketRef: any = useRef();
+export default function ProfileInlayComponet({ socketRef }) {
   const locationPath: string = useLocation().pathname;
   const navigate = useNavigate();
+
   const userState = useSelector((state: RootState) => state.user.user);
+
   const [drawerVis, setDrawerVis] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState<string>("");
   const [notifications, setnotifications] = useState<any>([]);
@@ -22,18 +22,12 @@ export default function ProfileInlayComponet() {
   const notifsMenu: any = useRef(null);
   const discoverMenu: any = useRef(null);
   useEffect(() => {
-    socketRef.current = io.connect(
-      process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg"
-    );
     if (typeof userState.avatar_url === "string" && userState.avatar_url.length > 1) {
       setProfileImage("userState.avatar_url");
     }
     if (userState.id && userState.id > 0) {
       loadNotificationHistory();
     }
-    return () => {
-      socketRef.current.disconnect();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

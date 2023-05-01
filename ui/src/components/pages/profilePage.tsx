@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./profilePage.scss";
 import ConnectionTile from "../tiles/connectionTile";
-import HeaderComponent from "../nav/headerComponent";
 import ProfileGeneral from "../myProfile/profileGeneral";
 import { acceptConnectionRequest, getConnectionsForUser, getPendingConnectionsForUser } from "../../utils/rest";
 import { useSelector } from "react-redux";
@@ -17,7 +16,7 @@ import ProfileRocketLeague from "../myProfile/profileRocketLeague";
 import ProfileWidgetsContainer from "../myProfile/profileWidgetsContainer";
 import AccountSettings from "../myProfile/profileAccountSettings";
 
-export default function ProfilePage() {
+export default function ProfilePage({ socketRef }) {
   const rustChatObject = {
     id: 1,
     username: "rust general",
@@ -86,7 +85,7 @@ export default function ProfilePage() {
   };
 
   const setChatboxContents = () => {
-    setchatBox(<Chat {...currentConvo}></Chat>);
+    setchatBox(<Chat socketRef={socketRef} currentConvo={currentConvo}></Chat>);
   };
 
   //BEGIN Fetch Connections
@@ -175,7 +174,6 @@ export default function ProfilePage() {
       ) : (
         <></>
       )}
-      <HeaderComponent></HeaderComponent>
       {/* Title Section */}
       {locationPath === "/messaging" ? <></> : <BannerTitle title={menuTitle} imageLink={bannerImageUrl}></BannerTitle>}
 

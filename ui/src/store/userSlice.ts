@@ -64,7 +64,7 @@ export default userSlice.reducer;
 
 // THUNK / EPIC
 
-// THUNK1: Creating User
+// THUNK: Creating User
 export const createUserInState =
   (email: string, vKey: string, name: string, password: string): AppThunk =>
   async (dispatch) => {

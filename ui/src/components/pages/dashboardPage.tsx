@@ -1,24 +1,17 @@
 import FooterComponent from "../nav/footerComponent";
-import HeaderComponent from "../nav/headerComponent";
 import "./gangsPage.scss";
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
 import GangsList from "../gangs/gangsList";
 import DaddyTile from "../tiles/daddyTile";
 import DashboardWidgetsContainer from "../dashboard/dashboardWidgetsContainer";
 
 export default function GangsPage() {
-  const locationPath: string = useLocation().pathname;
-
-  const [gangId, setgangId] = useState<number>(0);
-
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div>
-      <HeaderComponent></HeaderComponent>
       <GangsList></GangsList>
       <div className="tile-container">
         <div className="discover-tiles">

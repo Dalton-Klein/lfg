@@ -9,10 +9,8 @@ import { fetchUserData, getChatHistoryForUser } from "../../utils/rest";
 import { Toast } from "primereact/toast";
 import ReactTooltip from "react-tooltip";
 import ExpandedProfile from "../modal/expandedProfileComponent";
-import * as io from "socket.io-client";
-const socketRef = io.connect(process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg");
 
-export default function Chat(props: any) {
+export default function Chat({ socketRef, currentConvo }) {
   const userState = useSelector((state: RootState) => state.user.user);
 
   const [isPublic, setisPublic] = useState<boolean>(true);
@@ -38,7 +36,7 @@ export default function Chat(props: any) {
     determinePlatformImageAndUsername();
     if (userState.id && userState.id > 0) {
       loadChatHistory();
-      socketRef.emit("join_room", props.id);
+      socketRef.emit("join_room", currentConvo.id);
       return () => {
         setisPublic(true);
         setplatformImage([]);
@@ -79,14 +77,14 @@ export default function Chat(props: any) {
       },
     ]);
     if (userState.id && userState.id > 0) {
-      setMessageState({ ...messageState, roomId: props.id });
+      setMessageState({ ...messageState, roomId: currentConvo.id });
       determinePlatformImageAndUsername();
       loadChatHistory();
-      socketRef.emit("join_room", props.id);
+      socketRef.emit("join_room", currentConvo.id);
       lastMessageRef.current?.scrollIntoView();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props]);
+  }, [currentConvo]);
 
   const determinePlatformImageAndUsername = () => {
     const assetLinks: any = {
@@ -94,13 +92,13 @@ export default function Chat(props: any) {
       2: "/assets/psn-logo-small.png",
       3: "/assets/xbox-logo-small.png",
     };
-    let assetLink = assetLinks[props.preferred_platform];
-    setisPublic(props.isPublicChat === "true" ? true : false);
-    console.log("props???", props);
-    if (props.preferred_platform) {
-      if (props.preferred_platform === 1) setplatformUsername(props.username);
-      if (props.preferred_platform === 2) setplatformUsername(props.psn);
-      if (props.preferred_platform === 3) setplatformUsername(props.xbox);
+    let assetLink = assetLinks[currentConvo.preferred_platform];
+    setisPublic(currentConvo.isPublicChat === "true" ? true : false);
+    console.log("currentConvo???", currentConvo);
+    if (currentConvo.preferred_platform) {
+      if (currentConvo.preferred_platform === 1) setplatformUsername(currentConvo.username);
+      if (currentConvo.preferred_platform === 2) setplatformUsername(currentConvo.psn);
+      if (currentConvo.preferred_platform === 3) setplatformUsername(currentConvo.xbox);
       setplatformImage(<img className="connection-platform-image" src={assetLink} alt={`platform type`} />);
     } else {
       setplatformImage(<></>);
@@ -110,7 +108,7 @@ export default function Chat(props: any) {
 
   //BEGIN SOCKET Functions
   const loadChatHistory = async () => {
-    const historicalChatData = await getChatHistoryForUser(userState.id, props.id, "");
+    const historicalChatData = await getChatHistoryForUser(userState.id, currentConvo.id, "");
     if (historicalChatData && historicalChatData.length) setChat([...historicalChatData]);
     else setChat([]);
   };
@@ -206,7 +204,7 @@ export default function Chat(props: any) {
 
   //START Expanded Profile Logic
   const toggleExpandedProfile = async () => {
-    const userData: any = await fetchUserData(props.user_id);
+    const userData: any = await fetchUserData(currentConvo.user_id);
     setchatUserData(userData.data);
     setexpandedProfileVis(!expandedProfileVis);
   };
@@ -222,7 +220,7 @@ export default function Chat(props: any) {
           userInfo={chatUserData}
           refreshTiles={() => {}}
           showConnectForm={false}
-          isProfileComplete={props.isProfileComplete}
+          isProfileComplete={currentConvo.isProfileComplete}
           isConnected={true}
           game={"all"}
         />
@@ -231,7 +229,7 @@ export default function Chat(props: any) {
       )}
       {/* Message Title Bar */}
       <div className="messages-title-container">
-        {props.avatar_url === "" || props.avatar_url === "/assets/avatarIcon.png" ? (
+        {currentConvo.avatar_url === "" || currentConvo.avatar_url === "/assets/avatarIcon.png" ? (
           <div
             className="dynamic-conversation-border"
             onClick={() => {
@@ -239,7 +237,7 @@ export default function Chat(props: any) {
             }}
           >
             <div className="dynamic-conversation-text-small">
-              {props.username
+              {currentConvo.username
                 .split(" ")
                 .map((word: string[]) => word[0])
                 .join("")
@@ -252,11 +250,11 @@ export default function Chat(props: any) {
               toggleExpandedProfile();
             }}
             className="conversation-profile-image"
-            src={props.avatar_url}
-            alt={`${props.username}'s avatar`}
+            src={currentConvo.avatar_url}
+            alt={`${currentConvo.username}'s avatar`}
           />
         )}
-        <div className="messages-title-text">{props.username}</div>
+        <div className="messages-title-text">{currentConvo.username}</div>
         <div className="stackable-container-right">
           <div
             className="messaging-platform-box"

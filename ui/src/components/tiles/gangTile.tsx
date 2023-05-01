@@ -15,7 +15,6 @@ export default function GangTile(props: any) {
   };
 
   useEffect(() => {
-    console.log("gang tile props: ", props);
     switch (props.game_platform_id) {
       case 1:
         setplatformImgLink(

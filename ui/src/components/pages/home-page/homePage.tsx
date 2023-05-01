@@ -1,6 +1,5 @@
 import AboutComponent from "../../pages/home-page/aboutComponent";
 import FooterComponent from "../../nav/footerComponent";
-import HeaderComponent from "../../nav/headerComponent";
 import "./homePage.scss";
 import MediumTile from "../../tiles/mediumTile";
 import DaddyTile from "../../tiles/daddyTile";
@@ -37,7 +36,6 @@ export default function HomePage() {
 
   return (
     <div>
-      <HeaderComponent></HeaderComponent>
       <div className="title-box">
         {/* <div className="title">gangs</div> */}
         <img className="logo-img" src={"/assets/logo-v2-gangs.gg-transparent-white.png"} alt="gangs logo" />

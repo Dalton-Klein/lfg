@@ -27,6 +27,7 @@
 		"cors": "^2.8.5",
 		"dotenv": "^8.6.0",
 		"express": "^4.17.1",
+		"express-session": "^1.17.3",
 		"heroku": "^7.63.4",
 		"ngx-mat-select-search": "^3.2.0",
 		"node-gyp": "^9.3.1",
