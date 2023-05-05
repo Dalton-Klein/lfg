@@ -130,59 +130,65 @@ io.on("connection", (socket) => {
   });
 
   //When client disconnects, handle it
-  // socket.on("pre_disconnect", (payload) => {
-  //   console.log("pre_disconnect: ", payload);
-  //   if (allUsersInAllChannels[payload.channelId]) {
-  //     allUsersInAllChannels[payload.channelId] = allUsersInAllChannels[payload.channelId].filter((participant) => {
-  //       if (participant.user_id == payload.user_id) {
-  //         return false;
-  //       } else {
-  //         return true;
-  //       }
-  //     });
-  //     allUsersInAllChannels[payload.channelId].forEach((participant) => {
-  //       io.to(participant.socket_id).emit("user_left", {
-  //         id: socket.id,
-  //         remaining_participants: allUsersInAllChannels[payload.channelId],
-  //       });
-  //     });
-  //   }
-  // });
+  socket.on("pre_disconnect", (payload) => {
+    console.log("pre_disconnect: ", payload);
+    if (allUsersInAllChannels[payload.channelId]) {
+      allUsersInAllChannels[payload.channelId] = allUsersInAllChannels[payload.channelId].filter((participant) => {
+        if (participant.user_id === payload.user_id) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+      allUsersInAllChannels[payload.channelId].forEach((participant) => {
+        console.log(
+          "sending disconnevt info: ",
+          participant.socket_id,
+          " rezz ",
+          allUsersInAllChannels[payload.channelId]
+        );
+        io.to(participant.socket_id).emit("user_left", {
+          id: socket.id,
+          remaining_participants: allUsersInAllChannels[payload.channelId],
+        });
+      });
+    }
+  });
   //END VOICECHAT EVENTS
 
   socket.on("disconnecting", () => {
-    console.log("User disconnecting!! ", socket.id);
-    let user;
-    // Find original socket connection (when user refreshed page we have new socket id)
-    const originalSocket = io.sockets.sockets.get(storedSocketId);
-    console.log(`disconnect session obj:`, originalSocket);
-
-    let foundChannelRemovingFrom;
-    if (socket.request.session && socket.request.session.user) {
-      user = socket.request.session.user;
-      for (const channelId in allUsersInAllChannels) {
-        if (Object.hasOwnProperty.call(allUsersInAllChannels, channelId)) {
-          const channel = allUsersInAllChannels[channelId];
-          const tempArray = [];
-          channel.forEach((participant) => {
-            if (participant.user_id !== socket.request.session.user.user_id) {
-              tempArray.push(participant);
-            } else {
-              foundChannelRemovingFrom = channelId;
-            }
-          });
-          allUsersInAllChannels[channelId] = tempArray;
-        }
-      }
-    }
-    let resultingParticipants;
-    if (foundChannelRemovingFrom) {
-      resultingParticipants = allUsersInAllChannels[foundChannelRemovingFrom];
-    } else {
-      resultingParticipants = undefined;
-    }
-    console.log("test?? ", resultingParticipants);
-    socket.broadcast.emit("user_disconnected", { id: socket.id, participants: resultingParticipants });
+    // let user;
+    // // Find original socket connection (when user refreshed page we have new socket id)
+    // const originalSocket = io.sockets.sockets.get(storedSocketId);
+    // console.log("User disconnecting!! ", socket.id);
+    // console.log(`disconnect original socket:`, originalSocket);
+    // console.log(`disconnect session obj:`, socket.request.session.user);
+    // let foundChannelRemovingFrom;
+    // if (socket.request.session && socket.request.session.user) {
+    //   user = socket.request.session.user;
+    //   for (const channelId in allUsersInAllChannels) {
+    //     if (Object.hasOwnProperty.call(allUsersInAllChannels, channelId)) {
+    //       const channel = allUsersInAllChannels[channelId];
+    //       const tempArray = [];
+    //       channel.forEach((participant) => {
+    //         if (participant.user_id !== socket.request.session.user.user_id) {
+    //           tempArray.push(participant);
+    //         } else {
+    //           foundChannelRemovingFrom = channelId;
+    //         }
+    //       });
+    //       allUsersInAllChannels[channelId] = tempArray;
+    //     }
+    //   }
+    // }
+    // let resultingParticipants;
+    // if (foundChannelRemovingFrom) {
+    //   resultingParticipants = allUsersInAllChannels[foundChannelRemovingFrom];
+    // } else {
+    //   resultingParticipants = undefined;
+    // }
+    // console.log("test?? ", resultingParticipants);
+    // socket.broadcast.emit("user_disconnected", { id: socket.id, participants: resultingParticipants });
   });
 
   socket.on("disconnect", () => {

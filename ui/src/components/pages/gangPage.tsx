@@ -346,7 +346,7 @@ export default function GangPage({ socketRef }) {
           });
           return tempPeers;
         });
-        console.log("********* ", payload.participants);
+        console.log("********* ", payload);
         if (payload.participants) {
           renderCallParticipants(false, payload.participants);
         }
@@ -358,21 +358,23 @@ export default function GangPage({ socketRef }) {
 
   const disconnectFromVoice = () => {
     //Disconnect from voice
-    console.log("disconnecting! ", socketRef.current);
-    // const locationOfLastSlash = locationPath.lastIndexOf("/");
-    // const channelId = parseInt(locationPath.substring(locationOfLastSlash + 1));
-    // socketRef.current.emit("pre_disconnect", {
-    //   channelId,
-    //   user_id: userState.id,
-    //   username: userState.username,
-    //   user_avatar_url: userState.avatar_url,
-    // });
+    console.log("disconnecting!!!!!!!!! ", socketRef.current);
+
+    const locationOfLastSlash = locationPath.lastIndexOf("/");
+    const channelId = parseInt(locationPath.substring(locationOfLastSlash + 1));
+    socketRef.current.emit("pre_disconnect", {
+      channelId,
+      user_id: userState.id,
+      username: userState.username,
+      user_avatar_url: userState.avatar_url,
+    });
+
     peers.forEach((tempPeer) => {
       tempPeer.disconnect();
       tempPeer.destroy();
     });
     setpeers([]);
-    socketRef.current.disconnect();
+    // socketRef.current.disconnect();
     setcurrentAudioChannel({});
     setcallParticipants([]);
   };
