@@ -265,12 +265,12 @@ const createGangRequest = async (req, res) => {
 
 const acceptGangConnectionRequest = async (req, res) => {
   try {
-    const { gang_id, request_id } = req.body;
+    const { request_id } = req.body;
     //Get a copy of the request
     const requestResult = await checkGangRequestStatusByRequestId(request_id);
     //Create roster record
     console.log("request result:: ", requestResult);
-    const result = await createGangRosterRecord(gang_id, requestResult[0].user_id, 5);
+    const result = await createGangRosterRecord(requestResult[0].gang_id, requestResult[0].user_id, 5);
     //Remove request record
     await deleteGangRequestRecord(requestResult[0].id);
     res.status(200).send(result);

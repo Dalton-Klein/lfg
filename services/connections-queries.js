@@ -1,5 +1,5 @@
 const getConnectionsForUserQuerySenders = () => {
-	return `
+  return `
         select c.sender as user_id,
               c.platform,
               c.updated_at,
@@ -39,7 +39,7 @@ const getConnectionsForUserQuerySenders = () => {
 };
 
 const getConnectionsForUserQueryAcceptors = () => {
-	return `
+  return `
         select c.acceptor as user_id,
               c.platform,
               c.updated_at,
@@ -79,7 +79,7 @@ const getConnectionsForUserQueryAcceptors = () => {
 };
 
 const getIncomingPendingConnectionsForUserQuery = () => {
-	return `
+  return `
           select c.id as requestId,
                 c.sender as user_id,
                 c.platform,
@@ -120,7 +120,7 @@ const getIncomingPendingConnectionsForUserQuery = () => {
 };
 
 const getOutgoingPendingConnectionsForUserQuery = () => {
-	return `
+  return `
           select c.id as requestId,
                 c.receiver as user_id,
                 c.platform,
@@ -159,24 +159,41 @@ const getOutgoingPendingConnectionsForUserQuery = () => {
 `;
 };
 
+const getGangPendingConnectionsForUserQuery = () => {
+  return `
+                     select c.id as requestId,
+                            c.gang_id as user_id,
+                            g.name as username,
+                            g.avatar_url,
+                            g.about,
+                            g.chat_platform_id,
+                            g.game_platform_id as platform
+                       from public.gang_requests c
+                       join public.gangs g 
+                         on g.id = c.gang_id
+                      where c.user_id = :userId
+`;
+};
+
 const getConnectionInsertQuery = () => {
-	return `
+  return `
   insert into connections (sender, acceptor, platform, created_at, updated_at)
        values (:senderId, :acceptorId, :platform, now(), now())
   `;
 };
 
 const removePendingConnectionQuery = () => {
-	return `
+  return `
     delete from connection_requests
           where id = :id
   `;
 };
 module.exports = {
-	getConnectionsForUserQuerySenders,
-	getConnectionsForUserQueryAcceptors,
-	getIncomingPendingConnectionsForUserQuery,
-	getOutgoingPendingConnectionsForUserQuery,
-	getConnectionInsertQuery,
-	removePendingConnectionQuery,
+  getConnectionsForUserQuerySenders,
+  getConnectionsForUserQueryAcceptors,
+  getIncomingPendingConnectionsForUserQuery,
+  getOutgoingPendingConnectionsForUserQuery,
+  getGangPendingConnectionsForUserQuery,
+  getConnectionInsertQuery,
+  removePendingConnectionQuery,
 };

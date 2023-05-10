@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./profilePage.scss";
 import ConnectionTile from "../tiles/connectionTile";
 import ProfileGeneral from "../myProfile/profileGeneral";
-import { acceptConnectionRequest, getPendingConnectionsForUser } from "../../utils/rest";
+import { acceptConnectionRequest, acceptGangConnectionRequest, getPendingConnectionsForUser } from "../../utils/rest";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import "primereact/resources/primereact.min.css";
@@ -39,7 +39,8 @@ export default function ProfilePage({ socketRef }) {
   );
   const [chatBox, setchatBox] = useState<any>(<></>);
   const [outgoingResult, setOutgoingResult] = useState<any>([]);
-  const [incomingResult, setIncomingResult] = useState<any>([]);
+  const [incomingResult, setincomingResult] = useState<any>([]);
+  const [gangIncomingResult, setgangIncomingResult] = useState<any>([]);
   const [blockedResult, setBlockedResult] = useState<any>([]);
   const [isConfetti, setIsConfetti] = useState<any>(false);
 
@@ -93,21 +94,44 @@ export default function ProfilePage({ socketRef }) {
         ></ConnectionTile>
       </li>
     ));
+    const formattedGangRequestTiles = httpResults.gang.map((tile: any) => (
+      <li className="connection-list-item" style={{ listStyleType: "none" }} key={tile.id}>
+        <ConnectionTile
+          {...tile}
+          type={3}
+          callAcceptRequest={(gangId: number, requestId: number) => {
+            acceptGangRequest(gangId, requestId);
+          }}
+        ></ConnectionTile>
+      </li>
+    ));
     setOutgoingResult(formattedOutgoingTiles);
-    setIncomingResult(formattedIncomingTiles);
+    setincomingResult(formattedIncomingTiles);
+    setgangIncomingResult(formattedGangRequestTiles);
     setBlockedResult([]);
   };
   //END Fetch Connections
 
   //BEGIN Social Actions Logic
+  const blastConfetti = async () => {
+    setTimeout(function () {
+      setIsConfetti(false);
+    }, 4000);
+  };
   const acceptRequest = async (senderId: number, requestId: number) => {
     const acceptResult = await acceptConnectionRequest(userData.id, senderId, 1, requestId, userData.token);
-    const blastConfetti = async () => {
-      setTimeout(function () {
-        setIsConfetti(false);
-      }, 4000);
-    };
     if (acceptResult && acceptResult[1] === 1) {
+      setIsConfetti(true);
+      await blastConfetti();
+      fetchPendingConnections();
+      //***** TODO ***** call event on vertical nav to refresh list */
+      // fetchExistingConnections();
+    }
+  };
+  const acceptGangRequest = async (senderId: number, requestId: number) => {
+    /// TODO
+    const acceptResult = await acceptGangConnectionRequest(requestId, userData.token);
+    if (acceptResult && acceptResult.length) {
       setIsConfetti(true);
       await blastConfetti();
       fetchPendingConnections();
@@ -188,7 +212,12 @@ export default function ProfilePage({ socketRef }) {
       {locationPath === "/messaging" ? <div className="messaging-container">{chatBox}</div> : <></>}
       {/* MENU 3- Incoming Connections */}
       {locationPath === "/incoming-requests" ? (
-        <div className="connection-container">{incomingResult.length > 0 ? incomingResult : noResultsDiv}</div>
+        <div className="connection-container">
+          <div className="request-header">connection requests</div>
+          {incomingResult.length > 0 ? incomingResult : noResultsDiv}
+          <div className="request-header">gang invitations</div>
+          {gangIncomingResult.length > 0 ? gangIncomingResult : noResultsDiv}
+        </div>
       ) : (
         <></>
       )}

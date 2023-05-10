@@ -185,6 +185,7 @@ export default function GangPage({ socketRef }) {
               channelButtonPressed(tile.index);
             }}
           >
+            <i className={`${tile.is_voice ? "pi pi-volume-up" : "pi pi-book"}`} />
             <div className="channel-title">{tile.name}</div>
           </button>
         ))
