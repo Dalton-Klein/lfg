@@ -437,7 +437,7 @@ export default function GangsMgmt() {
       {/* Show stuff only if creating gang, or after existing gang info is loaded */}
       {locationPath === "/create-gang" || loadedGangInfo.basicInfo?.id ? (
         <BannerAlt
-          title={locationPath === "/create-gang" ? "create gang" : "gang management"}
+          title={locationPath === "/create-gang" ? "create gang" : "manage gang"}
           buttonText={locationPath === "/create-gang" ? "cancel" : "back to gang"}
           buttonLink={locationPath === "/create-gang" ? "/dashboard" : `/gang/${loadedGangInfo.basicInfo?.id}`}
         ></BannerAlt>

@@ -66,8 +66,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-left: 1vw;
+  padding-right: 1vw;
   .gang-mgmt-container {
-    min-width: 70%;
+    min-width: 100%;
     background-color: $colorGreyPop;
     border-radius: $borderRadius2;
     margin-bottom: 2vh;
@@ -289,7 +291,7 @@
 .channels-mgmt-container {
   background-color: $colorGreyPop;
   padding: 1vw;
-  min-width: 70%;
+  min-width: 100%;
   border-radius: $borderRadius2;
   margin-bottom: 2vh;
   .channels-mgmt-title {

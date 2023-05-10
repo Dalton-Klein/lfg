@@ -1,7 +1,7 @@
-@import '../../styling/config';
+@import "../../styling/config";
 
 .alt-banner-box {
-  min-width: 96vw;
+  min-width: 90vw;
   margin: 2vh 2vw;
   min-height: 9vh;
   max-height: 9vh;
@@ -42,6 +42,7 @@
 
 @media screen and (max-width: $screenBreak1) {
   .alt-banner-box {
+    min-width: 85vw;
     h1 {
       font-size: $font2;
     }

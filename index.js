@@ -48,14 +48,13 @@ io.on("connection", (socket) => {
     //First, disconnect from all connected rooms
     const allConnectedRooms = socket.rooms;
     allConnectedRooms.forEach((room) => {
-      console.log("leave loop ", room);
       if (room !== roomId) {
         socket.leave(room); // Leave each room (except the default room, which is the socket ID)
       }
     });
     //Now, connect to desired room
     socket.join(roomId);
-    console.log("User JOINED ROOM ", roomId, "    all?? ", socket.rooms);
+    console.log("User JOINED ROOM ", roomId);
   });
 
   //Listen for dm chat messages from users
