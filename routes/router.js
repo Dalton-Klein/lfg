@@ -35,6 +35,7 @@ router.post("/get-notifications-general", notificationsController.getNotificatio
 
 //MESSAGING ROUTES
 router.post("/get-chat-history", messageController.getChatHistoryForUser);
+router.post("/get-gang-chat-history", messageController.getChatHistoryForGang);
 
 //SOCIAL ROUTES
 router.post("/social", userController.getSocialDetails);

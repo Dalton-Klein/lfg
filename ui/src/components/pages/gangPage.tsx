@@ -13,6 +13,7 @@ import Peer from "simple-peer";
 import { Menu } from "primereact/menu";
 import { loadSavedDevices } from "../../utils/helperFunctions";
 import { updateUserThunk } from "../../store/userSlice";
+import InstantMessaging from "../messaging/instantMessaging";
 
 function isMobileDevice() {
   const userAgent = window.navigator.userAgent;
@@ -61,6 +62,7 @@ export default function GangPage({ socketRef }) {
   const [currentAudioChannel, setcurrentAudioChannel] = useState<any>({});
   const [first5Members, setfirst5Members] = useState<any>([]);
   const [platformImgLink, setplatformImgLink] = useState<string>("");
+  const [showChannelNav, setshowChannelNav] = useState<boolean>(true);
   const toast: any = useRef({ current: "" });
   //Voice Specific
   const [peers, setpeers] = useState<any>([]);
@@ -147,6 +149,11 @@ export default function GangPage({ socketRef }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [callParticipants]);
 
+  useEffect(() => {
+    renderChannelTitleContents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showChannelNav]);
+
   //START VOICE LOGIC
   const loadDevices = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
@@ -185,7 +192,7 @@ export default function GangPage({ socketRef }) {
     } else {
       //If not in gang, and no request exists, show join button
       setchannelList(
-        <div className="join-gang-box">
+        <div className="join-gang-box" key={0}>
           <div>you do not have access to this gang's channels because you are not a member of this gang</div>
           <button
             className="alt-button"
@@ -346,7 +353,7 @@ export default function GangPage({ socketRef }) {
           });
           return tempPeers;
         });
-        console.log("********* ", payload.participants);
+        console.log("********* ", payload);
         if (payload.participants) {
           renderCallParticipants(false, payload.participants);
         }
@@ -358,21 +365,23 @@ export default function GangPage({ socketRef }) {
 
   const disconnectFromVoice = () => {
     //Disconnect from voice
-    console.log("disconnecting! ", socketRef.current);
-    // const locationOfLastSlash = locationPath.lastIndexOf("/");
-    // const channelId = parseInt(locationPath.substring(locationOfLastSlash + 1));
-    // socketRef.current.emit("pre_disconnect", {
-    //   channelId,
-    //   user_id: userState.id,
-    //   username: userState.username,
-    //   user_avatar_url: userState.avatar_url,
-    // });
+    console.log("disconnecting!!!!!!!!! ", socketRef.current);
+
+    const locationOfLastSlash = locationPath.lastIndexOf("/");
+    const channelId = parseInt(locationPath.substring(locationOfLastSlash + 1));
+    socketRef.current.emit("pre_disconnect", {
+      channelId,
+      user_id: userState.id,
+      username: userState.username,
+      user_avatar_url: userState.avatar_url,
+    });
+
     peers.forEach((tempPeer) => {
       tempPeer.disconnect();
       tempPeer.destroy();
     });
     setpeers([]);
-    socketRef.current.disconnect();
+    // socketRef.current.disconnect();
     setcurrentAudioChannel({});
     setcallParticipants([]);
   };
@@ -428,6 +437,14 @@ export default function GangPage({ socketRef }) {
       } else {
         setchannelTitleContents(
           <div className="text-channel-container">
+            <button
+              className="expand-channels-button"
+              onClick={() => {
+                setshowChannelNav(showChannelNav ? false : true);
+              }}
+            >
+              <i className={`pi ${showChannelNav ? "pi-angle-left" : "pi-angle-right"}`} />
+            </button>
             <div className="text-channel-title">{currentChannel.name}</div>
           </div>
         );
@@ -517,7 +534,9 @@ export default function GangPage({ socketRef }) {
   };
 
   const renderChannelDynamicContents = () => {
+    console.log("current chan??? ", currentChannel);
     if (currentChannel.is_voice) {
+      //Render voice chnnel content
       setchannelDynamicContents(
         <div className="voice-channel">
           {/* List of participants in call */}
@@ -525,9 +544,10 @@ export default function GangPage({ socketRef }) {
         </div>
       );
     } else {
+      //Render group messaging content
       setchannelDynamicContents(
         <div className="text-channel-container">
-          <div>gang messging coming soon!</div>
+          <InstantMessaging socketRef={socketRef} convo={currentChannel} />
         </div>
       );
     }
@@ -581,83 +601,129 @@ export default function GangPage({ socketRef }) {
     <div>
       <Toast ref={toast} />
       <div className="master-gang-contents">
-        <div className="top-bar">
-          <div className="main-details">
-            <div className="image-column">
-              {gangInfo.basicInfo?.avatar_url === "" || gangInfo.basicInfo?.avatar_url === "/assets/avatarIcon.png" ? (
-                <div
-                  className="dynamic-avatar-border"
-                  onClick={() => {
-                    toggleExpandedProfile();
-                  }}
-                >
-                  <div className="dynamic-avatar-text-med">
-                    {gangInfo.basicInfo?.name
-                      .split(" ")
-                      .map((word: string[]) => word[0])
-                      .join("")
-                      .slice(0, 2)
-                      .toLowerCase()}
+        {showChannelNav ? (
+          <div className="top-bar">
+            <div className="main-details">
+              <div className="image-column">
+                {gangInfo.basicInfo?.avatar_url === "" ||
+                gangInfo.basicInfo?.avatar_url === "/assets/avatarIcon.png" ? (
+                  <div
+                    className="dynamic-avatar-border"
+                    onClick={() => {
+                      toggleExpandedProfile();
+                    }}
+                  >
+                    <div className="dynamic-avatar-text-med">
+                      {gangInfo.basicInfo?.name
+                        .split(" ")
+                        .map((word: string[]) => word[0])
+                        .join("")
+                        .slice(0, 2)
+                        .toLowerCase()}
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <img
-                  className="card-photo"
-                  onClick={() => {}}
-                  src={gangInfo.basicInfo?.avatar_url}
-                  alt={`${gangInfo.basicInfo?.name}'s avatar`}
-                />
-              )}
+                ) : (
+                  <img
+                    className="card-photo"
+                    onClick={() => {}}
+                    src={gangInfo.basicInfo?.avatar_url}
+                    alt={`${gangInfo.basicInfo?.name}'s avatar`}
+                  />
+                )}
+              </div>
+              <div className="gang-info">
+                <div className="gang-name">{gangInfo.basicInfo?.name ? gangInfo.basicInfo.name : ""}</div>
+                <div className="gang-role-text">{gangInfo.role?.role_name ? gangInfo.role?.role_name : ""}</div>
+              </div>
             </div>
-            <div className="gang-info">
-              <div className="gang-name">{gangInfo.basicInfo?.name ? gangInfo.basicInfo.name : ""}</div>
-              <div className="gang-role-text">{gangInfo.role?.role_name ? gangInfo.role?.role_name : ""}</div>
-            </div>
+            <img className="gang-game-image" src={platformImgLink} alt={`game this team supports`} />
+            <Menu model={renderGangOptions()} popup ref={gangOptionsMenu} id="popup_menu" />
+            <button
+              style={{ display: gangInfo!.role && gangInfo!.role!.role_id === 1 ? "inline-block" : "none" }}
+              className="options-button"
+              onClick={(event) => gangOptionsMenu.current.toggle(event)}
+            >
+              <i className="pi pi-ellipsis-h"></i>
+            </button>
           </div>
-          <img className="gang-game-image" src={platformImgLink} alt={`game this team supports`} />
-          <Menu model={renderGangOptions()} popup ref={gangOptionsMenu} id="popup_menu" />
-          <button
-            style={{ display: gangInfo!.role && gangInfo!.role!.role_id === 1 ? "inline-block" : "none" }}
-            className="options-button"
-            onClick={(event) => gangOptionsMenu.current.toggle(event)}
-          >
-            <i className="pi pi-ellipsis-h"></i>
-          </button>
-        </div>
+        ) : (
+          <></>
+        )}
+
         {/* <div className="about-box">{gangInfo.basicInfo?.about ? gangInfo.basicInfo.about : ""}</div> */}
         {/* Gang Default Page */}
+
         <div className="channel-specific-contents">
           {/* Roster Row */}
-          <div className="gang-roster-container">
-            {first5Members.map((member: any) => (
-              <div className="list-member-photo" key={member.id}>
-                <img className="member-photo" onClick={() => {}} src={member.avatar_url} alt={`member avatar`} />
+          {showChannelNav ? (
+            <div className="gang-roster-container">
+              {first5Members.map((member: any) => (
+                <div className="list-member-photo" key={member.id}>
+                  {!member.avatar_url || member.avatar_url === "/assets/avatarIcon.png" ? (
+                    <div
+                      className="dynamic-avatar-bg"
+                      onClick={() => {
+                        /* ***TODO*** load detail profile of person here */
+                      }}
+                      data-tip
+                      data-for="avatarTip"
+                    >
+                      <div className="dynamic-avatar-text">
+                        {member.username
+                          ? member.username
+                              .split(" ")
+                              .map((word: string[]) => word[0])
+                              .join("")
+                              .slice(0, 2)
+                              .toLowerCase()
+                          : "gg"}
+                      </div>
+                    </div>
+                  ) : (
+                    <img
+                      className="member-photo"
+                      onClick={() => {
+                        /* ***TODO*** load detail profile of person here */
+                      }}
+                      src={member.avatar_url}
+                      alt={`member avatar`}
+                    />
+                  )}
+                </div>
+              ))}
+              <div className="number-of-members">
+                {gangInfo.basicInfo?.members?.length ? gangInfo.basicInfo?.members?.length : ""} members
               </div>
-            ))}
-            <div className="number-of-members">
-              {gangInfo.basicInfo?.members?.length ? gangInfo.basicInfo?.members?.length : ""} members
             </div>
-          </div>
+          ) : (
+            <></>
+          )}
+
           {/* List of channels on left, Channel contents on right */}
           {gangInfo.role?.role_id ? (
             <div className="channels-container">
-              <div className="chat-list">
-                {channelList}
-                {peers.map((peer, index) => {
-                  return <Video key={index} peer={peer} />;
-                })}
-              </div>
+              {showChannelNav ? (
+                <div className="chat-list">
+                  {channelList}
+                  {peers.map((peer, index) => {
+                    return <Video key={index} peer={peer} />;
+                  })}
+                </div>
+              ) : (
+                <></>
+              )}
               <div className="channel-contents">
                 <div className="channel-contents-title">{channelTitleContents}</div>
                 <div className="channel-contents-dynamic">{channelDynamicContents}</div>
               </div>
             </div>
+          ) : showChannelNav ? (
+            [channelList]
           ) : (
-            channelList
+            <></>
           )}
         </div>
       </div>
-      <FooterComponent></FooterComponent>
     </div>
   );
 }

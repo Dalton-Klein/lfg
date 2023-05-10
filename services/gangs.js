@@ -45,6 +45,58 @@ const createGangChannel = async (gang_id, name, privacy_level, is_voice) => {
   });
 };
 
+const updateGangChannelField = async (req, res) => {
+  try {
+    const { channelId, field, value } = req.body;
+    const reply = await updateGangChannelFieldQuery(channelId, field, value);
+    res.status(200).send(reply);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Update Gang Field ERROR");
+  }
+};
+
+const updateGangChannelFieldQuery = async (gangId, field, value) => {
+  const query = format(
+    `
+    update public.gang_chats
+      set %I = :value,
+          updated_at = current_timestamp
+    where id = :gangId
+  `,
+    field
+  );
+  const result = await sequelize.query(query, {
+    type: Sequelize.QueryTypes.UPDATE,
+    replacements: {
+      gangId,
+      field,
+      value,
+    },
+  });
+  return result;
+};
+
+const updateGangChannelTimestamp = async (channelId) => {
+  try {
+    let query = `
+        update public.gang_chats
+              set updated_at = current_timestamp
+            where id = :channelId
+    `;
+    const updateResult = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.UPDATE,
+      replacements: {
+        channelId,
+      },
+    });
+    return updateResult;
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+};
+
 const createGangRosterRecord = async (gang_id, user_id, role_id) => {
   gangsQuery = `
   insert into public.gang_roster (gang_id, user_id, role_id, created_at, updated_at)
@@ -140,6 +192,8 @@ module.exports = {
   createGangRecord,
   createGangDefaultChannels,
   createGangChannel,
+  updateGangChannelField,
+  updateGangChannelTimestamp,
   createGangRosterRecord,
   createGangRequestRecord,
   checkGangRequestStatusByUserId,
