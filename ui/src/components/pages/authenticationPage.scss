@@ -1,187 +1,189 @@
-@import '../../styling/config';
+@import "../../styling/config";
 
 .link-text {
-	color: $colorSecondary;
+  color: $colorSecondary;
 }
 
 .login-container {
-	display: flex;
-	flex-direction: column;
-	height: 90vh;
-	margin-top: 0.5vh;
-	justify-content: center;
-	align-items: center;
-	.login-banner {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		.large-logo {
-			min-width: 60px;
-			max-width: 7vw;
-			min-height: 60px;
-			max-height: 7vw;
-			opacity: 0.6;
-			align-self: center;
-		}
-		h1 {
-			opacity: 0.6;
-			font-size: $font5;
-		}
-	}
-	.panel-container {
-		display: flex;
-		min-width: 100%;
-		max-width: 100%;
-		min-height: 80%;
-		overflow-x: auto;
-		overflow-y: visible;
-		touch-action: none;
-		.form-container {
-			display: flex;
-			flex-direction: column;
-			min-width: 100%;
-			border-radius: 0;
-			position: absolute;
-			margin: 1% 10% 0 10%;
-			form {
-				justify-content: space-between;
-				align-items: center;
-				display: flex;
-				flex-direction: column;
-				min-height: 60%;
-				width: 80%;
-				h2 {
-					text-align: center;
-					font-size: $font4;
-					padding-top: 0.5em;
-				}
-				.seperator-text {
-					margin-bottom: 1vh;
-					text-align: center;
-				}
-				.login-inputs {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					width: 100%;
-					padding: 0% 10%;
-					.google-signup-container {
-						width: 50%;
-						display: flex;
-						flex-direction: column;
-						align-items: center;
-						align-content: center;
-						justify-content: center;
-						.google-button {
-							min-width: 100% !important;
-						}
-					}
-					input {
-						margin: 0.4em;
-						padding: 1em;
-						height: 1em;
-						font-size: medium;
-						background-color: $colorText;
-						color: $colorGreyBg;
-						width: 50%;
-					}
-					.checkbox-field {
-						margin: 0.4em;
-						display: flex;
-						flex-direction: column;
-						justify-content: center;
-						align-items: center;
-						width: 50%;
-						.age-checkbox {
-							border: 2px solid #ced4da;
-							background: #ffffff;
-							width: 22px;
-							height: 22px;
-							color: #495057;
-							border-radius: $borderRadius1;
-							transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
-						}
-						.checkbox-label {
-							font-size: $font2;
-							margin-top: 0.4em;
-							width: 100%;
-						}
-					}
-				}
-				button {
-					width: 40%;
-					font-size: $font3;
-				}
-				.google-button {
-					cursor: pointer !important;
-					font-family: 'questial' !important;
-					border-radius: $borderRadius1 !important;
-					transition: 125ms !important;
-					min-height: 3em !important;
-					min-width: 50% !important;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					color: $colorText !important;
-					background-color: $colorGreyPop !important;
-					box-shadow: 0 0 0px 0 rgba(10, 10, 10, 0) !important;
-					div {
-						margin-right: 0 !important;
-						transition: 125ms !important;
-						max-height: 100%;
-						background-color: $colorGreyPop !important;
-					}
-					span {
-						font-weight: 300 !important;
-						font-size: $font3;
-					}
-				}
-				.google-button:hover {
-					cursor: pointer;
-					color: $colorButtonHover !important;
-					background-color: $colorGreyHover !important;
-					div {
-						background-color: $colorGreyHover !important;
-					}
-				}
-			}
-		}
-	}
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  margin-top: 0.5vh;
+  justify-content: center;
+  align-items: center;
+  .login-banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 100vw;
+    text-align: center;
+    .large-logo {
+      min-width: 60px;
+      max-width: 7vw;
+      min-height: 60px;
+      max-height: 7vw;
+      opacity: 0.55;
+      align-self: center;
+    }
+    h1 {
+      opacity: 0.55;
+      font-size: $font5;
+    }
+  }
+  .panel-container {
+    display: flex;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 80%;
+    overflow-x: auto;
+    overflow-y: visible;
+    touch-action: none;
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      min-width: 100%;
+      border-radius: 0;
+      position: absolute;
+      margin: 1% 10% 0 10%;
+      form {
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        min-height: 60%;
+        width: 80%;
+        h2 {
+          text-align: center;
+          font-size: $font4;
+          padding-top: 0.5em;
+        }
+        .seperator-text {
+          margin-bottom: 1vh;
+          text-align: center;
+        }
+        .login-inputs {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          padding: 0% 10%;
+          .google-signup-container {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            .google-button {
+              min-width: 100% !important;
+            }
+          }
+          input {
+            margin: 0.4em;
+            padding: 1em;
+            height: 1em;
+            font-size: medium;
+            background-color: $colorText;
+            color: $colorGreyBg;
+            width: 50%;
+          }
+          .checkbox-field {
+            margin: 0.4em;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 50%;
+            .age-checkbox {
+              border: 2px solid #ced4da;
+              background: #ffffff;
+              width: 22px;
+              height: 22px;
+              color: #495057;
+              border-radius: $borderRadius1;
+              transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+            }
+            .checkbox-label {
+              font-size: $font2;
+              margin-top: 0.4em;
+              width: 100%;
+            }
+          }
+        }
+        button {
+          width: 40%;
+          font-size: $font3;
+        }
+        .google-button {
+          cursor: pointer !important;
+          font-family: "questial" !important;
+          border-radius: $borderRadius1 !important;
+          transition: 125ms !important;
+          min-height: 3em !important;
+          min-width: 50% !important;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: $colorText !important;
+          background-color: $colorGreyPop !important;
+          box-shadow: 0 0 0px 0 rgba(10, 10, 10, 0) !important;
+          div {
+            margin-right: 0 !important;
+            transition: 125ms !important;
+            max-height: 100%;
+            background-color: $colorGreyPop !important;
+          }
+          span {
+            font-weight: 300 !important;
+            font-size: $font3;
+          }
+        }
+        .google-button:hover {
+          cursor: pointer;
+          color: $colorButtonHover !important;
+          background-color: $colorGreyHover !important;
+          div {
+            background-color: $colorGreyHover !important;
+          }
+        }
+      }
+    }
+  }
 }
 
 .vKey-message {
-	color: $colorButtonHover;
-	margin-bottom: 2vh;
+  color: $colorButtonHover;
+  margin-bottom: 2vh;
 }
 
 .error-mssg {
-	color: rgb(182, 0, 0);
-	min-height: 3vh;
-	text-align: center;
+  color: rgb(182, 0, 0);
+  min-height: 3vh;
+  text-align: center;
 }
 
 @media screen and (max-width: 900px) {
-	.login-container {
-		.panel-container {
-			.form-container {
-				height: 60vh;
-				form {
-					button {
-						width: 90%;
-						height: 2.75em;
-						padding: 0px;
-					}
-					.login-inputs {
-						padding: 0% 2%;
-						input {
-							width: 90%;
-						}
-						.checkbox-field {
-							width: 90%;
-						}
-					}
-				}
-			}
-		}
-	}
+  .login-container {
+    .panel-container {
+      .form-container {
+        height: 60vh;
+        form {
+          button {
+            width: 90%;
+            height: 2.75em;
+            padding: 0px;
+          }
+          .login-inputs {
+            padding: 0% 2%;
+            input {
+              width: 90%;
+            }
+            .checkbox-field {
+              width: 90%;
+            }
+          }
+        }
+      }
+    }
+  }
 }

@@ -90,6 +90,9 @@ export default function DiscoverPage() {
         break;
       case "/lfm-rust":
         tiles = await getLFMGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 1, "nothing");
+        tiles.forEach((tile) => {
+          tile.role_name = "";
+        });
         break;
       case "/lfm-rocket-league":
         tiles = await getLFMGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 2, "nothing");
