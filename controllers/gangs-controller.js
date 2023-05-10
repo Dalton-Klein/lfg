@@ -164,6 +164,7 @@ const getGangActivity = async (req, res) => {
                      is_voice
                 from public.gang_chats gc
                where gc.gang_id = :gang_id
+            order by gc.id
             `;
     let gangChannels = await sequelize.query(gangQuery, {
       type: Sequelize.QueryTypes.SELECT,

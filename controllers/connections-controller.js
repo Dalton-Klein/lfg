@@ -1,6 +1,6 @@
-require('dotenv').config();
-const Sequelize = require('sequelize');
-const { sequelize } = require('../models/index');
+require("dotenv").config();
+const Sequelize = require("sequelize");
+const { sequelize } = require("../models/index");
 const {
   getConnectionsForUserQuerySenders,
   getConnectionsForUserQueryAcceptors,
@@ -8,10 +8,10 @@ const {
   getOutgoingPendingConnectionsForUserQuery,
   getConnectionInsertQuery,
   removePendingConnectionQuery,
-} = require('../services/connections-queries');
-const moment = require('moment');
-const { updateUserGenInfoField } = require('../services/user-common');
-const { saveNotification } = require('./notification-controller');
+} = require("../services/connections-queries");
+const moment = require("moment");
+const { updateUserGenInfoField } = require("../services/user-common");
+const { saveNotification } = require("./notification-controller");
 
 /*
 send connection request logic
@@ -33,16 +33,16 @@ const sendConnectionRequest = async (req, res) => {
       },
     });
     const result = {
-      status: 'success',
-      data: 'created connection request',
+      status: "success",
+      data: "created connection request",
     };
     saveNotification(forUserId, 1, fromUserId);
-    updateUserGenInfoField(fromUserId, 'last_seen', moment().format());
+    updateUserGenInfoField(fromUserId, "last_seen", moment().format());
     if (connectionInsertResult) res.status(200).send(result);
-    else throw new Error('Failed to create connection request');
+    else throw new Error("Failed to create connection request");
   } catch (err) {
     console.log(err);
-    res.status(500).send('POST ERROR');
+    res.status(500).send("POST ERROR");
   }
 };
 /*
@@ -50,7 +50,7 @@ get existing connections logic
 */
 const getConnectionsForUser = async (req, res) => {
   try {
-    console.log(' ♛ A User Requested Their Connections ♛ ');
+    console.log(" ♛ A User Requested Their Connections ♛ ");
     const { userId, token } = req.body;
     let query;
     query = getConnectionsForUserQuerySenders();
@@ -71,7 +71,7 @@ const getConnectionsForUser = async (req, res) => {
     let connections = acceptorConnections.concat(senderConnections);
     //Sort connection based on updated_at, which is kept up to date each time a message is sent
     connections = connections.sort((a, b) => (a.updated_at > b.updated_at ? -1 : 1));
-    await updateUserGenInfoField(userId, 'last_seen', moment().format());
+    await updateUserGenInfoField(userId, "last_seen", moment().format());
     res.status(200).send(connections);
   } catch (error) {
     console.log(error);
@@ -122,13 +122,13 @@ const acceptConnectionRequest = async (req, res) => {
       transaction,
     });
     saveNotification(senderId, 2, acceptorId);
-    updateUserGenInfoField(acceptorId, 'last_seen', moment().format());
+    updateUserGenInfoField(acceptorId, "last_seen", moment().format());
     transaction.commit();
     res.status(200).send(connectionInsertResult);
   } catch (err) {
     console.log(err);
     transaction.rollback();
-    res.status(500).send('POST ERROR');
+    res.status(500).send("POST ERROR");
   }
 };
 
@@ -137,7 +137,7 @@ get pending connections logic
 */
 const getPendingConnectionsForUser = async (req, res) => {
   try {
-    console.log(' ♛ A User Requested Their Pending Connections ♛ ');
+    console.log(" ♛ A User Requested Their Pending Connections ♛ ");
     const { userId, token } = req.body;
     let query;
     query = getIncomingPendingConnectionsForUserQuery();

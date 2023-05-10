@@ -45,13 +45,27 @@ io.on("connection", (socket) => {
   //START DM EVENTS
   // User Joins a dm room (private messaging)
   socket.on("join_room", (roomId) => {
+    //First, disconnect from all connected rooms
+    const allConnectedRooms = socket.rooms;
+    allConnectedRooms.forEach((room) => {
+      console.log("leave loop ", room);
+      if (room !== roomId) {
+        socket.leave(room); // Leave each room (except the default room, which is the socket ID)
+      }
+    });
+    //Now, connect to desired room
     socket.join(roomId);
-    console.log("User JOINED ROOM ", roomId);
+    console.log("User JOINED ROOM ", roomId, "    all?? ", socket.rooms);
   });
 
   //Listen for dm chat messages from users
   socket.on("message", ({ roomId, senderId, sender, message, timestamp }) => {
-    messageController.saveMessage(roomId, senderId, message, timestamp);
+    messageController.saveMessage(roomId.substring(3), senderId, message, timestamp);
+    io.to(roomId).emit("message", { roomId, senderId, sender, message, timestamp });
+  });
+
+  socket.on("gang_message", ({ roomId, senderId, sender, message, timestamp }) => {
+    messageController.saveGangMessage(roomId.substring(5), senderId, message, timestamp);
     io.to(roomId).emit("message", { roomId, senderId, sender, message, timestamp });
   });
   //END DM EVENTS
