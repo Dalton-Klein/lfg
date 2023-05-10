@@ -860,7 +860,7 @@ export const checkGangRequest = async (user_id: number, gang_id: number, token: 
   }
 };
 
-export const acceptGangConnectionRequest = async (gang_id: number, request_id: number, token: string) => {
+export const acceptGangConnectionRequest = async (request_id: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/accept-gang-request`, {
       method: "POST",
@@ -868,7 +868,6 @@ export const acceptGangConnectionRequest = async (gang_id: number, request_id: n
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        gang_id,
         request_id,
         token,
       }),

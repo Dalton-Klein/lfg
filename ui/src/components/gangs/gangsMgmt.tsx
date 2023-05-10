@@ -403,7 +403,7 @@ export default function GangsMgmt() {
     return;
   };
   const acceptRequest = async (requestId: number) => {
-    const acceptResult = await acceptGangConnectionRequest(loadedGangInfo.basicInfo.id, requestId, "");
+    const acceptResult = await acceptGangConnectionRequest(requestId, "");
     const blastConfetti = async () => {
       setTimeout(function () {
         setIsConfetti(false);

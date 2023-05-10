@@ -11,7 +11,7 @@
   background-color: $colorGreyPop;
   border-radius: $borderRadius1;
   padding: 1vw;
-  margin: 2vh 0;
+  margin: 2vh 1vw;
   .connection-main-container {
     display: flex;
     justify-content: space-between;
@@ -155,6 +155,7 @@
   .connection-tile {
     .connection-main-container {
       .stackable-container {
+        min-width: 60%;
         .stackable-container-left {
           .connection-game-image {
             width: 5vw;
@@ -172,7 +173,8 @@
 
 @media screen and (max-width: 1000px) {
   .connection-list-item {
-    min-width: 95vw;
+    min-width: 90vw;
+    margin-right: 1vw;
   }
   .connection-tile {
     .connection-main-container {
@@ -196,7 +198,9 @@
   }
   .connection-tile {
     .connection-main-container {
+      min-width: 90%;
       .stackable-container {
+        min-width: 50%;
         .stackable-container-left {
           .connection-game-image {
             width: 7vw;

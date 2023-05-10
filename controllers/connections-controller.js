@@ -6,6 +6,7 @@ const {
   getConnectionsForUserQueryAcceptors,
   getIncomingPendingConnectionsForUserQuery,
   getOutgoingPendingConnectionsForUserQuery,
+  getGangPendingConnectionsForUserQuery,
   getConnectionInsertQuery,
   removePendingConnectionQuery,
 } = require("../services/connections-queries");
@@ -154,7 +155,14 @@ const getPendingConnectionsForUser = async (req, res) => {
         userId,
       },
     });
-    res.status(200).send({ incoming: incmoingConnections, outgoing: outgoingConnections });
+    query = getGangPendingConnectionsForUserQuery();
+    const gangConnections = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId,
+      },
+    });
+    res.status(200).send({ incoming: incmoingConnections, outgoing: outgoingConnections, gang: gangConnections });
   } catch (error) {
     console.log(error);
     res.sendStatus(500);

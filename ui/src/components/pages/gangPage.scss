@@ -45,6 +45,11 @@
         flex-direction: column;
 
         button {
+          display: flex;
+          align-items: center;
+          i {
+            margin-right: 1vw;
+          }
           margin-top: 0.3vh;
           margin-bottom: 0.3vh;
         }

@@ -115,11 +115,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  .request-header {
+    font-size: $font2;
+  }
   .no-results-box {
-    margin-top: 5vh;
     text-align: center;
-    font-size: $font3;
-    margin-left: 3.25vw;
+    font-size: $font2;
+    min-width: 50%;
+    padding: 1vw;
+    margin: 2vh 0;
+    border-radius: $borderRadius1;
+    background-color: $colorGreyPop;
+    min-width: 80%;
   }
 }
 
