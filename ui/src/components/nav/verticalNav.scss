@@ -42,6 +42,7 @@
 @media screen and (max-width: $screenBreak1) {
   .nav-container {
     max-width: 9vw;
+    min-width: 9vw;
     .chat-container {
       .conversations-box {
         min-width: 7vw;
@@ -54,6 +55,7 @@
 @media screen and (max-width: $screenBreak2) {
   .nav-container {
     max-width: 12vw;
+    min-width: 12vw;
     .switch-box {
       flex-direction: column;
     }

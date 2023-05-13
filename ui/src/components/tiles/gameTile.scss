@@ -1,50 +1,57 @@
-@import '../../styling/config';
+@import "../../styling/config";
 
 .game-tile-box {
-	border-radius: $borderRadius2;
-	min-height: 24vh;
-	min-width: 24vw;
-	max-height: 24vh;
-	max-width: 80vw;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: cover;
-	display: grid;
-	place-items: center;
-	margin: 1vh 2vw;
-	cursor: pointer;
-	transition: $transition1;
-	.game-tile-content-container {
-		border-radius: $borderRadius2;
-		min-width: 100%;
-		min-height: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		.game-tile-title {
-			font-size: $font3;
-			font-weight: 400;
-			padding: 0 3vw;
-			word-wrap: normal;
-			text-align: center;
-		}
-		i {
-			font-size: $font5;
-			margin-top: 1.5vh;
-		}
-	}
+  border-radius: $borderRadius2;
+  min-height: 24vh;
+  min-width: 24vw;
+  max-height: 24vh;
+  max-width: 80vw;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: grid;
+  place-items: center;
+  margin: 1vh 2vw;
+  cursor: pointer;
+  transition: $transition1;
+  .game-tile-content-container {
+    border-radius: $borderRadius2;
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .game-tile-title {
+      font-size: $font3;
+      font-weight: 400;
+      padding: 0 3vw;
+      word-wrap: normal;
+      text-align: center;
+    }
+    i {
+      font-size: $font5;
+      margin-top: 1.5vh;
+    }
+  }
 }
 
 .game-tile-box:hover {
-	transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 @media screen and (max-width: $screenBreak1) {
-	.game-tile-box {
-		min-width: 88vw;
-		max-width: 88vw;
-		min-height: 16vh;
-		max-height: 16vh;
-	}
+  .game-tile-box {
+    min-width: 88vw;
+    max-width: 88vw;
+    min-height: 16vh;
+    max-height: 16vh;
+  }
+}
+
+@media screen and (max-width: $screenBreak1) {
+  .game-tile-box {
+    min-width: 85vw;
+    max-width: 85vw;
+  }
 }

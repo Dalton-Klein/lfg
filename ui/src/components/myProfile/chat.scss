@@ -18,6 +18,7 @@
       max-height: 3.5vw;
       border-radius: calc(3.5vw / 2);
       transition: $transition1;
+      object-fit: cover;
       cursor: pointer;
     }
     .dynamic-conversation-border {

@@ -292,7 +292,7 @@
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: $screenBreak2) {
   .gang-card-master {
     .gang-card {
       .top-bar {
