@@ -47,6 +47,7 @@ const Video = (props: any) => {
 
 export default function GangPage({ socketRef }) {
   const isMobile = isMobileDevice();
+  const [hasPressedChannelForMobile, sethasPressedChannelForMobile] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const gangOptionsMenu: any = useRef(null);
@@ -150,6 +151,7 @@ export default function GangPage({ socketRef }) {
   }, [callParticipants]);
 
   useEffect(() => {
+    console.log("show channel nav???: ", showChannelNav);
     renderChannelTitleContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showChannelNav]);
@@ -212,12 +214,16 @@ export default function GangPage({ socketRef }) {
   };
 
   const channelButtonPressed = (index: number) => {
+    sethasPressedChannelForMobile(true);
     const destinationChannel = gangInfo.channels.find((channel: any) => channel.index === index);
     if (!destinationChannel || destinationChannel.id === 0) {
       setcurrentChannel({ name: "" });
     } else {
       if (destinationChannel) {
         setcurrentChannel(destinationChannel);
+        if (isMobile) {
+          toggleNavBarVisibility();
+        }
         if (destinationChannel.is_voice) {
           setcurrentAudioChannel(destinationChannel);
         } else {
@@ -225,6 +231,10 @@ export default function GangPage({ socketRef }) {
         }
       }
     }
+  };
+
+  const toggleNavBarVisibility = () => {
+    setshowChannelNav((prevState) => !prevState);
   };
 
   const connectToVoice = (channel: any) => {
@@ -366,7 +376,7 @@ export default function GangPage({ socketRef }) {
 
   const disconnectFromVoice = () => {
     //Disconnect from voice
-    console.log("disconnecting!!!!!!!!! ", socketRef.current);
+    // console.log("disconnecting!!!!!!!!! ", socketRef.current);
 
     const locationOfLastSlash = locationPath.lastIndexOf("/");
     const channelId = parseInt(locationPath.substring(locationOfLastSlash + 1));
@@ -396,6 +406,14 @@ export default function GangPage({ socketRef }) {
         connectToVoice(currentChannel);
         setchannelTitleContents(
           <div className="voice-channel">
+            <button
+              className="expand-channels-button"
+              onClick={() => {
+                toggleNavBarVisibility();
+              }}
+            >
+              <i className={`pi ${showChannelNav ? "pi-angle-left" : "pi-angle-right"}`} />
+            </button>
             <div className="text-channel-title">
               {currentChannel.name}
               {currentAudioChannel.id === currentChannel.id ? ": connected" : ": disconnected"}
@@ -441,7 +459,7 @@ export default function GangPage({ socketRef }) {
             <button
               className="expand-channels-button"
               onClick={() => {
-                setshowChannelNav(showChannelNav ? false : true);
+                toggleNavBarVisibility();
               }}
             >
               <i className={`pi ${showChannelNav ? "pi-angle-left" : "pi-angle-right"}`} />
@@ -535,7 +553,6 @@ export default function GangPage({ socketRef }) {
   };
 
   const renderChannelDynamicContents = () => {
-    console.log("current chan??? ", currentChannel);
     if (currentChannel.is_voice) {
       //Render voice chnnel content
       setchannelDynamicContents(
@@ -548,7 +565,11 @@ export default function GangPage({ socketRef }) {
       //Render group messaging content
       setchannelDynamicContents(
         <div className="text-channel-container">
-          <InstantMessaging socketRef={socketRef} convo={currentChannel} />
+          <InstantMessaging
+            socketRef={socketRef}
+            convo={currentChannel}
+            hasPressedChannelForMobile={hasPressedChannelForMobile}
+          />
         </div>
       );
     }
@@ -601,6 +622,7 @@ export default function GangPage({ socketRef }) {
   return (
     <div>
       <Toast ref={toast} />
+      {/* Gang Top Details Bar */}
       <div className="master-gang-contents">
         {showChannelNav ? (
           <div className="top-bar">
@@ -652,8 +674,7 @@ export default function GangPage({ socketRef }) {
         )}
 
         {/* <div className="about-box">{gangInfo.basicInfo?.about ? gangInfo.basicInfo.about : ""}</div> */}
-        {/* Gang Default Page */}
-
+        {/* Gang Default Channel */}
         <div className="channel-specific-contents">
           {/* Roster Row */}
           {showChannelNav ? (

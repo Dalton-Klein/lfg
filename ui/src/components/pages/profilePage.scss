@@ -4,7 +4,6 @@
   min-width: 95vw;
 }
 .messaging-container {
-  margin-top: 1vh;
   min-height: 92vh;
   max-height: 92vh;
 }
@@ -170,19 +169,25 @@
 }
 
 @media screen and (max-width: $screenBreak1) {
+  .profile-page-master {
+    min-width: 91vw;
+  }
   .my-profile-containers {
     .submenu-container {
-      width: 90vw;
+      width: 91vw;
       min-width: 75%;
     }
   }
 }
 
 @media screen and (max-width: $screenBreak2) {
+  .profile-page-master {
+    min-width: 88vw;
+  }
   .my-profile-containers {
     .submenu-container {
-      width: 95vw;
-      min-width: 90%;
+      width: 88vw;
+      min-width: 88%;
     }
   }
 }

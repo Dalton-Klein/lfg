@@ -28,15 +28,6 @@ global._io = io;
 //wrap session middleware to connect it to socket io
 const wrap = (middleware) => (socket, next) => middleware(socket.request, {}, next);
 io.use(wrap(sessionMiddleware));
-//Declare middleware function
-// io.use((socket, next) => {
-//   const session = socket.request.session;
-//   if (session && session.authenticated) {
-//     next();
-//   } else {
-//     next(new Error("unauthorized"));
-//   }
-// });
 
 const allUsersInAllChannels = {};
 const socketToRoom = {};
