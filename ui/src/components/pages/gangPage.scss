@@ -286,6 +286,11 @@
 }
 
 @media only screen and (max-width: 800px) {
+  .top-bar {
+    .main-details {
+      min-width: 60%;
+    }
+  }
   .gang-roster-container {
     .list-member-photo {
       .member-photo {
@@ -308,10 +313,11 @@
     }
   }
   .master-gang-contents {
+    min-width: 90vw;
     .channel-specific-contents {
       .channels-container {
         .chat-list {
-          min-width: 25vw;
+          min-width: 80vw;
         }
         .channel-contents {
           min-width: 75vw;

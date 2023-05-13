@@ -222,6 +222,9 @@ export default function GangPage({ socketRef }) {
           setcurrentAudioChannel(destinationChannel);
         } else {
           disconnectFromVoice();
+          if (isMobile) {
+            setshowChannelNav(showChannelNav ? false : true);
+          }
         }
       }
     }
@@ -535,7 +538,6 @@ export default function GangPage({ socketRef }) {
   };
 
   const renderChannelDynamicContents = () => {
-    console.log("current chan??? ", currentChannel);
     if (currentChannel.is_voice) {
       //Render voice chnnel content
       setchannelDynamicContents(
