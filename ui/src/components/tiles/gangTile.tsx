@@ -91,7 +91,24 @@ export default function GangTile(props: any) {
         <div className="gang-roster-container">
           {first5Members?.map((member: any) => (
             <div className="list-member-photo" key={member.id}>
-              <img className="member-photo" onClick={() => {}} src={member.avatar_url} alt={`member avatar`} />
+              {/* <img className="member-photo" onClick={() => {}} src={member.avatar_url} alt={`member avatar`} /> */}
+
+              {member.avatar_url === "" || member.avatar_url === "/assets/avatarIcon.png" ? (
+                <div className="dynamic-avatar-border">
+                  <div className="dynamic-avatar-text-small">
+                    {member.username
+                      ? member.username
+                          .split(" ")
+                          .map((word: string[]) => word[0])
+                          .join("")
+                          .slice(0, 2)
+                          .toLowerCase()
+                      : "gg"}
+                  </div>
+                </div>
+              ) : (
+                <img className="member-photo" src={member.avatar_url} alt="my avatar" />
+              )}
             </div>
           ))}
           <div className="number-of-members">{props.members?.length} members</div>

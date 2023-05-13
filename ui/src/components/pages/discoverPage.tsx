@@ -14,6 +14,7 @@ import GangTile from "../tiles/gangTile";
 
 export default function DiscoverPage() {
   const locationPath: string = useLocation().pathname;
+  const lfgORlfm = locationPath.slice(0, 4);
   const [discoverTitle, setdiscoverTitle] = useState<string>("");
   const [tilesFeed, settilesFeed] = useState(<li></li>);
   const [tilesFromDB, setTilesFromDB] = useState<any>([]);
@@ -90,12 +91,14 @@ export default function DiscoverPage() {
         break;
       case "/lfm-rust":
         tiles = await getLFMGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 1, "nothing");
+        tiles.forEach((tile) => {
+          tile.role_name = "";
+        });
         break;
       case "/lfm-rocket-league":
         tiles = await getLFMGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 2, "nothing");
         break;
     }
-    console.log("tiles: ", tiles);
     setTilesFromDB(tiles);
   };
 
@@ -106,8 +109,6 @@ export default function DiscoverPage() {
   };
 
   const turnDataIntoTiles = (tileData: any) => {
-    console.log("tiles: ", tileData);
-    const lfgORlfm = locationPath.slice(0, 4);
     if (lfgORlfm === "/lfg") {
       settilesFeed(
         tileData.map((tile: any) => (
@@ -295,8 +296,10 @@ export default function DiscoverPage() {
     <div>
       <BannerAlt
         title={discoverTitle}
-        buttonText={locationPath === "/lfg-rust" ? "my rust profile" : "my rl profile"}
-        buttonLink={locationPath === "/lfg-rust" ? "/rust-profile" : "/rocket-league-profile"}
+        buttonText={locationPath === "/lfg-rust" || locationPath === "/lfm-rust" ? "my rust profile" : "my rl profile"}
+        buttonLink={
+          locationPath === "/lfg-rust" || locationPath === "/lfm-rust" ? "/rust-profile" : "/rocket-league-profile"
+        }
       ></BannerAlt>
       <FilterBarComponent clearFiltersMethod={clearAllFiltersAndSorting}></FilterBarComponent>
       <div className="feed">{tilesFeed}</div>

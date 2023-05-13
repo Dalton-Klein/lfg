@@ -11,8 +11,8 @@
     flex-direction: column;
     justify-content: space-between;
     align-content: space-between;
-    min-width: 40vw;
-    max-width: 40vw;
+    min-width: 100%;
+    max-width: 100%;
     min-height: 200px;
     max-height: 45vh;
     background-color: $colorGreyPop;
@@ -104,6 +104,20 @@
           border-radius: calc(3vw / 2);
           margin: 0;
         }
+        .dynamic-avatar-border {
+          width: 3vw;
+          height: 3vw;
+          min-height: 3vw;
+          min-width: 3vw;
+          border-radius: calc(3vw / 2);
+          background-color: $colorShadowLight;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .dynamic-avatar-text-small {
+            font-size: $font2;
+          }
+        }
       }
       .number-of-members {
         margin-left: 1vw;
@@ -133,9 +147,9 @@
 
 @media only screen and (max-width: 1350px) {
   .gang-card-master {
+    min-width: 40vw;
+    max-width: 40vw;
     .gang-card {
-      min-width: 45vw;
-      max-width: 45vw;
       .top-bar {
         .main-details {
           .image-column {
@@ -171,6 +185,8 @@
 
 @media only screen and (max-width: 1000px) {
   .gang-card-master {
+    min-width: 65vw;
+    max-width: 65vw;
     .gang-card {
       .top-bar {
         .main-details {
@@ -220,8 +236,9 @@
 
 @media only screen and (max-width: 800px) {
   .gang-card-master {
+    min-width: 85vw;
+    max-width: 85vw;
     .gang-card {
-      min-width: 95vw;
       min-height: 200px;
       max-height: 55vh;
       .top-bar {

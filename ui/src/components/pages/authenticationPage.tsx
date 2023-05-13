@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import './authenticationPage.scss';
-import { SignUpForm, SignInForm, VerificationForm, PasswordResetForm } from '../../utils/interfaces';
-import { createUser, googleSignIn, requestPasswordReset } from '../../utils/rest';
+import React, { useState, useEffect } from "react";
+import "./authenticationPage.scss";
+import { SignUpForm, SignInForm, VerificationForm, PasswordResetForm } from "../../utils/interfaces";
+import { createUser, googleSignIn, requestPasswordReset } from "../../utils/rest";
 import {
   validateCredentials,
   validateEmail,
   validatePasswordResetForm,
   validatevKey,
-} from '../../utils/helperFunctions';
+} from "../../utils/helperFunctions";
 import {
   loginPanelSignUpAnim,
   loginPanelSignInAnim,
@@ -16,38 +16,38 @@ import {
   setUpAnim,
   loginPanelForgotPasswordAnim,
   loginPanelPasswordResetAnim,
-} from '../../utils/animations';
-import { signInUserThunk, createUserInState, resetPasswordInState, updateUserThunk } from '../../store/userSlice';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { GoogleLogin } from 'react-google-login';
+} from "../../utils/animations";
+import { signInUserThunk, createUserInState, resetPasswordInState, updateUserThunk } from "../../store/userSlice";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { GoogleLogin } from "react-google-login";
 
-const clientId = '244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com';
+const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const initialSignUpForm: SignUpForm = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
     ageChecked: false,
   };
   const initialSignInForm: SignInForm = {
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   };
   const initialVerificationForm: VerificationForm = {
-    vKey: '',
-    email: '',
+    vKey: "",
+    email: "",
   };
   const initialForgotPasswordForm: { email: string } = {
-    email: '',
+    email: "",
   };
   const initialPasswordResetForm: PasswordResetForm = {
-    vKey: '',
-    password: '',
-    confirmPassword: '',
+    vKey: "",
+    password: "",
+    confirmPassword: "",
   };
   const dispatch = useDispatch();
   const [createAccountForm, setCreateAccountFormState] = useState(initialSignUpForm);
@@ -59,7 +59,7 @@ const LoginPage = () => {
   const [isGoogleSignUp, setisGoogleSignUp] = useState<boolean>(false);
   const [googleSuccessResponse, setgoogleSuccessResponse] = useState<any>({});
   const [ageChecked, setageChecked] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState('something went wrong...');
+  const [errorMessage, setErrorMessage] = useState("something went wrong...");
   let isPerformingAnim = false;
 
   useEffect(() => {
@@ -81,16 +81,16 @@ const LoginPage = () => {
     const value = target.value;
     let formCopy = { ...createAccountForm };
     switch (name) {
-      case 'username':
+      case "username":
         formCopy.name = value;
         break;
-      case 'email':
+      case "email":
         formCopy.email = value;
         break;
-      case 'password':
+      case "password":
         formCopy.password = value;
         break;
-      case 'confirmPassword':
+      case "confirmPassword":
         formCopy.confirmPassword = value;
         break;
     }
@@ -104,11 +104,11 @@ const LoginPage = () => {
       if (isGoogleSignUp) {
         // Skip straight to account creation for google sign up (no email verification needed)
         const accountCreationResult: any = await dispatch(
-          createUserInState(googleSuccessResponse.profileObj.email, 'google', createAccountForm.name, 'google')
+          createUserInState(googleSuccessResponse.profileObj.email, "google", createAccountForm.name, "google")
         );
         if (accountCreationResult.data) {
           dispatch(updateUserThunk(accountCreationResult.data.id));
-          navigate('/');
+          navigate("/");
         } else {
           createError(`${accountCreationResult.error}`);
         }
@@ -134,10 +134,10 @@ const LoginPage = () => {
     const value = target.value;
     let signInFormCopy = { ...signInForm };
     switch (name) {
-      case 'email':
+      case "email":
         signInFormCopy.email = value;
         break;
-      case 'password':
+      case "password":
         signInFormCopy.password = value;
         break;
       default:
@@ -148,7 +148,7 @@ const LoginPage = () => {
 
   //START Google Logic
   const onGoogleFailure = (res: any) => {
-    console.log('google failed to login');
+    console.log("google failed to login");
   };
 
   const onGoogleSuccess = async (res: any) => {
@@ -157,12 +157,12 @@ const LoginPage = () => {
     //Either sign in or sign up user based on result above
     if (googleCheckResult.token) {
       // Account found, proceed with signin
-      const result: any = await dispatch(signInUserThunk({ email: res.profileObj.email, password: '' }, true));
-      if ('error' in result) {
+      const result: any = await dispatch(signInUserThunk({ email: res.profileObj.email, password: "" }, true));
+      if ("error" in result) {
         createError(result.error);
       } else {
         clearError();
-        navigate('/');
+        navigate("/");
       }
     } else if (googleCheckResult.error) {
       // No account found, create one for this google account
@@ -176,11 +176,11 @@ const LoginPage = () => {
   const signInUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result: any = await dispatch(signInUserThunk(signInForm, false));
-    if ('error' in result) {
+    if ("error" in result) {
       createError(result.error);
     } else {
       clearError();
-      navigate('/');
+      navigate("/");
     }
   };
 
@@ -190,7 +190,7 @@ const LoginPage = () => {
     const name = target.name;
     const value = target.value;
     let formCopy = { ...initialVerificationForm };
-    if (name === 'vKey') {
+    if (name === "vKey") {
       formCopy.vKey = value;
       setvKeyFormState(formCopy);
     }
@@ -206,7 +206,7 @@ const LoginPage = () => {
       );
       if (accountCreationResult.data) {
         dispatch(updateUserThunk(accountCreationResult.data.id));
-        navigate('/');
+        navigate("/");
       } else {
         createError(`${accountCreationResult.error}`);
       }
@@ -220,7 +220,7 @@ const LoginPage = () => {
     const name = target.name;
     const value = target.value;
     let formCopy = { ...initialForgotPasswordForm };
-    if (name === 'email') {
+    if (name === "email") {
       formCopy.email = value;
       setForgotPasswordFormState(formCopy);
     }
@@ -249,13 +249,13 @@ const LoginPage = () => {
     const value = target.value;
     let formCopy = { ...passwordResetForm };
     switch (name) {
-      case 'vKey':
+      case "vKey":
         formCopy.vKey = value;
         break;
-      case 'password':
+      case "password":
         formCopy.password = value;
         break;
-      case 'confirmPassword':
+      case "confirmPassword":
         formCopy.confirmPassword = value;
         break;
     }
@@ -271,7 +271,7 @@ const LoginPage = () => {
         resetPasswordInState(forgotPasswordForm.email, passwordResetForm.vKey, passwordResetForm.password)
       );
       if (accountCreationResult.data) {
-        navigate('/');
+        navigate("/");
       } else {
         createError(`${accountCreationResult.error}`);
       }
@@ -291,7 +291,7 @@ const LoginPage = () => {
 
   const clearError = () => {
     setFormError(false);
-    setErrorMessage('');
+    setErrorMessage("");
   };
 
   const changeMenu = (number: number) => {
@@ -317,26 +317,25 @@ const LoginPage = () => {
   };
 
   return (
-    <div className='login-container'>
+    <div className="login-container">
       {/* Title */}
-      <div className='login-banner'>
-        <img className='large-logo' src='/assets/logo-v2-gangs.gg-transparent-white.png' alt='gangs-logo-large' />
-        <h1>gangs</h1>
+      <div className="login-banner">
+        <img className="large-logo" src="/assets/logo-v2-gangs.gg-transparent-white.png" alt="gangs-logo-large" />
       </div>
-      <div className='panel-container'>
+      <div className="panel-container">
         {/* Confirm Verification Key Form */}
-        <div className='form-container verification-container'>
+        <div className="form-container verification-container">
           <form onSubmit={submitVerificationKey} onChange={vKeyFormStateChange}>
             <h2>verify account</h2>
-            <h5 className='vKey-message'>{'*check your email for a verification code*'}</h5>
-            <div className='login-inputs'>
+            <h5 className="vKey-message">{"*check your email for a verification code*"}</h5>
+            <div className="login-inputs">
               {/* Input Box */}
-              <input name='vKey' type='vKey' placeholder='verification code' />
-              {formError ? <div className='error-mssg'>{errorMessage}</div> : <div className='error-mssg'> </div>}
+              <input name="vKey" type="vKey" placeholder="verification code" />
+              {formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
             </div>
-            <button type='submit'>verify</button>
+            <button type="submit">verify</button>
             <h4>or</h4>
-            <button type='button' onClick={loginPanelSignUpAnim} className='alt-button'>
+            <button type="button" onClick={loginPanelSignUpAnim} className="alt-button">
               back
             </button>
           </form>
@@ -344,69 +343,69 @@ const LoginPage = () => {
         {/* End Confirm Verification Key Form */}
 
         {/* Sign Up Form */}
-        <div className='form-container sign-up-container'>
+        <div className="form-container sign-up-container">
           <form onSubmit={createNewUser} onChange={signUpFormStateChange}>
             <h2>create account</h2>
-            <div className='login-inputs'>
+            <div className="login-inputs">
               {/* Input Boxes */}
-              <div className='google-signup-container' style={{ display: !isGoogleSignUp ? 'inline-block' : 'none' }}>
+              <div className="google-signup-container" style={{ display: !isGoogleSignUp ? "inline-block" : "none" }}>
                 <GoogleLogin
-                  className='google-button'
+                  className="google-button"
                   clientId={clientId}
-                  buttonText='google sign up'
+                  buttonText="google sign up"
                   onSuccess={onGoogleSuccess}
                   onFailure={onGoogleFailure}
-                  cookiePolicy={'single_host_origin'}
+                  cookiePolicy={"single_host_origin"}
                   isSignedIn={true}
                 />
-                <div className='seperator-text'>or</div>
+                <div className="seperator-text">or</div>
               </div>
-              <input name='username' type='text' placeholder='display name' />
+              <input name="username" type="text" placeholder="display name" />
               {/* Bottom three fields dependent on if signing up w/ google */}
               <input
-                name='email'
-                type='email'
-                placeholder='email'
-                style={{ display: !isGoogleSignUp ? 'inline-block' : 'none' }}
+                name="email"
+                type="email"
+                placeholder="email"
+                style={{ display: !isGoogleSignUp ? "inline-block" : "none" }}
               />
               <input
-                name='password'
-                type='password'
-                placeholder='password'
-                style={{ display: !isGoogleSignUp ? 'inline-block' : 'none' }}
+                name="password"
+                type="password"
+                placeholder="password"
+                style={{ display: !isGoogleSignUp ? "inline-block" : "none" }}
               />
               <input
-                name='confirmPassword'
-                type='password'
-                placeholder='confirm password'
-                style={{ display: !isGoogleSignUp ? 'inline-block' : 'none' }}
+                name="confirmPassword"
+                type="password"
+                placeholder="confirm password"
+                style={{ display: !isGoogleSignUp ? "inline-block" : "none" }}
               />
-              <div className='checkbox-field'>
+              <div className="checkbox-field">
                 <input
-                  name='ageChecked'
-                  type='checkbox'
-                  className='age-checkbox'
+                  name="ageChecked"
+                  type="checkbox"
+                  className="age-checkbox"
                   onChange={(e) => {
                     setageChecked(e.target.checked);
                   }}
                 />
-                <div className='checkbox-label'>
-                  i am at least 13 years of age, and have read and agreed to the{' '}
-                  <Link to='/terms-of-service' className='link-text'>
-                    {' '}
+                <div className="checkbox-label">
+                  i am at least 13 years of age, and have read and agreed to the{" "}
+                  <Link to="/terms-of-service" className="link-text">
+                    {" "}
                     terms
-                  </Link>{' '}
-                  and{' '}
-                  <Link to='/privacy-policy' className='link-text'>
-                    {' '}
+                  </Link>{" "}
+                  and{" "}
+                  <Link to="/privacy-policy" className="link-text">
+                    {" "}
                     privacy policy
                   </Link>
                 </div>
               </div>
-              {formError ? <div className='error-mssg'>{errorMessage}</div> : <div className='error-mssg'> </div>}
+              {formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
             </div>
-            <button type='submit'>create account</button>
-            <button type='button' onClick={() => changeMenu(1)} className='alt-button'>
+            <button type="submit">create account</button>
+            <button type="button" onClick={() => changeMenu(1)} className="alt-button">
               sign in
             </button>
           </form>
@@ -414,30 +413,30 @@ const LoginPage = () => {
         {/* End Sign Up Form */}
 
         {/* Sign In Form */}
-        <div className='form-container sign-in-container'>
+        <div className="form-container sign-in-container">
           <form onSubmit={signInUser} onChange={signInFormStateChange}>
             <h2>sign in</h2>
             {/* Input Boxes */}
-            <div className='login-inputs'>
+            <div className="login-inputs">
               <GoogleLogin
-                className='google-button'
+                className="google-button"
                 clientId={clientId}
-                buttonText='google login'
+                buttonText="google login"
                 onSuccess={onGoogleSuccess}
                 onFailure={onGoogleFailure}
-                cookiePolicy={'single_host_origin'}
+                cookiePolicy={"single_host_origin"}
                 isSignedIn={true}
               />
-              <div className='seperator-text'>or</div>
-              <input name='email' type='email' placeholder='email' />
-              <input name='password' type='password' placeholder='password' />
-              {formError ? <div className='error-mssg'>{errorMessage}</div> : <div className='error-mssg'> </div>}
+              <div className="seperator-text">or</div>
+              <input name="email" type="email" placeholder="email" />
+              <input name="password" type="password" placeholder="password" />
+              {formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
             </div>
-            <button type='submit'>sign in</button>
-            <button type='button' onClick={() => changeMenu(2)} className='alt-button'>
+            <button type="submit">sign in</button>
+            <button type="button" onClick={() => changeMenu(2)} className="alt-button">
               create account
             </button>
-            <button type='button' onClick={() => changeMenu(3)} className='text-only-button'>
+            <button type="button" onClick={() => changeMenu(3)} className="text-only-button">
               forgot password
             </button>
           </form>
@@ -445,16 +444,16 @@ const LoginPage = () => {
         {/* End Sign In Form */}
 
         {/* Forgot Password Form */}
-        <div className='form-container forgot-password-container'>
+        <div className="form-container forgot-password-container">
           <form onSubmit={submitForgotPassword} onChange={forgotPasswordFormStateChange}>
             <h2>forgot password</h2>
             {/* Input Boxes */}
-            <div className='login-inputs'>
-              <input name='email' type='email' placeholder='email' />
-              {formError ? <div className='error-mssg'>{errorMessage}</div> : <div className='error-mssg'> </div>}
+            <div className="login-inputs">
+              <input name="email" type="email" placeholder="email" />
+              {formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
             </div>
-            <button type='submit'>submit</button>
-            <button type='button' onClick={() => changeMenu(1)} className='alt-button'>
+            <button type="submit">submit</button>
+            <button type="button" onClick={() => changeMenu(1)} className="alt-button">
               back
             </button>
           </form>
@@ -462,19 +461,19 @@ const LoginPage = () => {
         {/* End Forgot Password Form */}
 
         {/* Password Reset Form */}
-        <div className='form-container password-reset-container'>
+        <div className="form-container password-reset-container">
           <form onSubmit={submitPasswordReset} onChange={passwordResetFormStateChange}>
             <h2>reset password</h2>
             {/* Input Boxes */}
-            <h5 className='vKey-message'>{'*check your email for a verification code*'}</h5>
-            <div className='login-inputs'>
-              <input name='vKey' type='vKey' placeholder='verification code' />
-              <input name='password' type='password' placeholder='new password' />
-              <input name='confirmPassword' type='password' placeholder='confirm new password' />
-              {formError ? <div className='error-mssg'>{errorMessage}</div> : <div className='error-mssg'> </div>}
+            <h5 className="vKey-message">{"*check your email for a verification code*"}</h5>
+            <div className="login-inputs">
+              <input name="vKey" type="vKey" placeholder="verification code" />
+              <input name="password" type="password" placeholder="new password" />
+              <input name="confirmPassword" type="password" placeholder="confirm new password" />
+              {formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
             </div>
-            <button type='submit'>change password</button>
-            <button type='button' onClick={() => changeMenu(3)} className='alt-button'>
+            <button type="submit">change password</button>
+            <button type="button" onClick={() => changeMenu(3)} className="alt-button">
               back
             </button>
           </form>

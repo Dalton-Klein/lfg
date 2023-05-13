@@ -20,19 +20,47 @@
 @media screen and (max-width: 1350px) {
   .feed {
     li {
-      max-width: 45vw;
+      max-width: 40vw;
     }
+  }
+  .player-card {
+    min-width: 40vw;
+    max-width: 40vw;
+  }
+  .gang-card {
+    max-width: 40vw;
+    min-width: 40vw;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .feed {
+    li {
+      max-width: 65vw;
+    }
+  }
+  .player-card {
+    min-width: 65vw;
+    max-width: 65vw;
+  }
+  .gang-card {
+    max-width: 65vw;
+    min-width: 65vw;
   }
 }
 
 @media screen and (max-width: 800px) {
   .feed {
     li {
-      max-width: 95vw;
+      max-width: 85vw;
     }
   }
   .player-card {
-    min-width: 95vw;
-    max-width: 95vw;
+    min-width: 85vw;
+    max-width: 85vw;
+  }
+  .gang-card {
+    max-width: 85vw;
+    min-width: 85vw;
   }
 }

@@ -102,15 +102,13 @@ const getLFMGangTiles = async (req, res) => {
   try {
     const { user_id, game_platform_id } = req.body;
     gangsQuery = `
-					select g.*, ro.name as role_name
-				  	from public.gangs g
-			 left join public.gang_roster r
-		   				on g.id = r.gang_id
-			 left join public.gang_roles ro
-				  		on ro.id = r.role_id
-				   where g.game_platform_id = :game_platform_id
-			       and r.user_id != :user_id
-			  group by g.id, ro.id
+          select g.*
+            from public.gangs g
+       left join public.gang_roster r
+              on g.id = r.gang_id
+           where g.game_platform_id = :game_platform_id
+             and r.user_id != :user_id
+        group by g.id
     `;
     let foundGangs = await sequelize.query(gangsQuery, {
       type: Sequelize.QueryTypes.SELECT,
