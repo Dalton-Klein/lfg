@@ -11,6 +11,7 @@ import ReactTooltip from "react-tooltip";
 
 export default function ProfileInlayComponet({ socketRef }) {
   const locationPath: string = useLocation().pathname;
+  const lfgORlfm = locationPath.slice(0, 4);
   const navigate = useNavigate();
 
   const userState = useSelector((state: RootState) => state.user.user);
@@ -18,6 +19,8 @@ export default function ProfileInlayComponet({ socketRef }) {
   const [drawerVis, setDrawerVis] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState<string>("");
   const [notifications, setnotifications] = useState<any>([]);
+  //GameNav
+  const [gameImgUrl, setgameImgUrl] = useState<string>("");
 
   const notifsMenu: any = useRef(null);
   const discoverMenu: any = useRef(null);
@@ -28,8 +31,14 @@ export default function ProfileInlayComponet({ socketRef }) {
     if (userState.id && userState.id > 0) {
       loadNotificationHistory();
     }
+    determineGameNavContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    determineGameNavContents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationPath]);
 
   //BEGIN Update notifications list after each notification sent
   useEffect(() => {
@@ -58,34 +67,6 @@ export default function ProfileInlayComponet({ socketRef }) {
     if (userState.id && userState.id > 0) {
       socketRef.current.emit("join_room", `notifications-${userState.id}`);
     }
-  };
-  const renderDiscoverOptions = () => {
-    return [
-      {
-        label: (
-          <img
-            onClick={() => {
-              navigate(`/lfg-rust`);
-            }}
-            className="discover-navigator-option-image"
-            src={"https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png"}
-            alt={`link to rust lfg page`}
-          />
-        ),
-      },
-      {
-        label: (
-          <img
-            onClick={() => {
-              navigate(`/lfg-rocket-league`);
-            }}
-            className="discover-navigator-option-image"
-            src={"https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png"}
-            alt={`link to rocket league lfg page`}
-          />
-        ),
-      },
-    ] as any;
   };
   const renderNotifications = () => {
     if (notifications.length) {
@@ -149,7 +130,52 @@ export default function ProfileInlayComponet({ socketRef }) {
     }
   };
   //END SOCKET Functions
-
+  const determineGameNavContents = () => {
+    let determinedUrl = "";
+    const gameNameString = locationPath.slice(5, 100);
+    console.log("testing: ", gameNameString);
+    switch (gameNameString) {
+      case "rust":
+        determinedUrl = "https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png";
+        break;
+      case "rocket-league":
+        determinedUrl =
+          "https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png";
+        break;
+      default:
+        break;
+    }
+    console.log("determined: ", determinedUrl);
+    setgameImgUrl(determinedUrl);
+  };
+  const renderDiscoverOptions = () => {
+    return [
+      {
+        label: (
+          <img
+            onClick={() => {
+              navigate(lfgORlfm === "/lfg" ? "/lfg-rust" : "/lfm-rust");
+            }}
+            className="discover-navigator-option-image"
+            src={"https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png"}
+            alt={`link to rust discovery`}
+          />
+        ),
+      },
+      {
+        label: (
+          <img
+            onClick={() => {
+              navigate(lfgORlfm === "/lfg" ? "/lfg-rocket-league" : "/lfm-rocket-league");
+            }}
+            className="discover-navigator-option-image"
+            src={"https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png"}
+            alt={`link to rocket league discovery`}
+          />
+        ),
+      },
+    ] as any;
+  };
   const notificationPressed = (notificationType: number) => {
     let newUrl = "/general-profile";
     //Decide between sub-sections of a url
@@ -184,15 +210,11 @@ export default function ProfileInlayComponet({ socketRef }) {
         <div className="my-profile-overlay-wrapper">
           <Menu model={renderNotifications()} popup ref={notifsMenu} id="popup_menu" />
           <Menu model={renderDiscoverOptions()} popup ref={discoverMenu} id="popup_menu" />
-          {locationPath === "/lfg-rust" || locationPath === "/lfg-rocket-league" ? (
+          {lfgORlfm === "/lfg" || lfgORlfm === "/lfm" ? (
             <img
               onClick={(event) => discoverMenu.current.toggle(event)}
               className="discover-navigator-image"
-              src={
-                locationPath === "/lfg-rust"
-                  ? "https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png"
-                  : "https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png"
-              }
+              src={gameImgUrl}
               alt={`lfg page navigator`}
               data-tip
               data-for="platformTip"
