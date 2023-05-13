@@ -7,7 +7,14 @@ import { howLongAgo } from "../../utils/helperFunctions";
 import { getChatHistoryForGang, getChatHistoryForUser } from "../../utils/rest";
 import { useLocation } from "react-router-dom";
 
-export default function InstantMessaging({ socketRef, convo }) {
+function isMobileDevice() {
+  const userAgent = window.navigator.userAgent;
+  const mobileKeywords = ["Android", "iOS", "iPhone", "iPad", "iPod", "Windows Phone"];
+  return mobileKeywords.some((keyword) => userAgent.includes(keyword));
+}
+
+export default function InstantMessaging({ socketRef, convo, hasPressedChannelForMobile }) {
+  const isMobile = isMobileDevice();
   const userState = useSelector((state: RootState) => state.user.user);
   const locationPath: string = useLocation().pathname;
 
@@ -46,7 +53,12 @@ export default function InstantMessaging({ socketRef, convo }) {
     socketRef.current.on("message", ({ roomId, senderId, sender, message, timestamp }: any) => {
       setchat([...chat, { roomId, senderId, sender, message, timestamp }]);
     });
-    lastMessageRef.current?.scrollIntoView();
+    // When loading gang page on mobile, prevent undesired scroll on page load until user selects channel
+    if (isMobile && !hasPressedChannelForMobile) {
+      //Do nothing
+    } else {
+      lastMessageRef.current?.scrollIntoView();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chat]);
   //END Update messages list after each chat sent
@@ -66,7 +78,11 @@ export default function InstantMessaging({ socketRef, convo }) {
     ]);
     if (userState.id && userState.id > 0) {
       updateCurrentConvo();
-      lastMessageRef.current?.scrollIntoView();
+      if (isMobile && !hasPressedChannelForMobile) {
+        //Do nothing
+      } else {
+        lastMessageRef.current?.scrollIntoView();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [convo]);

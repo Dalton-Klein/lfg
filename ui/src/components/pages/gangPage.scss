@@ -64,10 +64,21 @@
         align-items: flex-start;
         justify-content: flex-start;
         margin-left: 2vw;
+        .channel-contents-dynamic {
+          margin-top: 1vh;
+        }
         .voice-channel {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          .expand-channels-button {
+            background-color: $colorGreyPop;
+            margin-top: 0;
+            margin-bottom: 0;
+          }
           .text-channel-title {
             font-size: $font2;
-            margin-bottom: 2vh;
+            margin-left: 1vw;
           }
           .voice-participant-box {
             display: flex;
@@ -248,6 +259,29 @@
   }
 }
 
+@media only screen and (max-width: $screenBreak1) {
+  .master-gang-contents {
+    max-width: 91vw;
+    .channel-specific-contents {
+      .channels-container {
+        .channel-contents {
+          .voice-channel {
+            .voice-participant-box {
+              .nav-overlay-img {
+                min-width: 35px !important;
+                max-width: 35px !important;
+                min-height: 35px !important;
+                max-height: 35px !important;
+                border-radius: calc(35px / 2) !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 1000px) {
   .gang-roster-container {
     .list-member-photo {
@@ -326,7 +360,7 @@
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: $screenBreak2) {
   .top-bar {
     .main-details {
       .image-column {
@@ -354,6 +388,26 @@
       min-width: 8vw;
       object-fit: cover;
       border-radius: calc(8vw / 2);
+    }
+  }
+  .master-gang-contents {
+    max-width: 88vw;
+    .channel-specific-contents {
+      .channels-container {
+        .channel-contents {
+          .voice-channel {
+            .voice-participant-box {
+              .nav-overlay-img {
+                min-width: 30px !important;
+                max-width: 30px !important;
+                min-height: 30px !important;
+                max-height: 30px !important;
+                border-radius: calc(30px / 2) !important;
+              }
+            }
+          }
+        }
+      }
     }
   }
   .gang-roster-container {
