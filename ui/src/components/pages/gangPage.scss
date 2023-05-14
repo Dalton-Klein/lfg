@@ -69,8 +69,9 @@
         }
         .voice-channel {
           display: flex;
+          flex-direction: column;
           justify-content: flex-start;
-          align-items: center;
+          align-items: flex-start;
           .expand-channels-button {
             background-color: $colorGreyPop;
             margin-top: 0;
@@ -79,16 +80,26 @@
           .text-channel-title {
             font-size: $font2;
             margin-left: 1vw;
+            .disconnnect-button {
+              margin-left: 2vw;
+            }
+            .connect-button {
+              @extend .disconnnect-button;
+              background-color: $colorSecondary;
+            }
           }
           .voice-participant-box {
             display: flex;
             align-items: center;
+            justify-content: flex-start;
+            min-width: 25vw;
             .dynamic-avatar-border {
-              width: 2vw;
-              height: 2vw;
-              min-height: 2vw;
-              min-width: 2vw;
-              border-radius: calc(2vw / 2);
+              width: 3vw;
+              height: 3vw;
+              min-height: 3vw;
+              min-width: 3vw;
+              border-radius: calc(3vw / 2);
+              margin: 0.5vh 1vw;
               background-color: $colorShadowLight;
               display: flex;
               justify-content: center;
@@ -99,12 +110,12 @@
             }
             .nav-overlay-img {
               display: block;
-              width: 2vw;
-              height: 2vw;
-              min-height: 2vw;
-              min-width: 2vw;
+              width: 3vw;
+              height: 3vw;
+              min-height: 3vw;
+              min-width: 3vw;
               object-fit: cover;
-              border-radius: calc(2vw / 2);
+              border-radius: calc(3vw / 2);
               transition: $transition1;
               margin: 0 1vw;
             }
@@ -267,6 +278,13 @@
         .channel-contents {
           .voice-channel {
             .voice-participant-box {
+              .dynamic-avatar-border {
+                min-width: 35px !important;
+                max-width: 35px !important;
+                min-height: 35px !important;
+                max-height: 35px !important;
+                border-radius: calc(35px / 2) !important;
+              }
               .nav-overlay-img {
                 min-width: 35px !important;
                 max-width: 35px !important;
@@ -397,6 +415,13 @@
         .channel-contents {
           .voice-channel {
             .voice-participant-box {
+              .dynamic-avatar-border {
+                min-width: 30px !important;
+                max-width: 30px !important;
+                min-height: 30px !important;
+                max-height: 30px !important;
+                border-radius: calc(30px / 2) !important;
+              }
               .nav-overlay-img {
                 min-width: 30px !important;
                 max-width: 30px !important;
