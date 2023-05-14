@@ -97,11 +97,11 @@ export default function VerticalNav() {
 
   const fetchMyGangs = async () => {
     const httpResult = await getMyGangTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
-    let tiles: any;
-    httpResult.forEach((tile: any) => {
-      tile.username = tile.name;
-    });
+    let tiles: any = [];
     if (httpResult.length) {
+      httpResult.forEach((tile: any) => {
+        tile.username = tile.name;
+      });
       tiles = httpResult.map((tile: any) => (
         <li style={{ listStyleType: "none" }} key={tile.id}>
           <ConversationTile
