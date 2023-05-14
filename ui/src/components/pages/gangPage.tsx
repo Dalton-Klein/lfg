@@ -151,7 +151,6 @@ export default function GangPage({ socketRef }) {
   }, [callParticipants]);
 
   useEffect(() => {
-    console.log("show channel nav???: ", showChannelNav);
     renderChannelTitleContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showChannelNav]);
@@ -169,7 +168,6 @@ export default function GangPage({ socketRef }) {
   //START Loading Contents Logic
   const loadGangPage = async (id: number) => {
     const result = await getGangActivity(id, userState.id, "");
-    console.log("gang?? ", result);
     setgangInfo(result);
     setcurrentChannel(result.channels[0]);
   };
@@ -364,7 +362,6 @@ export default function GangPage({ socketRef }) {
           });
           return tempPeers;
         });
-        console.log("********* ", payload);
         if (payload.participants) {
           renderCallParticipants(false, payload.participants);
         }

@@ -235,7 +235,6 @@ export default function GangsMgmt() {
     } else {
       sethasCompletedForm(false);
     }
-    console.log("changing platform: ", chatPlatform, "  ", game, nameText, aboutText);
     return;
   };
   const changeSelectedPlatform = (selection: number) => {
@@ -524,7 +523,7 @@ export default function GangsMgmt() {
       {locationPath === "/create-gang" || loadedGangInfo.basicInfo?.id ? (
         <div className="gang-mgmt-master">
           <div className="gang-mgmt-container">
-            <div className="gang-mgmt-title">manage basics</div>
+            <div className="gang-mgmt-title">{locationPath === "/create-gang" ? "create gang" : "manage basics"}</div>
             <div className="gradient-bar"></div>
             {/* AVATAR PHTO */}
             <div className="gang-container-top">
