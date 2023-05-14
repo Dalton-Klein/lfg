@@ -26,10 +26,11 @@ const rocketLeagueChatObject = {
   isPublicChat: "true",
 };
 export default function VerticalNav() {
+  const defaultConvoObj = { id: 0 };
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [currentConvo, setcurrentConvo] = useState<any>({ id: 0 });
+  const [currentConvo, setcurrentConvo] = useState<any>(defaultConvoObj);
   const [messagingResult, setmessagingResult] = useState<any>([<div key={0}></div>]);
   const [gangResult, setgangResult] = useState<any>([<div key={0}></div>]);
   const [currentNavSelection, setcurrentNavSelection] = useState<number>(0);
@@ -73,11 +74,15 @@ export default function VerticalNav() {
     const httpResult = await getConnectionsForUser(userState.id, "blank");
     let tiles: any;
     if (httpResult.length) {
+      httpResult.forEach((tile) => {
+        console.log("tile    ", tile);
+      });
       tiles = httpResult.map((tile: any) => (
         <li className="conversation-list-item" style={{ listStyleType: "none" }} key={tile.id}>
           <ConversationTile
             key={tile.id}
             {...tile}
+            name={tile.username}
             currentlyOpenConvo={currentConvo}
             isPublicChat="false"
             callOpenConversation={(connectionId: number) => {
@@ -98,7 +103,7 @@ export default function VerticalNav() {
     });
     if (httpResult.length) {
       tiles = httpResult.map((tile: any) => (
-        <li className="conversation-list-item" style={{ listStyleType: "none" }} key={tile.id}>
+        <li style={{ listStyleType: "none" }} key={tile.id}>
           <ConversationTile
             key={tile.id}
             {...tile}
@@ -111,33 +116,54 @@ export default function VerticalNav() {
         </li>
       ));
     }
+    tiles.push(
+      <li style={{ listStyleType: "none" }} key={-99}>
+        <ConversationTile
+          key={-99}
+          id={-99}
+          name="create gang"
+          avatar_url="pi pi-plus"
+          currentlyOpenConvo={currentConvo}
+          isPublicChat="false"
+          callOpenConversation={(connectionId: number) => {
+            openConversation(connectionId);
+          }}
+        ></ConversationTile>
+      </li>
+    );
     setgangResult(tiles);
   };
 
   const openConversation = async (tile: any) => {
-    const convoItem: any = {
-      id: tile.id,
-      user_id: tile.user_id,
-      username: tile.username,
-      avatar_url: tile.avatar_url,
-      isPublicChat: tile.isPublicChat,
-      preferred_platform: tile.preferred_platform,
-      currentlyOpenConvo: tile.id,
-      discord: tile.discord,
-      psn: tile.psn,
-      xbox: tile.xbox,
-    };
-    setcurrentConvo(convoItem);
-    localStorage.setItem("currentConvo", JSON.stringify(convoItem));
-    let newUrl = "/";
-    //Decide between sub-sections of a url
-    if (currentNavSelection === 0) {
-      newUrl = `/gang/${tile.id}`;
+    console.log("opening: ", tile);
+    if (tile.id === -99) {
+      setcurrentConvo(defaultConvoObj);
+      navigate(`/create-gang`);
     } else {
-      newUrl = `/messaging`;
+      const convoItem: any = {
+        id: tile.id,
+        user_id: tile.user_id,
+        username: tile.username,
+        avatar_url: tile.avatar_url,
+        isPublicChat: tile.isPublicChat,
+        preferred_platform: tile.preferred_platform,
+        currentlyOpenConvo: tile.id,
+        discord: tile.discord,
+        psn: tile.psn,
+        xbox: tile.xbox,
+      };
+      setcurrentConvo(convoItem);
+      localStorage.setItem("currentConvo", JSON.stringify(convoItem));
+      let newUrl = "/";
+      //Decide between sub-sections of a url
+      if (currentNavSelection === 0) {
+        newUrl = `/gang/${tile.id}`;
+      } else {
+        newUrl = `/messaging`;
+      }
+      // Navigates to dynamic url (new page)
+      navigate(`${newUrl}`);
     }
-    // Navigates to dynamic url (new page)
-    navigate(`${newUrl}`);
   };
 
   const toggleNavMenu = (navSelection: number) => {
@@ -180,15 +206,17 @@ export default function VerticalNav() {
             {/* List of DIRECT MESSAGING */}
             {messagingResult}
             <ConversationTile
-              key={0.1}
+              key={-1}
               {...rustChatObject}
+              name="rust general"
               currentlyOpenConvo={currentConvo}
               callOpenConversation={(connectionId: number) => {
                 openConversation(connectionId);
               }}
             ></ConversationTile>
             <ConversationTile
-              key={0.2}
+              key={-2}
+              name="minecraft general"
               {...minecraftChatObject}
               currentlyOpenConvo={currentConvo}
               callOpenConversation={(connectionId: number) => {
@@ -196,7 +224,8 @@ export default function VerticalNav() {
               }}
             ></ConversationTile>
             <ConversationTile
-              key={0.3}
+              key={-3}
+              name="rocket league general"
               {...rocketLeagueChatObject}
               currentlyOpenConvo={currentConvo}
               callOpenConversation={(connectionId: number) => {

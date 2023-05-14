@@ -133,7 +133,6 @@ export default function ProfileInlayComponet({ socketRef }) {
   const determineGameNavContents = () => {
     let determinedUrl = "";
     const gameNameString = locationPath.slice(5, 100);
-    console.log("testing: ", gameNameString);
     switch (gameNameString) {
       case "rust":
         determinedUrl = "https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png";
@@ -145,7 +144,6 @@ export default function ProfileInlayComponet({ socketRef }) {
       default:
         break;
     }
-    console.log("determined: ", determinedUrl);
     setgameImgUrl(determinedUrl);
   };
   const renderDiscoverOptions = () => {

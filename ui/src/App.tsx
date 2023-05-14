@@ -47,10 +47,8 @@ function App() {
   }, []);
 
   const connectToSocketMaster = async () => {
-    console.log("connecting to socket****************************************");
     const storedSocketId = localStorage.getItem("voiceSocketId");
     if (storedSocketId) {
-      console.log("loading saved socket: ", localStorage.getItem("voiceSocketId"));
       socketRef.current = io.connect(
         process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg",
         {
