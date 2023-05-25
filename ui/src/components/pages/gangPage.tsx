@@ -156,9 +156,21 @@ export default function GangPage({ socketRef }) {
 
   useEffect(() => {
     renderChannelDynamicContents();
-    socketRef.current.on("join_voice", (participants: any) => {
-      console.log("user joined? ", participants);
-      renderCallParticipants(participants);
+    let constraints: any = {};
+    if (isMobile || !currentInputDevice || !currentOutputDevice) {
+      //Use default devices if not set
+      constraints.audio = true;
+    } else {
+      //Use saved devices if set
+      constraints.audio = currentInputDevice.deviceId;
+      constraints.output = currentOutputDevice.deviceId;
+    }
+    navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
+      socketRef.current.on("join_voice", (participants: any) => {
+        console.log("user joined? ", participants);
+        createPeers(participants, currentStream);
+        renderCallParticipants(participants);
+      });
     });
     socketRef.current.on("leave_voice", (participants: any) => {
       console.log("user left? ", participants);
@@ -187,6 +199,48 @@ export default function GangPage({ socketRef }) {
       username: userState.username,
       avatar_url: userState.avatar_url,
     });
+  };
+
+  const createPeers = (participants: any, currentStream: any) => {
+    function createPeer(userToSignal: any, callerID: any, stream: any) {
+      const peer = new Peer({
+        initiator: true,
+        trickle: false,
+        stream: stream,
+      });
+      //Listen for signal event, which starts handshake request to other users
+      peer.on("signal", (signal) => {
+        socketRef.current.emit("sending_signal", {
+          userToSignal,
+          callerID,
+          signal,
+          user_id: userState.id,
+          username: userState.username,
+          user_avatar_url: userState.avatar_url,
+        });
+      });
+      return peer;
+    }
+    console.log("creating peers: ", participants);
+    const tempPeers: any = [];
+    // Loop through all participants in channel and create a peer
+    const peerUserIds = peers.map(({ user_id }) => user_id);
+    participants.forEach((participant: any) => {
+      if (participant.user_id !== userState.id) {
+        if (!peerUserIds.includes(participant.user_id)) {
+          const peer = createPeer(participant.socket_id, socketRef.current.id, currentStream);
+          peersRef.current.push({
+            peerID: participant.socket_id,
+            peer,
+            peer_user_id: participant.user_id,
+          });
+          tempPeers.push(peer);
+        }
+      }
+      //**** Need to do this only for user joining the call, not users already in the call */
+    });
+    //TODO, make array of user objects to display in voice chat with name and avatar
+    setpeers(tempPeers);
   };
 
   const disconnectFromVoice = () => {

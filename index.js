@@ -51,7 +51,7 @@ io.on("connection", (socket) => {
   //START VOICECHAT EVENTS
   //         join voice is triggered only after user is already in voice "room"
   //         the purpose of this event is to update all observing users of the active call participants
-  //         think of this like a message event, just its bout a voice disconnect/connect event
+  //         think of this like a message event but a voice disconnect/connect event
   socket.on("join_voice", ({ roomId, user_id, username, avatar_url }) => {
     //Remove old participant object if still listed in room
     if (allUsersInAllVoiceChannels[roomId]) {
@@ -70,6 +70,7 @@ io.on("connection", (socket) => {
       avatar_url: avatar_url,
     });
     //Send full copy of participants to everyone observing voice channel
+    console.log("connected to voice: ", user_id, username);
     io.to(roomId).emit("join_voice", allUsersInAllVoiceChannels[roomId]);
   });
 

@@ -105,10 +105,12 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
   };
 
   const joinSocketRoom = () => {
-    if (locationPath === "/messaging") {
-      socketRef.current.emit("join_room", `dm_${currentConvo.id}`);
-    } else {
-      socketRef.current.emit("join_room", `gang_${currentConvo.id}`);
+    if (currentConvo.id && currentConvo.id > 0) {
+      if (locationPath === "/messaging") {
+        socketRef.current.emit("join_room", `dm_${currentConvo.id}`);
+      } else {
+        socketRef.current.emit("join_room", `gang_${currentConvo.id}`);
+      }
     }
   };
 
