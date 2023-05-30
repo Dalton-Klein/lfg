@@ -21,6 +21,11 @@ global._io = io;
 const allUsersInAllVoiceChannels = {};
 
 io.on("connection", (socket) => {
+  socket.on("sync_client", (clientSocketId) => {
+    console.log("Client socket ID:", clientSocketId);
+    const serverSocketId = socket.id;
+    socket.emit("handshakeResponse", serverSocketId);
+  });
   //START DM EVENTS
   // User Joins a dm room (private messaging)
   socket.on("join_room", (roomId) => {
@@ -71,7 +76,7 @@ io.on("connection", (socket) => {
     });
     //Send full copy of participants to everyone observing voice channel
     console.log("connected to voice: ", user_id, username);
-    io.to(roomId).emit("join_voice", allUsersInAllVoiceChannels[roomId]);
+    io.to(roomId).emit("join_voice", { user_joined: user_id, participants: allUsersInAllVoiceChannels[roomId] });
   });
 
   socket.on("leave_voice", ({ roomId, user_id }) => {
@@ -82,9 +87,35 @@ io.on("connection", (socket) => {
       );
     }
     //Send full copy of participants to everyone observing voice channel
-    io.to(roomId).emit("leave_voice", allUsersInAllVoiceChannels[roomId]);
+    io.to(roomId).emit("leave_voice", {
+      userLeaving: user_id,
+      participants: allUsersInAllVoiceChannels[roomId],
+    });
   });
 
+  socket.on("sending_signal", (payload) => {
+    console.log("sending handshake", payload.callerID, payload.user_id, " signaling: ", payload.userToSignal);
+    socket.broadcast.emit("receive_sent_signal", {
+      signal: payload.signal,
+      targetUser: payload.userIdToSignal,
+      callerID: payload.callerID,
+      user_id: payload.user_id,
+      username: payload.username,
+      user_avatar_url: payload.user_avatar_url,
+    });
+  });
+
+  socket.on("returning_signal", (payload) => {
+    console.log("finalizing handshake for ", payload.user_id, "  to: ", payload.targetUser);
+    socket.broadcast.emit("receiving_returned_signal", {
+      signal: payload.signal,
+      targetUser: payload.targetUser,
+      id: socket.id,
+      user_id: payload.user_id,
+      username: payload.username,
+      user_avatar_url: payload.user_avatar_url,
+    });
+  });
   //END VOICECHAT EVENTS
 
   socket.on("disconnecting", () => {
