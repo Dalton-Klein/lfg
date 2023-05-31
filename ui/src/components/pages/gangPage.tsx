@@ -160,6 +160,7 @@ export default function GangPage({ socketRef }) {
     //Listens for people joining voice, and will render participants as they join
     socketRef.current.on("join_voice", (payload: any) => {
       if (myDevicesStream && currentAudioChannel && currentAudioChannel.id && payload.user_joined !== userState.id) {
+        console.log("join voice event");
         createPeers(payload.participants, myDevicesStream);
       }
       renderCallParticipants(payload.participants);
@@ -214,6 +215,7 @@ export default function GangPage({ socketRef }) {
       socketRef.current.on("receiving_returned_signal", (payload: any) => {
         if (payload.targetUser === userState.id) {
           const item = peersRef.current.find((p: any) => p.peerID === payload.id);
+          console.log("&&&&&&&&&&&&&&&&&&&&&&&& ", item);
           item.peer.signal(payload.signal);
         }
       });
@@ -263,6 +265,7 @@ export default function GangPage({ socketRef }) {
       if (participant.user_id !== userState.id) {
         if (!peerUserIds.includes(participant.user_id)) {
           //Create only new peer
+          console.log("creating peers?? ", participants);
           const peer = createPeer(participant.user_id, participant.socket_id, socketRef.current.id, currentStream);
           peersRef.current.push({
             peerID: participant.socket_id,
