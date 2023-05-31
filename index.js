@@ -7,13 +7,6 @@ const router = require("./routes/router");
 const db = require("./models/index");
 const http = require("http").createServer(app);
 router.use(express.json());
-const session = require("express-session");
-const sessionMiddleware = session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-});
-app.use(sessionMiddleware);
 app.use(cors(), router);
 app.use(require("prerender-node").set("prerenderToken", "pmAz691dTZfZ6GTrUiZZ"));
 const path = require("path");
@@ -25,14 +18,14 @@ io = require("socket.io")(http);
 //Secret to making io emit events available in controllers is to set io as global variable
 global._io = io;
 
-//wrap session middleware to connect it to socket io
-const wrap = (middleware) => (socket, next) => middleware(socket.request, {}, next);
-io.use(wrap(sessionMiddleware));
-
-const allUsersInAllChannels = {};
-const socketToRoom = {};
+const allUsersInAllVoiceChannels = {};
 
 io.on("connection", (socket) => {
+  socket.on("sync_client", (clientSocketId) => {
+    console.log("Client socket ID:", clientSocketId);
+    const serverSocketId = socket.id;
+    socket.emit("handshakeResponse", serverSocketId);
+  });
   //START DM EVENTS
   // User Joins a dm room (private messaging)
   socket.on("join_room", (roomId) => {
@@ -61,61 +54,50 @@ io.on("connection", (socket) => {
   //END DM EVENTS
 
   //START VOICECHAT EVENTS
-  const storedSocketId = socket.handshake.query.socketId;
-  console.log("stored Socket Id: ", storedSocketId, " current ", socket.id);
-  // User Starts a voice channel (group voice)
-  socket.on("join_channel", (payload) => {
-    //Attach user information to this socket for use in disconnect
-    console.log("socket.request.session: ", socket.request.session);
-    socket.request.session.user = {
-      user_id: payload.user_id,
-      username: payload.username,
-      user_avatar_url: payload.user_avatar_url,
-    };
-    socket.request.session.save();
-    console.log("joining socket id: ", socket.id);
-    console.log("joining user id: ", socket.request.session.user.user_id);
-    if (allUsersInAllChannels[payload.channelId]) {
-      //Get rid of duplicate users
-      allUsersInAllChannels[payload.channelId] = allUsersInAllChannels[payload.channelId].filter((participant) => {
-        if (participant.user_id == payload.user_id) {
-          return false;
-        } else {
-          return true;
-        }
-      });
-      //Add fresh copy of joining user
-      allUsersInAllChannels[payload.channelId].push({
-        socket_id: socket.id,
-        user_id: payload.user_id,
-        username: payload.username,
-        user_avatar_url: payload.user_avatar_url,
-      });
-    } else {
-      //Create channel object for channel id
-      allUsersInAllChannels[payload.channelId] = [
-        {
-          socket_id: socket.id,
-          user_id: payload.user_id,
-          username: payload.username,
-          user_avatar_url: payload.user_avatar_url,
-        },
-      ];
+  //         join voice is triggered only after user is already in voice "room"
+  //         the purpose of this event is to update all observing users of the active call participants
+  //         think of this like a message event but a voice disconnect/connect event
+  socket.on("join_voice", ({ roomId, user_id, username, avatar_url }) => {
+    //Remove old participant object if still listed in room
+    if (allUsersInAllVoiceChannels[roomId]) {
+      allUsersInAllVoiceChannels[roomId] = allUsersInAllVoiceChannels[roomId].filter(
+        (participant) => participant.user_id !== user_id
+      );
     }
-    socketToRoom[socket.id] = payload.channelId;
-    let usersInThisRoomOtherThanYou = [];
-    allUsersInAllChannels[payload.channelId].forEach((userObj) => {
-      if (userObj.socket_id !== socket.id) usersInThisRoomOtherThanYou.push(userObj);
+    //Add user to list of participants
+    if (!allUsersInAllVoiceChannels[roomId]) {
+      allUsersInAllVoiceChannels[roomId] = [];
+    }
+    allUsersInAllVoiceChannels[roomId].push({
+      socket_id: socket.id,
+      user_id: user_id,
+      username: username,
+      avatar_url: avatar_url,
     });
-    console.log("joining channel -> all users?", allUsersInAllChannels[payload.channelId]);
-    //Send joining user array of participants other than self
-    socket.emit("all_users", usersInThisRoomOtherThanYou);
+    //Send full copy of participants to everyone observing voice channel
+    console.log("connected to voice: ", user_id, username);
+    io.to(roomId).emit("join_voice", { user_joined: user_id, participants: allUsersInAllVoiceChannels[roomId] });
+  });
+
+  socket.on("leave_voice", ({ roomId, user_id }) => {
+    //Remove participant object
+    if (allUsersInAllVoiceChannels[roomId]) {
+      allUsersInAllVoiceChannels[roomId] = allUsersInAllVoiceChannels[roomId].filter(
+        (participant) => participant.user_id !== user_id
+      );
+    }
+    //Send full copy of participants to everyone observing voice channel
+    io.to(roomId).emit("leave_voice", {
+      userLeaving: user_id,
+      participants: allUsersInAllVoiceChannels[roomId],
+    });
   });
 
   socket.on("sending_signal", (payload) => {
-    console.log("sending handshake API", payload.callerID, " signaling: ", payload.userToSignal);
-    io.to(payload.userToSignal).emit("user_joined", {
+    console.log("sending handshake", payload.callerID, payload.user_id, " signaling: ", payload.userToSignal);
+    socket.broadcast.emit("receive_sent_signal", {
       signal: payload.signal,
+      targetUser: payload.userIdToSignal,
       callerID: payload.callerID,
       user_id: payload.user_id,
       username: payload.username,
@@ -124,39 +106,15 @@ io.on("connection", (socket) => {
   });
 
   socket.on("returning_signal", (payload) => {
-    io.to(payload.callerID).emit("receiving_returned_signal", {
+    console.log("finalizing handshake for ", payload.user_id, "  to: ", payload.targetUser);
+    socket.broadcast.emit("receiving_returned_signal", {
       signal: payload.signal,
+      targetUser: payload.targetUser,
       id: socket.id,
       user_id: payload.user_id,
       username: payload.username,
       user_avatar_url: payload.user_avatar_url,
     });
-  });
-
-  //When client disconnects, handle it
-  socket.on("pre_disconnect", (payload) => {
-    console.log("pre_disconnect: ", payload);
-    if (allUsersInAllChannels[payload.channelId]) {
-      allUsersInAllChannels[payload.channelId] = allUsersInAllChannels[payload.channelId].filter((participant) => {
-        if (participant.user_id === payload.user_id) {
-          return false;
-        } else {
-          return true;
-        }
-      });
-      allUsersInAllChannels[payload.channelId].forEach((participant) => {
-        console.log(
-          "sending disconnevt info: ",
-          participant.socket_id,
-          " rezz ",
-          allUsersInAllChannels[payload.channelId]
-        );
-        io.to(participant.socket_id).emit("user_left", {
-          id: socket.id,
-          remaining_participants: allUsersInAllChannels[payload.channelId],
-        });
-      });
-    }
   });
   //END VOICECHAT EVENTS
 

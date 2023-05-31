@@ -20,7 +20,6 @@ import GangsPage from "./components/pages/gangsPage";
 import GangPage from "./components/pages/gangPage";
 import JoinGangPage from "./components/pages/joinGangPage";
 import ScrollToTop from "./components/nav/scrollToTop";
-import SettingsPage from "./components/pages/settingsPage";
 import * as io from "socket.io-client";
 import HeaderComponent from "./components/nav/headerComponent";
 import VerticalNav from "./components/nav/verticalNav";
@@ -47,19 +46,18 @@ function App() {
   }, []);
 
   const connectToSocketMaster = async () => {
-    const storedSocketId = localStorage.getItem("voiceSocketId");
-    if (storedSocketId) {
-      socketRef.current = io.connect(
-        process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg",
-        {
-          query: { socketId: storedSocketId },
-        }
-      );
-    } else {
-      socketRef.current = io.connect(
-        process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg"
-      );
-    }
+    socketRef.current = io.connect(
+      process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg"
+    );
+    socketRef.current.on("connect", () => {
+      console.log("hellllllo?");
+      const clientSocketId = socketRef.current.id;
+      socketRef.current.emit("sync_client", clientSocketId);
+    });
+    socketRef.current.on("handshakeResponse", (serverSocketId) => {
+      console.log("Server socket ID:", serverSocketId, "vs", socketRef.current.id);
+      // Do further processing with the server socket ID
+    });
   };
 
   // html goes here (components that you see)
@@ -100,7 +98,6 @@ function App() {
                 <Route path="/incoming-requests" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/outgoing-requests" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/blocked" element={<ProfilePage socketRef={socketRef} />} />
-                <Route path="/user-settings" element={<SettingsPage />} />
                 {/* Less Used Pages */}
                 <Route path="/help" element={<FAQPage />} />
                 <Route path="/login" element={<LoginPage />} />
