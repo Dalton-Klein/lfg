@@ -30,19 +30,10 @@ function isMobileDevice() {
 //   height: 0%;
 //   width: 0%;
 // `;
-let StyledAudio: any;
-if (isMobileDevice()) {
-  // Some stuff for video can be used for screen sharing perhaps
-  StyledAudio = styled.audio`
-    height: 10%;
-    width: 10%;
-  `;
-} else {
-  StyledAudio = styled.audio`
-    height: 0%;
-    width: 0%;
-  `;
-}
+const StyledAudio = styled.audio`
+  height: 0%;
+  width: 0%;
+`;
 const Video = (props: any) => {
   const ref = useRef<any>();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -50,7 +41,6 @@ const Video = (props: any) => {
     if (ref.current && props.peer) {
       props.peer.on("stream", (stream: any) => {
         ref.current.srcObject = stream;
-        ref.current.pause();
         ref.current.play();
         setIsPlaying(true);
       });
@@ -60,7 +50,6 @@ const Video = (props: any) => {
 
   const handlePlay = () => {
     if (!isPlaying) {
-      ref.current?.pause();
       const playPromise = ref.current?.play();
       if (playPromise) {
         playPromise.catch((error) => {
