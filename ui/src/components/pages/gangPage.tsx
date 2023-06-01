@@ -1,4 +1,3 @@
-import FooterComponent from "../nav/footerComponent";
 import "./gangPage.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -27,10 +26,10 @@ const StyledAudio = styled.audio`
   height: 0%;
   width: 0%;
 `;
-const videoConstraints = {
-  height: window.innerHeight / 2,
-  width: window.innerWidth / 2,
-};
+// const videoConstraints = {
+//   height: window.innerHeight / 2,
+//   width: window.innerWidth / 2,
+// };
 const Video = (props: any) => {
   const ref = useRef<any>();
 
@@ -68,10 +67,11 @@ export default function GangPage({ socketRef }) {
   const toast: any = useRef({ current: "" });
   //Voice Specific
   const [callParticipants, setcallParticipants] = useState<any>([]);
-  const userAudio = useRef<any>();
+  // const userAudio = useRef<any>();
   const peersRef = useRef<any>([]);
   const [myDevicesStream, setmyDevicesStream] = useState<MediaStream>();
 
+  const [hasMicAccess, sethasMicAccess] = useState<boolean>(true);
   const [currentInputDevice, setcurrentInputDevice] = useState<any>();
   const [currentOutputDevice, setcurrentOutputDevice] = useState<any>();
 
@@ -244,6 +244,7 @@ export default function GangPage({ socketRef }) {
       socketRef.current.off("receiving_returned_signal", handleReturnSignal);
       socketRef.current.off("leave_voice", handleLeaveVoice);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myDevicesStream, currentAudioChannel, userState.id, userState.username, userState.avatar_url]);
 
   //START VOICE LOGIC
@@ -256,10 +257,31 @@ export default function GangPage({ socketRef }) {
   };
 
   const connectToVoice = () => {
+    checkMicPermissions();
     closePeerConnections();
     navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
       setmyDevicesStream(currentStream);
     });
+  };
+
+  const checkMicPermissions = async () => {
+    if (navigator.permissions && navigator.permissions.query) {
+      try {
+        const permissionStatus = await navigator.permissions.query({ name: "microphone" as PermissionName });
+        if (permissionStatus.state === "denied") {
+          // Show a message to the user about enabling microphone access
+          console.log("Microphone access is denied. Please enable microphone access in your browser settings.");
+          sethasMicAccess(false);
+        }
+      } catch (error) {
+        console.error("Error checking microphone permission:", error);
+      }
+    } else {
+      // Browser doesn't support navigator.permissions API
+      console.log(
+        "Cannot check microphone permission. Please ensure microphone access is enabled in your browser settings."
+      );
+    }
   };
 
   const createPeers = (participants: any, currentStream: any) => {
@@ -487,6 +509,14 @@ export default function GangPage({ socketRef }) {
               </div>
             ) : (
               <></>
+            )}{" "}
+            {hasMicAccess ? (
+              <></>
+            ) : (
+              <div className="voice-channel-helper">
+                {" "}
+                mic access denied, please enable mic access in your browser settings.{" "}
+              </div>
             )}
             <ReactTooltip id="voice-connect-tooltip" place="right" effect="float">
               <span>{currentAudioChannel.id ? "disconnect from voice" : "connect to voice"}</span>

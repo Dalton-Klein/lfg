@@ -25,24 +25,13 @@ export default function DiscoverPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    determineTitle();
-    if (userState.id && userState.id > 0) {
-      checkIfProfileComplete();
-    } else {
-      fetchTilesData();
-    }
-    dispatch(resetFilterPreferences());
+    initializePage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    determineTitle();
-    if (userState.id && userState.id > 0) {
-      checkIfProfileComplete();
-    } else {
-      fetchTilesData();
-    }
-    dispatch(resetFilterPreferences());
+    console.log("hello?");
+    initializePage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath]);
 
@@ -63,6 +52,16 @@ export default function DiscoverPage() {
     updateTilesFeed();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preferencesState.discoverFilters]);
+
+  const initializePage = () => {
+    determineTitle();
+    if (userState.id && userState.id > 0) {
+      checkIfProfileComplete();
+    } else {
+      fetchTilesData();
+    }
+    dispatch(resetFilterPreferences());
+  };
 
   const determineTitle = () => {
     switch (locationPath) {
@@ -207,6 +206,7 @@ export default function DiscoverPage() {
           locationPath === "/lfg-rust" ? tile.rust_weekends : tile.rocket_league_weekdays
         );
         if (weekdayResult || weekendResult) return tile;
+        return false;
       });
     } else availabilityResult = tilesFromDB;
     //Filter by language
