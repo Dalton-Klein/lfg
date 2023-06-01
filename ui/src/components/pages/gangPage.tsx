@@ -21,28 +21,55 @@ function isMobileDevice() {
 
   return mobileKeywords.some((keyword) => userAgent.includes(keyword));
 }
-// Some stuff for video can be used for screen sharing perhaps
-const StyledAudio = styled.audio`
-  height: 0%;
-  width: 0%;
-`;
+
 // const videoConstraints = {
 //   height: window.innerHeight / 2,
 //   width: window.innerWidth / 2,
 // };
+// const StyledAudio = styled.audio`
+//   height: 0%;
+//   width: 0%;
+// `;
+let StyledAudio: any;
+if (isMobileDevice()) {
+  // Some stuff for video can be used for screen sharing perhaps
+  StyledAudio = styled.audio`
+    height: 10%;
+    width: 10%;
+  `;
+} else {
+  StyledAudio = styled.audio`
+    height: 0%;
+    width: 0%;
+  `;
+}
 const Video = (props: any) => {
   const ref = useRef<any>();
-
+  const [isPlaying, setIsPlaying] = useState(false);
   useEffect(() => {
     if (ref.current && props.peer) {
       props.peer.on("stream", (stream: any) => {
         ref.current.srcObject = stream;
+        ref.current.play();
+        setIsPlaying(true);
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <StyledAudio playsInline autoPlay ref={ref} />;
+  const handlePlay = () => {
+    if (!isPlaying) {
+      const playPromise = ref.current?.play();
+      if (playPromise) {
+        playPromise.catch((error) => {
+          // Handle the play promise error
+          console.log("Failed to play audio:", error);
+        });
+      }
+    }
+  };
+
+  return <StyledAudio playsInline autoPlay onClick={handlePlay} ref={ref} />;
 };
 let constraints: any = {};
 export default function GangPage({ socketRef }) {
@@ -312,12 +339,28 @@ export default function GangPage({ socketRef }) {
       return peer;
     }
     // Loop through all participants in channel and create a peer
-    const peerUserIds = peersRef.current.map(({ peer_user_id }) => peer_user_id);
     participants.forEach((participant: any) => {
       if (participant.user_id !== userState.id) {
         //Creat only for non-self participants
-        if (!peerUserIds.includes(participant.user_id)) {
+        const matchingPeer = peersRef.current.find((peerObj: any) => peerObj.peer_user_id === participant.user_id);
+        if (!matchingPeer) {
           //Create only new peer
+          const peer = createPeer(participant.user_id, participant.socket_id, socketRef.current.id, currentStream);
+          peersRef.current.push({
+            peerID: participant.socket_id,
+            peer,
+            peer_user_id: participant.user_id,
+          });
+        } else if (matchingPeer && matchingPeer.peer.destroyed) {
+          // if we have a peer for the user, but its been destroyed, handle then recreate
+          const index = peersRef.current.findIndex((peerObj: any) => peerObj.peer_user_id === participant.user_id);
+          // Check if the peer exists in the array
+          if (index !== -1) {
+            const peer = peersRef.current[index];
+            peer.peer.destroy();
+            // Remove the peer from the array
+            peersRef.current.splice(index, 1);
+          }
           const peer = createPeer(participant.user_id, participant.socket_id, socketRef.current.id, currentStream);
           peersRef.current.push({
             peerID: participant.socket_id,
