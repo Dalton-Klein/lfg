@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "./conversationTile.scss";
 import ReactTooltip from "react-tooltip";
 
