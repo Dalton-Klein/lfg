@@ -170,7 +170,12 @@ export default function GangPage({ socketRef }) {
     renderChannelDynamicContents();
     if (isMobile || !currentInputDevice || !currentOutputDevice) {
       //Use default devices if not set
-      constraints.audio = true;
+      constraints.audio = {
+        // Add iPhone-specific constraints here
+        deviceId: "default", // Use the default audio input device
+        sampleRate: 48000, // Set the desired sample rate
+        channelCount: 2, // Set the desired number of audio channels (stereo)
+      };
     } else {
       //Use saved devices if set
       constraints.audio = currentInputDevice.deviceId;
