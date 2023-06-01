@@ -312,12 +312,28 @@ export default function GangPage({ socketRef }) {
       return peer;
     }
     // Loop through all participants in channel and create a peer
-    const peerUserIds = peersRef.current.map(({ peer_user_id }) => peer_user_id);
     participants.forEach((participant: any) => {
       if (participant.user_id !== userState.id) {
         //Creat only for non-self participants
-        if (!peerUserIds.includes(participant.user_id)) {
+        const matchingPeer = peersRef.current.find((peerObj: any) => peerObj.peer_user_id === participant.user_id);
+        if (!matchingPeer) {
           //Create only new peer
+          const peer = createPeer(participant.user_id, participant.socket_id, socketRef.current.id, currentStream);
+          peersRef.current.push({
+            peerID: participant.socket_id,
+            peer,
+            peer_user_id: participant.user_id,
+          });
+        } else if (matchingPeer && matchingPeer.peer.destroyed) {
+          // if we have a peer for the user, but its been destroyed, handle then recreate
+          const index = peersRef.current.findIndex((peerObj: any) => peerObj.peer_user_id === participant.user_id);
+          // Check if the peer exists in the array
+          if (index !== -1) {
+            const peer = peersRef.current[index];
+            peer.peer.destroy();
+            // Remove the peer from the array
+            peersRef.current.splice(index, 1);
+          }
           const peer = createPeer(participant.user_id, participant.socket_id, socketRef.current.id, currentStream);
           peersRef.current.push({
             peerID: participant.socket_id,
