@@ -50,6 +50,7 @@ const Video = (props: any) => {
     if (ref.current && props.peer) {
       props.peer.on("stream", (stream: any) => {
         ref.current.srcObject = stream;
+        ref.current.pause();
         ref.current.play();
         setIsPlaying(true);
       });
@@ -59,6 +60,7 @@ const Video = (props: any) => {
 
   const handlePlay = () => {
     if (!isPlaying) {
+      ref.current?.pause();
       const playPromise = ref.current?.play();
       if (playPromise) {
         playPromise.catch((error) => {
