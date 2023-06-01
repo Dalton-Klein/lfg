@@ -67,7 +67,6 @@ export default function GangPage({ socketRef }) {
   const [showChannelNav, setshowChannelNav] = useState<boolean>(true);
   const toast: any = useRef({ current: "" });
   //Voice Specific
-  const [peers, setpeers] = useState<any>([]);
   const [callParticipants, setcallParticipants] = useState<any>([]);
   const userAudio = useRef<any>();
   const peersRef = useRef<any>([]);
@@ -151,20 +150,24 @@ export default function GangPage({ socketRef }) {
       connectToVoice();
     }
     renderChannelTitleContents();
-    //Other user is signaling to establish peer connection
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAudioChannel]);
 
   useEffect(() => {
+    if (myDevicesStream) {
+      // Send my data so others can see my participant info
+      socketRef.current.emit("join_voice", {
+        roomId: `voice_${currentAudioChannel.id}`,
+        user_id: userState.id,
+        username: userState.username,
+        avatar_url: userState.avatar_url,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myDevicesStream]);
+
+  useEffect(() => {
     renderChannelDynamicContents();
-    //Listens for people joining voice, and will render participants as they join
-    socketRef.current.on("join_voice", (payload: any) => {
-      if (myDevicesStream && currentAudioChannel && currentAudioChannel.id && payload.user_joined !== userState.id) {
-        console.log("join voice event");
-        createPeers(payload.participants, myDevicesStream);
-      }
-      renderCallParticipants(payload.participants);
-    });
     if (isMobile || !currentInputDevice || !currentOutputDevice) {
       //Use default devices if not set
       constraints.audio = true;
@@ -173,6 +176,11 @@ export default function GangPage({ socketRef }) {
       constraints.audio = currentInputDevice.deviceId;
       constraints.output = currentOutputDevice.deviceId;
     }
+    //Listens for people joining voice, and will render participants as they join
+    socketRef.current.on("join_voice", handleAddParticipant);
+    return () => {
+      socketRef.current.off("join_voice", handleAddParticipant);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [callParticipants]);
 
@@ -180,6 +188,63 @@ export default function GangPage({ socketRef }) {
     renderChannelTitleContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showChannelNav]);
+
+  //Special useEffect for socket listeners with all dependencies
+  const handleAddParticipant = (payload: any) => {
+    renderCallParticipants(payload.participants);
+  };
+  const handleUserJoinsVoice = (payload) => {
+    if (myDevicesStream && currentAudioChannel && currentAudioChannel.id && payload.user_joined !== userState.id) {
+      createPeers(payload.participants, myDevicesStream);
+    }
+  };
+  const handleSignal = (payload) => {
+    if (payload.targetUser === userState.id && myDevicesStream && currentAudioChannel && currentAudioChannel.id) {
+      const peer = addPeer(payload.user_id, payload.signal, payload.callerID, myDevicesStream);
+      peersRef.current.push({
+        peerID: payload.callerID,
+        peer,
+        peer_user_id: payload.user_id,
+      });
+    }
+  };
+  const handleReturnSignal = (payload) => {
+    if (payload.targetUser === userState.id) {
+      const item = peersRef.current.find((p: any) => p.peerID === payload.id);
+      if (item && item.peer && !item.peer.destroyed) {
+        item.peer.signal(payload.signal);
+      }
+    }
+  };
+  const handleLeaveVoice = (payload) => {
+    // Find the index of the peer in the array to destroy and remove
+    const index = peersRef.current.findIndex((peer) => peer.peer_user_id === payload.userLeaving);
+    // Check if the peer exists in the array
+    if (index !== -1) {
+      const peer = peersRef.current[index];
+      peer.peer.destroy();
+      // Remove the peer from the array
+      peersRef.current.splice(index, 1);
+    }
+    renderCallParticipants(payload.participants);
+  };
+
+  useEffect(() => {
+    //Listens for people joining voice, will create peers if our stream is live
+    socketRef.current.on("join_voice", handleUserJoinsVoice);
+    //Receive First Part of handshake
+    socketRef.current.on("receive_sent_signal", handleSignal);
+    //Receive Last Part of handshake
+    socketRef.current.on("receiving_returned_signal", handleReturnSignal);
+    //Always listen for leaving user?
+    socketRef.current.on("leave_voice", handleLeaveVoice);
+    return () => {
+      socketRef.current.off("join_voice", handleUserJoinsVoice);
+      socketRef.current.off("receive_sent_signal", handleSignal);
+      socketRef.current.off("receiving_returned_signal", handleReturnSignal);
+      socketRef.current.off("leave_voice", handleLeaveVoice);
+    };
+  }, [myDevicesStream, currentAudioChannel, userState.id, userState.username, userState.avatar_url]);
 
   //START VOICE LOGIC
   const loadDevices = async () => {
@@ -191,47 +256,9 @@ export default function GangPage({ socketRef }) {
   };
 
   const connectToVoice = () => {
+    closePeerConnections();
     navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
       setmyDevicesStream(currentStream);
-      // Send my data so others can see my participant info
-      socketRef.current.emit("join_voice", {
-        roomId: `voice_${currentAudioChannel.id}`,
-        user_id: userState.id,
-        username: userState.username,
-        avatar_url: userState.avatar_url,
-      });
-      //Receive First Part of handshake
-      socketRef.current.on("receive_sent_signal", (payload: any) => {
-        if (payload.targetUser === userState.id && currentStream && currentAudioChannel && currentAudioChannel.id) {
-          const peer = addPeer(payload.user_id, payload.signal, payload.callerID, currentStream);
-          peersRef.current.push({
-            peerID: payload.callerID,
-            peer,
-          });
-          setpeers((users: any) => [...users, peer]);
-        }
-      });
-      //Receive Last Part of handshake
-      socketRef.current.on("receiving_returned_signal", (payload: any) => {
-        if (payload.targetUser === userState.id) {
-          const item = peersRef.current.find((p: any) => p.peerID === payload.id);
-          console.log("&&&&&&&&&&&&&&&&&&&&&&&& ", item);
-          item.peer.signal(payload.signal);
-        }
-      });
-    });
-    //Always listen for leaving user?
-    socketRef.current.on("leave_voice", (payload: any) => {
-      //Loop through peers and find right peer to destroy
-      peersRef.current.forEach((peer: any) => {
-        if (peer.peer_user_id === payload.userLeaving) {
-          const foundPeer = peers.find((p: any) => p.peerID === payload.id);
-          console.log("user left found found peer??? ", peers, " target? ", payload.id);
-          if (foundPeer) foundPeer.destroy();
-          peer.peer.destroy();
-        }
-      });
-      renderCallParticipants(payload.participants);
     });
   };
 
@@ -244,7 +271,6 @@ export default function GangPage({ socketRef }) {
       });
       //Listen for signal event, which starts handshake request to other users
       peer.on("signal", (signal) => {
-        console.log("sending signal to: ", userToSignal);
         socketRef.current.emit("sending_signal", {
           userIdToSignal,
           userToSignal,
@@ -258,25 +284,22 @@ export default function GangPage({ socketRef }) {
       });
       return peer;
     }
-    const tempPeers: any = [];
     // Loop through all participants in channel and create a peer
-    const peerUserIds = peers.map(({ user_id }) => user_id);
+    const peerUserIds = peersRef.current.map(({ peer_user_id }) => peer_user_id);
     participants.forEach((participant: any) => {
       if (participant.user_id !== userState.id) {
+        //Creat only for non-self participants
         if (!peerUserIds.includes(participant.user_id)) {
           //Create only new peer
-          console.log("creating peers?? ", participants);
           const peer = createPeer(participant.user_id, participant.socket_id, socketRef.current.id, currentStream);
           peersRef.current.push({
             peerID: participant.socket_id,
             peer,
             peer_user_id: participant.user_id,
           });
-          tempPeers.push(peer);
         }
       }
     });
-    setpeers(tempPeers);
   };
 
   const addPeer = (targetUser: number, incomingSignal: any, callerID: any, stream: any) => {
@@ -303,21 +326,21 @@ export default function GangPage({ socketRef }) {
   };
 
   const disconnectFromVoice = () => {
+    closePeerConnections();
     socketRef.current.emit("leave_voice", {
       roomId: `voice_${currentAudioChannel.id}`,
       user_id: userState.id,
     });
+    setcurrentAudioChannel({});
+  };
+
+  const closePeerConnections = () => {
     // Destroy all my peers cause I'm leaving
     peersRef.current.forEach((peer: any) => {
       peer.peer.destroy();
     });
-    peers.forEach((peer: any) => {
-      peer.destroy();
-    });
-    setpeers([]);
     //Re-init to blank array after peers destroyed
     peersRef.current = [];
-    setcurrentAudioChannel({});
   };
 
   //END VOICE LOGIC
@@ -695,8 +718,8 @@ export default function GangPage({ socketRef }) {
               {showChannelNav ? (
                 <div className="chat-list">
                   {channelList}
-                  {peers.map((peer, index) => {
-                    return <Video key={index} peer={peer} />;
+                  {peersRef.current.map((peerObj, index) => {
+                    return <Video key={index} peer={peerObj.peer} />;
                   })}
                 </div>
               ) : (

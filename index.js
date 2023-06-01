@@ -21,11 +21,6 @@ global._io = io;
 const allUsersInAllVoiceChannels = {};
 
 io.on("connection", (socket) => {
-  socket.on("sync_client", (clientSocketId) => {
-    console.log("Client socket ID:", clientSocketId);
-    const serverSocketId = socket.id;
-    socket.emit("handshakeResponse", serverSocketId);
-  });
   //START DM EVENTS
   // User Joins a dm room (private messaging)
   socket.on("join_room", (roomId) => {
@@ -75,7 +70,6 @@ io.on("connection", (socket) => {
       avatar_url: avatar_url,
     });
     //Send full copy of participants to everyone observing voice channel
-    console.log("connected to voice: ", user_id, username);
     io.to(roomId).emit("join_voice", { user_joined: user_id, participants: allUsersInAllVoiceChannels[roomId] });
   });
 
@@ -94,7 +88,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sending_signal", (payload) => {
-    console.log("sending handshake", payload.callerID, payload.user_id, " signaling: ", payload.userToSignal);
     socket.broadcast.emit("receive_sent_signal", {
       signal: payload.signal,
       targetUser: payload.userIdToSignal,
@@ -106,7 +99,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("returning_signal", (payload) => {
-    console.log("finalizing handshake for ", payload.user_id, "  to: ", payload.targetUser);
     socket.broadcast.emit("receiving_returned_signal", {
       signal: payload.signal,
       targetUser: payload.targetUser,
