@@ -21,28 +21,50 @@ function isMobileDevice() {
 
   return mobileKeywords.some((keyword) => userAgent.includes(keyword));
 }
-// Some stuff for video can be used for screen sharing perhaps
-const StyledAudio = styled.audio`
-  height: 0%;
-  width: 0%;
-`;
+
 // const videoConstraints = {
 //   height: window.innerHeight / 2,
 //   width: window.innerWidth / 2,
 // };
 const Video = (props: any) => {
   const ref = useRef<any>();
-
+  const [isPlaying, setIsPlaying] = useState(false);
+  let StyledAudio: any;
   useEffect(() => {
     if (ref.current && props.peer) {
       props.peer.on("stream", (stream: any) => {
         ref.current.srcObject = stream;
+        setIsPlaying(true);
       });
+    }
+    if (isMobileDevice()) {
+      // Some stuff for video can be used for screen sharing perhaps
+      StyledAudio = styled.audio`
+        height: 10%;
+        width: 10%;
+      `;
+    } else {
+      StyledAudio = styled.audio`
+        height: 0%;
+        width: 0%;
+      `;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <StyledAudio playsInline autoPlay ref={ref} />;
+  const handlePlay = () => {
+    if (!isPlaying) {
+      const playPromise = ref.current?.play();
+      if (playPromise) {
+        playPromise.catch((error) => {
+          // Handle the play promise error
+          console.log("Failed to play audio:", error);
+        });
+      }
+    }
+  };
+
+  return <StyledAudio playsInline autoPlay onClick={handlePlay} ref={ref} />;
 };
 let constraints: any = {};
 export default function GangPage({ socketRef }) {
