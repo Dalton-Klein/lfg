@@ -1,0 +1,14 @@
+@import "../../styling/config";
+
+.electron-title-bar {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  button {
+    font-size: $font2;
+  }
+  .electron-title-text {
+    font-size: $font1;
+  }
+}
