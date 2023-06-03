@@ -203,7 +203,7 @@ export default function ProfileInlayComponet({ socketRef }) {
       {/* Conditionally render log in options or show profile info */}
       {userState.email === "" ? (
         <div className="my-profile-overlay-link prof-overlay-text" onClick={() => navigate("/login")}>
-          Log In | Sign Up
+          login | signup
         </div>
       ) : (
         <div className="my-profile-overlay-wrapper">

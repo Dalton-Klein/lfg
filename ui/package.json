@@ -2,8 +2,13 @@
   "name": "gangs",
   "version": "0.1.0",
   "main": "public/main.js",
+  "window": {
+    "frame": false,
+    "toolbar": true
+  },
   "private": true,
   "dependencies": {
+    "@6c65726f79/custom-titlebar": "^0.9.1",
     "@babel/core": "^7.13.0",
     "@electron/remote": "^2.0.9",
     "@reduxjs/toolkit": "^1.6.2",

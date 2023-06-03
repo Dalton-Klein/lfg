@@ -22,7 +22,6 @@ import JoinGangPage from "./components/pages/joinGangPage";
 import ScrollToTop from "./components/nav/scrollToTop";
 import * as io from "socket.io-client";
 import HeaderComponent from "./components/nav/headerComponent";
-import ElectronTitleBar from "./components/nav/electron-title-bar";
 import VerticalNav from "./components/nav/verticalNav";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
@@ -63,7 +62,6 @@ function App() {
         <div className="App">
           {/* This scroll component scrolls user to top of each page when navigating */}
           <ScrollToTop />
-          <ElectronTitleBar />
           {locationPath === "/login" ? <></> : <HeaderComponent socketRef={socketRef}></HeaderComponent>}
           <div className="app-container">
             {locationPath === "/login" ? <></> : <VerticalNav></VerticalNav>}
