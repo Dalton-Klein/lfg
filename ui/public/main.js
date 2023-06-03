@@ -16,7 +16,8 @@ function createWindow() {
       enableRemoteModule: true,
       webSecurity: false,
     },
-    icon: __dirname + "/build/assets/logoWhiteSmall.png",
+    icon: __dirname + "/build/favicon.ico",
+    title: "gangs",
     autoHideMenuBar: true,
   });
 

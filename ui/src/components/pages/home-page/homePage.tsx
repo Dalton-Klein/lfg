@@ -38,7 +38,13 @@ export default function HomePage() {
     <div>
       <div className="title-box">
         {/* <div className="title">gangs</div> */}
-        <img className="logo-img" src={"/assets/logo-v2-gangs.gg-transparent-white.png"} alt="gangs logo" />
+        <img
+          className="logo-img"
+          src={
+            "https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
+          }
+          alt="gangs logo"
+        />
         <h1 className="main-title">form your gang</h1>
         <h2 className="subtitle">
           Say goodbye to solo queuing, find competent team members to play with, make new friends

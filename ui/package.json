@@ -61,6 +61,9 @@
     "directories": {
       "buildResources": "public"
     },
+    "win": {
+      "icon": "build/assets/logo-v2-gangs.gg-transparent-white.png"
+    },
     "extraMetadata": {
       "main": "dist/main.js"
     },

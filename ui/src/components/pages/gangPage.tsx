@@ -615,7 +615,9 @@ export default function GangPage({ socketRef }) {
       //Push users other than self into array
       tempParticipants.push(
         <div className="voice-participant-box" key={participant.user_id}>
-          {participant.avatar_url === "" || participant.avatar_url === "/assets/avatarIcon.png" ? (
+          {participant.avatar_url === "" ||
+          participant.avatar_url ===
+            "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
             <div className="dynamic-avatar-border">
               <div className="dynamic-avatar-text-small">
                 {participant.username
@@ -689,7 +691,8 @@ export default function GangPage({ socketRef }) {
             <div className="main-details">
               <div className="image-column">
                 {gangInfo.basicInfo?.avatar_url === "" ||
-                gangInfo.basicInfo?.avatar_url === "/assets/avatarIcon.png" ? (
+                gangInfo.basicInfo?.avatar_url ===
+                  "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
                   <div
                     className="dynamic-avatar-border"
                     onClick={() => {
@@ -741,7 +744,9 @@ export default function GangPage({ socketRef }) {
             <div className="gang-roster-container">
               {first5Members.map((member: any) => (
                 <div className="list-member-photo" key={member.id}>
-                  {!member.avatar_url || member.avatar_url === "/assets/avatarIcon.png" ? (
+                  {!member.avatar_url ||
+                  member.avatar_url ===
+                    "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
                     <div
                       className="dynamic-avatar-bg"
                       onClick={() => {

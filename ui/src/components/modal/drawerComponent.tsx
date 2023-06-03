@@ -18,7 +18,9 @@ const DrawerComponent = (props: Props) => {
   const navigate = useNavigate();
   const userState = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
-  const [exitIcon, setExitIcon] = useState<string>("/assets/exit-icon.png");
+  const [exitIcon, setExitIcon] = useState<string>(
+    "https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png"
+  );
 
   useEffect(() => {
     gsap.from(".hamburger-red-panel", 0.25, {
@@ -45,17 +47,17 @@ const DrawerComponent = (props: Props) => {
     });
     handleMouseLeave();
     return () => {
-      setExitIcon("/assets/exit-icon.png");
+      setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleMouseEnter = () => {
-    setExitIcon("/assets/exit-icon-hover2.png");
+    setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814833/exit-icon-hover2_fdognt.png");
   };
 
   const handleMouseLeave = () => {
-    setExitIcon("/assets/exit-icon.png");
+    setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png");
   };
 
   const logoutFunction = () => {
@@ -169,7 +171,11 @@ const DrawerComponent = (props: Props) => {
           >
             <button className="text-only-button boring-button">terms of service</button>
           </div>
-          <img className="small-logo" src="/assets/logo-v2-gangs.gg-transparent-white.png" alt="gangs-logo-small" />
+          <img
+            className="small-logo"
+            src="https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
+            alt="gangs-logo-small"
+          />
           <h5>gangs</h5>
         </div>
       </div>

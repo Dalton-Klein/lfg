@@ -320,7 +320,11 @@ const LoginPage = () => {
     <div className="login-container">
       {/* Title */}
       <div className="login-banner">
-        <img className="large-logo" src="/assets/logo-v2-gangs.gg-transparent-white.png" alt="gangs-logo-large" />
+        <img
+          className="large-logo"
+          src="https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
+          alt="gangs-logo-large"
+        />
       </div>
       <div className="panel-container">
         {/* Confirm Verification Key Form */}

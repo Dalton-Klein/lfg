@@ -247,7 +247,9 @@ export default function ProfileGeneral(props: Props) {
       <div className="gradient-bar"></div>
       {/* AVATAR PHTO */}
       <div className="banner-container-top">
-        {!userData.avatar_url || userData.avatar_url === "/assets/avatarIcon.png" ? (
+        {!userData.avatar_url ||
+        userData.avatar_url ===
+          "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
           <div
             className="dynamic-avatar-bg"
             onClick={() => startEditingAvatar("avatar_url")}
@@ -334,7 +336,11 @@ export default function ProfileGeneral(props: Props) {
               changeSelectedGender(1);
             }}
           >
-            <img className="gender-icon" src={"/assets/gender-icon-male.png"} alt="male gender"></img>
+            <img
+              className="gender-icon"
+              src={"https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png"}
+              alt="male gender"
+            ></img>
             <div className="box-text">m</div>
           </div>
           <div
@@ -343,7 +349,11 @@ export default function ProfileGeneral(props: Props) {
               changeSelectedGender(2);
             }}
           >
-            <img className="gender-icon" src={"/assets/gender-icon-female.png"} alt="female gender"></img>
+            <img
+              className="gender-icon"
+              src={"https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png"}
+              alt="female gender"
+            ></img>
             <div className="box-text">f</div>
           </div>
           <div
@@ -352,7 +362,11 @@ export default function ProfileGeneral(props: Props) {
               changeSelectedGender(3);
             }}
           >
-            <img className="gender-icon" src={"/assets/gender-icon-non-binary.png"} alt="non-binary gender"></img>
+            <img
+              className="gender-icon"
+              src={"https://res.cloudinary.com/kultured-dev/image/upload/v1685814975/gender-icon-non-binary_hepali.png"}
+              alt="non-binary gender"
+            ></img>
             <div className="box-text">nb</div>
           </div>
         </div>
@@ -405,7 +419,11 @@ export default function ProfileGeneral(props: Props) {
               changeSelectedPlatform(1);
             }}
           >
-            <img className="gender-icon" src={"/assets/logoWhiteSmall.png"} alt="discord selector"></img>
+            <img
+              className="gender-icon"
+              src={"https://res.cloudinary.com/kultured-dev/image/upload/v1685814273/logoWhiteSmall_i1lvgo.png"}
+              alt="discord selector"
+            ></img>
           </div>
           <div
             className={`gender-box ${platform === 2 ? "box-selected" : ""}`}
@@ -413,7 +431,11 @@ export default function ProfileGeneral(props: Props) {
               changeSelectedPlatform(2);
             }}
           >
-            <img className="gender-icon" src={"/assets/psn-logo-small.png"} alt="psn selector"></img>
+            <img
+              className="gender-icon"
+              src={"https://res.cloudinary.com/kultured-dev/image/upload/v1685814624/psn-logo-small_nbgzwa.png"}
+              alt="psn selector"
+            ></img>
           </div>
           <div
             className={`gender-box ${platform === 3 ? "box-selected" : ""}`}
@@ -421,7 +443,7 @@ export default function ProfileGeneral(props: Props) {
               changeSelectedPlatform(3);
             }}
           >
-            <img className="gender-icon" src={"/assets/xbox-logo-small.png"} alt="xbox selector"></img>
+            <img className="gender-icon" src={"assets/xbox-logo-small.png"} alt="xbox selector"></img>
           </div>
         </div>
       </div>

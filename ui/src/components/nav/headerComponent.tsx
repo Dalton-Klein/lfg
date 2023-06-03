@@ -9,7 +9,7 @@ export default function HeaderComponent({ socketRef }) {
       <div className="header-container">
         <img
           className="site-titlebar-image"
-          src="/assets/logoWhiteSmall.png"
+          src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814273/logoWhiteSmall_i1lvgo.png"
           alt={`gangs.gg app logo`}
           onClick={() => navigate(`/`)}
         />

@@ -91,7 +91,9 @@ const ExpandedProfile = (props: Props) => {
     ),
   };
 
-  const [exitIcon, setExitIcon] = useState<string>("/assets/exit-icon.png");
+  const [exitIcon, setExitIcon] = useState<string>(
+    "https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png"
+  );
   const [connectionText, setConnectionText] = useState<string>("");
   const [requestSent, setRequestSent] = useState<boolean>(false);
   const [publishData, setpublishData] = useState<any>({ rust_status: false, rocket_league_status: false });
@@ -195,11 +197,11 @@ const ExpandedProfile = (props: Props) => {
   };
 
   const handleMouseEnter = () => {
-    setExitIcon("/assets/exit-icon-hover2.png");
+    setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814833/exit-icon-hover2_fdognt.png");
   };
 
   const handleMouseLeave = () => {
-    setExitIcon("/assets/exit-icon.png");
+    setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png");
   };
 
   const sendConnectionRequest = async () => {
@@ -232,7 +234,9 @@ const ExpandedProfile = (props: Props) => {
               alt="exit Icon"
             />
             <div className="expanded-banner">
-              {props.userInfo.avatar_url === "" || props.userInfo.avatar_url === "/assets/avatarIcon.png" ? (
+              {props.userInfo.avatar_url === "" ||
+              props.userInfo.avatar_url ===
+                "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
                 <div className="dynamic-avatar-border">
                   <div className="dynamic-avatar-text-med">
                     {props.userInfo.username
@@ -354,7 +358,7 @@ const ExpandedProfile = (props: Props) => {
                   {props.userInfo.preferred_platform === 1 ? (
                     <img
                       className="expanded-platform-image"
-                      src="/assets/logoWhiteSmall.png"
+                      src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814273/logoWhiteSmall_i1lvgo.png"
                       alt={`${props.userInfo.username} gangs`}
                     />
                   ) : (
@@ -363,7 +367,7 @@ const ExpandedProfile = (props: Props) => {
                   {props.userInfo.preferred_platform === 2 ? (
                     <img
                       className="expanded-platform-image"
-                      src="/assets/psn-logo-small.png"
+                      src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814624/psn-logo-small_nbgzwa.png"
                       alt={`${props.userInfo.username} psn`}
                     />
                   ) : (
@@ -372,7 +376,7 @@ const ExpandedProfile = (props: Props) => {
                   {props.userInfo.preferred_platform === 3 ? (
                     <img
                       className="expanded-platform-image"
-                      src="/assets/xbox-logo-small.png"
+                      src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814627/xbox-logo-small_e8sqjw.png"
                       alt={`${props.userInfo.username} xbox`}
                     />
                   ) : (

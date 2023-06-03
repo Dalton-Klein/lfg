@@ -88,7 +88,8 @@ export default function ProfileInlayComponet({ socketRef }) {
               }}
             >
               {notif.other_user_avatar_url === "" ||
-              notif.other_user_avatar_url === "/assets/avatarIcon.png" ||
+              notif.other_user_avatar_url ===
+                "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ||
               notif.other_user_avatar_url === null ? (
                 <div className="dynamic-avatar-border">
                   <div className="dynamic-avatar-text-small">
@@ -227,7 +228,9 @@ export default function ProfileInlayComponet({ socketRef }) {
             <i className="pi pi-bell" />
           </button>
           <div className="my-profile-overlay-link">
-            {profileImage === "" || profileImage === "/assets/avatarIcon.png" ? (
+            {profileImage === "" ||
+            profileImage ===
+              "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
               <div className="dynamic-avatar-border" onClick={toggleDrawer}>
                 <div className="dynamic-avatar-text-small">
                   {userState.username
