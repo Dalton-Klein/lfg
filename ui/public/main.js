@@ -19,6 +19,7 @@ function createWindow() {
     icon: __dirname + "/build/favicon.ico",
     title: "gangs",
     autoHideMenuBar: true,
+    frame: false,
   });
 
   // Load your existing app's HTML file
@@ -30,7 +31,29 @@ function createWindow() {
     mainWindow.webContents.openDevTools();
   }
 
-  // Other code...
+  // Configure session to allow third-party cookies
+  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+    details.requestHeaders["Origin"] = "https://gangs.gg"; // Replace with your web app domain
+    details.requestHeaders["Content-Type"] = "application/x-www-form-urlencoded";
+    callback({ cancel: false, requestHeaders: details.requestHeaders });
+  });
+
+  // IPC message handlers
+  ipcMain.on("minimize-window", () => {
+    mainWindow.minimize();
+  });
+
+  ipcMain.on("maximize-window", () => {
+    if (mainWindow.isMaximized()) {
+      mainWindow.unmaximize();
+    } else {
+      mainWindow.maximize();
+    }
+  });
+
+  ipcMain.on("close-window", () => {
+    mainWindow.close();
+  });
 
   // Emitted when the window is closed
   mainWindow.on("closed", () => {
