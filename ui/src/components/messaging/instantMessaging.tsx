@@ -5,7 +5,7 @@ import { RootState } from "../../store/store";
 import moment from "moment";
 import { howLongAgo } from "../../utils/helperFunctions";
 import { getChatHistoryForGang, getChatHistoryForUser } from "../../utils/rest";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function isMobileDevice() {
   const userAgent = window.navigator.userAgent;
@@ -76,13 +76,11 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
         username: "gangs team",
       },
     ]);
-    if (userState.id && userState.id > 0) {
-      updateCurrentConvo();
-      if (isMobile && !hasPressedChannelForMobile) {
-        //Do nothing
-      } else {
-        lastMessageRef.current?.scrollIntoView();
-      }
+    updateCurrentConvo();
+    if (isMobile && !hasPressedChannelForMobile) {
+      //Do nothing
+    } else {
+      lastMessageRef.current?.scrollIntoView();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [convo]);
@@ -198,23 +196,37 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
   return (
     <div className="messages-box">
       {/* Messages Scroll Box */}
-      <div className="render-chat">
+      <div className={locationPath === "/messaging" ? `render-chat render-chat-dms` : `render-chat render-chat-gangs`}>
         {renderChat()}
         <div ref={lastMessageRef} />
       </div>
       {/* Message Input Form */}
-      <form className="message-form" onSubmit={onMessageSubmit}>
-        <input
-          onChange={(e) => {
-            onTextChange(e);
-          }}
-          value={messageState.message ? messageState.message : ""}
-          className="input-box messaging-input"
-          placeholder={"type here..."}
-        ></input>
+      {userState.id && userState.id > 0 ? (
+        <form className="message-form" onSubmit={onMessageSubmit}>
+          <input
+            onChange={(e) => {
+              onTextChange(e);
+            }}
+            value={messageState.message ? messageState.message : ""}
+            className="input-box messaging-input"
+            placeholder={"type here..."}
+          ></input>
 
-        <button type="submit">send</button>
-      </form>
+          <button type="submit">send</button>
+        </form>
+      ) : (
+        <div className="message-form-no-user">
+          {" "}
+          to send messages,{" "}
+          <Link to="/login" className="link-text">
+            login
+          </Link>{" "}
+          or{" "}
+          <Link to="/login" className="link-text">
+            signup
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

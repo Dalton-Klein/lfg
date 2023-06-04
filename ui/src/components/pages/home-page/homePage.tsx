@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 // import { logoutUser } from "../../../store/userSlice";
 
-export default function HomePage() {
+export default function HomePage({ socketRef }) {
   // Coffee, use to wipe state if something goes wacky
   // dispatch(logoutUser(1))
   const userState = useSelector((state: RootState) => state.user.user);
@@ -24,13 +24,13 @@ export default function HomePage() {
         <MediumTile routerLink="/general-profile" imageLink="pi pi-user" title="my profile"></MediumTile>
       )
     );
-    setconditionalDashTile(
-      userState.email === "" ? (
-        <></>
-      ) : (
-        <MediumTile routerLink="/dashboard" imageLink="pi pi-users" title="my dashboard"></MediumTile>
-      )
-    );
+    // setconditionalDashTile(
+    //   userState.email === "" ? (
+    //     <></>
+    //   ) : (
+    //     <MediumTile routerLink="/dashboard" imageLink="pi pi-users" title="my dashboard"></MediumTile>
+    //   )
+    // );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -83,7 +83,7 @@ export default function HomePage() {
           <MediumTile routerLink="/blog" imageLink="pi pi-bookmark" title="blog"></MediumTile>
         </div>
       </div>
-      <AboutComponent></AboutComponent>
+      <AboutComponent socketRef={socketRef}></AboutComponent>
       <div className="title-box">
         <h2 className="main-title">games coming soon</h2>
       </div>

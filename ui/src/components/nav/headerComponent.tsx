@@ -4,6 +4,7 @@ import ProfileInlayComponet from "./profileInlayComponet";
 
 export default function HeaderComponent({ socketRef }) {
   const navigate = useNavigate();
+
   return (
     <div className="master-container">
       <div className="header-container">

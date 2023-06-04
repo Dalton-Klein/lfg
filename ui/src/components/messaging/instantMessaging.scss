@@ -68,12 +68,17 @@
       background-color: rgba(205, 92, 92, 0);
     }
   }
+  .render-chat-dms {
+    min-height: 85vh;
+  }
+  .render-chat-gangs {
+    min-height: 59vh;
+  }
   .render-chat {
     padding-top: 1vh;
     padding-left: 1vw;
     padding-right: 1vw;
     overflow: scroll;
-    min-height: 59vh;
     max-height: 59vh;
 
     .message-bubble {
@@ -130,12 +135,23 @@
       margin-left: 1vw;
     }
   }
+  .message-form-no-user {
+    @extend .message-form;
+    justify-content: center;
+    background-color: $colorGreyPop;
+    font-size: $font2;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+  }
 }
 
 @media screen and (max-height: 800px) {
   .messages-box {
     min-height: 92vh;
-    .render-chat {
+    .render-chat-dms {
+      min-height: 85vh;
+    }
+    .render-chat-gangs {
       min-height: 70vh;
       max-height: 70vh;
     }
@@ -144,7 +160,10 @@
 @media screen and (max-height: 550px) {
   .messages-box {
     min-height: 73vh;
-    .render-chat {
+    .render-chat-dms {
+      min-height: 85vh;
+    }
+    .render-chat-gangs {
       min-height: 70vh;
       max-height: 70vh;
     }
@@ -172,7 +191,10 @@
         }
       }
     }
-    .render-chat {
+    .render-chat-dms {
+      min-height: 85vh;
+    }
+    .render-chat-gangs {
       min-height: 76vh;
       max-height: 76vh;
     }

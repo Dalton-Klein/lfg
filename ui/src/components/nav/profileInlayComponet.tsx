@@ -24,6 +24,8 @@ export default function ProfileInlayComponet({ socketRef }) {
 
   const notifsMenu: any = useRef(null);
   const discoverMenu: any = useRef(null);
+  const gameProfilesMenu: any = useRef(null);
+
   useEffect(() => {
     if (typeof userState.avatar_url === "string" && userState.avatar_url.length > 1) {
       setProfileImage("userState.avatar_url");
@@ -184,12 +186,39 @@ export default function ProfileInlayComponet({ socketRef }) {
       newUrl = "/messaging";
     } else if (notificationType === 4) {
       newUrl = `/general-profile`;
-    } else if (notificationType === 99) {
-      newUrl = `/dashboard`;
     }
 
     // Navigates to dynamic url (new page)
     navigate(`${newUrl}`);
+  };
+
+  const renderGameProfileOptions = () => {
+    return [
+      {
+        label: (
+          <img
+            onClick={() => {
+              navigate("/rust-profile");
+            }}
+            className="discover-navigator-option-image"
+            src={"https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png"}
+            alt={`link to rust profile`}
+          />
+        ),
+      },
+      {
+        label: (
+          <img
+            onClick={() => {
+              navigate("/rocket-league-profile");
+            }}
+            className="discover-navigator-option-image"
+            src={"https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png"}
+            alt={`link to rocket league profile`}
+          />
+        ),
+      },
+    ] as any;
   };
 
   const toggleDrawer = () => {
@@ -209,6 +238,21 @@ export default function ProfileInlayComponet({ socketRef }) {
         <div className="my-profile-overlay-wrapper">
           <Menu model={renderNotifications()} popup ref={notifsMenu} id="popup_menu" />
           <Menu model={renderDiscoverOptions()} popup ref={discoverMenu} id="popup_menu" />
+          <Menu model={renderGameProfileOptions()} popup ref={gameProfilesMenu} id="popup_menu" />
+          {/* if no profiles published, add notifier */}
+          {userState.id > 0 && !userState.rust_is_published && !userState.rocket_league_is_published ? (
+            <button
+              className="text-only-button notifications-button"
+              onClick={(event) => gameProfilesMenu.current.toggle(event)}
+              data-tip
+              data-for="profileHiddenTip"
+            >
+              <i className="pi pi-eye-slash" />
+            </button>
+          ) : (
+            <></>
+          )}
+          {/* if in lfg or lfm, load game toggle */}
           {lfgORlfm === "/lfg" || lfgORlfm === "/lfm" ? (
             <img
               onClick={(event) => discoverMenu.current.toggle(event)}
@@ -249,6 +293,9 @@ export default function ProfileInlayComponet({ socketRef }) {
           </div>
         </div>
       )}
+      <ReactTooltip id="profileHiddenTip" place="left" effect="solid">
+        you don't have any published game profiles
+      </ReactTooltip>
       <ReactTooltip id="platformTip" place="left" effect="solid">
         select game for player discovery
       </ReactTooltip>

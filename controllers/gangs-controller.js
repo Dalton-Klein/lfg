@@ -24,7 +24,7 @@ const createGang = async (req, res) => {
     await createGangDefaultChannels(gangResult[0].id);
     //Create initial roster record for owner
     await createGangRosterRecord(gangResult[0].id, userId, 1);
-    res.status(200).send(true);
+    res.status(200).send({ success: true, gangId: gangResult[0].id });
   } catch (err) {
     console.log("CREATE GANG ERROR", err);
     res.status(500).send(`GET ERROR: ${err}`);

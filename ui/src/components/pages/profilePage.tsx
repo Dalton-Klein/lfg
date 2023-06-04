@@ -3,21 +3,23 @@ import "./profilePage.scss";
 import ConnectionTile from "../tiles/connectionTile";
 import ProfileGeneral from "../myProfile/profileGeneral";
 import { acceptConnectionRequest, acceptGangConnectionRequest, getPendingConnectionsForUser } from "../../utils/rest";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import "primereact/resources/primereact.min.css";
 import Confetti from "react-confetti";
-import Chat from "../myProfile/chat";
+import InstantMessaging from "../messaging/instantMessaging";
 import { useLocation, useNavigate } from "react-router-dom";
 import BannerTitle from "../nav/banner-title";
 import ProfileRust from "../myProfile/profileRust";
 import ProfileRocketLeague from "../myProfile/profileRocketLeague";
 import ProfileWidgetsContainer from "../myProfile/profileWidgetsContainer";
 import AccountSettings from "../myProfile/profileAccountSettings";
+import { updateUserThunk } from "../../store/userSlice";
 
 export default function ProfilePage({ socketRef }) {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const userState = useSelector((state: RootState) => state.user.user);
   // Location Variables
   const locationPath: string = useLocation().pathname;
   const gameProfilePaths: string[] = ["/rust-profile", "/rocket-league-profile"];
@@ -66,7 +68,14 @@ export default function ProfilePage({ socketRef }) {
   };
 
   const setChatboxContents = () => {
-    setchatBox(<Chat socketRef={socketRef} convo={preferencesState.currentConvo}></Chat>);
+    // setchatBox(<Chat socketRef={socketRef} convo={preferencesState.currentConvo}></Chat>);
+    setchatBox(
+      <InstantMessaging
+        socketRef={socketRef}
+        convo={preferencesState.currentConvo}
+        hasPressedChannelForMobile={true}
+      ></InstantMessaging>
+    );
   };
 
   //BEGIN Fetch Connections
@@ -123,6 +132,7 @@ export default function ProfilePage({ socketRef }) {
     if (acceptResult && acceptResult[1] === 1) {
       setIsConfetti(true);
       await blastConfetti();
+      dispatch(updateUserThunk(userState.id));
       fetchPendingConnections();
       //***** TODO ***** call event on vertical nav to refresh list */
       // fetchExistingConnections();
