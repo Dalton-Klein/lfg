@@ -17,7 +17,9 @@ export default function ConversationTile(props: any) {
             props.callOpenConversation(props);
           }}
         />
-      ) : props.avatar_url === "" || props.avatar_url === "/assets/avatarIcon.png" ? (
+      ) : props.avatar_url === "" ||
+        props.avatar_url ===
+          "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
         <div
           className="dynamic-conversation-border"
           onClick={() => {

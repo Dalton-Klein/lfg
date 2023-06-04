@@ -527,7 +527,9 @@ export default function GangsMgmt() {
             <div className="gradient-bar"></div>
             {/* AVATAR PHTO */}
             <div className="gang-container-top">
-              {!nameText || nameText === "/assets/avatarIcon.png" ? (
+              {!nameText ||
+              nameText ===
+                "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
                 <div
                   className="dynamic-avatar-bg"
                   onClick={() => startEditingAvatar("avatar_url")}
@@ -597,7 +599,11 @@ export default function GangsMgmt() {
                     changeSelectedPlatform(1);
                   }}
                 >
-                  <img className="gender-icon" src={"/assets/logoWhiteSmall.png"} alt="gangs selector"></img>
+                  <img
+                    className="gender-icon"
+                    src={"https://res.cloudinary.com/kultured-dev/image/upload/v1685814273/logoWhiteSmall_i1lvgo.png"}
+                    alt="gangs selector"
+                  ></img>
                 </div>
                 <div
                   className={`gender-box ${chatPlatform === 2 ? "box-selected" : ""}`}
@@ -605,7 +611,11 @@ export default function GangsMgmt() {
                     changeSelectedPlatform(2);
                   }}
                 >
-                  <img className="gender-icon" src={"/assets/psn-logo-small.png"} alt="psn selector"></img>
+                  <img
+                    className="gender-icon"
+                    src={"https://res.cloudinary.com/kultured-dev/image/upload/v1685814624/psn-logo-small_nbgzwa.png"}
+                    alt="psn selector"
+                  ></img>
                 </div>
                 <div
                   className={`gender-box ${chatPlatform === 3 ? "box-selected" : ""}`}
@@ -613,7 +623,11 @@ export default function GangsMgmt() {
                     changeSelectedPlatform(3);
                   }}
                 >
-                  <img className="gender-icon" src={"/assets/xbox-logo-small.png"} alt="xbox selector"></img>
+                  <img
+                    className="gender-icon"
+                    src={"https://res.cloudinary.com/kultured-dev/image/upload/v1685814627/xbox-logo-small_e8sqjw.png"}
+                    alt="xbox selector"
+                  ></img>
                 </div>
               </div>
             </div>

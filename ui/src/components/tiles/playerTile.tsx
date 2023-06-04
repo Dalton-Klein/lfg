@@ -68,7 +68,14 @@ export default function PlayerTile(props: any) {
     ),
   };
   const lastSeen = howLongAgo(props.last_seen);
-  const genderIcon = `/assets/gender-icon-${genderImageLinks[props.gender]}.png`;
+  let genderIcon;
+  if (genderImageLinks[props.gender] === 1) {
+    genderIcon = `https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png`;
+  } else if (genderImageLinks[props.gender] === 2) {
+    genderIcon = `https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png`;
+  } else if (genderImageLinks[props.gender] === 3) {
+    genderIcon = `https://res.cloudinary.com/kultured-dev/image/upload/v1685814975/gender-icon-non-binary_hepali.png`;
+  }
 
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
 
@@ -96,7 +103,9 @@ export default function PlayerTile(props: any) {
         {/* main details */}
         <div className="main-details">
           <div className="image-column">
-            {props.avatar_url === "" || props.avatar_url === "/assets/avatarIcon.png" ? (
+            {props.avatar_url === "" ||
+            props.avatar_url ===
+              "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
               <div
                 className="dynamic-avatar-border"
                 onClick={() => {
@@ -186,19 +195,27 @@ export default function PlayerTile(props: any) {
             {props.preferred_platform === 1 ? (
               <img
                 className="footer-platform-image"
-                src="/assets/logoWhiteSmall.png"
+                src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814273/logoWhiteSmall_i1lvgo.png"
                 alt={`${props.username} discord`}
               />
             ) : (
               <></>
             )}
             {props.preferred_platform === 2 ? (
-              <img className="footer-platform-image" src="/assets/psn-logo-small.png" alt={`${props.username} psn`} />
+              <img
+                className="footer-platform-image"
+                src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814624/psn-logo-small_nbgzwa.png"
+                alt={`${props.username} psn`}
+              />
             ) : (
               <></>
             )}
             {props.preferred_platform === 3 ? (
-              <img className="footer-platform-image" src="/assets/xbox-logo-small.png" alt={`${props.username} xbox`} />
+              <img
+                className="footer-platform-image"
+                src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814627/xbox-logo-small_e8sqjw.png"
+                alt={`${props.username} xbox`}
+              />
             ) : (
               <></>
             )}

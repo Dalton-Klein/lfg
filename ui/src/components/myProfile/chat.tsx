@@ -93,9 +93,9 @@ export default function Chat({ socketRef, convo }) {
 
   const determinePlatformImageAndUsername = () => {
     const assetLinks: any = {
-      1: "/assets/logoWhiteSmall.png",
-      2: "/assets/psn-logo-small.png",
-      3: "/assets/xbox-logo-small.png",
+      1: "https://res.cloudinary.com/kultured-dev/image/upload/v1685814273/logoWhiteSmall_i1lvgo.png",
+      2: "https://res.cloudinary.com/kultured-dev/image/upload/v1685814624/psn-logo-small_nbgzwa.png",
+      3: "https://res.cloudinary.com/kultured-dev/image/upload/v1685814627/xbox-logo-small_e8sqjw.png",
     };
     let assetLink = assetLinks[currentConvo.preferred_platform];
     setisPublic(currentConvo.isPublicChat === "true" ? true : false);
@@ -250,7 +250,9 @@ export default function Chat({ socketRef, convo }) {
       )}
       {/* Message Title Bar */}
       <div className="messages-title-container">
-        {currentConvo.avatar_url === "" || currentConvo.avatar_url === "/assets/avatarIcon.png" ? (
+        {currentConvo.avatar_url === "" ||
+        currentConvo.avatar_url ===
+          "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
           <div
             className="dynamic-conversation-border"
             onClick={() => {

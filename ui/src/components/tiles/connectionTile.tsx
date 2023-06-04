@@ -71,7 +71,9 @@ export default function ConnectionTile(props: any) {
         )}
         {/* User Connection Info Section */}
         <div className="connection-user-box">
-          {props.avatar_url === "" || props.avatar_url === "/assets/avatarIcon.png" ? (
+          {props.avatar_url === "" ||
+          props.avatar_url ===
+            "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
             <div
               className="dynamic-avatar-border"
               onClick={() => {
@@ -113,21 +115,25 @@ export default function ConnectionTile(props: any) {
               <div className={`connection-chat-platform-box ${props.preferred_platform === 1 ? "box-selected" : ""}`}>
                 <img
                   className="connection-platform-image"
-                  src="/assets/logoWhiteSmall.png"
+                  src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814273/logoWhiteSmall_i1lvgo.png"
                   alt={`${props.username} profile`}
                 />
               </div>
               <div className={`connection-chat-platform-box ${props.preferred_platform === 2 ? "box-selected" : ""}`}>
                 <img
                   className="connection-platform-image"
-                  src="/assets/psn-logo-small.png"
+                  src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814624/psn-logo-small_nbgzwa.png"
                   alt={`${props.username} profile`}
                 />
               </div>
               <div className={`connection-chat-platform-box ${props.preferred_platform === 3 ? "box-selected" : ""}`}>
                 <img
                   className="connection-platform-image"
-                  src={props.platform === 1 ? "/assets/xbox-logo-small.png" : ""}
+                  src={
+                    props.platform === 1
+                      ? "https://res.cloudinary.com/kultured-dev/image/upload/v1685814627/xbox-logo-small_e8sqjw.png"
+                      : ""
+                  }
                   alt={`${props.username} profile`}
                 />
               </div>

@@ -1,5 +1,6 @@
 import { SignUpForm, SignInForm } from "./interfaces";
 require("dotenv").config();
+// ***ELECTRON MAKE BLANK STRING IF NOT ELECTRON, https://www.gangs.gg IF ELECTRON
 const endpointURL: String = "";
 
 const avatarCloud = `https://api.cloudinary.com/v1_1/kultured-dev/upload`;
@@ -118,6 +119,7 @@ export const resetPassword = async (email: string, vKey: string, password: strin
 // SOCIAL RELATED REQUESTS
 export const getRustPlayerTiles = async (userId: number, token: string) => {
   try {
+    console.log("??????????", endpointURL);
     const httpResult = await fetch(`${endpointURL}/rust-tiles`, {
       method: "POST",
       headers: {

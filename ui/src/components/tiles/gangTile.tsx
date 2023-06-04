@@ -58,7 +58,9 @@ export default function GangTile(props: any) {
         <div className="top-bar">
           <div className="main-details">
             <div className="image-column">
-              {props.avatar_url === "" || props.avatar_url === "/assets/avatarIcon.png" ? (
+              {props.avatar_url === "" ||
+              props.avatar_url ===
+                "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
                 <div
                   className="dynamic-avatar-border"
                   onClick={() => {
@@ -93,7 +95,9 @@ export default function GangTile(props: any) {
             <div className="list-member-photo" key={member.id}>
               {/* <img className="member-photo" onClick={() => {}} src={member.avatar_url} alt={`member avatar`} /> */}
 
-              {member.avatar_url === "" || member.avatar_url === "/assets/avatarIcon.png" ? (
+              {member.avatar_url === "" ||
+              member.avatar_url ===
+                "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
                 <div className="dynamic-avatar-border">
                   <div className="dynamic-avatar-text-small">
                     {member.username
@@ -118,19 +122,27 @@ export default function GangTile(props: any) {
             {props.chat_platform_id === 1 ? (
               <img
                 className="footer-platform-image"
-                src="/assets/logoWhiteSmall.png"
+                src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814273/logoWhiteSmall_i1lvgo.png"
                 alt={`${props.username} discord`}
               />
             ) : (
               <></>
             )}
             {props.chat_platform_id === 2 ? (
-              <img className="footer-platform-image" src="/assets/psn-logo-small.png" alt={`${props.username} psn`} />
+              <img
+                className="footer-platform-image"
+                src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814624/psn-logo-small_nbgzwa.png"
+                alt={`${props.username} psn`}
+              />
             ) : (
               <></>
             )}
             {props.chat_platform_id === 3 ? (
-              <img className="footer-platform-image" src="/assets/xbox-logo-small.png" alt={`${props.username} xbox`} />
+              <img
+                className="footer-platform-image"
+                src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814627/xbox-logo-small_e8sqjw.png"
+                alt={`${props.username} xbox`}
+              />
             ) : (
               <></>
             )}

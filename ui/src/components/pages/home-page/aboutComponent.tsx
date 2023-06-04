@@ -79,7 +79,8 @@ export default function HomePage() {
             <div className="info-stackable-container">
               <div className="user-1-container">
                 {notif.other_user_avatar_url === "" ||
-                notif.other_user_avatar_url === "/assets/avatarIcon.png" ||
+                notif.other_user_avatar_url ===
+                  "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ||
                 notif.other_user_avatar_url === null ? (
                   <div className="dynamic-avatar-border">
                     <div className="dynamic-avatar-text-small">
@@ -105,7 +106,8 @@ export default function HomePage() {
               </div>
               {notif.type_id !== 4 ? (
                 notif.owner_avatar_url === "" ||
-                notif.owner_avatar_url === "/assets/avatarIcon.png" ||
+                notif.owner_avatar_url ===
+                  "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ||
                 notif.owner_avatar_url === null ? (
                   <div className="user-2-container">
                     <div className="dynamic-avatar-border">

@@ -176,8 +176,8 @@ const LoginPage = () => {
   const signInUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result: any = await dispatch(signInUserThunk(signInForm, false));
-    if ("error" in result) {
-      createError(result.error);
+    if (!result || "error" in result) {
+      createError(!result ? "failed to sign in" : result.error);
     } else {
       clearError();
       navigate("/");
@@ -320,7 +320,11 @@ const LoginPage = () => {
     <div className="login-container">
       {/* Title */}
       <div className="login-banner">
-        <img className="large-logo" src="/assets/logo-v2-gangs.gg-transparent-white.png" alt="gangs-logo-large" />
+        <img
+          className="large-logo"
+          src="https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
+          alt="gangs-logo-large"
+        />
       </div>
       <div className="panel-container">
         {/* Confirm Verification Key Form */}
