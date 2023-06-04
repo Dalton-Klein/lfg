@@ -324,6 +324,7 @@ const LoginPage = () => {
           className="large-logo"
           src="https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
           alt="gangs-logo-large"
+          onClick={() => navigate(`/`)}
         />
       </div>
       <div className="panel-container">

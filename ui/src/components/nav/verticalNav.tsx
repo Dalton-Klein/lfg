@@ -4,7 +4,7 @@ import "./verticalNav.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { getConnectionsForUser, getMyGangTiles } from "../../utils/rest";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { setPreferences } from "../../store/userPreferencesSlice";
 
 const rustChatObject = {
@@ -27,6 +27,7 @@ const rocketLeagueChatObject = {
 };
 export default function VerticalNav() {
   const defaultConvoObj = { id: 0 };
+  const locationPath: string = useLocation().pathname;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -41,6 +42,24 @@ export default function VerticalNav() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationPath]);
+
+  useEffect(() => {
+    if (userState.id && userState.id > 0) {
+      loadAppropriateContent();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userState.gangs]);
+
+  useEffect(() => {
+    if (userState.id && userState.id > 0) {
+      loadAppropriateContent();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userState.connections]);
 
   useEffect(() => {
     if (userState.id && userState.id > 0) {

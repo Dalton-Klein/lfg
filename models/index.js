@@ -20,8 +20,8 @@ const devConfig = {
     updated_at: "updated_at",
   },
   dialect: "postgres",
-  // temp
-  logging: false,
+  // LOGGING TOGGLE
+  logging: true,
 };
 const prodConfig = {
   database: DBNAME,

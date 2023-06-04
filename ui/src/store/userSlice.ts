@@ -31,7 +31,8 @@ const initialState: any = {
     rocket_league_is_published: false,
     connection_count_sender: 0,
     connection_count_acceptor: 0,
-    gang_count: 0,
+    gangs: [],
+    connections: [],
     input_device_id: "",
     output_device_id: "",
     created_at: undefined,
@@ -45,6 +46,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, { payload }: PayloadAction<User>) {
+      console.log("payload?? ", payload);
       state.user = payload;
     },
     updateUserAvatarUrl(state, { payload }: PayloadAction<string | undefined>) {
@@ -151,7 +153,8 @@ export const logoutUser =
             rocket_league_is_published: false,
             connection_count_sender: 0,
             connection_count_acceptor: 0,
-            gang_count: 0,
+            gangs: [],
+            connections: [],
             input_device_id: "",
             output_device_id: "",
             created_at: undefined,

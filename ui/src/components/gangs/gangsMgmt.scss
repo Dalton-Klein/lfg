@@ -327,3 +327,19 @@
     @extend .channels-mgmt-title;
   }
 }
+
+@media screen and (max-width: $screenBreak1) {
+  .edit-profile-form {
+    width: 60vw;
+    left: 30%;
+    margin-left: -9vw;
+  }
+}
+
+@media screen and (max-width: $screenBreak2) {
+  .edit-profile-form {
+    width: 80vw;
+    left: 17%;
+    margin-left: -2vw;
+  }
+}

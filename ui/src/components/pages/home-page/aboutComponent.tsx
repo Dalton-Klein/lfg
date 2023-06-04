@@ -3,9 +3,8 @@ import { howLongAgo } from "../../../utils/helperFunctions";
 import { getNotificationsGeneral } from "../../../utils/rest";
 import * as io from "socket.io-client";
 import { useEffect, useState } from "react";
-const socketRef = io.connect(process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg");
 
-export default function HomePage() {
+export default function HomePage({ socketRef }) {
   const [notifications, setnotifications] = useState<any>([]);
 
   useEffect(() => {
@@ -15,23 +14,33 @@ export default function HomePage() {
 
   //BEGIN Update notifications list after each notification sent
   useEffect(() => {
-    socketRef.on(
-      "notification",
-      ({
-        owner_id,
-        owner_username,
-        owner_avatar_url,
-        type_id,
-        other_user_id,
-        other_user_avatar_url,
-        other_username,
-      }: any) => {
-        setnotifications([
-          { owner_id, owner_username, owner_avatar_url, type_id, other_user_id, other_user_avatar_url, other_username },
-          ...notifications,
-        ]);
-      }
-    );
+    if (socketRef) {
+      socketRef.current.on(
+        "notification",
+        ({
+          owner_id,
+          owner_username,
+          owner_avatar_url,
+          type_id,
+          other_user_id,
+          other_user_avatar_url,
+          other_username,
+        }: any) => {
+          setnotifications([
+            {
+              owner_id,
+              owner_username,
+              owner_avatar_url,
+              type_id,
+              other_user_id,
+              other_user_avatar_url,
+              other_username,
+            },
+            ...notifications,
+          ]);
+        }
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications]);
   //END Update notifications list after each notification sent
@@ -40,7 +49,7 @@ export default function HomePage() {
   const loadNotificationHistory = async () => {
     const historicalNotifications = await getNotificationsGeneral();
     setnotifications([...historicalNotifications]);
-    socketRef.emit("join_room", `notifications-general`);
+    socketRef.current.emit("join_room", `notifications-general`);
   };
   const renderNotifications = () => {
     if (notifications.length) {

@@ -1,7 +1,7 @@
 import { avatarFormIn, avatarFormOut, memberSearchFormIn, memberSearchFormOut } from "../../utils/animations";
 import "./gangsMgmt.scss";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -21,8 +21,10 @@ import SelectComponent from "../myProfile/selectComponent";
 import { roleOptions } from "../../utils/selectOptions";
 import ConnectionTile from "../tiles/connectionTile";
 import Confetti from "react-confetti";
+import { updateUserThunk } from "../../store/userSlice";
 
 export default function GangsMgmt() {
+  const dispatch = useDispatch();
   const locationPath: string = useLocation().pathname;
   const hiddenFileInput: any = React.useRef(null);
   const userState = useSelector((state: RootState) => state.user.user);
@@ -359,8 +361,12 @@ export default function GangsMgmt() {
       game_platform_id: game,
       is_public: isPublic,
     });
-    if (createResult) {
-      navigate(`/dashboard`);
+    if (createResult && createResult.success) {
+      console.log("create result??? ", createResult);
+      dispatch(updateUserThunk(userState.id));
+      navigate(`/gang/${createResult.gangId}`);
+    } else {
+      // TODO Handle error when creating gang
     }
   };
   //END NON-MODAL SAVE LOGIC

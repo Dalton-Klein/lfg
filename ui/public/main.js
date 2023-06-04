@@ -30,6 +30,7 @@ function createWindow() {
   } else {
     console.log("dirname?", __dirname);
     mainWindow.loadURL(`file://${path.join(__dirname, "../build/index.html")}`);
+    mainWindow.webContents.openDevTools();
   }
 
   // Configure session to allow third-party cookies

@@ -68,7 +68,7 @@ function App() {
             <div className="app-content-scrollbox">
               <Routes>
                 {/* Main Paths */}
-                <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<HomePage socketRef={socketRef} />} />
                 {/* LFG  */}
                 <Route path="/lfg-rust" element={<DiscoverPage />} />
                 <Route path="/lfg-rocket-league" element={<DiscoverPage />} />

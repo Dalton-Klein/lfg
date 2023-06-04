@@ -50,7 +50,20 @@ const getUserDataByIdQuery = () => {
                     u.output_device_id,
                     (select count(id) from public.connections where sender = :userId) as connection_count_sender,
                     (select count(id) from public.connections where acceptor = :userId) as connection_count_acceptor,
-                    (select count(id) from public.gang_roster g where g.user_id = :userId) as gang_count,
+                    ARRAY(
+                     SELECT gang_id
+                     FROM public.gang_roster g
+                     WHERE g.user_id = :userId
+                    ) AS gangs,
+                    ARRAY(
+                     SELECT
+                     CASE
+                            WHEN c.sender = :userId THEN c.acceptor
+                            ELSE c.sender
+                     END AS opposite_column
+                     FROM public.connections c
+                     WHERE c.sender = :userId OR c.acceptor = :userId
+                    ) AS connections,
                     ug.about,
                     ug.age,
                     ug.gender,
