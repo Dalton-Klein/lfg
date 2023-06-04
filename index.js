@@ -7,7 +7,12 @@ const router = require("./routes/router");
 const db = require("./models/index");
 const http = require("http").createServer(app);
 router.use(express.json());
-app.use(cors(), router);
+const corsOptions = {
+  origin: ["http://localhost:3000", "https://gangs.gg"], // http://localhost:3000 for electron, otherwise deployed ui
+  methods: "GET,POST",
+  allowedHeaders: "Content-Type,Authorization",
+};
+app.use(cors(corsOptions), router);
 app.use(require("prerender-node").set("prerenderToken", "pmAz691dTZfZ6GTrUiZZ"));
 const path = require("path");
 const { main } = require("./startup/startup");

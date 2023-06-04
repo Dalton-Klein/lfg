@@ -26,10 +26,10 @@ function createWindow() {
   // Load your existing app's HTML file
   if (isDev) {
     mainWindow.loadURL("http://localhost:3000");
+    mainWindow.webContents.openDevTools();
   } else {
     console.log("dirname?", __dirname);
     mainWindow.loadURL(`file://${path.join(__dirname, "../build/index.html")}`);
-    mainWindow.webContents.openDevTools();
   }
 
   // Configure session to allow third-party cookies

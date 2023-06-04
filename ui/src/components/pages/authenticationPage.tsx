@@ -176,8 +176,8 @@ const LoginPage = () => {
   const signInUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result: any = await dispatch(signInUserThunk(signInForm, false));
-    if ("error" in result) {
-      createError(result.error);
+    if (!result || "error" in result) {
+      createError(!result ? "failed to sign in" : result.error);
     } else {
       clearError();
       navigate("/");
