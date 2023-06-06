@@ -59,6 +59,14 @@ export default function ProfilePage({ socketRef }) {
   }, []);
 
   useEffect(() => {
+    if (locationPath === "/incoming-requests" && userData.id && userData.id > 0) {
+      console.log("refetching!");
+      fetchPendingConnections();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationPath]);
+
+  useEffect(() => {
     setChatboxContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preferencesState.currentConvo]);

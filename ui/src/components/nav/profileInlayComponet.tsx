@@ -247,7 +247,8 @@ export default function ProfileInlayComponet({ socketRef }) {
               data-tip
               data-for="profileHiddenTip"
             >
-              <i className="pi pi-eye-slash" />
+              no profiles published &#160;
+              <i className="pi pi-eye-slash eye-slash-icon" />
             </button>
           ) : (
             <></>

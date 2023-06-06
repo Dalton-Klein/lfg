@@ -477,6 +477,7 @@ export default function GangPage({ socketRef }) {
   const renderChannelTitleContents = () => {
     //If a channel is selected, load channel contents
     if (currentChannel) {
+      console.log("channel??? ", currentChannel);
       if (currentChannel.is_voice) {
         //If loading voice channel, connect
         //***TODO, implement a proper disconnect from any previous channel
@@ -518,7 +519,7 @@ export default function GangPage({ socketRef }) {
               )}
             </div>
             {/* show conditional help messages to set devices */}
-            {currentChannel.is_voice && !currentInputDevice && !isMobile ? (
+            {currentChannel && currentChannel.is_voice && !currentInputDevice && !isMobile ? (
               <div>
                 {" "}
                 no input device set, set device in{" "}
@@ -532,7 +533,7 @@ export default function GangPage({ socketRef }) {
                   account settings
                 </span>{" "}
               </div>
-            ) : currentChannel.is_voice && !currentOutputDevice && !isMobile ? (
+            ) : currentChannel && currentChannel.is_voice && !currentOutputDevice && !isMobile ? (
               <div className="voice-channel-helper">
                 {" "}
                 no output device set, set device in{" "}
@@ -641,7 +642,7 @@ export default function GangPage({ socketRef }) {
   };
 
   const renderChannelDynamicContents = () => {
-    if (currentChannel.is_voice) {
+    if (currentChannel && currentChannel.is_voice) {
       //Render voice chnnel content
       setchannelDynamicContents(
         <div className="voice-channel">
