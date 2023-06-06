@@ -43,17 +43,15 @@ export default function ProfileInlayComponet({ socketRef }) {
   }, [locationPath]);
 
   //BEGIN Update notifications list after each notification sent
+  const handleNotification = ({ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }: any) => {
+    setnotifications([{ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }, ...notifications]);
+    renderNotifications();
+  };
   useEffect(() => {
-    socketRef.current.on(
-      "notification",
-      ({ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }: any) => {
-        setnotifications([
-          { owner_id, type_id, other_user_id, other_user_avatar_url, other_username },
-          ...notifications,
-        ]);
-        renderNotifications();
-      }
-    );
+    socketRef.current.on("notification", handleNotification);
+    return () => {
+      socketRef.current.off("notification", handleNotification);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications]);
   //END Update notifications list after each notification sent
