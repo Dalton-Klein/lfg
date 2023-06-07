@@ -65,13 +65,17 @@ export default function PlayerTile(props: any) {
   };
   const lastSeen = howLongAgo(props.last_seen);
 
-  if (props.gender === 1) {
-    setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png");
-  } else if (props.gender === 2) {
-    setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png");
-  } else if (props.gender === 3) {
-    setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814975/gender-icon-non-binary_hepali.png");
-  }
+  useEffect(() => {
+    if (props.gender === 1) {
+      setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png");
+    } else if (props.gender === 2) {
+      setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png");
+    } else if (props.gender === 3) {
+      setGenderIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1685814975/gender-icon-non-binary_hepali.png"
+      );
+    }
+  }, [props.gender]);
 
   const toggleExpandedProfile = () => {
     setExpandedProfileVis(!expandedProfileVis);
