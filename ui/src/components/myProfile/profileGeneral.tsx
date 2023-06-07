@@ -443,7 +443,11 @@ export default function ProfileGeneral(props: Props) {
               changeSelectedPlatform(3);
             }}
           >
-            <img className="gender-icon" src={"assets/xbox-logo-small.png"} alt="xbox selector"></img>
+            <img
+              className="gender-icon"
+              src={"https://res.cloudinary.com/kultured-dev/image/upload/v1685814627/xbox-logo-small_e8sqjw.png"}
+              alt="xbox selector"
+            ></img>
           </div>
         </div>
       </div>

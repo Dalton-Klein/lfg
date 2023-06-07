@@ -98,6 +98,13 @@
     transition: $transition1;
     margin-top: 0;
     margin-bottom: 0;
+    font-size: $font1;
+    font-weight: 100;
+    display: flex;
+    align-items: center;
+    .eye-slash-icon {
+      color: $colorPrimary;
+    }
   }
   .last-button {
     @extend .notifications-button;
