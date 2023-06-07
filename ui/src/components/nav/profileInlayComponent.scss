@@ -105,6 +105,9 @@
     .eye-slash-icon {
       color: $colorPrimary;
     }
+    .has-unread {
+      color: $colorPrimary;
+    }
   }
   .last-button {
     @extend .notifications-button;

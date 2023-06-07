@@ -19,6 +19,7 @@ export default function ProfileInlayComponet({ socketRef }) {
   const [drawerVis, setDrawerVis] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState<string>("");
   const [notifications, setnotifications] = useState<any>([]);
+  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(true);
   //GameNav
   const [gameImgUrl, setgameImgUrl] = useState<string>("");
 
@@ -44,8 +45,10 @@ export default function ProfileInlayComponet({ socketRef }) {
 
   //BEGIN Update notifications list after each notification sent
   const handleNotification = ({ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }: any) => {
+    console.log("receiving notification", owner_id, other_user_id, other_username);
     setnotifications([{ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }, ...notifications]);
     renderNotifications();
+    setHasUnreadNotifications(true);
   };
   useEffect(() => {
     socketRef.current.on("notification", handleNotification);
@@ -77,7 +80,6 @@ export default function ProfileInlayComponet({ socketRef }) {
         3: " sent you a message",
         4: " congrats on signing up!",
       };
-
       notifications.forEach((notif: any) => {
         items.push({
           label: (
@@ -129,6 +131,10 @@ export default function ProfileInlayComponet({ socketRef }) {
         },
       ];
     }
+  };
+  const handleNotificationButtonClicked = (event) => {
+    notifsMenu.current.toggle(event);
+    setHasUnreadNotifications(false);
   };
   //END SOCKET Functions
   const determineGameNavContents = () => {
@@ -266,9 +272,9 @@ export default function ProfileInlayComponet({ socketRef }) {
           )}
           <button
             className="text-only-button notifications-button"
-            onClick={(event) => notifsMenu.current.toggle(event)}
+            onClick={(event) => handleNotificationButtonClicked(event)}
           >
-            <i className="pi pi-bell" />
+            <i className={hasUnreadNotifications ? "pi pi-bell has-unread" : "pi pi-bell"} />
           </button>
           <div className="my-profile-overlay-link">
             {profileImage === "" ||
