@@ -45,7 +45,6 @@ export default function ProfileInlayComponet({ socketRef }) {
 
   //BEGIN Update notifications list after each notification sent
   const handleNotification = ({ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }: any) => {
-    console.log("receiving notification", owner_id, other_user_id, other_username);
     setnotifications([{ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }, ...notifications]);
     renderNotifications();
     setHasUnreadNotifications(true);
@@ -121,6 +120,7 @@ export default function ProfileInlayComponet({ socketRef }) {
       });
       return items;
     } else {
+      setHasUnreadNotifications(false);
       return [
         {
           label: (
