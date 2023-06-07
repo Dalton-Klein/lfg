@@ -272,7 +272,7 @@ const ExpandedProfile = (props: Props) => {
                     }}
                     value={connectionText ? connectionText : ""}
                     className="input-box"
-                    placeholder={"write a message..."}
+                    placeholder={"write a short message..."}
                   ></input>
                 ) : (
                   <div className="profile-incomplete-text">**complete profile before sending requests**</div>
