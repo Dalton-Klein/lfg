@@ -1,19 +1,15 @@
 import "./playerTile.scss";
 import "primeicons/primeicons.css";
 import { getRocketLeaguePlaylists, howLongAgo } from "../../utils/helperFunctions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ExpandedProfile from "../modal/expandedProfileComponent";
 import { useLocation } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 
 export default function PlayerTile(props: any) {
   const locationPath: string = useLocation().pathname;
-
-  const genderImageLinks: any = {
-    1: "male",
-    2: "female",
-    3: "non-binary",
-  };
+  const [genderIcon, setGenderIcon] = useState("");
+  const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
 
   const rocketLeaguePlaylists: any = getRocketLeaguePlaylists();
   const rocketLeagueRanks: any = {
@@ -68,16 +64,20 @@ export default function PlayerTile(props: any) {
     ),
   };
   const lastSeen = howLongAgo(props.last_seen);
-  let genderIcon;
-  if (genderImageLinks[props.gender] === 1) {
-    genderIcon = `https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png`;
-  } else if (genderImageLinks[props.gender] === 2) {
-    genderIcon = `https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png`;
-  } else if (genderImageLinks[props.gender] === 3) {
-    genderIcon = `https://res.cloudinary.com/kultured-dev/image/upload/v1685814975/gender-icon-non-binary_hepali.png`;
-  }
 
-  const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
+  useEffect(() => {
+    // Your logic to set the genderIcon based on props.gender and genderImageLinks
+    if (props.gender === 1) {
+      setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png");
+    } else if (props.gender === 2) {
+      setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png");
+    } else if (props.gender === 3) {
+      setGenderIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1685814975/gender-icon-non-binary_hepali.png"
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.gender]);
 
   const toggleExpandedProfile = () => {
     setExpandedProfileVis(!expandedProfileVis);
@@ -221,7 +221,7 @@ export default function PlayerTile(props: any) {
             )}
           </div>
           <div className="footer-timestamp" data-tip data-for="seenTip">
-            {lastSeen}
+            last active {lastSeen}
           </div>
         </div>
       </div>
