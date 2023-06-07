@@ -261,6 +261,44 @@ const ExpandedProfile = (props: Props) => {
               </div>
             </div>
             <div className="expanded-gradient-bar"></div>
+            {/* Connect Section */}
+            {props.showConnectForm ? (
+              <div className="expanded-connect-box">
+                <div className="expanded-core-info-title">connect</div>
+                {props.isProfileComplete ? (
+                  <input
+                    onChange={(event) => {
+                      setConnectionText(event.target.value);
+                    }}
+                    value={connectionText ? connectionText : ""}
+                    className="input-box"
+                    placeholder={"write a message..."}
+                  ></input>
+                ) : (
+                  <div className="profile-incomplete-text">**complete profile before sending requests**</div>
+                )}
+                <button
+                  className="connect-button"
+                  onClick={() => {
+                    sendConnectionRequest();
+                  }}
+                  disabled={connectionText === "" || requestSent || hasSendError}
+                >
+                  <i className="pi pi-user-plus" />
+                  &nbsp; {requestSent ? "pending" : "send request"}
+                </button>
+                {hasSendError ? (
+                  <small id="username-help" className="p-error">
+                    problem sending request
+                  </small>
+                ) : (
+                  <></>
+                )}
+              </div>
+            ) : (
+              <></>
+            )}
+            {props.showConnectForm ? <div className="expanded-gradient-bar"></div> : <></>}
             {/* Core Info Section */}
             <div className="expanded-core-info">
               <div className="expanded-core-info-title">general info</div>
@@ -409,43 +447,7 @@ const ExpandedProfile = (props: Props) => {
             ) : (
               <></>
             )}
-            {/* Connect Section */}
-            {props.showConnectForm ? (
-              <div className="expanded-connect-box">
-                <div className="expanded-core-info-title">connect</div>
-                {props.isProfileComplete ? (
-                  <input
-                    onChange={(event) => {
-                      setConnectionText(event.target.value);
-                    }}
-                    value={connectionText ? connectionText : ""}
-                    className="input-box"
-                    placeholder={"write a message..."}
-                  ></input>
-                ) : (
-                  <div className="profile-incomplete-text">**complete profile before sending requests**</div>
-                )}
-                <button
-                  className="connect-button"
-                  onClick={() => {
-                    sendConnectionRequest();
-                  }}
-                  disabled={connectionText === "" || requestSent || hasSendError}
-                >
-                  <i className="pi pi-user-plus" />
-                  &nbsp; {requestSent ? "pending" : "send request"}
-                </button>
-                {hasSendError ? (
-                  <small id="username-help" className="p-error">
-                    problem sending request
-                  </small>
-                ) : (
-                  <></>
-                )}
-              </div>
-            ) : (
-              <></>
-            )}
+
             {/* Add margin to bottom of profile for mobile scrolling */}
             <div className="bottom-of-profile"></div>
           </div>
