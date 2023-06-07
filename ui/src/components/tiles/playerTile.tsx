@@ -65,19 +65,13 @@ export default function PlayerTile(props: any) {
   };
   const lastSeen = howLongAgo(props.last_seen);
 
-  useEffect(() => {
-    // Your logic to set the genderIcon based on props.gender and genderImageLinks
-    if (props.gender === 1) {
-      setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png");
-    } else if (props.gender === 2) {
-      setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png");
-    } else if (props.gender === 3) {
-      setGenderIcon(
-        "https://res.cloudinary.com/kultured-dev/image/upload/v1685814975/gender-icon-non-binary_hepali.png"
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.gender]);
+  if (props.gender === 1) {
+    setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png");
+  } else if (props.gender === 2) {
+    setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png");
+  } else if (props.gender === 3) {
+    setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814975/gender-icon-non-binary_hepali.png");
+  }
 
   const toggleExpandedProfile = () => {
     setExpandedProfileVis(!expandedProfileVis);

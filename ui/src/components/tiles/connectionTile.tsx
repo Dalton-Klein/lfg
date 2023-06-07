@@ -11,7 +11,6 @@ export default function ConnectionTile(props: any) {
   const menu: any = useRef(null);
 
   useEffect(() => {
-    console.log("props", props);
     switch (props.platform) {
       case 1:
         setplatformImgLink(

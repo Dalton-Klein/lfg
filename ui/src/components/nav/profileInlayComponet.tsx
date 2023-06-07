@@ -8,37 +8,29 @@ import { Menu } from "primereact/menu";
 import { howLongAgo } from "../../utils/helperFunctions";
 import { getNotificationsUser } from "../../utils/rest";
 import ReactTooltip from "react-tooltip";
+import { MenuItem } from "primereact/menuitem";
 
 export default function ProfileInlayComponet({ socketRef }) {
   const locationPath: string = useLocation().pathname;
   const lfgORlfm = locationPath.slice(0, 4);
   const navigate = useNavigate();
-
   const userState = useSelector((state: RootState) => state.user.user);
-
   const [drawerVis, setDrawerVis] = useState<boolean>(false);
-  const [profileImage, setProfileImage] = useState<string>("");
+  const [profileImage, setprofileImage] = useState<string>("");
   const [notifications, setnotifications] = useState<any>([]);
+  const [notificationMenuItems, setnotificationMenuItems] = useState<any[]>([]);
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(true);
   //GameNav
   const [gameImgUrl, setgameImgUrl] = useState<string>("");
-
+  //Menu Refs
   const notifsMenu: any = useRef(null);
   const discoverMenu: any = useRef(null);
   const gameProfilesMenu: any = useRef(null);
 
   useEffect(() => {
-    if (typeof userState.avatar_url === "string" && userState.avatar_url.length > 1) {
-      setProfileImage("userState.avatar_url");
-    }
     if (userState.id && userState.id > 0) {
       loadNotificationHistory();
     }
-    determineGameNavContents();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     determineGameNavContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath]);
@@ -50,6 +42,7 @@ export default function ProfileInlayComponet({ socketRef }) {
     setHasUnreadNotifications(true);
   };
   useEffect(() => {
+    renderNotifications();
     socketRef.current.on("notification", handleNotification);
     return () => {
       socketRef.current.off("notification", handleNotification);
@@ -59,7 +52,9 @@ export default function ProfileInlayComponet({ socketRef }) {
   //END Update notifications list after each notification sent
 
   useEffect(() => {
-    setProfileImage(userState.avatar_url);
+    if (typeof userState.avatar_url === "string" && userState.avatar_url.length > 1) {
+      setprofileImage(userState.avatar_url);
+    }
   }, [userState.avatar_url]);
 
   //BEGIN SOCKET Functions
@@ -118,10 +113,11 @@ export default function ProfileInlayComponet({ socketRef }) {
           ),
         });
       });
-      return items;
+      setnotificationMenuItems(items);
+      return;
     } else {
       setHasUnreadNotifications(false);
-      return [
+      setnotificationMenuItems([
         {
           label: (
             <div className="notification-container" onClick={() => {}}>
@@ -129,7 +125,7 @@ export default function ProfileInlayComponet({ socketRef }) {
             </div>
           ),
         },
-      ];
+      ]);
     }
   };
   const handleNotificationButtonClicked = (event) => {
@@ -240,7 +236,7 @@ export default function ProfileInlayComponet({ socketRef }) {
         </div>
       ) : (
         <div className="my-profile-overlay-wrapper">
-          <Menu model={renderNotifications()} popup ref={notifsMenu} id="popup_menu" />
+          <Menu model={notificationMenuItems} popup ref={notifsMenu} id="popup_menu" />
           <Menu model={renderDiscoverOptions()} popup ref={discoverMenu} id="popup_menu" />
           <Menu model={renderGameProfileOptions()} popup ref={gameProfilesMenu} id="popup_menu" />
           {/* if no profiles published, add notifier */}

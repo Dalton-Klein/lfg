@@ -135,7 +135,6 @@ const ExpandedProfile = (props: Props) => {
       delay: 0.25,
     });
     handleMouseLeave();
-    console.log("expanded props: ", props.userInfo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
