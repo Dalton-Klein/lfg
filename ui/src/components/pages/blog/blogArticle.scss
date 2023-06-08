@@ -70,6 +70,11 @@
         color: $colorSecondary;
         cursor: pointer;
       }
+      .blog-image {
+        width: 65%;
+        max-width: 100%;
+        height: auto;
+      }
     }
     .article-closing {
       margin-top: 2vh;
@@ -109,6 +114,30 @@
     }
     button {
       min-width: 33%;
+    }
+  }
+}
+
+@media screen and (max-width: $screenBreak1) {
+  .article-master-container {
+    .article-content-container {
+      .article-paragraph {
+        .blog-image {
+          width: 85%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $screenBreak2) {
+  .article-master-container {
+    .article-content-container {
+      .article-paragraph {
+        .blog-image {
+          width: 95%;
+        }
+      }
     }
   }
 }

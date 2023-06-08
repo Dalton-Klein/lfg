@@ -86,26 +86,24 @@ export default function BlogArticle3() {
         <div className="article-content-container">
           <h3 className="article-sub-title">What skins will be given out?</h3>
           <div className="article-paragraph">
-            <li>
-              Get into a voice chat with the person you intend on playing with. Chat with them for a few minutes before
-              comitting to anything! You can usually get a decent first impression. If you hear some major red flags,
-              don't feel bad about dropping out. It will save you a wipe full of trouble.{" "}
-            </li>
-            <li>
-              If you join a group where multiple people have just joined, try to get on the good side of as many group
-              members as you can. That way if the group implodes and it turns into an "us or them" situation, you will
-              likely have allies on the winning side.{" "}
-            </li>
-            <li>
-              Generally try to play with people in the same age group and availability as yourself. The age gaps cause
-              obvious issues. Having a similar amount of time committment as your squad ensures everyone is seen as
-              contributing roughly equal.{" "}
-            </li>
-            <li>
-              Remember, there's always next wipe. If you like the group you are playing with, do everything you can now
-              to make sure the group is on solid footing so next wipe can go even better. If things are going terribly
-              and you get insided, no shame is coming back next wipe and starting fresh.{" "}
-            </li>
+            <li>Black Gold skinset </li>
+            <img
+              className="blog-image"
+              src="https://res.cloudinary.com/kultured-dev/image/upload/v1686255480/blackgold_xqpg8m.png"
+              alt="black-gold-skin"
+            ></img>
+            <li>Whiteout skinset </li>
+            <img
+              className="blog-image"
+              src="https://res.cloudinary.com/kultured-dev/image/upload/v1686255480/whiteout_hcsxpb.png"
+              alt="whiteout-skin"
+            ></img>
+            <li>Various weapon, door, and armor skins </li>
+            <img
+              className="blog-image"
+              src="https://res.cloudinary.com/kultured-dev/image/upload/v1686255480/variousothers_wzfaad.png"
+              alt="example-weapon-skin"
+            ></img>
           </div>
         </div>
         <div className="article-content-container">
