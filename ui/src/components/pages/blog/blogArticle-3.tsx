@@ -6,8 +6,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import React, { useEffect, useRef, useState } from "react";
 import MediumTile from "../../tiles/mediumTile";
+import { getUserCount } from "../../../utils/rest";
 
-export default function BlogArticle1() {
+export default function BlogArticle3() {
   const navigate = useNavigate();
   const locationPath: string = useLocation().pathname;
   const userState = useSelector((state: RootState) => state.user.user);
@@ -15,8 +16,8 @@ export default function BlogArticle1() {
   const scrollToSection = (ref: any) => {
     ref.current?.scrollIntoView();
   };
-
   const [conditionalAuthTile, setconditionalAuthTile] = useState<any>(true);
+  const [userCount, setuserCount] = useState<string>("loading...");
 
   useEffect(() => {
     setconditionalAuthTile(
@@ -31,14 +32,21 @@ export default function BlogArticle1() {
 
   useEffect(() => {
     scrollToSection(topOfPageRef);
+    loadUserCount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath]);
+
+  const loadUserCount = async () => {
+    const userCountResult = await getUserCount(userState.id, "");
+    console.log("what is rezz? ", userCountResult);
+    setuserCount(userCountResult);
+  };
 
   return (
     <div ref={topOfPageRef}>
       <div className="article-master-container">
         <BannerTitle
-          title={"how to find great rust teammates"}
+          title={"gangs sign up promo"}
           imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}
         ></BannerTitle>
         <div className="article-header-info">
@@ -52,36 +60,31 @@ export default function BlogArticle1() {
           </button>
           <h4 className="article-read-time">2 min read</h4>
         </div>
-        {/* Welcome */}
+        {/* Promo Progress */}
         <div className="article-content-container">
-          <h3 className="article-sub-title">Why is it so hard?</h3>
+          <h3 className="article-sub-title">How close are we?</h3>
+          <div className="article-highlighted-detail">{userCount}/150 Members Signed Up</div>
+        </div>
+        {/* Promo Info */}
+        <div className="article-content-container">
+          <h3 className="article-sub-title">What is the promo?</h3>
           <div className="article-paragraph">
-            Well, if your irl friends aren't playing this wipe or don't play at all, you have get to know someone in one
-            of the most notoriously toxic playerbases. Anyone who plays Rust knows that it's 100% a terrible idea to
-            team with people you meet in game. Doing so results in getting insided (betrayed and locked out of your own
-            base) soon as you have something to lose. Because you can't trust anyone in game, you have to meet people
-            outside of the game, and get to know each other to develop a level of trust before playing.
+            We are giving out $250 in free rust skins once the gangs reaches 150 members. When we cross the mark, 30 of
+            the first 150 members will be randomly selected to receive a rust skin. Some examples of skins that are in
+            the pot are listed below!
           </div>
         </div>
         <div className="article-content-container">
-          <h3 className="article-sub-title">What are my options?</h3>
+          <h3 className="article-sub-title">Will I be eligible?</h3>
           <div className="article-paragraph">
-            Most people's go to option to find someone immediately available to play, is to go to a large discord server
-            or popular reddit thread. What is great about these options is that a lot of people are already using them!
-            What is bad about these options, is that you get the FULL spectrum of Rust players in these forums (hint
-            hint). It is difficult to tell whether you will actually enjoy playing with someone on these platforms by
-            what information they offer up.
-          </div>
-          <div className="article-paragraph">
-            On the other hand, a platform that is designed to improve the lfg experience could be what you're looking
-            for! Here at gangs, you will be able to see age, timezone, hours of experience, availability all up front.
-            Also, you have the ability to sort and filter potential matches based on these criteria that you value. If
-            this sounds nice, help us grow our platform, and setup your matchmaking profile!
+            To be eligible, you must:
+            <li>Be one of the first 150 people to make a gangs account. </li>
+            <li>Have published your Rust profile. </li>
           </div>
           {conditionalAuthTile}
         </div>
         <div className="article-content-container">
-          <h3 className="article-sub-title">Useful tips to avoid common pitfalls</h3>
+          <h3 className="article-sub-title">What skins will be given out?</h3>
           <div className="article-paragraph">
             <li>
               Get into a voice chat with the person you intend on playing with. Chat with them for a few minutes before
@@ -106,12 +109,11 @@ export default function BlogArticle1() {
           </div>
         </div>
         <div className="article-content-container">
-          <h3 className="article-sub-title">Final Thoughts</h3>
+          <h3 className="article-sub-title">How will I know if I won?</h3>
           <div className="article-paragraph">
-            You will never meet your dream team unless you are rolling the dice. Try out a few different styles of
-            groups to not only learn more about the game, but help refine what you are looking for in a Rust group. The
-            more experience you get, the more valuable of a teammate you are, which will assist in other great players
-            wanting to stick with you!
+            This very page will be updated once the user count is hit. All the users who won a skin will be listed. If
+            there is no response within a week we will choose someone else. The gangs team will be reaching out to you
+            on this platform, to your email, and to your discord if you are on our discord page.
           </div>
           <div className="article-closing">Happy Gaming,</div>
           <div className="article-closing">gangs team</div>

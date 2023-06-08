@@ -70,6 +70,15 @@ export default function HomePage({ socketRef }) {
             buttonTextLFG="lfg"
             buttonTextLFM="lfm"
           ></DaddyTile>
+          <DaddyTile
+            has2Buttons={false}
+            routerLinkLFG="/blog/signup-promo"
+            routerLinkLFM=""
+            image="https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"
+            title="sign up promo | win rust skins"
+            buttonTextLFG="see details"
+            buttonTextLFM=""
+          ></DaddyTile>
         </div>
 
         <div className="nav-tiles">

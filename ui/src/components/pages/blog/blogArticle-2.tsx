@@ -1,15 +1,20 @@
 import FooterComponent from "../../nav/footerComponent";
 import "./blogArticle.scss";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BannerTitle from "../../nav/banner-title";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MediumTile from "../../tiles/mediumTile";
 
 export default function BlogArticle2() {
   const navigate = useNavigate();
+  const locationPath: string = useLocation().pathname;
   const userState = useSelector((state: RootState) => state.user.user);
+  const topOfPageRef: any = useRef(null);
+  const scrollToSection = (ref: any) => {
+    ref.current?.scrollIntoView();
+  };
 
   const [conditionalAuthTile, setconditionalAuthTile] = useState<any>(true);
 
@@ -24,21 +29,26 @@ export default function BlogArticle2() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    scrollToSection(topOfPageRef);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationPath]);
+
   return (
-    <div>
+    <div ref={topOfPageRef}>
       <div className="article-master-container">
         <BannerTitle
           title={"rocket league & minecraft support"}
           imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg"}
         ></BannerTitle>
         <div className="article-header-info">
-          <h4 className="article-header-date">updated 10/18/2022</h4>
+          <h4 className="article-header-date">updated 06/08/2023</h4>
           <button
             onClick={() => {
               navigate(`/blog`);
             }}
           >
-            return to blog home
+            blog home
           </button>
           <h4 className="article-read-time">2 min read</h4>
         </div>
@@ -80,7 +90,7 @@ export default function BlogArticle2() {
           </div>
           {conditionalAuthTile}
           <div className="article-closing">Happy Gaming,</div>
-          <div className="article-closing">gangs.gg team</div>
+          <div className="article-closing">gangs team</div>
         </div>
       </div>
       <FooterComponent></FooterComponent>

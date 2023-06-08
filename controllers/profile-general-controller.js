@@ -5,6 +5,28 @@ const { getUserInfo, updateUserGenInfoField, searchForUserByUsername } = require
 const moment = require("moment");
 const { getEndorsementsForUser } = require("../services/endorsement-queries");
 
+const getTotalUserCount = async (req, res) => {
+  try {
+    const { userId, token } = req.body;
+    // const query = format('SELECT * FROM %I WHERE my_col = %L %s', 'my_table', 34, 'LIMIT 10');
+    const query = `
+      select count(*) as count from public.users;
+    `;
+    const reply = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+    });
+    updateUserGenInfoField(userId, "last_seen", moment().format());
+    let result;
+    if (reply && reply[0]) {
+      result = reply[0].count;
+    }
+    res.status(200).send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("POST ERROR");
+  }
+};
+
 const getUserDetails = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -197,6 +219,7 @@ const deleteAccount = async (id) => {
 };
 
 module.exports = {
+  getTotalUserCount,
   getUserDetails,
   getEmailPrefs,
   updateProfileField,
