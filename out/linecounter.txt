@@ -1,0 +1,349 @@
+===============================================================================
+EXTENSION NAME : linecounter
+EXTENSION VERSION : 0.2.7
+-------------------------------------------------------------------------------
+count time : 2023-06-08 10:14:18
+count workspace : c:\Users\Dekle\Documents\aCode\lfg
+total files : 317
+total code lines : 199109
+total comment lines : 1057
+total blank lines : 27630
+
+    statistics
+   |      extension|     total code|  total comment|    total blank|percent|
+   -------------------------------------------------------------------------
+   |          .json|          58387|              0|             12|     29|
+   |            .md|             36|              5|             24|  0.018|
+   |            .js|           4914|            245|            250|    2.5|
+   |           .txt|             24|            136|             21|  0.012|
+   |          .scss|           5212|            260|            235|    2.6|
+   |          .html|         120549|             24|          26536|     61|
+   |    .handlebars|            200|              4|              3|   0.10|
+   |           .tsx|           7377|            322|            384|    3.7|
+   |            .ts|           1826|             57|            125|   0.92|
+   |           .svg|            293|              0|              0|   0.15|
+   |           .css|             14|              2|              1| 0.0070|
+   |          .yaml|             17|              0|              0| 0.0085|
+   |           .yml|            191|              0|             26|  0.096|
+   |               |             57|              2|             11|  0.029|
+   |             .0|              6|              0|              2| 0.0030|
+   |           .map|              6|              0|              0| 0.0030|
+   -------------------------------------------------------------------------
+.env, code is 13, comment is 1, blank is 0.
+.gitignore, code is 24, comment is 0, blank is 6.
+controllers\auth-controller.js, code is 330, comment is 29, blank is 10.
+controllers\connections-controller.js, code is 177, comment is 16, blank is 6.
+controllers\endorsements-controller.js, code is 73, comment is 9, blank is 3.
+controllers\gangs-controller.js, code is 289, comment is 13, blank is 12.
+controllers\message-controller.js, code is 141, comment is 5, blank is 5.
+controllers\notification-controller.js, code is 106, comment is 6, blank is 4.
+controllers\profile-general-controller.js, code is 191, comment is 8, blank is 9.
+controllers\publish-controller.js, code is 192, comment is 27, blank is 7.
+controllers\test-controller.js, code is 10, comment is 0, blank is 2.
+controllers\tiles-controller.js, code is 122, comment is 7, blank is 3.
+db-scripts\migrations\gangs-add-chat-platform.js, code is 31, comment is 2, blank is 3.
+db-scripts\migrations\gangs_chats-add-is_voice.js, code is 31, comment is 2, blank is 3.
+db-scripts\migrations\users-add-input-device.js, code is 31, comment is 2, blank is 3.
+db-scripts\migrations\users-add-output-device.js, code is 31, comment is 2, blank is 3.
+db-scripts\seeders\availabilities-seeder.js, code is 50, comment is 0, blank is 2.
+db-scripts\seeders\chat-platforms-seeder.js, code is 41, comment is 0, blank is 2.
+db-scripts\seeders\connections-seeder.js, code is 82, comment is 0, blank is 2.
+db-scripts\seeders\endorsement_types-seeder.js, code is 98, comment is 0, blank is 2.
+db-scripts\seeders\gang-privacy-levels-seeder.js, code is 56, comment is 0, blank is 2.
+db-scripts\seeders\gang-roles-seeder.js, code is 56, comment is 0, blank is 2.
+db-scripts\seeders\messages-seeder.js, code is 44, comment is 0, blank is 2.
+db-scripts\seeders\notification_types-seeder.js, code is 51, comment is 0, blank is 2.
+db-scripts\seeders\regions-seeder.js, code is 68, comment is 0, blank is 2.
+db-scripts\seeders\supported-platforms-seeder.js, code is 41, comment is 0, blank is 2.
+db-scripts\seeders\users-general-info-seeder.js, code is 105, comment is 0, blank is 2.
+db-scripts\seeders\users-rocket-league-info-seeder.js, code is 92, comment is 0, blank is 2.
+db-scripts\seeders\users-rust-info-seeder.js, code is 92, comment is 0, blank is 2.
+db-scripts\seeders\users-seeder.js, code is 76, comment is 0, blank is 2.
+index.js, code is 111, comment is 59, blank is 13.
+misc\colors.js, code is 128, comment is 2, blank is 29.
+models\availabilities.js, code is 17, comment is 0, blank is 0.
+models\chat-platforms.js, code is 13, comment is 0, blank is 0.
+models\connection-requests.js, code is 30, comment is 0, blank is 1.
+models\connections.js, code is 26, comment is 0, blank is 1.
+models\endorsement-types.js, code is 22, comment is 0, blank is 0.
+models\endorsements.js, code is 30, comment is 0, blank is 0.
+models\gang-chats.js, code is 26, comment is 0, blank is 1.
+models\gang-messages.js, code is 27, comment is 1, blank is 2.
+models\gang-privacy-levels.js, code is 18, comment is 0, blank is 1.
+models\gang-requests.js, code is 27, comment is 0, blank is 1.
+models\gang-roles.js, code is 18, comment is 0, blank is 1.
+models\gang-roster.js, code is 26, comment is 0, blank is 1.
+models\gangs.js, code is 52, comment is 0, blank is 1.
+models\index.js, code is 65, comment is 2, blank is 1.
+models\messages.model.js, code is 27, comment is 1, blank is 2.
+models\notification-types.js, code is 18, comment is 0, blank is 1.
+models\notifications.js, code is 26, comment is 0, blank is 1.
+models\regions.js, code is 17, comment is 0, blank is 0.
+models\supported-platforms.js, code is 19, comment is 0, blank is 0.
+models\userGeneralInfo.js, code is 70, comment is 0, blank is 1.
+models\userRocketLeagueInfo.js, code is 50, comment is 0, blank is 1.
+models\userRustInfo.js, code is 50, comment is 0, blank is 1.
+models\users.model.js, code is 65, comment is 0, blank is 1.
+models\userTokens.model.js, code is 19, comment is 0, blank is 1.
+models\v_keys.model.js, code is 17, comment is 0, blank is 0.
+package-lock.json, code is 37769, comment is 0, blank is 7.
+package.json, code is 52, comment is 0, blank is 0.
+README.md, code is 36, comment is 5, blank is 24.
+routes\router.js, code is 58, comment is 19, blank is 17.
+services\auth.js, code is 95, comment is 1, blank is 3.
+services\connections-queries.js, code is 193, comment is 0, blank is 6.
+services\endorsement-queries.js, code is 61, comment is 0, blank is 5.
+services\gangs.js, code is 189, comment is 0, blank is 14.
+services\notifications-queries.js, code is 52, comment is 0, blank is 4.
+services\publish-queries.js, code is 34, comment is 1, blank is 4.
+services\social-queries.js, code is 26, comment is 0, blank is 1.
+services\templates\partials\footer.handlebars, code is 15, comment is 0, blank is 3.
+services\templates\partials\header.handlebars, code is 10, comment is 0, blank is 0.
+services\templates\views\connection-accepted.handlebars, code is 29, comment is 1, blank is 0.
+services\templates\views\connection-request.handlebars, code is 29, comment is 1, blank is 0.
+services\templates\views\new-message.handlebars, code is 29, comment is 1, blank is 0.
+services\templates\views\password-reset.handlebars, code is 30, comment is 0, blank is 0.
+services\templates\views\verification.handlebars, code is 29, comment is 0, blank is 0.
+services\templates\views\welcome.handlebars, code is 29, comment is 1, blank is 0.
+services\tiles-queries.js, code is 74, comment is 0, blank is 2.
+services\user-common.js, code is 49, comment is 0, blank is 3.
+services\user-queries.js, code is 173, comment is 0, blank is 7.
+startup\startup.js, code is 45, comment is 0, blank is 4.
+ui\.env, code is 2, comment is 0, blank is 0.
+ui\.gitignore, code is 18, comment is 1, blank is 5.
+ui\2.8.0, code is 6, comment is 0, blank is 2.
+ui\build\asset-manifest.json, code is 27, comment is 0, blank is 1.
+ui\build\assets\logo-v2-gangs.gg-transparent-white.png, it is a binary file.
+ui\build\favicon.ico, it is a binary file.
+ui\build\index.html, code is 1, comment is 0, blank is 0.
+ui\build\logo192.png, it is a binary file.
+ui\build\logo512.png, it is a binary file.
+ui\build\main.js, code is 39, comment is 9, blank is 5.
+ui\build\manifest.json, code is 25, comment is 0, blank is 0.
+ui\build\preload.js, code is 17, comment is 0, blank is 2.
+ui\build\robots.txt, code is 3, comment is 1, blank is 0.
+ui\build\static\css\2.305657f7.chunk.css, code is 1, comment is 1, blank is 0.
+ui\build\static\css\2.305657f7.chunk.css.map, code is 1, comment is 0, blank is 0.
+ui\build\static\css\main.a23019f3.chunk.css, code is 1, comment is 1, blank is 0.
+ui\build\static\css\main.a23019f3.chunk.css.map, code is 1, comment is 0, blank is 0.
+ui\build\static\js\2.47c0af33.chunk.js, code is 1, comment is 3, blank is 0.
+ui\build\static\js\2.47c0af33.chunk.js.LICENSE.txt, code is 0, comment is 134, blank is 18.
+ui\build\static\js\2.47c0af33.chunk.js.map, code is 1, comment is 0, blank is 0.
+ui\build\static\js\3.5630efec.chunk.js, code is 1, comment is 1, blank is 0.
+ui\build\static\js\3.5630efec.chunk.js.map, code is 1, comment is 0, blank is 0.
+ui\build\static\js\main.23a5fc99.chunk.js, code is 1, comment is 1, blank is 0.
+ui\build\static\js\main.23a5fc99.chunk.js.map, code is 1, comment is 0, blank is 0.
+ui\build\static\js\runtime-main.ce174e10.js, code is 1, comment is 1, blank is 0.
+ui\build\static\js\runtime-main.ce174e10.js.map, code is 1, comment is 0, blank is 0.
+ui\build\static\media\color.6441e63a.png, it is a binary file.
+ui\build\static\media\primeicons.10d31521.woff, it is a binary file.
+ui\build\static\media\primeicons.78172950.woff2, it is a binary file.
+ui\build\static\media\primeicons.d44157bd.eot, it is a binary file.
+ui\build\static\media\primeicons.e1441b13.svg, code is 292, comment is 0, blank is 0.
+ui\build\static\media\primeicons.ea535860.ttf, it is a binary file.
+ui\build\static\media\questrial.96dd668f.ttf, it is a binary file.
+ui\dist\.icon-ico\icon.ico, it is a binary file.
+ui\dist\builder-debug.yml, code is 191, comment is 0, blank is 26.
+ui\dist\builder-effective-config.yaml, code is 17, comment is 0, blank is 0.
+ui\dist\gangs Setup 0.1.0.exe.blockmap, it is a binary file.
+ui\dist\ui Setup 0.1.0.exe.blockmap, it is a binary file.
+ui\dist\win-unpacked\chrome_100_percent.pak, it is a binary file.
+ui\dist\win-unpacked\chrome_200_percent.pak, it is a binary file.
+ui\dist\win-unpacked\d3dcompiler_47.dll, it is a binary file.
+ui\dist\win-unpacked\ffmpeg.dll, it is a binary file.
+ui\dist\win-unpacked\gangs.exe, it is a binary file.
+ui\dist\win-unpacked\icudtl.dat, it is a binary file.
+ui\dist\win-unpacked\libEGL.dll, it is a binary file.
+ui\dist\win-unpacked\libGLESv2.dll, it is a binary file.
+ui\dist\win-unpacked\LICENSE.electron.txt, code is 18, comment is 0, blank is 3.
+ui\dist\win-unpacked\LICENSES.chromium.html, code is 120524, comment is 1, blank is 26536.
+ui\dist\win-unpacked\locales\af.pak, it is a binary file.
+ui\dist\win-unpacked\locales\am.pak, it is a binary file.
+ui\dist\win-unpacked\locales\ar.pak, it is a binary file.
+ui\dist\win-unpacked\locales\bg.pak, it is a binary file.
+ui\dist\win-unpacked\locales\bn.pak, it is a binary file.
+ui\dist\win-unpacked\locales\ca.pak, it is a binary file.
+ui\dist\win-unpacked\locales\cs.pak, it is a binary file.
+ui\dist\win-unpacked\locales\da.pak, it is a binary file.
+ui\dist\win-unpacked\locales\de.pak, it is a binary file.
+ui\dist\win-unpacked\locales\el.pak, it is a binary file.
+ui\dist\win-unpacked\locales\en-GB.pak, it is a binary file.
+ui\dist\win-unpacked\locales\en-US.pak, it is a binary file.
+ui\dist\win-unpacked\locales\es-419.pak, it is a binary file.
+ui\dist\win-unpacked\locales\es.pak, it is a binary file.
+ui\dist\win-unpacked\locales\et.pak, it is a binary file.
+ui\dist\win-unpacked\locales\fa.pak, it is a binary file.
+ui\dist\win-unpacked\locales\fi.pak, it is a binary file.
+ui\dist\win-unpacked\locales\fil.pak, it is a binary file.
+ui\dist\win-unpacked\locales\fr.pak, it is a binary file.
+ui\dist\win-unpacked\locales\gu.pak, it is a binary file.
+ui\dist\win-unpacked\locales\he.pak, it is a binary file.
+ui\dist\win-unpacked\locales\hi.pak, it is a binary file.
+ui\dist\win-unpacked\locales\hr.pak, it is a binary file.
+ui\dist\win-unpacked\locales\hu.pak, it is a binary file.
+ui\dist\win-unpacked\locales\id.pak, it is a binary file.
+ui\dist\win-unpacked\locales\it.pak, it is a binary file.
+ui\dist\win-unpacked\locales\ja.pak, it is a binary file.
+ui\dist\win-unpacked\locales\kn.pak, it is a binary file.
+ui\dist\win-unpacked\locales\ko.pak, it is a binary file.
+ui\dist\win-unpacked\locales\lt.pak, it is a binary file.
+ui\dist\win-unpacked\locales\lv.pak, it is a binary file.
+ui\dist\win-unpacked\locales\ml.pak, it is a binary file.
+ui\dist\win-unpacked\locales\mr.pak, it is a binary file.
+ui\dist\win-unpacked\locales\ms.pak, it is a binary file.
+ui\dist\win-unpacked\locales\nb.pak, it is a binary file.
+ui\dist\win-unpacked\locales\nl.pak, it is a binary file.
+ui\dist\win-unpacked\locales\pl.pak, it is a binary file.
+ui\dist\win-unpacked\locales\pt-BR.pak, it is a binary file.
+ui\dist\win-unpacked\locales\pt-PT.pak, it is a binary file.
+ui\dist\win-unpacked\locales\ro.pak, it is a binary file.
+ui\dist\win-unpacked\locales\ru.pak, it is a binary file.
+ui\dist\win-unpacked\locales\sk.pak, it is a binary file.
+ui\dist\win-unpacked\locales\sl.pak, it is a binary file.
+ui\dist\win-unpacked\locales\sr.pak, it is a binary file.
+ui\dist\win-unpacked\locales\sv.pak, it is a binary file.
+ui\dist\win-unpacked\locales\sw.pak, it is a binary file.
+ui\dist\win-unpacked\locales\ta.pak, it is a binary file.
+ui\dist\win-unpacked\locales\te.pak, it is a binary file.
+ui\dist\win-unpacked\locales\th.pak, it is a binary file.
+ui\dist\win-unpacked\locales\tr.pak, it is a binary file.
+ui\dist\win-unpacked\locales\uk.pak, it is a binary file.
+ui\dist\win-unpacked\locales\ur.pak, it is a binary file.
+ui\dist\win-unpacked\locales\vi.pak, it is a binary file.
+ui\dist\win-unpacked\locales\zh-CN.pak, it is a binary file.
+ui\dist\win-unpacked\locales\zh-TW.pak, it is a binary file.
+ui\dist\win-unpacked\resources.pak, it is a binary file.
+ui\dist\win-unpacked\resources\elevate.exe, it is a binary file.
+ui\dist\win-unpacked\snapshot_blob.bin, it is a binary file.
+ui\dist\win-unpacked\v8_context_snapshot.bin, it is a binary file.
+ui\dist\win-unpacked\vk_swiftshader.dll, it is a binary file.
+ui\dist\win-unpacked\vk_swiftshader_icd.json, code is 1, comment is 0, blank is 0.
+ui\dist\win-unpacked\vulkan-1.dll, it is a binary file.
+ui\package-lock.json, code is 20360, comment is 0, blank is 0.
+ui\package.json, code is 105, comment is 0, blank is 4.
+ui\public\assets\logo-v2-gangs.gg-transparent-white.png, it is a binary file.
+ui\public\favicon.ico, it is a binary file.
+ui\public\index.html, code is 24, comment is 23, blank is 0.
+ui\public\logo192.png, it is a binary file.
+ui\public\logo512.png, it is a binary file.
+ui\public\main.js, code is 39, comment is 9, blank is 5.
+ui\public\manifest.json, code is 25, comment is 0, blank is 0.
+ui\public\preload.js, code is 17, comment is 0, blank is 2.
+ui\public\robots.txt, code is 3, comment is 1, blank is 0.
+ui\src\App.scss, code is 213, comment is 4, blank is 22.
+ui\src\App.test.tsx, code is 7, comment is 0, blank is 1.
+ui\src\App.tsx, code is 99, comment is 7, blank is 5.
+ui\src\components\forms\createPost.scss, code is 102, comment is 45, blank is 4.
+ui\src\components\forms\createPost.tsx, code is 167, comment is 17, blank is 17.
+ui\src\components\forms\inputSwitch.scss, code is 40, comment is 0, blank is 5.
+ui\src\components\forms\inputSwitch.tsx, code is 24, comment is 0, blank is 2.
+ui\src\components\gangs\gangsList.scss, code is 23, comment is 0, blank is 2.
+ui\src\components\gangs\gangsList.tsx, code is 43, comment is 3, blank is 6.
+ui\src\components\gangs\gangsMgmt.scss, code is 326, comment is 1, blank is 18.
+ui\src\components\gangs\gangsMgmt.tsx, code is 750, comment is 29, blank is 20.
+ui\src\components\messaging\instantMessaging.scss, code is 218, comment is 0, blank is 9.
+ui\src\components\messaging\instantMessaging.tsx, code is 201, comment is 16, blank is 15.
+ui\src\components\modal\backdropComponent.scss, code is 20, comment is 0, blank is 2.
+ui\src\components\modal\backdropComponent.tsx, code is 22, comment is 1, blank is 4.
+ui\src\components\modal\drawerComponent.scss, code is 130, comment is 0, blank is 9.
+ui\src\components\modal\drawerComponent.tsx, code is 171, comment is 5, blank is 10.
+ui\src\components\modal\expandedProfileComponent.scss, code is 269, comment is 0, blank is 9.
+ui\src\components\modal\expandedProfileComponent.tsx, code is 442, comment is 2, blank is 16.
+ui\src\components\myProfile\profileAccountSettings.tsx, code is 227, comment is 25, blank is 18.
+ui\src\components\myProfile\profileGeneral.scss, code is 457, comment is 1, blank is 28.
+ui\src\components\myProfile\profileGeneral.tsx, code is 484, comment is 19, blank is 21.
+ui\src\components\myProfile\profileRocketLeague.tsx, code is 446, comment is 12, blank is 13.
+ui\src\components\myProfile\profileRust.tsx, code is 268, comment is 12, blank is 10.
+ui\src\components\myProfile\profileWidget.scss, code is 53, comment is 0, blank is 6.
+ui\src\components\myProfile\profileWidget.tsx, code is 40, comment is 2, blank is 3.
+ui\src\components\myProfile\profileWidgetsContainer.scss, code is 42, comment is 0, blank is 3.
+ui\src\components\myProfile\profileWidgetsContainer.tsx, code is 70, comment is 4, blank is 4.
+ui\src\components\myProfile\selectComponent.scss, code is 36, comment is 0, blank is 2.
+ui\src\components\myProfile\selectComponent.tsx, code is 93, comment is 4, blank is 8.
+ui\src\components\nav\banner-alt.scss, code is 51, comment is 0, blank is 2.
+ui\src\components\nav\banner-alt.tsx, code is 35, comment is 0, blank is 2.
+ui\src\components\nav\banner-title.scss, code is 33, comment is 0, blank is 1.
+ui\src\components\nav\banner-title.tsx, code is 17, comment is 0, blank is 3.
+ui\src\components\nav\filter\filterBarComponent.scss, code is 58, comment is 3, blank is 5.
+ui\src\components\nav\filter\filterBarComponent.tsx, code is 171, comment is 0, blank is 5.
+ui\src\components\nav\filter\filterComponent.scss, code is 36, comment is 0, blank is 1.
+ui\src\components\nav\filter\filterComponent.tsx, code is 108, comment is 5, blank is 6.
+ui\src\components\nav\footerComponent.tsx, code is 11, comment is 0, blank is 1.
+ui\src\components\nav\headerComponent.tsx, code is 20, comment is 0, blank is 2.
+ui\src\components\nav\headerFooterComponents.scss, code is 64, comment is 0, blank is 5.
+ui\src\components\nav\profileInlayComponent.scss, code is 264, comment is 11, blank is 8.
+ui\src\components\nav\profileInlayComponet.tsx, code is 107, comment is 7, blank is 5.
+ui\src\components\nav\scrollToTop.tsx, code is 9, comment is 0, blank is 3.
+ui\src\components\nav\verticalNav.scss, code is 65, comment is 0, blank is 4.
+ui\src\components\nav\verticalNav.tsx, code is 235, comment is 8, blank is 16.
+ui\src\components\pages\authenticationPage.scss, code is 187, comment is 0, blank is 5.
+ui\src\components\pages\authenticationPage.tsx, code is 458, comment is 10, blank is 24.
+ui\src\components\pages\blog\blogArticle-1.tsx, code is 86, comment is 1, blank is 4.
+ui\src\components\pages\blog\blogArticle-2.tsx, code is 84, comment is 1, blank is 4.
+ui\src\components\pages\blog\blogArticle.scss, code is 106, comment is 1, blank is 2.
+ui\src\components\pages\blog\blogPage.scss, code is 23, comment is 0, blank is 1.
+ui\src\components\pages\blog\blogPage.tsx, code is 33, comment is 0, blank is 1.
+ui\src\components\pages\blog\blogTile.scss, code is 61, comment is 0, blank is 4.
+ui\src\components\pages\blog\blogTile.tsx, code is 24, comment is 0, blank is 2.
+ui\src\components\pages\discoverPage.scss, code is 62, comment is 0, blank is 4.
+ui\src\components\pages\discoverPage.tsx, code is 274, comment is 20, blank is 15.
+ui\src\components\pages\faqPage.scss, code is 75, comment is 1, blank is 2.
+ui\src\components\pages\faqPage.tsx, code is 252, comment is 2, blank is 3.
+ui\src\components\pages\fourOFour.scss, code is 22, comment is 0, blank is 4.
+ui\src\components\pages\FourOFourPage.tsx, code is 12, comment is 0, blank is 3.
+ui\src\components\pages\gangPage.scss, code is 450, comment is 0, blank is 9.
+ui\src\components\pages\gangPage.tsx, code is 441, comment is 65, blank is 35.
+ui\src\components\pages\gangsPage.scss, code is 1, comment is 0, blank is 0.
+ui\src\components\pages\gangsPage.tsx, code is 14, comment is 1, blank is 2.
+ui\src\components\pages\home-page\aboutComponent.scss, code is 130, comment is 0, blank is 2.
+ui\src\components\pages\home-page\aboutComponent.tsx, code is 121, comment is 6, blank is 5.
+ui\src\components\pages\home-page\homePage.scss, code is 83, comment is 0, blank is 4.
+ui\src\components\pages\home-page\homePage.tsx, code is 90, comment is 11, blank is 6.
+ui\src\components\pages\joinGangPage.scss, code is 48, comment is 0, blank is 3.
+ui\src\components\pages\joinGangPage.tsx, code is 72, comment is 0, blank is 6.
+ui\src\components\pages\privacyPolicyPage.scss, code is 41, comment is 0, blank is 2.
+ui\src\components\pages\privacyPolicyPage.tsx, code is 111, comment is 0, blank is 2.
+ui\src\components\pages\profilePage.scss, code is 183, comment is 1, blank is 9.
+ui\src\components\pages\profilePage.tsx, code is 224, comment is 14, blank is 17.
+ui\src\components\pages\sample.js, code is 0, comment is 0, blank is 0.
+ui\src\components\pages\tosPage.scss, code is 37, comment is 0, blank is 2.
+ui\src\components\pages\tosPage.tsx, code is 270, comment is 0, blank is 1.
+ui\src\components\tiles\connectionTile.scss, code is 210, comment is 0, blank is 7.
+ui\src\components\tiles\connectionTile.tsx, code is 89, comment is 1, blank is 8.
+ui\src\components\tiles\conversationTile.scss, code is 61, comment is 0, blank is 2.
+ui\src\components\tiles\conversationTile.tsx, code is 45, comment is 0, blank is 2.
+ui\src\components\tiles\daddyTile.scss, code is 46, comment is 0, blank is 3.
+ui\src\components\tiles\daddyTile.tsx, code is 34, comment is 0, blank is 2.
+ui\src\components\tiles\endorsementTile.scss, code is 38, comment is 0, blank is 2.
+ui\src\components\tiles\endorsementTile.tsx, code is 102, comment is 2, blank is 9.
+ui\src\components\tiles\gameTile.scss, code is 53, comment is 0, blank is 4.
+ui\src\components\tiles\gameTile.tsx, code is 26, comment is 1, blank is 2.
+ui\src\components\tiles\gangTile.scss, code is 324, comment is 0, blank is 5.
+ui\src\components\tiles\gangTile.tsx, code is 74, comment is 1, blank is 5.
+ui\src\components\tiles\mediumTile.scss, code is 57, comment is 0, blank is 3.
+ui\src\components\tiles\mediumTile.tsx, code is 38, comment is 1, blank is 2.
+ui\src\components\tiles\playerTile.scss, code is 296, comment is 0, blank is 7.
+ui\src\components\tiles\playerTile.tsx, code is 121, comment is 0, blank is 6.
+ui\src\fonts\deToks.otf, it is a binary file.
+ui\src\fonts\questrial.ttf, it is a binary file.
+ui\src\index.css, code is 12, comment is 0, blank is 1.
+ui\src\index.js, code is 15, comment is 3, blank is 2.
+ui\src\logo.svg, code is 1, comment is 0, blank is 0.
+ui\src\react-app-env.d.ts, code is 0, comment is 1, blank is 0.
+ui\src\reportWebVitals.js, code is 12, comment is 0, blank is 1.
+ui\src\setupTests.js, code is 1, comment is 4, blank is 0.
+ui\src\store\interfaces.ts, code is 61, comment is 0, blank is 3.
+ui\src\store\store.ts, code is 32, comment is 1, blank is 6.
+ui\src\store\userPreferencesSlice.ts, code is 40, comment is 0, blank is 3.
+ui\src\store\userSlice.ts, code is 171, comment is 6, blank is 9.
+ui\src\store\worldSlice.ts, code is 18, comment is 0, blank is 3.
+ui\src\styling\_config.scss, code is 42, comment is 1, blank is 3.
+ui\src\styling\tagColors.scss, code is 76, comment is 191, blank is 1.
+ui\src\utils\animations.ts, code is 257, comment is 10, blank is 20.
+ui\src\utils\clickOutside.tsx, code is 15, comment is 7, blank is 2.
+ui\src\utils\helperFunctions.ts, code is 178, comment is 1, blank is 13.
+ui\src\utils\interfaces.ts, code is 137, comment is 12, blank is 14.
+ui\src\utils\rest.ts, code is 870, comment is 26, blank is 48.
+ui\src\utils\selectOptions.ts, code is 62, comment is 0, blank is 6.
+ui\tsconfig.json, code is 23, comment is 0, blank is 0.
+===============================================================================
