@@ -69,9 +69,9 @@ export default function BlogArticle3() {
         <div className="article-content-container">
           <h3 className="article-sub-title">What is the promo?</h3>
           <div className="article-paragraph">
-            We are giving out $250 in free rust skins once the gangs reaches 150 members. When we cross the mark, 30 of
-            the first 150 members will be randomly selected to receive a rust skin. Some examples of skins that are in
-            the pot are listed below!
+            We are giving out $250 in free rust skins once the gangs reaches 150 members. When we cross the mark, 30
+            members will be randomly selected from the first 150 members to receive a rust skin. 1 skin for each person
+            to spread the love. Some examples of skins that are in the pot are listed below!
           </div>
         </div>
         <div className="article-content-container">
