@@ -1,0 +1,2089 @@
+{
+    "extension": "linecounter",
+    "version": "0.2.7",
+    "workspace": "c:\\Users\\Dekle\\Documents\\aCode\\lfg",
+    "linecount": [
+        {
+            "version": "0.2.7",
+            "counttime": "2023-06-08 10:14:18",
+            "filesum": 317,
+            "codesum": 199109,
+            "commentsum": 1057,
+            "blanksum": 27630,
+            "statistics": {
+                ".json": {
+                    "code": 58387,
+                    "comment": 0,
+                    "blank": 12
+                },
+                ".md": {
+                    "code": 36,
+                    "comment": 5,
+                    "blank": 24
+                },
+                ".js": {
+                    "code": 4914,
+                    "comment": 245,
+                    "blank": 250
+                },
+                ".txt": {
+                    "code": 24,
+                    "comment": 136,
+                    "blank": 21
+                },
+                ".scss": {
+                    "code": 5212,
+                    "comment": 260,
+                    "blank": 235
+                },
+                ".html": {
+                    "code": 120549,
+                    "comment": 24,
+                    "blank": 26536
+                },
+                ".handlebars": {
+                    "code": 200,
+                    "comment": 4,
+                    "blank": 3
+                },
+                ".tsx": {
+                    "code": 7377,
+                    "comment": 322,
+                    "blank": 384
+                },
+                ".ts": {
+                    "code": 1826,
+                    "comment": 57,
+                    "blank": 125
+                },
+                ".svg": {
+                    "code": 293,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".css": {
+                    "code": 14,
+                    "comment": 2,
+                    "blank": 1
+                },
+                ".yaml": {
+                    "code": 17,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".yml": {
+                    "code": 191,
+                    "comment": 0,
+                    "blank": 26
+                },
+                "": {
+                    "code": 57,
+                    "comment": 2,
+                    "blank": 11
+                },
+                ".0": {
+                    "code": 6,
+                    "comment": 0,
+                    "blank": 2
+                },
+                ".map": {
+                    "code": 6,
+                    "comment": 0,
+                    "blank": 0
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 1,
+                    "filename": ".env"
+                },
+                {
+                    "blank": 6,
+                    "code": 24,
+                    "comment": 0,
+                    "filename": ".gitignore"
+                },
+                {
+                    "blank": 10,
+                    "code": 330,
+                    "comment": 29,
+                    "filename": "controllers\\auth-controller.js"
+                },
+                {
+                    "blank": 6,
+                    "code": 177,
+                    "comment": 16,
+                    "filename": "controllers\\connections-controller.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 73,
+                    "comment": 9,
+                    "filename": "controllers\\endorsements-controller.js"
+                },
+                {
+                    "blank": 12,
+                    "code": 289,
+                    "comment": 13,
+                    "filename": "controllers\\gangs-controller.js"
+                },
+                {
+                    "blank": 5,
+                    "code": 141,
+                    "comment": 5,
+                    "filename": "controllers\\message-controller.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 106,
+                    "comment": 6,
+                    "filename": "controllers\\notification-controller.js"
+                },
+                {
+                    "blank": 9,
+                    "code": 191,
+                    "comment": 8,
+                    "filename": "controllers\\profile-general-controller.js"
+                },
+                {
+                    "blank": 7,
+                    "code": 192,
+                    "comment": 27,
+                    "filename": "controllers\\publish-controller.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "controllers\\test-controller.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 122,
+                    "comment": 7,
+                    "filename": "controllers\\tiles-controller.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 31,
+                    "comment": 2,
+                    "filename": "db-scripts\\migrations\\gangs-add-chat-platform.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 31,
+                    "comment": 2,
+                    "filename": "db-scripts\\migrations\\gangs_chats-add-is_voice.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 31,
+                    "comment": 2,
+                    "filename": "db-scripts\\migrations\\users-add-input-device.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 31,
+                    "comment": 2,
+                    "filename": "db-scripts\\migrations\\users-add-output-device.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 50,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\availabilities-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 41,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\chat-platforms-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 82,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\connections-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 98,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\endorsement_types-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 56,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\gang-privacy-levels-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 56,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\gang-roles-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 44,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\messages-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 51,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\notification_types-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 68,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\regions-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 41,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\supported-platforms-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 105,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\users-general-info-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 92,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\users-rocket-league-info-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 92,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\users-rust-info-seeder.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 76,
+                    "comment": 0,
+                    "filename": "db-scripts\\seeders\\users-seeder.js"
+                },
+                {
+                    "blank": 13,
+                    "code": 111,
+                    "comment": 59,
+                    "filename": "index.js"
+                },
+                {
+                    "blank": 29,
+                    "code": 128,
+                    "comment": 2,
+                    "filename": "misc\\colors.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "models\\availabilities.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 0,
+                    "filename": "models\\chat-platforms.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 30,
+                    "comment": 0,
+                    "filename": "models\\connection-requests.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 26,
+                    "comment": 0,
+                    "filename": "models\\connections.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 22,
+                    "comment": 0,
+                    "filename": "models\\endorsement-types.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 30,
+                    "comment": 0,
+                    "filename": "models\\endorsements.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 26,
+                    "comment": 0,
+                    "filename": "models\\gang-chats.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 27,
+                    "comment": 1,
+                    "filename": "models\\gang-messages.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "models\\gang-privacy-levels.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 27,
+                    "comment": 0,
+                    "filename": "models\\gang-requests.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "models\\gang-roles.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 26,
+                    "comment": 0,
+                    "filename": "models\\gang-roster.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 52,
+                    "comment": 0,
+                    "filename": "models\\gangs.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 65,
+                    "comment": 2,
+                    "filename": "models\\index.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 27,
+                    "comment": 1,
+                    "filename": "models\\messages.model.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "models\\notification-types.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 26,
+                    "comment": 0,
+                    "filename": "models\\notifications.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "models\\regions.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "models\\supported-platforms.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 70,
+                    "comment": 0,
+                    "filename": "models\\userGeneralInfo.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 50,
+                    "comment": 0,
+                    "filename": "models\\userRocketLeagueInfo.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 50,
+                    "comment": 0,
+                    "filename": "models\\userRustInfo.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 65,
+                    "comment": 0,
+                    "filename": "models\\users.model.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "models\\userTokens.model.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "models\\v_keys.model.js"
+                },
+                {
+                    "blank": 7,
+                    "code": 37769,
+                    "comment": 0,
+                    "filename": "package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 52,
+                    "comment": 0,
+                    "filename": "package.json"
+                },
+                {
+                    "blank": 24,
+                    "code": 36,
+                    "comment": 5,
+                    "filename": "README.md"
+                },
+                {
+                    "blank": 17,
+                    "code": 58,
+                    "comment": 19,
+                    "filename": "routes\\router.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 95,
+                    "comment": 1,
+                    "filename": "services\\auth.js"
+                },
+                {
+                    "blank": 6,
+                    "code": 193,
+                    "comment": 0,
+                    "filename": "services\\connections-queries.js"
+                },
+                {
+                    "blank": 5,
+                    "code": 61,
+                    "comment": 0,
+                    "filename": "services\\endorsement-queries.js"
+                },
+                {
+                    "blank": 14,
+                    "code": 189,
+                    "comment": 0,
+                    "filename": "services\\gangs.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 52,
+                    "comment": 0,
+                    "filename": "services\\notifications-queries.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 34,
+                    "comment": 1,
+                    "filename": "services\\publish-queries.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 26,
+                    "comment": 0,
+                    "filename": "services\\social-queries.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 15,
+                    "comment": 0,
+                    "filename": "services\\templates\\partials\\footer.handlebars"
+                },
+                {
+                    "blank": 0,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "services\\templates\\partials\\header.handlebars"
+                },
+                {
+                    "blank": 0,
+                    "code": 29,
+                    "comment": 1,
+                    "filename": "services\\templates\\views\\connection-accepted.handlebars"
+                },
+                {
+                    "blank": 0,
+                    "code": 29,
+                    "comment": 1,
+                    "filename": "services\\templates\\views\\connection-request.handlebars"
+                },
+                {
+                    "blank": 0,
+                    "code": 29,
+                    "comment": 1,
+                    "filename": "services\\templates\\views\\new-message.handlebars"
+                },
+                {
+                    "blank": 0,
+                    "code": 30,
+                    "comment": 0,
+                    "filename": "services\\templates\\views\\password-reset.handlebars"
+                },
+                {
+                    "blank": 0,
+                    "code": 29,
+                    "comment": 0,
+                    "filename": "services\\templates\\views\\verification.handlebars"
+                },
+                {
+                    "blank": 0,
+                    "code": 29,
+                    "comment": 1,
+                    "filename": "services\\templates\\views\\welcome.handlebars"
+                },
+                {
+                    "blank": 2,
+                    "code": 74,
+                    "comment": 0,
+                    "filename": "services\\tiles-queries.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 49,
+                    "comment": 0,
+                    "filename": "services\\user-common.js"
+                },
+                {
+                    "blank": 7,
+                    "code": 173,
+                    "comment": 0,
+                    "filename": "services\\user-queries.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 45,
+                    "comment": 0,
+                    "filename": "startup\\startup.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "ui\\.env"
+                },
+                {
+                    "blank": 5,
+                    "code": 18,
+                    "comment": 1,
+                    "filename": "ui\\.gitignore"
+                },
+                {
+                    "blank": 2,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "ui\\2.8.0"
+                },
+                {
+                    "blank": 1,
+                    "code": 27,
+                    "comment": 0,
+                    "filename": "ui\\build\\asset-manifest.json"
+                },
+                {
+                    "filename": "ui\\build\\assets\\logo-v2-gangs.gg-transparent-white.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\build\\favicon.ico",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "ui\\build\\index.html"
+                },
+                {
+                    "filename": "ui\\build\\logo192.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\build\\logo512.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 5,
+                    "code": 39,
+                    "comment": 9,
+                    "filename": "ui\\build\\main.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": "ui\\build\\manifest.json"
+                },
+                {
+                    "blank": 2,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "ui\\build\\preload.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 1,
+                    "filename": "ui\\build\\robots.txt"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "ui\\build\\static\\css\\2.305657f7.chunk.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "ui\\build\\static\\css\\2.305657f7.chunk.css.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "ui\\build\\static\\css\\main.a23019f3.chunk.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "ui\\build\\static\\css\\main.a23019f3.chunk.css.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 3,
+                    "filename": "ui\\build\\static\\js\\2.47c0af33.chunk.js"
+                },
+                {
+                    "blank": 18,
+                    "code": 0,
+                    "comment": 134,
+                    "filename": "ui\\build\\static\\js\\2.47c0af33.chunk.js.LICENSE.txt"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "ui\\build\\static\\js\\2.47c0af33.chunk.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "ui\\build\\static\\js\\3.5630efec.chunk.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "ui\\build\\static\\js\\3.5630efec.chunk.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "ui\\build\\static\\js\\main.23a5fc99.chunk.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "ui\\build\\static\\js\\main.23a5fc99.chunk.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": "ui\\build\\static\\js\\runtime-main.ce174e10.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "ui\\build\\static\\js\\runtime-main.ce174e10.js.map"
+                },
+                {
+                    "filename": "ui\\build\\static\\media\\color.6441e63a.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\build\\static\\media\\primeicons.10d31521.woff",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\build\\static\\media\\primeicons.78172950.woff2",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\build\\static\\media\\primeicons.d44157bd.eot",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 292,
+                    "comment": 0,
+                    "filename": "ui\\build\\static\\media\\primeicons.e1441b13.svg"
+                },
+                {
+                    "filename": "ui\\build\\static\\media\\primeicons.ea535860.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\build\\static\\media\\questrial.96dd668f.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\.icon-ico\\icon.ico",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 26,
+                    "code": 191,
+                    "comment": 0,
+                    "filename": "ui\\dist\\builder-debug.yml"
+                },
+                {
+                    "blank": 0,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "ui\\dist\\builder-effective-config.yaml"
+                },
+                {
+                    "filename": "ui\\dist\\gangs Setup 0.1.0.exe.blockmap",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\ui Setup 0.1.0.exe.blockmap",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\chrome_100_percent.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\chrome_200_percent.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\d3dcompiler_47.dll",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\ffmpeg.dll",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\gangs.exe",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\icudtl.dat",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\libEGL.dll",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\libGLESv2.dll",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 3,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "ui\\dist\\win-unpacked\\LICENSE.electron.txt"
+                },
+                {
+                    "blank": 26536,
+                    "code": 120524,
+                    "comment": 1,
+                    "filename": "ui\\dist\\win-unpacked\\LICENSES.chromium.html"
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\af.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\am.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\ar.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\bg.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\bn.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\ca.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\cs.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\da.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\de.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\el.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\en-GB.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\en-US.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\es-419.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\es.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\et.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\fa.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\fi.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\fil.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\fr.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\gu.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\he.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\hi.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\hr.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\hu.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\id.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\it.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\ja.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\kn.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\ko.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\lt.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\lv.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\ml.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\mr.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\ms.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\nb.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\nl.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\pl.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\pt-BR.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\pt-PT.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\ro.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\ru.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\sk.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\sl.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\sr.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\sv.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\sw.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\ta.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\te.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\th.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\tr.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\uk.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\ur.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\vi.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\zh-CN.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\locales\\zh-TW.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\resources.pak",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\resources\\elevate.exe",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\snapshot_blob.bin",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\v8_context_snapshot.bin",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\vk_swiftshader.dll",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "ui\\dist\\win-unpacked\\vk_swiftshader_icd.json"
+                },
+                {
+                    "filename": "ui\\dist\\win-unpacked\\vulkan-1.dll",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 20360,
+                    "comment": 0,
+                    "filename": "ui\\package-lock.json"
+                },
+                {
+                    "blank": 4,
+                    "code": 105,
+                    "comment": 0,
+                    "filename": "ui\\package.json"
+                },
+                {
+                    "filename": "ui\\public\\assets\\logo-v2-gangs.gg-transparent-white.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\public\\favicon.ico",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 24,
+                    "comment": 23,
+                    "filename": "ui\\public\\index.html"
+                },
+                {
+                    "filename": "ui\\public\\logo192.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\public\\logo512.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 5,
+                    "code": 39,
+                    "comment": 9,
+                    "filename": "ui\\public\\main.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": "ui\\public\\manifest.json"
+                },
+                {
+                    "blank": 2,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "ui\\public\\preload.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 1,
+                    "filename": "ui\\public\\robots.txt"
+                },
+                {
+                    "blank": 22,
+                    "code": 213,
+                    "comment": 4,
+                    "filename": "ui\\src\\App.scss"
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "ui\\src\\App.test.tsx"
+                },
+                {
+                    "blank": 5,
+                    "code": 99,
+                    "comment": 7,
+                    "filename": "ui\\src\\App.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 102,
+                    "comment": 45,
+                    "filename": "ui\\src\\components\\forms\\createPost.scss"
+                },
+                {
+                    "blank": 17,
+                    "code": 167,
+                    "comment": 17,
+                    "filename": "ui\\src\\components\\forms\\createPost.tsx"
+                },
+                {
+                    "blank": 5,
+                    "code": 40,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\forms\\inputSwitch.scss"
+                },
+                {
+                    "blank": 2,
+                    "code": 24,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\forms\\inputSwitch.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 23,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\gangs\\gangsList.scss"
+                },
+                {
+                    "blank": 6,
+                    "code": 43,
+                    "comment": 3,
+                    "filename": "ui\\src\\components\\gangs\\gangsList.tsx"
+                },
+                {
+                    "blank": 18,
+                    "code": 326,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\gangs\\gangsMgmt.scss"
+                },
+                {
+                    "blank": 20,
+                    "code": 750,
+                    "comment": 29,
+                    "filename": "ui\\src\\components\\gangs\\gangsMgmt.tsx"
+                },
+                {
+                    "blank": 9,
+                    "code": 218,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\messaging\\instantMessaging.scss"
+                },
+                {
+                    "blank": 15,
+                    "code": 201,
+                    "comment": 16,
+                    "filename": "ui\\src\\components\\messaging\\instantMessaging.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 20,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\modal\\backdropComponent.scss"
+                },
+                {
+                    "blank": 4,
+                    "code": 22,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\modal\\backdropComponent.tsx"
+                },
+                {
+                    "blank": 9,
+                    "code": 130,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\modal\\drawerComponent.scss"
+                },
+                {
+                    "blank": 10,
+                    "code": 171,
+                    "comment": 5,
+                    "filename": "ui\\src\\components\\modal\\drawerComponent.tsx"
+                },
+                {
+                    "blank": 9,
+                    "code": 269,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\modal\\expandedProfileComponent.scss"
+                },
+                {
+                    "blank": 16,
+                    "code": 442,
+                    "comment": 2,
+                    "filename": "ui\\src\\components\\modal\\expandedProfileComponent.tsx"
+                },
+                {
+                    "blank": 18,
+                    "code": 227,
+                    "comment": 25,
+                    "filename": "ui\\src\\components\\myProfile\\profileAccountSettings.tsx"
+                },
+                {
+                    "blank": 28,
+                    "code": 457,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\myProfile\\profileGeneral.scss"
+                },
+                {
+                    "blank": 21,
+                    "code": 484,
+                    "comment": 19,
+                    "filename": "ui\\src\\components\\myProfile\\profileGeneral.tsx"
+                },
+                {
+                    "blank": 13,
+                    "code": 446,
+                    "comment": 12,
+                    "filename": "ui\\src\\components\\myProfile\\profileRocketLeague.tsx"
+                },
+                {
+                    "blank": 10,
+                    "code": 268,
+                    "comment": 12,
+                    "filename": "ui\\src\\components\\myProfile\\profileRust.tsx"
+                },
+                {
+                    "blank": 6,
+                    "code": 53,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\myProfile\\profileWidget.scss"
+                },
+                {
+                    "blank": 3,
+                    "code": 40,
+                    "comment": 2,
+                    "filename": "ui\\src\\components\\myProfile\\profileWidget.tsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 42,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\myProfile\\profileWidgetsContainer.scss"
+                },
+                {
+                    "blank": 4,
+                    "code": 70,
+                    "comment": 4,
+                    "filename": "ui\\src\\components\\myProfile\\profileWidgetsContainer.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 36,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\myProfile\\selectComponent.scss"
+                },
+                {
+                    "blank": 8,
+                    "code": 93,
+                    "comment": 4,
+                    "filename": "ui\\src\\components\\myProfile\\selectComponent.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 51,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\nav\\banner-alt.scss"
+                },
+                {
+                    "blank": 2,
+                    "code": 35,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\nav\\banner-alt.tsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 33,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\nav\\banner-title.scss"
+                },
+                {
+                    "blank": 3,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\nav\\banner-title.tsx"
+                },
+                {
+                    "blank": 5,
+                    "code": 58,
+                    "comment": 3,
+                    "filename": "ui\\src\\components\\nav\\filter\\filterBarComponent.scss"
+                },
+                {
+                    "blank": 5,
+                    "code": 171,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\nav\\filter\\filterBarComponent.tsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 36,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\nav\\filter\\filterComponent.scss"
+                },
+                {
+                    "blank": 6,
+                    "code": 108,
+                    "comment": 5,
+                    "filename": "ui\\src\\components\\nav\\filter\\filterComponent.tsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\nav\\footerComponent.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 20,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\nav\\headerComponent.tsx"
+                },
+                {
+                    "blank": 5,
+                    "code": 64,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\nav\\headerFooterComponents.scss"
+                },
+                {
+                    "blank": 8,
+                    "code": 264,
+                    "comment": 11,
+                    "filename": "ui\\src\\components\\nav\\profileInlayComponent.scss"
+                },
+                {
+                    "blank": 5,
+                    "code": 107,
+                    "comment": 7,
+                    "filename": "ui\\src\\components\\nav\\profileInlayComponet.tsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\nav\\scrollToTop.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 65,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\nav\\verticalNav.scss"
+                },
+                {
+                    "blank": 16,
+                    "code": 235,
+                    "comment": 8,
+                    "filename": "ui\\src\\components\\nav\\verticalNav.tsx"
+                },
+                {
+                    "blank": 5,
+                    "code": 187,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\authenticationPage.scss"
+                },
+                {
+                    "blank": 24,
+                    "code": 458,
+                    "comment": 10,
+                    "filename": "ui\\src\\components\\pages\\authenticationPage.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 86,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\pages\\blog\\blogArticle-1.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 84,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\pages\\blog\\blogArticle-2.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 106,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\pages\\blog\\blogArticle.scss"
+                },
+                {
+                    "blank": 1,
+                    "code": 23,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\blog\\blogPage.scss"
+                },
+                {
+                    "blank": 1,
+                    "code": 33,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\blog\\blogPage.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 61,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\blog\\blogTile.scss"
+                },
+                {
+                    "blank": 2,
+                    "code": 24,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\blog\\blogTile.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 62,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\discoverPage.scss"
+                },
+                {
+                    "blank": 15,
+                    "code": 274,
+                    "comment": 20,
+                    "filename": "ui\\src\\components\\pages\\discoverPage.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 75,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\pages\\faqPage.scss"
+                },
+                {
+                    "blank": 3,
+                    "code": 252,
+                    "comment": 2,
+                    "filename": "ui\\src\\components\\pages\\faqPage.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 22,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\fourOFour.scss"
+                },
+                {
+                    "blank": 3,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\FourOFourPage.tsx"
+                },
+                {
+                    "blank": 9,
+                    "code": 450,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\gangPage.scss"
+                },
+                {
+                    "blank": 35,
+                    "code": 441,
+                    "comment": 65,
+                    "filename": "ui\\src\\components\\pages\\gangPage.tsx"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\gangsPage.scss"
+                },
+                {
+                    "blank": 2,
+                    "code": 14,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\pages\\gangsPage.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 130,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\home-page\\aboutComponent.scss"
+                },
+                {
+                    "blank": 5,
+                    "code": 121,
+                    "comment": 6,
+                    "filename": "ui\\src\\components\\pages\\home-page\\aboutComponent.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 83,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\home-page\\homePage.scss"
+                },
+                {
+                    "blank": 6,
+                    "code": 90,
+                    "comment": 11,
+                    "filename": "ui\\src\\components\\pages\\home-page\\homePage.tsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 48,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\joinGangPage.scss"
+                },
+                {
+                    "blank": 6,
+                    "code": 72,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\joinGangPage.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 41,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\privacyPolicyPage.scss"
+                },
+                {
+                    "blank": 2,
+                    "code": 111,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\privacyPolicyPage.tsx"
+                },
+                {
+                    "blank": 9,
+                    "code": 183,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\pages\\profilePage.scss"
+                },
+                {
+                    "blank": 17,
+                    "code": 224,
+                    "comment": 14,
+                    "filename": "ui\\src\\components\\pages\\profilePage.tsx"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\sample.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 37,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\tosPage.scss"
+                },
+                {
+                    "blank": 1,
+                    "code": 270,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\pages\\tosPage.tsx"
+                },
+                {
+                    "blank": 7,
+                    "code": 210,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\tiles\\connectionTile.scss"
+                },
+                {
+                    "blank": 8,
+                    "code": 89,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\tiles\\connectionTile.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 61,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\tiles\\conversationTile.scss"
+                },
+                {
+                    "blank": 2,
+                    "code": 45,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\tiles\\conversationTile.tsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 46,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\tiles\\daddyTile.scss"
+                },
+                {
+                    "blank": 2,
+                    "code": 34,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\tiles\\daddyTile.tsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 38,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\tiles\\endorsementTile.scss"
+                },
+                {
+                    "blank": 9,
+                    "code": 102,
+                    "comment": 2,
+                    "filename": "ui\\src\\components\\tiles\\endorsementTile.tsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 53,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\tiles\\gameTile.scss"
+                },
+                {
+                    "blank": 2,
+                    "code": 26,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\tiles\\gameTile.tsx"
+                },
+                {
+                    "blank": 5,
+                    "code": 324,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\tiles\\gangTile.scss"
+                },
+                {
+                    "blank": 5,
+                    "code": 74,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\tiles\\gangTile.tsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 57,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\tiles\\mediumTile.scss"
+                },
+                {
+                    "blank": 2,
+                    "code": 38,
+                    "comment": 1,
+                    "filename": "ui\\src\\components\\tiles\\mediumTile.tsx"
+                },
+                {
+                    "blank": 7,
+                    "code": 296,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\tiles\\playerTile.scss"
+                },
+                {
+                    "blank": 6,
+                    "code": 121,
+                    "comment": 0,
+                    "filename": "ui\\src\\components\\tiles\\playerTile.tsx"
+                },
+                {
+                    "filename": "ui\\src\\fonts\\deToks.otf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "ui\\src\\fonts\\questrial.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 1,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "ui\\src\\index.css"
+                },
+                {
+                    "blank": 2,
+                    "code": 15,
+                    "comment": 3,
+                    "filename": "ui\\src\\index.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "ui\\src\\logo.svg"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 1,
+                    "filename": "ui\\src\\react-app-env.d.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "ui\\src\\reportWebVitals.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 4,
+                    "filename": "ui\\src\\setupTests.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 61,
+                    "comment": 0,
+                    "filename": "ui\\src\\store\\interfaces.ts"
+                },
+                {
+                    "blank": 6,
+                    "code": 32,
+                    "comment": 1,
+                    "filename": "ui\\src\\store\\store.ts"
+                },
+                {
+                    "blank": 3,
+                    "code": 40,
+                    "comment": 0,
+                    "filename": "ui\\src\\store\\userPreferencesSlice.ts"
+                },
+                {
+                    "blank": 9,
+                    "code": 171,
+                    "comment": 6,
+                    "filename": "ui\\src\\store\\userSlice.ts"
+                },
+                {
+                    "blank": 3,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "ui\\src\\store\\worldSlice.ts"
+                },
+                {
+                    "blank": 3,
+                    "code": 42,
+                    "comment": 1,
+                    "filename": "ui\\src\\styling\\_config.scss"
+                },
+                {
+                    "blank": 1,
+                    "code": 76,
+                    "comment": 191,
+                    "filename": "ui\\src\\styling\\tagColors.scss"
+                },
+                {
+                    "blank": 20,
+                    "code": 257,
+                    "comment": 10,
+                    "filename": "ui\\src\\utils\\animations.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 15,
+                    "comment": 7,
+                    "filename": "ui\\src\\utils\\clickOutside.tsx"
+                },
+                {
+                    "blank": 13,
+                    "code": 178,
+                    "comment": 1,
+                    "filename": "ui\\src\\utils\\helperFunctions.ts"
+                },
+                {
+                    "blank": 14,
+                    "code": 137,
+                    "comment": 12,
+                    "filename": "ui\\src\\utils\\interfaces.ts"
+                },
+                {
+                    "blank": 48,
+                    "code": 870,
+                    "comment": 26,
+                    "filename": "ui\\src\\utils\\rest.ts"
+                },
+                {
+                    "blank": 6,
+                    "code": 62,
+                    "comment": 0,
+                    "filename": "ui\\src\\utils\\selectOptions.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 23,
+                    "comment": 0,
+                    "filename": "ui\\tsconfig.json"
+                }
+            ]
+        }
+    ]
+}

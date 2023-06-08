@@ -295,7 +295,9 @@ export default function ProfileGeneral(props: Props) {
       <div className="gradient-bar"></div>
       {/* ABOUT */}
       <div className="banner-container">
-        <div className="prof-banner-detail-text">about</div>
+        <div className="prof-banner-detail-text" data-tip data-for="aboutMeTip">
+          about
+        </div>
         <input
           onChange={(event) => {
             setAboutText(event.target.value);
@@ -502,6 +504,9 @@ export default function ProfileGeneral(props: Props) {
       </div>
       {/* END SAVE BOX */}
 
+      <ReactTooltip id="aboutMeTip" place="top" effect="solid">
+        Say something about your gaming strengths and playstyle.
+      </ReactTooltip>
       <ReactTooltip id="publishTip" place="right" effect="solid">
         Controls whether your profile is discoverable. You must have both general and game profiles complete to publish.
       </ReactTooltip>
