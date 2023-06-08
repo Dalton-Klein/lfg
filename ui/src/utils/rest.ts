@@ -117,9 +117,27 @@ export const resetPassword = async (email: string, vKey: string, password: strin
 };
 
 // SOCIAL RELATED REQUESTS
+export const getUserCount = async (userId: number, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/total-user-count`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while fetching user count`);
+  }
+};
+
 export const getRustPlayerTiles = async (userId: number, token: string) => {
   try {
-    console.log("??????????", endpointURL);
     const httpResult = await fetch(`${endpointURL}/rust-tiles`, {
       method: "POST",
       headers: {

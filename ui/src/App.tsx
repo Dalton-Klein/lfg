@@ -23,6 +23,7 @@ import ScrollToTop from "./components/nav/scrollToTop";
 import * as io from "socket.io-client";
 import HeaderComponent from "./components/nav/headerComponent";
 import VerticalNav from "./components/nav/verticalNav";
+import BlogArticle3 from "./components/pages/blog/blogArticle-3";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/how-to-find-great-rust-teammates" element={<BlogArticle1 />} />
                 <Route path="/blog/rocket-league-minecraft-support" element={<BlogArticle2 />} />
+                <Route path="/blog/signup-promo" element={<BlogArticle3 />} />
                 {/* Gangs Paths */}
                 <Route path="/create-gang" element={<GangsPage />} />
                 <Route path="/join-gang" element={<JoinGangPage />} />
