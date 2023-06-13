@@ -226,11 +226,13 @@ export default function VerticalNav() {
         {currentNavSelection === 0 ? (
           <div className="conversations-box">
             {/* List of GANGS */}
+            gangs
             {gangResult}
           </div>
         ) : (
           <div className="conversations-box">
             {/* List of DIRECT MESSAGING */}
+            mssg
             {messagingResult}
             <ConversationTile
               key={-1}
