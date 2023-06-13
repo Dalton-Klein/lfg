@@ -25,6 +25,12 @@ const rocketLeagueChatObject = {
   avatar_url: "https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png",
   isPublicChat: "true",
 };
+const addFriendChatObject = {
+  id: -4,
+  username: "add friend",
+  avatar_url: "pi pi-plus",
+  isPublicChat: "true",
+};
 export default function VerticalNav() {
   const defaultConvoObj = { id: 0 };
   const locationPath: string = useLocation().pathname;
@@ -154,10 +160,12 @@ export default function VerticalNav() {
   };
 
   const openConversation = async (tile: any) => {
-    console.log("opening: ", tile);
     if (tile.id === -99) {
       setcurrentConvo(defaultConvoObj);
       navigate(`/create-gang`);
+    } else if (tile.id === -98) {
+      setcurrentConvo(defaultConvoObj);
+      navigate(`/add-friend`);
     } else {
       const convoItem: any = {
         id: tile.id,
@@ -247,6 +255,17 @@ export default function VerticalNav() {
               name="rocket league general"
               {...rocketLeagueChatObject}
               currentlyOpenConvo={currentConvo}
+              callOpenConversation={(connectionId: number) => {
+                openConversation(connectionId);
+              }}
+            ></ConversationTile>
+            <ConversationTile
+              key={-98}
+              id={-98}
+              name="add friend"
+              avatar_url="pi pi-plus"
+              currentlyOpenConvo={currentConvo}
+              isPublicChat="false"
               callOpenConversation={(connectionId: number) => {
                 openConversation(connectionId);
               }}

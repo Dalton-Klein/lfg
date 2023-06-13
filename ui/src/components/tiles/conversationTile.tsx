@@ -8,7 +8,7 @@ export default function ConversationTile(props: any) {
 
   return (
     <div className={`conversation-tile ${props.currentlyOpenConvo.id === props.id ? "selected-convo" : ""}`}>
-      {props.id === -99 ? (
+      {props.id === -99 || props.id === -98 ? (
         <i
           className="pi pi-plus dynamic-conversation-border"
           data-tip

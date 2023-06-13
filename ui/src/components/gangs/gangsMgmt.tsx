@@ -780,7 +780,7 @@ export default function GangsMgmt() {
               placeholder={"username must be exact..."}
             ></input>
             <button onClick={trySendInvite} className="upload-form-btns">
-              send invite
+              send request
             </button>
           </div>
         }

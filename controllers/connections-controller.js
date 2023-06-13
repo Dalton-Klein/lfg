@@ -20,27 +20,50 @@ send connection request logic
 const sendConnectionRequest = async (req, res) => {
   try {
     const { fromUserId, forUserId, platform, connectionText, token } = req.body;
-    let query = `
-      insert into public.connection_requests  (sender, receiver, platform, message, created_at, updated_at)
-      values (:sender, :receiver, :platform, :message, current_timestamp, current_timestamp)
+    let query;
+    //Check if request already exists and is pending
+    query = `
+    select count(*) 
+      from public.connection_requests 
+     where (sender = :sender and receiver = :receiver) 
+        or (sender = :receiver and receiver = :sender)
     `;
-    const connectionInsertResult = await sequelize.query(query, {
-      type: Sequelize.QueryTypes.INSERT,
+    const existingRecordsResult = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
       replacements: {
         sender: fromUserId,
         receiver: forUserId,
-        message: connectionText,
-        platform,
       },
     });
-    const result = {
-      status: "success",
-      data: "created connection request",
-    };
-    saveNotification(forUserId, 1, fromUserId);
-    updateUserGenInfoField(fromUserId, "last_seen", moment().format());
-    if (connectionInsertResult) res.status(200).send(result);
-    else throw new Error("Failed to create connection request");
+    if (existingRecordsResult && existingRecordsResult[0] && existingRecordsResult[0].count < 1) {
+      //Create request record in db
+      query = `
+        insert into public.connection_requests  (sender, receiver, platform, message, created_at, updated_at)
+        values (:sender, :receiver, :platform, :message, current_timestamp, current_timestamp)
+      `;
+      const connectionInsertResult = await sequelize.query(query, {
+        type: Sequelize.QueryTypes.INSERT,
+        replacements: {
+          sender: fromUserId,
+          receiver: forUserId,
+          message: connectionText,
+          platform,
+        },
+      });
+      const result = {
+        status: "success",
+        data: "created connection request",
+      };
+      saveNotification(forUserId, 1, fromUserId);
+      updateUserGenInfoField(fromUserId, "last_seen", moment().format());
+      if (connectionInsertResult) res.status(200).send(result);
+      else throw new Error("Failed to create connection request");
+    } else {
+      res.status(200).send({
+        status: "error",
+        data: "a request is already pending",
+      });
+    }
   } catch (err) {
     console.log(err);
     res.status(500).send("POST ERROR");

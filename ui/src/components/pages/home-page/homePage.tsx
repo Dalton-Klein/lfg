@@ -4,13 +4,16 @@ import "./homePage.scss";
 import MediumTile from "../../tiles/mediumTile";
 import DaddyTile from "../../tiles/daddyTile";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
+import { useLocation } from "react-router-dom";
+import { updateUserThunk } from "../../../store/userSlice";
 // import { logoutUser } from "../../../store/userSlice";
 
 export default function HomePage({ socketRef }) {
   // Coffee, use to wipe state if something goes wacky
-  // dispatch(logoutUser(1))
+  const dispatch = useDispatch();
+  const locationPath: string = useLocation().pathname;
   const userState = useSelector((state: RootState) => state.user.user);
 
   const [conditionalAuthTile, setconditionalAuthTile] = useState<any>(true);
@@ -33,6 +36,11 @@ export default function HomePage({ socketRef }) {
     // );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    dispatch(updateUserThunk(userState.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationPath]);
 
   return (
     <div>

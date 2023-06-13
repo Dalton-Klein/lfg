@@ -20,6 +20,7 @@ export default function ProfileInlayComponet({ socketRef }) {
   const [notifications, setnotifications] = useState<any>([]);
   const [notificationMenuItems, setnotificationMenuItems] = useState<any[]>([]);
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(true);
+  const [hasPublishedAProfile, sethasPublishedAProfile] = useState<boolean>(true);
   //GameNav
   const [gameImgUrl, setgameImgUrl] = useState<string>("");
   //Menu Refs
@@ -34,6 +35,15 @@ export default function ProfileInlayComponet({ socketRef }) {
     determineGameNavContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath]);
+
+  useEffect(() => {
+    if (userState.id > 0 && (userState.rust_is_published || userState.rocket_league_is_published)) {
+      sethasPublishedAProfile(true);
+    } else {
+      sethasPublishedAProfile(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userState.rust_is_published, userState.rocket_league_is_published]);
 
   //BEGIN Update notifications list after each notification sent
   const handleNotification = ({ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }: any) => {
@@ -240,7 +250,7 @@ export default function ProfileInlayComponet({ socketRef }) {
           <Menu model={renderDiscoverOptions()} popup ref={discoverMenu} id="popup_menu" />
           <Menu model={renderGameProfileOptions()} popup ref={gameProfilesMenu} id="popup_menu" />
           {/* if no profiles published, add notifier */}
-          {userState.id > 0 && !userState.rust_is_published && !userState.rocket_league_is_published ? (
+          {!hasPublishedAProfile ? (
             <button
               className="text-only-button notifications-button"
               onClick={(event) => gameProfilesMenu.current.toggle(event)}
