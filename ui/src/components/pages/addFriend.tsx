@@ -91,7 +91,7 @@ export default function AddFriend() {
   return (
     <div ref={topOfPageRef}>
       <Toast ref={toast} />
-      <div className="article-master-container">
+      <div className="request-master-container">
         <BannerTitle
           title={"add friend"}
           imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}
