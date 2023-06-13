@@ -24,6 +24,7 @@ import * as io from "socket.io-client";
 import HeaderComponent from "./components/nav/headerComponent";
 import VerticalNav from "./components/nav/verticalNav";
 import BlogArticle3 from "./components/pages/blog/blogArticle-3";
+import AddFriend from "./components/pages/addFriend";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 function App() {
@@ -88,6 +89,7 @@ function App() {
                 <Route path="/gang/:gangId" element={<GangPage socketRef={socketRef} />} />
                 {/* Profile Paths */}
                 <Route path="/general-profile" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/add-friend" element={<AddFriend />} />
                 <Route path="/account-settings" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/rust-profile" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/rocket-league-profile" element={<ProfilePage socketRef={socketRef} />} />

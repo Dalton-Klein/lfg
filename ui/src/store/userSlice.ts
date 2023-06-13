@@ -46,7 +46,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, { payload }: PayloadAction<User>) {
-      console.log("payload?? ", payload);
       state.user = payload;
     },
     updateUserAvatarUrl(state, { payload }: PayloadAction<string | undefined>) {
@@ -96,6 +95,7 @@ export const signInUserThunk =
         isGoogleSignIn
       );
       if (!response.error) {
+        console.log(" wtf? ", response);
         dispatch(setUser(response.data));
       }
       return response;

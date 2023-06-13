@@ -1,4 +1,4 @@
-@import "../../../styling/config";
+@import "../../styling/config";
 
 .article-menu {
   margin-top: 1vh;
@@ -29,72 +29,20 @@
     background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
   }
 
-  .article-content-container {
+  .friend-request-container {
     margin: 1vh 2vw;
     padding: 1vh 1vw;
-    background-color: $colorGreyPop;
+    border: 2px solid $colorGreyPop;
     border-radius: $borderRadius1;
     max-width: 900px;
     min-width: 80%;
-    .article-header-date {
-      text-align: left;
-      color: $colorTextAlt;
-      min-width: 33%;
-    }
-    .article-sub-title {
-      text-align: center;
-      margin: 2vh 1vw;
-      font-size: $font4;
-      font-weight: 400;
-    }
-    .article-sub-heading {
-      text-align: left;
-      margin: 2vh 4vw;
-      font-size: $font3;
-    }
-    .article-highlighted-detail {
-      text-align: center;
-      font-size: $font3;
-      color: $colorPrimary;
-    }
-    .article-paragraph {
-      text-align: left;
-      margin: 1vh 4vw;
-      font-size: $font2;
-      color: $colorTextAlt;
-      line-height: 25px;
-      li {
-        margin: 2.5vh 0;
-      }
-      .link-text {
-        color: $colorSecondary;
-        cursor: pointer;
-      }
-      .blog-image {
-        width: 65%;
-        max-width: 100%;
-        height: auto;
-      }
-    }
-    .article-closing {
-      margin-top: 2vh;
-      @extend .article-paragraph;
-      text-align: center;
-      color: white;
-    }
-    .article-list {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      margin: 1vh 2vw;
-      div {
-        margin-bottom: 1vh;
-        transition: $transition1;
-      }
-      div:hover {
-        transform: scale(1.05);
-      }
+    min-height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    input {
+      min-width: 85%;
     }
   }
   .article-header-info {
