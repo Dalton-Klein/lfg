@@ -88,38 +88,7 @@
               background-color: $colorSecondary;
             }
           }
-          .voice-participant-box {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            min-width: 25vw;
-            .dynamic-avatar-border {
-              width: 3vw;
-              height: 3vw;
-              min-height: 3vw;
-              min-width: 3vw;
-              border-radius: calc(3vw / 2);
-              margin: 0.5vh 1vw;
-              background-color: $colorShadowLight;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              .dynamic-avatar-text-small {
-                font-size: $font2;
-              }
-            }
-            .nav-overlay-img {
-              display: block;
-              width: 3vw;
-              height: 3vw;
-              min-height: 3vw;
-              min-width: 3vw;
-              object-fit: cover;
-              border-radius: calc(3vw / 2);
-              transition: $transition1;
-              margin: 0 1vw;
-            }
-          }
+
           .voice-channel-helper {
             .link-text {
               color: $colorSecondary;
@@ -273,30 +242,6 @@
 @media only screen and (max-width: $screenBreak1) {
   .master-gang-contents {
     max-width: 91vw;
-    .channel-specific-contents {
-      .channels-container {
-        .channel-contents {
-          .voice-channel {
-            .voice-participant-box {
-              .dynamic-avatar-border {
-                min-width: 35px !important;
-                max-width: 35px !important;
-                min-height: 35px !important;
-                max-height: 35px !important;
-                border-radius: calc(35px / 2) !important;
-              }
-              .nav-overlay-img {
-                min-width: 35px !important;
-                max-width: 35px !important;
-                min-height: 35px !important;
-                max-height: 35px !important;
-                border-radius: calc(35px / 2) !important;
-              }
-            }
-          }
-        }
-      }
-    }
   }
 }
 
@@ -410,30 +355,6 @@
   }
   .master-gang-contents {
     max-width: 88vw;
-    .channel-specific-contents {
-      .channels-container {
-        .channel-contents {
-          .voice-channel {
-            .voice-participant-box {
-              .dynamic-avatar-border {
-                min-width: 30px !important;
-                max-width: 30px !important;
-                min-height: 30px !important;
-                max-height: 30px !important;
-                border-radius: calc(30px / 2) !important;
-              }
-              .nav-overlay-img {
-                min-width: 30px !important;
-                max-width: 30px !important;
-                min-height: 30px !important;
-                max-height: 30px !important;
-                border-radius: calc(30px / 2) !important;
-              }
-            }
-          }
-        }
-      }
-    }
   }
   .gang-roster-container {
     .list-member-photo {

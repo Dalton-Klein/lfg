@@ -99,9 +99,6 @@ export default function VerticalNav() {
     const httpResult = await getConnectionsForUser(userState.id, "blank");
     let tiles: any;
     if (httpResult.length) {
-      httpResult.forEach((tile) => {
-        console.log("tile    ", tile);
-      });
       tiles = httpResult.map((tile: any) => (
         <li className="conversation-list-item" style={{ listStyleType: "none" }} key={tile.id}>
           <ConversationTile
