@@ -1,0 +1,79 @@
+@import "../../styling/config";
+
+.voice-participant-box {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 25vw;
+  .circle-audio-ring {
+    border: 3px solid $colorPrimary; // Replace #000 with your desired color
+    border-radius: 50%;
+  }
+  .dynamic-avatar-border {
+    width: 3vw;
+    height: 3vw;
+    min-height: 3vw;
+    min-width: 3vw;
+    border-radius: calc(3vw / 2);
+    margin: 0.5vh 1vw;
+    background-color: $colorShadowLight;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .dynamic-avatar-text-small {
+      font-size: $font2;
+    }
+  }
+  .circle-audio-ring {
+    border: 2px solid $colorPrimary; // Replace #000 with your desired color
+    border-radius: 50%;
+  }
+  .nav-overlay-img {
+    display: block;
+    width: 3vw;
+    height: 3vw;
+    min-height: 3vw;
+    min-width: 3vw;
+    object-fit: cover;
+    border-radius: calc(3vw / 2);
+    transition: $transition1;
+    margin: 0 1vw;
+  }
+}
+
+@media only screen and (max-width: $screenBreak1) {
+  .voice-participant-box {
+    .dynamic-avatar-border {
+      min-width: 35px !important;
+      max-width: 35px !important;
+      min-height: 35px !important;
+      max-height: 35px !important;
+      border-radius: calc(35px / 2) !important;
+    }
+    .nav-overlay-img {
+      min-width: 35px !important;
+      max-width: 35px !important;
+      min-height: 35px !important;
+      max-height: 35px !important;
+      border-radius: calc(35px / 2) !important;
+    }
+  }
+}
+@media only screen and (max-width: $screenBreak2) {
+  .voice-participant-box {
+    .dynamic-avatar-border {
+      min-width: 30px !important;
+      max-width: 30px !important;
+      min-height: 30px !important;
+      max-height: 30px !important;
+      border-radius: calc(30px / 2) !important;
+    }
+    .nav-overlay-img {
+      min-width: 30px !important;
+      max-width: 30px !important;
+      min-height: 30px !important;
+      max-height: 30px !important;
+      border-radius: calc(30px / 2) !important;
+    }
+  }
+}

@@ -73,6 +73,7 @@ io.on("connection", (socket) => {
       user_id: user_id,
       username: username,
       avatar_url: avatar_url,
+      isTalking: false,
     });
     //Send full copy of participants to everyone observing voice channel
     io.to(roomId).emit("join_voice", { user_joined: user_id, participants: allUsersInAllVoiceChannels[roomId] });
@@ -92,6 +93,23 @@ io.on("connection", (socket) => {
     });
   });
 
+  //Start Voice Activity Events
+  socket.on("start_stop_talking", ({ roomId, user_id, isTalking }) => {
+    //Modify is talking property for specific participant
+    if (allUsersInAllVoiceChannels[roomId] && allUsersInAllVoiceChannels[roomId].length) {
+      allUsersInAllVoiceChannels[roomId] = allUsersInAllVoiceChannels[roomId].map((participant) => {
+        if (participant.user_id === user_id) {
+          return { ...participant, ["isTalking"]: isTalking };
+        }
+        return participant;
+      });
+      //Send takling status of user to everyone observing voice channel
+      io.to(roomId).emit("someone_talked", { user_id, isTalking });
+    }
+  });
+  //End Voice Activity Events
+
+  //Start Voice Handshaking Events
   socket.on("sending_signal", (payload) => {
     socket.broadcast.emit("receive_sent_signal", {
       signal: payload.signal,
@@ -113,6 +131,7 @@ io.on("connection", (socket) => {
       user_avatar_url: payload.user_avatar_url,
     });
   });
+  //Start Voice Handshaking Events
   //END VOICECHAT EVENTS
 
   socket.on("disconnecting", () => {
@@ -146,7 +165,6 @@ io.on("connection", (socket) => {
     // } else {
     //   resultingParticipants = undefined;
     // }
-    // console.log("test?? ", resultingParticipants);
     // socket.broadcast.emit("user_disconnected", { id: socket.id, participants: resultingParticipants });
   });
 

@@ -14,6 +14,8 @@ import { loadSavedDevices } from "../../utils/helperFunctions";
 import { updateUserThunk } from "../../store/userSlice";
 import InstantMessaging from "../messaging/instantMessaging";
 import ReactTooltip from "react-tooltip";
+import vad from "voice-activity-detection";
+import VoiceParticipant from "../tiles/voiceParticipant";
 
 function isMobileDevice() {
   const userAgent = window.navigator.userAgent;
@@ -84,12 +86,14 @@ export default function GangPage({ socketRef }) {
   const [showChannelNav, setshowChannelNav] = useState<boolean>(true);
   const toast: any = useRef({ current: "" });
   //Voice Specific
+  const [lastSeenParticipants, setlastSeenParticipants] = useState<any>([]);
   const [callParticipants, setcallParticipants] = useState<any>([]);
   // const userAudio = useRef<any>();
   const peersRef = useRef<any>([]);
   const [myDevicesStream, setmyDevicesStream] = useState<MediaStream>();
 
   const [hasMicAccess, sethasMicAccess] = useState<boolean>(true);
+  const [isTalking, setisTalking] = useState<boolean>(false);
   const [currentInputDevice, setcurrentInputDevice] = useState<any>();
   const [currentOutputDevice, setcurrentOutputDevice] = useState<any>();
 
@@ -164,6 +168,15 @@ export default function GangPage({ socketRef }) {
   }, [currentChannel]);
 
   useEffect(() => {
+    socketRef.current.emit("start_stop_talking", {
+      roomId: `voice_${currentAudioChannel.id}`,
+      user_id: userState.id,
+      isTalking: isTalking,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTalking]);
+
+  useEffect(() => {
     if (currentAudioChannel.id) {
       connectToVoice();
     }
@@ -201,8 +214,10 @@ export default function GangPage({ socketRef }) {
     }
     //Listens for people joining voice, and will render participants as they join
     socketRef.current.on("join_voice", handleAddParticipant);
+    socketRef.current.on("someone_talked", handleSomeoneTalked);
     return () => {
       socketRef.current.off("join_voice", handleAddParticipant);
+      socketRef.current.off("someone_talked", handleSomeoneTalked);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [callParticipants]);
@@ -213,6 +228,9 @@ export default function GangPage({ socketRef }) {
   }, [showChannelNav]);
 
   //Special useEffect for socket listeners with all dependencies
+  const handleSomeoneTalked = (payload: any) => {
+    renderCallParticipants([], true, payload);
+  };
   const handleAddParticipant = (payload: any) => {
     renderCallParticipants(payload.participants);
   };
@@ -284,7 +302,30 @@ export default function GangPage({ socketRef }) {
     closePeerConnections();
     navigator.mediaDevices.getUserMedia(constraints).then((currentStream) => {
       setmyDevicesStream(currentStream);
+      startVAD(currentStream);
     });
+  };
+
+  const startVAD = (currentStream) => {
+    const audioContext = new AudioContext();
+    let updateCounter = 0;
+    const updateFrequency = 8; // Handle every 5th update
+    const options = {
+      onVoiceStart: function () {},
+      onVoiceStop: function () {},
+      onUpdate: function (val) {
+        if (updateCounter === 0) {
+          const threshold = 0.15; // Set your desired threshold value
+          if (val > threshold) {
+            setisTalking(true);
+          } else {
+            setisTalking(false);
+          }
+        }
+        updateCounter = (updateCounter + 1) % updateFrequency;
+      },
+    };
+    vad(audioContext, currentStream, options);
   };
 
   const checkMicPermissions = async () => {
@@ -477,7 +518,6 @@ export default function GangPage({ socketRef }) {
   const renderChannelTitleContents = () => {
     //If a channel is selected, load channel contents
     if (currentChannel) {
-      console.log("channel??? ", currentChannel);
       if (currentChannel.is_voice) {
         //If loading voice channel, connect
         //***TODO, implement a proper disconnect from any previous channel
@@ -609,33 +649,28 @@ export default function GangPage({ socketRef }) {
     ] as any;
   };
   //    VOICE RELATED LOADING EVENTS
-  const renderCallParticipants = (participants: any) => {
+  const renderCallParticipants = (participants: any, reRender = false, whoTalking: any = {}) => {
     let tempParticipants: any = [];
-    participants.forEach((participant: any) => {
-      //When user leaves, we get full copy of users, so dont add duplicate of self
-      //Push users other than self into array
+    let updatedTalkyParticipants: any = [];
+    if (reRender) {
+      updatedTalkyParticipants = lastSeenParticipants.map((participant) => {
+        if (participant.user_id === whoTalking.user_id) {
+          return { ...participant, ["isTalking"]: whoTalking.isTalking };
+        }
+        return participant;
+      });
+    } else {
+      setlastSeenParticipants(participants);
+    }
+    const participantsToUse = reRender ? updatedTalkyParticipants : participants;
+    participantsToUse.forEach((participant: any) => {
+      //When user leaves, we get full copy of users, to catch any discrepancies
       tempParticipants.push(
-        <div className="voice-participant-box" key={participant.user_id}>
-          {participant.avatar_url === "" ||
-          participant.avatar_url ===
-            "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
-            <div className="dynamic-avatar-border">
-              <div className="dynamic-avatar-text-small">
-                {participant.username
-                  ? participant.username
-                      .split(" ")
-                      .map((word: string[]) => word[0])
-                      .join("")
-                      .slice(0, 2)
-                      .toLowerCase()
-                  : "gg"}
-              </div>
-            </div>
-          ) : (
-            <img className="nav-overlay-img" src={participant.avatar_url} alt="my avatar" />
-          )}
-          <div className="voice-participant-name">{participant.username}</div>
-        </div>
+        <VoiceParticipant
+          key={participant.user_id}
+          participant={participant}
+          isTalking={participant.isTalking}
+        ></VoiceParticipant>
       );
     });
     setcallParticipants(tempParticipants);

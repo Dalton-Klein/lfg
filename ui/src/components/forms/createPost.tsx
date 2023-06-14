@@ -90,7 +90,6 @@ export default function CreatePost({ fetchPosts }: any) {
 
   const topicChange = (options: any) => {
     const formattedTopics: any = options.map((option: { id: number }) => option.id);
-    console.log("topic change: ", formattedTopics);
     setFormTopics(formattedTopics);
     validateForm();
   };
