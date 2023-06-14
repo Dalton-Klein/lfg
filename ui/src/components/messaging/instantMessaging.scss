@@ -113,6 +113,10 @@
       .message-content {
         font-size: $font1;
         margin: 0 1vw;
+        .user-uploaded-img {
+          max-width: 60vw;
+          object-fit: cover;
+        }
       }
     }
     .message-border-owner {

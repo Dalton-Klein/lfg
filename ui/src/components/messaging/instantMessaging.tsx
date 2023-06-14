@@ -4,9 +4,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import moment from "moment";
 import { howLongAgo } from "../../utils/helperFunctions";
-import { fetchUserDataAndConnectedStatus, getChatHistoryForGang, getChatHistoryForUser } from "../../utils/rest";
+import {
+  fetchUserDataAndConnectedStatus,
+  getChatHistoryForGang,
+  getChatHistoryForUser,
+  uploadAvatarCloud,
+} from "../../utils/rest";
 import { Link, useLocation } from "react-router-dom";
 import ExpandedProfile from "../modal/expandedProfileComponent";
+import { avatarFormIn, avatarFormOut } from "../../utils/animations";
 
 function isMobileDevice() {
   const userAgent = window.navigator.userAgent;
@@ -15,12 +21,15 @@ function isMobileDevice() {
 }
 
 export default function InstantMessaging({ socketRef, convo, hasPressedChannelForMobile }) {
+  const hiddenFileInput: any = React.useRef(null);
+  const [photoFile, setPhotoFile] = useState<File>({ name: "" } as File);
   const isMobile = isMobileDevice();
   const userState = useSelector((state: RootState) => state.user.user);
   const locationPath: string = useLocation().pathname;
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
   const [currentUserHighlighted, setcurrentUserHighlighted] = useState<any>({ id: 0 });
   const [currentConvo, setcurrentConvo] = useState<any>({ id: 0 });
+  const [isUploadFormShown, setisUploadFormShown] = useState<boolean>(false);
   // const [platformUsername, setPlatformUsername] = useState<any>('');
   const [messageState, setMessageState] = useState<any>({
     roomId: 1,
@@ -52,8 +61,8 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
 
   //BEGIN Update messages list after each chat sent
   useEffect(() => {
-    socketRef.current.on("message", ({ roomId, senderId, sender, message, timestamp }: any) => {
-      setchat([...chat, { roomId, senderId, sender, message, timestamp }]);
+    socketRef.current.on("message", ({ roomId, senderId, sender, message, isImage, timestamp }: any) => {
+      setchat([...chat, { roomId, senderId, sender, message, is_image: isImage, timestamp }]);
     });
     // When loading gang page on mobile, prevent undesired scroll on page load until user selects channel
     if (isMobile && !hasPressedChannelForMobile) {
@@ -73,6 +82,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
         created_at: `${moment().format()}`,
         id: 0,
         message: "loading...",
+        is_image: false,
         sender: "gangs team",
         updated_at: `${moment().format()}`,
         username: "gangs team",
@@ -154,14 +164,28 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
       toast.current.show({
         severity: "warn",
         summary: "message length exceeded",
-        detail: `message length 5 is longer than the cap of 750 characters`,
+        detail: `message length ${message.length} is longer than the cap of 750 characters`,
         sticky: true,
       });
     } else {
       if (locationPath === "/messaging") {
-        socketRef.current.emit("message", { roomId: `dm_${roomId}`, senderId, sender, message, timestamp });
+        socketRef.current.emit("message", {
+          roomId: `dm_${roomId}`,
+          senderId,
+          sender,
+          message,
+          isImage: false,
+          timestamp,
+        });
       } else {
-        socketRef.current.emit("gang_message", { roomId: `gang_${roomId}`, senderId, sender, message, timestamp });
+        socketRef.current.emit("gang_message", {
+          roomId: `gang_${roomId}`,
+          senderId,
+          sender,
+          message,
+          isImage: false,
+          timestamp,
+        });
       }
       e.preventDefault();
       setMessageState({ roomId, senderId, sender, message: "", timestamp });
@@ -170,7 +194,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
 
   const renderChat = () => {
     if (chat.length) {
-      return chat.map(({ senderId, sender, message, created_at }: any, index: number) => {
+      return chat.map(({ senderId, sender, message, is_image, created_at }: any, index: number) => {
         const formattedTimestamp = howLongAgo(created_at);
         return (
           <div
@@ -192,7 +216,9 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
               </div>
               <div className="message-timestamp">{formattedTimestamp}</div>
             </div>
-            <div className="message-content">{message}</div>
+            <div className="message-content">
+              {is_image ? <img src={message} className="user-uploaded-img" alt="user-uploaded-content"></img> : message}
+            </div>
           </div>
         );
       });
@@ -222,8 +248,99 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     }
   };
 
+  //START IMAGE ATTACHMENT LOGIC
+  const openImageAttachmentModal = async () => {
+    if (!userState.id || userState.id === 0) alert("You must be logged in to attach an image");
+    setisUploadFormShown(true);
+    avatarFormIn();
+    return;
+  };
+  const handleFileUpload = (event: any) => {
+    setPhotoFile(event.target.files[0]);
+    return;
+  };
+  const chooseFileHandler = (event: any) => {
+    if (hiddenFileInput.current !== null) {
+      hiddenFileInput.current!.click();
+    }
+    return;
+  };
+  const handlePhotoUploaded = async (e: any) => {
+    avatarFormOut();
+    setisUploadFormShown(false);
+    const avatar = document.querySelector(".avatar-input");
+    const url: string | undefined = await uploadAvatarCloud(avatar);
+    //Send Message With Image
+    onImageSubmit(url);
+    setPhotoFile({ name: "" } as File);
+  };
+  const onImageSubmit = (url: string | undefined) => {
+    const { roomId, senderId, sender } = messageState;
+    const timestamp = moment().format();
+    if (!url) {
+      toast.current.clear();
+      toast.current.show({
+        severity: "warn",
+        summary: "image failed to upload",
+        detail: `we encountered a problem, sorry!`,
+        sticky: true,
+      });
+    } else {
+      if (locationPath === "/messaging") {
+        socketRef.current.emit("message", {
+          roomId: `dm_${roomId}`,
+          senderId,
+          sender,
+          message: url,
+          isImage: true,
+          timestamp,
+        });
+      } else {
+        socketRef.current.emit("gang_message", {
+          roomId: `gang_${roomId}`,
+          senderId,
+          sender,
+          message: url,
+          isImage: true,
+          timestamp,
+        });
+      }
+      setMessageState({ roomId, senderId, sender, message: "", timestamp });
+    }
+  };
+  const closeImageAttachmentModal = () => {
+    avatarFormOut();
+    setisUploadFormShown(false);
+    return;
+  };
+  //END IMAGE ATTACHMENT LOGIC
+
+  const conditionalClass = isUploadFormShown ? "conditionalZ2" : "conditionalZ1";
   return (
     <div className="messages-box">
+      {/* EDIT PHTO MODAL */}
+      <div className={`edit-profile-form ${conditionalClass}`}>
+        <p>{"attach image"}</p>
+        {
+          <div className="msg-img-upload-form">
+            <input
+              className="avatar-input"
+              type="file"
+              ref={hiddenFileInput}
+              style={{ display: "none" }}
+              onChange={handleFileUpload}
+            ></input>
+            <button onClick={chooseFileHandler} className="upload-form-btns">
+              choose photo
+            </button>
+            <div className="photo-label">{photoFile ? photoFile.name : ""}</div>
+          </div>
+        }
+        <div className="upload-form-btns">
+          <button onClick={handlePhotoUploaded}>send</button>
+          <button onClick={closeImageAttachmentModal}>close</button>
+        </div>
+      </div>
       {/* Conditionally render hamburger modal */}
       {expandedProfileVis ? (
         <ExpandedProfile
@@ -254,8 +371,17 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
             className="input-box messaging-input"
             placeholder={"type here..."}
           ></input>
-
-          <button type="submit">send</button>
+          <button
+            type="button"
+            onClick={() => {
+              openImageAttachmentModal();
+            }}
+          >
+            <i className="pi pi-image"></i>
+          </button>
+          <button type="submit" disabled={messageState?.message?.length < 1}>
+            send
+          </button>
         </form>
       ) : (
         <div className="message-form-no-user">

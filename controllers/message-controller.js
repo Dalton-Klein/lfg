@@ -7,18 +7,21 @@ const { updateGangChannelTimestamp } = require("../services/gangs");
 const moment = require("moment");
 const { saveNotification } = require("./notification-controller");
 
-const saveMessage = async (connectionId, senderId, content, timestamp) => {
+const saveMessage = async (connectionId, senderId, content, isImage, timestamp) => {
   try {
+    connectionId = parseInt(connectionId);
     //First, insert message into messages table
     query = `
           insert into public.messages ( connection_id,
                                         sender,
                                         content,
+                                        is_image,
                                         created_at,
                                         updated_at) 
               values (:connection_id, 
                       :senderId, 
                       :content, 
+                      :isImage,
                       :created_at, 
                       :updated_at)
     `;
@@ -28,6 +31,7 @@ const saveMessage = async (connectionId, senderId, content, timestamp) => {
         connection_id: connectionId,
         senderId,
         content,
+        isImage,
         created_at: timestamp,
         updated_at: timestamp,
       },
@@ -35,7 +39,7 @@ const saveMessage = async (connectionId, senderId, content, timestamp) => {
     //Update connection updated at, so convos can be sorted by recency
     await updateConnectionTimestamp(connectionId);
     // For DMS, send notification to receiver of DM if not a public chat (1, 2, 3)
-    if (![1, 2, 3].includes(connectionId)) {
+    if (![-1, -2, -3, 1, 2, 3].includes(connectionId)) {
       let connectionResult = await getConnectionDetails(connectionId);
       connectionResult = connectionResult[0];
       await saveNotification(
@@ -51,18 +55,20 @@ const saveMessage = async (connectionId, senderId, content, timestamp) => {
   }
 };
 
-const saveGangMessage = async (channelId, senderId, content, timestamp) => {
+const saveGangMessage = async (channelId, senderId, content, isImage, timestamp) => {
   try {
     //First, insert message into messages table
     query = `
           insert into public.gang_messages ( chat_id,
                                         sender,
                                         content,
+                                        is_image,
                                         created_at,
                                         updated_at) 
               values (:chat_id, 
                       :senderId, 
                       :content, 
+                      :isImage,
                       :created_at, 
                       :updated_at)
     `;
@@ -72,6 +78,7 @@ const saveGangMessage = async (channelId, senderId, content, timestamp) => {
         chat_id: channelId,
         senderId,
         content,
+        isImage,
         created_at: timestamp,
         updated_at: timestamp,
       },
