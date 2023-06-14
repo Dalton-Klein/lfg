@@ -24,6 +24,7 @@ router.post("/reset-password", authController.resetPassword);
 
 // //USER RELATED ROUTES
 router.post("/getUserDetails", userController.getUserDetails);
+router.post("/getUserDetailsAndConnectedStatus", userController.getUserDetailsAndConnectedStatus);
 router.post("/updateUserInfoField", userController.updateProfileField);
 router.put("/updateGeneralInfoField", userController.updateGeneralInfoField);
 router.put("/updateGameSpecificInfoField", userController.updateGameSpecificInfoField);

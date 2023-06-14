@@ -140,7 +140,6 @@ const ExpandedProfile = (props: Props) => {
 
   const getPublishInfo = async () => {
     const publishData = await getAllPublishStatus(props.userInfo.id, "");
-    console.log("publish data: ", publishData);
     setpublishData(publishData.data);
   };
 

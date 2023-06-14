@@ -4,8 +4,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import moment from "moment";
 import { howLongAgo } from "../../utils/helperFunctions";
-import { getChatHistoryForGang, getChatHistoryForUser } from "../../utils/rest";
+import { fetchUserDataAndConnectedStatus, getChatHistoryForGang, getChatHistoryForUser } from "../../utils/rest";
 import { Link, useLocation } from "react-router-dom";
+import ExpandedProfile from "../modal/expandedProfileComponent";
 
 function isMobileDevice() {
   const userAgent = window.navigator.userAgent;
@@ -17,7 +18,8 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
   const isMobile = isMobileDevice();
   const userState = useSelector((state: RootState) => state.user.user);
   const locationPath: string = useLocation().pathname;
-
+  const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
+  const [currentUserHighlighted, setcurrentUserHighlighted] = useState<any>({ id: 0 });
   const [currentConvo, setcurrentConvo] = useState<any>({ id: 0 });
   // const [platformUsername, setPlatformUsername] = useState<any>('');
   const [messageState, setMessageState] = useState<any>({
@@ -82,6 +84,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     } else {
       lastMessageRef.current?.scrollIntoView();
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [convo]);
 
@@ -91,6 +94,13 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     loadChat();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentConvo]);
+
+  useEffect(() => {
+    if (currentUserHighlighted.id) {
+      setExpandedProfileVis(!expandedProfileVis);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUserHighlighted]);
 
   //BEGIN SOCKET Functions
   const updateCurrentConvo = () => {
@@ -160,7 +170,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
 
   const renderChat = () => {
     if (chat.length) {
-      return chat.map(({ sender, message, created_at }: any, index: number) => {
+      return chat.map(({ senderId, sender, message, created_at }: any, index: number) => {
         const formattedTimestamp = howLongAgo(created_at);
         return (
           <div
@@ -172,7 +182,14 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
             key={index}
           >
             <div className="message-sender-box">
-              <div className="message-sender-name">{sender}</div>
+              <div
+                className="message-sender-name"
+                onClick={() => {
+                  toggleExpandedProfile(senderId);
+                }}
+              >
+                {sender}
+              </div>
               <div className="message-timestamp">{formattedTimestamp}</div>
             </div>
             <div className="message-content">{message}</div>
@@ -193,8 +210,34 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
   };
   //END SOCKET Functions
 
+  const toggleExpandedProfile = async (senderId: number) => {
+    if (!expandedProfileVis) {
+      //Get user data for that person
+      const result = await fetchUserDataAndConnectedStatus(userState.id, senderId);
+      if (result?.data) {
+        setcurrentUserHighlighted(result.data);
+      }
+    } else {
+      setExpandedProfileVis(!expandedProfileVis);
+    }
+  };
+
   return (
     <div className="messages-box">
+      {/* Conditionally render hamburger modal */}
+      {expandedProfileVis ? (
+        <ExpandedProfile
+          toggleExpandedProfile={toggleExpandedProfile}
+          userInfo={currentUserHighlighted}
+          refreshTiles={() => {}}
+          showConnectForm={currentUserHighlighted.showConnectForm}
+          isProfileComplete={true}
+          isConnected={currentUserHighlighted.isConnected}
+          game={"all"}
+        />
+      ) : (
+        <></>
+      )}
       {/* Messages Scroll Box */}
       <div className={locationPath === "/messaging" ? `render-chat render-chat-dms` : `render-chat render-chat-gangs`}>
         {renderChat()}

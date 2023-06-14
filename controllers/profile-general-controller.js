@@ -4,6 +4,7 @@ const format = require("pg-format");
 const { getUserInfo, updateUserGenInfoField, searchForUserByUsername } = require("../services/user-common");
 const moment = require("moment");
 const { getEndorsementsForUser } = require("../services/endorsement-queries");
+const { getPendingRequestUserIdsQuery } = require("../services/social-queries");
 
 const getTotalUserCount = async (req, res) => {
   try {
@@ -36,7 +37,34 @@ const getUserDetails = async (req, res) => {
     res.status(200).send({ data: result });
   } catch (err) {
     console.log(err);
-    res.status(500).send("POST ERROR");
+    res.status(500).send("Error getting user details");
+  }
+};
+const getUserDetailsAndConnectedStatus = async (req, res) => {
+  try {
+    const { originatingUserId, requestedUserId } = req.body;
+    if (!requestedUserId) throw new Error("no user id when getting user details");
+    let result = await getUserInfo(requestedUserId);
+    if (result && result[0]) result = result[0];
+    const getPendingRequestsQuery = getPendingRequestUserIdsQuery();
+    let pendingIds = await sequelize.query(getPendingRequestsQuery, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId: requestedUserId,
+      },
+    });
+    pendingIds = pendingIds.map(({ userids }) => userids);
+    let existingIds = result.connections.length ? result.connections : [];
+    if (!pendingIds.includes(originatingUserId) && !existingIds.includes(originatingUserId)) {
+      result.showConnectForm = true;
+    } else result.showConnectForm = false;
+    if (existingIds.includes(originatingUserId)) {
+      result.isConnected = true;
+    } else result.isConnected = false;
+    res.status(200).send({ data: result });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error user getting details + connected status");
   }
 };
 
@@ -221,6 +249,7 @@ const deleteAccount = async (id) => {
 module.exports = {
   getTotalUserCount,
   getUserDetails,
+  getUserDetailsAndConnectedStatus,
   getEmailPrefs,
   updateProfileField,
   updateGeneralInfoField,

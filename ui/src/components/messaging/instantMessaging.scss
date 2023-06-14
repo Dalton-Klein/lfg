@@ -94,9 +94,15 @@
         align-items: center;
         margin-bottom: 1vh;
         .message-sender-name {
-          font-size: $font2;
+          font-size: $font1;
+          font-weight: 600;
           color: $colorPrimary;
           margin: 0 1vw;
+          transition: $transition1;
+          cursor: pointer;
+        }
+        .message-sender-name:hover {
+          transform: scale(1.05);
         }
         .message-timestamp {
           font-size: $font1;
@@ -105,7 +111,7 @@
         }
       }
       .message-content {
-        font-size: $font2;
+        font-size: $font1;
         margin: 0 1vw;
       }
     }

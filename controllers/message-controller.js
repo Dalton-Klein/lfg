@@ -90,7 +90,7 @@ const getChatHistoryForUser = async (req, res) => {
   try {
     const { chatId } = req.body;
     query = `
-              select m.*, u.username 
+              select m.*, u.id as senderId, u.username
                 from public.messages m
                 join public.users u
                   on u.id = m.sender
@@ -105,6 +105,8 @@ const getChatHistoryForUser = async (req, res) => {
     foundChat.forEach((chat) => {
       chat.message = chat.content;
       chat.sender = chat.username;
+      chat.senderId = chat.senderid;
+      delete chat.senderid;
       delete chat.content;
     });
     res.status(200).send(foundChat);
@@ -119,7 +121,7 @@ const getChatHistoryForGang = async (req, res) => {
   try {
     const { channelId } = req.body;
     query = `
-              select gm.*, u.username 
+              select gm.*, u.id as senderId, u.username 
                 from public.gang_messages gm
                 join public.users u
                   on u.id = gm.sender
@@ -134,6 +136,8 @@ const getChatHistoryForGang = async (req, res) => {
     foundChat.forEach((chat) => {
       chat.message = chat.content;
       chat.sender = chat.username;
+      chat.senderId = chat.senderid;
+      delete chat.senderid;
       delete chat.content;
     });
     res.status(200).send(foundChat);
