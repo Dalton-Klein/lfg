@@ -102,6 +102,7 @@ const getChatHistoryForUser = async (req, res) => {
                 join public.users u
                   on u.id = m.sender
                where m.connection_id = :chatId
+            order by m.created_at asc
             `;
     const foundChat = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
@@ -133,6 +134,7 @@ const getChatHistoryForGang = async (req, res) => {
                 join public.users u
                   on u.id = gm.sender
                where gm.chat_id = :channelId
+            order by gm.created_at asc
             `;
     const foundChat = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
