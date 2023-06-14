@@ -42,14 +42,14 @@ io.on("connection", (socket) => {
   });
 
   //Listen for dm chat messages from users
-  socket.on("message", ({ roomId, senderId, sender, message, timestamp }) => {
-    messageController.saveMessage(roomId.substring(3), senderId, message, timestamp);
-    io.to(roomId).emit("message", { roomId, senderId, sender, message, timestamp });
+  socket.on("message", ({ roomId, senderId, sender, message, isImage, timestamp }) => {
+    messageController.saveMessage(roomId.substring(3), senderId, message, isImage, timestamp);
+    io.to(roomId).emit("message", { roomId, senderId, sender, message, isImage, timestamp });
   });
 
-  socket.on("gang_message", ({ roomId, senderId, sender, message, timestamp }) => {
-    messageController.saveGangMessage(roomId.substring(5), senderId, message, timestamp);
-    io.to(roomId).emit("message", { roomId, senderId, sender, message, timestamp });
+  socket.on("gang_message", ({ roomId, senderId, sender, message, isImage, timestamp }) => {
+    messageController.saveGangMessage(roomId.substring(5), senderId, message, isImage, timestamp);
+    io.to(roomId).emit("message", { roomId, senderId, sender, message, isImage, timestamp });
   });
   //END DM EVENTS
 

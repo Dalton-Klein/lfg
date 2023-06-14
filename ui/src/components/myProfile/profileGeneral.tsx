@@ -118,8 +118,8 @@ export default function ProfileGeneral(props: Props) {
     setisUploadFormShown(false);
     return;
   };
-  const startEditingAvatar = async (field: string) => {
-    if (userData.id === 0) alert("You must be logged in to edit this field");
+  const startEditingAvatar = async () => {
+    if (!userData.id || userData.id === 0) alert("You must be logged in to edit this field");
     setisUploadFormShown(true);
     avatarFormIn();
     return;
@@ -250,12 +250,7 @@ export default function ProfileGeneral(props: Props) {
         {!userData.avatar_url ||
         userData.avatar_url ===
           "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
-          <div
-            className="dynamic-avatar-bg"
-            onClick={() => startEditingAvatar("avatar_url")}
-            data-tip
-            data-for="avatarTip"
-          >
+          <div className="dynamic-avatar-bg" onClick={() => startEditingAvatar()} data-tip data-for="avatarTip">
             <div className="dynamic-avatar-text">
               {userData.username
                 ? userData.username
@@ -272,7 +267,7 @@ export default function ProfileGeneral(props: Props) {
             className="prof-banner-avatar"
             src={userData.avatar_url}
             alt="my-avatar"
-            onClick={() => startEditingAvatar("avatar_url")}
+            onClick={() => startEditingAvatar()}
             data-tip
             data-for="avatarTip"
           ></img>

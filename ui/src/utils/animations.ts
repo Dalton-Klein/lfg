@@ -208,7 +208,7 @@ export const contactSellerAnimation = () => {
 
 //Upload avatar
 export const avatarFormIn = () => {
-  gsap.from(".edit-profile-form", 0.6, {
+  gsap.from(".edit-profile-form", 0.3, {
     y: -500,
     ease: "back.out(1.3)",
   });
@@ -218,13 +218,13 @@ export const avatarFormIn = () => {
 };
 
 export const avatarFormOut = () => {
-  gsap.to(".edit-profile-form", 0.6, {
+  gsap.to(".edit-profile-form", 0.3, {
     opacity: 0,
   });
 };
 
 export const memberSearchFormIn = () => {
-  gsap.from(".member-search-form", 0.6, {
+  gsap.from(".member-search-form", 0.3, {
     y: -500,
     ease: "back.out(1.3)",
   });
@@ -234,14 +234,14 @@ export const memberSearchFormIn = () => {
 };
 
 export const memberSearchFormOut = () => {
-  gsap.to(".member-search-form", 0.6, {
+  gsap.to(".member-search-form", 0.3, {
     opacity: 0,
   });
 };
 
 //Confirm Trade Delete Form
 export const confirmFormIn = () => {
-  gsap.from(".confirm-delete-form", 0.6, {
+  gsap.from(".confirm-delete-form", 0.3, {
     y: -500,
     ease: "back.out(1.3)",
   });
@@ -251,7 +251,7 @@ export const confirmFormIn = () => {
 };
 
 export const confirmFormOut = () => {
-  gsap.to(".confirm-delete-form", 0.6, {
+  gsap.to(".confirm-delete-form", 0.3, {
     opacity: 0,
   });
 };
