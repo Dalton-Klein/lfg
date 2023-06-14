@@ -4,6 +4,52 @@
   min-width: 76vw;
   min-height: 42vh;
   max-height: 52vh;
+  .edit-profile-form {
+    border-radius: $borderRadius1;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 40vw;
+    height: 30vh;
+    left: 50%;
+    margin-left: -18vw;
+    top: 20%;
+    padding: 1em;
+    background-color: $colorGreyHover;
+    border: 2px solid $colorPrimary;
+    // box-shadow: 0 0 5px 1px $colorPrimary;
+    opacity: 0;
+    p {
+      font-size: 1.5em;
+      text-align: center;
+    }
+
+    .msg-img-upload-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .search-member-input {
+        min-width: 80%;
+        margin-top: 2vh;
+      }
+    }
+    .upload-form-btns {
+      width: 80%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      button {
+        width: 40%;
+      }
+    }
+    .photo-label {
+      text-align: center;
+    }
+  }
   .messages-title-container {
     display: flex;
     justify-content: space-around;
@@ -184,6 +230,11 @@
   .messages-box {
     min-height: 82vh;
     max-height: 92vh;
+    .edit-profile-form {
+      width: 60vw;
+      left: 30%;
+      margin-left: -9vw;
+    }
     .messages-title-container {
       .conversation-profile-image {
         min-width: 5.5vw;
@@ -212,6 +263,11 @@
 }
 @media screen and (max-width: $screenBreak2) {
   .messages-box {
+    .edit-profile-form {
+      width: 80vw;
+      left: 17%;
+      margin-left: -2vw;
+    }
     .messages-title-container {
       .conversation-profile-image {
         min-width: 10vw;
