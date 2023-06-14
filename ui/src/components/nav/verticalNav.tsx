@@ -25,12 +25,7 @@ const rocketLeagueChatObject = {
   avatar_url: "https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png",
   isPublicChat: "true",
 };
-const addFriendChatObject = {
-  id: -4,
-  username: "add friend",
-  avatar_url: "pi pi-plus",
-  isPublicChat: "true",
-};
+
 export default function VerticalNav() {
   const defaultConvoObj = { id: 0 };
   const locationPath: string = useLocation().pathname;
