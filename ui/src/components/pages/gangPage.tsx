@@ -234,8 +234,8 @@ export default function GangPage({ socketRef }) {
   const handleAddParticipant = (payload: any) => {
     renderCallParticipants(payload.participants);
   };
-  const handleUserJoinsVoice = (payload) => {
-    if (myDevicesStream && currentAudioChannel && currentAudioChannel.id && payload.user_joined !== userState.id) {
+  const handleUserJoinsVoice = (payload: any) => {
+    if (myDevicesStream && currentAudioChannel && currentAudioChannel.id) {
       createPeers(payload.participants, myDevicesStream);
     }
   };
