@@ -8,9 +8,34 @@ const notificationsController = require("../controllers/notification-controller"
 const publishController = require("../controllers/publish-controller");
 const tilesController = require("../controllers/tiles-controller");
 const userController = require("../controllers/profile-general-controller");
-//
+// test controller
 const testController = require("../controllers/test-controller");
+// Steam related
+const passport = require("passport");
+const SteamStrategy = require("passport-steam").Strategy;
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+passport.use(
+  new SteamStrategy(
+    {
+      returnURL: process.env.IS_PROD === "1" ? "https://www.gangs.gg/" : "http://localhost:3000/auth/steam/return",
+      realm: process.env.IS_PROD === "1" ? "https://www.gangs.gg" : "http://localhost:3000",
+      apiKey: process.env.STEAM_API_KEY,
+    },
+    (identifier, profile, done) => {
+      process.nextTick(() => {
+        profile.identifier = identifier;
+        return done(null, profile);
+      });
+    }
+  )
+);
 
+// Router
 const router = express.Router();
 router.use(express.json());
 
@@ -84,6 +109,31 @@ router.post("/get-gang-tiles", gangsController.getGangTiles);
 //PLAYER TILES ROUTES
 router.post("/rust-tiles", tilesController.getRustTiles);
 router.post("/rocket-league-tiles", tilesController.getRocketLeagueTiles);
+
+//STEAM ROUTES
+const redirectUrl = process.env.IS_PROD === "1" ? "https://www.gangs.gg/login" : "http://localhost:3000/login";
+router.get("/steam", passport.authenticate("steam", { failureRedirect: redirectUrl }), function (req, res) {
+  console.log("authenticating!! ", res);
+  res.redirect("/");
+});
+
+// GET /auth/steam/return
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+router.get(
+  "/steam/return",
+  function (req, res, next) {
+    req.url = req.originalUrl;
+    next();
+  },
+  passport.authenticate("steam", { failureRedirect: redirectUrl }),
+  function (req, res) {
+    console.log("authenticatedddd!! ", res);
+    res.redirect("/");
+  }
+);
 
 //TESTING ROUTES Coffee Disable
 router.post("/test-email", testController.testEmails);

@@ -316,6 +316,11 @@ const LoginPage = () => {
     return;
   };
 
+  const trySteamLogin = async () => {
+    // Hit api and get redirected to steam
+    window.location.href = "http://localhost:3010/steam";
+  };
+
   return (
     <div className="login-container">
       {/* Title */}
@@ -423,6 +428,20 @@ const LoginPage = () => {
             <h2>sign in</h2>
             {/* Input Boxes */}
             <div className="login-inputs">
+              <button
+                type="button"
+                className="alt-button steam-button"
+                onClick={() => {
+                  trySteamLogin;
+                }}
+              >
+                <img
+                  src="https://res.cloudinary.com/kultured-dev/image/upload/v1686792786/Steam-Logo_bcn4qj.png"
+                  alt="steam-logo-signin"
+                  className="steam-logo"
+                ></img>{" "}
+                steam login
+              </button>
               <GoogleLogin
                 className="google-button"
                 clientId={clientId}

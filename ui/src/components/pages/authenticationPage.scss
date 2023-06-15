@@ -7,8 +7,7 @@
 .login-container {
   display: flex;
   flex-direction: column;
-  height: 90vh;
-  margin-top: 0.5vh;
+  height: 100vh;
   justify-content: center;
   align-items: center;
   .login-banner {
@@ -69,7 +68,13 @@
           flex-direction: column;
           align-items: center;
           width: 100%;
-          padding: 0% 10%;
+          padding: 0% 2%;
+          .steam-button {
+            .steam-logo {
+              width: 3vw;
+              min-width: 32.5px;
+            }
+          }
           .google-signup-container {
             width: 50%;
             display: flex;
@@ -123,7 +128,7 @@
           border-radius: $borderRadius1 !important;
           transition: 125ms !important;
           min-height: 3em !important;
-          min-width: 50% !important;
+          min-width: 40% !important;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -177,7 +182,10 @@
             padding: 0px;
           }
           .login-inputs {
-            padding: 0% 2%;
+            .google-signup-container {
+              width: 90%;
+            }
+            padding: 0% 0%;
             input {
               width: 90%;
             }
