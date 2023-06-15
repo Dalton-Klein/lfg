@@ -93,6 +93,9 @@ export default function AccountSettings(props: Props) {
 
   // DEVICES LOGIC
   const loadDevices = async () => {
+    navigator.mediaDevices.getUserMedia({}).then((currentStream) => {
+      // getUserMedia is required to trigger browser to ask permissions
+    });
     const devices = await navigator.mediaDevices.enumerateDevices();
     console.log("devices", devices);
     const savedDevices = loadSavedDevices(devices, userState);
