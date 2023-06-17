@@ -432,7 +432,7 @@ const LoginPage = () => {
                 type="button"
                 className="alt-button steam-button"
                 onClick={() => {
-                  trySteamLogin;
+                  trySteamLogin();
                 }}
               >
                 <img

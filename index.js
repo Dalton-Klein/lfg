@@ -17,6 +17,67 @@ app.use(require("prerender-node").set("prerenderToken", "pmAz691dTZfZ6GTrUiZZ"))
 const path = require("path");
 const { main } = require("./startup/startup");
 const messageController = require("./controllers/message-controller");
+//Steam
+const passport = require("passport");
+const SteamStrategy = require("passport-steam").Strategy;
+const session = require("express-session");
+
+//START STEAM
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    name: process.env.SESSION_NAME,
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+passport.use(
+  new SteamStrategy(
+    {
+      returnURL:
+        process.env.IS_PROD === "1" ? "https://www.gangs.gg/steam/return" : "http://localhost:3010/steam/return",
+      realm: process.env.IS_PROD === "1" ? "https://www.gangs.gg" : "http://localhost:3000",
+      apiKey: process.env.STEAM_API_KEY,
+    },
+    (identifier, profile, done) => {
+      profile.identifier = identifier;
+      done(null, profile);
+    }
+  )
+);
+//STEAM ROUTES
+const redirectUrl = process.env.IS_PROD === "1" ? "https://www.gangs.gg/login" : "http://localhost:3000/login";
+
+app.get("/steam", passport.authenticate("steam", { successRedirect: "/", failureRedirect: "/" }), function (req, res) {
+  console.log("authenticating!! ", res);
+  res.redirect("/");
+});
+
+// GET /auth/steam/return
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+app.get(
+  "/steam/return",
+  passport.authenticate("steam", { failureRedirect: redirectUrl }),
+  // function (req, res, next) {
+  //   req.url = req.originalUrl;
+  //   next();
+  // },
+  function (req, res) {
+    console.log("authenticatedddd!! ", res);
+    res.redirect("/");
+  }
+);
 
 //START SOCKET
 io = require("socket.io")(http);
