@@ -171,11 +171,16 @@ export default function GangPage({ socketRef }) {
   }, [currentChannel]);
 
   useEffect(() => {
-    socketRef.current.emit("start_stop_talking", {
-      roomId: `voice_${currentAudioChannel.id}`,
-      user_id: userState.id,
-      isTalking: isTalking,
-    });
+    if (isTalking && isMicMuted) {
+      //Do not send is talking true if on mute
+    } else {
+      //Otherwise send talking/ not-talking updates
+      socketRef.current.emit("start_stop_talking", {
+        roomId: `voice_${currentAudioChannel.id}`,
+        user_id: userState.id,
+        isTalking: isTalking,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTalking]);
 
@@ -184,11 +189,16 @@ export default function GangPage({ socketRef }) {
       connectToVoice();
     }
     renderChannelTitleContents();
-    if (myDevicesStream) {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentAudioChannel]);
+
+  useEffect(() => {
+    if (myDevicesStream && myDevicesStream.getAudioTracks().length > 0) {
       myDevicesStream.getAudioTracks().forEach((track) => {
-        track.enabled = isMicMuted;
+        track.enabled = !isMicMuted;
       });
     }
+    renderChannelDynamicContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAudioChannel, isMicMuted]);
 
@@ -324,10 +334,12 @@ export default function GangPage({ socketRef }) {
       onUpdate: function (val) {
         if (updateCounter === 0) {
           const threshold = 0.15; // Set your desired threshold value
-          if (val > threshold) {
-            setisTalking(true);
-          } else {
-            setisTalking(false);
+          if (!isMicMuted) {
+            if (val > threshold) {
+              setisTalking(true);
+            } else {
+              setisTalking(false);
+            }
           }
         }
         updateCounter = (updateCounter + 1) % updateFrequency;
