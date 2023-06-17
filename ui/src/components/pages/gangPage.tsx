@@ -184,8 +184,9 @@ export default function GangPage({ socketRef }) {
       connectToVoice();
     }
     renderChannelTitleContents();
-    if (myDevicesStream) {
+    if (myDevicesStream && myDevicesStream.getAudioTracks().length > 0) {
       myDevicesStream.getAudioTracks().forEach((track) => {
+        console.log("muting??? ", isMicMuted);
         track.enabled = isMicMuted;
       });
     }
@@ -324,7 +325,7 @@ export default function GangPage({ socketRef }) {
       onUpdate: function (val) {
         if (updateCounter === 0) {
           const threshold = 0.15; // Set your desired threshold value
-          if (val > threshold) {
+          if (val > threshold && !isMicMuted) {
             setisTalking(true);
           } else {
             setisTalking(false);
