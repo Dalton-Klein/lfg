@@ -9,6 +9,8 @@
   max-height: 94vh;
   overflow: visible;
   .app-content-scrollbox {
+    display: flex;
+    flex-grow: 1;
     overflow: scroll;
     max-height: 95vh;
     min-height: 95vh;
