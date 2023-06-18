@@ -8,7 +8,14 @@ import { Menu } from "primereact/menu";
 import { howLongAgo } from "../../utils/helperFunctions";
 import { getNotificationsUser } from "../../utils/rest";
 import ReactTooltip from "react-tooltip";
-import { MenuItem } from "primereact/menuitem";
+import addNotification from "react-push-notification";
+
+const actionPhrases: any = {
+  1: " sent you a connection request",
+  2: " accepted your connection request",
+  3: " sent you a message",
+  4: " congrats on signing up!",
+};
 
 export default function ProfileInlayComponet({ socketRef }) {
   const locationPath: string = useLocation().pathname;
@@ -18,8 +25,16 @@ export default function ProfileInlayComponet({ socketRef }) {
   const [drawerVis, setDrawerVis] = useState<boolean>(false);
   const [profileImage, setprofileImage] = useState<string>("");
   const [notifications, setnotifications] = useState<any>([]);
-  const [notificationMenuItems, setnotificationMenuItems] = useState<any[]>([]);
-  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(true);
+  const [notificationMenuItems, setnotificationMenuItems] = useState<any[]>([
+    {
+      label: (
+        <div key={-1} className="notification-container" onClick={() => {}}>
+          no notifications yet!
+        </div>
+      ),
+    },
+  ]);
+  const [hasUnreadNotifications, sethasUnreadNotifications] = useState(false);
   const [hasPublishedAProfile, sethasPublishedAProfile] = useState<boolean>(true);
   //GameNav
   const [gameImgUrl, setgameImgUrl] = useState<string>("");
@@ -46,10 +61,24 @@ export default function ProfileInlayComponet({ socketRef }) {
   }, [userState.rust_is_published, userState.rocket_league_is_published]);
 
   //BEGIN Update notifications list after each notification sent
-  const handleNotification = ({ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }: any) => {
-    setnotifications([{ owner_id, type_id, other_user_id, other_user_avatar_url, other_username }, ...notifications]);
-    renderNotifications();
-    setHasUnreadNotifications(true);
+  const handleNotification = (data: any) => {
+    const { id, owner_id, type_id, other_user_id, other_user_avatar_url, other_username } = data;
+    setnotifications([
+      { id: id, owner_id, type_id, other_user_id, other_user_avatar_url, other_username },
+      ...notifications,
+    ]);
+    if (isBrowser()) {
+      addNotification({
+        title: "gangs notification",
+        subtitle: "",
+        message: `${other_username} ${actionPhrases[type_id]}`,
+        theme: "darkblue",
+        native: true, // when using native, your OS will handle theming.
+      });
+    } else {
+      new Audio("https://res.cloudinary.com/kultured-dev/video/upload/v1687113879/notif2_iw4407.wav").play();
+    }
+    sethasUnreadNotifications(true);
   };
   useEffect(() => {
     renderNotifications();
@@ -67,6 +96,11 @@ export default function ProfileInlayComponet({ socketRef }) {
     }
   }, [userState.avatar_url]);
 
+  const isBrowser = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return userAgent.indexOf("electron") === -1; // Assuming Electron is used for the desktop app version
+  };
+
   //BEGIN SOCKET Functions
   const loadNotificationHistory = async () => {
     const historicalNotifications = await getNotificationsUser(userState.id, "");
@@ -78,13 +112,7 @@ export default function ProfileInlayComponet({ socketRef }) {
   const renderNotifications = () => {
     if (notifications.length) {
       let items: any = [];
-      const actionPhrases: any = {
-        1: " sent you a connection request",
-        2: " accepted your connection request",
-        3: " sent you a message",
-        4: " congrats on signing up!",
-      };
-      notifications.forEach((notif: any) => {
+      notifications.forEach((notif: any, index: number) => {
         items.push({
           label: (
             <div
@@ -92,6 +120,7 @@ export default function ProfileInlayComponet({ socketRef }) {
               onClick={() => {
                 notificationPressed(notif.type_id);
               }}
+              key={`${notif.id}-${index}`}
             >
               {notif.other_user_avatar_url === "" ||
               notif.other_user_avatar_url ===
@@ -123,24 +152,14 @@ export default function ProfileInlayComponet({ socketRef }) {
           ),
         });
       });
+      sethasUnreadNotifications(true);
       setnotificationMenuItems(items);
       return;
-    } else {
-      setHasUnreadNotifications(false);
-      setnotificationMenuItems([
-        {
-          label: (
-            <div className="notification-container" onClick={() => {}}>
-              no notifications yet!
-            </div>
-          ),
-        },
-      ]);
     }
   };
-  const handleNotificationButtonClicked = (event) => {
+  const handleNotificationButtonClicked = (event: any) => {
     notifsMenu.current.toggle(event);
-    setHasUnreadNotifications(false);
+    sethasUnreadNotifications(false);
   };
   //END SOCKET Functions
   const determineGameNavContents = () => {

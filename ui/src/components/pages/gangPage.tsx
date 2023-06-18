@@ -255,6 +255,7 @@ export default function GangPage({ socketRef }) {
   const handleUserJoinsVoice = (payload: any) => {
     if (myDevicesStream && currentAudioChannel && currentAudioChannel.id) {
       createPeers(payload.participants, myDevicesStream);
+      new Audio("https://res.cloudinary.com/kultured-dev/video/upload/v1687113879/connect2_hmcl7t.wav").play();
     }
   };
   const handleSignal = (payload) => {
@@ -280,6 +281,7 @@ export default function GangPage({ socketRef }) {
     const index = peersRef.current.findIndex((peer) => peer.peer_user_id === payload.userLeaving);
     // Check if the peer exists in the array
     if (index !== -1) {
+      new Audio("https://res.cloudinary.com/kultured-dev/video/upload/v1687113879/disconnect2_mhei7k.wav").play();
       const peer = peersRef.current[index];
       peer.peer.destroy();
       // Remove the peer from the array
@@ -449,6 +451,7 @@ export default function GangPage({ socketRef }) {
 
   const disconnectFromVoice = () => {
     closePeerConnections();
+    new Audio("https://res.cloudinary.com/kultured-dev/video/upload/v1687113879/disconnect2_mhei7k.wav").play();
     socketRef.current.emit("leave_voice", {
       roomId: `voice_${currentAudioChannel.id}`,
       user_id: userState.id,
