@@ -31,14 +31,15 @@ io.on("connection", (socket) => {
   socket.on("join_room", (roomId) => {
     //First, disconnect from all connected rooms
     const allConnectedRooms = socket.rooms;
+    const regexTest = /^notifications-\d+/;
     allConnectedRooms.forEach((room) => {
-      if (room !== roomId) {
+      if (room !== socket.id && !regexTest.test(room)) {
         socket.leave(room); // Leave each room (except the default room, which is the socket ID)
       }
     });
     //Now, connect to desired room
     socket.join(roomId);
-    console.log("User JOINED ROOM ", roomId);
+    console.log("joining room: ", roomId);
   });
 
   //Listen for dm chat messages from users

@@ -16,8 +16,9 @@ export default function HomePage({ socketRef }) {
   useEffect(() => {
     if (socketRef) {
       socketRef.current.on(
-        "notification",
+        "notification-general",
         ({
+          id,
           owner_id,
           owner_username,
           owner_avatar_url,
@@ -28,6 +29,7 @@ export default function HomePage({ socketRef }) {
         }: any) => {
           setnotifications([
             {
+              id,
               owner_id,
               owner_username,
               owner_avatar_url,
@@ -56,7 +58,7 @@ export default function HomePage({ socketRef }) {
       let items: any = [];
       let ownerName;
       let otherName;
-      notifications.forEach((notif: any) => {
+      notifications.forEach((notif: any, index: number) => {
         ownerName = notif.owner_username;
         otherName = notif.other_username;
         const user1Key: any = {
@@ -84,7 +86,7 @@ export default function HomePage({ socketRef }) {
         const actionPhrase = actionPhraseKey[notif.type_id];
         const user2 = user2Key[notif.type_id];
         items.push(
-          <div className="notification-container" key={notif.id}>
+          <div className="notification-container" key={`${notif.id}-${index}`}>
             <div className="info-stackable-container">
               <div className="user-1-container">
                 {notif.other_user_avatar_url === "" ||
