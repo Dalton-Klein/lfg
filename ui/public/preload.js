@@ -1,19 +1,21 @@
-const { Menu, getCurrentWindow } = require("@electron/remote");
-const Titlebar = require("@6c65726f79/custom-titlebar");
-const { platform } = require("process");
+const path = require("path");
+const url = require("url");
 
-const currentWindow = getCurrentWindow();
-let titlebar;
+const customTitlebar = require("custom-electron-titlebar");
 
-currentWindow.webContents.once("dom-ready", () => {
-  titlebar = new Titlebar({
-    menu: Menu.getApplicationMenu(),
-    backgroundColor: "#1c1c1e",
-    platform: platform,
-    browserWindow: currentWindow /* Only needed if you use MenuItem roles */,
-    onMinimize: () => currentWindow.minimize(),
-    onMaximize: () => (currentWindow.isMaximized() ? currentWindow.unmaximize() : currentWindow.maximize()),
-    onClose: () => currentWindow.close(),
-    isMaximized: () => currentWindow.isMaximized(),
+window.addEventListener("DOMContentLoaded", () => {
+  new customTitlebar.Titlebar({
+    backgroundColor: customTitlebar.Color.fromHex("#2f3241"),
+    icon: __dirname + "/build/favicon.ico",
+    iconSize: 18,
   });
+
+  const replaceText = (selector, text) => {
+    const element = document.getElementById(selector);
+    if (element) element.innerText = text;
+  };
+
+  for (const type of ["chrome", "node", "electron"]) {
+    replaceText(`${type}-version`, process.versions[type]);
+  }
 });
