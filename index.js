@@ -9,7 +9,7 @@ const http = require("http").createServer(app);
 router.use(express.json());
 const corsOptions = {
   origin: ["http://localhost:3000", "https://gangs.gg"], // http://localhost:3000 for electron, otherwise deployed ui
-  methods: "GET,POST",
+  methods: "GET,POST,PUT",
   allowedHeaders: "Content-Type,Authorization",
 };
 app.use(cors(corsOptions), router);

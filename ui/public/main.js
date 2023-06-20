@@ -1,7 +1,6 @@
 const { app, session, BrowserWindow } = require("electron");
-const path = require("path");
+const { join } = require("path");
 const isDev = require("electron-is-dev");
-const url = require("url");
 require("dotenv").config();
 require("@electron/remote/main").initialize();
 
@@ -9,34 +8,40 @@ require("@electron/remote/main").initialize();
 function createWindow() {
   let mainWindow = new BrowserWindow({
     // Configure the browser window options
-    width: 800,
-    height: 600,
+    width: 1500,
+    height: 900,
+    titleBarStyle: "hidden",
+    darkTheme: true,
+    backgroundColor: "#1c1c1e",
+    titleBarOverlay: {
+      color: "#1c1c1e",
+      symbolColor: "#9b9b9b",
+      height: 40,
+    },
     webPreferences: {
       enableRemoteModule: true,
       webSecurity: false,
       nodeIntegration: true,
       contextIsolation: false,
-      preload: path.join(__dirname, "preload.js"),
     },
     icon: __dirname + "/build/favicon.ico",
     title: "gangs",
     autoHideMenuBar: true,
   });
-
   // Load your existing app's HTML file
   if (isDev) {
     mainWindow.loadURL("http://localhost:3000");
     mainWindow.webContents.openDevTools();
   } else {
     console.log("dirname?", __dirname);
-    mainWindow.loadURL(`file://${path.join(__dirname, "../build/index.html")}`);
+    mainWindow.loadURL(`file://${join(__dirname, "../build/index.html")}`);
     mainWindow.webContents.openDevTools();
   }
 
   // Configure session to allow third-party cookies
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
     details.requestHeaders["Origin"] = "https://gangs.gg"; // Replace with your web app domain
-    details.requestHeaders["Content-Type"] = "application/x-www-form-urlencoded";
+    details.requestHeaders["Content-Type"] = "application/json";
     callback({ cancel: false, requestHeaders: details.requestHeaders });
   });
 

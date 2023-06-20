@@ -25,6 +25,7 @@ import HeaderComponent from "./components/nav/headerComponent";
 import VerticalNav from "./components/nav/verticalNav";
 import BlogArticle3 from "./components/pages/blog/blogArticle-3";
 import AddFriend from "./components/pages/addFriend";
+import ElectronTitlebar from "./components/nav/electronTitleBar";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 function App() {
@@ -64,6 +65,8 @@ function App() {
         <div className="App">
           {/* This scroll component scrolls user to top of each page when navigating */}
           <ScrollToTop />
+          {/* ***ELECTRON Include custom bar if electron build */}
+          {/* <ElectronTitlebar></ElectronTitlebar> */}
           {locationPath === "/login" ? <></> : <HeaderComponent socketRef={socketRef}></HeaderComponent>}
           <div className="app-container">
             {locationPath === "/login" ? <></> : <VerticalNav></VerticalNav>}
