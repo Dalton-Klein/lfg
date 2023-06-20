@@ -1,12 +1,8 @@
 const { app, session, BrowserWindow } = require("electron");
-const path = require("path");
+const { join } = require("path");
 const isDev = require("electron-is-dev");
-const url = require("url");
 require("dotenv").config();
 require("@electron/remote/main").initialize();
-const { setupTitlebar, attachTitlebarToWindow } = require("custom-electron-titlebar/main");
-
-// setupTitlebar();
 
 // Create a new browser window
 function createWindow() {
@@ -15,27 +11,30 @@ function createWindow() {
     width: 1500,
     height: 900,
     titleBarStyle: "hidden",
+    darkTheme: true,
+    backgroundColor: "#1c1c1e",
+    titleBarOverlay: {
+      color: "#1c1c1e",
+      symbolColor: "#9b9b9b",
+      height: 40,
+    },
     webPreferences: {
       enableRemoteModule: true,
       webSecurity: false,
       nodeIntegration: true,
       contextIsolation: false,
-      // preload: path.join(__dirname, "preload.js"),
     },
     icon: __dirname + "/build/favicon.ico",
     title: "gangs",
     autoHideMenuBar: true,
   });
-
-  // attachTitlebarToWindow(mainWindow);
-
   // Load your existing app's HTML file
   if (isDev) {
     mainWindow.loadURL("http://localhost:3000");
     mainWindow.webContents.openDevTools();
   } else {
     console.log("dirname?", __dirname);
-    mainWindow.loadURL(`file://${path.join(__dirname, "../build/index.html")}`);
+    mainWindow.loadURL(`file://${join(__dirname, "../build/index.html")}`);
     mainWindow.webContents.openDevTools();
   }
 
