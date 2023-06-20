@@ -1,1 +1,63 @@
 @import "../../styling/config";
+
+.rank-widget {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 200px;
+}
+
+.rank {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-color: gold;
+  border-radius: 50%;
+  margin: 5px;
+}
+
+.center {
+  margin: 0 auto;
+}
+
+.top-center {
+  margin: 0 auto 5px;
+}
+
+.top {
+  margin-bottom: 5px;
+}
+
+.bottom {
+  margin-top: 5px;
+}
+
+.left {
+  margin-right: 5px;
+}
+
+.right {
+  margin-left: 5px;
+}
+
+.top-left {
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+
+.top-right {
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+.bottom-left {
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+.bottom-right {
+  margin-top: 5px;
+  margin-left: 5px;
+}
