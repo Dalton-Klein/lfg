@@ -1,0 +1,10 @@
+@import "../../styling/config";
+
+.electron-titlebar {
+  min-width: 100vw;
+  min-height: 40px;
+  max-height: 40px;
+  .version-text {
+    font-size: $font1;
+  }
+}
