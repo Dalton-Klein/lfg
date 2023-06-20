@@ -1,52 +1,52 @@
 {
-	"name": "codeexchange",
-	"version": "1.0.0",
-	"description": "Web app to connect with other developers, post and browse for code snippets and templates.",
-	"main": "index.js",
-	"engines": {
-		"node": "14.13.1",
-		"npm": "7.7.2"
-	},
-	"scripts": {
-		"start": "node index.js",
-		"heroku-postbuild": "cd ui && npm install && npm run build"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Dalton-Klein/codeexchange-api.git"
-	},
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/Dalton-Klein/codeexchange-api/"
-	},
-	"homepage": "https://github.com/Dalton-Klein/codeexchange-api#readme",
-	"dependencies": {
-		"@angular/compiler-cli": "^11.0.0",
-		"bcrypt": "^5.0.1",
-		"cors": "^2.8.5",
-		"dotenv": "^8.6.0",
-		"express": "^4.17.1",
-		"express-session": "^1.17.3",
-		"heroku": "^7.63.4",
-		"ngx-mat-select-search": "^3.2.0",
-		"node-gyp": "^9.3.1",
-		"nodemailer": "^6.7.8",
-		"nodemailer-express-handlebars": "^5.0.0",
-		"pg": "^8.5.1",
-		"pg-format": "^1.0.4",
-		"prerender-node": "^3.5.0",
-		"rxjs": "~6.6.0",
-		"sequelize": "^6.5.1",
-		"socket.io": "^4.5.2",
-		"ts-node": "~8.3.0",
-		"tslib": "^2.0.0",
-		"typescript": "~4.1.5",
-		"umzug": "^3.0.0",
-		"underscore": "^1.13.4",
-		"zone.js": "~0.11.3"
-	},
-	"devDependencies": {
-		"@angular-devkit/build-angular": "~0.1102.3"
-	}
+  "name": "gangs-api",
+  "version": "1.0.0",
+  "description": "A nodejs api with Postgres, sequelize, and socketio to support the ui of the gangs platform",
+  "main": "index.js",
+  "engines": {
+    "node": "14.13.1",
+    "npm": "7.7.2"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "heroku-postbuild": "cd ui && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dalton-Klein/lfg.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dalton-Klein/lfg/"
+  },
+  "homepage": "https://github.com/Dalton-Klein/lfg#readme",
+  "dependencies": {
+    "@angular/compiler-cli": "^11.0.0",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.6.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.3",
+    "heroku": "^7.63.4",
+    "ngx-mat-select-search": "^3.2.0",
+    "node-gyp": "^9.3.1",
+    "nodemailer": "^6.7.8",
+    "nodemailer-express-handlebars": "^5.0.0",
+    "pg": "^8.5.1",
+    "pg-format": "^1.0.4",
+    "prerender-node": "^3.5.0",
+    "rxjs": "~6.6.0",
+    "sequelize": "^6.5.1",
+    "socket.io": "^4.5.2",
+    "ts-node": "~8.3.0",
+    "tslib": "^2.0.0",
+    "typescript": "~4.1.5",
+    "umzug": "^3.0.0",
+    "underscore": "^1.13.4",
+    "zone.js": "~0.11.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.1102.3"
+  }
 }
