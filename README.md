@@ -5,7 +5,7 @@ You will need to download python and add it to your path env variable. A good ar
 
 You will need to be running on node version 14.13.1. You can use node version manager to download and switch to using that version of node. 
 
-##Downloading the rest of the dependencies with npm i
+## Downloading the rest of the dependencies with npm i
 In the root folder, run an npm i. This will download everything for the api.
 
 CD into the ui folder, run another npm i here to download everything for the ui. 
