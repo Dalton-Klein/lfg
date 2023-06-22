@@ -1,6 +1,6 @@
 import { SignUpForm, SignInForm } from "./interfaces";
 require("dotenv").config();
-// ***ELECTRON MAKE BLANK STRING IF NOT ELECTRON, https://gangs.gg IF ELECTRON
+// ***ELECTRON MAKE BLANK STRING IF NOT ELECTRON, https://www.gangs.gg IF ELECTRON PROD, http://localhost:3010 if ELECTRON Serve
 const endpointURL: String = "https://www.gangs.gg";
 const avatarCloud = `https://api.cloudinary.com/v1_1/kultured-dev/upload`;
 /*
