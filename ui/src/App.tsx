@@ -66,7 +66,7 @@ function App() {
           {/* This scroll component scrolls user to top of each page when navigating */}
           <ScrollToTop />
           {/* ***ELECTRON Include custom bar if electron build */}
-          {/* <ElectronTitlebar></ElectronTitlebar> */}
+          <ElectronTitlebar></ElectronTitlebar>
           {locationPath === "/login" ? <></> : <HeaderComponent socketRef={socketRef}></HeaderComponent>}
           <div className="app-container">
             {locationPath === "/login" ? <></> : <VerticalNav></VerticalNav>}

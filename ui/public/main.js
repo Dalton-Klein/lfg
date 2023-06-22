@@ -1,10 +1,15 @@
-const { app, session, BrowserWindow } = require("electron");
+const { app, ipcMain, session, BrowserWindow, screen } = require("electron");
 const { join } = require("path");
 const isDev = require("electron-is-dev");
 const log = require("electron-log");
 require("dotenv").config();
 require("@electron/remote/main").initialize();
 const { autoUpdater } = require("electron-updater");
+
+// Handle IPC message to retrieve Electron version
+ipcMain.handle("getElectronVersion", () => {
+  return app.getVersion();
+});
 
 function sendStatusToWindow(win, text) {
   log.info(text);
@@ -20,6 +25,7 @@ function createWindow() {
     height: 900,
     titleBarStyle: "hidden",
     darkTheme: true,
+    frame: false,
     backgroundColor: "#1c1c1e",
     titleBarOverlay: {
       color: "#1c1c1e",
@@ -31,6 +37,7 @@ function createWindow() {
       webSecurity: false,
       nodeIntegration: true,
       contextIsolation: false,
+      nativeWindowOpen: true,
     },
     icon: __dirname + "/build/favicon.ico",
     title: "gangs",

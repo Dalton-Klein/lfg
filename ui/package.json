@@ -1,6 +1,6 @@
 {
   "name": "gangs",
-  "version": "1.1.9",
+  "version": "1.2.1",
   "author": "Dalton Klein",
   "description": "Say goodbye to solo queuing, find competent team members to play with, make new friends",
   "main": "public/main.js",
@@ -116,7 +116,7 @@
     "@types/simple-peer": "^9.11.5",
     "@types/styled-components": "^5.1.26",
     "cross-env": "^7.0.3",
-    "electron": "^25.0.1",
+    "electron": "^25.2.0",
     "electron-builder": "^23.6.0",
     "remote-redux-devtools": "^0.5.16",
     "wait-on": "^7.0.1"
