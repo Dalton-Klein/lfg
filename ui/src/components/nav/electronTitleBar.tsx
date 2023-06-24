@@ -1,32 +1,25 @@
-// import React, { useEffect, useState } from "react";
-// import { ipcRenderer } from "electron";
-// import packageJson from "../../../package.json";
-// import "./electronTitleBar.scss";
+import React, { useEffect, useState } from "react";
+import * as FS from "fs";
+import { IpcRenderer } from "electron";
+import "./electronTitleBar.scss";
+const fs: typeof FS = window.require("fs");
+const ipcRenderer: IpcRenderer = window.require("electron").ipcRenderer;
 
-// const ElectronTitlebar = () => {
-//   const [electronVersion, setElectronVersion] = useState("");
+const ElectronTitlebar = () => {
+  const [electronVersion, setElectronVersion] = useState("");
 
-//   useEffect(() => {
-//     // Retrieve the Electron app version from the package.json file
-//     const appVersion = ipcRenderer.sendSync("get-app-version");
-//     setElectronVersion(appVersion);
-//   }, []);
+  useEffect(() => {
+    ipcRenderer.invoke("getElectronVersion").then((version) => {
+      setElectronVersion(version);
+    });
+  }, []);
+  //restart the application :: again
+  return (
+    <div className="electron-titlebar">
+      {/* Titlebar content */}
+      <span>gangs v{electronVersion}</span>
+    </div>
+  );
+};
 
-//   const handleMouseDown = () => {
-//     ipcRenderer.invoke("mouse-event", "mousedown");
-//   };
-
-//   const handleMouseUp = () => {
-//     ipcRenderer.invoke("mouse-event", "mouseup");
-//   };
-
-//   return (
-//     <div className="electron-titlebar" onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
-//       {/* Titlebar content */}
-//       <div className="version-text">gangs v{electronVersion}</div>
-//       {/* minimize/maximize buttons here */}
-//     </div>
-//   );
-// };
-
-// export default ElectronTitlebar;
+export default ElectronTitlebar;
