@@ -295,6 +295,7 @@ const LoginPage = () => {
   };
 
   const changeMenu = (number: number) => {
+    console.log("hello? ", number);
     const menus: any = {
       1: () => {
         loginPanelSignInAnim();
@@ -358,8 +359,22 @@ const LoginPage = () => {
             <h2>create account</h2>
             <div className="login-inputs">
               {/* Input Boxes */}
+              <button
+                type="button"
+                className="alt-button steam-button"
+                onClick={() => {
+                  trySteamLogin();
+                }}
+              >
+                <img
+                  src="https://res.cloudinary.com/kultured-dev/image/upload/v1686792786/Steam-Logo_bcn4qj.png"
+                  alt="steam-logo-signin"
+                  className="steam-logo"
+                ></img>{" "}
+                steam signup
+              </button>
               <div className="google-signup-container" style={{ display: !isGoogleSignUp ? "inline-block" : "none" }}>
-                <GoogleLogin
+                {/* <GoogleLogin
                   className="google-button"
                   clientId={clientId}
                   buttonText="google sign up"
@@ -367,7 +382,7 @@ const LoginPage = () => {
                   onFailure={onGoogleFailure}
                   cookiePolicy={"single_host_origin"}
                   isSignedIn={true}
-                />
+                /> */}
                 <div className="seperator-text">or</div>
               </div>
               <input name="username" type="text" placeholder="display name" />
@@ -442,7 +457,7 @@ const LoginPage = () => {
                 ></img>{" "}
                 steam login
               </button>
-              <GoogleLogin
+              {/* <GoogleLogin
                 className="google-button"
                 clientId={clientId}
                 buttonText="google login"
@@ -450,13 +465,16 @@ const LoginPage = () => {
                 onFailure={onGoogleFailure}
                 cookiePolicy={"single_host_origin"}
                 isSignedIn={true}
-              />
+              /> */}
               <div className="seperator-text">or</div>
-              <input name="email" type="email" placeholder="email" />
-              <input name="password" type="password" placeholder="password" />
-              {formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
+              <div className="email-signin-box">
+                <input name="email" type="email" placeholder="email" />
+                <input name="password" type="password" placeholder="password" />
+                {formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
+                <button type="submit">email login</button>
+              </div>
+              <div className="seperator-text">no account?</div>
             </div>
-            <button type="submit">sign in</button>
             <button type="button" onClick={() => changeMenu(2)} className="alt-button">
               create account
             </button>

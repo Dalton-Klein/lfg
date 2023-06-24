@@ -20,6 +20,8 @@ router.use(express.json());
 //AUTH RELATED ROUTES
 router.post("/verify", authController.verify);
 router.post("/signup", authController.signup);
+router.post("/steam-signup", authController.steamSignUp);
+router.post("/steam-data", authController.getSteamData);
 router.post("/signin", authController.signin);
 router.post("/google-signin", authController.googleSignin);
 router.post("/forgot-password", authController.forgotPassword);

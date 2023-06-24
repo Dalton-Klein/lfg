@@ -25,6 +25,7 @@ import HeaderComponent from "./components/nav/headerComponent";
 import VerticalNav from "./components/nav/verticalNav";
 import BlogArticle3 from "./components/pages/blog/blogArticle-3";
 import AddFriend from "./components/pages/addFriend";
+import SteamSignUpPage from "./components/authentication/steamSignUp";
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 function App() {
@@ -57,6 +58,14 @@ function App() {
     });
   };
 
+  const shouldShowNavs = () => {
+    console.log("what? ", locationPath.substring(0, 13));
+    if (locationPath === "/login" || locationPath.substring(0, 13) === "/steam-signup") {
+      return false;
+    } else {
+      return true;
+    }
+  };
   // html goes here (components that you see)
   return (
     <Provider store={store}>
@@ -64,9 +73,9 @@ function App() {
         <div className="App">
           {/* This scroll component scrolls user to top of each page when navigating */}
           <ScrollToTop />
-          {locationPath === "/login" ? <></> : <HeaderComponent socketRef={socketRef}></HeaderComponent>}
+          {shouldShowNavs() ? <HeaderComponent socketRef={socketRef}></HeaderComponent> : <></>}
           <div className="app-container">
-            {locationPath === "/login" ? <></> : <VerticalNav></VerticalNav>}
+            {shouldShowNavs() ? <VerticalNav></VerticalNav> : <></>}
             <div className="app-content-scrollbox">
               <Routes>
                 {/* Main Paths */}
@@ -100,6 +109,7 @@ function App() {
                 {/* Less Used Pages */}
                 <Route path="/help" element={<FAQPage />} />
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/steam-signup/:steamId" element={<SteamSignUpPage />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
                 <Route path="/terms-of-service" element={<TermsOfServicePage />} />
                 <Route path="/*" element={<FourOFourPage />} />

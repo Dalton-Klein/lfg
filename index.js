@@ -17,6 +17,7 @@ app.use(require("prerender-node").set("prerenderToken", "pmAz691dTZfZ6GTrUiZZ"))
 const path = require("path");
 const { main } = require("./startup/startup");
 const messageController = require("./controllers/message-controller");
+const authController = require("./controllers/auth-controller");
 //Steam
 const passport = require("passport");
 const SteamStrategy = require("passport-steam").Strategy;
@@ -54,11 +55,10 @@ passport.use(
   )
 );
 //STEAM ROUTES
-const redirectUrl = process.env.IS_PROD === "1" ? "https://www.gangs.gg/login" : "http://localhost:3000/login";
+const redirectUrl = process.env.IS_PROD === "1" ? "https://www.gangs.gg/#/login" : "http://localhost:3000/#/login";
 
 app.get("/steam", passport.authenticate("steam", { successRedirect: "/", failureRedirect: "/" }), function (req, res) {
   console.log("authenticating!! ", res);
-  res.redirect("/");
 });
 
 // GET /auth/steam/return
@@ -66,9 +66,15 @@ app.get("/steam", passport.authenticate("steam", { successRedirect: "/", failure
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get("/steam/return", passport.authenticate("steam", { failureRedirect: redirectUrl }), function (req, res) {
-  console.log("authenticatedddd!! ", req.user);
-  res.redirect(process.env.IS_PROD === "1" ? "https://www.gangs.gg/" : "http://localhost:3000/");
+app.get("/steam/return", passport.authenticate("steam", { failureRedirect: redirectUrl }), async function (req, res) {
+  console.log("testtt!! ", req.user._json);
+  //Either make user a new account or sign them in
+  await authController.storeSteamData(req.user._json);
+  res.redirect(
+    process.env.IS_PROD === "1"
+      ? "https://www.gangs.gg/"
+      : `http://localhost:3000/#/steam-signup/${req.user._json.steamid}`
+  );
 });
 
 //START SOCKET

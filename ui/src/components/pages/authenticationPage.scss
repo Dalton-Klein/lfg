@@ -70,9 +70,13 @@
           width: 100%;
           padding: 0% 2%;
           .steam-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             .steam-logo {
-              width: 3vw;
-              min-width: 32.5px;
+              min-height: 20px;
+              max-height: 20px;
+              margin-right: 2px;
             }
           }
           .google-signup-container {
@@ -86,6 +90,26 @@
               min-width: 100% !important;
             }
           }
+          .email-signin-box {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            border: 2px solid $colorGreyPop;
+            border-radius: $borderRadius1;
+            margin: 0;
+            margin-bottom: 4px;
+            padding-top: 4px;
+            input {
+              width: 80%;
+            }
+
+            button {
+              width: 80%;
+              font-size: $font3;
+            }
+          }
           input {
             margin: 0.4em;
             padding: 1em;
@@ -93,7 +117,7 @@
             font-size: medium;
             background-color: $colorText;
             color: $colorGreyBg;
-            width: 50%;
+            width: 40%;
           }
           .checkbox-field {
             margin: 0.4em;
@@ -101,7 +125,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 50%;
+            width: 40%;
             .age-checkbox {
               border: 2px solid #ced4da;
               background: #ffffff;
@@ -115,6 +139,7 @@
               font-size: $font2;
               margin-top: 0.4em;
               width: 100%;
+              text-align: center;
             }
           }
         }
@@ -182,6 +207,17 @@
             padding: 0px;
           }
           .login-inputs {
+            .email-signin-box {
+              width: 100%;
+              input {
+                width: 90%;
+              }
+
+              button {
+                width: 90%;
+                font-size: $font3;
+              }
+            }
             .google-signup-container {
               width: 90%;
             }

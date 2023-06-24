@@ -64,6 +64,38 @@ export const signInUser = async (user: SignInForm, isGoogleSignIn: boolean) => {
   return result;
 };
 
+export const steamSignIn = async (email: string) => {
+  let result = await fetch(`${endpointURL}/google-signin`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => data)
+    .catch((err) => console.log("SIGN IN USER ERROR", err));
+  return result;
+};
+
+export const getSteamData = async (steamId: string) => {
+  let result = await fetch(`${endpointURL}/steam-data`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      steamId,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => data)
+    .catch((err) => console.log("SIGN IN USER ERROR", err));
+  return result;
+};
+
 export const googleSignIn = async (email: string) => {
   let result = await fetch(`${endpointURL}/google-signin`, {
     method: "POST",
