@@ -44,7 +44,7 @@ passport.use(
     {
       returnURL:
         process.env.IS_PROD === "1" ? "https://www.gangs.gg/steam/return" : "http://localhost:3010/steam/return",
-      realm: process.env.IS_PROD === "1" ? "https://www.gangs.gg" : "http://localhost:3000",
+      realm: process.env.IS_PROD === "1" ? "https://www.gangs.gg" : "http://localhost:3010/",
       apiKey: process.env.STEAM_API_KEY,
     },
     (identifier, profile, done) => {
@@ -66,18 +66,10 @@ app.get("/steam", passport.authenticate("steam", { successRedirect: "/", failure
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get(
-  "/steam/return",
-  passport.authenticate("steam", { failureRedirect: redirectUrl }),
-  // function (req, res, next) {
-  //   req.url = req.originalUrl;
-  //   next();
-  // },
-  function (req, res) {
-    console.log("authenticatedddd!! ", res);
-    res.redirect("/");
-  }
-);
+app.get("/steam/return", passport.authenticate("steam", { failureRedirect: redirectUrl }), function (req, res) {
+  console.log("authenticatedddd!! ", req.user);
+  res.redirect(process.env.IS_PROD === "1" ? "https://www.gangs.gg/" : "http://localhost:3000/");
+});
 
 //START SOCKET
 io = require("socket.io")(http);
