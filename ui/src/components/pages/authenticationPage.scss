@@ -5,6 +5,55 @@
 }
 
 .login-container {
+  .edit-profile-form {
+    border-radius: $borderRadius1;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 70vw;
+    height: 65vh;
+    left: 20%;
+    margin-left: -5vw;
+    top: 20%;
+    padding: 1em;
+    background-color: $colorGreyHover;
+    border: 2px solid $colorPrimary;
+    // box-shadow: 0 0 5px 1px $colorPrimary;
+    opacity: 0;
+    p {
+      font-size: 1.5em;
+      text-align: center;
+      margin-bottom: 2vh;
+    }
+
+    .avatar-upload-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .upload-form-btns {
+      width: 80%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: space-around;
+      button {
+        min-width: 100%;
+      }
+      .visit-website-btn {
+        background-color: $colorSecondary;
+      }
+      .visit-website-btn:hover {
+        background-color: $colorSecondaryDarker;
+      }
+    }
+    .photo-label {
+      text-align: center;
+    }
+  }
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -73,6 +122,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: $colorSecondary;
             .steam-logo {
               min-height: 20px;
               max-height: 20px;
@@ -96,8 +146,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            border: 2px solid $colorGreyPop;
-            border-radius: $borderRadius1;
             margin: 0;
             margin-bottom: 4px;
             padding-top: 4px;

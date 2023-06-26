@@ -5,8 +5,6 @@ import "./drawerComponent.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { logoutUser } from "../../store/userSlice";
-import { GoogleLogout } from "react-google-login";
-const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 type Props = {
   toggleDrawer: any;
@@ -90,14 +88,7 @@ const DrawerComponent = (props: Props) => {
     <div className="hamburger-red-panel">
       <div className="hamburger-green-panel">
         <div className="hamburger-nav">
-          <img
-            onClick={props.toggleDrawer}
-            className="hamburger-exit"
-            src={exitIcon}
-            onMouseOver={handleMouseEnter}
-            onMouseOut={handleMouseLeave}
-            alt="exit"
-          />
+          <i className="pi pi-angle-left hamburger-exit" onClick={props.toggleDrawer}></i>
           <div
             onClick={() => {
               navigationButtonPressed("genProfile");
@@ -147,13 +138,14 @@ const DrawerComponent = (props: Props) => {
             <button className="hamburger-button">help | faq</button>
           </div>
           <div className="hamburger-links">
-            <GoogleLogout
+            <button
               className="google-button"
-              clientId={clientId}
-              buttonText="logout"
-              onLogoutSuccess={logoutFunction}
-              onFailure={logoutFunction}
-            />
+              onClick={() => {
+                logoutFunction();
+              }}
+            >
+              logout
+            </button>
           </div>
           <div
             onClick={() => {

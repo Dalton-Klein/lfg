@@ -87,12 +87,15 @@ export default function GangPage({ socketRef }) {
   const toast: any = useRef({ current: "" });
   //Voice Specific
   const [lastSeenParticipants, setlastSeenParticipants] = useState<any>([]);
-  const [callParticipants, setcallParticipants] = useState<any>([]);
+  const [callParticipants, setcallParticipants] = useState<any>([
+    <div className="voice-participant-box empty-voice" key={-1}></div>,
+  ]);
   // const userAudio = useRef<any>();
   const peersRef = useRef<any>([]);
   const [myDevicesStream, setmyDevicesStream] = useState<MediaStream>();
 
   const [hasMicAccess, sethasMicAccess] = useState<boolean>(true);
+  const [isMicMuted, setisMicMuted] = useState<boolean>(false);
   const [isTalking, setisTalking] = useState<boolean>(false);
   const [currentInputDevice, setcurrentInputDevice] = useState<any>();
   const [currentOutputDevice, setcurrentOutputDevice] = useState<any>();
@@ -168,11 +171,16 @@ export default function GangPage({ socketRef }) {
   }, [currentChannel]);
 
   useEffect(() => {
-    socketRef.current.emit("start_stop_talking", {
-      roomId: `voice_${currentAudioChannel.id}`,
-      user_id: userState.id,
-      isTalking: isTalking,
-    });
+    if (isTalking && isMicMuted) {
+      //Do not send is talking true if on mute
+    } else {
+      //Otherwise send talking/ not-talking updates
+      socketRef.current.emit("start_stop_talking", {
+        roomId: `voice_${currentAudioChannel.id}`,
+        user_id: userState.id,
+        isTalking: isTalking,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTalking]);
 
@@ -183,6 +191,16 @@ export default function GangPage({ socketRef }) {
     renderChannelTitleContents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAudioChannel]);
+
+  useEffect(() => {
+    if (myDevicesStream && myDevicesStream.getAudioTracks().length > 0) {
+      myDevicesStream.getAudioTracks().forEach((track) => {
+        track.enabled = !isMicMuted;
+      });
+    }
+    renderChannelDynamicContents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentAudioChannel, isMicMuted]);
 
   useEffect(() => {
     if (myDevicesStream) {
@@ -237,6 +255,7 @@ export default function GangPage({ socketRef }) {
   const handleUserJoinsVoice = (payload: any) => {
     if (myDevicesStream && currentAudioChannel && currentAudioChannel.id) {
       createPeers(payload.participants, myDevicesStream);
+      new Audio("https://res.cloudinary.com/kultured-dev/video/upload/v1687113879/connect2_hmcl7t.wav").play();
     }
   };
   const handleSignal = (payload) => {
@@ -262,6 +281,7 @@ export default function GangPage({ socketRef }) {
     const index = peersRef.current.findIndex((peer) => peer.peer_user_id === payload.userLeaving);
     // Check if the peer exists in the array
     if (index !== -1) {
+      new Audio("https://res.cloudinary.com/kultured-dev/video/upload/v1687113879/disconnect2_mhei7k.wav").play();
       const peer = peersRef.current[index];
       peer.peer.destroy();
       // Remove the peer from the array
@@ -316,10 +336,12 @@ export default function GangPage({ socketRef }) {
       onUpdate: function (val) {
         if (updateCounter === 0) {
           const threshold = 0.15; // Set your desired threshold value
-          if (val > threshold) {
-            setisTalking(true);
-          } else {
-            setisTalking(false);
+          if (!isMicMuted) {
+            if (val > threshold) {
+              setisTalking(true);
+            } else {
+              setisTalking(false);
+            }
           }
         }
         updateCounter = (updateCounter + 1) % updateFrequency;
@@ -429,11 +451,16 @@ export default function GangPage({ socketRef }) {
 
   const disconnectFromVoice = () => {
     closePeerConnections();
+    new Audio("https://res.cloudinary.com/kultured-dev/video/upload/v1687113879/disconnect2_mhei7k.wav").play();
     socketRef.current.emit("leave_voice", {
       roomId: `voice_${currentAudioChannel.id}`,
       user_id: userState.id,
     });
     setcurrentAudioChannel({});
+  };
+
+  const toggleMuteMic = () => {
+    setisMicMuted((prevState) => !prevState);
   };
 
   const closePeerConnections = () => {
@@ -523,7 +550,7 @@ export default function GangPage({ socketRef }) {
         //***TODO, implement a proper disconnect from any previous channel
 
         setchannelTitleContents(
-          <div className="voice-channel">
+          <div className="voice-channel-title">
             <button
               className="expand-channels-button"
               onClick={() => {
@@ -532,36 +559,11 @@ export default function GangPage({ socketRef }) {
             >
               <i className={`pi ${showChannelNav ? "pi-angle-left" : "pi-angle-right"}`} />
             </button>
-            <div className="text-channel-title">
-              {currentChannel.name}
-              {currentAudioChannel.id === currentChannel.id ? (
-                <button
-                  className="disconnnect-button"
-                  onClick={() => {
-                    disconnectFromVoice();
-                  }}
-                  data-tip
-                  data-for="voice-connect-tooltip"
-                >
-                  <i className="pi pi-phone " />
-                </button>
-              ) : (
-                <button
-                  className="connect-button"
-                  onClick={() => {
-                    setcurrentAudioChannel(currentChannel);
-                  }}
-                  data-tip
-                  data-for="voice-connect-tooltip"
-                >
-                  <i className="pi pi-phone" />
-                </button>
-              )}
-            </div>
+            <div className="text-channel-title">{currentChannel.name}</div>
             {/* show conditional help messages to set devices */}
             {currentChannel && currentChannel.is_voice && !currentInputDevice && !isMobile ? (
-              <div>
-                {" "}
+              <div className="voice-channel-helper">
+                {" ("}
                 no input device set, set device in{" "}
                 <span
                   onClick={() => {
@@ -571,11 +573,12 @@ export default function GangPage({ socketRef }) {
                 >
                   {" "}
                   account settings
-                </span>{" "}
+                </span>
+                {") "}
               </div>
             ) : currentChannel && currentChannel.is_voice && !currentOutputDevice && !isMobile ? (
               <div className="voice-channel-helper">
-                {" "}
+                {" ("}
                 no output device set, set device in{" "}
                 <span
                   onClick={() => {
@@ -585,7 +588,8 @@ export default function GangPage({ socketRef }) {
                 >
                   {" "}
                   account settings
-                </span>{" "}
+                </span>
+                {") "}
               </div>
             ) : (
               <></>
@@ -606,7 +610,7 @@ export default function GangPage({ socketRef }) {
         //Call async event for use later in fucntion
       } else {
         setchannelTitleContents(
-          <div className="text-channel-container">
+          <div className="text-channel-title-container">
             <button
               className="expand-channels-button"
               onClick={() => {
@@ -673,7 +677,11 @@ export default function GangPage({ socketRef }) {
         ></VoiceParticipant>
       );
     });
-    setcallParticipants(tempParticipants);
+    if (tempParticipants.length) {
+      setcallParticipants(tempParticipants);
+    } else {
+      setcallParticipants([<div className="voice-participant-box empty-voice" key={-2}></div>]);
+    }
   };
 
   const renderChannelDynamicContents = () => {
@@ -682,7 +690,63 @@ export default function GangPage({ socketRef }) {
       setchannelDynamicContents(
         <div className="voice-channel">
           {/* List of participants in call */}
-          {callParticipants}
+          <div className="participants-auto-fill-box">{callParticipants}</div>
+          <div className="call-options-bar">
+            {currentAudioChannel.id === currentChannel.id ? (
+              <div className="button-rack">
+                <button
+                  className="disconnnect-button"
+                  onClick={() => {
+                    disconnectFromVoice();
+                  }}
+                  data-tip
+                  data-for="voice-connect-tooltip"
+                >
+                  <i className="pi pi-phone " />
+                </button>
+                {isMicMuted ? (
+                  <button
+                    className="muted-button"
+                    onClick={() => {
+                      toggleMuteMic();
+                    }}
+                    data-tip
+                    data-for="mute-mic-tooltip"
+                  >
+                    <i className="pi pi-microphone" />
+                  </button>
+                ) : (
+                  <button
+                    className="mute-button"
+                    onClick={() => {
+                      toggleMuteMic();
+                    }}
+                    data-tip
+                    data-for="mute-mic-tooltip"
+                  >
+                    <i className="pi pi-microphone" />
+                  </button>
+                )}
+
+                <ReactTooltip id="mute-mic-tooltip" place="top" effect="float">
+                  <span>{isMicMuted ? "unmute mic" : "mute mic"}</span>
+                </ReactTooltip>
+              </div>
+            ) : (
+              <div className="button-rack">
+                <button
+                  className="connect-button"
+                  onClick={() => {
+                    setcurrentAudioChannel(currentChannel);
+                  }}
+                  data-tip
+                  data-for="voice-connect-tooltip"
+                >
+                  <i className="pi pi-phone" />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       );
     } else {
@@ -718,134 +782,133 @@ export default function GangPage({ socketRef }) {
   //END MISC LOGIC
 
   return (
-    <div>
-      <Toast ref={toast} />
+    <div className="master-gang-contents">
       {/* Gang Top Details Bar */}
-      <div className="master-gang-contents">
+
+      <Toast ref={toast} />
+      {showChannelNav ? (
+        <div className="top-bar">
+          <div className="main-details">
+            <div className="image-column">
+              {gangInfo.basicInfo?.avatar_url === "" ||
+              gangInfo.basicInfo?.avatar_url ===
+                "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
+                <div
+                  className="dynamic-avatar-border"
+                  onClick={() => {
+                    toggleExpandedProfile();
+                  }}
+                >
+                  <div className="dynamic-avatar-text-med">
+                    {gangInfo.basicInfo?.name
+                      .split(" ")
+                      .map((word: string[]) => word[0])
+                      .join("")
+                      .slice(0, 2)
+                      .toLowerCase()}
+                  </div>
+                </div>
+              ) : (
+                <img
+                  className="card-photo"
+                  onClick={() => {}}
+                  src={gangInfo.basicInfo?.avatar_url}
+                  alt={`${gangInfo.basicInfo?.name}'s avatar`}
+                />
+              )}
+            </div>
+            <div className="gang-info">
+              <div className="gang-name">{gangInfo.basicInfo?.name ? gangInfo.basicInfo.name : ""}</div>
+              <div className="gang-role-text">{gangInfo.role?.role_name ? gangInfo.role?.role_name : ""}</div>
+            </div>
+          </div>
+          <img className="gang-game-image" src={platformImgLink} alt={`game this team supports`} />
+          <Menu model={renderGangOptions()} popup ref={gangOptionsMenu} id="popup_menu" />
+          <button
+            style={{ display: gangInfo!.role && gangInfo!.role!.role_id === 1 ? "inline-block" : "none" }}
+            className="options-button"
+            onClick={(event) => gangOptionsMenu.current.toggle(event)}
+          >
+            <i className="pi pi-ellipsis-h"></i>
+          </button>
+        </div>
+      ) : (
+        <></>
+      )}
+
+      {/* <div className="about-box">{gangInfo.basicInfo?.about ? gangInfo.basicInfo.about : ""}</div> */}
+      {/* Gang Default Channel */}
+      <div className="channel-specific-contents">
+        {/* Roster Row */}
         {showChannelNav ? (
-          <div className="top-bar">
-            <div className="main-details">
-              <div className="image-column">
-                {gangInfo.basicInfo?.avatar_url === "" ||
-                gangInfo.basicInfo?.avatar_url ===
+          <div className="gang-roster-container">
+            {first5Members.map((member: any) => (
+              <div className="list-member-photo" key={member.id}>
+                {!member.avatar_url ||
+                member.avatar_url ===
                   "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
                   <div
-                    className="dynamic-avatar-border"
+                    className="dynamic-avatar-bg"
                     onClick={() => {
-                      toggleExpandedProfile();
+                      /* ***TODO*** load detail profile of person here */
                     }}
+                    data-tip
+                    data-for="avatarTip"
                   >
-                    <div className="dynamic-avatar-text-med">
-                      {gangInfo.basicInfo?.name
-                        .split(" ")
-                        .map((word: string[]) => word[0])
-                        .join("")
-                        .slice(0, 2)
-                        .toLowerCase()}
+                    <div className="dynamic-avatar-text">
+                      {member.username
+                        ? member.username
+                            .split(" ")
+                            .map((word: string[]) => word[0])
+                            .join("")
+                            .slice(0, 2)
+                            .toLowerCase()
+                        : "gg"}
                     </div>
                   </div>
                 ) : (
                   <img
-                    className="card-photo"
-                    onClick={() => {}}
-                    src={gangInfo.basicInfo?.avatar_url}
-                    alt={`${gangInfo.basicInfo?.name}'s avatar`}
+                    className="member-photo"
+                    onClick={() => {
+                      /* ***TODO*** load detail profile of person here */
+                    }}
+                    src={member.avatar_url}
+                    alt={`member avatar`}
                   />
                 )}
               </div>
-              <div className="gang-info">
-                <div className="gang-name">{gangInfo.basicInfo?.name ? gangInfo.basicInfo.name : ""}</div>
-                <div className="gang-role-text">{gangInfo.role?.role_name ? gangInfo.role?.role_name : ""}</div>
-              </div>
+            ))}
+            <div className="number-of-members">
+              {gangInfo.basicInfo?.members?.length ? gangInfo.basicInfo?.members?.length : ""} members
             </div>
-            <img className="gang-game-image" src={platformImgLink} alt={`game this team supports`} />
-            <Menu model={renderGangOptions()} popup ref={gangOptionsMenu} id="popup_menu" />
-            <button
-              style={{ display: gangInfo!.role && gangInfo!.role!.role_id === 1 ? "inline-block" : "none" }}
-              className="options-button"
-              onClick={(event) => gangOptionsMenu.current.toggle(event)}
-            >
-              <i className="pi pi-ellipsis-h"></i>
-            </button>
           </div>
         ) : (
           <></>
         )}
 
-        {/* <div className="about-box">{gangInfo.basicInfo?.about ? gangInfo.basicInfo.about : ""}</div> */}
-        {/* Gang Default Channel */}
-        <div className="channel-specific-contents">
-          {/* Roster Row */}
-          {showChannelNav ? (
-            <div className="gang-roster-container">
-              {first5Members.map((member: any) => (
-                <div className="list-member-photo" key={member.id}>
-                  {!member.avatar_url ||
-                  member.avatar_url ===
-                    "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
-                    <div
-                      className="dynamic-avatar-bg"
-                      onClick={() => {
-                        /* ***TODO*** load detail profile of person here */
-                      }}
-                      data-tip
-                      data-for="avatarTip"
-                    >
-                      <div className="dynamic-avatar-text">
-                        {member.username
-                          ? member.username
-                              .split(" ")
-                              .map((word: string[]) => word[0])
-                              .join("")
-                              .slice(0, 2)
-                              .toLowerCase()
-                          : "gg"}
-                      </div>
-                    </div>
-                  ) : (
-                    <img
-                      className="member-photo"
-                      onClick={() => {
-                        /* ***TODO*** load detail profile of person here */
-                      }}
-                      src={member.avatar_url}
-                      alt={`member avatar`}
-                    />
-                  )}
-                </div>
-              ))}
-              <div className="number-of-members">
-                {gangInfo.basicInfo?.members?.length ? gangInfo.basicInfo?.members?.length : ""} members
+        {/* List of channels on left, Channel contents on right */}
+        {gangInfo.role?.role_id ? (
+          <div className="channels-container">
+            {showChannelNav ? (
+              <div className="chat-list">
+                {channelList}
+                {peersRef.current.map((peerObj, index) => {
+                  return <Video key={index} peer={peerObj.peer} />;
+                })}
               </div>
+            ) : (
+              <></>
+            )}
+            <div className="channel-contents">
+              <div className="channel-contents-title">{channelTitleContents}</div>
+              <div className="channel-contents-dynamic">{channelDynamicContents}</div>
             </div>
-          ) : (
-            <></>
-          )}
-
-          {/* List of channels on left, Channel contents on right */}
-          {gangInfo.role?.role_id ? (
-            <div className="channels-container">
-              {showChannelNav ? (
-                <div className="chat-list">
-                  {channelList}
-                  {peersRef.current.map((peerObj, index) => {
-                    return <Video key={index} peer={peerObj.peer} />;
-                  })}
-                </div>
-              ) : (
-                <></>
-              )}
-              <div className="channel-contents">
-                <div className="channel-contents-title">{channelTitleContents}</div>
-                <div className="channel-contents-dynamic">{channelDynamicContents}</div>
-              </div>
-            </div>
-          ) : showChannelNav ? (
-            [channelList]
-          ) : (
-            <></>
-          )}
-        </div>
+          </div>
+        ) : showChannelNav ? (
+          [channelList]
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./authenticationPage.scss";
 import { SignUpForm, SignInForm, VerificationForm, PasswordResetForm } from "../../utils/interfaces";
 import { createUser, googleSignIn, requestPasswordReset } from "../../utils/rest";
@@ -16,16 +16,29 @@ import {
   setUpAnim,
   loginPanelForgotPasswordAnim,
   loginPanelPasswordResetAnim,
+  avatarFormOut,
+  avatarFormIn,
 } from "../../utils/animations";
 import { signInUserThunk, createUserInState, resetPasswordInState, updateUserThunk } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
+import * as FS from "fs";
+import { IpcRenderer } from "electron";
+const fs: typeof FS = window.require("fs");
+const ipcRenderer: IpcRenderer = window.require("electron").ipcRenderer;
 
 const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
+// ***ELECTRON
+const isElectron = true;
+
 const LoginPage = () => {
   const navigate = useNavigate();
+  const scrollToSection = (ref: any) => {
+    ref.current?.scrollIntoView();
+  };
+  const topOfPageRef: any = useRef(null);
   const initialSignUpForm: SignUpForm = {
     name: "",
     email: "",
@@ -56,6 +69,7 @@ const LoginPage = () => {
   const [forgotPasswordForm, setForgotPasswordFormState] = useState(initialForgotPasswordForm);
   const [passwordResetForm, setPasswordResetFormState] = useState(initialPasswordResetForm);
   const [formError, setFormError] = useState(false);
+  const [isSteamPopup, setisSteamPopup] = useState<boolean>(false);
   const [isGoogleSignUp, setisGoogleSignUp] = useState<boolean>(false);
   const [googleSuccessResponse, setgoogleSuccessResponse] = useState<any>({});
   const [ageChecked, setageChecked] = useState<boolean>(false);
@@ -322,8 +336,40 @@ const LoginPage = () => {
     window.location.href = "http://localhost:3010/steam";
   };
 
+  const openGangsInBrowser = async () => {
+    const url = "https://www.gangs.gg/#/login";
+    ipcRenderer.send("openWebPage", url);
+  };
+
+  const openSteamPopup = async () => {
+    setisSteamPopup(true);
+    avatarFormIn();
+    scrollToSection(topOfPageRef);
+    return;
+  };
+  const closeSteamPopup = () => {
+    avatarFormOut();
+    setisSteamPopup(false);
+    return;
+  };
+
+  const conditionalSteamModalClass = isSteamPopup ? "conditionalZ2" : "conditionalZ1";
   return (
-    <div className="login-container">
+    <div className="login-container" ref={topOfPageRef}>
+      {/* Add Members MODAL */}
+      <div className={`edit-profile-form ${conditionalSteamModalClass}`}>
+        <p>
+          Steam sign up must be done in a web browser. Please visit the gangs website, and create your account through
+          steam.{" "}
+        </p>
+        <p>Once your account is created, you can return to the gangs desktop app and login!</p>
+        <div className="upload-form-btns">
+          <button onClick={openGangsInBrowser} className="visit-website-btn">
+            open gangs in web browser
+          </button>
+          <button onClick={closeSteamPopup}>close</button>
+        </div>
+      </div>
       {/* Title */}
       <div className="login-banner">
         <img
@@ -363,7 +409,11 @@ const LoginPage = () => {
                 type="button"
                 className="alt-button steam-button"
                 onClick={() => {
-                  trySteamLogin();
+                  if (isElectron) {
+                    openSteamPopup();
+                  } else {
+                    trySteamLogin();
+                  }
                 }}
               >
                 <img
@@ -443,35 +493,11 @@ const LoginPage = () => {
             <h2>sign in</h2>
             {/* Input Boxes */}
             <div className="login-inputs">
-              <button
-                type="button"
-                className="alt-button steam-button"
-                onClick={() => {
-                  trySteamLogin();
-                }}
-              >
-                <img
-                  src="https://res.cloudinary.com/kultured-dev/image/upload/v1686792786/Steam-Logo_bcn4qj.png"
-                  alt="steam-logo-signin"
-                  className="steam-logo"
-                ></img>{" "}
-                steam login
-              </button>
-              {/* <GoogleLogin
-                className="google-button"
-                clientId={clientId}
-                buttonText="google login"
-                onSuccess={onGoogleSuccess}
-                onFailure={onGoogleFailure}
-                cookiePolicy={"single_host_origin"}
-                isSignedIn={true}
-              /> */}
-              <div className="seperator-text">or</div>
               <div className="email-signin-box">
-                <input name="email" type="email" placeholder="email" />
+                <input name="email" type="email" placeholder="username, email, or steam id" />
                 <input name="password" type="password" placeholder="password" />
                 {formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
-                <button type="submit">email login</button>
+                <button type="submit">login</button>
               </div>
               <div className="seperator-text">no account?</div>
             </div>

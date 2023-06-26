@@ -82,7 +82,7 @@ export default function HomePage({ socketRef }) {
             has2Buttons={false}
             routerLinkLFG="/blog/signup-promo"
             routerLinkLFM=""
-            image="https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"
+            image="https://res.cloudinary.com/kultured-dev/image/upload/v1686770431/g6ouckgsguxpxha8icjo.jpg"
             title="sign up promo | win rust skins"
             buttonTextLFG="see details"
             buttonTextLFM=""

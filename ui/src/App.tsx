@@ -26,7 +26,8 @@ import VerticalNav from "./components/nav/verticalNav";
 import BlogArticle3 from "./components/pages/blog/blogArticle-3";
 import AddFriend from "./components/pages/addFriend";
 import SteamSignUpPage from "./components/authentication/steamSignUp";
-const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
+// ***ELECTRON DISABLE
+import ElectronTitlebar from "./components/nav/electronTitleBar";
 
 function App() {
   const socketRef = useRef<any>();
@@ -35,16 +36,6 @@ function App() {
   useEffect(() => {
     //Master connect to socket so each client only connects to server once
     connectToSocketMaster();
-    //Google api init
-    const startGoogleAPI = () => {
-      gapi.auth2.init({
-        clientId: clientId,
-        scope: "",
-      });
-    };
-    gapi.load("client:auth2", startGoogleAPI);
-    //If I ever need access token, get it by using line below
-    // let accessToken = gapi.auth.getToken().access_token;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -73,6 +64,9 @@ function App() {
         <div className="App">
           {/* This scroll component scrolls user to top of each page when navigating */}
           <ScrollToTop />
+
+          {/* ***ELECTRON Include custom bar if electron build */}
+          <ElectronTitlebar></ElectronTitlebar>
           {shouldShowNavs() ? <HeaderComponent socketRef={socketRef}></HeaderComponent> : <></>}
           <div className="app-container">
             {shouldShowNavs() ? <VerticalNav></VerticalNav> : <></>}

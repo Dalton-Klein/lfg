@@ -2,19 +2,23 @@
 
 .voice-participant-box {
   display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
   align-items: center;
-  justify-content: flex-start;
-  min-width: 25vw;
+  justify-content: center;
+  border: 1px solid $colorGreyPop;
+  border-radius: $borderRadius1;
+  margin: 1.5vw;
   .circle-audio-ring {
     border: 3px solid $colorPrimary; // Replace #000 with your desired color
     border-radius: 50%;
   }
   .dynamic-avatar-border {
-    width: 3vw;
-    height: 3vw;
-    min-height: 3vw;
-    min-width: 3vw;
-    border-radius: calc(3vw / 2);
+    width: 5vw;
+    height: 5vw;
+    min-height: 5vw;
+    min-width: 5vw;
+    border-radius: calc(5vw / 2);
     margin: 0.5vh 1vw;
     background-color: $colorShadowLight;
     display: flex;
