@@ -96,7 +96,6 @@ export const signInUserThunk =
         isGoogleSignIn
       );
       if (!response.error) {
-        console.log(" wtf? ", response);
         dispatch(setUser(response.data));
       }
       return response;
