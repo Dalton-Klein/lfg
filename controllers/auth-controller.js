@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const services = require("../services/auth");
 const {
   getUserDataByEmailQuery,
+  getUserDataByUsernameQuery,
   getUserDataBySteamIdQuery,
   createUserQuery,
   createGeneralInfoQuery,
@@ -28,18 +29,41 @@ exports.signin = async (req, res) => {
     console.log(" ♛ A User Requested Sign In ♛ ");
     const { email, password, isGoogleSignIn } = req.body;
     const query = getUserDataByEmailQuery();
+    //Try Email Sign In
     let user = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
       replacements: {
         email,
       },
     });
-    user = user[0];
+    if (user && user[0] && user[0].id) user = user[0];
+    if (!user || user === null || !user.id) {
+      // Try Username Sign In
+      const query = getUserDataByUsernameQuery();
+      user = await sequelize.query(query, {
+        type: Sequelize.QueryTypes.SELECT,
+        replacements: {
+          username: email,
+        },
+      });
+      if (user && user[0] && user[0].id) user = user[0];
+    }
+    if (!user || user === null || !user.id) {
+      // Try Steam Id Sign In
+      const query = getUserDataBySteamIdQuery();
+      user = await sequelize.query(query, {
+        type: Sequelize.QueryTypes.SELECT,
+        replacements: {
+          steamId: email,
+        },
+      });
+      if (user && user[0] && user[0].id) user = user[0];
+    }
     let result = "";
-    if (user && user !== null) {
+    console.log("user2 ", user);
+    if (user && user !== null && user.id) {
       //If matching user is found, check pass if email sign in, otherwise return data
-      const validPass = isGoogleSignIn ? true : await bcrypt.compare(password, user.hashed);
-      console.log("pass ", password, "    hashed: ", user.hashed, "   valid pass ", validPass);
+      const validPass = await bcrypt.compare(password, user.hashed);
       if (validPass) {
         const token = services.keyGen(15);
         await TokenTable.destroy({ where: { id: user.id } }); //delete Old tokens
@@ -47,6 +71,7 @@ exports.signin = async (req, res) => {
         delete user.hashed;
         result = { token: newToken.token, data: user };
       } else result = { error: "one of your credentials is incorrect" };
+      //If matching user is found, check pass if email sign in, otherwise return data
     } else result = { error: "one of your credentials is incorrect" };
     res.status(200).send(result);
   } catch (error) {
@@ -55,7 +80,7 @@ exports.signin = async (req, res) => {
   }
 };
 /*
-Steam Sign In Logic
+Steam Sign Up Logic
 */
 exports.storeSteamData = async (userObj) => {
   try {

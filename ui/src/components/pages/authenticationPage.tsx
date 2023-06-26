@@ -351,7 +351,7 @@ const LoginPage = () => {
   const conditionalSteamModalClass = isSteamPopup ? "conditionalZ2" : "conditionalZ1";
   return (
     <div className="login-container" ref={topOfPageRef}>
-      {/* Add Members MODAL */}
+      {/* Steam Electron Sign Up MODAL */}
       <div className={`edit-profile-form ${conditionalSteamModalClass}`}>
         <p>
           Steam sign up must be done in a web browser. Please visit the gangs website, and create your account through
@@ -480,7 +480,7 @@ const LoginPage = () => {
             {/* Input Boxes */}
             <div className="login-inputs">
               <div className="email-signin-box">
-                <input name="email" type="email" placeholder="username, email, or steam id" />
+                <input name="email" type="text" placeholder="username, email, or steam id" />
                 <input name="password" type="password" placeholder="password" />
                 {formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
                 <button type="submit">login</button>
