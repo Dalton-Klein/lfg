@@ -222,6 +222,7 @@ export default function ProfileInlayComponet({ socketRef }) {
   };
 
   const renderGameProfileOptions = () => {
+    // ***NEW GAME MODIFY
     return [
       {
         label: (

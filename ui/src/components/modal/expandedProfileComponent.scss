@@ -192,6 +192,9 @@
         .profile-incomplete-text {
           color: $colorPrimary;
           text-align: center;
+          .link-text {
+            cursor: pointer;
+          }
         }
       }
       .bottom-of-profile {

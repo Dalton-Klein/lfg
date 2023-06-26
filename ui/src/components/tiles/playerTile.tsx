@@ -7,8 +7,10 @@ import { useLocation } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 
 export default function PlayerTile(props: any) {
+  console.log("props", props);
   const locationPath: string = useLocation().pathname;
-  const [genderIcon, setGenderIcon] = useState("");
+  const [genderIcon, setgenderIcon] = useState("");
+  const [rocketLeagueRankIcon, setrocketLeagueRankIcon] = useState("");
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
 
   const rocketLeaguePlaylists: any = getRocketLeaguePlaylists();
@@ -67,15 +69,49 @@ export default function PlayerTile(props: any) {
 
   useEffect(() => {
     if (props.gender === 1) {
-      setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png");
+      setgenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png");
     } else if (props.gender === 2) {
-      setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png");
+      setgenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png");
     } else if (props.gender === 3) {
-      setGenderIcon(
+      setgenderIcon(
         "https://res.cloudinary.com/kultured-dev/image/upload/v1685814975/gender-icon-non-binary_hepali.png"
       );
     }
   }, [props.gender]);
+
+  useEffect(() => {
+    if (props.rocket_league_rank === 1) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-bronze-transp_fw3ar3.png"
+      );
+    } else if (props.rocket_league_rank === 2) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-silver-transp_ovmdbx.png"
+      );
+    } else if (props.rocket_league_rank === 3) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-gold-transp_vwr4dz.png"
+      );
+    } else if (props.rocket_league_rank === 4) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-plat-transp_rgbpdw.png"
+      );
+    } else if (props.rocket_league_rank === 5) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-diamond-transp_j0vmlx.png"
+      );
+    } else if (props.rocket_league_rank === 6) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-champ-transp_v2xt1q.png"
+      );
+    } else if (props.rocket_league_rank === 7) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-grand-champ-transp_jflaeq.png"
+      );
+    } else {
+      setrocketLeagueRankIcon("");
+    }
+  }, [props.rocket_league_rank]);
 
   const toggleExpandedProfile = () => {
     setExpandedProfileVis(!expandedProfileVis);
@@ -168,6 +204,12 @@ export default function PlayerTile(props: any) {
               <div className="details-rocket-league-playlist" data-tip data-for="playlistTip">
                 {rocketLeaguePlaylists[props.rocket_league_playlist]}
               </div>
+
+              {rocketLeagueRankIcon.length > 0 ? (
+                <img className="details-rocket-league-rank" src={rocketLeagueRankIcon} />
+              ) : (
+                "not ranked"
+              )}
             </div>
           ) : (
             <></>
