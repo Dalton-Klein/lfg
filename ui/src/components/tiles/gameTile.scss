@@ -2,15 +2,12 @@
 
 .game-tile-box {
   border-radius: $borderRadius2;
-  min-height: 24vh;
+  min-height: 8vh;
   min-width: 24vw;
-  max-height: 24vh;
+  max-height: 15vh;
   max-width: 80vw;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  display: grid;
-  place-items: center;
+  object-fit: cover;
+  display: flex;
   margin: 1vh 2vw;
   cursor: pointer;
   transition: $transition1;

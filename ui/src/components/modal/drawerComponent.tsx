@@ -5,8 +5,6 @@ import "./drawerComponent.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { logoutUser } from "../../store/userSlice";
-import { GoogleLogout } from "react-google-login";
-const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
 
 type Props = {
   toggleDrawer: any;
@@ -18,9 +16,6 @@ const DrawerComponent = (props: Props) => {
   const navigate = useNavigate();
   const userState = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
-  const [exitIcon, setExitIcon] = useState<string>(
-    "https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png"
-  );
 
   useEffect(() => {
     gsap.from(".hamburger-red-panel", 0.25, {
@@ -45,20 +40,8 @@ const DrawerComponent = (props: Props) => {
       opacity: 1,
       delay: 0.25,
     });
-    handleMouseLeave();
-    return () => {
-      setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png");
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const handleMouseEnter = () => {
-    setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814833/exit-icon-hover2_fdognt.png");
-  };
-
-  const handleMouseLeave = () => {
-    setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png");
-  };
 
   const logoutFunction = () => {
     dispatch(logoutUser(userState.id));
@@ -90,14 +73,7 @@ const DrawerComponent = (props: Props) => {
     <div className="hamburger-red-panel">
       <div className="hamburger-green-panel">
         <div className="hamburger-nav">
-          <img
-            onClick={props.toggleDrawer}
-            className="hamburger-exit"
-            src={exitIcon}
-            onMouseOver={handleMouseEnter}
-            onMouseOut={handleMouseLeave}
-            alt="exit"
-          />
+          <i className="pi pi-angle-left hamburger-exit" onClick={props.toggleDrawer}></i>
           <div
             onClick={() => {
               navigationButtonPressed("genProfile");
@@ -147,13 +123,14 @@ const DrawerComponent = (props: Props) => {
             <button className="hamburger-button">help | faq</button>
           </div>
           <div className="hamburger-links">
-            <GoogleLogout
+            <button
               className="google-button"
-              clientId={clientId}
-              buttonText="logout"
-              onLogoutSuccess={logoutFunction}
-              onFailure={logoutFunction}
-            />
+              onClick={() => {
+                logoutFunction();
+              }}
+            >
+              logout
+            </button>
           </div>
           <div
             onClick={() => {

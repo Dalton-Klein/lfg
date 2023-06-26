@@ -1,77 +1,21 @@
 @import "../../styling/config";
 
-.link-text {
-  color: $colorSecondary;
-}
-
 .login-container {
-  .edit-profile-form {
-    border-radius: $borderRadius1;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    width: 70vw;
-    height: 65vh;
-    left: 20%;
-    margin-left: -5vw;
-    top: 20%;
-    padding: 1em;
-    background-color: $colorGreyHover;
-    border: 2px solid $colorPrimary;
-    // box-shadow: 0 0 5px 1px $colorPrimary;
-    opacity: 0;
-    p {
-      font-size: 1.5em;
-      text-align: center;
-      margin-bottom: 2vh;
-    }
-
-    .avatar-upload-form {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .upload-form-btns {
-      width: 80%;
-      flex-direction: column;
-      justify-content: center;
-      align-items: space-around;
-      button {
-        min-width: 100%;
-      }
-      .visit-website-btn {
-        background-color: $colorSecondary;
-      }
-      .visit-website-btn:hover {
-        background-color: $colorSecondaryDarker;
-      }
-    }
-    .photo-label {
-      text-align: center;
-    }
-  }
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  justify-content: center;
+  min-height: 100vh;
+  justify-content: flex-start;
   align-items: center;
   .login-banner {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     min-width: 100vw;
-    text-align: center;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
     .large-logo {
       min-width: 60px;
       max-width: 7vw;
       min-height: 60px;
       max-height: 7vw;
       align-self: center;
-      transition: $transition1;
     }
     .large-logo:hover {
       transform: scale(1.05);
@@ -89,13 +33,13 @@
     overflow-x: auto;
     overflow-y: visible;
     touch-action: none;
-    .form-container {
+    .steam-form-container {
       display: flex;
       flex-direction: column;
+      align-items: center;
       min-width: 100%;
       border-radius: 0;
-      position: absolute;
-      margin: 1% 10% 0 10%;
+      margin: 0;
       form {
         justify-content: space-between;
         align-items: center;
@@ -118,17 +62,6 @@
           align-items: center;
           width: 100%;
           padding: 0% 2%;
-          .steam-button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: $colorSecondary;
-            .steam-logo {
-              min-height: 20px;
-              max-height: 20px;
-              margin-right: 2px;
-            }
-          }
           .google-signup-container {
             width: 50%;
             display: flex;
@@ -146,6 +79,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
+            border: 2px solid $colorGreyPop;
+            border-radius: $borderRadius1;
             margin: 0;
             margin-bottom: 4px;
             padding-top: 4px;
@@ -195,58 +130,22 @@
           width: 40%;
           font-size: $font3;
         }
-        .google-button {
-          cursor: pointer !important;
-          font-family: "questial" !important;
-          border-radius: $borderRadius1 !important;
-          transition: 125ms !important;
-          min-height: 3em !important;
-          min-width: 40% !important;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          color: $colorText !important;
-          background-color: $colorGreyPop !important;
-          box-shadow: 0 0 0px 0 rgba(10, 10, 10, 0) !important;
-          div {
-            margin-right: 0 !important;
-            transition: 125ms !important;
-            max-height: 100%;
-            background-color: $colorGreyPop !important;
-          }
-          span {
-            font-weight: 300 !important;
-            font-size: $font3;
-          }
-        }
-        .google-button:hover {
-          cursor: pointer;
-          color: $colorButtonHover !important;
-          background-color: $colorGreyHover !important;
-          div {
-            background-color: $colorGreyHover !important;
+        .steam-submit-button {
+          @extend button;
+          .steam-logo {
+            min-height: 20px;
+            max-height: 20px;
+            margin-right: 2px;
           }
         }
       }
     }
   }
 }
-
-.vKey-message {
-  color: $colorButtonHover;
-  margin-bottom: 2vh;
-}
-
-.error-mssg {
-  color: rgb(182, 0, 0);
-  min-height: 3vh;
-  text-align: center;
-}
-
 @media screen and (max-width: 900px) {
   .login-container {
     .panel-container {
-      .form-container {
+      .steam-form-container {
         height: 60vh;
         form {
           button {
@@ -255,6 +154,7 @@
             padding: 0px;
           }
           .login-inputs {
+            padding: 0% 0%;
             .email-signin-box {
               width: 100%;
               input {
@@ -266,10 +166,6 @@
                 font-size: $font3;
               }
             }
-            .google-signup-container {
-              width: 90%;
-            }
-            padding: 0% 0%;
             input {
               width: 90%;
             }

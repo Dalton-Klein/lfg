@@ -44,12 +44,20 @@ export const loginPanelVerifyAnim = () => {
     xPercent: 100,
     ease: "back.inOut(1.7)",
   });
+  gsap.to(".steam-sign-up-container", 0.5, {
+    xPercent: 100,
+    ease: "back.inOut(1.7)",
+  });
   gsap.to(".sign-in-container", 0.5, {
     xPercent: 100,
     ease: "back.inOut(1.7)",
   });
   gsap.to(".verification-container", 0.5, {
     xPercent: 0,
+    ease: "back.inOut(1.7)",
+  });
+  gsap.to(".steam-verify-container", 0.5, {
+    xPercent: -100,
     ease: "back.inOut(1.7)",
   });
   gsap.to(".forgot-password-container", 0.5, {

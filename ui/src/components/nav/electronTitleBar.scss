@@ -4,6 +4,10 @@
   min-width: 100vw;
   min-height: 40px;
   max-height: 40px;
+  display: flex;
+  -webkit-app-region: drag;
+  justify-content: center;
+  align-items: center;
   .version-text {
     font-size: $font1;
   }
