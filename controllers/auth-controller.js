@@ -60,7 +60,6 @@ exports.signin = async (req, res) => {
       if (user && user[0] && user[0].id) user = user[0];
     }
     let result = "";
-    console.log("user2 ", user);
     if (user && user !== null && user.id) {
       //If matching user is found, check pass if email sign in, otherwise return data
       const validPass = await bcrypt.compare(password, user.hashed);
