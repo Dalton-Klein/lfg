@@ -22,8 +22,8 @@ import {
 import { signInUserThunk, createUserInState, resetPasswordInState, updateUserThunk } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { IpcRenderer } from "electron";
-// ***ELECTRON Next 2 LINES modify
+// ***ELECTRON Next 3 LINES modify
+// import { IpcRenderer } from "electron";
 // const ipcRenderer: IpcRenderer = window.require("electron").ipcRenderer;
 const isElectron = false;
 
