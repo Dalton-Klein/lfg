@@ -50,7 +50,6 @@ function App() {
   };
 
   const shouldShowNavs = () => {
-    console.log("what? ", locationPath.substring(0, 13));
     if (locationPath === "/login" || locationPath.substring(0, 13) === "/steam-signup") {
       return false;
     } else {
