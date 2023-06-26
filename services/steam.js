@@ -1,8 +1,5 @@
-const fetch = require("node-fetch");
-
 const getPublicSteamGameData = async (steam_id, dynamicReplacements = {}) => {
   const apiKey = process.env.STEAM_API_KEY;
-
   try {
     const response = await fetch(
       `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${apiKey}&steamid=${steam_id}`
