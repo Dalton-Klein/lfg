@@ -8,15 +8,20 @@ const notificationsController = require("../controllers/notification-controller"
 const publishController = require("../controllers/publish-controller");
 const tilesController = require("../controllers/tiles-controller");
 const userController = require("../controllers/profile-general-controller");
-//
+// test controller
 const testController = require("../controllers/test-controller");
+// Steam related
+const passport = require("passport");
 
+// Router
 const router = express.Router();
 router.use(express.json());
 
 //AUTH RELATED ROUTES
 router.post("/verify", authController.verify);
 router.post("/signup", authController.signup);
+router.post("/steam-signup", authController.steamSignUp);
+router.post("/steam-data", authController.getSteamData);
 router.post("/signin", authController.signin);
 router.post("/google-signin", authController.googleSignin);
 router.post("/forgot-password", authController.forgotPassword);

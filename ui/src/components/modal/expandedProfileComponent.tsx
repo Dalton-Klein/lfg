@@ -223,14 +223,7 @@ const ExpandedProfile = (props: Props) => {
       <div className="hamburger-primary-panel">
         <div className="hamburger-secondary-panel">
           <div className="profile-container">
-            <img
-              onClick={props.toggleExpandedProfile}
-              className="hamburger-exit"
-              src={exitIcon}
-              onMouseOver={handleMouseEnter}
-              onMouseOut={handleMouseLeave}
-              alt="exit Icon"
-            />
+            <i className="pi pi-angle-left hamburger-exit" onClick={props.toggleExpandedProfile}></i>
             <div className="expanded-banner">
               {props.userInfo.avatar_url === "" ||
               props.userInfo.avatar_url ===

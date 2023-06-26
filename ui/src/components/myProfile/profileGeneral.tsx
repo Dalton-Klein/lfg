@@ -232,7 +232,7 @@ export default function ProfileGeneral(props: Props) {
       {/* GAME PROFILE LINKS */}
       <div className="game-profile-container">
         <GameTile
-          imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}
+          imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1686770431/g6ouckgsguxpxha8icjo.jpg"}
           routerLink={"/rust-profile"}
           title={"rust profile"}
           changeBanner={props.changeBanner}

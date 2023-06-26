@@ -70,7 +70,7 @@ const ProfileWidgetsContainer = () => {
         general profile must be complete before any game profile can be published
       </ReactTooltip>
       <ReactTooltip id="gameProfileTip" place="bottom" effect="solid">
-        once complete, publish this game profile to be discoverable by others
+        when completed, publish this game profile to be discoverable by others
       </ReactTooltip>
     </div>
   );

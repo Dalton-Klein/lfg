@@ -8,6 +8,7 @@ const initialState: any = {
     token: "",
     id: 0,
     email: "",
+    steam_id: "",
     avatar_url: "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png",
     is_email_notifications: false,
     is_email_nmarketing: false,
@@ -67,11 +68,11 @@ export default userSlice.reducer;
 
 // THUNK: Creating User
 export const createUserInState =
-  (email: string, vKey: string, name: string, password: string): AppThunk =>
+  (email: string, vKey: string, name: string, password: string, steam_id: string = ""): AppThunk =>
   async (dispatch) => {
     try {
       let response: any;
-      response = await verifyUser(email, vKey, name, password);
+      response = await verifyUser(email, vKey, name, password, steam_id);
       if (!response.error) {
         dispatch(setUser(response.data));
       }
@@ -95,7 +96,6 @@ export const signInUserThunk =
         isGoogleSignIn
       );
       if (!response.error) {
-        console.log(" wtf? ", response);
         dispatch(setUser(response.data));
       }
       return response;
@@ -131,6 +131,7 @@ export const logoutUser =
             token: "",
             id: 0,
             email: "",
+            steam_id: "",
             avatar_url: "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png",
             username: "none",
             numOfStrikes: 0,

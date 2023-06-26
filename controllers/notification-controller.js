@@ -34,9 +34,12 @@ const saveNotification = async (userId, typeId, otherUserId) => {
       },
     });
     //Third, get user data for notification
-    let otherUserDetails = await getUserInfo(otherUserId);
+    let otherUserDetails = {};
+    if (otherUserId > 0) {
+      otherUserDetails = await getUserInfo(otherUserId);
+      otherUserDetails = otherUserDetails[0];
+    }
     let ownerUserDetails = await getUserInfo(userId);
-    otherUserDetails = otherUserDetails[0];
     ownerUserDetails = ownerUserDetails[0];
     const _io = global._io;
     //Send Private Notifcation to owner
@@ -45,7 +48,7 @@ const saveNotification = async (userId, typeId, otherUserId) => {
       owner_id: ownerUserDetails.id,
       type_id: typeId,
       other_user_id: otherUserId,
-      other_username: otherUserDetails.username,
+      other_username: otherUserDetails.username ? otherUserDetails.username : undefined,
       other_user_avatar_url: otherUserDetails.avatar_url,
     };
     _io.to(`notifications-${ownerUserDetails.id}`).emit("notification", responseObject);

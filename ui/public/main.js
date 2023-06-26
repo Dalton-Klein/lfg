@@ -1,4 +1,4 @@
-const { app, ipcMain, session, BrowserWindow, screen } = require("electron");
+const { app, ipcMain, session, BrowserWindow, shell } = require("electron");
 const { join } = require("path");
 const isDev = require("electron-is-dev");
 const log = require("electron-log");
@@ -9,6 +9,9 @@ const { autoUpdater } = require("electron-updater");
 // Handle IPC message to retrieve Electron version
 ipcMain.handle("getElectronVersion", () => {
   return app.getVersion();
+});
+ipcMain.on("openWebPage", (event, url) => {
+  shell.openExternal(url);
 });
 
 function sendStatusToWindow(win, text) {

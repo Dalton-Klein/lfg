@@ -59,7 +59,7 @@
 .my-profile-overlay {
   height: 40px;
   max-height: 40px;
-  width: 40vw;
+  width: 60vw;
   min-width: 30vw;
   max-width: 300px;
   display: flex;
@@ -67,21 +67,14 @@
   align-items: center;
 }
 
+.my-profile-overlay-wrapper > * {
+  margin: 6px;
+}
+
 .my-profile-overlay-wrapper {
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  // i {
-  //   cursor: pointer;
-  //   font-size: $font4;
-  //   display: block;
-  //   object-fit: contain;
-  //   transition: $transition1;
-  //   margin: 0 1vw;
-  // }
-  // i:hover {
-  //   transform: scale(1.05);
-  // }
   .discover-navigator-image {
     min-width: 2vw;
     max-width: 2vw;
