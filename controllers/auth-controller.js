@@ -445,7 +445,6 @@ exports.forgotPassword = async (req, res) => {
         email: req.body.email,
       },
     });
-    console.log("@@@ ", userResult);
     if (userResult === null) {
       res.send({
         error: "no account found with that email",
