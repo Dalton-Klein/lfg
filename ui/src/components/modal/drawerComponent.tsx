@@ -16,9 +16,6 @@ const DrawerComponent = (props: Props) => {
   const navigate = useNavigate();
   const userState = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
-  const [exitIcon, setExitIcon] = useState<string>(
-    "https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png"
-  );
 
   useEffect(() => {
     gsap.from(".hamburger-red-panel", 0.25, {
@@ -43,20 +40,8 @@ const DrawerComponent = (props: Props) => {
       opacity: 1,
       delay: 0.25,
     });
-    handleMouseLeave();
-    return () => {
-      setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png");
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const handleMouseEnter = () => {
-    setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814833/exit-icon-hover2_fdognt.png");
-  };
-
-  const handleMouseLeave = () => {
-    setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png");
-  };
 
   const logoutFunction = () => {
     dispatch(logoutUser(userState.id));

@@ -12,6 +12,7 @@ const {
   getSteamDataQuery,
   storeSteamDataQuery,
 } = require("../services/user-queries");
+const { getPublicSteamGameData } = require("../services/steam");
 const { users, user_tokens, v_keys, sequelize } = require("../models/index");
 const Sequelize = require("sequelize");
 const { saveNotification } = require("./notification-controller");
@@ -77,12 +78,18 @@ exports.getSteamData = async (req, res) => {
   try {
     const query = getSteamDataQuery();
     const result = await sequelize.query(query, {
-      type: Sequelize.QueryTypes.INSERT,
+      type: Sequelize.QueryTypes.SELECT,
       replacements: {
-        steamId: req.body.steamId,
+        steamId: req.body.steam_id,
       },
     });
-    res.status(200).send(result);
+    if (result && result[0]) {
+      res.status(200).send(result[0]);
+    } else {
+      res.send({
+        error: "problem storing steam auth data!",
+      });
+    }
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
@@ -259,10 +266,11 @@ Verify Logic
 */
 exports.verify = async (req, res) => {
   try {
-    const { vKey, username, email, password } = req.body;
+    const { vKey, username, email, password, steam_id } = req.body;
     const newAccountObject = {
       email: email,
       username: username,
+      steam_id: steam_id,
     };
     if (vKey === "google") {
       // create account logic for google
@@ -290,7 +298,26 @@ exports.verify = async (req, res) => {
           vkey: vKey,
         },
       };
-      let keyFound = await vKeyTable.findOne(filter);
+      const keyFound = await vKeyTable.findOne(filter);
+      // If steam_id is passed, make sure we have already stored steam data
+      // If we havent, it means they didn't authenticate
+      let steamData;
+      if (steam_id !== "") {
+        const query = getSteamDataQuery();
+        steamData = await sequelize.query(query, {
+          type: Sequelize.QueryTypes.SELECT,
+          replacements: {
+            steamId: req.body.steam_id,
+          },
+        });
+        if (steamData && steamData[0] && steamData[0].steam_id) {
+          newAccountObject.avatar_url = steamData[0].avatar_url;
+        } else {
+          res.send({
+            error: "you have not authenticated with steam yet, cheater!",
+          });
+        }
+      }
       if (keyFound === null) {
         res.send({
           error: "invalid verification key",
@@ -326,26 +353,42 @@ exports.verify = async (req, res) => {
 const insertNewUser = async (userObj) => {
   const transaction = await sequelize.transaction();
   try {
+    // ***NEW GAME MODIFY OBJECT
+    let dynamicReplacements = {
+      username: userObj.username,
+      email: userObj.email,
+      hashed: userObj.hashed,
+      steam_id: "",
+      avatar_url: "",
+      rust_hours: 0,
+      rocket_league_hours: 0,
+    };
+    if (userObj.steam_id && userObj.steam_id.length > 15) {
+      dynamicReplacements.steam_id = userObj.steam_id;
+      dynamicReplacements.avatar_url = userObj.avatar_url;
+    }
     let query = createUserQuery();
+    if (userObj.steam_id && userObj.steam_id.length > 15) {
+      //The below function gets game data, and inserts data into replacements
+      await getPublicSteamGameData(userObj.steam_id, dynamicReplacements);
+    }
     let queryOptions = {
       type: Sequelize.QueryTypes.INSERT,
-      replacements: {
-        username: userObj.username,
-        email: userObj.email,
-        hashed: userObj.hashed,
-      },
+      replacements: dynamicReplacements,
       transaction,
     };
+    console.log("replace? ", userObj, "   ", dynamicReplacements);
     const userResult = await sequelize.query(query, queryOptions);
     query = createGeneralInfoQuery();
     queryOptions.replacements.userId = userResult[0][0].id;
     await sequelize.query(query, queryOptions);
-    //Add additional queries here for each new game supported
+    // ***NEW GAME MODIFY Add additional queries here for each new game supported
     query = createRustInfoQuery();
     await sequelize.query(query, queryOptions);
     query = createRocketLeagueInfoQuery();
     await sequelize.query(query, queryOptions);
     await transaction.commit();
+    console.log("user result", userResult);
     return userResult;
   } catch (error) {
     await transaction.rollback();

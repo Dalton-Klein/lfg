@@ -27,7 +27,7 @@ import BlogArticle3 from "./components/pages/blog/blogArticle-3";
 import AddFriend from "./components/pages/addFriend";
 import SteamSignUpPage from "./components/authentication/steamSignUp";
 // ***ELECTRON DISABLE
-import ElectronTitlebar from "./components/nav/electronTitleBar";
+// import ElectronTitlebar from "./components/nav/electronTitleBar";
 
 function App() {
   const socketRef = useRef<any>();
@@ -66,7 +66,7 @@ function App() {
           <ScrollToTop />
 
           {/* ***ELECTRON Include custom bar if electron build */}
-          <ElectronTitlebar></ElectronTitlebar>
+          {/* <ElectronTitlebar></ElectronTitlebar> */}
           {shouldShowNavs() ? <HeaderComponent socketRef={socketRef}></HeaderComponent> : <></>}
           <div className="app-container">
             {shouldShowNavs() ? <VerticalNav></VerticalNav> : <></>}

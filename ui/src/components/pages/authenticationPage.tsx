@@ -22,16 +22,10 @@ import {
 import { signInUserThunk, createUserInState, resetPasswordInState, updateUserThunk } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
-import * as FS from "fs";
 import { IpcRenderer } from "electron";
-const fs: typeof FS = window.require("fs");
-const ipcRenderer: IpcRenderer = window.require("electron").ipcRenderer;
-
-const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
-
-// ***ELECTRON
-const isElectron = true;
+// ***ELECTRON Next 2 LINES modify
+// const ipcRenderer: IpcRenderer = window.require("electron").ipcRenderer;
+const isElectron = false;
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -338,7 +332,8 @@ const LoginPage = () => {
 
   const openGangsInBrowser = async () => {
     const url = "https://www.gangs.gg/#/login";
-    ipcRenderer.send("openWebPage", url);
+    // ***ELECTRON DISABLE
+    // ipcRenderer.send("openWebPage", url);
   };
 
   const openSteamPopup = async () => {
@@ -424,15 +419,6 @@ const LoginPage = () => {
                 steam signup
               </button>
               <div className="google-signup-container" style={{ display: !isGoogleSignUp ? "inline-block" : "none" }}>
-                {/* <GoogleLogin
-                  className="google-button"
-                  clientId={clientId}
-                  buttonText="google sign up"
-                  onSuccess={onGoogleSuccess}
-                  onFailure={onGoogleFailure}
-                  cookiePolicy={"single_host_origin"}
-                  isSignedIn={true}
-                /> */}
                 <div className="seperator-text">or</div>
               </div>
               <input name="username" type="text" placeholder="display name" />

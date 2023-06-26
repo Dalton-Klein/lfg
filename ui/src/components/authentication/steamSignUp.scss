@@ -25,109 +25,118 @@
       font-size: $font5;
     }
   }
-  .steam-form-container {
+  .panel-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     min-width: 100%;
-    border-radius: 0;
-    margin: 1% 10% 0 10%;
-    form {
-      justify-content: space-between;
-      align-items: center;
+    max-width: 100%;
+    min-height: 80%;
+    overflow-x: auto;
+    overflow-y: visible;
+    touch-action: none;
+    .steam-form-container {
       display: flex;
       flex-direction: column;
-      min-height: 60%;
-      width: 80%;
-      h2 {
-        text-align: center;
-        font-size: $font4;
-        padding-top: 0.5em;
-      }
-      .seperator-text {
-        margin-bottom: 1vh;
-        text-align: center;
-      }
-      .login-inputs {
+      align-items: center;
+      min-width: 100%;
+      border-radius: 0;
+      margin: 0;
+      form {
+        justify-content: space-between;
+        align-items: center;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        width: 100%;
-        padding: 0% 2%;
-        .google-signup-container {
-          width: 50%;
+        min-height: 60%;
+        width: 80%;
+        h2 {
+          text-align: center;
+          font-size: $font4;
+          padding-top: 0.5em;
+        }
+        .seperator-text {
+          margin-bottom: 1vh;
+          text-align: center;
+        }
+        .login-inputs {
           display: flex;
           flex-direction: column;
           align-items: center;
-          align-content: center;
-          justify-content: center;
-          .google-button {
-            min-width: 100% !important;
+          width: 100%;
+          padding: 0% 2%;
+          .google-signup-container {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            .google-button {
+              min-width: 100% !important;
+            }
           }
-        }
-        .email-signin-box {
-          width: 50%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: flex-start;
-          border: 2px solid $colorGreyPop;
-          border-radius: $borderRadius1;
-          margin: 0;
-          margin-bottom: 4px;
-          padding-top: 4px;
-          input {
-            width: 80%;
-          }
-
-          button {
-            width: 80%;
-            font-size: $font3;
-          }
-        }
-        input {
-          margin: 0.4em;
-          padding: 1em;
-          height: 1em;
-          font-size: medium;
-          background-color: $colorText;
-          color: $colorGreyBg;
-          width: 40%;
-        }
-        .checkbox-field {
-          margin: 0.4em;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          width: 40%;
-          .age-checkbox {
-            border: 2px solid #ced4da;
-            background: #ffffff;
-            width: 22px;
-            height: 22px;
-            color: #495057;
+          .email-signin-box {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            border: 2px solid $colorGreyPop;
             border-radius: $borderRadius1;
-            transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+            margin: 0;
+            margin-bottom: 4px;
+            padding-top: 4px;
+            input {
+              width: 80%;
+            }
+
+            button {
+              width: 80%;
+              font-size: $font3;
+            }
           }
-          .checkbox-label {
-            font-size: $font2;
-            margin-top: 0.4em;
-            width: 100%;
-            text-align: center;
+          input {
+            margin: 0.4em;
+            padding: 1em;
+            height: 1em;
+            font-size: medium;
+            background-color: $colorText;
+            color: $colorGreyBg;
+            width: 40%;
+          }
+          .checkbox-field {
+            margin: 0.4em;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40%;
+            .age-checkbox {
+              border: 2px solid #ced4da;
+              background: #ffffff;
+              width: 22px;
+              height: 22px;
+              color: #495057;
+              border-radius: $borderRadius1;
+              transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+            }
+            .checkbox-label {
+              font-size: $font2;
+              margin-top: 0.4em;
+              width: 100%;
+              text-align: center;
+            }
           }
         }
-      }
-      button {
-        width: 40%;
-        font-size: $font3;
-      }
-      .steam-submit-button {
-        @extend button;
-        .steam-logo {
-          min-height: 20px;
-          max-height: 20px;
-          margin-right: 2px;
+        button {
+          width: 40%;
+          font-size: $font3;
+        }
+        .steam-submit-button {
+          @extend button;
+          .steam-logo {
+            min-height: 20px;
+            max-height: 20px;
+            margin-right: 2px;
+          }
         }
       }
     }
@@ -135,32 +144,34 @@
 }
 @media screen and (max-width: 900px) {
   .login-container {
-    .steam-form-container {
-      height: 60vh;
-      form {
-        button {
-          width: 90%;
-          height: 2.75em;
-          padding: 0px;
-        }
-        .login-inputs {
-          padding: 0% 0%;
-          .email-signin-box {
-            width: 100%;
+    .panel-container {
+      .steam-form-container {
+        height: 60vh;
+        form {
+          button {
+            width: 90%;
+            height: 2.75em;
+            padding: 0px;
+          }
+          .login-inputs {
+            padding: 0% 0%;
+            .email-signin-box {
+              width: 100%;
+              input {
+                width: 90%;
+              }
+
+              button {
+                width: 90%;
+                font-size: $font3;
+              }
+            }
             input {
               width: 90%;
             }
-
-            button {
+            .checkbox-field {
               width: 90%;
-              font-size: $font3;
             }
-          }
-          input {
-            width: 90%;
-          }
-          .checkbox-field {
-            width: 90%;
           }
         }
       }

@@ -43,7 +43,7 @@ export default function HomePage({ socketRef }) {
   }, [locationPath]);
 
   return (
-    <div>
+    <div className="home-page-master">
       <div className="title-box">
         {/* <div className="title">gangs</div> */}
         <img

@@ -195,10 +195,10 @@ const storeSteamDataQuery = () => {
 
 const createUserQuery = () => {
   return `
-  insert into public.users (id, email, username, hashed, created_at, updated_at)
-       values ((select max(id) + 1 from public.users), :email, :username, :hashed, current_timestamp, current_timestamp)
-    returning id, email, hashed, username
-  `;
+       insert into public.users (id, email, username, hashed, steam_id, avatar_url, created_at, updated_at)
+            values ((select max(id) + 1 from public.users), :email, :username, :hashed, :steam_id, :avatar_url, current_timestamp, current_timestamp)
+         returning id, email, hashed, username
+       `;
 };
 
 const createGeneralInfoQuery = () => {
@@ -210,15 +210,15 @@ const createGeneralInfoQuery = () => {
 
 const createRustInfoQuery = () => {
   return `
-  insert into public.user_rust_infos (id, user_id, created_at, updated_at)
-       values ((select max(id) + 1 from public.user_rust_infos), :userId, current_timestamp, current_timestamp)
+  insert into public.user_rust_infos (id, user_id, hours, created_at, updated_at)
+       values ((select max(id) + 1 from public.user_rust_infos), :userId, :rust_hours, current_timestamp, current_timestamp)
   `;
 };
 
 const createRocketLeagueInfoQuery = () => {
   return `
-  insert into public.user_rocket_league_infos (id, user_id, created_at, updated_at)
-       values ((select max(id) + 1 from public.user_rust_infos), :userId, current_timestamp, current_timestamp)
+  insert into public.user_rocket_league_infos (id, user_id, hours, created_at, updated_at)
+       values ((select max(id) + 1 from public.user_rust_infos), :userId, :rocket_league_hours, current_timestamp, current_timestamp)
   `;
 };
 

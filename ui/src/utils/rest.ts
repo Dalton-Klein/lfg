@@ -2,13 +2,13 @@ import { SignUpForm, SignInForm } from "./interfaces";
 require("dotenv").config();
 
 // ***ELECTRON MAKE "" BLANK STRING IF NOT ELECTRON, "https://www.gangs.gg" IF ELECTRON PROD, "http://localhost:3010" if ELECTRON Serve
-const endpointURL: String = "http://localhost:3010";
+const endpointURL: String = "";
 
 const avatarCloud = `https://api.cloudinary.com/v1_1/kultured-dev/upload`;
 /*
 	Auth Calls
 */
-export const verifyUser = async (email: string, vKey: string, name: string, password: string) => {
+export const verifyUser = async (email: string, vKey: string, name: string, password: string, steam_id: string) => {
   let result = await fetch(`${endpointURL}/verify`, {
     method: "POST",
     headers: {
@@ -18,6 +18,7 @@ export const verifyUser = async (email: string, vKey: string, name: string, pass
       vKey,
       username: name,
       email,
+      steam_id,
       password,
     }),
   })
@@ -80,14 +81,14 @@ export const steamSignIn = async (email: string) => {
   return result;
 };
 
-export const getSteamData = async (steamId: string) => {
+export const getSteamData = async (steam_id: string) => {
   let result = await fetch(`${endpointURL}/steam-data`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      steamId,
+      steam_id,
     }),
   })
     .then((res) => res.json())
