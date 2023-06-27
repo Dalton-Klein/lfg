@@ -4,7 +4,7 @@ import { getRocketLeaguePlaylists, howLongAgo } from "../../utils/helperFunction
 import { useEffect, useState } from "react";
 import ExpandedProfile from "../modal/expandedProfileComponent";
 import { useLocation } from "react-router-dom";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 
 export default function PlayerTile(props: any) {
   console.log("props", props);
@@ -214,15 +214,30 @@ export default function PlayerTile(props: any) {
           ) : (
             <></>
           )}
+          {locationPath === "/lfg-rust" ? (
+            <div className="details-rust">
+              <div className="details-rust-playlist" data-tip data-for="playlistTip">
+                {`${rocketLeaguePlaylists[props.rocket_league_playlist]}`}
+              </div>
+
+              {rocketLeagueRankIcon.length > 0 ? (
+                <img className="details-rust-rank" src={rocketLeagueRankIcon} />
+              ) : (
+                "not ranked"
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
           <div className="details-availability">
             <div className="detail-label" data-tip data-for="weekdayTip">
-              weekdays:{" "}
+              mon-thu:{" "}
             </div>
             <div className="details-availabilty-text">
               {locationPath === "/lfg-rust" ? props.rust_weekdays : props.rocket_league_weekdays}
             </div>
             <div className="detail-label" data-tip data-for="weekendTip">
-              weekends:{" "}
+              fri-sun:{" "}
             </div>
             <div className="details-availabilty-text">
               {locationPath === "/lfg-rust" ? props.rust_weekends : props.rocket_league_weekends}
@@ -265,27 +280,27 @@ export default function PlayerTile(props: any) {
           </div>
         </div>
       </div>
-      <ReactTooltip id="hoursTip" place="top" effect="solid">
+      <Tooltip id="hoursTip" place="top">
         hours played
-      </ReactTooltip>
-      <ReactTooltip id="rankTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="rankTip" place="top">
         rank
-      </ReactTooltip>
-      <ReactTooltip id="playlistTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="playlistTip" place="top">
         preferred playlist
-      </ReactTooltip>
-      <ReactTooltip id="weekdayTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="weekdayTip" place="top">
         weekday availability
-      </ReactTooltip>
-      <ReactTooltip id="weekendTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="weekendTip" place="top">
         weekend availability
-      </ReactTooltip>
-      <ReactTooltip id="commPlatformTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="commPlatformTip" place="top">
         communication platform
-      </ReactTooltip>
-      <ReactTooltip id="seenTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="seenTip" place="top">
         last time player was seen on gangs
-      </ReactTooltip>
+      </Tooltip>
     </div>
   );
 }

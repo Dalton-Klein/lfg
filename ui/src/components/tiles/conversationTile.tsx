@@ -1,5 +1,5 @@
 import "./conversationTile.scss";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 
 export default function ConversationTile(props: any) {
   const createTooltipId = (tooltipName: string) => {
@@ -49,9 +49,9 @@ export default function ConversationTile(props: any) {
           data-for={createTooltipId("convoNameTip")}
         />
       )}
-      <ReactTooltip id={createTooltipId("convoNameTip")} place="right" effect="solid">
+      <Tooltip id={createTooltipId("convoNameTip")} place="right">
         {props.name}
-      </ReactTooltip>
+      </Tooltip>
     </div>
   );
 }

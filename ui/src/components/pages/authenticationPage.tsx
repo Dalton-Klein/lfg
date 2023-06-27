@@ -327,7 +327,8 @@ const LoginPage = () => {
 
   const trySteamLogin = async () => {
     // Hit api and get redirected to steam
-    window.location.href = "http://localhost:3010/steam";
+    // ***PROD CHANGE
+    window.location.href = "https://www.gangs.gg/steam"; //"http://localhost:3010/steam";
   };
 
   const openGangsInBrowser = async () => {

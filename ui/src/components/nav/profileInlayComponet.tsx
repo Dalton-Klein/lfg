@@ -7,8 +7,9 @@ import { RootState } from "../../store/store";
 import { Menu } from "primereact/menu";
 import { howLongAgo } from "../../utils/helperFunctions";
 import { getNotificationsUser } from "../../utils/rest";
-import ReactTooltip from "react-tooltip";
-import addNotification from "react-push-notification";
+import { Tooltip } from "react-tooltip";
+// this dependency is not available for react 18, can refactor later
+// import addNotification from "react-push-notification";
 
 const actionPhrases: any = {
   1: " sent you a connection request",
@@ -68,13 +69,14 @@ export default function ProfileInlayComponet({ socketRef }) {
       ...notifications,
     ]);
     if (isBrowser()) {
-      addNotification({
-        title: "gangs notification",
-        subtitle: "",
-        message: `${other_username} ${actionPhrases[type_id]}`,
-        theme: "darkblue",
-        native: true, // when using native, your OS will handle theming.
-      });
+      // this dependency is not available for react 18, can refactor later
+      // addNotification({
+      //   title: "gangs notification",
+      //   subtitle: "",
+      //   message: `${other_username} ${actionPhrases[type_id]}`,
+      //   theme: "darkblue",
+      //   native: true, // when using native, your OS will handle theming.
+      // });
     } else {
       new Audio("https://res.cloudinary.com/kultured-dev/video/upload/v1687113879/notif2_iw4407.wav").play();
     }
@@ -104,7 +106,7 @@ export default function ProfileInlayComponet({ socketRef }) {
   //BEGIN SOCKET Functions
   const loadNotificationHistory = async () => {
     const historicalNotifications = await getNotificationsUser(userState.id, "");
-    setnotifications([...historicalNotifications]);
+    setnotifications(historicalNotifications?.length ? [...historicalNotifications] : []);
     if (userState.id && userState.id > 0) {
       socketRef.current.emit("join_room", `notifications-${userState.id}`);
     }
@@ -324,18 +326,18 @@ export default function ProfileInlayComponet({ socketRef }) {
           </div>
         </div>
       )}
-      <ReactTooltip id="profileHiddenTip" place="left" effect="solid">
+      <Tooltip id="profileHiddenTip" place="left">
         you don't have any published game profiles
-      </ReactTooltip>
-      <ReactTooltip id="platformTip" place="left" effect="solid">
+      </Tooltip>
+      <Tooltip id="platformTip" place="left">
         select game for player discovery
-      </ReactTooltip>
-      <ReactTooltip id="dashboardTip" place="bottom" effect="solid">
+      </Tooltip>
+      <Tooltip id="dashboardTip" place="bottom">
         my gangs
-      </ReactTooltip>
-      <ReactTooltip id="messagingTip" place="bottom" effect="solid">
+      </Tooltip>
+      <Tooltip id="messagingTip" place="bottom">
         direct messaging
-      </ReactTooltip>
+      </Tooltip>
     </div>
   );
 }

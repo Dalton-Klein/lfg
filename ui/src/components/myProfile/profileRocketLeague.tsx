@@ -1,7 +1,7 @@
 import "./profileGeneral.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 import { RootState } from "../../store/store";
 import { updateGameSpecificInfoField, attemptPublishRocketLeagueProfile } from "../../utils/rest";
 import { Toast } from "primereact/toast";
@@ -474,9 +474,9 @@ export default function ProfileRocketLeague(props: Props) {
       </div>
       {/* END SAVE BOX */}
       {/* END ROCKET LEAGUE SETTINGS */}
-      <ReactTooltip id="availabilityTip" place="top" effect="solid">
+      <Tooltip id="availabilityTip" place="top">
         {availabilityTooltipString}
-      </ReactTooltip>
+      </Tooltip>
     </div>
   );
 }

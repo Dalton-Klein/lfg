@@ -401,7 +401,6 @@ const insertNewUser = async (userObj) => {
       replacements: dynamicReplacements,
       transaction,
     };
-    console.log("replace? ", userObj, "   ", dynamicReplacements);
     const userResult = await sequelize.query(query, queryOptions);
     query = createGeneralInfoQuery();
     queryOptions.replacements.userId = userResult[0][0].id;

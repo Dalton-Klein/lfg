@@ -14,7 +14,6 @@ import ProfilePage from "./components/pages/profilePage";
 import FAQPage from "./components/pages/faqPage";
 import TermsOfServicePage from "./components/pages/tosPage";
 import PrivacyPolicyPage from "./components/pages/privacyPolicyPage";
-import { gapi } from "gapi-script";
 import React, { useEffect, useRef } from "react";
 import GangsPage from "./components/pages/gangsPage";
 import GangPage from "./components/pages/gangPage";
@@ -41,7 +40,7 @@ function App() {
 
   const connectToSocketMaster = async () => {
     socketRef.current = io.connect(
-      process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.gangs.gg"
+      "http://localhost:3000" //: "https://www.gangs.gg"
     );
     socketRef.current.on("handshakeResponse", (serverSocketId) => {
       console.log("Server socket ID:", serverSocketId, "vs", socketRef.current.id);

@@ -254,7 +254,7 @@ const createRustInfoQuery = () => {
 const createRocketLeagueInfoQuery = () => {
   return `
   insert into public.user_rocket_league_infos (id, user_id, hours, created_at, updated_at)
-       values ((select max(id) + 1 from public.user_rust_infos), :userId, :rocket_league_hours, current_timestamp, current_timestamp)
+       values ((select max(id) + 1 from public.user_rocket_league_infos), :userId, :rocket_league_hours, current_timestamp, current_timestamp)
   `;
 };
 
