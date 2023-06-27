@@ -97,7 +97,7 @@
     }
   }
   .lesser-details {
-    background-color: $colorGreyHover;
+    background-color: $colorGreyPop;
 
     .detail-label {
       margin: 0vh 1vw;
@@ -113,6 +113,7 @@
       .details-about-text {
         min-width: 100%;
         text-align: center;
+        font-size: $font1;
       }
     }
     .details-hours-played {
@@ -171,11 +172,14 @@
       word-wrap: normal;
       max-width: 100%;
       padding: 1vh 0;
+      .detail-label {
+        font-size: $font1;
+      }
       .details-availabilty-text {
         margin: 0vh 1vw;
         text-align: center;
         overflow-wrap: normal;
-        font-size: $font2;
+        font-size: $font1;
       }
     }
   }

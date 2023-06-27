@@ -1,3 +1,4 @@
+console.log("starting gangs api");
 require("dotenv").config();
 const express = require("express");
 const app = express();
@@ -67,7 +68,6 @@ app.get("/steam", passport.authenticate("steam", { successRedirect: "/", failure
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
 app.get("/steam/return", passport.authenticate("steam", { failureRedirect: redirectUrl }), async function (req, res) {
-  console.log("testtt!! ", req.user._json);
   //Either make user a new account or sign them in
   await authController.storeSteamData(req.user._json);
   res.redirect(

@@ -8,7 +8,7 @@ import { updateUserThunk } from "../../store/userSlice";
 import { updateUserField } from "../../utils/rest";
 import { Toast } from "primereact/toast";
 import { Menu } from "primereact/menu";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 import { loadSavedDevices } from "../../utils/helperFunctions";
 
 type Props = {
@@ -263,10 +263,10 @@ export default function AccountSettings(props: Props) {
         {/* END Delete Account */}
       </div>
 
-      <ReactTooltip id="passwordTip" place="right" effect="solid">
+      <Tooltip id="passwordTip" place="right">
         You can change your password here. No password edit is required to complete profile. Will have no affect on
         google auth accounts.
-      </ReactTooltip>
+      </Tooltip>
     </div>
   );
 }

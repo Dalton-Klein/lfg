@@ -15,7 +15,7 @@ import {
   searchUserByUsername,
 } from "../../utils/rest";
 import { Toast } from "primereact/toast";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 import BannerAlt from "../nav/banner-alt";
 import SelectComponent from "../myProfile/selectComponent";
 import { roleOptions } from "../../utils/selectOptions";
@@ -788,12 +788,12 @@ export default function GangsMgmt() {
           <button onClick={closeAvatar}>close</button>
         </div>
       </div>
-      <ReactTooltip id="gang-name-tooltip" place="right" effect="solid">
+      <Tooltip id="gang-name-tooltip" place="right">
         must be 3 or more characters
-      </ReactTooltip>
-      <ReactTooltip id="must-select-tooltip" place="right" effect="solid">
+      </Tooltip>
+      <Tooltip id="must-select-tooltip" place="right">
         must make a selection
-      </ReactTooltip>
+      </Tooltip>
     </div>
   );
 }
