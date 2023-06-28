@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./rankTile.scss";
 
 export default function RankTile({ user }) {
-  const [starImage, setstarImage] = useState<string>("");
+  const [starImage, setstarImage] = useState<string>(
+    "https://res.cloudinary.com/kultured-dev/image/upload/v1687969980/star-grey_vjgjgd.png"
+  );
   const [arrangedStars, setarrangedStars] = useState<any>();
   const [prestigeRemainder, setprestigeRemainder] = useState<number>(0);
   useEffect(() => {
@@ -29,62 +31,66 @@ export default function RankTile({ user }) {
   }, [starImage, prestigeRemainder]);
 
   const renderRank = () => {
-    switch (Math.floor(prestigeRemainder / 5)) {
-      case 0:
-        setarrangedStars(<img src={starImage} className="rank single" />);
-        break;
-      case 1:
-        setarrangedStars(
-          <div className="double">
-            <img src={starImage} className="rank" />
-            <img src={starImage} className="rank" />
-          </div>
-        );
-        break;
-      case 2:
-        setarrangedStars(
-          <div className="triple">
-            <img src={starImage} className="rank" />
-            <div className="rank-horizontal">
+    if (!user.rank) {
+      setarrangedStars(<img src={starImage} className="rank single" />);
+    } else {
+      switch (Math.floor(prestigeRemainder / 5)) {
+        case 0:
+          setarrangedStars(<img src={starImage} className="rank single" />);
+          break;
+        case 1:
+          setarrangedStars(
+            <div className="double">
               <img src={starImage} className="rank" />
               <img src={starImage} className="rank" />
             </div>
-          </div>
-        );
-        break;
-      case 3:
-        setarrangedStars(
-          <div className="quad">
-            <div className="rank-horizontal">
+          );
+          break;
+        case 2:
+          setarrangedStars(
+            <div className="triple">
               <img src={starImage} className="rank" />
-              <img src={starImage} className="rank" />
+              <div className="rank-horizontal">
+                <img src={starImage} className="rank" />
+                <img src={starImage} className="rank" />
+              </div>
             </div>
-            <div className="rank-horizontal">
-              <img src={starImage} className="rank" />
-              <img src={starImage} className="rank" />
+          );
+          break;
+        case 3:
+          setarrangedStars(
+            <div className="quad">
+              <div className="rank-horizontal">
+                <img src={starImage} className="rank" />
+                <img src={starImage} className="rank" />
+              </div>
+              <div className="rank-horizontal">
+                <img src={starImage} className="rank" />
+                <img src={starImage} className="rank" />
+              </div>
             </div>
-          </div>
-        );
-        break;
-      case 4:
-        setarrangedStars(
-          <div className="pentagon">
-            <div className="pentagon-first">
-              <img src={starImage} className="rank" />
+          );
+          break;
+        case 4:
+          setarrangedStars(
+            <div className="pentagon">
+              <div className="pentagon-first">
+                <img src={starImage} className="rank" />
+              </div>
+              <div className="pentagon-second">
+                <img src={starImage} className="rank" />
+                <img src={starImage} className="rank" />
+              </div>
+              <div className="pentagon-third">
+                <img src={starImage} className="rank" />
+                <img src={starImage} className="rank" />
+              </div>
             </div>
-            <div className="pentagon-second">
-              <img src={starImage} className="rank" />
-              <img src={starImage} className="rank" />
-            </div>
-            <div className="pentagon-third">
-              <img src={starImage} className="rank" />
-              <img src={starImage} className="rank" />
-            </div>
-          </div>
-        );
-        break;
-      default:
-        break;
+          );
+          break;
+        default:
+          break;
+      }
     }
     return;
   };
