@@ -72,7 +72,7 @@ export default function AccountSettings(props: Props) {
     // After all data is comitted to db, get fresh copy of user object to update state
     dispatch(updateUserThunk(userState.id));
     setHasUnsavedChanges(false);
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "success",
       summary: "changes saved!",
@@ -82,7 +82,7 @@ export default function AccountSettings(props: Props) {
   };
 
   const deleteAccount = () => {
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "info",
       summary: "feature coming soon!",
@@ -146,7 +146,7 @@ export default function AccountSettings(props: Props) {
     if (device.kind === "audioinput") {
       setcurrentInputDevice(device);
       await updateUserField(userState.id, "input_device_id", device.deviceId);
-      toast.current.clear();
+      toast.current?.clear();
       toast.current.show({
         severity: "success",
         summary: "input device set!",
@@ -157,7 +157,7 @@ export default function AccountSettings(props: Props) {
     if (device.kind === "audiooutput") {
       setcurrentOutputDevice(device);
       await updateUserField(userState.id, "output_device_id", device.deviceId);
-      toast.current.clear();
+      toast.current?.clear();
       toast.current.show({
         severity: "success",
         summary: "output device set!",

@@ -7,64 +7,12 @@ import { useLocation } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 
 export default function PlayerTile(props: any) {
-  console.log("props", props);
   const locationPath: string = useLocation().pathname;
   const [genderIcon, setgenderIcon] = useState("");
   const [rocketLeagueRankIcon, setrocketLeagueRankIcon] = useState("");
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
 
   const rocketLeaguePlaylists: any = getRocketLeaguePlaylists();
-  const rocketLeagueRanks: any = {
-    1: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-bronze-transp_fw3ar3.png"
-        alt="rocket league bronze rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    2: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-silver-transp_ovmdbx.png"
-        alt="rocket league silver rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    3: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-gold-transp_vwr4dz.png"
-        alt="rocket league gold rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    4: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-plat-transp_rgbpdw.png"
-        alt="rocket league platinum rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    5: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-diamond-transp_j0vmlx.png"
-        alt="rocket league diamond rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    6: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-champ-transp_v2xt1q.png"
-        alt="rocket league champ rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    7: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-grand-champ-transp_jflaeq.png"
-        alt="rocket league grand champ rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-  };
   const lastSeen = howLongAgo(props.last_seen);
 
   useEffect(() => {
@@ -216,15 +164,11 @@ export default function PlayerTile(props: any) {
           )}
           {locationPath === "/lfg-rust" ? (
             <div className="details-rust">
-              <div className="details-rust-playlist" data-tip data-for="playlistTip">
-                {`${rocketLeaguePlaylists[props.rocket_league_playlist]}`}
+              <div className="details-rust-info-slot" data-tip data-for="playlistTip">
+                {props.server_type_id === 1 ? "vanilla servers" : `${props.server_type_id}x servers`}
               </div>
 
-              {rocketLeagueRankIcon.length > 0 ? (
-                <img className="details-rust-rank" src={rocketLeagueRankIcon} />
-              ) : (
-                "not ranked"
-              )}
+              <div className="details-rust-info-slot">{props.wipe_day_preference} wipes </div>
             </div>
           ) : (
             <></>

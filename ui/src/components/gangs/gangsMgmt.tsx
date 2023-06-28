@@ -289,7 +289,7 @@ export default function GangsMgmt() {
     if (searchResult.data?.id) {
       const inviteResult = await requestToJoinGang(loadedGangInfo.basicInfo.id, searchResult.data.id, false, "");
       if (inviteResult && inviteResult[0] && inviteResult[0].id) {
-        toast.current.clear();
+        toast.current?.clear();
         toast.current.show({
           severity: "success",
           summary: "invite sent!",
@@ -297,7 +297,7 @@ export default function GangsMgmt() {
           sticky: false,
         });
       } else if (inviteResult && inviteResult.error) {
-        toast.current.clear();
+        toast.current?.clear();
         toast.current.show({
           severity: "warn",
           summary: `${inviteResult.error}`,
@@ -305,7 +305,7 @@ export default function GangsMgmt() {
           sticky: false,
         });
       } else {
-        toast.current.clear();
+        toast.current?.clear();
         toast.current.show({
           severity: "warn",
           summary: "error sending request!",
@@ -314,7 +314,7 @@ export default function GangsMgmt() {
         });
       }
     } else {
-      toast.current.clear();
+      toast.current?.clear();
       toast.current.show({
         severity: "warn",
         summary: "no user exists with that name!",
@@ -344,7 +344,7 @@ export default function GangsMgmt() {
     }
     loadGangInfos(loadedGangInfo.basicInfo.id);
     sethasUnsavedChanges(false);
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "success",
       summary: "changes saved!",
@@ -373,7 +373,7 @@ export default function GangsMgmt() {
 
   //Start Channel Edit LOGIC
   const removeChannel = (tile) => {
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "info",
       summary: "feature coming soon!",
@@ -388,7 +388,7 @@ export default function GangsMgmt() {
   };
 
   const saveNewChannelName = (id, name) => {
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "info",
       summary: "feature coming soon!",

@@ -349,6 +349,14 @@ const ExpandedProfile = (props: Props) => {
                   <div>{props.userInfo.rust_hours}</div>
                 </div>
                 <div className="expanded-core-info-field">
+                  <label>server type</label>
+                  <div>{props.userInfo.server_type_id === 1 ? "vanilla" : `${props.userInfo.server_type_id}x`}</div>
+                </div>
+                <div className="expanded-core-info-field">
+                  <label>wipe day pref</label>
+                  <div>{props.userInfo.wipe_day_preference}</div>
+                </div>
+                <div className="expanded-core-info-field">
                   <label>weekdays</label>
                   <div>{props.userInfo.rust_weekdays}</div>
                 </div>

@@ -21,6 +21,8 @@ export default function ProfileRust(props: Props) {
   const [isProfileDiscoverable, setisProfileDiscoverable] = useState<boolean>(false);
   const [rustHoursText, setRustHoursText] = useState<number>(0);
   const [availabilityTooltipString, setavailabilityTooltipString] = useState<string>("");
+  const [serverType, setserverType] = useState<number>(0);
+  const [wipeDay, setwipeDay] = useState<string>("");
   const [rustWeekday, setRustWeekday] = useState<string>("");
   const [rustWeekend, setRustWeekend] = useState<string>("");
 
@@ -33,7 +35,10 @@ export default function ProfileRust(props: Props) {
   useEffect(() => {
     //Having this logic in the user state use effect means it will await the dispatch to get the latest info. It is otherwise hard to await the dispatch
     if (userData.email && userData.email !== "") {
+      console.log("user data? ", `x ${userData.wipe_day_preference} x`, typeof userData.wipe_day_preference);
       setRustHoursText(userData.rust_hours === null ? "" : userData.rust_hours);
+      setserverType(userData.rust_server_type_id === null ? "" : userData.rust_server_type_id);
+      setwipeDay(userData.wipe_day_preference === null ? "" : userData.wipe_day_preference);
       setRustWeekday(userData.rust_weekdays === null ? "" : userData.rust_weekdays);
       setRustWeekend(userData.rust_weekends === null ? "" : userData.rust_weekends);
       setisProfileDiscoverable(
@@ -42,6 +47,16 @@ export default function ProfileRust(props: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
+
+  const changeServerType = (selection: number) => {
+    if (serverType !== selection) setHasUnsavedChanges(true);
+    setserverType(selection);
+  };
+
+  const changeWipeDay = (selection: string) => {
+    if (wipeDay !== selection) setHasUnsavedChanges(true);
+    setwipeDay(selection);
+  };
 
   const changeRustWeekday = (selection: string) => {
     if (rustWeekday !== selection) setHasUnsavedChanges(true);
@@ -67,6 +82,12 @@ export default function ProfileRust(props: Props) {
     if (rustHoursText > 0 && userData.rust_hours !== rustHoursText) {
       await updateGameSpecificInfoField(userData.id, "user_rust_infos", "hours", rustHoursText);
     }
+    if (serverType !== 0 && userData.rust_server_type_id !== serverType) {
+      await updateGameSpecificInfoField(userData.id, "user_rust_infos", "server_type_id", serverType);
+    }
+    if (wipeDay !== "" && userData.wipe_day_preference !== wipeDay) {
+      await updateGameSpecificInfoField(userData.id, "user_rust_infos", "wipe_day_preference", wipeDay);
+    }
     if (rustWeekday !== "" && userData.rust_weekdays !== rustWeekday) {
       await updateGameSpecificInfoField(userData.id, "user_rust_infos", "weekdays", rustWeekdayIdValue);
     }
@@ -76,7 +97,7 @@ export default function ProfileRust(props: Props) {
     // After all data is comitted to db, get fresh copy of user object to update state
     dispatch(updateUserThunk(userData.id));
     setHasUnsavedChanges(false);
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "success",
       summary: "changes saved!",
@@ -94,7 +115,7 @@ export default function ProfileRust(props: Props) {
       if (result.status === "success") {
         await updateGameSpecificInfoField(userData.id, "user_rust_infos", "is_published", true);
         setisProfileDiscoverable(true);
-        toast.current.clear();
+        toast.current?.clear();
         toast.current.show({
           severity: "success",
           summary: "rust profile published!",
@@ -108,7 +129,7 @@ export default function ProfileRust(props: Props) {
         });
         fieldsString = fieldsString.slice(0, -3);
         //error handling here
-        toast.current.clear();
+        toast.current?.clear();
         toast.current.show({
           severity: "warn",
           summary: "missing profile fields: ",
@@ -119,7 +140,7 @@ export default function ProfileRust(props: Props) {
     } else {
       await updateGameSpecificInfoField(userData.id, "user_rust_infos", "is_published", false);
       setisProfileDiscoverable(false);
-      toast.current.clear();
+      toast.current?.clear();
       toast.current.show({
         severity: "success",
         summary: "rust profile now hidden!",
@@ -170,6 +191,82 @@ export default function ProfileRust(props: Props) {
       </div>
       <div className="gradient-bar"></div>
       {/* END RUST HOURS */}
+      {/* Server Type */}
+      <div className="banner-container">
+        <div className="prof-banner-detail-text">server preference</div>
+        <div className="gender-container">
+          <div
+            className={`gender-box ${serverType === 1 ? "box-selected" : ""}`}
+            onClick={() => {
+              changeServerType(1);
+            }}
+            onMouseEnter={() => setavailabilityTooltipString("0 hours")}
+            data-tip
+            data-for="availabilityTip"
+          >
+            vanilla
+          </div>
+          <div
+            className={`gender-box ${serverType === 2 ? "box-selected" : ""}`}
+            onClick={() => {
+              changeServerType(2);
+            }}
+            onMouseEnter={() => setavailabilityTooltipString("0-2 hours")}
+            data-tip
+            data-for="availabilityTip"
+          >
+            2x
+          </div>
+          <div
+            className={`gender-box ${serverType === 5 ? "box-selected" : ""}`}
+            onClick={() => {
+              changeServerType(5);
+            }}
+            onMouseEnter={() => setavailabilityTooltipString("2-6 hours")}
+            data-tip
+            data-for="availabilityTip"
+          >
+            5x
+          </div>
+          <div
+            className={`gender-box ${serverType === 10 ? "box-selected" : ""}`}
+            onClick={() => {
+              changeServerType(10);
+            }}
+            onMouseEnter={() => setavailabilityTooltipString("6+ hours")}
+            data-tip
+            data-for="availabilityTip"
+          >
+            10x
+          </div>
+        </div>
+      </div>
+      <div className="gradient-bar"></div>
+      <div className="banner-container">
+        <div className="prof-banner-detail-text">wipe day pref</div>
+        <div className="gender-container">
+          <div
+            className={`gender-box ${wipeDay === "monday   " ? "box-selected" : ""}`}
+            onClick={() => {
+              changeWipeDay("monday   ");
+            }}
+          >
+            mon
+          </div>
+          <div
+            className={`gender-box ${wipeDay === "thursday " ? "box-selected" : ""}`}
+            onClick={() => {
+              changeWipeDay("thursday ");
+
+              console.log("wipe?", wipeDay);
+            }}
+          >
+            thurs
+          </div>
+        </div>
+      </div>
+      <div className="gradient-bar"></div>
+      {/* END Availability- Weekends */}
       {/* Availability- Weekdays */}
       <div className="banner-container">
         <div className="prof-banner-detail-text">weekday availabilty</div>

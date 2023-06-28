@@ -1,5 +1,5 @@
 const getRustTilesQuery = () => {
-	return `
+  return `
   select u.id,
          u.username,
          u.avatar_url,
@@ -17,7 +17,9 @@ const getRustTilesQuery = () => {
          av2.name as rust_weekdays,
          ur.roles,
          ur.play_styles,
-         ur.hours as hours
+         ur.hours as hours,
+         ur.server_type_id,
+         ur.wipe_day_preference
     from public.users u 
     join public.user_general_infos ug 
       on ug.user_id = u.id
@@ -35,7 +37,7 @@ const getRustTilesQuery = () => {
 };
 
 const getRocketLeagueTilesQuery = () => {
-	return `
+  return `
   select u.id,
          u.username,
          u.avatar_url,
@@ -71,6 +73,6 @@ const getRocketLeagueTilesQuery = () => {
 };
 
 module.exports = {
-	getRustTilesQuery,
-	getRocketLeagueTilesQuery,
+  getRustTilesQuery,
+  getRocketLeagueTilesQuery,
 };

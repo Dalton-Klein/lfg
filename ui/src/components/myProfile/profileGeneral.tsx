@@ -178,7 +178,7 @@ export default function ProfileGeneral(props: Props) {
     // After all data is comitted to db, get fresh copy of user object to update state
     dispatch(updateUserThunk(userData.id));
     setHasUnsavedChanges(false);
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "success",
       summary: "changes saved!",
