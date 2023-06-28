@@ -5,59 +5,162 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  height: 200px;
-  width: 200px;
+  height: 4.5vw;
+  width: 4.5vw;
 }
-
 .rank {
   display: inline-block;
-  width: 40px;
-  height: 40px;
-  background-color: gold;
+  width: 2vw;
+  height: 2vw;
   border-radius: 50%;
-  margin: 5px;
+  margin: 0.25vw;
+  margin-top: 0;
+}
+.single {
+  @extend .rank;
+  height: 3.25vw;
+  width: 3.25vw;
+}
+.double {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .rank {
+    width: 2.25vw;
+    height: 2.25vw;
+  }
 }
 
-.center {
-  margin: 0 auto;
+.triple {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .rank-horizontal {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+  }
+}
+.quad {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .rank-horizontal {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+  }
 }
 
-.top-center {
-  margin: 0 auto 5px;
+.pentagon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .pentagon-first {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    .rank {
+      width: 1.4vw;
+      height: 1.4vw;
+    }
+  }
+  .pentagon-second {
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+    margin-top: -0.75vw;
+    .rank {
+      width: 1.4vw;
+      height: 1.4vw;
+      margin-left: 0.5vw;
+      margin-right: 0.5vw;
+    }
+  }
+  .pentagon-third {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    margin-top: -0.25vw;
+    .rank {
+      width: 1.4vw;
+      height: 1.4vw;
+      margin-left: -0.005vw;
+      margin-right: -0.005vw;
+    }
+  }
 }
 
-.top {
-  margin-bottom: 5px;
+@media only screen and (max-width: $screenBreak1) {
+  .rank-widget {
+    height: 7vw;
+    width: 7vw;
+  }
+  .rank {
+    width: 3.5vw;
+    height: 3.5vw;
+  }
+  .single {
+    height: 4vw;
+    width: 4vw;
+  }
+  .double {
+    .rank {
+      width: 4.2vw;
+      height: 4.2vw;
+    }
+  }
+  .pentagon {
+    .pentagon-first {
+      .rank {
+        width: 2.4vw;
+        height: 2.4vw;
+      }
+    }
+    .pentagon-second {
+      .rank {
+        width: 2.4vw;
+        height: 2.4vw;
+      }
+    }
+  }
 }
 
-.bottom {
-  margin-top: 5px;
-}
-
-.left {
-  margin-right: 5px;
-}
-
-.right {
-  margin-left: 5px;
-}
-
-.top-left {
-  margin-bottom: 5px;
-  margin-right: 5px;
-}
-
-.top-right {
-  margin-bottom: 5px;
-  margin-left: 5px;
-}
-
-.bottom-left {
-  margin-top: 5px;
-  margin-right: 5px;
-}
-
-.bottom-right {
-  margin-top: 5px;
-  margin-left: 5px;
+@media only screen and (max-width: $screenBreak2) {
+  .rank-widget {
+    height: 12vw;
+    width: 12vw;
+  }
+  .rank {
+    width: 6vw;
+    height: 6vw;
+  }
+  .single {
+    height: 6.5vw;
+    width: 6.5vw;
+  }
+  .double {
+    .rank {
+      width: 7vw;
+      height: 7vw;
+    }
+  }
+  .pentagon {
+    .pentagon-first {
+      .rank {
+        width: 4.4vw;
+        height: 4.4vw;
+      }
+    }
+    .pentagon-second {
+      .rank {
+        width: 2.2vw;
+        height: 2.2vw;
+      }
+    }
+  }
 }

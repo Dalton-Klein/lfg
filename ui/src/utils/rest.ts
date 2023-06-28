@@ -354,6 +354,22 @@ export const fetchUserData = async (userId: number) => {
   return result;
 };
 
+export const getUserRankProgression = async (userId: number) => {
+  let result = await fetch(`${endpointURL}/get-rank-progression`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => data)
+    .catch((err) => console.log("FETCH USER DATA ERROR", err));
+  return result;
+};
+
 export const fetchUserDataAndConnectedStatus = async (originatingUserId: number, requestedUserId: number) => {
   let result = await fetch(`${endpointURL}/getUserDetailsAndConnectedStatus`, {
     method: "POST",

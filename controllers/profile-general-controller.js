@@ -1,7 +1,12 @@
 const Sequelize = require("sequelize");
 const { sequelize } = require("../models/index");
 const format = require("pg-format");
-const { getUserInfo, updateUserGenInfoField, searchForUserByUsername } = require("../services/user-common");
+const {
+  getUserInfo,
+  updateUserGenInfoField,
+  searchForUserByUsername,
+  getRankProgressionStatus,
+} = require("../services/user-common");
 const moment = require("moment");
 const { getEndorsementsForUser } = require("../services/endorsement-queries");
 const { getPendingRequestUserIdsQuery } = require("../services/social-queries");
@@ -73,6 +78,17 @@ const searchForUser = async (req, res) => {
     const { inputString } = req.body;
     let result = await searchForUserByUsername(inputString);
     if (result && result[0]) result = result[0];
+    res.status(200).send({ data: result });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("POST ERROR");
+  }
+};
+
+const getRankProgression = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    let result = await getRankProgressionStatus(userId);
     res.status(200).send({ data: result });
   } catch (err) {
     console.log(err);
@@ -257,4 +273,5 @@ module.exports = {
   getSocialDetails,
   deleteAccount,
   searchForUser,
+  getRankProgression,
 };

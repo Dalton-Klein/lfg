@@ -8,6 +8,7 @@ import { logoutUser } from "../../store/userSlice";
 
 type Props = {
   toggleDrawer: any;
+  isOpen: boolean;
   handleMouseEnter?: any;
   handleMouseLeave?: any;
 };
@@ -18,30 +19,43 @@ const DrawerComponent = (props: Props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    gsap.from(".hamburger-red-panel", 0.25, {
-      x: 400,
-    });
-    gsap.to(".hamburger-red-panel", 0.25, {
-      opacity: 1,
-    });
-    gsap.from(".hamburger-green-panel", 0.25, {
-      x: 400,
-      delay: 0.15,
-    });
-    gsap.to(".hamburger-green-panel", 0.25, {
-      opacity: 1,
-      delay: 0.15,
-    });
-    gsap.from(".hamburger-nav", 0.25, {
-      x: 400,
-      delay: 0.25,
-    });
-    gsap.to(".hamburger-nav", 0.25, {
-      opacity: 1,
-      delay: 0.25,
-    });
+    if (props.isOpen) {
+      // SETUP ANIMS
+      gsap.to(".hamburger-red-panel", {
+        duration: 0.01,
+        xPercent: 100,
+      });
+      gsap.to(".hamburger-green-panel", {
+        opacity: 0,
+        duration: 0.01,
+        xPercent: 100,
+      });
+      gsap.to(".hamburger-nav", {
+        duration: 0.01,
+        opacity: 0,
+      });
+      // Slide & Opacity ANIMS
+      gsap.to(".hamburger-red-panel", {
+        duration: 0.25,
+        xPercent: 0,
+        opacity: 1,
+        delay: 0.02,
+      });
+      gsap.to(".hamburger-green-panel", {
+        delay: 0.13,
+        opacity: 1,
+        duration: 0.25,
+        xPercent: 0,
+      });
+      gsap.to(".hamburger-nav", {
+        delay: 0.25,
+        duration: 0.25,
+        opacity: 1,
+        xPercent: 0,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.isOpen]);
 
   const logoutFunction = () => {
     dispatch(logoutUser(userState.id));

@@ -260,7 +260,7 @@ export default function ProfileInlayComponet({ socketRef }) {
   return (
     <div className="my-profile-overlay">
       {/* Conditionally render hamburger modal */}
-      {drawerVis ? <Backdrop toggleDrawer={toggleDrawer} /> : <></>}
+      {drawerVis ? <Backdrop isOpen={drawerVis} toggleDrawer={toggleDrawer} /> : <></>}
       {/* Conditionally render log in options or show profile info */}
       {userState.email === "" ? (
         <div className="my-profile-overlay-link prof-overlay-text" onClick={() => navigate("/login")}>

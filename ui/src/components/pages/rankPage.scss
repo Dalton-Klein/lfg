@@ -1,21 +1,6 @@
 @import "../../styling/config";
 
-.article-menu {
-  margin-top: 1vh;
-  min-height: 7vh;
-  max-height: 7vh;
-  min-width: 100%;
-  max-width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  // put bg image here when a good one is decided background-color: #0d5678b0;
-  .article-navigator {
-    margin: 2% 10%;
-    margin-right: 1vw;
-  }
-}
-.request-master-container {
+.rank-page-master {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -23,58 +8,159 @@
   min-width: 95vw;
   max-width: 95vw;
   min-height: 90vh;
-  .gradient-bar {
+  .article-menu {
+    margin-top: 1vh;
+    min-height: 7vh;
+    max-height: 7vh;
     min-width: 100%;
-    min-height: 1px;
-    max-height: 1px;
-    background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // put bg image here when a good one is decided background-color: #0d5678b0;
+    .article-navigator {
+      margin: 2% 10%;
+      margin-right: 1vw;
+    }
   }
-
-  .friend-request-container {
-    margin: 1vh 2vw;
-    padding: 1vh 1vw;
-    border: 2px solid $colorGreyPop;
-    border-radius: $borderRadius1;
-    max-width: 900px;
-    min-width: 80%;
-    min-height: 30vh;
+  .rank-progression-container {
+    min-width: 60%;
+    background-color: $colorGreyPop;
+    border-radius: $borderRadius2;
+    margin-bottom: 2vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
-    input {
-      min-width: 85%;
+    justify-content: center;
+    .gradient-bar {
+      min-width: 95%;
+      min-height: 1px;
+      max-height: 1px;
+      background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
     }
-  }
-  .article-header-info {
-    @extend .article-content-container;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .article-header-date {
-      text-align: left;
-      color: $colorTextAlt;
-      font-size: $font2;
-      min-width: 33%;
+
+    .rank-section-container {
+      margin: 1vh 2vw;
+      padding: 1vh 1vw;
+      border: 2px solid $colorGreyPop;
+      border-radius: $borderRadius1;
+      max-width: 900px;
+      min-width: 95%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      .rank-section-title {
+        font-size: $font3;
+        margin-bottom: 2vh;
+      }
+      .rank-my-details {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        min-width: 100%;
+        margin-bottom: 2vh;
+        .rank-my-details-rankwidget {
+          min-width: 40%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .rank-my-details-progress {
+          min-width: 60%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          div {
+            margin-bottom: 0.25vh;
+            padding-left: 2vw;
+          }
+        }
+      }
+      .rank-explanation {
+        font-size: $font1;
+        text-align: center;
+        color: $colorTextAlt;
+      }
+      .rank-progress-container {
+        min-width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .rank-progress-grid-header {
+          color: $colorTextAlt;
+          font-size: $font2;
+          text-align: center;
+        }
+        .rank-progress-subtitle {
+          font-size: $font2;
+          max-width: 25%;
+          min-width: 25%;
+        }
+        .rank-progress-tracker {
+          max-width: 25%;
+          min-width: 25%;
+          text-align: center;
+        }
+        .rank-progress-tally {
+          max-width: 25%;
+          min-width: 25%;
+          text-align: center;
+        }
+        .rank-total-text {
+          color: $colorPrimary;
+        }
+      }
+      .rank-challenge {
+        border: 1px solid $colorTextAlt;
+        border-radius: $borderRadius1;
+        padding: 1vh 0.5vw;
+        margin: 1vh 0;
+      }
+
+      .rank-challenge-subtitle {
+        font-size: $font2;
+        margin-bottom: 1vh;
+      }
+      .rank-challenge-details {
+        font-size: $font1;
+        color: $colorTextAlt;
+        margin-bottom: 2vh;
+      }
     }
-    .article-read-time {
-      @extend .article-header-date;
-      text-align: right;
-    }
-    button {
-      min-width: 33%;
+    .article-header-info {
+      @extend .article-content-container;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .article-header-date {
+        text-align: left;
+        color: $colorTextAlt;
+        font-size: $font2;
+        min-width: 33%;
+      }
+      .article-read-time {
+        @extend .article-header-date;
+        text-align: right;
+      }
+      button {
+        min-width: 33%;
+      }
     }
   }
 }
 
 @media screen and (max-width: $screenBreak1) {
-  .request-master-container {
-    min-width: 91vw;
-    max-width: 91vw;
-    .article-content-container {
-      .article-paragraph {
-        .blog-image {
-          width: 85%;
+  .rank-page-master {
+    .rank-progression-container {
+      min-width: 91vw;
+      max-width: 91vw;
+      .article-content-container {
+        .article-paragraph {
+          .blog-image {
+            width: 85%;
+          }
         }
       }
     }
@@ -82,13 +168,15 @@
 }
 
 @media screen and (max-width: $screenBreak2) {
-  .request-master-container {
-    min-width: 88vw;
-    max-width: 88vw;
-    .article-content-container {
-      .article-paragraph {
-        .blog-image {
-          width: 95%;
+  .rank-page-master {
+    .rank-progression-container {
+      min-width: 88vw;
+      max-width: 88vw;
+      .article-content-container {
+        .article-paragraph {
+          .blog-image {
+            width: 95%;
+          }
         }
       }
     }

@@ -35,6 +35,7 @@ router.post("/updateUserInfoField", userController.updateProfileField);
 router.put("/updateGeneralInfoField", userController.updateGeneralInfoField);
 router.put("/updateGameSpecificInfoField", userController.updateGameSpecificInfoField);
 router.post("/search-user-by-username", userController.searchForUser);
+router.post("/get-rank-progression", userController.getRankProgression);
 
 //NOTIFICATIONS RELATED ROUTES
 router.post("/get-notifications", notificationsController.getNotificationsForUser);

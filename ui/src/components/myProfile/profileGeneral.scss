@@ -122,7 +122,22 @@
   }
   .banner-container-username {
     @extend .banner-container;
-    justify-content: center;
+    justify-content: space-between;
+    .my-profile-text {
+      padding-left: 0.75vw;
+    }
+    .expand-button {
+      margin-right: 2vw;
+      padding: 0 1vw;
+      padding-top: 0.5vh;
+      display: flex;
+      align-items: center;
+      vertical-align: middle;
+      img {
+        min-width: 18px;
+        max-width: 1.75vw;
+      }
+    }
   }
 
   .banner-container-top {

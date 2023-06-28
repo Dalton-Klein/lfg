@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const { sequelize } = require("../models/index");
 const format = require("pg-format");
-const { getUserDataByIdQuery, searchUserByUsernameQuery } = require("./user-queries");
+const { getUserDataByIdQuery, searchUserByUsernameQuery, getRankProgressionQuery } = require("./user-queries");
 
 const getUserInfo = async (userId) => {
   const query = getUserDataByIdQuery();
@@ -45,8 +45,20 @@ const updateUserGenInfoField = async (userId, field, value) => {
   return result;
 };
 
+const getRankProgressionStatus = async (userId) => {
+  const query = getRankProgressionQuery();
+  let result = await sequelize.query(query, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      userId,
+    },
+  });
+  return result;
+};
+
 module.exports = {
   getUserInfo,
   updateUserGenInfoField,
   searchForUserByUsername,
+  getRankProgressionStatus,
 };
