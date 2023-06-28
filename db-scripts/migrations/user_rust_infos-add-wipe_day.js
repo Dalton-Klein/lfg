@@ -5,7 +5,7 @@ const tableName = "user_rust_infos";
 const columnName = "wipe_day_preference";
 const dataType = "char(9)"; //bit | int | char(5) | varchar(255)
 const nullSetting = "not null"; // 'not null' | ''
-const defaultValue = `Thursday`;
+const defaultValue = `thursday`;
 
 module.exports = {
   up: async ({ context: sequelize }) => {

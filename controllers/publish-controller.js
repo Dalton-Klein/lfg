@@ -65,6 +65,12 @@ const checkRustProfileCompletion = async (req, res) => {
     queryResult = queryResult[0];
     // Rust Fields
     if (queryResult.hours === null || queryResult.hours === 0) problemFields.push("hours");
+    if (queryResult.server_type_id === null || queryResult.server_type_id === 0) {
+      problemFields.push("server preference");
+    }
+    if (queryResult.wipe_day_preference === null || queryResult.wipe_day_preference === "") {
+      problemFields.push("wipe day preference");
+    }
     if (queryResult.weekdays === null || queryResult.weekdays === 0) problemFields.push("weekday availability");
     if (queryResult.weekdends === null || queryResult.weekdends === 0) problemFields.push("weekend availability");
     if (!problemFields.length) passesValidation = true;

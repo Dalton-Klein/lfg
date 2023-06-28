@@ -303,7 +303,6 @@ const LoginPage = () => {
   };
 
   const changeMenu = (number: number) => {
-    console.log("hello? ", number);
     const menus: any = {
       1: () => {
         loginPanelSignInAnim();

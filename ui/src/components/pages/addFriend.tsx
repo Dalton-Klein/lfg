@@ -41,7 +41,7 @@ export default function AddFriend() {
         "nothing"
       );
       if (inviteResult && inviteResult.status === "success") {
-        toast.current.clear();
+        toast.current?.clear();
         toast.current.show({
           severity: "success",
           summary: "invite sent!",
@@ -51,7 +51,7 @@ export default function AddFriend() {
         setconnectionText("");
         setusernameSearchText("");
       } else if (inviteResult && inviteResult.status === "error") {
-        toast.current.clear();
+        toast.current?.clear();
         toast.current.show({
           severity: "info",
           summary: `${inviteResult.data}`,
@@ -61,7 +61,7 @@ export default function AddFriend() {
         setconnectionText("");
         setusernameSearchText("");
       } else if (inviteResult && inviteResult.error) {
-        toast.current.clear();
+        toast.current?.clear();
         toast.current.show({
           severity: "warn",
           summary: `${inviteResult.error}`,
@@ -69,7 +69,7 @@ export default function AddFriend() {
           sticky: false,
         });
       } else {
-        toast.current.clear();
+        toast.current?.clear();
         toast.current.show({
           severity: "warn",
           summary: "error sending request!",
@@ -78,7 +78,7 @@ export default function AddFriend() {
         });
       }
     } else {
-      toast.current.clear();
+      toast.current?.clear();
       toast.current.show({
         severity: "warn",
         summary: "no user exists with that name!",

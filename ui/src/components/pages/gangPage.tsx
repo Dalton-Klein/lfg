@@ -771,7 +771,7 @@ export default function GangPage({ socketRef }) {
     let copyOfGangInfo = Object.assign({}, gangInfo);
     copyOfGangInfo.requestStatus = [result[0]];
     setgangInfo(copyOfGangInfo);
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "success",
       summary: "request sent!",

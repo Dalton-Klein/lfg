@@ -211,7 +211,7 @@ export default function ProfileRocketLeague(props: Props) {
     // After all data is comitted to db, get fresh copy of user object to update state
     dispatch(updateUserThunk(userData.id));
     setHasUnsavedChanges(false);
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "success",
       summary: "changes saved!",
@@ -229,7 +229,7 @@ export default function ProfileRocketLeague(props: Props) {
       if (result.status === "success") {
         await updateGameSpecificInfoField(userData.id, "user_rocket_league_infos", "is_published", true);
         setisProfileDiscoverable(true);
-        toast.current.clear();
+        toast.current?.clear();
         toast.current.show({
           severity: "success",
           summary: "rocket league profile published!",
@@ -243,7 +243,7 @@ export default function ProfileRocketLeague(props: Props) {
         });
         fieldsString = fieldsString.slice(0, -3);
         //error handling here
-        toast.current.clear();
+        toast.current?.clear();
         toast.current.show({
           severity: "warn",
           summary: "missing profile fields: ",
@@ -254,7 +254,7 @@ export default function ProfileRocketLeague(props: Props) {
     } else {
       await updateGameSpecificInfoField(userData.id, "user_rocket_league_infos", "is_published", false);
       setisProfileDiscoverable(false);
-      toast.current.clear();
+      toast.current?.clear();
       toast.current.show({
         severity: "success",
         summary: "rocket league profile now hidden!",
