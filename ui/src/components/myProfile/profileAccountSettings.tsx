@@ -8,7 +8,7 @@ import { updateUserThunk } from "../../store/userSlice";
 import { updateUserField } from "../../utils/rest";
 import { Toast } from "primereact/toast";
 import { Menu } from "primereact/menu";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 import { loadSavedDevices } from "../../utils/helperFunctions";
 
 type Props = {
@@ -72,7 +72,7 @@ export default function AccountSettings(props: Props) {
     // After all data is comitted to db, get fresh copy of user object to update state
     dispatch(updateUserThunk(userState.id));
     setHasUnsavedChanges(false);
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "success",
       summary: "changes saved!",
@@ -82,7 +82,7 @@ export default function AccountSettings(props: Props) {
   };
 
   const deleteAccount = () => {
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "info",
       summary: "feature coming soon!",
@@ -146,7 +146,7 @@ export default function AccountSettings(props: Props) {
     if (device.kind === "audioinput") {
       setcurrentInputDevice(device);
       await updateUserField(userState.id, "input_device_id", device.deviceId);
-      toast.current.clear();
+      toast.current?.clear();
       toast.current.show({
         severity: "success",
         summary: "input device set!",
@@ -157,7 +157,7 @@ export default function AccountSettings(props: Props) {
     if (device.kind === "audiooutput") {
       setcurrentOutputDevice(device);
       await updateUserField(userState.id, "output_device_id", device.deviceId);
-      toast.current.clear();
+      toast.current?.clear();
       toast.current.show({
         severity: "success",
         summary: "output device set!",
@@ -263,10 +263,10 @@ export default function AccountSettings(props: Props) {
         {/* END Delete Account */}
       </div>
 
-      <ReactTooltip id="passwordTip" place="right" effect="solid">
+      <Tooltip id="passwordTip" place="right">
         You can change your password here. No password edit is required to complete profile. Will have no affect on
         google auth accounts.
-      </ReactTooltip>
+      </Tooltip>
     </div>
   );
 }

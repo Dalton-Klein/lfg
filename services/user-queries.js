@@ -35,7 +35,80 @@ const getUserDataByEmailQuery = () => {
         where u.email = :email
   `;
 };
-
+const getUserDataByUsernameQuery = () => {
+  return `
+            select u.id,
+                   u.email,
+                   u.username,
+                   u.hashed,
+                   u.num_of_strikes,
+                   u.avatar_url, 
+                   ug.about,
+                   ug.age,
+                   ug.gender,
+                   r.abbreviation as region,
+                   r.name as region_name,
+                   ug.languages,
+                   ug.preferred_platform,
+                   ug.discord,
+                   ug.psn,
+                   ug.xbox,
+                   ug.last_seen,
+                   av1.name,
+                   av2.name,
+                   ur.roles,
+                   ur.play_styles
+              from public.users u
+         left join public.user_general_infos ug
+                on ug.user_id = u.id
+         left join public.user_rust_infos ur
+                on ur.user_id = u.id
+         left join public.regions r
+                on r.id = ug.region
+         left join public.availabilities av1
+                on av1.id = ur.weekends
+         left join public.availabilities av2
+                on av2.id = ur.weekdays
+             where u.username = :username
+       `;
+};
+const getUserDataBySteamIdQuery = () => {
+  return `
+            select u.id,
+                   u.email,
+                   u.username,
+                   u.hashed,
+                   u.num_of_strikes,
+                   u.avatar_url, 
+                   ug.about,
+                   ug.age,
+                   ug.gender,
+                   r.abbreviation as region,
+                   r.name as region_name,
+                   ug.languages,
+                   ug.preferred_platform,
+                   ug.discord,
+                   ug.psn,
+                   ug.xbox,
+                   ug.last_seen,
+                   av1.name,
+                   av2.name,
+                   ur.roles,
+                   ur.play_styles
+              from public.users u
+         left join public.user_general_infos ug
+                on ug.user_id = u.id
+         left join public.user_rust_infos ur
+                on ur.user_id = u.id
+         left join public.regions r
+                on r.id = ug.region
+         left join public.availabilities av1
+                on av1.id = ur.weekends
+         left join public.availabilities av2
+                on av2.id = ur.weekdays
+             where u.steam_id = :steamId
+       `;
+};
 const getUserDataByIdQuery = () => {
   return `
              select u.id,
@@ -77,6 +150,8 @@ const getUserDataByIdQuery = () => {
                     ug.last_seen,
                     av1.name as rust_weekdays,
                     av2.name as rust_weekends,
+                    ur.server_type_id as rust_server_type_id,
+                    ur.wipe_day_preference,
                     ur.roles,
                     ur.play_styles,
                     ur.hours as rust_hours,
@@ -125,6 +200,8 @@ const getUserDataByIdQuery = () => {
                     ur.roles,
                     ur.play_styles,
                     ur.hours,
+                    ur.server_type_id,
+                    ur.wipe_day_preference,
                     ur.is_published,
                     rl.preferred_playlist,
                     rl.rank,
@@ -143,12 +220,28 @@ const searchUserByUsernameQuery = () => {
        `;
 };
 
+const getSteamDataQuery = () => {
+  return `
+            select * 
+              from public.steam_data
+             where steam_id = :steamId
+            `;
+};
+
+const storeSteamDataQuery = () => {
+  return `
+       insert into public.steam_data (id, steam_id, communityvisibilitystate, name, avatar_url, created_at, updated_at)
+            values ((select max(id) + 1 from public.steam_data), :steamId, :communityvisibilitystate, :name, :avatar_url, current_timestamp, current_timestamp)
+         returning id
+       `;
+};
+
 const createUserQuery = () => {
   return `
-  insert into public.users (id, email, username, hashed, created_at, updated_at)
-       values ((select max(id) + 1 from public.users), :email, :username, :hashed, current_timestamp, current_timestamp)
-    returning id, email, hashed, username
-  `;
+       insert into public.users (id, email, username, hashed, steam_id, avatar_url, created_at, updated_at)
+            values ((select max(id) + 1 from public.users), :email, :username, :hashed, :steam_id, :avatar_url, current_timestamp, current_timestamp)
+         returning id, email, hashed, username
+       `;
 };
 
 const createGeneralInfoQuery = () => {
@@ -160,22 +253,26 @@ const createGeneralInfoQuery = () => {
 
 const createRustInfoQuery = () => {
   return `
-  insert into public.user_rust_infos (id, user_id, created_at, updated_at)
-       values ((select max(id) + 1 from public.user_rust_infos), :userId, current_timestamp, current_timestamp)
+  insert into public.user_rust_infos (id, user_id, hours, created_at, updated_at)
+       values ((select max(id) + 1 from public.user_rust_infos), :userId, :rust_hours, current_timestamp, current_timestamp)
   `;
 };
 
 const createRocketLeagueInfoQuery = () => {
   return `
-  insert into public.user_rocket_league_infos (id, user_id, created_at, updated_at)
-       values ((select max(id) + 1 from public.user_rust_infos), :userId, current_timestamp, current_timestamp)
+  insert into public.user_rocket_league_infos (id, user_id, hours, created_at, updated_at)
+       values ((select max(id) + 1 from public.user_rocket_league_infos), :userId, :rocket_league_hours, current_timestamp, current_timestamp)
   `;
 };
 
 module.exports = {
   getUserDataByEmailQuery,
+  getUserDataByUsernameQuery,
+  getUserDataBySteamIdQuery,
   getUserDataByIdQuery,
   searchUserByUsernameQuery,
+  getSteamDataQuery,
+  storeSteamDataQuery,
   createUserQuery,
   createGeneralInfoQuery,
   createRustInfoQuery,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./authenticationPage.scss";
 import { SignUpForm, SignInForm, VerificationForm, PasswordResetForm } from "../../utils/interfaces";
 import { createUser, googleSignIn, requestPasswordReset } from "../../utils/rest";
@@ -16,16 +16,23 @@ import {
   setUpAnim,
   loginPanelForgotPasswordAnim,
   loginPanelPasswordResetAnim,
+  avatarFormOut,
+  avatarFormIn,
 } from "../../utils/animations";
 import { signInUserThunk, createUserInState, resetPasswordInState, updateUserThunk } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
-
-const clientId = "244798002147-mm449tgevgljdthcaoirnlmesa8dkapb.apps.googleusercontent.com";
+// ***ELECTRON Next 3 LINES modify
+// import { IpcRenderer } from "electron";
+// const ipcRenderer: IpcRenderer = window.require("electron").ipcRenderer;
+const isElectron = false;
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const scrollToSection = (ref: any) => {
+    ref.current?.scrollIntoView();
+  };
+  const topOfPageRef: any = useRef(null);
   const initialSignUpForm: SignUpForm = {
     name: "",
     email: "",
@@ -56,6 +63,7 @@ const LoginPage = () => {
   const [forgotPasswordForm, setForgotPasswordFormState] = useState(initialForgotPasswordForm);
   const [passwordResetForm, setPasswordResetFormState] = useState(initialPasswordResetForm);
   const [formError, setFormError] = useState(false);
+  const [isSteamPopup, setisSteamPopup] = useState<boolean>(false);
   const [isGoogleSignUp, setisGoogleSignUp] = useState<boolean>(false);
   const [googleSuccessResponse, setgoogleSuccessResponse] = useState<any>({});
   const [ageChecked, setageChecked] = useState<boolean>(false);
@@ -316,8 +324,47 @@ const LoginPage = () => {
     return;
   };
 
+  const trySteamLogin = async () => {
+    // Hit api and get redirected to steam
+    // ***PROD CHANGE
+    window.location.href = "https://www.gangs.gg/steam"; //"http://localhost:3010/steam";
+  };
+
+  const openGangsInBrowser = async () => {
+    const url = "https://www.gangs.gg/#/login";
+    // ***ELECTRON DISABLE
+    // ipcRenderer.send("openWebPage", url);
+  };
+
+  const openSteamPopup = async () => {
+    setisSteamPopup(true);
+    avatarFormIn();
+    scrollToSection(topOfPageRef);
+    return;
+  };
+  const closeSteamPopup = () => {
+    avatarFormOut();
+    setisSteamPopup(false);
+    return;
+  };
+
+  const conditionalSteamModalClass = isSteamPopup ? "conditionalZ2" : "conditionalZ1";
   return (
-    <div className="login-container">
+    <div className="login-container" ref={topOfPageRef}>
+      {/* Steam Electron Sign Up MODAL */}
+      <div className={`edit-profile-form ${conditionalSteamModalClass}`}>
+        <p>
+          Steam sign up must be done in a web browser. Please visit the gangs website, and create your account through
+          steam.{" "}
+        </p>
+        <p>Once your account is created, you can return to the gangs desktop app and login!</p>
+        <div className="upload-form-btns">
+          <button onClick={openGangsInBrowser} className="visit-website-btn">
+            open gangs in web browser
+          </button>
+          <button onClick={closeSteamPopup}>close</button>
+        </div>
+      </div>
       {/* Title */}
       <div className="login-banner">
         <img
@@ -353,16 +400,25 @@ const LoginPage = () => {
             <h2>create account</h2>
             <div className="login-inputs">
               {/* Input Boxes */}
+              <button
+                type="button"
+                className="alt-button steam-button"
+                onClick={() => {
+                  if (isElectron) {
+                    openSteamPopup();
+                  } else {
+                    trySteamLogin();
+                  }
+                }}
+              >
+                <img
+                  src="https://res.cloudinary.com/kultured-dev/image/upload/v1686792786/Steam-Logo_bcn4qj.png"
+                  alt="steam-logo-signin"
+                  className="steam-logo"
+                ></img>{" "}
+                steam signup
+              </button>
               <div className="google-signup-container" style={{ display: !isGoogleSignUp ? "inline-block" : "none" }}>
-                <GoogleLogin
-                  className="google-button"
-                  clientId={clientId}
-                  buttonText="google sign up"
-                  onSuccess={onGoogleSuccess}
-                  onFailure={onGoogleFailure}
-                  cookiePolicy={"single_host_origin"}
-                  isSignedIn={true}
-                />
                 <div className="seperator-text">or</div>
               </div>
               <input name="username" type="text" placeholder="display name" />
@@ -423,21 +479,14 @@ const LoginPage = () => {
             <h2>sign in</h2>
             {/* Input Boxes */}
             <div className="login-inputs">
-              <GoogleLogin
-                className="google-button"
-                clientId={clientId}
-                buttonText="google login"
-                onSuccess={onGoogleSuccess}
-                onFailure={onGoogleFailure}
-                cookiePolicy={"single_host_origin"}
-                isSignedIn={true}
-              />
-              <div className="seperator-text">or</div>
-              <input name="email" type="email" placeholder="email" />
-              <input name="password" type="password" placeholder="password" />
-              {formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
+              <div className="email-signin-box">
+                <input name="email" type="text" placeholder="username, email, or steam id" />
+                <input name="password" type="password" placeholder="password" />
+                {formError ? <div className="error-mssg">{errorMessage}</div> : <div className="error-mssg"> </div>}
+                <button type="submit">login</button>
+              </div>
+              <div className="seperator-text">no account?</div>
             </div>
-            <button type="submit">sign in</button>
             <button type="button" onClick={() => changeMenu(2)} className="alt-button">
               create account
             </button>

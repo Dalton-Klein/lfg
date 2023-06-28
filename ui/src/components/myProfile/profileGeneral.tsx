@@ -11,7 +11,7 @@ import SelectComponent from "./selectComponent";
 import { languageOptions, regionOptions } from "../../utils/selectOptions";
 import ExpandedProfile from "../modal/expandedProfileComponent";
 import { Toast } from "primereact/toast";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 import GameTile from "../tiles/gameTile";
 
 type Props = {
@@ -178,7 +178,7 @@ export default function ProfileGeneral(props: Props) {
     // After all data is comitted to db, get fresh copy of user object to update state
     dispatch(updateUserThunk(userData.id));
     setHasUnsavedChanges(false);
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "success",
       summary: "changes saved!",
@@ -231,8 +231,9 @@ export default function ProfileGeneral(props: Props) {
       </div>
       {/* GAME PROFILE LINKS */}
       <div className="game-profile-container">
+        {/* ***NEW GAME MODIFY */}
         <GameTile
-          imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}
+          imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1686770431/g6ouckgsguxpxha8icjo.jpg"}
           routerLink={"/rust-profile"}
           title={"rust profile"}
           changeBanner={props.changeBanner}
@@ -499,21 +500,21 @@ export default function ProfileGeneral(props: Props) {
       </div>
       {/* END SAVE BOX */}
 
-      <ReactTooltip id="aboutMeTip" place="top" effect="solid">
+      <Tooltip id="aboutMeTip" place="top">
         Say something about your gaming strengths and playstyle.
-      </ReactTooltip>
-      <ReactTooltip id="publishTip" place="right" effect="solid">
+      </Tooltip>
+      <Tooltip id="publishTip" place="right">
         Controls whether your profile is discoverable. You must have both general and game profiles complete to publish.
-      </ReactTooltip>
-      <ReactTooltip id="avatarTip" place="right" effect="solid">
+      </Tooltip>
+      <Tooltip id="avatarTip" place="right">
         Click here to upload profile image
-      </ReactTooltip>
-      <ReactTooltip id="languageTip" place="right" effect="solid">
+      </Tooltip>
+      <Tooltip id="languageTip" place="right">
         Language you will use in text and voice communications.
-      </ReactTooltip>
-      <ReactTooltip id="platformTip" place="right" effect="solid">
+      </Tooltip>
+      <Tooltip id="platformTip" place="right">
         Select your primary gaming communication platform (voice). Then enter your username for the platform below.
-      </ReactTooltip>
+      </Tooltip>
     </div>
   );
 }

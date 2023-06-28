@@ -4,78 +4,62 @@ import { getRocketLeaguePlaylists, howLongAgo } from "../../utils/helperFunction
 import { useEffect, useState } from "react";
 import ExpandedProfile from "../modal/expandedProfileComponent";
 import { useLocation } from "react-router-dom";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 
 export default function PlayerTile(props: any) {
   const locationPath: string = useLocation().pathname;
-  const [genderIcon, setGenderIcon] = useState("");
+  const [genderIcon, setgenderIcon] = useState("");
+  const [rocketLeagueRankIcon, setrocketLeagueRankIcon] = useState("");
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
 
   const rocketLeaguePlaylists: any = getRocketLeaguePlaylists();
-  const rocketLeagueRanks: any = {
-    1: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-bronze-transp_fw3ar3.png"
-        alt="rocket league bronze rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    2: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-silver-transp_ovmdbx.png"
-        alt="rocket league silver rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    3: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-gold-transp_vwr4dz.png"
-        alt="rocket league gold rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    4: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-plat-transp_rgbpdw.png"
-        alt="rocket league platinum rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    5: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-diamond-transp_j0vmlx.png"
-        alt="rocket league diamond rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    6: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-champ-transp_v2xt1q.png"
-        alt="rocket league champ rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-    7: (
-      <img
-        src="https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-grand-champ-transp_jflaeq.png"
-        alt="rocket league grand champ rank"
-        style={{ maxHeight: "7vh", maxWidth: "7vh", minHeight: "7vh", minWidth: "7vh" }}
-      ></img>
-    ),
-  };
   const lastSeen = howLongAgo(props.last_seen);
 
   useEffect(() => {
     if (props.gender === 1) {
-      setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png");
+      setgenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png");
     } else if (props.gender === 2) {
-      setGenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png");
+      setgenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814973/gender-icon-female_ozujm1.png");
     } else if (props.gender === 3) {
-      setGenderIcon(
+      setgenderIcon(
         "https://res.cloudinary.com/kultured-dev/image/upload/v1685814975/gender-icon-non-binary_hepali.png"
       );
     }
   }, [props.gender]);
+
+  useEffect(() => {
+    if (props.rocket_league_rank === 1) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-bronze-transp_fw3ar3.png"
+      );
+    } else if (props.rocket_league_rank === 2) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-silver-transp_ovmdbx.png"
+      );
+    } else if (props.rocket_league_rank === 3) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-gold-transp_vwr4dz.png"
+      );
+    } else if (props.rocket_league_rank === 4) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-plat-transp_rgbpdw.png"
+      );
+    } else if (props.rocket_league_rank === 5) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-diamond-transp_j0vmlx.png"
+      );
+    } else if (props.rocket_league_rank === 6) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570549/rl-champ-transp_v2xt1q.png"
+      );
+    } else if (props.rocket_league_rank === 7) {
+      setrocketLeagueRankIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1666570297/rl-grand-champ-transp_jflaeq.png"
+      );
+    } else {
+      setrocketLeagueRankIcon("");
+    }
+  }, [props.rocket_league_rank]);
 
   const toggleExpandedProfile = () => {
     setExpandedProfileVis(!expandedProfileVis);
@@ -168,19 +152,36 @@ export default function PlayerTile(props: any) {
               <div className="details-rocket-league-playlist" data-tip data-for="playlistTip">
                 {rocketLeaguePlaylists[props.rocket_league_playlist]}
               </div>
+
+              {rocketLeagueRankIcon.length > 0 ? (
+                <img className="details-rocket-league-rank" src={rocketLeagueRankIcon} />
+              ) : (
+                "not ranked"
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
+          {locationPath === "/lfg-rust" ? (
+            <div className="details-rust">
+              <div className="details-rust-info-slot" data-tip data-for="playlistTip">
+                {props.server_type_id === 1 ? "vanilla servers" : `${props.server_type_id}x servers`}
+              </div>
+
+              <div className="details-rust-info-slot">{props.wipe_day_preference} wipes </div>
             </div>
           ) : (
             <></>
           )}
           <div className="details-availability">
             <div className="detail-label" data-tip data-for="weekdayTip">
-              weekdays:{" "}
+              mon-thu:{" "}
             </div>
             <div className="details-availabilty-text">
               {locationPath === "/lfg-rust" ? props.rust_weekdays : props.rocket_league_weekdays}
             </div>
             <div className="detail-label" data-tip data-for="weekendTip">
-              weekends:{" "}
+              fri-sun:{" "}
             </div>
             <div className="details-availabilty-text">
               {locationPath === "/lfg-rust" ? props.rust_weekends : props.rocket_league_weekends}
@@ -223,27 +224,27 @@ export default function PlayerTile(props: any) {
           </div>
         </div>
       </div>
-      <ReactTooltip id="hoursTip" place="top" effect="solid">
+      <Tooltip id="hoursTip" place="top">
         hours played
-      </ReactTooltip>
-      <ReactTooltip id="rankTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="rankTip" place="top">
         rank
-      </ReactTooltip>
-      <ReactTooltip id="playlistTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="playlistTip" place="top">
         preferred playlist
-      </ReactTooltip>
-      <ReactTooltip id="weekdayTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="weekdayTip" place="top">
         weekday availability
-      </ReactTooltip>
-      <ReactTooltip id="weekendTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="weekendTip" place="top">
         weekend availability
-      </ReactTooltip>
-      <ReactTooltip id="commPlatformTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="commPlatformTip" place="top">
         communication platform
-      </ReactTooltip>
-      <ReactTooltip id="seenTip" place="top" effect="solid">
+      </Tooltip>
+      <Tooltip id="seenTip" place="top">
         last time player was seen on gangs
-      </ReactTooltip>
+      </Tooltip>
     </div>
   );
 }

@@ -13,7 +13,7 @@ import { Menu } from "primereact/menu";
 import { loadSavedDevices } from "../../utils/helperFunctions";
 import { updateUserThunk } from "../../store/userSlice";
 import InstantMessaging from "../messaging/instantMessaging";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 import vad from "voice-activity-detection";
 import VoiceParticipant from "../tiles/voiceParticipant";
 
@@ -602,9 +602,9 @@ export default function GangPage({ socketRef }) {
                 mic access denied, please enable mic access in your browser settings.{" "}
               </div>
             )}
-            <ReactTooltip id="voice-connect-tooltip" place="right" effect="float">
+            <Tooltip id="voice-connect-tooltip" place="right">
               <span>{currentAudioChannel.id ? "disconnect from voice" : "connect to voice"}</span>
-            </ReactTooltip>
+            </Tooltip>
           </div>
         );
         //Call async event for use later in fucntion
@@ -728,9 +728,9 @@ export default function GangPage({ socketRef }) {
                   </button>
                 )}
 
-                <ReactTooltip id="mute-mic-tooltip" place="top" effect="float">
+                <Tooltip id="mute-mic-tooltip" place="top">
                   <span>{isMicMuted ? "unmute mic" : "mute mic"}</span>
-                </ReactTooltip>
+                </Tooltip>
               </div>
             ) : (
               <div className="button-rack">
@@ -771,7 +771,7 @@ export default function GangPage({ socketRef }) {
     let copyOfGangInfo = Object.assign({}, gangInfo);
     copyOfGangInfo.requestStatus = [result[0]];
     setgangInfo(copyOfGangInfo);
-    toast.current.clear();
+    toast.current?.clear();
     toast.current.show({
       severity: "success",
       summary: "request sent!",

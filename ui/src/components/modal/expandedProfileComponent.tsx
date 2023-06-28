@@ -12,7 +12,7 @@ import { getRocketLeaguePlaylists, howLongAgo } from "../../utils/helperFunction
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import EndorsementTile from "../tiles/endorsementTile";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Props = {
   toggleExpandedProfile: any;
@@ -26,7 +26,9 @@ type Props = {
 
 const ExpandedProfile = (props: Props) => {
   const locationPath: string = useLocation().pathname;
+  const navigate = useNavigate();
   let platformId = 0;
+  // ***NEW GAME MODIFY
   switch (locationPath) {
     case "/lfg-rust":
       platformId = 1;
@@ -134,7 +136,6 @@ const ExpandedProfile = (props: Props) => {
       opacity: 1,
       delay: 0.25,
     });
-    handleMouseLeave();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -194,14 +195,6 @@ const ExpandedProfile = (props: Props) => {
     }
   };
 
-  const handleMouseEnter = () => {
-    setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814833/exit-icon-hover2_fdognt.png");
-  };
-
-  const handleMouseLeave = () => {
-    setExitIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png");
-  };
-
   const sendConnectionRequest = async () => {
     const requestResult = await createConnectionRequest(
       userState.id,
@@ -217,20 +210,29 @@ const ExpandedProfile = (props: Props) => {
       hasSendError = true;
     }
   };
+  const goToGameProfile = () => {
+    let route = "";
+    switch (locationPath) {
+      // ***NEW GAME MODIFY
+      case "/lfg-rust":
+        route = "rust-profile";
+        break;
+      case "/lfg-rocket-league":
+        route = "rocket-league-profile";
+        break;
+      default:
+        break;
+    }
+    navigate(`/${route}`);
+  };
+
   return createPortal(
     <div className="backdrop-container">
       <div className="backdrop-event-listener"></div>
       <div className="hamburger-primary-panel">
         <div className="hamburger-secondary-panel">
           <div className="profile-container">
-            <img
-              onClick={props.toggleExpandedProfile}
-              className="hamburger-exit"
-              src={exitIcon}
-              onMouseOver={handleMouseEnter}
-              onMouseOut={handleMouseLeave}
-              alt="exit Icon"
-            />
+            <i className="pi pi-angle-left hamburger-exit" onClick={props.toggleExpandedProfile}></i>
             <div className="expanded-banner">
               {props.userInfo.avatar_url === "" ||
               props.userInfo.avatar_url ===
@@ -273,7 +275,19 @@ const ExpandedProfile = (props: Props) => {
                     placeholder={"write a short message..."}
                   ></input>
                 ) : (
-                  <div className="profile-incomplete-text">**complete profile before sending requests**</div>
+                  <div className="profile-incomplete-text">
+                    **complete{" "}
+                    <span
+                      onClick={() => {
+                        goToGameProfile();
+                      }}
+                      className="link-text"
+                    >
+                      {" "}
+                      profile
+                    </span>{" "}
+                    before sending requests**
+                  </div>
                 )}
                 <button
                   className="connect-button"
@@ -333,6 +347,14 @@ const ExpandedProfile = (props: Props) => {
                 <div className="expanded-core-info-field">
                   <label>hours</label>
                   <div>{props.userInfo.rust_hours}</div>
+                </div>
+                <div className="expanded-core-info-field">
+                  <label>server type</label>
+                  <div>{props.userInfo.server_type_id === 1 ? "vanilla" : `${props.userInfo.server_type_id}x`}</div>
+                </div>
+                <div className="expanded-core-info-field">
+                  <label>wipe day pref</label>
+                  <div>{props.userInfo.wipe_day_preference}</div>
                 </div>
                 <div className="expanded-core-info-field">
                   <label>weekdays</label>

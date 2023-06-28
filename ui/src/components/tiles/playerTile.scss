@@ -9,7 +9,7 @@
   max-width: 30vw;
   min-height: 200px;
   max-height: 45vh;
-  background-color: $colorGreyPop;
+  background-color: $colorGreyBg;
   border-radius: $borderRadius1;
   outline-style: solid;
   outline-width: 2px;
@@ -28,12 +28,12 @@
       flex-direction: column;
       margin-left: 1vw;
       .dynamic-avatar-border {
-        width: 5vw;
-        height: 5vw;
-        min-height: 5vw;
-        min-width: 5vw;
+        width: 4vw;
+        height: 4vw;
+        min-height: 4vw;
+        min-width: 4vw;
         object-fit: cover;
-        border-radius: calc(5vw / 2);
+        border-radius: calc(4vw / 2);
         background-color: $colorShadowLight;
         display: flex;
         justify-content: center;
@@ -43,12 +43,12 @@
         }
       }
       .card-photo {
-        width: 5vw;
-        height: 5vw;
-        min-height: 5vw;
-        min-width: 5vw;
+        width: 4vw;
+        height: 4vw;
+        min-height: 4vw;
+        min-width: 4vw;
         object-fit: cover;
-        border-radius: calc(5vw / 2);
+        border-radius: calc(4vw / 2);
       }
     }
     .info-column {
@@ -57,7 +57,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      margin: 0 1vw 1.5vh 1vw;
+      margin: 0 1vw 0.5vh 1vw;
       font-size: $font4;
       .info-title-row {
         display: flex;
@@ -65,6 +65,10 @@
         align-items: center;
         width: 100%;
         height: 50%;
+        .connect-button {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
       }
       .info-stats-row {
         display: flex;
@@ -73,7 +77,8 @@
         margin-top: 0.5vh;
       }
       .info-stats-attribute {
-        font-size: $font3;
+        font-size: $font2;
+        opacity: 0.7;
       }
       .platform-icon {
         font-size: $font3;
@@ -83,30 +88,32 @@
         min-width: 20px;
       }
       .gender-icon {
-        width: 1.5vw;
-        height: 1.5vw;
-        min-height: 20px;
-        min-width: 20px;
+        width: 1vw;
+        height: 1vw;
+        min-height: 15px;
+        min-width: 15px;
+        opacity: 0.7;
       }
     }
   }
   .lesser-details {
-    background-color: $colorGreyHover;
+    background-color: $colorGreyBg;
 
     .detail-label {
       margin: 0vh 1vw;
-      opacity: 0.6;
+      opacity: 0.7;
       z-index: 0;
       font-size: $font2;
     }
     .details-about {
-      margin: 1vh 1vw 0 1vw;
+      margin: 0vh 1vw 0 1vw;
       min-height: 60px;
       display: flex;
       align-items: center;
       .details-about-text {
         min-width: 100%;
         text-align: center;
+        font-size: $font1;
       }
     }
     .details-hours-played {
@@ -121,12 +128,12 @@
         min-width: 100%;
         min-height: 12px;
         max-height: 12px;
-        background-color: $colorGreyBg;
+        background-color: $colorGreyPop;
         .hours-belt-inner {
           display: flex;
           align-items: center;
           justify-content: center;
-          background-color: $colorGreyBg;
+          background-color: $colorGreyPop;
           min-height: 25px;
           min-width: 50%;
           border-radius: $borderRadius2;
@@ -137,17 +144,35 @@
         text-align: center;
       }
     }
+    .details-rust {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 1.5vh;
+      .details-rust-info-slot {
+        border: 1px solid white;
+        border-radius: $borderRadius1;
+        padding: 0.25vw;
+      }
+    }
     .details-rocket-league {
       display: flex;
       justify-content: space-evenly;
       align-items: center;
       margin-top: 1vh;
+      margin-bottom: 0.5vh;
       .details-rocket-league-playlist {
         font-size: $font3;
         border-radius: $borderRadius1;
         background-color: $colorGreyPop;
         border: 2px solid $colorSecondary;
         padding: 1vh 1vw;
+      }
+      .details-rocket-league-rank {
+        width: 4vw;
+        height: 4vw;
+        min-height: 35px;
+        min-width: 35px;
       }
     }
     .details-availability {
@@ -158,11 +183,14 @@
       word-wrap: normal;
       max-width: 100%;
       padding: 1vh 0;
+      .detail-label {
+        font-size: $font1;
+      }
       .details-availabilty-text {
         margin: 0vh 1vw;
         text-align: center;
         overflow-wrap: normal;
-        font-size: $font2;
+        font-size: $font1;
       }
     }
   }
@@ -200,20 +228,20 @@
     max-width: 45vw;
     .main-details {
       .image-column {
-        min-width: 7vw;
+        min-width: 6vw;
         .dynamic-avatar-border {
-          width: 7vw;
-          height: 7vw;
-          min-height: 7vw;
-          min-width: 7vw;
-          border-radius: calc(7vw / 2);
+          width: 6vw;
+          height: 6vw;
+          min-height: 6vw;
+          min-width: 6vw;
+          border-radius: calc(6vw / 2);
         }
         .card-photo {
-          width: 7vw;
-          height: 7vw;
-          min-height: 7vw;
-          min-width: 7vw;
-          border-radius: calc(7vw / 2);
+          width: 6vw;
+          height: 6vw;
+          min-height: 6vw;
+          min-width: 6vw;
+          border-radius: calc(6vw / 2);
         }
       }
     }
@@ -224,20 +252,20 @@
   .player-card {
     .main-details {
       .image-column {
-        min-width: 9vw;
+        min-width: 8vw;
         .dynamic-avatar-border {
-          width: 9vw;
-          height: 9vw;
-          min-height: 9vw;
-          min-width: 9vw;
-          border-radius: calc(9vw / 2);
+          width: 8vw;
+          height: 8vw;
+          min-height: 8vw;
+          min-width: 8vw;
+          border-radius: calc(8vw / 2);
         }
         .card-photo {
-          width: 9vw;
-          height: 9vw;
-          min-height: 9vw;
-          min-width: 9vw;
-          border-radius: calc(9vw / 2);
+          width: 8vw;
+          height: 8vw;
+          min-height: 8vw;
+          min-width: 8vw;
+          border-radius: calc(8vw / 2);
         }
       }
     }
@@ -251,22 +279,22 @@
     max-height: 55vh;
     .main-details {
       .image-column {
-        min-width: 12vw;
+        min-width: 10vw;
         width: 18vw;
         max-width: 40%;
         .dynamic-avatar-border {
-          width: 12vw;
-          height: 12vw;
-          min-height: 12vw;
-          min-width: 12vw;
-          border-radius: calc(12vw / 2);
+          width: 10vw;
+          height: 10vw;
+          min-height: 10vw;
+          min-width: 10vw;
+          border-radius: calc(10vw / 2);
         }
         .card-photo {
-          width: 12vw;
-          height: 12vw;
-          min-height: 12vw;
-          min-width: 12vw;
-          border-radius: calc(12vw / 2);
+          width: 10vw;
+          height: 10vw;
+          min-height: 10vw;
+          min-width: 10vw;
+          border-radius: calc(10vw / 2);
         }
       }
       .info-column {

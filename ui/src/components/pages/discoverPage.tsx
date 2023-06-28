@@ -30,7 +30,6 @@ export default function DiscoverPage() {
   }, []);
 
   useEffect(() => {
-    console.log("hello?");
     initializePage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath]);

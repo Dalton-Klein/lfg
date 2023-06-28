@@ -50,7 +50,7 @@ export default function HomePage({ socketRef }) {
   //BEGIN SOCKET Functions
   const loadNotificationHistory = async () => {
     const historicalNotifications = await getNotificationsGeneral();
-    setnotifications([...historicalNotifications]);
+    setnotifications(historicalNotifications?.length ? [...historicalNotifications] : []);
     socketRef.current.emit("join_room", `notifications-general`);
   };
   const renderNotifications = () => {

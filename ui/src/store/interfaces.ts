@@ -2,6 +2,7 @@ export interface User {
   token: string;
   id: number;
   email: string;
+  steam_id: string;
   avatar_url: string | undefined;
   username: string;
   numOfStrikes: number;

@@ -192,7 +192,7 @@ export default function ProfilePage({ socketRef }) {
                 navigate("/general-profile");
               }}
             >
-              &nbsp; general profile
+              &nbsp; general profile &nbsp;
             </button>
           </div>
           {/* END CONDITIONAL BACK BUTTON */}

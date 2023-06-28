@@ -160,7 +160,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     const { roomId, senderId, sender, message } = messageState;
     const timestamp = moment().format();
     if (message.length > 750) {
-      toast.current.clear();
+      toast.current?.clear();
       toast.current.show({
         severity: "warn",
         summary: "message length exceeded",
@@ -278,7 +278,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     const { roomId, senderId, sender } = messageState;
     const timestamp = moment().format();
     if (!url) {
-      toast.current.clear();
+      toast.current?.clear();
       toast.current.show({
         severity: "warn",
         summary: "image failed to upload",

@@ -8,7 +8,7 @@ import {
 } from "../../utils/rest";
 import ProfileWidget from "./profileWidget";
 import "./profileWidgetsContainer.scss";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 
 const ProfileWidgetsContainer = () => {
   const userData = useSelector((state: RootState) => state.user.user);
@@ -66,12 +66,12 @@ const ProfileWidgetsContainer = () => {
         label={"r.l. profile completed?"}
         tooltipName="gameProfileTip"
       ></ProfileWidget>
-      <ReactTooltip id="genProfileTip" place="bottom" effect="solid">
+      <Tooltip id="genProfileTip" place="bottom">
         general profile must be complete before any game profile can be published
-      </ReactTooltip>
-      <ReactTooltip id="gameProfileTip" place="bottom" effect="solid">
-        once complete, publish this game profile to be discoverable by others
-      </ReactTooltip>
+      </Tooltip>
+      <Tooltip id="gameProfileTip" place="bottom">
+        when completed, publish this game profile to be discoverable by others
+      </Tooltip>
     </div>
   );
 };
