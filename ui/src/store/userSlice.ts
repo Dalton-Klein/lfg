@@ -36,6 +36,7 @@ const initialState: any = {
     connections: [],
     input_device_id: "",
     output_device_id: "",
+    rank: 0,
     created_at: undefined,
     updated_at: undefined,
     error: false,
@@ -111,6 +112,7 @@ export const updateUserThunk =
     try {
       let response: any;
       response = await fetchUserData(userId);
+      console.log("user data: ", response);
       if (!response.error) {
         dispatch(setUser(response.data));
       }
@@ -158,6 +160,7 @@ export const logoutUser =
             connections: [],
             input_device_id: "",
             output_device_id: "",
+            rank: 0,
             created_at: undefined,
             updated_at: undefined,
             error: false,

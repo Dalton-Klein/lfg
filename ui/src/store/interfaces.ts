@@ -29,6 +29,7 @@ export interface User {
   connections: any;
   input_device_id: string;
   output_device_id: string;
+  rank: number;
   created_at?: Date;
   updated_at?: Date;
   error: React.SetStateAction<boolean>;

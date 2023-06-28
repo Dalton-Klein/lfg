@@ -1,7 +1,7 @@
 {
-  "name": "codeexchange",
+  "name": "gangs-api",
   "version": "1.0.0",
-  "description": "Web app to connect with other developers, post and browse for code snippets and templates.",
+  "description": "A nodejs api with Postgres, sequelize, and socketio to support the ui of the gangs platform",
   "main": "index.js",
   "engines": {
     "node": "20.2.0",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Dalton-Klein/codeexchange-api.git"
+    "url": "git+https://github.com/Dalton-Klein/lfg.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Dalton-Klein/codeexchange-api/"
+    "url": "https://github.com/Dalton-Klein/lfg/"
   },
-  "homepage": "https://github.com/Dalton-Klein/codeexchange-api#readme",
+  "homepage": "https://github.com/Dalton-Klein/lfg#readme",
   "dependencies": {
     "@angular/compiler-cli": "^11.0.0",
     "bcrypt": "^5.0.1",

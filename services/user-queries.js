@@ -161,7 +161,8 @@ const getUserDataByIdQuery = () => {
                     rl.hours as rocket_league_hours, 
                     avrl1.name as rocket_league_weekdays,
                     avrl2.name as rocket_league_weekends,
-                    rl.is_published as rocket_league_is_published
+                    rl.is_published as rocket_league_is_published,
+                    sum(rd.points) as rank
                from public.users u
           left join public.user_general_infos ug
                  on ug.user_id = u.id
@@ -179,6 +180,8 @@ const getUserDataByIdQuery = () => {
                  on avrl1.id = rl.weekdays
           left join public.availabilities avrl2
                  on avrl2.id = rl.weekends
+          left join public.redeems rd
+                 on rd.user_id = u.id
               where u.id = :userId
            group by u.id, 
                     ug.about,

@@ -8,6 +8,7 @@ const notificationsController = require("../controllers/notification-controller"
 const publishController = require("../controllers/publish-controller");
 const tilesController = require("../controllers/tiles-controller");
 const userController = require("../controllers/profile-general-controller");
+const redeemsController = require("../controllers/redeems-controller");
 // test controller
 const testController = require("../controllers/test-controller");
 // Steam related
@@ -90,6 +91,10 @@ router.post("/get-gang-tiles", gangsController.getGangTiles);
 router.post("/rust-tiles", tilesController.getRustTiles);
 router.post("/rocket-league-tiles", tilesController.getRocketLeagueTiles);
 
+//Redeems ROUTES
+router.post("/get-redeem-types", redeemsController.getAllRedeemTypes);
+router.post("/get-redeems-for-player", redeemsController.getAllRedemptionsForUser);
+router.post("/add-redemption", redeemsController.getAllRedeemTypes);
 //TESTING ROUTES Coffee Disable
 router.post("/test-email", testController.testEmails);
 

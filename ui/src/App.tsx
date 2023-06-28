@@ -24,6 +24,7 @@ import HeaderComponent from "./components/nav/headerComponent";
 import VerticalNav from "./components/nav/verticalNav";
 import BlogArticle3 from "./components/pages/blog/blogArticle-3";
 import AddFriend from "./components/pages/addFriend";
+import RankPage from "./components/pages/rankPage";
 import SteamSignUpPage from "./components/authentication/steamSignUp";
 // ***ELECTRON DISABLE
 // import ElectronTitlebar from "./components/nav/electronTitleBar";
@@ -98,6 +99,7 @@ function App() {
                 <Route path="/incoming-requests" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/outgoing-requests" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/blocked" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/my-rank" element={<RankPage />} />
                 {/* Less Used Pages */}
                 <Route path="/help" element={<FAQPage />} />
                 <Route path="/login" element={<LoginPage />} />
