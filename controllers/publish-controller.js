@@ -7,6 +7,7 @@ const {
   checkIfUserCanPublishRocketLeagueProfileQuery,
   getAllProfilesPublicationStatusQuery,
 } = require("../services/publish-queries");
+const { createRedemptionForUser } = require("./redeems-controller");
 
 /*
 Check General Profile
@@ -34,6 +35,9 @@ const checkGeneralProfileCompletion = async (req, res) => {
     if (queryResult.languages === null) problemFields.push("language");
     if (queryResult.preferred_platform === null) problemFields.push("platform");
     if (!problemFields.length) passesValidation = true;
+    if (passesValidation) {
+      await createRedemptionForUser(userId, 2);
+    }
     let result = {
       status: passesValidation ? "success" : "error",
       data: problemFields,

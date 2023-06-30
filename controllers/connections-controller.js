@@ -10,9 +10,8 @@ const {
   getConnectionInsertQuery,
   removePendingConnectionQuery,
 } = require("../services/connections-queries");
-const moment = require("moment");
-const { updateUserGenInfoField } = require("../services/user-common");
 const { saveNotification } = require("./notification-controller");
+const { createRedemptionForUser } = require("./redeems-controller");
 
 /*
 send connection request logic
@@ -55,7 +54,6 @@ const sendConnectionRequest = async (req, res) => {
         data: "created connection request",
       };
       saveNotification(forUserId, 1, fromUserId);
-      updateUserGenInfoField(fromUserId, "last_seen", moment().format());
       if (connectionInsertResult) res.status(200).send(result);
       else throw new Error("Failed to create connection request");
     } else {
@@ -95,7 +93,6 @@ const getConnectionsForUser = async (req, res) => {
     let connections = acceptorConnections.concat(senderConnections);
     //Sort connection based on updated_at, which is kept up to date each time a message is sent
     connections = connections.sort((a, b) => (a.updated_at > b.updated_at ? -1 : 1));
-    await updateUserGenInfoField(userId, "last_seen", moment().format());
     res.status(200).send(connections);
   } catch (error) {
     console.log(error);
@@ -146,7 +143,8 @@ const acceptConnectionRequest = async (req, res) => {
       transaction,
     });
     saveNotification(senderId, 2, acceptorId);
-    updateUserGenInfoField(acceptorId, "last_seen", moment().format());
+    createRedemptionForUser(senderId, 4);
+    createRedemptionForUser(acceptorId, 4);
     transaction.commit();
     res.status(200).send(connectionInsertResult);
   } catch (err) {

@@ -355,7 +355,7 @@ export const fetchUserData = async (userId: number) => {
 };
 
 export const getUserRankProgression = async (userId: number) => {
-  let result = await fetch(`${endpointURL}/get-rank-progression`, {
+  let result = await fetch(`${endpointURL}/get-rank-for-user`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

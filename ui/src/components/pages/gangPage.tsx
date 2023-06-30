@@ -138,8 +138,8 @@ export default function GangPage({ socketRef }) {
           channel.index = tempIndex;
           tempIndex++;
         });
-        makeChannelTabs();
       }
+      makeChannelTabs();
       if (gangInfo.basicInfo?.members) {
         setfirst5Members(gangInfo.basicInfo.members.slice(0, 5));
       }

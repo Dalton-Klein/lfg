@@ -44,7 +44,6 @@ function App() {
       "http://localhost:3000" //: "https://www.gangs.gg"
     );
     socketRef.current.on("handshakeResponse", (serverSocketId) => {
-      console.log("Server socket ID:", serverSocketId, "vs", socketRef.current.id);
       // Do further processing with the server socket ID
     });
   };

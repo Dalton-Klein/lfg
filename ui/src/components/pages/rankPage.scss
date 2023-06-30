@@ -72,9 +72,14 @@
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          div {
-            margin-bottom: 0.25vh;
-            padding-left: 2vw;
+          .rank-stat-row {
+            min-width: 100%;
+            display: flex;
+            justify-content: space-between;
+            div {
+              margin-bottom: 0.25vh;
+              padding-left: 2vw;
+            }
           }
         }
       }
@@ -153,9 +158,10 @@
 
 @media screen and (max-width: $screenBreak1) {
   .rank-page-master {
+    min-width: 91vw;
+    max-width: 91vw;
     .rank-progression-container {
-      min-width: 91vw;
-      max-width: 91vw;
+      max-width: 95%;
       .article-content-container {
         .article-paragraph {
           .blog-image {
@@ -169,9 +175,10 @@
 
 @media screen and (max-width: $screenBreak2) {
   .rank-page-master {
+    min-width: 88vw;
+    max-width: 88vw;
     .rank-progression-container {
-      min-width: 88vw;
-      max-width: 88vw;
+      max-width: 95%;
       .article-content-container {
         .article-paragraph {
           .blog-image {

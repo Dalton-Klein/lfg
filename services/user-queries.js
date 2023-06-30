@@ -220,14 +220,6 @@ const searchUserByUsernameQuery = () => {
        `;
 };
 
-const getRankProgressionQuery = () => {
-  return `
-              select r.*
-              from public.redeems r
-              where r.user_id = :userId
-            `;
-};
-
 const getSteamDataQuery = () => {
   return `
             select * 
@@ -279,7 +271,6 @@ module.exports = {
   getUserDataBySteamIdQuery,
   getUserDataByIdQuery,
   searchUserByUsernameQuery,
-  getRankProgressionQuery,
   getSteamDataQuery,
   storeSteamDataQuery,
   createUserQuery,

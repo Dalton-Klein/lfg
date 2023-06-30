@@ -129,18 +129,34 @@ export default function RankPage() {
               <RankTile user={userState}></RankTile>
             </div>
             <div className="rank-my-details-progress">
-              <div>prestige: {Math.floor(progressionStats.grandTotal / 25)}</div>
-              <div>
-                rank:{" "}
-                {Math.floor(
-                  (progressionStats.grandTotal < 25 ? progressionStats.grandTotal : progressionStats.grandTotal % 25) /
-                    5 +
-                    1
-                )}
+              <div className="rank-stat-row">
+                <div>prestige: </div>
+                <div>{Math.floor(progressionStats.grandTotal / 25)}</div>
               </div>
-              <div>total: {progressionStats.grandTotal} pts</div>
-              <div>next rank: {5 - (progressionStats.grandTotal % 5)} pts</div>
-              <div>next prestige: {25 - (progressionStats.grandTotal % 25)} pts</div>
+              <div className="rank-stat-row">
+                <div>rank: </div>
+                <div>
+                  {Math.floor(
+                    (progressionStats.grandTotal < 25
+                      ? progressionStats.grandTotal
+                      : progressionStats.grandTotal % 25) /
+                      5 +
+                      1
+                  )}
+                </div>
+              </div>
+              <div className="rank-stat-row">
+                <div>total:</div>
+                <div>{progressionStats.grandTotal} pts</div>
+              </div>
+              <div className="rank-stat-row">
+                <div>next rank: </div>
+                <div>{5 - (progressionStats.grandTotal % 5)} pts</div>
+              </div>
+              <div className="rank-stat-row">
+                <div>next prestige: </div>
+                <div>{25 - (progressionStats.grandTotal % 25)} pts</div>
+              </div>
             </div>
           </div>
           <div className="rank-explanation">
@@ -187,45 +203,45 @@ export default function RankPage() {
           </div>
           <div className="rank-progress-container rank-challenge">
             <div className="rank-progress-subtitle">buddy up</div>
+            <div className="rank-progress-tracker">{progressionStats ? progressionStats[4].count : 0} / 10</div>
+            <div className="rank-progress-tally">3 pts</div>
+            <div className="rank-progress-tally">{progressionStats ? progressionStats[4].total : 0} pts</div>
+          </div>
+          <div className="rank-progress-container rank-challenge">
+            <div className="rank-progress-subtitle">report for duty</div>
             <div className="rank-progress-tracker">{progressionStats ? progressionStats[5].count : 0} / 10</div>
             <div className="rank-progress-tally">3 pts</div>
             <div className="rank-progress-tally">{progressionStats ? progressionStats[5].total : 0} pts</div>
           </div>
           <div className="rank-progress-container rank-challenge">
-            <div className="rank-progress-subtitle">report for duty</div>
+            <div className="rank-progress-subtitle">recruiter</div>
             <div className="rank-progress-tracker">{progressionStats ? progressionStats[6].count : 0} / 10</div>
             <div className="rank-progress-tally">3 pts</div>
             <div className="rank-progress-tally">{progressionStats ? progressionStats[6].total : 0} pts</div>
           </div>
           <div className="rank-progress-container rank-challenge">
-            <div className="rank-progress-subtitle">recruiter</div>
+            <div className="rank-progress-subtitle">critic</div>
             <div className="rank-progress-tracker">{progressionStats ? progressionStats[7].count : 0} / 10</div>
-            <div className="rank-progress-tally">3 pts</div>
+            <div className="rank-progress-tally">1 pts</div>
             <div className="rank-progress-tally">{progressionStats ? progressionStats[7].total : 0} pts</div>
           </div>
           <div className="rank-progress-container rank-challenge">
-            <div className="rank-progress-subtitle">critic</div>
-            <div className="rank-progress-tracker">{progressionStats ? progressionStats[8].count : 0} / 10</div>
+            <div className="rank-progress-subtitle">avid gamer</div>
+            <div className="rank-progress-tracker">{progressionStats ? progressionStats[8].count : 0} / unlimited</div>
             <div className="rank-progress-tally">1 pts</div>
             <div className="rank-progress-tally">{progressionStats ? progressionStats[8].total : 0} pts</div>
           </div>
           <div className="rank-progress-container rank-challenge">
-            <div className="rank-progress-subtitle">avid gamer</div>
+            <div className="rank-progress-subtitle">good comms</div>
             <div className="rank-progress-tracker">{progressionStats ? progressionStats[9].count : 0} / unlimited</div>
             <div className="rank-progress-tally">1 pts</div>
             <div className="rank-progress-tally">{progressionStats ? progressionStats[9].total : 0} pts</div>
           </div>
           <div className="rank-progress-container rank-challenge">
-            <div className="rank-progress-subtitle">good comms</div>
-            <div className="rank-progress-tracker">{progressionStats ? progressionStats[10].count : 0} / unlimited</div>
-            <div className="rank-progress-tally">1 pts</div>
-            <div className="rank-progress-tally">{progressionStats ? progressionStats[10].total : 0} pts</div>
-          </div>
-          <div className="rank-progress-container rank-challenge">
             <div className="rank-progress-subtitle">gang leader</div>
-            <div className="rank-progress-tracker">{progressionStats ? progressionStats[11].count : 0} / 2</div>
+            <div className="rank-progress-tracker">{progressionStats ? progressionStats[10].count : 0} / 2</div>
             <div className="rank-progress-tally">5 pts</div>
-            <div className="rank-progress-tally">{progressionStats ? progressionStats[11].total : 0} pts</div>
+            <div className="rank-progress-tally">{progressionStats ? progressionStats[10].total : 0} pts</div>
           </div>
           <div className="rank-progress-container rank-challenge">
             <div className="rank-progress-subtitle rank-total-text">grand total</div>
@@ -248,7 +264,9 @@ export default function RankPage() {
             Awarded for publishing a game profile. Must first fill out profile in order to publish
           </div>
           <div className="rank-challenge-subtitle">buddy up</div>
-          <div className="rank-challenge-details">Awarded for adding a new friend.</div>
+          <div className="rank-challenge-details">
+            Awarded for adding adding a new friend. Awared when request is accepted.
+          </div>
           <div className="rank-challenge-subtitle">report for duty</div>
           <div className="rank-challenge-details">Awarded for joining an existing gang (that you don't own).</div>
           <div className="rank-challenge-subtitle">recruiter</div>

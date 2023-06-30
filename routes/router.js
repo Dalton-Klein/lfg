@@ -35,7 +35,6 @@ router.post("/updateUserInfoField", userController.updateProfileField);
 router.put("/updateGeneralInfoField", userController.updateGeneralInfoField);
 router.put("/updateGameSpecificInfoField", userController.updateGameSpecificInfoField);
 router.post("/search-user-by-username", userController.searchForUser);
-router.post("/get-rank-progression", userController.getRankProgression);
 
 //NOTIFICATIONS RELATED ROUTES
 router.post("/get-notifications", notificationsController.getNotificationsForUser);
@@ -94,8 +93,7 @@ router.post("/rocket-league-tiles", tilesController.getRocketLeagueTiles);
 
 //Redeems ROUTES
 router.post("/get-redeem-types", redeemsController.getAllRedeemTypes);
-router.post("/get-redeems-for-player", redeemsController.getAllRedemptionsForUser);
-router.post("/add-redemption", redeemsController.getAllRedeemTypes);
+router.post("/get-rank-for-user", redeemsController.getAllRedemptionsForUser);
 //TESTING ROUTES Coffee Disable
 router.post("/test-email", testController.testEmails);
 

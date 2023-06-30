@@ -13,6 +13,7 @@ const {
   getSteamDataQuery,
   storeSteamDataQuery,
 } = require("../services/user-queries");
+const { createRedemptionForUser } = require("./redeems-controller");
 const { getPublicSteamGameData } = require("../services/steam");
 const { users, user_tokens, v_keys, sequelize } = require("../models/index");
 const Sequelize = require("sequelize");
@@ -357,6 +358,7 @@ exports.verify = async (req, res) => {
           const token = services.keyGen(15);
           await saveNotification(user.id, 4, 0);
           const newToken = await TokenTable.create({ id: user.id, token });
+          await createRedemptionForUser(user.id, 1);
           res.status(200).json({
             data: user,
             token: newToken.token,
