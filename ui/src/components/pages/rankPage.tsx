@@ -176,7 +176,7 @@ export default function RankPage() {
         </div>
         <div className="gradient-bar"></div>
         <div className="rank-section-container">
-          <div className="rank-section-title">progression</div>
+          <div className="rank-section-title">my progression</div>
           <div className="rank-progress-container">
             <div className="rank-progress-grid-header">challenge</div>
             <div className="rank-progress-grid-header">redemptions</div>
@@ -284,8 +284,26 @@ export default function RankPage() {
           <div className="rank-challenge-subtitle">gang leader</div>
           <div className="rank-challenge-details">Awarded for creating a new gang.</div>
         </div>
+        <div className="gradient-bar"></div>
+        <div className="rank-section-container">
+          <div className="rank-section-title">prestige details</div>
+          <div className="rank-challenge-subtitle">prestige 0</div>
+          <div className="rank-challenge-details rank-challenge-grey">grey</div>
+          <div className="rank-challenge-subtitle">prestige 1</div>
+          <div className="rank-challenge-details rank-challenge-white">white</div>
+          <div className="rank-challenge-subtitle">prestige 2</div>
+          <div className="rank-challenge-details rank-challenge-blue">blue</div>
+          <div className="rank-challenge-subtitle">prestige 3</div>
+          <div className="rank-challenge-details rank-challenge-red">red</div>
+          <div className="rank-challenge-subtitle">prestige 4</div>
+          <div className="rank-challenge-details rank-challenge-purple">purple</div>
+          <div className="rank-challenge-subtitle">prestige 5</div>
+          <div className="rank-challenge-details rank-challenge-green">green</div>
+          <div className="rank-challenge-subtitle">prestige 6</div>
+          <div className="rank-challenge-details rank-challenge-gold">gold</div>
+        </div>
       </div>
-      <FooterComponent></FooterComponent>
+      &nbsp; &nbsp;
     </div>
   );
 }

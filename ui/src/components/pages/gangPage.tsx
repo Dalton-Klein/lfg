@@ -43,7 +43,7 @@ const Video = (props: any) => {
     if (ref.current && props.peer) {
       props.peer.on("stream", (stream: any) => {
         ref.current.srcObject = stream;
-        ref.current.play();
+        // ref.current.play();
         setIsPlaying(true);
       });
     }
@@ -210,6 +210,7 @@ export default function GangPage({ socketRef }) {
         user_id: userState.id,
         username: userState.username,
         avatar_url: userState.avatar_url,
+        rank: userState.rank,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

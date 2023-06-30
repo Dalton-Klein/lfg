@@ -24,6 +24,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 2vh;
     .dynamic-avatar-text-small {
       font-size: $font2;
     }
@@ -34,14 +35,18 @@
   }
   .nav-overlay-img {
     display: block;
-    width: 3vw;
-    height: 3vw;
-    min-height: 3vw;
-    min-width: 3vw;
+    width: 5vw;
+    height: 5vw;
+    min-height: 5vw;
+    min-width: 5vw;
     object-fit: cover;
-    border-radius: calc(3vw / 2);
+    border-radius: calc(5vw / 2);
     transition: $transition1;
     margin: 0 1vw;
+    margin-bottom: 2vh;
+  }
+  .voice-participant-name {
+    margin-top: 2vh;
   }
 }
 
