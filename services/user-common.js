@@ -43,7 +43,6 @@ const updateUserGenInfoField = async (userId, field, value) => {
       value,
     },
   });
-  console.log("hey");
   if (field === "last_seen") {
     await createRedemptionForUser(userId, 8);
   }

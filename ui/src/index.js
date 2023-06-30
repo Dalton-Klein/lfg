@@ -4,6 +4,11 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { HashRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
+import * as process from "process";
+
+window.global = window;
+window.process = process;
+window.Buffer = [];
 const rootElement = document.getElementById("root");
 
 createRoot(rootElement).render(

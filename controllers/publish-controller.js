@@ -200,7 +200,6 @@ const checkIfUserCanPublishRocketLeagueProfile = async (req, res) => {
         userId,
       },
     });
-    console.log("RL Result?? ", queryResult);
     let passesValidation = false;
     let problemFields = [];
     //Validate result here
