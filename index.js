@@ -102,14 +102,14 @@ io.on("connection", (socket) => {
   });
 
   //Listen for dm chat messages from users
-  socket.on("message", ({ roomId, senderId, sender, message, isImage, timestamp }) => {
+  socket.on("message", ({ roomId, senderId, sender, avatar_url, rank, message, isImage, timestamp }) => {
     messageController.saveMessage(roomId.substring(3), senderId, message, isImage, timestamp);
-    io.to(roomId).emit("message", { roomId, senderId, sender, message, isImage, timestamp });
+    io.to(roomId).emit("message", { roomId, senderId, avatar_url, rank, sender, message, isImage, timestamp });
   });
 
-  socket.on("gang_message", ({ roomId, senderId, sender, message, isImage, timestamp }) => {
+  socket.on("gang_message", ({ roomId, senderId, sender, avatar_url, rank, message, isImage, timestamp }) => {
     messageController.saveGangMessage(roomId.substring(5), senderId, message, isImage, timestamp);
-    io.to(roomId).emit("message", { roomId, senderId, sender, message, isImage, timestamp });
+    io.to(roomId).emit("message", { roomId, senderId, sender, avatar_url, rank, message, isImage, timestamp });
   });
   //END DM EVENTS
 
@@ -117,7 +117,7 @@ io.on("connection", (socket) => {
   //         join voice is triggered only after user is already in voice "room"
   //         the purpose of this event is to update all observing users of the active call participants
   //         think of this like a message event but a voice disconnect/connect event
-  socket.on("join_voice", ({ roomId, user_id, username, avatar_url }) => {
+  socket.on("join_voice", ({ roomId, user_id, username, avatar_url, rank }) => {
     //Remove old participant object if still listed in room
     if (allUsersInAllVoiceChannels[roomId]) {
       allUsersInAllVoiceChannels[roomId] = allUsersInAllVoiceChannels[roomId].filter(
@@ -133,6 +133,7 @@ io.on("connection", (socket) => {
       user_id: user_id,
       username: username,
       avatar_url: avatar_url,
+      rank: rank,
       isTalking: false,
     });
     //Send full copy of participants to everyone observing voice channel

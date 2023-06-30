@@ -13,6 +13,7 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import ExpandedProfile from "../modal/expandedProfileComponent";
 import { avatarFormIn, avatarFormOut } from "../../utils/animations";
+import RankTile from "../tiles/rankTile";
 
 function isMobileDevice() {
   const userAgent = window.navigator.userAgent;
@@ -61,9 +62,12 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
 
   //BEGIN Update messages list after each chat sent
   useEffect(() => {
-    socketRef.current.on("message", ({ roomId, senderId, sender, message, isImage, timestamp }: any) => {
-      setchat([...chat, { roomId, senderId, sender, message, is_image: isImage, timestamp }]);
-    });
+    socketRef.current.on(
+      "message",
+      ({ roomId, senderId, sender, message, isImage, rank, avatar_url, timestamp }: any) => {
+        setchat([...chat, { roomId, senderId, sender, message, is_image: isImage, rank, avatar_url, timestamp }]);
+      }
+    );
     // When loading gang page on mobile, prevent undesired scroll on page load until user selects channel
     if (isMobile && !hasPressedChannelForMobile) {
       //Do nothing
@@ -86,6 +90,9 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
         sender: "gangs team",
         updated_at: `${moment().format()}`,
         username: "gangs team",
+        rank: 1,
+        avatar_url:
+          "https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png",
       },
     ]);
     updateCurrentConvo();
@@ -173,6 +180,8 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
           roomId: `dm_${roomId}`,
           senderId,
           sender,
+          avatar_url: userState.avatar_url,
+          rank: userState.rank,
           message,
           isImage: false,
           timestamp,
@@ -182,6 +191,8 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
           roomId: `gang_${roomId}`,
           senderId,
           sender,
+          avatar_url: userState.avatar_url,
+          rank: userState.rank,
           message,
           isImage: false,
           timestamp,
@@ -194,7 +205,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
 
   const renderChat = () => {
     if (chat.length) {
-      return chat.map(({ senderId, sender, message, is_image, created_at }: any, index: number) => {
+      return chat.map(({ senderId, sender, message, is_image, rank, avatar_url, created_at }: any, index: number) => {
         const formattedTimestamp = howLongAgo(created_at);
         return (
           <div
@@ -206,6 +217,23 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
             key={index}
           >
             <div className="message-sender-box">
+              {avatar_url === "" ||
+              avatar_url ===
+                "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
+                <div className="dynamic-avatar-border">
+                  <div className="dynamic-avatar-text-med">
+                    {sender
+                      .split(" ")
+                      .map((word: string[]) => word[0])
+                      .join("")
+                      .slice(0, 2)
+                      .toLowerCase()}
+                  </div>
+                </div>
+              ) : (
+                <img className="mssg-avatar" onClick={() => {}} src={avatar_url} alt={`${sender}avatar`} />
+              )}
+              <RankTile user={{ rank: rank ? rank : 1 }} isSmall={true}></RankTile>
               <div
                 className="message-sender-name"
                 onClick={() => {
@@ -226,6 +254,14 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
       return (
         <div className="message-bubble message-border-non-owner">
           <div className="message-sender-box">
+            <img
+              className="mssg-avatar"
+              onClick={() => {}}
+              src={
+                "https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
+              }
+            />
+            <RankTile user={{ rank: 174 }} isSmall={true}></RankTile>
             <div className="message-sender-name">gangs team</div>
             <div className="message-timestamp"></div>
           </div>

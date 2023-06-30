@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import ExpandedProfile from "../modal/expandedProfileComponent";
 import { useLocation } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
+import RankTile from "./rankTile";
 
 export default function PlayerTile(props: any) {
   const locationPath: string = useLocation().pathname;
@@ -190,7 +191,10 @@ export default function PlayerTile(props: any) {
         </div>
         {/* footer details */}
         <div className="footer-details">
-          <div className="footer-platform-box" data-tip data-for="commPlatformTip">
+          <div className="footer-rank-box footer-third">
+            <RankTile user={props} isSmall={true}></RankTile>
+          </div>
+          <div className="footer-platform-box footer-third" data-tip data-for="commPlatformTip">
             {props.preferred_platform === 1 ? (
               <img
                 className="footer-platform-image"
@@ -219,7 +223,7 @@ export default function PlayerTile(props: any) {
               <></>
             )}
           </div>
-          <div className="footer-timestamp" data-tip data-for="seenTip">
+          <div className="footer-timestamp footer-third" data-tip data-for="seenTip">
             last active {lastSeen}
           </div>
         </div>

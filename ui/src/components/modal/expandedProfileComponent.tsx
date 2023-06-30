@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import EndorsementTile from "../tiles/endorsementTile";
 import { useLocation, useNavigate } from "react-router-dom";
+import RankTile from "../tiles/rankTile";
 
 type Props = {
   toggleExpandedProfile: any;
@@ -114,27 +115,38 @@ const ExpandedProfile = (props: Props) => {
     document.querySelector(".backdrop-event-listener")!.addEventListener("click", () => {
       props.toggleExpandedProfile();
     });
-    gsap.from(".hamburger-primary-panel", 0.25, {
-      x: 400,
+    // SETUP ANIMS
+    gsap.to(".hamburger-primary-panel", {
+      duration: 0.01,
+      xPercent: 100,
     });
-    gsap.to(".hamburger-primary-panel", 0.25, {
+    gsap.to(".hamburger-secondary-panel", {
+      opacity: 0,
+      duration: 0.01,
+      xPercent: 100,
+    });
+    gsap.to(".profile-container", {
+      duration: 0.01,
+      opacity: 0,
+    });
+    // Slide & Opacity ANIMS
+    gsap.to(".hamburger-primary-panel", {
+      duration: 0.25,
+      xPercent: 0,
       opacity: 1,
+      delay: 0.02,
     });
-    gsap.from(".hamburger-secondary-panel", 0.25, {
-      x: 400,
-      delay: 0.15,
-    });
-    gsap.to(".hamburger-secondary-panel", 0.25, {
+    gsap.to(".hamburger-secondary-panel", {
+      delay: 0.13,
       opacity: 1,
-      delay: 0.15,
+      duration: 0.25,
+      xPercent: 0,
     });
-    gsap.from(".profile-container", 0.25, {
-      x: 400,
+    gsap.to(".profile-container", {
       delay: 0.25,
-    });
-    gsap.to(".profile-container", 0.25, {
+      duration: 0.25,
       opacity: 1,
-      delay: 0.25,
+      xPercent: 0,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -255,6 +267,7 @@ const ExpandedProfile = (props: Props) => {
                   alt={`${props.userInfo.username}avatar`}
                 />
               )}
+              <RankTile user={props.userInfo} isSmall={false}></RankTile>
               <div className="expanded-basic-info">
                 <div className="expanded-username">{props.userInfo.username}</div>
                 <div className="expanded-basic-text">{props.userInfo.about}</div>

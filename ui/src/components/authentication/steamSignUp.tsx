@@ -147,7 +147,7 @@ const SteamSignUpPage = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="steam-login-container">
       <div className="login-banner">
         <img
           className="large-logo"

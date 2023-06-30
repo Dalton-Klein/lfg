@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const { sequelize } = require("../models/index");
 const format = require("pg-format");
 const { getUserDataByIdQuery, searchUserByUsernameQuery } = require("./user-queries");
+const { createRedemptionForUser } = require("../controllers/redeems-controller");
 
 const getUserInfo = async (userId) => {
   const query = getUserDataByIdQuery();
@@ -42,6 +43,10 @@ const updateUserGenInfoField = async (userId, field, value) => {
       value,
     },
   });
+  console.log("hey");
+  if (field === "last_seen") {
+    await createRedemptionForUser(userId, 8);
+  }
   return result;
 };
 

@@ -5,6 +5,7 @@ import DrawerComponent from "./drawerComponent";
 
 type Props = {
   toggleDrawer: any;
+  isOpen: boolean;
 };
 
 const Backdrop = (props: Props) => {
@@ -18,7 +19,7 @@ const Backdrop = (props: Props) => {
   return createPortal(
     <div className="backdrop-container">
       <div className="backdrop-event-listener"></div>
-      <DrawerComponent toggleDrawer={props.toggleDrawer} />
+      <DrawerComponent isOpen={props.isOpen} toggleDrawer={props.toggleDrawer} />
     </div>,
     document.getElementById("drawer-hook")!
   );

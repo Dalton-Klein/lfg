@@ -4,7 +4,6 @@ const { sequelize } = require("../models/index");
 const { getRustTilesQuery, getRocketLeagueTilesQuery } = require("../services/tiles-queries");
 const { getPendingRequestUserIdsQuery, getExistingConnectionUserIdsQuery } = require("../services/social-queries");
 const moment = require("moment");
-const { updateUserGenInfoField } = require("../services/user-common");
 const { findRosterAvatars } = require("../controllers/gangs-controller");
 /*
 get tiles logic
@@ -45,7 +44,6 @@ const getRustTiles = async (req, res) => {
     filteredTiles = filteredTiles.filter((tile) => {
       return !existingIds.includes(tile.id);
     });
-    updateUserGenInfoField(userId, "last_seen", moment().format());
     res.status(200).send(filteredTiles);
   } catch (error) {
     console.log(error);
@@ -89,7 +87,6 @@ const getRocketLeagueTiles = async (req, res) => {
     filteredTiles = filteredTiles.filter((tile) => {
       return !existingIds.includes(tile.id);
     });
-    updateUserGenInfoField(userId, "last_seen", moment().format());
     res.status(200).send(filteredTiles);
   } catch (error) {
     console.log(error);

@@ -2,10 +2,9 @@ const db = require("../models/index");
 const { sequelize } = require("../models/index");
 const Sequelize = require("sequelize");
 const { updateConnectionTimestamp, getConnectionDetails } = require("./connections-controller");
-const { updateUserGenInfoField } = require("../services/user-common");
 const { updateGangChannelTimestamp } = require("../services/gangs");
-const moment = require("moment");
 const { saveNotification } = require("./notification-controller");
+const { createRedemptionForUser } = require("./redeems-controller");
 
 const saveMessage = async (connectionId, senderId, content, isImage, timestamp) => {
   try {
@@ -36,10 +35,11 @@ const saveMessage = async (connectionId, senderId, content, isImage, timestamp) 
         updated_at: timestamp,
       },
     });
-    //Update connection updated at, so convos can be sorted by recency
-    await updateConnectionTimestamp(connectionId);
+    await createRedemptionForUser(senderId, 9);
     // For DMS, send notification to receiver of DM if not a public chat (1, 2, 3)
     if (![-1, -2, -3, 1, 2, 3].includes(connectionId)) {
+      //Update connection updated at, so convos can be sorted by recency
+      await updateConnectionTimestamp(connectionId);
       let connectionResult = await getConnectionDetails(connectionId);
       connectionResult = connectionResult[0];
       await saveNotification(
@@ -48,7 +48,6 @@ const saveMessage = async (connectionId, senderId, content, isImage, timestamp) 
         senderId !== connectionResult.sender ? connectionResult.acceptor : connectionResult.sender
       );
     }
-    await updateUserGenInfoField(senderId, "last_seen", moment().format());
     return;
   } catch (err) {
     console.log(err);
@@ -85,7 +84,7 @@ const saveGangMessage = async (channelId, senderId, content, isImage, timestamp)
     });
     //Update connection updated at, so convos can be sorted by recency
     await updateGangChannelTimestamp(channelId);
-    await updateUserGenInfoField(senderId, "last_seen", moment().format());
+    await createRedemptionForUser(senderId, 9);
     return;
   } catch (err) {
     console.log(err);
@@ -97,11 +96,14 @@ const getChatHistoryForUser = async (req, res) => {
   try {
     const { chatId } = req.body;
     query = `
-              select m.*, u.id as senderId, u.username
+              select m.*, u.id as senderId, u.username, u.avatar_url, sum(rd.points) as rank
                 from public.messages m
                 join public.users u
                   on u.id = m.sender
+           left join public.redeems rd
+                  on rd.user_id = u.id
                where m.connection_id = :chatId
+            group by m.id, u.id, u.username, u.avatar_url
             order by m.created_at asc
             `;
     const foundChat = await sequelize.query(query, {
@@ -129,11 +131,14 @@ const getChatHistoryForGang = async (req, res) => {
   try {
     const { channelId } = req.body;
     query = `
-              select gm.*, u.id as senderId, u.username 
+              select gm.*, u.id as senderId, u.username, u.avatar_url, sum(rd.points) as rank
                 from public.gang_messages gm
                 join public.users u
                   on u.id = gm.sender
+           left join public.redeems rd
+                  on rd.user_id = u.id
                where gm.chat_id = :channelId
+            group by gm.id, u.id, u.username, u.avatar_url
             order by gm.created_at asc
             `;
     const foundChat = await sequelize.query(query, {

@@ -1,5 +1,6 @@
 import React from "react";
 import "./voiceParticipant.scss";
+import RankTile from "./rankTile";
 
 export default function VoiceParticipant({ participant, isTalking }) {
   const renderAvatar = () => {
@@ -36,6 +37,7 @@ export default function VoiceParticipant({ participant, isTalking }) {
   return (
     <div className="voice-participant-box" key={participant.user_id}>
       {renderAvatar()}
+      <RankTile user={participant} isSmall={true}></RankTile>
       <div className="voice-participant-name">{participant.username}</div>
     </div>
   );

@@ -24,6 +24,7 @@ import HeaderComponent from "./components/nav/headerComponent";
 import VerticalNav from "./components/nav/verticalNav";
 import BlogArticle3 from "./components/pages/blog/blogArticle-3";
 import AddFriend from "./components/pages/addFriend";
+import RankPage from "./components/pages/rankPage";
 import SteamSignUpPage from "./components/authentication/steamSignUp";
 // ***ELECTRON DISABLE
 // import ElectronTitlebar from "./components/nav/electronTitleBar";
@@ -43,7 +44,6 @@ function App() {
       "http://localhost:3000" //: "https://www.gangs.gg"
     );
     socketRef.current.on("handshakeResponse", (serverSocketId) => {
-      console.log("Server socket ID:", serverSocketId, "vs", socketRef.current.id);
       // Do further processing with the server socket ID
     });
   };
@@ -98,6 +98,7 @@ function App() {
                 <Route path="/incoming-requests" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/outgoing-requests" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/blocked" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/my-rank" element={<RankPage />} />
                 {/* Less Used Pages */}
                 <Route path="/help" element={<FAQPage />} />
                 <Route path="/login" element={<LoginPage />} />

@@ -12,6 +12,9 @@ const {
   deleteGangRequestRecord,
 } = require("../services/gangs");
 const format = require("pg-format");
+const { updateUserGenInfoField } = require("../services/user-common");
+const { createRedemptionForUser } = require("./redeems-controller");
+const moment = require("moment");
 
 const createGang = async (req, res) => {
   console.log(" ♛ A User Requested To Create A Gang ♛ ");
@@ -24,6 +27,7 @@ const createGang = async (req, res) => {
     await createGangDefaultChannels(gangResult[0].id);
     //Create initial roster record for owner
     await createGangRosterRecord(gangResult[0].id, userId, 1);
+    await createRedemptionForUser(userId, 10);
     res.status(200).send({ success: true, gangId: gangResult[0].id });
   } catch (err) {
     console.log("CREATE GANG ERROR", err);
@@ -51,6 +55,9 @@ const getMyGangsTiles = async (req, res) => {
       },
     });
     foundGangs = await findRosterAvatars(foundGangs);
+    // Only place in api that should update last_seen,
+    // since vertical nav is always present and is called when page loads
+    await updateUserGenInfoField(userId, "last_seen", moment().format());
     res.status(200).send(foundGangs);
   } catch (err) {
     console.log("GET CHATS ERROR", err);
@@ -269,10 +276,11 @@ const acceptGangConnectionRequest = async (req, res) => {
     //Get a copy of the request
     const requestResult = await checkGangRequestStatusByRequestId(request_id);
     //Create roster record
-    console.log("request result:: ", requestResult);
     const result = await createGangRosterRecord(requestResult[0].gang_id, requestResult[0].user_id, 5);
     //Remove request record
     await deleteGangRequestRecord(requestResult[0].id);
+    createRedemptionForUser(requestResult[0].user_id, 5);
+    createRedemptionForUser(requestResult[0].owner_id, 6);
     res.status(200).send(result);
   } catch (error) {
     console.log(error);

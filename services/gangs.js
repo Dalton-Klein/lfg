@@ -163,9 +163,12 @@ const checkIfUserIsInGang = async (user_id, gang_id) => {
 };
 const checkGangRequestStatusByRequestId = async (request_id) => {
   gangsQuery = `
-    select * 
-      from public.gang_requests gr
-     where gr.id = :request_id
+      select gr.*, ros.user_id as owner_id
+        from public.gang_requests gr
+        join public.gang_roster ros
+          on ros.gang_id = gr.gang_id 
+         and ros.role_id = 1
+       where gr.id = :request_id
   
 `;
   return await sequelize.query(gangsQuery, {

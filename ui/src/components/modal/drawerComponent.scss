@@ -3,9 +3,9 @@
 .hamburger-red-panel {
   width: 20%;
   height: 100vh;
-  position: fixed;
+  position: absolute;
   top: 0;
-  right: 0;
+  right: 0%;
   background-color: $colorSecondary;
   opacity: 0;
   .hamburger-green-panel {
@@ -16,113 +16,113 @@
     right: 0;
     background-color: $colorPrimary;
     opacity: 0;
-    .hamburger-nav {
-      width: 98%;
-      background-color: $colorGreyPop;
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 100vh;
-      padding-top: 3rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      opacity: 0;
-      z-index: 20;
-      overflow-y: scroll;
-      .small-logo {
-        min-width: 30px;
-        max-width: 2.5vw;
-        min-height: 30px;
-        max-height: 2.5vw;
-        opacity: 0.6;
-        margin-top: 1em;
-      }
-      h5 {
-        opacity: 0.6;
-        margin-bottom: 4vh;
-      }
+  }
+  .hamburger-nav {
+    width: 98%;
+    background-color: $colorGreyPop;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    padding-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    z-index: 20;
+    overflow-y: scroll;
+    .small-logo {
+      min-width: 30px;
+      max-width: 2.5vw;
+      min-height: 30px;
+      max-height: 2.5vw;
+      opacity: 0.6;
+      margin-top: 1em;
     }
-    .hamburger-img:hover {
-      transform: scale(1.15);
+    h5 {
+      opacity: 0.6;
+      margin-bottom: 4vh;
     }
-    .hamburger-links {
-      min-width: 91%;
+  }
+  .hamburger-img:hover {
+    transform: scale(1.15);
+  }
+  .hamburger-links {
+    min-width: 91%;
+    display: flex;
+    justify-content: center;
+    .hamburger-button {
+      width: 90%;
+      margin: 0.5vh 0px;
+      font-size: 1em;
+      background-color: $colorGreyBg;
+    }
+    .hamburger-button:hover {
+      background-color: $colorGreyHover;
+    }
+    .boring-button {
+      width: 90% !important;
+      margin: 0.5vh 0px !important;
+      font-size: 1em !important;
+    }
+    .google-button {
+      @extend .hamburger-button;
+      background-color: $colorSecondary;
+      cursor: pointer !important;
+      font-family: "questial" !important;
+      border-radius: $borderRadius1 !important;
+      transition: 125ms !important;
+      min-height: 2.75em !important;
       display: flex;
       justify-content: center;
-      .hamburger-button {
-        width: 90%;
-        margin: 0.5vh 0px;
-        font-size: 1em;
-        background-color: $colorGreyBg;
+      align-items: center;
+      color: $colorText !important;
+      background-color: $colorSecondary !important;
+      box-shadow: 0 0 0px 0 rgba(10, 10, 10, 0) !important;
+      div {
+        display: none;
       }
-      .hamburger-button:hover {
-        background-color: $colorGreyHover;
+      span {
+        font-weight: 100 !important;
+        font-size: $font2;
       }
-      .boring-button {
-        width: 90% !important;
-        margin: 0.5vh 0px !important;
-        font-size: 1em !important;
-      }
-      .google-button {
-        @extend .hamburger-button;
-        background-color: $colorSecondary;
-        cursor: pointer !important;
-        font-family: "questial" !important;
-        border-radius: $borderRadius1 !important;
-        transition: 125ms !important;
-        min-height: 2.75em !important;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: $colorText !important;
-        background-color: $colorSecondary !important;
-        box-shadow: 0 0 0px 0 rgba(10, 10, 10, 0) !important;
-        div {
-          display: none;
-        }
-        span {
-          font-weight: 100 !important;
-          font-size: $font2;
-        }
-      }
-      .google-button:hover {
-        cursor: pointer;
-        color: $colorButtonHover !important;
+    }
+    .google-button:hover {
+      cursor: pointer;
+      color: $colorButtonHover !important;
+      background-color: $colorSecondaryDarker !important;
+      div {
         background-color: $colorSecondaryDarker !important;
-        div {
-          background-color: $colorSecondaryDarker !important;
-        }
       }
     }
+  }
 
-    .hamburger-img {
-      max-width: 30px;
-      max-height: 30px;
-      margin-top: -2px;
-      margin-left: 12px;
-      transition: $transition1;
-    }
+  .hamburger-img {
+    max-width: 30px;
+    max-height: 30px;
+    margin-top: -2px;
+    margin-left: 12px;
+    transition: $transition1;
+  }
 
-    .hamburger-exit {
-      margin-bottom: 2vh;
-      margin-left: 2vw;
-      width: 25px;
-      height: 25px;
-      min-width: 25px;
-      min-height: 25px;
-      align-self: flex-start;
-      border: 1px solid white;
-      border-radius: $borderRadius1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: $transition1;
-    }
-    .hamburger-exit:hover {
-      color: $colorSecondary;
-      border: 1px solid $colorSecondary;
-    }
+  .hamburger-exit {
+    margin-bottom: 2vh;
+    margin-left: 2vw;
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
+    align-self: flex-start;
+    border: 1px solid white;
+    border-radius: $borderRadius1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: $transition1;
+  }
+  .hamburger-exit:hover {
+    color: $colorSecondary;
+    border: 1px solid $colorSecondary;
   }
 }
 

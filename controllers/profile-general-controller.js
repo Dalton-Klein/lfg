@@ -1,10 +1,15 @@
 const Sequelize = require("sequelize");
 const { sequelize } = require("../models/index");
 const format = require("pg-format");
-const { getUserInfo, updateUserGenInfoField, searchForUserByUsername } = require("../services/user-common");
-const moment = require("moment");
+const {
+  getUserInfo,
+  updateUserGenInfoField,
+  searchForUserByUsername,
+  getRankProgressionStatus,
+} = require("../services/user-common");
 const { getEndorsementsForUser } = require("../services/endorsement-queries");
 const { getPendingRequestUserIdsQuery } = require("../services/social-queries");
+const { createRedemptionForUser } = require("./redeems-controller");
 
 const getTotalUserCount = async (req, res) => {
   try {
@@ -16,7 +21,6 @@ const getTotalUserCount = async (req, res) => {
     const reply = await sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
     });
-    updateUserGenInfoField(userId, "last_seen", moment().format());
     let result;
     if (reply && reply[0]) {
       result = reply[0].count;
@@ -119,7 +123,6 @@ const updateProfileField = async (req, res) => {
         value,
       },
     });
-    updateUserGenInfoField(userId, "last_seen", moment().format());
     res.status(200).send(reply);
   } catch (err) {
     console.log(err);
@@ -131,7 +134,6 @@ const updateGeneralInfoField = async (req, res) => {
   try {
     const { userId, field, value } = req.body;
     const reply = await updateUserGenInfoField(userId, field, value);
-    updateUserGenInfoField(userId, "last_seen", moment().format());
     res.status(200).send(reply);
   } catch (err) {
     console.log(err);
@@ -160,6 +162,9 @@ const updateGameSpecificInfoField = async (req, res) => {
         value,
       },
     });
+    if (field === "is_published" && value === true) {
+      await createRedemptionForUser(userId, 3);
+    }
     res.status(200).send(reply);
   } catch (err) {
     console.log(err);

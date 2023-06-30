@@ -13,6 +13,8 @@ import ExpandedProfile from "../modal/expandedProfileComponent";
 import { Toast } from "primereact/toast";
 import { Tooltip } from "react-tooltip";
 import GameTile from "../tiles/gameTile";
+import RankTile from "../tiles/rankTile";
+import { useNavigate } from "react-router";
 
 type Props = {
   changeBanner: any;
@@ -20,6 +22,7 @@ type Props = {
 
 export default function ProfileGeneral(props: Props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const hiddenFileInput: any = React.useRef(null);
   const userData = useSelector((state: RootState) => state.user.user);
 
@@ -284,9 +287,19 @@ export default function ProfileGeneral(props: Props) {
         </button>
       </div>
       <div className="gradient-bar"></div>
-      {/* DISPLAY NAME */}
+      {/* DISPLAY NAME & RANK*/}
       <div className="banner-container-username">
         <div className="my-profile-text">{userData.username ? userData.username : "No user name..."}</div>
+        <RankTile user={userData} isSmall={false}></RankTile>
+        <button
+          className="expand-button"
+          onClick={() => {
+            navigate("/my-rank");
+          }}
+        >
+          <i className="pi pi-chart-line" />
+          &nbsp; view my rank
+        </button>
       </div>
       <div className="gradient-bar"></div>
       {/* ABOUT */}
@@ -307,6 +320,7 @@ export default function ProfileGeneral(props: Props) {
       </div>
       <div className="gradient-bar"></div>
       {/* END ABOUT */}
+
       {/* AGE */}
       <div className="banner-container">
         <div className="prof-banner-detail-text">age</div>

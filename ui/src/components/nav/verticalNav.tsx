@@ -36,6 +36,7 @@ export default function VerticalNav() {
   const [messagingResult, setmessagingResult] = useState<any>([<div key={0}></div>]);
   const [gangResult, setgangResult] = useState<any>([<div key={0}></div>]);
   const [currentNavSelection, setcurrentNavSelection] = useState<number>(0);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const userState = useSelector((state: RootState) => state.user.user);
   const preferencesState = useSelector((state: RootState) => state.preferences);
@@ -50,26 +51,17 @@ export default function VerticalNav() {
 
   useEffect(() => {
     if (userState.id && userState.id > 0) {
-      loadAppropriateContent();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userState.gangs]);
-
-  useEffect(() => {
-    if (userState.id && userState.id > 0) {
-      loadAppropriateContent();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userState.connections]);
-
-  useEffect(() => {
-    if (userState.id && userState.id > 0) {
-      loadAppropriateContent();
+      if (isInitialLoad) {
+        setIsInitialLoad(false);
+        return;
+      } else {
+        loadAppropriateContent();
+      }
     } else {
       setcurrentNavSelection(1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentNavSelection]);
+  }, [userState.gangs, userState.connections, currentNavSelection]);
 
   useEffect(() => {
     loadAppropriateContent();

@@ -1,0 +1,54 @@
+@import "../../styling/config";
+
+.rank-widget {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4.5vw;
+  width: 4.5vw;
+  border-radius: 50%;
+  border: 1px solid white;
+  &.reduced {
+    height: 2.15vw;
+    width: 2.15vw;
+  }
+  .rank {
+    display: inline-block;
+    width: 85%;
+    height: 85%;
+    padding: 2%;
+    padding-bottom: 5%;
+  }
+}
+
+@media only screen and (max-width: $screenBreak1) {
+  .rank-widget {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 6vw;
+    width: 6vw;
+
+    &.reduced {
+      height: 3vw;
+      width: 3vw;
+    }
+  }
+}
+
+@media only screen and (max-width: $screenBreak2) {
+  .rank-widget {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 10vw;
+    width: 10vw;
+
+    &.reduced {
+      height: 6vw;
+      width: 6vw;
+    }
+  }
+}
