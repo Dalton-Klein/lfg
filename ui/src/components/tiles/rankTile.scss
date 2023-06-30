@@ -2,165 +2,53 @@
 
 .rank-widget {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   height: 4.5vw;
   width: 4.5vw;
-}
-.rank {
-  display: inline-block;
-  width: 2vw;
-  height: 2vw;
   border-radius: 50%;
-  margin: 0.25vw;
-  margin-top: 0;
-}
-.single {
-  @extend .rank;
-  height: 3.25vw;
-  width: 3.25vw;
-}
-.double {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  border: 1px solid white;
+  &.reduced {
+    height: 2.15vw;
+    width: 2.15vw;
+  }
   .rank {
-    width: 2.25vw;
-    height: 2.25vw;
-  }
-}
-
-.triple {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .rank-horizontal {
-    display: flex;
-    justify-content: center;
-    justify-items: center;
-  }
-}
-.quad {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .rank-horizontal {
-    display: flex;
-    justify-content: center;
-    justify-items: center;
-  }
-}
-
-.pentagon {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .pentagon-first {
-    display: flex;
-    justify-content: center;
-    justify-items: center;
-    .rank {
-      width: 1.4vw;
-      height: 1.4vw;
-    }
-  }
-  .pentagon-second {
-    display: flex;
-    justify-content: space-between;
-    justify-items: center;
-    margin-top: -0.75vw;
-    .rank {
-      width: 1.4vw;
-      height: 1.4vw;
-      margin-left: 0.5vw;
-      margin-right: 0.5vw;
-    }
-  }
-  .pentagon-third {
-    display: flex;
-    justify-content: center;
-    justify-items: center;
-    margin-top: -0.25vw;
-    .rank {
-      width: 1.4vw;
-      height: 1.4vw;
-      margin-left: -0.005vw;
-      margin-right: -0.005vw;
-    }
+    display: inline-block;
+    width: 85%;
+    height: 85%;
+    padding: 2%;
+    padding-bottom: 5%;
   }
 }
 
 @media only screen and (max-width: $screenBreak1) {
   .rank-widget {
-    height: 7vw;
-    width: 7vw;
-  }
-  .rank {
-    width: 3.5vw;
-    height: 3.5vw;
-  }
-  .single {
-    height: 4vw;
-    width: 4vw;
-  }
-  .double {
-    .rank {
-      width: 4.2vw;
-      height: 4.2vw;
-    }
-  }
-  .pentagon {
-    .pentagon-first {
-      .rank {
-        width: 2.4vw;
-        height: 2.4vw;
-      }
-    }
-    .pentagon-second {
-      .rank {
-        width: 2.4vw;
-        height: 2.4vw;
-      }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 6vw;
+    width: 6vw;
+
+    &.reduced {
+      height: 3vw;
+      width: 3vw;
     }
   }
 }
 
 @media only screen and (max-width: $screenBreak2) {
   .rank-widget {
-    height: 12vw;
-    width: 12vw;
-  }
-  .rank {
-    width: 6vw;
-    height: 6vw;
-  }
-  .single {
-    height: 6.5vw;
-    width: 6.5vw;
-  }
-  .double {
-    .rank {
-      width: 7vw;
-      height: 7vw;
-    }
-  }
-  .pentagon {
-    .pentagon-first {
-      .rank {
-        width: 4.4vw;
-        height: 4.4vw;
-      }
-    }
-    .pentagon-second {
-      .rank {
-        width: 2.2vw;
-        height: 2.2vw;
-      }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 10vw;
+    width: 10vw;
+
+    &.reduced {
+      height: 6vw;
+      width: 6vw;
     }
   }
 }

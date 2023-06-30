@@ -96,11 +96,14 @@ const getChatHistoryForUser = async (req, res) => {
   try {
     const { chatId } = req.body;
     query = `
-              select m.*, u.id as senderId, u.username
+              select m.*, u.id as senderId, u.username, u.avatar_url, sum(rd.points) as rank
                 from public.messages m
                 join public.users u
                   on u.id = m.sender
+           left join public.redeems rd
+                  on rd.user_id = u.id
                where m.connection_id = :chatId
+            group by m.id, u.id, u.username, u.avatar_url
             order by m.created_at asc
             `;
     const foundChat = await sequelize.query(query, {
@@ -128,11 +131,14 @@ const getChatHistoryForGang = async (req, res) => {
   try {
     const { channelId } = req.body;
     query = `
-              select gm.*, u.id as senderId, u.username 
+              select gm.*, u.id as senderId, u.username, u.avatar_url, sum(rd.points) as rank
                 from public.gang_messages gm
                 join public.users u
                   on u.id = gm.sender
+           left join public.redeems rd
+                  on rd.user_id = u.id
                where gm.chat_id = :channelId
+            group by gm.id, u.id, u.username, u.avatar_url
             order by gm.created_at asc
             `;
     const foundChat = await sequelize.query(query, {

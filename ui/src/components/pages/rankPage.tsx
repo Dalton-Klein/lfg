@@ -126,7 +126,7 @@ export default function RankPage() {
           <div className="rank-section-title">rank & prestige</div>
           <div className="rank-my-details">
             <div className="rank-my-details-rankwidget">
-              <RankTile user={userState}></RankTile>
+              <RankTile user={userState} isSmall={false}></RankTile>
             </div>
             <div className="rank-my-details-progress">
               <div className="rank-stat-row">

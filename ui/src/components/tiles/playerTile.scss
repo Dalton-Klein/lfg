@@ -196,16 +196,25 @@
   }
   .footer-details {
     min-width: 100%;
+    max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    button {
-      margin: 0 1vw;
+    .footer-third {
+      min-width: 25%;
+    }
+    .footer-rank-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .footer-platform-box {
-      margin: 0.5vw 1vw;
+      margin-top: 0.5vw;
+      margin-bottom: 0.5vw;
       opacity: 0.6;
       display: flex;
+      justify-content: center;
+      align-items: center;
       .footer-platform-image {
         min-width: 25px;
         max-width: 1.75vw;
@@ -213,11 +222,12 @@
       }
     }
     .footer-timestamp {
-      min-width: 50%;
-      max-width: 50%;
-      margin: 1.5vh 1vw;
+      margin-bottom: 1.5vh;
+      margin-top: 1.5vh;
+      margin-right: 1vw;
       text-align: right;
       opacity: 0.6;
+      position: relative;
     }
   }
 }

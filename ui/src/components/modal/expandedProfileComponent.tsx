@@ -267,7 +267,7 @@ const ExpandedProfile = (props: Props) => {
                   alt={`${props.userInfo.username}avatar`}
                 />
               )}
-              <RankTile user={props.userInfo}></RankTile>
+              <RankTile user={props.userInfo} isSmall={false}></RankTile>
               <div className="expanded-basic-info">
                 <div className="expanded-username">{props.userInfo.username}</div>
                 <div className="expanded-basic-text">{props.userInfo.about}</div>

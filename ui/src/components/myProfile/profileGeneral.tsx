@@ -290,7 +290,7 @@ export default function ProfileGeneral(props: Props) {
       {/* DISPLAY NAME & RANK*/}
       <div className="banner-container-username">
         <div className="my-profile-text">{userData.username ? userData.username : "No user name..."}</div>
-        <RankTile user={userData}></RankTile>
+        <RankTile user={userData} isSmall={false}></RankTile>
         <button
           className="expand-button"
           onClick={() => {
