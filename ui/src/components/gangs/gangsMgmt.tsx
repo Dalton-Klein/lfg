@@ -533,8 +533,8 @@ export default function GangsMgmt() {
             <div className="gradient-bar"></div>
             {/* AVATAR PHTO */}
             <div className="gang-container-top">
-              {!nameText ||
-              nameText ===
+              {!gangAvatarUrl ||
+              gangAvatarUrl ===
                 "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
                 <div
                   className="dynamic-avatar-bg"
@@ -542,7 +542,16 @@ export default function GangsMgmt() {
                   data-tip
                   data-for="avatarTip"
                 >
-                  <div className="dynamic-avatar-text">{"gg"}</div>
+                  <div className="dynamic-avatar-text">
+                    {nameText
+                      ? nameText
+                          .split(" ")
+                          .map((word: string) => word[0])
+                          .join("")
+                          .slice(0, 2)
+                          .toLowerCase()
+                      : "gg"}
+                  </div>
                 </div>
               ) : (
                 <img
