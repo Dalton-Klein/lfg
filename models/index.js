@@ -21,7 +21,7 @@ const devConfig = {
   },
   dialect: "postgres",
   // LOGGING TOGGLE
-  logging: false,
+  logging: true,
 };
 const prodConfig = {
   database: DBNAME,
