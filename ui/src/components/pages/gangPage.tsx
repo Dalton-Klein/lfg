@@ -391,6 +391,10 @@ export default function GangPage({ socketRef }) {
           user_avatar_url: userState.avatar_url,
         });
       });
+      peer.on("error", (error) => {
+        // Handle any errors that occur during the connection
+        console.log("Error with peer occurred:", error);
+      });
       return peer;
     }
     // Loop through all participants in channel and create a peer
@@ -444,6 +448,10 @@ export default function GangPage({ socketRef }) {
         username: userState.username,
         user_avatar_url: userState.avatar_url,
       });
+    });
+    peer.on("error", (error) => {
+      // Handle any errors that occur during the connection
+      console.log("Error with peer occurred:", error);
     });
     //Accept the signal
     peer.signal(incomingSignal);

@@ -837,7 +837,6 @@ export const sendMessage = (sender: number, content: string, PrivateChatId: numb
 // ** START GANG ROUTES
 export const createNewGang = async (userId: number, gang: any) => {
   try {
-    console.log("??? ", gang);
     const httpResult = await fetch(`${endpointURL}/create-gang`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

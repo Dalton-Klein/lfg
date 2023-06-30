@@ -362,7 +362,6 @@ export default function GangsMgmt() {
       is_public: isPublic,
     });
     if (createResult && createResult.success) {
-      console.log("create result??? ", createResult);
       dispatch(updateUserThunk(userState.id));
       navigate(`/gang/${createResult.gangId}`);
     } else {

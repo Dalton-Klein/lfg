@@ -16,7 +16,6 @@
 
 // function sendStatusToWindow(win, text) {
 //   log.info(text);
-//   console.log("whats happening?? ", text);
 //   win.webContents.send("message", text);
 // }
 
