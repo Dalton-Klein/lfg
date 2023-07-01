@@ -174,6 +174,14 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
         detail: `message length ${message.length} is longer than the cap of 750 characters`,
         sticky: true,
       });
+    } else if (message.length < 1) {
+      toast.current?.clear();
+      toast.current.show({
+        severity: "warn",
+        summary: "no message conent",
+        detail: `message must have at least 1 character`,
+        sticky: true,
+      });
     } else {
       if (locationPath === "/messaging") {
         socketRef.current.emit("message", {

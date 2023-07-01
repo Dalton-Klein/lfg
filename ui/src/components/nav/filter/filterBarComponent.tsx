@@ -28,14 +28,14 @@ export default function FilterBarComponent(props: any) {
 
   const clearFilters = () => {
     props.clearFiltersMethod();
-    rocketLeaguePlaylistRef.current!.clearFilter();
-    rocketLeagueRankRef.current!.clearFilter();
-    sortRef.current!.clearFilter();
-    hoursRef.current!.clearFilter();
-    ageRef.current!.clearFilter();
-    availabilityRef.current!.clearFilter();
-    languageRef.current!.clearFilter();
-    regionRef.current!.clearFilter();
+    rocketLeaguePlaylistRef.current?.clearFilter();
+    rocketLeagueRankRef.current?.clearFilter();
+    sortRef.current?.clearFilter();
+    hoursRef.current?.clearFilter();
+    ageRef.current?.clearFilter();
+    availabilityRef.current?.clearFilter();
+    languageRef.current?.clearFilter();
+    regionRef.current?.clearFilter();
   };
 
   const rocketLeagueRankOptions: any = [
