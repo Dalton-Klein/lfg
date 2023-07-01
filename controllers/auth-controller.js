@@ -85,7 +85,7 @@ Steam Sign Up Logic
 exports.storeSteamData = async (userObj) => {
   try {
     const query = storeSteamDataQuery();
-    await sequelize.query(query, {
+    const result = await sequelize.query(query, {
       type: Sequelize.QueryTypes.INSERT,
       replacements: {
         steamId: userObj.steamid,
@@ -94,9 +94,10 @@ exports.storeSteamData = async (userObj) => {
         avatar_url: userObj.avatarfull,
       },
     });
+    return { data: result };
   } catch (error) {
     console.log(error);
-    res.sendStatus(500);
+    return { error: "failed to store steam data" };
   }
 };
 exports.getSteamData = async (req, res) => {
