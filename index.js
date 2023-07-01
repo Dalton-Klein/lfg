@@ -84,7 +84,6 @@ app.get(
     } else {
       res.redirect(failRedirectUrl);
     }
-    res.redirect(successRedirectUrl);
   }
 );
 
