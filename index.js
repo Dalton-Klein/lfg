@@ -78,7 +78,12 @@ app.get(
   async function (req, res) {
     //make user a new account
     console.log("redirecting after auth!! ", successRedirectUrl);
-    await authController.storeSteamData(req.user._json);
+    const steamStorageResult = await authController.storeSteamData(req.user._json);
+    if (steamStorageResult.data) {
+      res.redirect(successRedirectUrl);
+    } else {
+      res.redirect(failRedirectUrl);
+    }
     res.redirect(successRedirectUrl);
   }
 );
