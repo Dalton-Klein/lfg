@@ -539,7 +539,7 @@ export default function GangsMgmt() {
                   className="dynamic-avatar-bg"
                   onClick={() => startEditingAvatar("avatar_url")}
                   data-tip
-                  data-for="avatarTip"
+                  data-tooltip-id="avatarTip"
                 >
                   <div className="dynamic-avatar-text">
                     {nameText
@@ -559,14 +559,14 @@ export default function GangsMgmt() {
                   alt="my-avatar"
                   onClick={() => startEditingAvatar("avatar_url")}
                   data-tip
-                  data-for="avatarTip"
+                  data-tooltip-id="avatarTip"
                 ></img>
               )}
             </div>
             <div className="gradient-bar"></div>
             {/* DISPLAY NAME */}
             <div className="gang-container">
-              <div className="gang-about-text" data-tip data-for="gang-name-tooltip">
+              <div className="gang-about-text" data-tip data-tooltip-id="gang-name-tooltip">
                 gang name
               </div>
               <input
@@ -584,7 +584,7 @@ export default function GangsMgmt() {
             <div className="gradient-bar"></div>
             {/* ABOUT */}
             <div className="gang-container">
-              <div className="gang-about-text" data-tip data-for="gang-name-tooltip">
+              <div className="gang-about-text" data-tip data-tooltip-id="gang-name-tooltip">
                 about
               </div>
               <input
@@ -603,7 +603,7 @@ export default function GangsMgmt() {
             {/* END ABOUT */}
             {/* CHAT PLATFROM */}
             <div className="gang-container">
-              <div className="gang-about-text" data-tip data-for="must-select-tooltip">
+              <div className="gang-about-text" data-tip data-tooltip-id="must-select-tooltip">
                 chat platform
               </div>
               <div className="gender-container">
@@ -649,7 +649,7 @@ export default function GangsMgmt() {
             {/* END CHAT PLATFROM */}
             {/* GAME PLATFROM */}
             <div className="gang-container">
-              <div className="gang-about-text" data-tip data-for="must-select-tooltip">
+              <div className="gang-about-text" data-tip data-tooltip-id="must-select-tooltip">
                 primary game
               </div>
               <div className="gender-container">

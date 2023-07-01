@@ -254,7 +254,7 @@ export default function ProfileGeneral(props: Props) {
         {!userData.avatar_url ||
         userData.avatar_url ===
           "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
-          <div className="dynamic-avatar-bg" onClick={() => startEditingAvatar()} data-tip data-for="avatarTip">
+          <div className="dynamic-avatar-bg" onClick={() => startEditingAvatar()} data-tip data-tooltip-id="avatarTip">
             <div className="dynamic-avatar-text">
               {userData.username
                 ? userData.username
@@ -273,7 +273,7 @@ export default function ProfileGeneral(props: Props) {
             alt="my-avatar"
             onClick={() => startEditingAvatar()}
             data-tip
-            data-for="avatarTip"
+            data-tooltip-id="avatarTip"
           ></img>
         )}
         <button
@@ -304,7 +304,7 @@ export default function ProfileGeneral(props: Props) {
       <div className="gradient-bar"></div>
       {/* ABOUT */}
       <div className="banner-container">
-        <div className="prof-banner-detail-text" data-tip data-for="aboutMeTip">
+        <div className="prof-banner-detail-text" data-tip data-tooltip-id="aboutMeTip">
           about
         </div>
         <input
@@ -403,7 +403,7 @@ export default function ProfileGeneral(props: Props) {
       {/* END REGION */}
       {/* LANGUAGE */}
       <div className="banner-container">
-        <div className="prof-banner-detail-text" data-tip data-for="languageTip">
+        <div className="prof-banner-detail-text" data-tip data-tooltip-id="languageTip">
           language
         </div>
         <div className="select-container">
@@ -421,7 +421,7 @@ export default function ProfileGeneral(props: Props) {
       {/* END LANGUAGE */}
       {/* PLATFORM */}
       <div className="banner-container">
-        <div className="prof-banner-detail-text" data-tip data-for="platformTip">
+        <div className="prof-banner-detail-text" data-tip data-tooltip-id="profile-platformTip">
           platform
         </div>
         <div className="gender-container">
@@ -526,8 +526,8 @@ export default function ProfileGeneral(props: Props) {
       <Tooltip id="languageTip" place="right">
         Language you will use in text and voice communications.
       </Tooltip>
-      <Tooltip id="platformTip" place="right">
-        Select your primary gaming communication platform (voice). Then enter your username for the platform below.
+      <Tooltip id="profile-platformTip" place="right">
+        Select your primary communication platform.
       </Tooltip>
     </div>
   );

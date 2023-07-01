@@ -277,7 +277,7 @@ export default function ProfileInlayComponet({ socketRef }) {
               className="text-only-button notifications-button"
               onClick={(event) => gameProfilesMenu.current.toggle(event)}
               data-tip
-              data-for="profileHiddenTip"
+              data-tooltip-id="profileHiddenTip"
             >
               no profiles published &#160;
               <i className="pi pi-eye-slash eye-slash-icon" />
@@ -293,7 +293,7 @@ export default function ProfileInlayComponet({ socketRef }) {
               src={gameImgUrl}
               alt={`lfg page navigator`}
               data-tip
-              data-for="platformTip"
+              data-tooltip-id="game-platformTip"
             />
           ) : (
             <></>
@@ -329,7 +329,7 @@ export default function ProfileInlayComponet({ socketRef }) {
       <Tooltip id="profileHiddenTip" place="left">
         you don't have any published game profiles
       </Tooltip>
-      <Tooltip id="platformTip" place="left">
+      <Tooltip id="game-platformTip" place="left">
         select game for player discovery
       </Tooltip>
       <Tooltip id="dashboardTip" place="bottom">
