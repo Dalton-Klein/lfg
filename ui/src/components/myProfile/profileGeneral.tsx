@@ -166,6 +166,16 @@ export default function ProfileGeneral(props: Props) {
 
   //NON-MODAL SAVE LOGIC
   const saveChanges = async () => {
+    if (ageText < 13) {
+      toast.current?.clear();
+      toast.current.show({
+        severity: "warning",
+        summary: "Age must be at least 13 to use this platform! Changes NOT saved.",
+        detail: ``,
+        sticky: false,
+      });
+      return;
+    }
     if (userData.about !== aboutText) await updateGeneralInfoField(userData.id, "about", aboutText);
     if (parseInt(userData.age) !== ageText) await updateGeneralInfoField(userData.id, "age", ageText);
     if (userData.gender !== gender) await updateGeneralInfoField(userData.id, "gender", gender);
