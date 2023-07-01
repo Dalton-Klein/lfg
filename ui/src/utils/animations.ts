@@ -144,10 +144,11 @@ export const loginPanelPasswordResetAnim = () => {
 */
 
 export const loginErrorAnim = () => {
-  gsap.to(".panel-container", 0.06, {
+  gsap.to(".form-container", {
     x: "+=20",
     yoyo: true,
     repeat: 3,
+    duration: 0.06,
   });
 };
 
