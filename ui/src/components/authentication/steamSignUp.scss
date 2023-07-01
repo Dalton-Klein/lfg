@@ -10,6 +10,9 @@
     min-width: 100vw;
     margin-top: 5vh;
     margin-bottom: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .large-logo {
       min-width: 60px;
       max-width: 7vw;
