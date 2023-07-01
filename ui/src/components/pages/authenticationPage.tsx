@@ -324,7 +324,7 @@ const LoginPage = () => {
     return;
   };
 
-  const trySteamLogin = async () => {
+  const trySteamSignUp = async () => {
     // Hit api and get redirected to steam
     // ***PROD CHANGE
     window.location.href = "https://www.gangs.gg/steam"; //"http://localhost:3010/steam";
@@ -407,7 +407,7 @@ const LoginPage = () => {
                   if (isElectron) {
                     openSteamPopup();
                   } else {
-                    trySteamLogin();
+                    trySteamSignUp();
                   }
                 }}
               >
