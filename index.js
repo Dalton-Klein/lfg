@@ -77,7 +77,7 @@ app.get(
   passport.authenticate("steam", { failureRedirect: failRedirectUrl }),
   async function (req, res) {
     //make user a new account
-    console.log("redirecting after auth!! ", successRedirectUrl, "    ", res);
+    console.log("redirecting after auth!! ", successRedirectUrl);
     await authController.storeSteamData(req.user._json);
     res.redirect(successRedirectUrl);
   }
