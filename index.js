@@ -76,11 +76,14 @@ app.get(
   "/steam/return",
   passport.authenticate("steam", { failureRedirect: failRedirectUrl }),
   async function (req, res) {
-    //make user a new account
-    console.log("redirecting after auth!! ", successRedirectUrl);
+    //take user to finish their sign up
     const steamStorageResult = await authController.storeSteamData(req.user._json);
     if (steamStorageResult.data) {
-      res.redirect(successRedirectUrl);
+      res.redirect(
+        process.env.IS_PROD === "1"
+          ? `https://www.gangs.gg/#/steam-signup/${req.user._json.steamid}`
+          : `http://localhost:3000/#/steam-signup/${req.user._json.steamid}`
+      );
     } else {
       res.redirect(failRedirectUrl);
     }
