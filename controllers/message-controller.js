@@ -71,6 +71,7 @@ const saveGangMessage = async (channelId, senderId, content, isImage, timestamp)
                       :created_at, 
                       :updated_at)
     `;
+    console.log("testing 2", roomId, senderId);
     await sequelize.query(query, {
       type: Sequelize.QueryTypes.INSERT,
       replacements: {
@@ -82,6 +83,7 @@ const saveGangMessage = async (channelId, senderId, content, isImage, timestamp)
         updated_at: timestamp,
       },
     });
+    console.log("testing 3", roomId, senderId);
     //Update connection updated at, so convos can be sorted by recency
     await updateGangChannelTimestamp(channelId);
     await createRedemptionForUser(senderId, 9);
