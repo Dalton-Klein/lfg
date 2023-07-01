@@ -142,7 +142,7 @@ export default function PlayerTile(props: any) {
           <div className="details-hours-played">
             <div className="hours-belt-outer">
               <div className="hours-belt-inner">
-                <div className="details-hours-played-text" data-tip data-for="hoursTip">
+                <div className="details-hours-played-text" data-tip data-tooltip-id="hoursTip">
                   {props.hours} hours
                 </div>
               </div>
@@ -150,7 +150,7 @@ export default function PlayerTile(props: any) {
           </div>
           {locationPath === "/lfg-rocket-league" ? (
             <div className="details-rocket-league">
-              <div className="details-rocket-league-playlist" data-tip data-for="playlistTip">
+              <div className="details-rocket-league-playlist" data-tip data-tooltip-id="playlistTip">
                 {rocketLeaguePlaylists[props.rocket_league_playlist]}
               </div>
 
@@ -165,7 +165,7 @@ export default function PlayerTile(props: any) {
           )}
           {locationPath === "/lfg-rust" ? (
             <div className="details-rust">
-              <div className="details-rust-info-slot" data-tip data-for="playlistTip">
+              <div className="details-rust-info-slot" data-tip data-tooltip-id="playlistTip">
                 {props.server_type_id === 1 ? "vanilla servers" : `${props.server_type_id}x servers`}
               </div>
 
@@ -175,13 +175,13 @@ export default function PlayerTile(props: any) {
             <></>
           )}
           <div className="details-availability">
-            <div className="detail-label" data-tip data-for="weekdayTip">
+            <div className="detail-label" data-tip data-tooltip-id="weekdayTip">
               mon-thu:{" "}
             </div>
             <div className="details-availabilty-text">
               {locationPath === "/lfg-rust" ? props.rust_weekdays : props.rocket_league_weekdays}
             </div>
-            <div className="detail-label" data-tip data-for="weekendTip">
+            <div className="detail-label" data-tip data-tooltip-id="weekendTip">
               fri-sun:{" "}
             </div>
             <div className="details-availabilty-text">
@@ -194,7 +194,7 @@ export default function PlayerTile(props: any) {
           <div className="footer-rank-box footer-third">
             <RankTile user={props} isSmall={true}></RankTile>
           </div>
-          <div className="footer-platform-box footer-third" data-tip data-for="commPlatformTip">
+          <div className="footer-platform-box footer-third" data-tip data-tooltip-id="commPlatformTip">
             {props.preferred_platform === 1 ? (
               <img
                 className="footer-platform-image"
@@ -223,7 +223,7 @@ export default function PlayerTile(props: any) {
               <></>
             )}
           </div>
-          <div className="footer-timestamp footer-third" data-tip data-for="seenTip">
+          <div className="footer-timestamp footer-third" data-tip data-tooltip-id="seenTip">
             last active {lastSeen}
           </div>
         </div>

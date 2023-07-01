@@ -118,7 +118,7 @@ export default function GangTile(props: any) {
           <div className="number-of-members">{props.members?.length} members</div>
         </div>
         <div className="gang-footer">
-          <div className="footer-platform-box" data-tip data-for="commPlatformTip">
+          <div className="footer-platform-box" data-tip data-tooltip-id="commPlatformTip">
             {props.chat_platform_id === 1 ? (
               <img
                 className="footer-platform-image"

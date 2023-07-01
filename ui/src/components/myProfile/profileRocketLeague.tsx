@@ -272,7 +272,7 @@ export default function ProfileRocketLeague(props: Props) {
       <Toast ref={toast} />
       {/* START ROCKET LEAGUE SETTINGS */}
       <div className="banner-container">
-        <div className="prof-banner-detail-text" data-tip data-for="publishTip">
+        <div className="prof-banner-detail-text" data-tip data-tooltip-id="publishTip">
           publish rocket league profile
         </div>
         <input
@@ -300,7 +300,7 @@ export default function ProfileRocketLeague(props: Props) {
             }}
             onMouseEnter={() => setavailabilityTooltipString("any non-ranked playlist")}
             data-tip
-            data-for="availabilityTip"
+            data-tooltip-id="availabilityTip"
           >
             casual
           </div>
@@ -311,7 +311,7 @@ export default function ProfileRocketLeague(props: Props) {
             }}
             onMouseEnter={() => setavailabilityTooltipString("ranked 2v2")}
             data-tip
-            data-for="availabilityTip"
+            data-tooltip-id="availabilityTip"
           >
             2's
           </div>
@@ -322,7 +322,7 @@ export default function ProfileRocketLeague(props: Props) {
             }}
             onMouseEnter={() => setavailabilityTooltipString("ranked 3v3")}
             data-tip
-            data-for="availabilityTip"
+            data-tooltip-id="availabilityTip"
           >
             3's
           </div>
@@ -373,7 +373,7 @@ export default function ProfileRocketLeague(props: Props) {
             }}
             onMouseEnter={() => setavailabilityTooltipString("0 hours")}
             data-tip
-            data-for="availabilityTip"
+            data-tooltip-id="availabilityTip"
           >
             none
           </div>
@@ -384,7 +384,7 @@ export default function ProfileRocketLeague(props: Props) {
             }}
             onMouseEnter={() => setavailabilityTooltipString("0-2 hours")}
             data-tip
-            data-for="availabilityTip"
+            data-tooltip-id="availabilityTip"
           >
             some
           </div>
@@ -395,7 +395,7 @@ export default function ProfileRocketLeague(props: Props) {
             }}
             onMouseEnter={() => setavailabilityTooltipString("2-6 hours")}
             data-tip
-            data-for="availabilityTip"
+            data-tooltip-id="availabilityTip"
           >
             a lot
           </div>
@@ -406,7 +406,7 @@ export default function ProfileRocketLeague(props: Props) {
             }}
             onMouseEnter={() => setavailabilityTooltipString("6+ hours")}
             data-tip
-            data-for="availabilityTip"
+            data-tooltip-id="availabilityTip"
           >
             all day
           </div>
@@ -425,7 +425,7 @@ export default function ProfileRocketLeague(props: Props) {
             }}
             onMouseEnter={() => setavailabilityTooltipString("0 hours")}
             data-tip
-            data-for="availabilityTip"
+            data-tooltip-id="availabilityTip"
           >
             none
           </div>
@@ -436,7 +436,7 @@ export default function ProfileRocketLeague(props: Props) {
             }}
             onMouseEnter={() => setavailabilityTooltipString("0-2 hours")}
             data-tip
-            data-for="availabilityTip"
+            data-tooltip-id="availabilityTip"
           >
             some
           </div>
@@ -447,7 +447,7 @@ export default function ProfileRocketLeague(props: Props) {
             }}
             onMouseEnter={() => setavailabilityTooltipString("2-6 hours")}
             data-tip
-            data-for="availabilityTip"
+            data-tooltip-id="availabilityTip"
           >
             a lot
           </div>
@@ -458,7 +458,7 @@ export default function ProfileRocketLeague(props: Props) {
             }}
             onMouseEnter={() => setavailabilityTooltipString("6+ hours")}
             data-tip
-            data-for="availabilityTip"
+            data-tooltip-id="availabilityTip"
           >
             all day
           </div>

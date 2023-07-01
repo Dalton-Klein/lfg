@@ -36,7 +36,7 @@ export default function ProfileWidget(props: any) {
         widgetPressedEvent();
       }}
       data-tip
-      data-for={props.tooltipName}
+      data-tooltip-id={props.tooltipName}
     >
       <div className="widget-value">{widgetStatus}</div>
       <div className="widget-label">{props.label}</div>

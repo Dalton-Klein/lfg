@@ -217,7 +217,7 @@ export default function AccountSettings(props: Props) {
         {/* PASSWORD */}
         {/* ***DISABLED UNTIL CODED PROPERLY */}
         {/* <div className='banner-container'>
-					<div className='prof-banner-detail-text' data-tip data-for='passwordTip'>
+					<div className='prof-banner-detail-text' data-tip data-tooltip-id='passwordTip'>
 						password
 					</div>
 					<div className='banner-change-box'>

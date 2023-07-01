@@ -12,7 +12,7 @@ export default function ConversationTile(props: any) {
         <i
           className="pi pi-plus dynamic-conversation-border"
           data-tip
-          data-for={createTooltipId("convoNameTip")}
+          data-tooltip-id={createTooltipId("convoNameTip")}
           onClick={() => {
             props.callOpenConversation(props);
           }}
@@ -26,7 +26,7 @@ export default function ConversationTile(props: any) {
             props.callOpenConversation(props);
           }}
           data-tip
-          data-for={createTooltipId("convoNameTip")}
+          data-tooltip-id={createTooltipId("convoNameTip")}
         >
           <div className="dynamic-conversation-text-small">
             {props.username
@@ -46,7 +46,7 @@ export default function ConversationTile(props: any) {
           src={props.avatar_url}
           alt={`${props.username}'s avatar`}
           data-tip
-          data-for={createTooltipId("convoNameTip")}
+          data-tooltip-id={createTooltipId("convoNameTip")}
         />
       )}
       <Tooltip id={createTooltipId("convoNameTip")} place="right">

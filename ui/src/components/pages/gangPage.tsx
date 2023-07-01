@@ -709,7 +709,7 @@ export default function GangPage({ socketRef }) {
                     disconnectFromVoice();
                   }}
                   data-tip
-                  data-for="voice-connect-tooltip"
+                  data-tooltip-id="voice-connect-tooltip"
                 >
                   <i className="pi pi-phone " />
                 </button>
@@ -720,7 +720,7 @@ export default function GangPage({ socketRef }) {
                       toggleMuteMic();
                     }}
                     data-tip
-                    data-for="mute-mic-tooltip"
+                    data-tooltip-id="mute-mic-tooltip"
                   >
                     <i className="pi pi-microphone" />
                   </button>
@@ -731,7 +731,7 @@ export default function GangPage({ socketRef }) {
                       toggleMuteMic();
                     }}
                     data-tip
-                    data-for="mute-mic-tooltip"
+                    data-tooltip-id="mute-mic-tooltip"
                   >
                     <i className="pi pi-microphone" />
                   </button>
@@ -749,7 +749,7 @@ export default function GangPage({ socketRef }) {
                     setcurrentAudioChannel(currentChannel);
                   }}
                   data-tip
-                  data-for="voice-connect-tooltip"
+                  data-tooltip-id="voice-connect-tooltip"
                 >
                   <i className="pi pi-phone" />
                 </button>
@@ -862,7 +862,7 @@ export default function GangPage({ socketRef }) {
                       /* ***TODO*** load detail profile of person here */
                     }}
                     data-tip
-                    data-for="avatarTip"
+                    data-tooltip-id="avatarTip"
                   >
                     <div className="dynamic-avatar-text">
                       {member.username

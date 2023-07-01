@@ -189,7 +189,7 @@ export default function VerticalNav() {
             className={`text-only-button vert-nav-button ${currentNavSelection === 0 ? "selected-nav" : ""}`}
             onClick={(event) => toggleNavMenu(0)}
             data-tip
-            data-for="dashboardTip"
+            data-tooltip-id="dashboardTip"
           >
             <i className="pi pi-users" />
           </button>
@@ -201,7 +201,7 @@ export default function VerticalNav() {
           className={`text-only-button vert-nav-button ${currentNavSelection === 1 ? "selected-nav" : ""}`}
           onClick={(event) => toggleNavMenu(1)}
           data-tip
-          data-for="messagingTip"
+          data-tooltip-id="messagingTip"
         >
           <i className="pi pi-envelope" />
         </button>
