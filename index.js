@@ -108,7 +108,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("gang_message", ({ roomId, senderId, sender, avatar_url, rank, message, isImage, timestamp }) => {
-    console.log("testing 1", roomId, senderId);
     messageController.saveGangMessage(roomId.substring(5), senderId, message, isImage, timestamp);
     io.to(roomId).emit("message", { roomId, senderId, sender, avatar_url, rank, message, isImage, timestamp });
   });
