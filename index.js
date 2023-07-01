@@ -46,7 +46,7 @@ passport.use(
     {
       returnURL:
         process.env.IS_PROD === "1" ? "https://www.gangs.gg/steam/return" : "http://localhost:3010/steam/return",
-      realm: process.env.IS_PROD === "1" ? "https://www.gangs.gg" : "http://localhost:3010/",
+      realm: process.env.IS_PROD === "1" ? "https://www.gangs.gg/" : "http://localhost:3010/",
       apiKey: process.env.STEAM_API_KEY,
     },
     (identifier, profile, done) => {
@@ -56,26 +56,32 @@ passport.use(
   )
 );
 //STEAM ROUTES
-const redirectUrl = process.env.IS_PROD === "1" ? "https://www.gangs.gg/#/login" : "http://localhost:3000/#/login";
-
-app.get("/steam", passport.authenticate("steam", { successRedirect: "/", failureRedirect: "/" }), function (req, res) {
-  console.log("authenticating!! ", res);
-});
+const successRedirectUrl = process.env.IS_PROD === "1" ? "https://www.gangs.gg/" : `http://localhost:3000/`;
+const failRedirectUrl = process.env.IS_PROD === "1" ? "https://www.gangs.gg/#/login" : "http://localhost:3000/#/login";
+console.log("steam stuff? ", process.env.IS_PROD, "  success ", successRedirectUrl, "   fail: ", failRedirectUrl);
+app.get(
+  "/steam",
+  passport.authenticate("steam", { successRedirect: successRedirectUrl, failureRedirect: failRedirectUrl }),
+  function (req, res) {
+    console.log("authenticating!! ", res);
+  }
+);
 
 // GET /auth/steam/return
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get("/steam/return", passport.authenticate("steam", { failureRedirect: redirectUrl }), async function (req, res) {
-  //Either make user a new account or sign them in
-  await authController.storeSteamData(req.user._json);
-  res.redirect(
-    process.env.IS_PROD === "1"
-      ? "https://www.gangs.gg/"
-      : `http://localhost:3000/#/steam-signup/${req.user._json.steamid}`
-  );
-});
+app.get(
+  "/steam/return",
+  passport.authenticate("steam", { failureRedirect: failRedirectUrl }),
+  async function (req, res) {
+    //make user a new account
+    console.log("redirecting after auth!! ", successRedirectUrl, "    ", res.user._json);
+    await authController.storeSteamData(req.user._json);
+    res.redirect(successRedirectUrl);
+  }
+);
 
 //START SOCKET
 io = require("socket.io")(http);
