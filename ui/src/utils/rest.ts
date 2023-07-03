@@ -516,6 +516,22 @@ export const checkRocketLeagueProfileCompletion = async (userId: number, token: 
     });
 };
 
+export const checkBattleBitProfileCompletion = async (userId: number, token: string) => {
+  return await fetch(`${endpointURL}/battle-bit-profile-completion`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId,
+    }),
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log(`${err} trying to validate the publishing of rust profile`);
+    });
+};
+
 export const attemptPublishRustProfile = async (userId: number, token: string) => {
   return await fetch(`${endpointURL}/publish-rust`, {
     method: "POST",
@@ -534,6 +550,22 @@ export const attemptPublishRustProfile = async (userId: number, token: string) =
 
 export const attemptPublishRocketLeagueProfile = async (userId: number, token: string) => {
   return await fetch(`${endpointURL}/publish-rocket-league`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId,
+    }),
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.log(`${err} trying to validate the publishing of rust profile`);
+    });
+};
+
+export const attemptPublishBattleBitProfile = async (userId: number, token: string) => {
+  return await fetch(`${endpointURL}/publish-battle-bit`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

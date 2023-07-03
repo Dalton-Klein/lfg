@@ -58,7 +58,6 @@ passport.use(
 //STEAM ROUTES
 const successRedirectUrl = process.env.IS_PROD === "1" ? "https://www.gangs.gg/" : `http://localhost:3000/`;
 const failRedirectUrl = process.env.IS_PROD === "1" ? "https://www.gangs.gg/#/login" : "http://localhost:3000/#/login";
-console.log("steam stuff? ", process.env.IS_PROD, "  success ", successRedirectUrl, "   fail: ", failRedirectUrl);
 app.get(
   "/steam",
   passport.authenticate("steam", { successRedirect: successRedirectUrl, failureRedirect: failRedirectUrl }),

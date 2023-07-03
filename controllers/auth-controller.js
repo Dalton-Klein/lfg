@@ -10,6 +10,7 @@ const {
   createGeneralInfoQuery,
   createRustInfoQuery,
   createRocketLeagueInfoQuery,
+  createBattleBitInfoQuery,
   getSteamDataQuery,
   storeSteamDataQuery,
 } = require("../services/user-queries");
@@ -389,6 +390,7 @@ const insertNewUser = async (userObj) => {
       avatar_url: "",
       rust_hours: 0,
       rocket_league_hours: 0,
+      battle_bit_hours: 0,
     };
     if (userObj.steam_id && userObj.steam_id.length > 15) {
       dynamicReplacements.steam_id = userObj.steam_id;
@@ -412,6 +414,8 @@ const insertNewUser = async (userObj) => {
     query = createRustInfoQuery();
     await sequelize.query(query, queryOptions);
     query = createRocketLeagueInfoQuery();
+    await sequelize.query(query, queryOptions);
+    query = createBattleBitInfoQuery();
     await sequelize.query(query, queryOptions);
     await transaction.commit();
     console.log("user result", userResult);

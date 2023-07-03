@@ -109,6 +109,7 @@ const getUserDataBySteamIdQuery = () => {
              where u.steam_id = :steamId
        `;
 };
+// **NEW GAME EDIT
 const getUserDataByIdQuery = () => {
   return `
              select u.id,
@@ -162,6 +163,13 @@ const getUserDataByIdQuery = () => {
                     avrl1.name as rocket_league_weekdays,
                     avrl2.name as rocket_league_weekends,
                     rl.is_published as rocket_league_is_published,
+                    bb.preferred_playlist as battle_bit_playlist,
+                    bb.rank as battle_bit_rank,
+                    bb.preferred_class as battle_bit_class,
+                    bb.hours as battle_bit_hours, 
+                    avbb1.name as battle_bit_weekdays,
+                    avbb2.name as battle_bit_weekends,
+                    bb.is_published as battle_bit_is_published,
                     sum(rd.points) as rank
                from public.users u
           left join public.user_general_infos ug
@@ -170,6 +178,8 @@ const getUserDataByIdQuery = () => {
                  on ur.user_id = u.id
           left join public.user_rocket_league_infos rl
                  on rl.user_id = u.id
+          left join public.user_battle_bit_infos bb
+                 on bb.user_id = u.id
           left join public.regions r
                  on r.id = ug.region
           left join public.availabilities av1
@@ -180,6 +190,10 @@ const getUserDataByIdQuery = () => {
                  on avrl1.id = rl.weekdays
           left join public.availabilities avrl2
                  on avrl2.id = rl.weekends
+          left join public.availabilities avbb1
+                 on avbb1.id = bb.weekdays
+          left join public.availabilities avbb2
+                 on avbb2.id = bb.weekends
           left join public.redeems rd
                  on rd.user_id = u.id
               where u.id = :userId
@@ -208,7 +222,14 @@ const getUserDataByIdQuery = () => {
                     rl.hours,
                     avrl1.name,
                     avrl2.name,
-                    rl.is_published 
+                    rl.is_published,
+                    bb.preferred_playlist,
+                    bb.preferred_class,
+                    bb.rank,
+                    bb.hours,
+                    avbb1.name,
+                    avbb2.name,
+                    bb.is_published
   `;
 };
 
@@ -265,6 +286,13 @@ const createRocketLeagueInfoQuery = () => {
   `;
 };
 
+const createBattleBitInfoQuery = () => {
+  return `
+       insert into public.user_battle_bit_infos (id, user_id, hours, created_at, updated_at)
+            values ((select max(id) + 1 from public.user_battle_bit_infos), :userId, :rocket_league_hours, current_timestamp, current_timestamp)
+       `;
+};
+
 module.exports = {
   getUserDataByEmailQuery,
   getUserDataByUsernameQuery,
@@ -277,4 +305,5 @@ module.exports = {
   createGeneralInfoQuery,
   createRustInfoQuery,
   createRocketLeagueInfoQuery,
+  createBattleBitInfoQuery,
 };

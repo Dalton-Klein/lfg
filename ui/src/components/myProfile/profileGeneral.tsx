@@ -257,6 +257,12 @@ export default function ProfileGeneral(props: Props) {
           title={"rocket league profile"}
           changeBanner={props.changeBanner}
         ></GameTile>
+        <GameTile
+          imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1687803327/BattleBit_jcjxkp.webp"}
+          routerLink={"/battle-bit-profile"}
+          title={"battle bit profile"}
+          changeBanner={props.changeBanner}
+        ></GameTile>
       </div>
       <div className="gradient-bar"></div>
       {/* AVATAR PHTO */}

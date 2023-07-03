@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "./store";
 import { User, SignIn } from "./interfaces";
 import { resetPassword, signInUser, verifyUser, fetchUserData } from "../utils/rest";
-
+// ***NEW GAME EDIT
 const initialState: any = {
   user: {
     token: "",
@@ -30,6 +30,7 @@ const initialState: any = {
     rust_weekends: "",
     rust_is_published: false,
     rocket_league_is_published: false,
+    battle_bit_is_published: false,
     connection_count_sender: 0,
     connection_count_acceptor: 0,
     gangs: [],
@@ -153,6 +154,7 @@ export const logoutUser =
             play_styles: [],
             rust_is_published: false,
             rocket_league_is_published: false,
+            battle_bit_is_published: false,
             connection_count_sender: 0,
             connection_count_acceptor: 0,
             gangs: [],

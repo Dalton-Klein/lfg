@@ -93,8 +93,10 @@ function App() {
                 <Route path="/general-profile" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/add-friend" element={<AddFriend />} />
                 <Route path="/account-settings" element={<ProfilePage socketRef={socketRef} />} />
+                {/* ***NEW  GAME EDIT */}
                 <Route path="/rust-profile" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/rocket-league-profile" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/battle-bit-profile" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/messaging" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/incoming-requests" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/outgoing-requests" element={<ProfilePage socketRef={socketRef} />} />

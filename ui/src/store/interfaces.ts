@@ -23,6 +23,7 @@ export interface User {
   play_styles: [];
   rust_is_published: boolean;
   rocket_league_is_published: boolean;
+  battle_bit_is_published: boolean;
   connection_count_sender: number;
   connection_count_acceptor: number;
   gangs: any;
