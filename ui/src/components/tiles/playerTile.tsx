@@ -9,13 +9,39 @@ import RankTile from "./rankTile";
 
 export default function PlayerTile(props: any) {
   const locationPath: string = useLocation().pathname;
+  const [gameText, setgameText] = useState("");
   const [genderIcon, setgenderIcon] = useState("");
+  const [weekdayAvailText, setweekdayAvailText] = useState("");
+  const [weekendAvailText, setweekendAvailText] = useState("");
   const [rocketLeagueRankIcon, setrocketLeagueRankIcon] = useState("");
+  const [battleBitClassIcon, setbattleBitClassIcon] = useState("");
+  const [battleBitPlaylistText, setbattleBitPlaylistText] = useState("");
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
 
   const rocketLeaguePlaylists: any = getRocketLeaguePlaylists();
   const lastSeen = howLongAgo(props.last_seen);
 
+  useEffect(() => {
+    if (locationPath === "/lfg-rust") {
+      setweekdayAvailText(props.rust_weekdays);
+      setweekendAvailText(props.rust_weekends);
+      setgameText("rust");
+    } else if (locationPath === "/lfg-rocket-league") {
+      setweekdayAvailText(props.rocket_league_weekdays);
+      setweekendAvailText(props.rocket_league_weekends);
+      setgameText("rocket-league");
+    } else if (locationPath === "/lfg-battle-bit") {
+      setweekdayAvailText(props.battle_bit_weekdays);
+      setweekendAvailText(props.battle_bit_weekends);
+      setgameText("battle-bit");
+    } else if (locationPath === "/lfm-rust") {
+      setgameText("rust");
+    } else if (locationPath === "/lfm-rocket-league") {
+      setgameText("rocket-league");
+    } else if (locationPath === "/lfm-battle-bit") {
+      setgameText("battle-bit");
+    }
+  }, [props]);
   useEffect(() => {
     if (props.gender === 1) {
       setgenderIcon("https://res.cloudinary.com/kultured-dev/image/upload/v1685814971/gender-icon-male_l71kiy.png");
@@ -62,6 +88,48 @@ export default function PlayerTile(props: any) {
     }
   }, [props.rocket_league_rank]);
 
+  useEffect(() => {
+    if (props.battle_bit_class === 1) {
+      setbattleBitClassIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-squad-leader_oeskw6.png"
+      );
+    } else if (props.battle_bit_class === 2) {
+      setbattleBitClassIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1688413554/battle-bit-classes-assault_k8mydg.png"
+      );
+    } else if (props.battle_bit_class === 3) {
+      setbattleBitClassIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-engineer_qcxbvi.png"
+      );
+    } else if (props.battle_bit_class === 4) {
+      setbattleBitClassIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-engineer_qcxbvi.png"
+      );
+    } else if (props.battle_bit_class === 5) {
+      setbattleBitClassIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-support_nqoqth.png"
+      );
+    } else if (props.battle_bit_class === 6) {
+      setbattleBitClassIcon(
+        "https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-recon_hjvxjs.png"
+      );
+    } else {
+      setbattleBitClassIcon("");
+    }
+  }, [props.battle_bit_class]);
+
+  useEffect(() => {
+    if (props.battle_bit_playlist === 1) {
+      setbattleBitPlaylistText("127s");
+    } else if (props.battle_bit_playlist === 2) {
+      setbattleBitPlaylistText("64s");
+    } else if (props.battle_bit_playlist === 3) {
+      setbattleBitPlaylistText("32s");
+    } else {
+      setbattleBitPlaylistText("");
+    }
+  }, [props.battle_bit_playlist]);
+
   const toggleExpandedProfile = () => {
     setExpandedProfileVis(!expandedProfileVis);
   };
@@ -77,7 +145,7 @@ export default function PlayerTile(props: any) {
           showConnectForm={true}
           isProfileComplete={props.isProfileComplete}
           isConnected={false}
-          game={locationPath === "/lfg-rust" ? "rust" : "rocket-league"}
+          game={gameText}
         />
       ) : (
         <></>
@@ -174,19 +242,35 @@ export default function PlayerTile(props: any) {
           ) : (
             <></>
           )}
+          {locationPath === "/lfg-battle-bit" ? (
+            <div className="details-battle-bit">
+              <div className="details-battle-bit-info-slot">
+                {battleBitClassIcon.length > 0 ? (
+                  <img className="details-battle-bit-class" src={battleBitClassIcon} />
+                ) : (
+                  "not ranked"
+                )}
+              </div>
+              <div className="details-battle-bit-info-slot" data-tip data-tooltip-id="playlistTip">
+                <div>rank</div>
+                <div> {props.battle_bit_rank} </div>
+              </div>
+
+              <div className="details-battle-bit-info-slot">{battleBitPlaylistText}</div>
+            </div>
+          ) : (
+            <></>
+          )}
+          {/* ***NEW GAME EDIT */}
           <div className="details-availability">
             <div className="detail-label" data-tip data-tooltip-id="weekdayTip">
               mon-thu:{" "}
             </div>
-            <div className="details-availabilty-text">
-              {locationPath === "/lfg-rust" ? props.rust_weekdays : props.rocket_league_weekdays}
-            </div>
+            <div className="details-availabilty-text">{weekdayAvailText}</div>
             <div className="detail-label" data-tip data-tooltip-id="weekendTip">
               fri-sun:{" "}
             </div>
-            <div className="details-availabilty-text">
-              {locationPath === "/lfg-rust" ? props.rust_weekends : props.rocket_league_weekends}
-            </div>
+            <div className="details-availabilty-text">{weekendAvailText}</div>
           </div>
         </div>
         {/* footer details */}

@@ -27,13 +27,6 @@ export default function HomePage({ socketRef }) {
         <MediumTile routerLink="/general-profile" imageLink="pi pi-user" title="my profile"></MediumTile>
       )
     );
-    // setconditionalDashTile(
-    //   userState.email === "" ? (
-    //     <></>
-    //   ) : (
-    //     <MediumTile routerLink="/dashboard" imageLink="pi pi-users" title="my dashboard"></MediumTile>
-    //   )
-    // );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -78,6 +71,16 @@ export default function HomePage({ socketRef }) {
             buttonTextLFG="lfg"
             buttonTextLFM="lfm"
           ></DaddyTile>
+          <DaddyTile
+            has2Buttons={true}
+            routerLinkLFG="/lfg-battle-bit"
+            routerLinkLFM="/lfm-battle-bit"
+            image="https://res.cloudinary.com/kultured-dev/image/upload/v1688412634/MXCsRopuFE4LJdKeTEE3uY_dhzham.jpg"
+            title="battle bit remastered"
+            buttonTextLFG="lfg"
+            buttonTextLFM="lfm"
+          ></DaddyTile>
+          {/* NEW GAME EDIT */}
           <DaddyTile
             has2Buttons={false}
             routerLinkLFG="/blog/signup-promo"

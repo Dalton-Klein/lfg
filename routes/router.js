@@ -69,10 +69,10 @@ router.post("/publish-rocket-league", publishController.checkIfUserCanPublishRoc
 router.post("/publish-battle-bit", publishController.checkIfUserCanPublishBattleBitProfile);
 
 //TILES RELATED ROUTES
-router.post("/rust-tiles", tilesController.getRustTiles);
 router.post("/gang-tiles", tilesController.getLFMGangTiles);
-router.post("/rocket-league-gang-tiles", tilesController.getRustTiles);
+router.post("/rust-tiles", tilesController.getRustTiles);
 router.post("/rocket-league-tiles", tilesController.getRocketLeagueTiles);
+router.post("/battle-bit-tiles", tilesController.getBattleBitTiles);
 
 //GANGS RELATED ROUTES
 router.post("/create-gang", gangsController.createGang);

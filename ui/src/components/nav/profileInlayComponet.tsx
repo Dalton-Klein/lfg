@@ -167,6 +167,7 @@ export default function ProfileInlayComponet({ socketRef }) {
   const determineGameNavContents = () => {
     let determinedUrl = "";
     const gameNameString = locationPath.slice(5, 100);
+    // ***NEW GAME EDIT
     switch (gameNameString) {
       case "rust":
         determinedUrl = "https://res.cloudinary.com/kultured-dev/image/upload/v1663786762/rust-logo-small_uarsze.png";
@@ -175,12 +176,16 @@ export default function ProfileInlayComponet({ socketRef }) {
         determinedUrl =
           "https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png";
         break;
+      case "battle-bit":
+        determinedUrl = "https://res.cloudinary.com/kultured-dev/image/upload/v1688414978/battle-bit-logo_ctgigq.jpg";
+        break;
       default:
         break;
     }
     setgameImgUrl(determinedUrl);
   };
   const renderDiscoverOptions = () => {
+    // ***NEW GAME MODIFY
     return [
       {
         label: (
@@ -203,6 +208,18 @@ export default function ProfileInlayComponet({ socketRef }) {
             className="discover-navigator-option-image"
             src={"https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png"}
             alt={`link to rocket league discovery`}
+          />
+        ),
+      },
+      {
+        label: (
+          <img
+            onClick={() => {
+              navigate(lfgORlfm === "/lfg" ? "/lfg-battle-bit" : "/lfm-battle-bit");
+            }}
+            className="discover-navigator-option-image"
+            src={"https://res.cloudinary.com/kultured-dev/image/upload/v1688414978/battle-bit-logo_ctgigq.jpg"}
+            alt={`link to battle bit discovery`}
           />
         ),
       },
@@ -247,6 +264,18 @@ export default function ProfileInlayComponet({ socketRef }) {
             className="discover-navigator-option-image"
             src={"https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png"}
             alt={`link to rocket league profile`}
+          />
+        ),
+      },
+      {
+        label: (
+          <img
+            onClick={() => {
+              navigate("/battle-bit-profile");
+            }}
+            className="discover-navigator-option-image"
+            src={"https://res.cloudinary.com/kultured-dev/image/upload/v1688414978/battle-bit-logo_ctgigq.jpg"}
+            alt={`link to battle bit profile`}
           />
         ),
       },
