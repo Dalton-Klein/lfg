@@ -95,7 +95,6 @@ export default function GangsMgmt() {
       formattedMembers.push({ label: "test", value: member.id });
     });
     settemporaryRoles(formattedMembers);
-    console.log("gang info: ", gangResult);
     if (gangResult.role.role_id === 1) {
       setloadedGangInfo(gangResult);
       setnameText(gangResult.basicInfo.name);
@@ -652,6 +651,7 @@ export default function GangsMgmt() {
               <div className="gang-about-text" data-tip data-tooltip-id="must-select-tooltip">
                 primary game
               </div>
+              {/* ***NEW GAME MODIFY */}
               <div className="gender-container">
                 <div
                   className={`gender-box ${game === 1 ? "box-selected" : ""}`}
@@ -676,6 +676,18 @@ export default function GangsMgmt() {
                     src={
                       "https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png"
                     }
+                    alt="rocket league selector"
+                  ></img>
+                </div>
+                <div
+                  className={`gender-box ${game === 4 ? "box-selected" : ""}`}
+                  onClick={() => {
+                    changeSelectedGame(4);
+                  }}
+                >
+                  <img
+                    className="gender-icon"
+                    src={"https://res.cloudinary.com/kultured-dev/image/upload/v1688414978/battle-bit-logo_ctgigq.jpg"}
                     alt="rocket league selector"
                   ></img>
                 </div>

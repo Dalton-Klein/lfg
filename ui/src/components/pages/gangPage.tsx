@@ -143,6 +143,7 @@ export default function GangPage({ socketRef }) {
       if (gangInfo.basicInfo?.members) {
         setfirst5Members(gangInfo.basicInfo.members.slice(0, 5));
       }
+      // ***NEW GAME MODIFY
       switch (gangInfo.basicInfo?.game_platform_id) {
         case 1:
           setplatformImgLink(
@@ -152,6 +153,16 @@ export default function GangPage({ socketRef }) {
         case 2:
           setplatformImgLink(
             "https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png"
+          );
+          break;
+        case 3:
+          setplatformImgLink(
+            "https://res.cloudinary.com/kultured-dev/image/upload/v1688419805/minecraft_logo_icon_168974_ue0qxn.png"
+          );
+          break;
+        case 4:
+          setplatformImgLink(
+            "https://res.cloudinary.com/kultured-dev/image/upload/v1688414978/battle-bit-logo_ctgigq.jpg"
           );
           break;
         default:

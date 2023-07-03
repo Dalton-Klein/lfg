@@ -158,7 +158,6 @@ const ExpandedProfile = (props: Props) => {
   let hasSendError = false;
 
   useEffect(() => {
-    console.log("props? ", props);
     fetchSocialData();
     getPublishInfo();
     document.querySelector(".backdrop-event-listener")!.addEventListener("click", () => {

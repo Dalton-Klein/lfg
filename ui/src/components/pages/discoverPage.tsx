@@ -129,7 +129,7 @@ export default function DiscoverPage() {
         tiles = await getBattleBitTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
         break;
       case "/lfm-battle-bit":
-        tiles = await getLFMGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 2, "nothing");
+        tiles = await getLFMGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 4, "nothing");
         break;
     }
     setTilesFromDB(tiles);
