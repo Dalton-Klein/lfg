@@ -5,6 +5,7 @@ const {
   checkGameProfileCompletionQuery,
   checkIfUserCanPublishRustProfileQuery,
   checkIfUserCanPublishRocketLeagueProfileQuery,
+  checkIfUserCanPublishBattleBitProfileQuery,
   getAllProfilesPublicationStatusQuery,
 } = require("../services/publish-queries");
 const { createRedemptionForUser } = require("./redeems-controller");
@@ -125,6 +126,43 @@ const checkRocketLeagueProfileCompletion = async (req, res) => {
   }
 };
 
+/*
+check rocket league profile
+*/
+const checkBattleBitProfileCompletion = async (req, res) => {
+  try {
+    console.log(" ♛ A User Checking Battle Bit Profile Completion ♛ ");
+    const { userId, token } = req.body;
+    let query = checkGameProfileCompletionQuery("user_battle_bit_infos");
+    let queryResult = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId,
+      },
+    });
+    let passesValidation = false;
+    let problemFields = [];
+    //Validate result here
+    queryResult = queryResult[0];
+    // Battle Bit Fields
+    if (queryResult.preferred_class === null || queryResult.preferred_class === 0) problemFields.push("class");
+    if (queryResult.preferred_playlist === null || queryResult.preferred_playlist === 0) problemFields.push("playlist");
+    if (queryResult.rank === null || queryResult.rank === 0) problemFields.push("rank");
+    if (queryResult.hours === null || queryResult.hours === 0) problemFields.push("hours");
+    if (queryResult.weekdays === null || queryResult.weekdays === 0) problemFields.push("weekday availability");
+    if (queryResult.weekdends === null || queryResult.weekdends === 0) problemFields.push("weekend availability");
+    if (!problemFields.length) passesValidation = true;
+    let result = {
+      status: passesValidation ? "success" : "error",
+      data: problemFields,
+    };
+    res.status(200).send(result);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+};
+
 const getAllProfilesPublicationStatusForUser = async (req, res) => {
   try {
     console.log(" ♛ A User Requested To Get Publish Status for All Profiles ♛ ");
@@ -191,7 +229,7 @@ check rocket league and gen profile at once
 */
 const checkIfUserCanPublishRocketLeagueProfile = async (req, res) => {
   try {
-    console.log(" ♛ A User Requested To Publish Rust Profile ♛ ");
+    console.log(" ♛ A User Requested To Publish Rocket League Profile ♛ ");
     const { userId, token } = req.body;
     let query = checkIfUserCanPublishRocketLeagueProfileQuery();
     let queryResult = await sequelize.query(query, {
@@ -229,11 +267,57 @@ const checkIfUserCanPublishRocketLeagueProfile = async (req, res) => {
   }
 };
 
+/*
+check battle bit and gen profile at once
+*/
+const checkIfUserCanPublishBattleBitProfile = async (req, res) => {
+  try {
+    console.log(" ♛ A User Requested To Publish Battle Bit Profile ♛ ");
+    const { userId, token } = req.body;
+    let query = checkIfUserCanPublishBattleBitProfileQuery();
+    let queryResult = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId,
+      },
+    });
+    let passesValidation = false;
+    let problemFields = [];
+    //Validate result here
+    queryResult = queryResult[0];
+    // General Fields
+    if (queryResult.about === null || queryResult.about === "") problemFields.push("about");
+    if (queryResult.age === null || queryResult.age < 13) problemFields.push("age");
+    if (queryResult.gender === null || queryResult.gender === 0) problemFields.push("gender");
+    if (queryResult.region === null || queryResult.region === 0) problemFields.push("region");
+    if (queryResult.languages === null) problemFields.push("language");
+    if (queryResult.preferred_platform === null) problemFields.push("platform");
+    // RocketLeague Fields
+    if (queryResult.preferred_playlist === null || queryResult.preferred_playlist === 0) problemFields.push("playlist");
+    if (queryResult.preferred_class === null || queryResult.preferred_class === 0) problemFields.push("class");
+    if (queryResult.rank === null || queryResult.rank === 0) problemFields.push("rank");
+    if (queryResult.hours === null || queryResult.hours === 0) problemFields.push("hours");
+    if (queryResult.weekdays === null || queryResult.weekdays === 0) problemFields.push("weekday availability");
+    if (queryResult.weekdends === null || queryResult.weekdends === 0) problemFields.push("weekend availability");
+    if (!problemFields.length) passesValidation = true;
+    let result = {
+      status: passesValidation ? "success" : "error",
+      data: problemFields,
+    };
+    res.status(200).send(result);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+};
+
 module.exports = {
   checkGeneralProfileCompletion,
   getAllProfilesPublicationStatusForUser,
   checkRustProfileCompletion,
   checkRocketLeagueProfileCompletion,
+  checkBattleBitProfileCompletion,
   checkIfUserCanPublishRustProfile,
   checkIfUserCanPublishRocketLeagueProfile,
+  checkIfUserCanPublishBattleBitProfile,
 };

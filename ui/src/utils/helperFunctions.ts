@@ -172,6 +172,14 @@ export const getRocketLeaguePlaylists = () => {
   };
 };
 
+export const getBattleBitPlaylists = () => {
+  return {
+    1: "127s",
+    2: "64s",
+    3: "32s",
+  };
+};
+
 export const loadSavedDevices = (devices: any, userState: any) => {
   let result: any = { input_device: undefined, output_device: undefined };
   if (userState.input_device_id && userState.input_device_id.length) {

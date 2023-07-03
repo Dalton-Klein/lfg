@@ -63,14 +63,16 @@ router.post("/all-publication-status", publishController.getAllProfilesPublicati
 router.post("/general-profile-completion", publishController.checkGeneralProfileCompletion);
 router.post("/rust-profile-completion", publishController.checkRustProfileCompletion);
 router.post("/rocket-league-profile-completion", publishController.checkRocketLeagueProfileCompletion);
+router.post("/battle-bit-profile-completion", publishController.checkBattleBitProfileCompletion);
 router.post("/publish-rust", publishController.checkIfUserCanPublishRustProfile);
 router.post("/publish-rocket-league", publishController.checkIfUserCanPublishRocketLeagueProfile);
+router.post("/publish-battle-bit", publishController.checkIfUserCanPublishBattleBitProfile);
 
 //TILES RELATED ROUTES
-router.post("/rust-tiles", tilesController.getRustTiles);
 router.post("/gang-tiles", tilesController.getLFMGangTiles);
-router.post("/rocket-league-gang-tiles", tilesController.getRustTiles);
+router.post("/rust-tiles", tilesController.getRustTiles);
 router.post("/rocket-league-tiles", tilesController.getRocketLeagueTiles);
+router.post("/battle-bit-tiles", tilesController.getBattleBitTiles);
 
 //GANGS RELATED ROUTES
 router.post("/create-gang", gangsController.createGang);

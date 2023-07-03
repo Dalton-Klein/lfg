@@ -169,10 +169,35 @@
         padding: 1vh 1vw;
       }
       .details-rocket-league-rank {
-        width: 4vw;
-        height: 4vw;
+        width: 3.5vw;
+        height: 3.5vw;
         min-height: 35px;
         min-width: 35px;
+      }
+    }
+    .details-battle-bit {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 1vw;
+      padding-right: 1vw;
+      margin-top: 1vh;
+      margin-bottom: 0.5vh;
+      .details-battle-bit-info-slot {
+        min-width: 33%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        div {
+          text-align: center;
+        }
+        .details-battle-bit-class {
+          width: 3.5vw;
+          height: 3.5vw;
+          min-height: 35px;
+          min-width: 35px;
+        }
       }
     }
     .details-availability {

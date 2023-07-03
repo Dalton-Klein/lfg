@@ -15,6 +15,7 @@ export default function GangTile(props: any) {
   };
 
   useEffect(() => {
+    // ***NEW GAME MODIFY
     switch (props.game_platform_id) {
       case 1:
         setplatformImgLink(
@@ -24,6 +25,16 @@ export default function GangTile(props: any) {
       case 2:
         setplatformImgLink(
           "https://res.cloudinary.com/kultured-dev/image/upload/v1665620519/RocketLeagueResized_loqz1h.png"
+        );
+        break;
+      case 3:
+        setplatformImgLink(
+          "https://res.cloudinary.com/kultured-dev/image/upload/v1688419805/minecraft_logo_icon_168974_ue0qxn.png"
+        );
+        break;
+      case 4:
+        setplatformImgLink(
+          "https://res.cloudinary.com/kultured-dev/image/upload/v1688414978/battle-bit-logo_ctgigq.jpg"
         );
         break;
       default:

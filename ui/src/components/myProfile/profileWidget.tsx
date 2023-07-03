@@ -15,17 +15,20 @@ export default function ProfileWidget(props: any) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.value]);
-
+  // ***NEW GAME EDIT
   const widgetPressedEvent = () => {
     switch (props.label) {
-      case "gen profile completed?":
+      case "gen profile complete?":
         navigate(`/general-profile`);
         break;
-      case "rust profile completed?":
+      case "rust profile complete?":
         navigate(`/rust-profile`);
         break;
-      case "r.l. profile completed?":
+      case "rocket league profile complete?":
         navigate(`/rocket-league-profile`);
+        break;
+      case "battle bit profile complete?":
+        navigate(`/battle-bit-profile`);
         break;
     }
   };

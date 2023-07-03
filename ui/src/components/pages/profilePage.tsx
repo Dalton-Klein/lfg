@@ -15,6 +15,7 @@ import ProfileRocketLeague from "../myProfile/profileRocketLeague";
 import ProfileWidgetsContainer from "../myProfile/profileWidgetsContainer";
 import AccountSettings from "../myProfile/profileAccountSettings";
 import { updateUserThunk } from "../../store/userSlice";
+import ProfileBattleBit from "../myProfile/profileBattleBit";
 
 export default function ProfilePage({ socketRef }) {
   const navigate = useNavigate();
@@ -22,8 +23,10 @@ export default function ProfilePage({ socketRef }) {
   const userState = useSelector((state: RootState) => state.user.user);
   // Location Variables
   const locationPath: string = useLocation().pathname;
-  const gameProfilePaths: string[] = ["/rust-profile", "/rocket-league-profile"];
   const requestPaths: string[] = ["/incoming-requests", "/outgoing-requests", "/blocked"];
+  // ***NEW GAME EDIT
+  const gameProfilePaths: string[] = ["/rust-profile", "/rocket-league-profile", "/battle-bit-profile"];
+  // ***NEW GAME EDIT
   const menuTitleKey: any = {
     "/general-profile": "general profile",
     "/messaging": "direct messaging",
@@ -33,6 +36,7 @@ export default function ProfilePage({ socketRef }) {
     "/account-settings": "account settings",
     "/rust-profile": "rust profile",
     "/rocket-league-profile": "rocket league profile",
+    "/battle-bit-profile": "battle bit profile",
   };
   const menuTitle = menuTitleKey[locationPath];
 
@@ -208,6 +212,12 @@ export default function ProfilePage({ socketRef }) {
           )}
           {locationPath === "/rocket-league-profile" ? (
             <ProfileRocketLeague locationPath={locationPath} changeBanner={changeBannerImage}></ProfileRocketLeague>
+          ) : (
+            <> </>
+          )}
+          {/* ***NEW GAME EDIT */}
+          {locationPath === "/battle-bit-profile" ? (
+            <ProfileBattleBit locationPath={locationPath} changeBanner={changeBannerImage}></ProfileBattleBit>
           ) : (
             <> </>
           )}

@@ -8,7 +8,7 @@ import {
   getEndorsementOptions,
   getAllPublishStatus,
 } from "../../utils/rest";
-import { getRocketLeaguePlaylists, howLongAgo } from "../../utils/helperFunctions";
+import { getBattleBitPlaylists, getRocketLeaguePlaylists, howLongAgo } from "../../utils/helperFunctions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import EndorsementTile from "../tiles/endorsementTile";
@@ -37,11 +37,14 @@ const ExpandedProfile = (props: Props) => {
     case "/lfg-rocket-league":
       platformId = 2;
       break;
+    case "/lfg-battle-bit":
+      platformId = 4;
+      break;
     default:
       break;
   }
-
   const rocketLeaguePlaylists: any = getRocketLeaguePlaylists();
+  const battleBitPlaylists: any = getBattleBitPlaylists();
   const rocketLeagueRanks: any = {
     1: (
       <img
@@ -93,13 +96,58 @@ const ExpandedProfile = (props: Props) => {
       ></img>
     ),
   };
-
-  const [exitIcon, setExitIcon] = useState<string>(
-    "https://res.cloudinary.com/kultured-dev/image/upload/v1685814832/exit-icon_la47ch.png"
-  );
+  const battleBitClasses: any = {
+    1: (
+      <img
+        src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-squad-leader_oeskw6.png"
+        alt="squad leader class"
+        style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
+      ></img>
+    ),
+    2: (
+      <img
+        src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413554/battle-bit-classes-assault_k8mydg.png"
+        alt="assault class"
+        style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
+      ></img>
+    ),
+    3: (
+      <img
+        src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-medic_muxa1d.png"
+        alt="medic class"
+        style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
+      ></img>
+    ),
+    4: (
+      <img
+        src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-engineer_qcxbvi.png"
+        alt="engineer class"
+        style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
+      ></img>
+    ),
+    5: (
+      <img
+        src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-support_nqoqth.png"
+        alt="support class"
+        style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
+      ></img>
+    ),
+    6: (
+      <img
+        src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-recon_hjvxjs.png"
+        alt="recon class"
+        style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
+      ></img>
+    ),
+  };
   const [connectionText, setConnectionText] = useState<string>("");
   const [requestSent, setRequestSent] = useState<boolean>(false);
-  const [publishData, setpublishData] = useState<any>({ rust_status: false, rocket_league_status: false });
+  // ***NEW GAME EDIT
+  const [publishData, setpublishData] = useState<any>({
+    rust_status: false,
+    rocket_league_status: false,
+    battle_bit_status: false,
+  });
   const [socialData, setsocialData] = useState<any>({ connections: 0, mutual: 0 });
   const [endorsementFeed, setendorsementFeed] = useState(<li></li>);
   const [endorsementInput, setendorsementInput] = useState(<li></li>);
@@ -421,6 +469,48 @@ const ExpandedProfile = (props: Props) => {
             ) : (
               <></>
             )}
+            {/* Battle Bit Info Section */}
+            {(props.game === "all" || props.game === "battle-bit") && publishData.battle_bit_status ? (
+              <div className="expanded-core-info">
+                <div className="expanded-core-info-title">battle bit info</div>
+                <div className="expanded-core-info-field">
+                  <label>class</label>
+                  <div className="details-rocket-league-playlist">
+                    {battleBitClasses[props.userInfo.battle_bit_class]}
+                  </div>
+                </div>
+                <div className="expanded-core-info-field">
+                  <label>playlist</label>
+                  <div className="details-rocket-league-playlist">
+                    {battleBitPlaylists[props.userInfo.battle_bit_playlist]}
+                  </div>
+                </div>
+                <div className="expanded-core-info-field">
+                  <label>rank</label>
+                  <div>{props.userInfo.battle_bit_rank}</div>
+                </div>
+                <div className="expanded-core-info-field">
+                  <label>hours</label>
+                  <div>{props.userInfo.battle_bit_hours}</div>
+                </div>
+                <div className="expanded-core-info-field">
+                  <label>weekdays</label>
+                  <div>{props.userInfo.battle_bit_weekdays}</div>
+                </div>
+                <div className="expanded-core-info-field">
+                  <label>weekends</label>
+                  <div>{props.userInfo.battle_bit_weekends}</div>
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
+            {(props.game === "all" || props.game === "battle-bit") && publishData.rocket_league_status ? (
+              <div className="expanded-gradient-bar"></div>
+            ) : (
+              <></>
+            )}
+            {/* ***NEW GAME EDIT */}
             {/* Social Section */}
             <div className="expanded-core-info">
               <div className="expanded-core-info-title">social</div>

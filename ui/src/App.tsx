@@ -74,11 +74,14 @@ function App() {
                 {/* Main Paths */}
                 <Route path="/" element={<HomePage socketRef={socketRef} />} />
                 {/* LFG  */}
+                {/* ***NEW  GAME EDIT */}
                 <Route path="/lfg-rust" element={<DiscoverPage />} />
                 <Route path="/lfg-rocket-league" element={<DiscoverPage />} />
+                <Route path="/lfg-battle-bit" element={<DiscoverPage />} />
                 {/* LFM  */}
                 <Route path="/lfm-rust" element={<DiscoverPage />} />
                 <Route path="/lfm-rocket-league" element={<DiscoverPage />} />
+                <Route path="/lfm-battle-bit" element={<DiscoverPage />} />
                 {/* Blog */}
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/how-to-find-great-rust-teammates" element={<BlogArticle1 />} />
@@ -93,8 +96,10 @@ function App() {
                 <Route path="/general-profile" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/add-friend" element={<AddFriend />} />
                 <Route path="/account-settings" element={<ProfilePage socketRef={socketRef} />} />
+                {/* ***NEW  GAME EDIT */}
                 <Route path="/rust-profile" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/rocket-league-profile" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/battle-bit-profile" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/messaging" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/incoming-requests" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/outgoing-requests" element={<ProfilePage socketRef={socketRef} />} />

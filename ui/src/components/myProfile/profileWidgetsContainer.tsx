@@ -5,6 +5,7 @@ import {
   checkGeneralProfileCompletion,
   checkRocketLeagueProfileCompletion,
   checkRustProfileCompletion,
+  checkBattleBitProfileCompletion,
 } from "../../utils/rest";
 import ProfileWidget from "./profileWidget";
 import "./profileWidgetsContainer.scss";
@@ -16,6 +17,7 @@ const ProfileWidgetsContainer = () => {
   const [genProfileComplete, setgenProfileComplete] = useState<boolean>(false);
   const [rustProfileComplete, setrustProfileComplete] = useState<boolean>(false);
   const [rocketLeagueProfileComplete, setrocketLeagueProfileComplete] = useState<boolean>(false);
+  const [battleBitProfileComplete, setbattleBitProfileComplete] = useState<boolean>(false);
   useEffect(() => {
     //Having this logic in the user state use effect means it will await the dispatch to get the latest info. It is otherwise hard to await the dispatch
     if (userData.email && userData.email !== "") {
@@ -25,12 +27,13 @@ const ProfileWidgetsContainer = () => {
   }, [userData]);
 
   const setCompletenessWidget = async () => {
-    // ***When more games get rolled out, this will need to be modified***
     //Check general completion
-    let [generalResult, rustResult, rocketLeagueResult] = await Promise.all([
+    // ***NEW GAME EDIT
+    let [generalResult, rustResult, rocketLeagueResult, battleBitResult] = await Promise.all([
       checkGeneralProfileCompletion(userData.id, ""),
       checkRustProfileCompletion(userData.id, ""),
       checkRocketLeagueProfileCompletion(userData.id, ""),
+      checkBattleBitProfileCompletion(userData.id, ""),
     ]);
     if (generalResult.status === "error") {
       setgenProfileComplete(false);
@@ -47,23 +50,33 @@ const ProfileWidgetsContainer = () => {
     } else {
       setrocketLeagueProfileComplete(true);
     }
+    if (battleBitResult.status === "error") {
+      setbattleBitProfileComplete(false);
+    } else {
+      setbattleBitProfileComplete(true);
+    }
   };
 
   return (
     <div className="widgets-container">
       <ProfileWidget
         value={genProfileComplete}
-        label={"gen profile completed?"}
+        label={"gen profile complete?"}
         tooltipName="genProfileTip"
       ></ProfileWidget>
       <ProfileWidget
         value={rustProfileComplete}
-        label={"rust profile completed?"}
+        label={"rust profile complete?"}
         tooltipName="gameProfileTip"
       ></ProfileWidget>
       <ProfileWidget
         value={rocketLeagueProfileComplete}
-        label={"r.l. profile completed?"}
+        label={"rocket league profile complete?"}
+        tooltipName="gameProfileTip"
+      ></ProfileWidget>
+      <ProfileWidget
+        value={battleBitProfileComplete}
+        label={"battle bit profile complete?"}
         tooltipName="gameProfileTip"
       ></ProfileWidget>
       <Tooltip id="genProfileTip" place="bottom">

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const Sequelize = require("sequelize");
 const { sequelize } = require("../models/index");
-const { getRustTilesQuery, getRocketLeagueTilesQuery } = require("../services/tiles-queries");
+const { getRustTilesQuery, getRocketLeagueTilesQuery, getBattleBitTilesQuery } = require("../services/tiles-queries");
 const { getPendingRequestUserIdsQuery, getExistingConnectionUserIdsQuery } = require("../services/social-queries");
 const moment = require("moment");
 const { findRosterAvatars } = require("../controllers/gangs-controller");
@@ -94,6 +94,49 @@ const getRocketLeagueTiles = async (req, res) => {
   }
 };
 
+const getBattleBitTiles = async (req, res) => {
+  try {
+    console.log(" ♛ A User Requested Battle Bit Tiles ♛ ");
+    const { userId, username, token } = req.body;
+    const getTilesQuery = getBattleBitTilesQuery();
+    const tiles = await sequelize.query(getTilesQuery, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId,
+        username,
+      },
+    });
+    const getPendingRequestsQuery = getPendingRequestUserIdsQuery();
+    let pendingIds = await sequelize.query(getPendingRequestsQuery, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId,
+      },
+    });
+    pendingIds = pendingIds.map(({ userids }) => userids);
+    const existingIdsQuery = getExistingConnectionUserIdsQuery();
+    let existingIds = await sequelize.query(existingIdsQuery, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        userId,
+      },
+    });
+    existingIds = existingIds.map(({ userids }) => userids);
+    //Filter out tiles that the user has pending requests for
+    let filteredTiles = tiles.filter((tile) => {
+      return !pendingIds.includes(tile.id);
+    });
+    //Filter out tiles that the user is already connected with
+    filteredTiles = filteredTiles.filter((tile) => {
+      return !existingIds.includes(tile.id);
+    });
+    res.status(200).send(filteredTiles);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+};
+
 const getLFMGangTiles = async (req, res) => {
   console.log(" ♛ A User Requested Their Gangs ♛ ");
   try {
@@ -123,7 +166,8 @@ const getLFMGangTiles = async (req, res) => {
 };
 
 module.exports = {
+  getLFMGangTiles,
   getRustTiles,
   getRocketLeagueTiles,
-  getLFMGangTiles,
+  getBattleBitTiles,
 };

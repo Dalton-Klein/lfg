@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { attemptPublishRustProfile, getRustPlayerTiles, getRocketLeagueTiles, getLFMGangTiles } from "../../utils/rest";
+import {
+  attemptPublishRustProfile,
+  getRustPlayerTiles,
+  getRocketLeagueTiles,
+  getLFMGangTiles,
+  getBattleBitTiles,
+  attemptPublishRocketLeagueProfile,
+  attemptPublishBattleBitProfile,
+} from "../../utils/rest";
 import FooterComponent from "../nav/footerComponent";
 import FilterBarComponent from "../nav/filter/filterBarComponent";
 import PlayerTile from "../tiles/playerTile";
@@ -16,6 +24,8 @@ export default function DiscoverPage() {
   const locationPath: string = useLocation().pathname;
   const lfgORlfm = locationPath.slice(0, 4);
   const [discoverTitle, setdiscoverTitle] = useState<string>("");
+  const [discoverButtonText, setdiscoverButtonText] = useState<string>("");
+  const [discoverLinkUrl, setdiscoverLinkUrl] = useState<string>("");
   const [tilesFeed, settilesFeed] = useState(<li></li>);
   const [tilesFromDB, setTilesFromDB] = useState<any>([]);
   const [isProfileComplete, setisProfileComplete] = useState<boolean>(false);
@@ -53,7 +63,7 @@ export default function DiscoverPage() {
   }, [preferencesState.discoverFilters]);
 
   const initializePage = () => {
-    determineTitle();
+    determineTitles();
     if (userState.id && userState.id > 0) {
       checkIfProfileComplete();
     } else {
@@ -62,19 +72,38 @@ export default function DiscoverPage() {
     dispatch(resetFilterPreferences());
   };
 
-  const determineTitle = () => {
+  const determineTitles = () => {
+    // ***NEW GAME EDIT
     switch (locationPath) {
       case "/lfg-rust":
         setdiscoverTitle("find rust players");
+        setdiscoverButtonText("my rust profile");
+        setdiscoverLinkUrl("/rust-profile");
         break;
       case "/lfg-rocket-league":
         setdiscoverTitle("find rocket league players");
+        setdiscoverButtonText("my rl profile");
+        setdiscoverLinkUrl("/rocket-league-profile");
         break;
       case "/lfm-rust":
         setdiscoverTitle("find rust gangs");
+        setdiscoverButtonText("my rust profile");
+        setdiscoverLinkUrl("/rust-profile");
         break;
       case "/lfm-rocket-league":
         setdiscoverTitle("find rocket league gangs");
+        setdiscoverButtonText("my rl profile");
+        setdiscoverLinkUrl("/rocket-league-profile");
+        break;
+      case "/lfg-battle-bit":
+        setdiscoverTitle("find battle bit players");
+        setdiscoverButtonText("my battle bit profile");
+        setdiscoverLinkUrl("/battle-bit-profile");
+        break;
+      case "/lfm-battle-bit":
+        setdiscoverTitle("find battle bit gangs");
+        setdiscoverButtonText("my battle bit profile");
+        setdiscoverLinkUrl("/battle-bit-profile");
         break;
     }
   };
@@ -96,12 +125,39 @@ export default function DiscoverPage() {
       case "/lfm-rocket-league":
         tiles = await getLFMGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 2, "nothing");
         break;
+      case "/lfg-battle-bit":
+        tiles = await getBattleBitTiles(userState.id && userState.id > 0 ? userState.id : 0, "nothing");
+        break;
+      case "/lfm-battle-bit":
+        tiles = await getLFMGangTiles(userState.id && userState.id > 0 ? userState.id : 0, 4, "nothing");
+        break;
     }
     setTilesFromDB(tiles);
   };
 
   const checkIfProfileComplete = async () => {
-    const isCompleteResult = await attemptPublishRustProfile(userState.id, "nothing");
+    // ***NEW GAME EDIT
+    let isCompleteResult;
+    switch (locationPath) {
+      case "/lfg-rust":
+        isCompleteResult = await attemptPublishRustProfile(userState.id, "nothing");
+        break;
+      case "/lfg-rocket-league":
+        isCompleteResult = await attemptPublishRocketLeagueProfile(userState.id, "nothing");
+        break;
+      case "/lfm-rust":
+        isCompleteResult = await attemptPublishRustProfile(userState.id, "nothing");
+        break;
+      case "/lfm-rocket-league":
+        isCompleteResult = await attemptPublishRocketLeagueProfile(userState.id, "nothing");
+        break;
+      case "/lfg-battle-bit":
+        isCompleteResult = await attemptPublishBattleBitProfile(userState.id, "nothing");
+        break;
+      case "/lfm-battle-bit":
+        isCompleteResult = await attemptPublishBattleBitProfile(userState.id, "nothing");
+        break;
+    }
     setisProfileComplete(isCompleteResult.status === "success" ? true : false);
     fetchTilesData();
   };
@@ -293,13 +349,7 @@ export default function DiscoverPage() {
 
   return (
     <div>
-      <BannerAlt
-        title={discoverTitle}
-        buttonText={locationPath === "/lfg-rust" || locationPath === "/lfm-rust" ? "my rust profile" : "my rl profile"}
-        buttonLink={
-          locationPath === "/lfg-rust" || locationPath === "/lfm-rust" ? "/rust-profile" : "/rocket-league-profile"
-        }
-      ></BannerAlt>
+      <BannerAlt title={discoverTitle} buttonText={discoverButtonText} buttonLink={discoverLinkUrl}></BannerAlt>
       <FilterBarComponent clearFiltersMethod={clearAllFiltersAndSorting}></FilterBarComponent>
       <div className="feed">{tilesFeed}</div>
       <FooterComponent></FooterComponent>
