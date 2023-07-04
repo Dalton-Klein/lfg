@@ -16,7 +16,7 @@ export default function BlogPage() {
         <div className="blog-content-container">
           <BlogTile
             routerLink="/blog/battle-bit-support"
-            title="battle bit is here!"
+            title="battlebit is here!"
             updated_on="07/03/2023 | 2 min read"
             preview="The new game has taken steam by storm. It was number 2 on the steam store..."
           ></BlogTile>

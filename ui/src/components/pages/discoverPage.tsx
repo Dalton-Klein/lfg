@@ -96,13 +96,13 @@ export default function DiscoverPage() {
         setdiscoverLinkUrl("/rocket-league-profile");
         break;
       case "/lfg-battle-bit":
-        setdiscoverTitle("find battle bit players");
-        setdiscoverButtonText("my battle bit profile");
+        setdiscoverTitle("find battlebit players");
+        setdiscoverButtonText("my battlebit profile");
         setdiscoverLinkUrl("/battle-bit-profile");
         break;
       case "/lfm-battle-bit":
-        setdiscoverTitle("find battle bit gangs");
-        setdiscoverButtonText("my battle bit profile");
+        setdiscoverTitle("find battlebit gangs");
+        setdiscoverButtonText("my battlebit profile");
         setdiscoverLinkUrl("/battle-bit-profile");
         break;
     }

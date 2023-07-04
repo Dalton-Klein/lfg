@@ -19,7 +19,7 @@ export default function ProfileBattleBit(props: Props) {
       label: (
         <img
           src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-squad-leader_oeskw6.png"
-          alt="battle bit squad leader class"
+          alt="battlebit squad leader class"
           style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
         ></img>
       ),
@@ -31,7 +31,7 @@ export default function ProfileBattleBit(props: Props) {
       label: (
         <img
           src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413554/battle-bit-classes-assault_k8mydg.png"
-          alt="battle bit assault class"
+          alt="battlebit assault class"
           style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
         ></img>
       ),
@@ -43,7 +43,7 @@ export default function ProfileBattleBit(props: Props) {
       label: (
         <img
           src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-medic_muxa1d.png"
-          alt="battle bit medic class"
+          alt="battlebit medic class"
           style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
         ></img>
       ),
@@ -55,7 +55,7 @@ export default function ProfileBattleBit(props: Props) {
       label: (
         <img
           src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-engineer_qcxbvi.png"
-          alt="battle bit engineer class"
+          alt="battlebit engineer class"
           style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
         ></img>
       ),
@@ -67,7 +67,7 @@ export default function ProfileBattleBit(props: Props) {
       label: (
         <img
           src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-support_nqoqth.png"
-          alt="battle bit support class"
+          alt="battlebit support class"
           style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
         ></img>
       ),
@@ -79,7 +79,7 @@ export default function ProfileBattleBit(props: Props) {
       label: (
         <img
           src="https://res.cloudinary.com/kultured-dev/image/upload/v1688413506/battle-bit-classes-recon_hjvxjs.png"
-          alt="battle bit recon class"
+          alt="battlebit recon class"
           style={{ maxHeight: "5vh", maxWidth: "5vh", minHeight: "5vh", minWidth: "5vh" }}
         ></img>
       ),
@@ -212,7 +212,7 @@ export default function ProfileBattleBit(props: Props) {
         toast.current?.clear();
         toast.current.show({
           severity: "success",
-          summary: "battle bit profile published!",
+          summary: "battlebit profile published!",
           detail: ``,
           sticky: false,
         });
@@ -253,7 +253,7 @@ export default function ProfileBattleBit(props: Props) {
       {/* START BATTLE BIT SETTINGS */}
       <div className="banner-container">
         <div className="prof-banner-detail-text" data-tip data-tooltip-id="publishTip">
-          publish battle bit profile
+          publish battlebit profile
         </div>
         <input
           checked={isProfileDiscoverable}

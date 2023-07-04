@@ -472,7 +472,7 @@ const ExpandedProfile = (props: Props) => {
             {/* Battle Bit Info Section */}
             {(props.game === "all" || props.game === "battle-bit") && publishData.battle_bit_status ? (
               <div className="expanded-core-info">
-                <div className="expanded-core-info-title">battle bit info</div>
+                <div className="expanded-core-info-title">battlebit info</div>
                 <div className="expanded-core-info-field">
                   <label>class</label>
                   <div className="details-rocket-league-playlist">

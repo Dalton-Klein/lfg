@@ -219,7 +219,7 @@ export default function ProfileInlayComponet({ socketRef }) {
             }}
             className="discover-navigator-option-image"
             src={"https://res.cloudinary.com/kultured-dev/image/upload/v1688414978/battle-bit-logo_ctgigq.jpg"}
-            alt={`link to battle bit discovery`}
+            alt={`link to battlebit discovery`}
           />
         ),
       },
@@ -275,7 +275,7 @@ export default function ProfileInlayComponet({ socketRef }) {
             }}
             className="discover-navigator-option-image"
             src={"https://res.cloudinary.com/kultured-dev/image/upload/v1688414978/battle-bit-logo_ctgigq.jpg"}
-            alt={`link to battle bit profile`}
+            alt={`link to battlebit profile`}
           />
         ),
       },

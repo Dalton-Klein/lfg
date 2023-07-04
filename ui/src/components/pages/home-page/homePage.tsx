@@ -76,7 +76,7 @@ export default function HomePage({ socketRef }) {
             routerLinkLFG="/lfg-battle-bit"
             routerLinkLFM="/lfm-battle-bit"
             image="https://res.cloudinary.com/kultured-dev/image/upload/v1688412634/MXCsRopuFE4LJdKeTEE3uY_dhzham.jpg"
-            title="battle bit remastered"
+            title="battlebit remastered"
             buttonTextLFG="lfg"
             buttonTextLFM="lfm"
           ></DaddyTile>
