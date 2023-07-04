@@ -76,7 +76,7 @@ const ProfileWidgetsContainer = () => {
       ></ProfileWidget>
       <ProfileWidget
         value={battleBitProfileComplete}
-        label={"battle bit profile complete?"}
+        label={"battlebit profile complete?"}
         tooltipName="gameProfileTip"
       ></ProfileWidget>
       <Tooltip id="genProfileTip" place="bottom">

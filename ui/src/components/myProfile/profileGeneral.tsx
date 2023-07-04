@@ -260,7 +260,7 @@ export default function ProfileGeneral(props: Props) {
         <GameTile
           imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1687803327/BattleBit_jcjxkp.webp"}
           routerLink={"/battle-bit-profile"}
-          title={"battle bit profile"}
+          title={"battlebit profile"}
           changeBanner={props.changeBanner}
         ></GameTile>
       </div>

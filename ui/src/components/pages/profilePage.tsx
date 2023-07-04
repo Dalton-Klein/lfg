@@ -36,7 +36,7 @@ export default function ProfilePage({ socketRef }) {
     "/account-settings": "account settings",
     "/rust-profile": "rust profile",
     "/rocket-league-profile": "rocket league profile",
-    "/battle-bit-profile": "battle bit profile",
+    "/battle-bit-profile": "battlebit profile",
   };
   const menuTitle = menuTitleKey[locationPath];
 

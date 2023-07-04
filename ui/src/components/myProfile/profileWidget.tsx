@@ -27,7 +27,7 @@ export default function ProfileWidget(props: any) {
       case "rocket league profile complete?":
         navigate(`/rocket-league-profile`);
         break;
-      case "battle bit profile complete?":
+      case "battlebit profile complete?":
         navigate(`/battle-bit-profile`);
         break;
     }

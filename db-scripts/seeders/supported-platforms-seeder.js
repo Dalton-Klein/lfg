@@ -31,7 +31,7 @@ module.exports = {
           },
           {
             id: 4,
-            name: "battle bit remastered",
+            name: "battlebit remastered",
             ...defaultValues,
           },
         ],

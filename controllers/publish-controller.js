@@ -268,7 +268,7 @@ const checkIfUserCanPublishRocketLeagueProfile = async (req, res) => {
 };
 
 /*
-check battle bit and gen profile at once
+check battlebit and gen profile at once
 */
 const checkIfUserCanPublishBattleBitProfile = async (req, res) => {
   try {

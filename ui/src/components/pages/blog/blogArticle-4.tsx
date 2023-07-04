@@ -38,7 +38,7 @@ export default function BlogArticle4() {
     <div ref={topOfPageRef}>
       <div className="article-master-container">
         <BannerTitle
-          title={"battle bit is here!"}
+          title={"battlebit is here!"}
           imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg"}
         ></BannerTitle>
         <div className="article-header-info">
