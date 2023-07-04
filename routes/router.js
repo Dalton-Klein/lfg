@@ -47,6 +47,7 @@ router.post("/get-gang-chat-history", messageController.getChatHistoryForGang);
 //SOCIAL ROUTES
 router.post("/social", userController.getSocialDetails);
 router.post("/total-user-count", userController.getTotalUserCount);
+router.post("/rank-leaderboard", userController.getRankingLeaderboard);
 
 //CONNECTIONS RELATED ROUTES
 router.post("/connection-request", connectionsController.sendConnectionRequest);

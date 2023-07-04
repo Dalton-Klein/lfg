@@ -121,6 +121,17 @@ export default function RankPage() {
         imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}
       ></BannerTitle>
       <div className="rank-progression-container">
+        <div className="back-container">
+          <button
+            className="back-button"
+            onClick={() => {
+              navigate("/general-profile");
+            }}
+          >
+            &nbsp; general profile &nbsp;
+          </button>
+        </div>
+        <div className="gradient-bar"></div>
         {/* Welcome */}
         <div className="rank-section-container">
           <div className="rank-section-title">rank & prestige</div>

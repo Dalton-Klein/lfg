@@ -38,7 +38,6 @@ export default function BlogArticle3() {
 
   const loadUserCount = async () => {
     const userCountResult = await getUserCount(userState.id, "");
-    console.log("what is rezz? ", userCountResult);
     setuserCount(userCountResult);
   };
 

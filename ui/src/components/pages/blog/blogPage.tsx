@@ -15,6 +15,12 @@ export default function BlogPage() {
         {/* Welcome */}
         <div className="blog-content-container">
           <BlogTile
+            routerLink="/blog/rankup-promo"
+            title="gangs rank up promo"
+            updated_on="07/04/2023 | 2 min read"
+            preview="We are giving out $20 bundles of in game items of your choosing..."
+          ></BlogTile>
+          <BlogTile
             routerLink="/blog/battle-bit-support"
             title="battlebit is here!"
             updated_on="07/03/2023 | 2 min read"
