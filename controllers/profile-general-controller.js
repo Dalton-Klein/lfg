@@ -32,6 +32,44 @@ const getTotalUserCount = async (req, res) => {
   }
 };
 
+const getRankingLeaderboard = async (req, res) => {
+  try {
+    const { userId, token } = req.body;
+    // const query = format('SELECT * FROM %I WHERE my_col = %L %s', 'my_table', 34, 'LIMIT 10');
+    const query = `
+        select u.username, 
+               u.avatar_url, 
+               r.user_id, 
+               sum(r.points) as total_points
+          from public.redeems r
+          join public.users u
+            on u.id = r.user_id
+      group by u.username, u.avatar_url, user_id, r.user_id
+      order by sum(r.points) desc;
+    `;
+    const reply = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+    });
+    let result = [];
+    if (reply && reply[0]) {
+      let count = 0;
+      reply.forEach((rec) => {
+        if (count < 10) {
+          result.push(rec);
+          count++;
+        } else if (rec.user_id === userId) {
+          result.push(rec);
+          count++;
+        }
+      });
+    }
+    res.status(200).send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("POST ERROR");
+  }
+};
+
 const getUserDetails = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -253,6 +291,7 @@ const deleteAccount = async (id) => {
 
 module.exports = {
   getTotalUserCount,
+  getRankingLeaderboard,
   getUserDetails,
   getUserDetailsAndConnectedStatus,
   getEmailPrefs,

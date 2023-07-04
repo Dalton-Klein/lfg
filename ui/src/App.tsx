@@ -27,6 +27,7 @@ import AddFriend from "./components/pages/addFriend";
 import RankPage from "./components/pages/rankPage";
 import SteamSignUpPage from "./components/authentication/steamSignUp";
 import BlogArticle4 from "./components/pages/blog/blogArticle-4";
+import BlogArticle5 from "./components/pages/blog/blogArticle-5";
 // ***ELECTRON DISABLE
 // import ElectronTitlebar from "./components/nav/electronTitleBar";
 
@@ -89,6 +90,7 @@ function App() {
                 <Route path="/blog/rocket-league-minecraft-support" element={<BlogArticle2 />} />
                 <Route path="/blog/signup-promo" element={<BlogArticle3 />} />
                 <Route path="/blog/battle-bit-support" element={<BlogArticle4 />} />
+                <Route path="/blog/rankup-promo" element={<BlogArticle5 />} />
                 {/* Gangs Paths */}
                 <Route path="/create-gang" element={<GangsPage />} />
                 <Route path="/join-gang" element={<JoinGangPage />} />

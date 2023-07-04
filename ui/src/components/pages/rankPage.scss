@@ -34,6 +34,19 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 2vh;
+    .back-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 9vh;
+      max-height: 9vh;
+      .back-button {
+        display: flex;
+        align-items: center;
+        vertical-align: middle;
+        font-size: $font2;
+      }
+    }
     .gradient-bar {
       min-width: 95%;
       min-height: 1px;

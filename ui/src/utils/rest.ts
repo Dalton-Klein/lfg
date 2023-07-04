@@ -168,6 +168,25 @@ export const getUserCount = async (userId: number, token: string) => {
   }
 };
 
+export const getRankLeaderboard = async (userId: number, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/rank-leaderboard`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while fetching user count`);
+  }
+};
+
 export const getRustPlayerTiles = async (userId: number, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/rust-tiles`, {

@@ -64,15 +64,6 @@ export default function HomePage({ socketRef }) {
           ></DaddyTile>
           <DaddyTile
             has2Buttons={true}
-            routerLinkLFG="/lfg-rocket-league"
-            routerLinkLFM="/lfm-rocket-league"
-            image="https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg"
-            title="rocket league"
-            buttonTextLFG="lfg"
-            buttonTextLFM="lfm"
-          ></DaddyTile>
-          <DaddyTile
-            has2Buttons={true}
             routerLinkLFG="/lfg-battle-bit"
             routerLinkLFM="/lfm-battle-bit"
             image="https://res.cloudinary.com/kultured-dev/image/upload/v1688412634/MXCsRopuFE4LJdKeTEE3uY_dhzham.jpg"
@@ -80,18 +71,17 @@ export default function HomePage({ socketRef }) {
             buttonTextLFG="lfg"
             buttonTextLFM="lfm"
           ></DaddyTile>
-          {/* NEW GAME EDIT */}
           <DaddyTile
-            has2Buttons={false}
-            routerLinkLFG="/blog/signup-promo"
-            routerLinkLFM=""
-            image="https://res.cloudinary.com/kultured-dev/image/upload/v1686770431/g6ouckgsguxpxha8icjo.jpg"
-            title="sign up promo | win rust skins"
-            buttonTextLFG="see details"
-            buttonTextLFM=""
+            has2Buttons={true}
+            routerLinkLFG="/lfg-rocket-league"
+            routerLinkLFM="/lfm-rocket-league"
+            image="https://res.cloudinary.com/kultured-dev/image/upload/v1665601538/rocket-league_fncx5c.jpg"
+            title="rocket league"
+            buttonTextLFG="lfg"
+            buttonTextLFM="lfm"
           ></DaddyTile>
+          {/* NEW GAME EDIT */}
         </div>
-
         <div className="nav-tiles">
           {conditionalAuthTile}
           {conditionalDashTile}
@@ -104,6 +94,29 @@ export default function HomePage({ socketRef }) {
         </div>
       </div>
       <AboutComponent socketRef={socketRef}></AboutComponent>
+      <div className="title-box">
+        <h2 className="main-title">promos</h2>
+      </div>
+      <div className="extra-tiles">
+        <DaddyTile
+          has2Buttons={false}
+          routerLinkLFG="/blog/rankup-promo"
+          routerLinkLFM=""
+          image="https://res.cloudinary.com/kultured-dev/image/upload/v1687803327/BattleBit_jcjxkp.webp"
+          title="rank up promo | win $20 bundles"
+          buttonTextLFG="see details"
+          buttonTextLFM=""
+        ></DaddyTile>
+        <DaddyTile
+          has2Buttons={false}
+          routerLinkLFG="/blog/signup-promo"
+          routerLinkLFM=""
+          image="https://res.cloudinary.com/kultured-dev/image/upload/v1686770431/g6ouckgsguxpxha8icjo.jpg"
+          title="sign up promo | win rust skins"
+          buttonTextLFG="see details"
+          buttonTextLFM=""
+        ></DaddyTile>
+      </div>
       <div className="title-box">
         <h2 className="main-title">games coming soon</h2>
       </div>
