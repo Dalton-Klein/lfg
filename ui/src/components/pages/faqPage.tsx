@@ -97,6 +97,23 @@ export default function FAQPage() {
             </div>
           </div>
         </div>
+        {/* Support */}
+        <div className="faq-content-container" ref={welcomeRef}>
+          <div className="faq-sub-title">Support Tickets</div>
+          <div className="faq-paragraph">
+            If you have an issue that is not covered in this page, move over to the support area. The support page
+            allows you to create new support tickets, view existing tickets you have created, or leave feedback.
+          </div>
+          <div className="faq-centered">
+            <button
+              onClick={() => {
+                changeSelection("support");
+              }}
+            >
+              Support
+            </button>
+          </div>
+        </div>
         {/* Welcome */}
         <div className="faq-content-container" ref={welcomeRef}>
           <div className="faq-sub-title">Welcome</div>

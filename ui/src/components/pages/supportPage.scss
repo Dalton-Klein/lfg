@@ -1,0 +1,43 @@
+@import "../../styling/config";
+.support-master {
+  min-width: 95vw;
+  .support-master-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 90vh;
+    min-width: 100%;
+    .gradient-bar {
+      min-width: 100%;
+      min-height: 1px;
+      max-height: 1px;
+      background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+    }
+    .support-content-container {
+      min-height: 100%;
+      min-width: 100%;
+      margin: 2vh 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      .support-title {
+        font-size: $font4;
+        margin-top: 2vh;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $screenBreak1) {
+  .support-master {
+    min-width: 91vw;
+  }
+}
+
+@media screen and (max-width: $screenBreak2) {
+  .support-master {
+    min-width: 88vw;
+  }
+}

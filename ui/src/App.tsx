@@ -28,6 +28,7 @@ import RankPage from "./components/pages/rankPage";
 import SteamSignUpPage from "./components/authentication/steamSignUp";
 import BlogArticle4 from "./components/pages/blog/blogArticle-4";
 import BlogArticle5 from "./components/pages/blog/blogArticle-5";
+import SupportPage from "./components/pages/supportPage";
 // ***ELECTRON DISABLE
 // import ElectronTitlebar from "./components/nav/electronTitleBar";
 
@@ -111,6 +112,7 @@ function App() {
                 <Route path="/my-rank" element={<RankPage />} />
                 {/* Less Used Pages */}
                 <Route path="/help" element={<FAQPage />} />
+                <Route path="/support" element={<SupportPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/steam-signup/:steamId" element={<SteamSignUpPage />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
