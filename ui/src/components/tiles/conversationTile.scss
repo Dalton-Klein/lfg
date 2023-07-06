@@ -28,7 +28,8 @@
     align-items: center;
     cursor: pointer;
     .dynamic-conversation-text-small {
-      font-size: $font3;
+      font-size: $font2;
+      text-align: center;
     }
   }
   .conversation-profile-image:hover {

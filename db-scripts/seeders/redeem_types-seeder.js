@@ -95,6 +95,14 @@ module.exports = {
             points: 5,
             ...defaultValues,
           },
+          {
+            id: 11,
+            name: "community first",
+            description: "Awarded for creating a feedback support ticket.",
+            max_redeems: 2,
+            points: 3,
+            ...defaultValues,
+          },
         ],
         { transaction }
       );

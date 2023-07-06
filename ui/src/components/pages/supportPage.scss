@@ -22,12 +22,17 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
+      .no-tickets-notifier {
+        font-size: $font4;
+        text-align: center;
+        margin-top: 5vh;
+      }
       .support-title {
         font-size: $font4;
         margin-top: 2vh;
       }
       .create-ticket-container {
-        margin: 1vh 2vw;
+        margin: 2vh 2vw;
         padding: 1vh 1vw;
         border: 2px solid $colorGreyPop;
         border-radius: $borderRadius1;

@@ -65,6 +65,7 @@ exports.sendEmail = async (req, vKey, subjectId, username = "") => {
       4: `your connection request was accepted on ${appName}`,
       5: `you received a new message on ${appName}`,
       6: `your ${appName} account has been created`,
+      7: `a new support ticket has been created`,
     };
     const emailTemplates = {
       1: "verification",
@@ -73,6 +74,7 @@ exports.sendEmail = async (req, vKey, subjectId, username = "") => {
       4: "connection-accepted",
       5: "new-message",
       6: "welcome",
+      7: `ticket`,
     };
     const data = {
       from: `${appName} <${process.env.EMAIL}>`,

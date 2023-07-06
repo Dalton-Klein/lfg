@@ -134,7 +134,15 @@ const DrawerComponent = (props: Props) => {
             }}
             className="hamburger-links"
           >
-            <button className="hamburger-button">help | faq</button>
+            <button className="hamburger-button">tutorials | faq</button>
+          </div>
+          <div
+            onClick={() => {
+              navigationButtonPressed("support");
+            }}
+            className="hamburger-links"
+          >
+            <button className="hamburger-button">support</button>
           </div>
           <div className="hamburger-links">
             <button

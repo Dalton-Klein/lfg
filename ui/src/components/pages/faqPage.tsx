@@ -28,7 +28,7 @@ export default function FAQPage() {
     <div>
       <div className="faq-master-container">
         <BannerTitle
-          title={"help | faq"}
+          title={"tutorials | faq"}
           imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}
         ></BannerTitle>
         {/* Contents */}
