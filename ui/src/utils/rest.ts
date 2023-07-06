@@ -1093,3 +1093,45 @@ export const updateGangField = async (id: number, field: string, value: any) => 
   return;
 };
 // ** END GANG ROUTES
+
+// ** START TICKET ROUTES
+export const getMyTickets = async (userId: number, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/get-tickets`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while fetching tickets`);
+  }
+};
+
+export const createTicket = async (userId: number, type: number, description: string, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/open-ticket`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        type,
+        description,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while creating ticket`);
+  }
+};
+// ** END TICKET ROUTES

@@ -1,0 +1,77 @@
+@import "../../styling/config";
+.support-master {
+  min-width: 95vw;
+  .support-master-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 90vh;
+    min-width: 100%;
+    .gradient-bar {
+      min-width: 100%;
+      min-height: 1px;
+      max-height: 1px;
+      background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+    }
+    .support-content-container {
+      min-height: 100%;
+      min-width: 100%;
+      margin: 2vh 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      .no-tickets-notifier {
+        font-size: $font4;
+        text-align: center;
+        margin-top: 5vh;
+      }
+      .support-title {
+        font-size: $font4;
+        margin-top: 2vh;
+      }
+      .create-ticket-container {
+        margin: 2vh 2vw;
+        padding: 1vh 1vw;
+        border: 2px solid $colorGreyPop;
+        border-radius: $borderRadius1;
+        max-width: 900px;
+        min-width: 80%;
+        min-height: 30vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        .ticket-subtitle {
+          margin-top: 2vh;
+          margin-bottom: 1vh;
+          text-align: center;
+          font-size: $font2;
+        }
+        .ticket-help-text {
+          text-align: center;
+          color: $colorTextAlt;
+        }
+        textarea {
+          min-width: 85%;
+        }
+        input {
+          min-width: 85%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $screenBreak1) {
+  .support-master {
+    min-width: 91vw;
+  }
+}
+
+@media screen and (max-width: $screenBreak2) {
+  .support-master {
+    min-width: 88vw;
+  }
+}

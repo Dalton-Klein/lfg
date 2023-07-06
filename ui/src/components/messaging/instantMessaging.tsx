@@ -83,12 +83,12 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     setchat([
       {
         connection_id: 1,
-        created_at: `${moment().format()}`,
+        created_at: `${moment().format("MM-DD-YYYY h:mmA")}`,
         id: 0,
         message: "loading...",
         is_image: false,
         sender: "gangs team",
-        updated_at: `${moment().format()}`,
+        updated_at: `${moment().format("MM-DD-YYYY h:mmA")}`,
         username: "gangs team",
         rank: 1,
         avatar_url:
@@ -165,7 +165,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
 
   const onMessageSubmit = (e: any) => {
     const { roomId, senderId, sender, message } = messageState;
-    const timestamp = moment().format();
+    const timestamp = moment().format("MM-DD-YYYY h:mmA");
     if (message.length > 750) {
       toast.current?.clear();
       toast.current.show({
@@ -320,7 +320,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
   };
   const onImageSubmit = (url: string | undefined) => {
     const { roomId, senderId, sender } = messageState;
-    const timestamp = moment().format();
+    const timestamp = moment().format("MM-DD-YYYY h:mmA");
     if (!url) {
       toast.current?.clear();
       toast.current.show({

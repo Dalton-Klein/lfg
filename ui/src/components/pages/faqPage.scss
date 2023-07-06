@@ -50,6 +50,11 @@
       margin: 2vh 4vw;
       font-size: $font2;
     }
+    .faq-centered {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     .faq-paragraph {
       text-align: left;
       margin: 1vh 4vw;
