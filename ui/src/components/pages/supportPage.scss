@@ -43,6 +43,12 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-evenly;
+        .react-select-container {
+          color: $colorGreyPop !important;
+          .react-select__control {
+            background-color: $colorGreyPop;
+          }
+        }
         .ticket-subtitle {
           margin-top: 2vh;
           margin-bottom: 1vh;
