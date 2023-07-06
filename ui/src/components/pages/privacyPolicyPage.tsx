@@ -5,7 +5,7 @@ import "./privacyPolicyPage.scss";
 
 export default function PrivacyPolicyPage() {
   return (
-    <div>
+    <div className="pp-master">
       <BannerTitle
         title={"privacy policy"}
         imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}

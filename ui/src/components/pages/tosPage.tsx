@@ -7,7 +7,7 @@ import "./tosPage.scss";
 export default function TermsOfServicePage() {
   const navigate = useNavigate();
   return (
-    <div>
+    <div className="tos-master">
       <BannerTitle
         title={"terms of service"}
         imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}
