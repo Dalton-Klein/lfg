@@ -84,7 +84,7 @@ export default function BlogArticle4() {
             {" "}
             Rolling out new games to the platform is exciting news! If you want to keep up to date on the status of new
             releases, or to request a game to support, join our{" "}
-            <a href="https://discord.gg/MMaYZ8bUQc" className="link-text">
+            <a href="https://discord.gg/2JUsEphFwG" className="link-text">
               {" "}
               discord
             </a>{" "}
