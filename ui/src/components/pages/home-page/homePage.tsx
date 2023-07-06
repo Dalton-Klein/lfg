@@ -86,7 +86,7 @@ export default function HomePage({ socketRef }) {
           {conditionalAuthTile}
           {conditionalDashTile}
           <MediumTile
-            routerLink="https://discord.gg/MMaYZ8bUQc"
+            routerLink="https://discord.gg/2JUsEphFwG"
             imageLink="pi pi-discord"
             title="join our discord"
           ></MediumTile>

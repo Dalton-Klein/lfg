@@ -26,6 +26,35 @@
         font-size: $font4;
         margin-top: 2vh;
       }
+      .create-ticket-container {
+        margin: 1vh 2vw;
+        padding: 1vh 1vw;
+        border: 2px solid $colorGreyPop;
+        border-radius: $borderRadius1;
+        max-width: 900px;
+        min-width: 80%;
+        min-height: 30vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        .ticket-subtitle {
+          margin-top: 2vh;
+          margin-bottom: 1vh;
+          text-align: center;
+          font-size: $font2;
+        }
+        .ticket-help-text {
+          text-align: center;
+          color: $colorTextAlt;
+        }
+        textarea {
+          min-width: 85%;
+        }
+        input {
+          min-width: 85%;
+        }
+      }
     }
   }
 }
