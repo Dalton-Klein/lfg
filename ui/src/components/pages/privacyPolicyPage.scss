@@ -1,43 +1,56 @@
-@import '../../styling/config';
+@import "../../styling/config";
+.pp-master {
+  min-width: 95vw;
+  .pp-master-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .gradient-bar {
+      min-width: 100%;
+      min-height: 1px;
+      max-height: 1px;
+      background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+    }
 
-.pp-master-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	.gradient-bar {
-		min-width: 100%;
-		min-height: 1px;
-		max-height: 1px;
-		background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
-	}
+    .pp-content-container {
+      margin: 1vh 2vw;
+      padding: 1vh 1vw;
+      background-color: $colorGreyPop;
+      border-radius: $borderRadius1;
+      max-width: 900px;
+      min-width: 80%;
+      .pp-sub-title {
+        text-align: center;
+        margin: 2vh 1vw;
+        font-size: $font3;
+      }
+      .pp-sub-heading {
+        text-align: left;
+        margin: 2vh 4vw;
+        font-size: $font2;
+      }
+      .pp-paragraph {
+        text-align: left;
+        margin: 1vh 4vw;
+        font-size: $font2;
+        color: $colorTextAlt;
+        .link-text {
+          color: $colorSecondary;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: $screenBreak1) {
+  .pp-master {
+    min-width: 91vw;
+  }
+}
 
-	.pp-content-container {
-		margin: 1vh 2vw;
-		padding: 1vh 1vw;
-		background-color: $colorGreyPop;
-		border-radius: $borderRadius1;
-		max-width: 900px;
-		min-width: 80%;
-		.pp-sub-title {
-			text-align: center;
-			margin: 2vh 1vw;
-			font-size: $font3;
-		}
-		.pp-sub-heading {
-			text-align: left;
-			margin: 2vh 4vw;
-			font-size: $font2;
-		}
-		.pp-paragraph {
-			text-align: left;
-			margin: 1vh 4vw;
-			font-size: $font2;
-			color: $colorTextAlt;
-			.link-text {
-				color: $colorSecondary;
-				cursor: pointer;
-			}
-		}
-	}
+@media screen and (max-width: $screenBreak2) {
+  .pp-master {
+    min-width: 88vw;
+  }
 }
