@@ -53,6 +53,7 @@ const getRustTilesQuery = () => {
             ur.hours,
             ur.server_type_id,
             ur.wipe_day_preference
+   order by ug.last_seen desc
 `;
 };
 
@@ -89,6 +90,7 @@ const getRocketLeagueTilesQuery = () => {
       on av2.id = ur.weekdays
    where u.id != :userId
      and ur.is_published = true
+order by ug.last_seen desc
 `;
 };
 
@@ -126,6 +128,7 @@ const getBattleBitTilesQuery = () => {
       on av2.id = ur.weekdays
    where u.id != :userId
      and ur.is_published = true
+order by ug.last_seen desc
 `;
 };
 
