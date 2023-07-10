@@ -248,6 +248,22 @@ export const memberSearchFormOut = () => {
   });
 };
 
+export const addChannelFormIn = () => {
+  gsap.from(".add-channel-form", 0.3, {
+    y: -500,
+    ease: "back.out(1.3)",
+  });
+  gsap.to(".add-channel-form", 0.1, {
+    opacity: 1,
+  });
+};
+
+export const addChannelFormOut = () => {
+  gsap.to(".add-channel-form", 0.3, {
+    opacity: 0,
+  });
+};
+
 //Confirm Trade Delete Form
 export const confirmFormIn = () => {
   gsap.from(".confirm-delete-form", 0.3, {
