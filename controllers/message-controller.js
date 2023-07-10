@@ -23,8 +23,9 @@ const saveMessage = async (connectionId, senderId, content, isImage, timestamp) 
                       :isImage,
                       :created_at, 
                       :updated_at)
+            returning id;
     `;
-    await sequelize.query(query, {
+    const result = await sequelize.query(query, {
       type: Sequelize.QueryTypes.INSERT,
       replacements: {
         connection_id: connectionId,
@@ -48,7 +49,8 @@ const saveMessage = async (connectionId, senderId, content, isImage, timestamp) 
         senderId !== connectionResult.sender ? connectionResult.acceptor : connectionResult.sender
       );
     }
-    return;
+    const messageId = result[0][0].id;
+    return messageId;
   } catch (err) {
     console.log(err);
   }
@@ -70,8 +72,9 @@ const saveGangMessage = async (channelId, senderId, content, isImage, timestamp)
                       :isImage,
                       :created_at, 
                       :updated_at)
+            returning id;
     `;
-    await sequelize.query(query, {
+    const result = await sequelize.query(query, {
       type: Sequelize.QueryTypes.INSERT,
       replacements: {
         chat_id: channelId,
@@ -82,10 +85,11 @@ const saveGangMessage = async (channelId, senderId, content, isImage, timestamp)
         updated_at: timestamp,
       },
     });
+    const messageId = result[0][0].id;
     //Update connection updated at, so convos can be sorted by recency
     await updateGangChannelTimestamp(channelId);
     await createRedemptionForUser(senderId, 9);
-    return;
+    return messageId;
   } catch (err) {
     console.log(err);
   }
@@ -103,6 +107,7 @@ const getChatHistoryForUser = async (req, res) => {
            left join public.redeems rd
                   on rd.user_id = u.id
                where m.connection_id = :chatId
+                 and m.is_deleted = false
             group by m.id, u.id, u.username, u.avatar_url
             order by m.created_at asc
             `;
@@ -138,6 +143,7 @@ const getChatHistoryForGang = async (req, res) => {
            left join public.redeems rd
                   on rd.user_id = u.id
                where gm.chat_id = :channelId
+                 and gm.is_deleted = false
             group by gm.id, u.id, u.username, u.avatar_url
             order by gm.created_at asc
             `;
@@ -161,9 +167,34 @@ const getChatHistoryForGang = async (req, res) => {
   }
 };
 
+const softDeleteMessage = async (req, res) => {
+  console.log(" ♛ A User Requested To Remove Message ♛ ");
+  try {
+    let query = "";
+    const { messageId, isGangMessage } = req.body;
+    let tableName = isGangMessage ? "gang_messages" : "messages";
+    query = `
+              update public.${tableName} m
+                 set is_deleted = true
+               where m.id = :messageId
+            `;
+    const result = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.UPDATE,
+      replacements: {
+        messageId,
+      },
+    });
+    res.status(200).send(result);
+  } catch (err) {
+    console.log("GET CHATS ERROR", err);
+    res.status(500).send(`GET ERROR: ${err}`);
+  }
+};
+
 module.exports = {
   saveMessage,
   saveGangMessage,
   getChatHistoryForUser,
   getChatHistoryForGang,
+  softDeleteMessage,
 };

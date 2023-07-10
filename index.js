@@ -114,14 +114,40 @@ io.on("connection", (socket) => {
   });
 
   //Listen for dm chat messages from users
-  socket.on("message", ({ roomId, senderId, sender, avatar_url, rank, message, isImage, timestamp }) => {
-    messageController.saveMessage(roomId.substring(3), senderId, message, isImage, timestamp);
-    io.to(roomId).emit("message", { roomId, senderId, avatar_url, rank, sender, message, isImage, timestamp });
+  socket.on("message", async ({ roomId, senderId, sender, avatar_url, rank, message, isImage, timestamp }) => {
+    const insertedId = await messageController.saveMessage(roomId.substring(3), senderId, message, isImage, timestamp);
+    io.to(roomId).emit("message", {
+      id: insertedId,
+      roomId,
+      senderId,
+      avatar_url,
+      rank,
+      sender,
+      message,
+      isImage,
+      timestamp,
+    });
   });
 
-  socket.on("gang_message", ({ roomId, senderId, sender, avatar_url, rank, message, isImage, timestamp }) => {
-    messageController.saveGangMessage(roomId.substring(5), senderId, message, isImage, timestamp);
-    io.to(roomId).emit("message", { roomId, senderId, sender, avatar_url, rank, message, isImage, timestamp });
+  socket.on("gang_message", async ({ roomId, senderId, sender, avatar_url, rank, message, isImage, timestamp }) => {
+    const insertedId = await messageController.saveGangMessage(
+      roomId.substring(5),
+      senderId,
+      message,
+      isImage,
+      timestamp
+    );
+    io.to(roomId).emit("message", {
+      id: insertedId,
+      roomId,
+      senderId,
+      sender,
+      avatar_url,
+      rank,
+      message,
+      isImage,
+      timestamp,
+    });
   });
   //END DM EVENTS
 
