@@ -87,6 +87,11 @@ router.post("/check-gang-request", gangsController.checkIfRequestExistsForUser);
 router.post("/request-join-gang", gangsController.createGangRequest);
 router.post("/gang-requests", gangsController.fetchGangConnectionRequests);
 router.post("/accept-gang-request", gangsController.acceptGangConnectionRequest);
+router.post("/kick-member", gangsController.kickGangMember);
+router.post("/create-channel", gangsController.addGangChannel);
+router.post("/remove-channel", gangsController.removeGangChannel);
+router.post("/update-channel", gangsController.updateGangChannel);
+router.post("/update-gang-role", gangsController.updateGangRole);
 
 //GANG TILES ROUTES
 router.post("/get-gang-tiles", gangsController.getGangTiles);

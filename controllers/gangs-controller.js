@@ -10,6 +10,9 @@ const {
   checkIfUserIsInGang,
   checkGangRequestStatusByRequestId,
   deleteGangRequestRecord,
+  kickSpecificMember,
+  createGangChannel,
+  removeChannel,
 } = require("../services/gangs");
 const format = require("pg-format");
 const { updateUserGenInfoField } = require("../services/user-common");
@@ -70,10 +73,16 @@ const findRosterAvatars = async (gangsArray) => {
     const gang = gangsArray[i];
     //Find other members within this gang, pull in avatars
     const membersQuery = `
-        select u.avatar_url, u.username, u.id, r.id as role_id
+        select u.avatar_url, 
+               u.username, 
+               u.id, 
+               r.role_id as role_id,
+               rol.name as role_name
           from public.gang_roster r
           join public.users u
             on u.id = r.user_id
+          join public.gang_roles rol
+            on rol.id = r.role_id
          where r.gang_id = :gangId 
       order by r.role_id
     `;
@@ -249,6 +258,57 @@ const updateGangFieldQuery = async (gangId, field, value) => {
   return result;
 };
 
+const updateGangChannel = async (req, res) => {
+  const { channelId, field, value } = req.body;
+  const query = format(
+    `
+    update public.gang_chats
+      set %I = :value,
+          updated_at = current_timestamp
+    where id = :channelId
+  `,
+    field
+  );
+  const result = await sequelize.query(query, {
+    type: Sequelize.QueryTypes.UPDATE,
+    replacements: {
+      channelId,
+      field,
+      value,
+    },
+  });
+  if (result) {
+    res.status(200).send({ data: "success" });
+  } else {
+    res.status(200).send({ data: "error" });
+  }
+};
+
+const updateGangRole = async (req, res) => {
+  const { gangId, userId, roleId } = req.body;
+  console.log("test", gangId, userId, roleId);
+  const query = `
+    update public.gang_roster
+      set role_id = :roleId,
+          updated_at = current_timestamp
+    where gang_id = :gangId
+      and user_id = :userId
+  `;
+  const result = await sequelize.query(query, {
+    type: Sequelize.QueryTypes.UPDATE,
+    replacements: {
+      gangId,
+      userId,
+      roleId,
+    },
+  });
+  if (result) {
+    res.status(200).send({ data: "success" });
+  } else {
+    res.status(200).send({ data: "error" });
+  }
+};
+
 const createGangRequest = async (req, res) => {
   try {
     const { gang_id, user_id, is_user_asking_to_join } = req.body;
@@ -267,6 +327,51 @@ const createGangRequest = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send("Create Gang Request ERROR");
+  }
+};
+
+const kickGangMember = async (req, res) => {
+  try {
+    const { gang_id, user_id } = req.body;
+    const kickResult = await kickSpecificMember(gang_id, user_id);
+    if (!kickResult) {
+      res.status(200).send({ error: "failed to kick member!" });
+    } else {
+      res.status(200).send(kickResult);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Kick gang member ERROR");
+  }
+};
+
+const addGangChannel = async (req, res) => {
+  try {
+    const { gang_id, name, is_voice } = req.body;
+    const result = await createGangChannel(gang_id, name, 5, is_voice);
+    if (!result) {
+      res.status(200).send({ error: "failed to create channel!" });
+    } else {
+      res.status(200).send(result);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Create Gang Channel ERROR");
+  }
+};
+
+const removeGangChannel = async (req, res) => {
+  try {
+    const { channel_id } = req.body;
+    const result = await removeChannel(channel_id);
+    if (!result) {
+      res.status(200).send({ error: "failed to remove channel!" });
+    } else {
+      res.status(200).send(result);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Remove Gang Channel ERROR");
   }
 };
 
@@ -314,9 +419,14 @@ module.exports = {
   fetchGangConnectionRequests,
   getGangActivity,
   updateGangField,
+  updateGangChannel,
+  updateGangRole,
   checkIfRequestExistsForUser,
   findRosterAvatars,
   createGangRequest,
   acceptGangConnectionRequest,
   getGangTiles,
+  kickGangMember,
+  addGangChannel,
+  removeGangChannel,
 };

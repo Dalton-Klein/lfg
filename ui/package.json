@@ -2,7 +2,7 @@
   "name": "gangs",
   "version": "1.2.1",
   "author": "Dalton Klein",
-  "description": "Say goodbye to solo queuing, find competent team members to play with, make new friends",
+  "description": "Say goodbye to solo queuing, find ideal team members to play with, make new friends",
   "main": "public/main.js",
   "window": {
     "frame": false,
