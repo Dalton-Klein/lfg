@@ -72,7 +72,6 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     socketRef.current.on(
       "message",
       ({ id, roomId, senderId, sender, message, isImage, rank, avatar_url, timestamp }: any) => {
-        console.log("id? ", id, " room ", roomId);
         setchat([...chat, { id, roomId, senderId, sender, message, is_image: isImage, rank, avatar_url, timestamp }]);
       }
     );
@@ -220,7 +219,6 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
   };
 
   const removeMessage = async (id: any) => {
-    console.log("id ", id);
     const isGangMessaging = locationPath === "/messaging" ? false : true;
     const result = await requestSoftDeleteMessage(id, isGangMessaging, "");
     if (result) {
