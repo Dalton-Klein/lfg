@@ -1074,7 +1074,67 @@ export const requestToJoinGang = async (
     const jsonify = httpResult.json();
     return jsonify;
   } catch (error) {
-    console.log(`${error} while fetching rust tiles`);
+    console.log(`${error} while requesting to join gang`);
+  }
+};
+
+export const requestKickMember = async (gang_id: number, user_id: number, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/kick-member`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        gang_id,
+        user_id,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while kicking member`);
+  }
+};
+
+export const requestCreateChannel = async (gang_id: number, name: string, is_voice: boolean, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/create-channel`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        gang_id,
+        name,
+        is_voice,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while kicking member`);
+  }
+};
+
+export const requestRemoveChannel = async (channel_id: number, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/remove-channel`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        channel_id,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while kicking member`);
   }
 };
 
@@ -1089,8 +1149,44 @@ export const updateGangField = async (id: number, field: string, value: any) => 
     }),
   })
     .then((res) => res.json())
-    .catch((err) => console.log("Fetch Error (avatar)", err));
+    .catch((err) => console.log("Gang Update Failed: ", err));
   return;
+};
+
+export const updateGangChannelField = async (channelId: number, field: string, value: any) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/update-channel`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        channelId,
+        field,
+        value,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log("Channel update failed:", error);
+  }
+};
+
+export const updateGangRole = async (gangId: number, userId: number, roleId: number) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/update-gang-role`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        gangId,
+        userId,
+        roleId,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log("Channel update failed:", error);
+  }
 };
 // ** END GANG ROUTES
 

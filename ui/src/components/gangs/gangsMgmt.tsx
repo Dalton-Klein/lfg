@@ -1,4 +1,11 @@
-import { avatarFormIn, avatarFormOut, memberSearchFormIn, memberSearchFormOut } from "../../utils/animations";
+import {
+  addChannelFormIn,
+  addChannelFormOut,
+  avatarFormIn,
+  avatarFormOut,
+  memberSearchFormIn,
+  memberSearchFormOut,
+} from "../../utils/animations";
 import "./gangsMgmt.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +20,11 @@ import {
   uploadAvatarCloud,
   requestToJoinGang,
   searchUserByUsername,
+  requestKickMember,
+  requestRemoveChannel,
+  requestCreateChannel,
+  updateGangChannelField,
+  updateGangRole,
 } from "../../utils/rest";
 import { Toast } from "primereact/toast";
 import { Tooltip } from "react-tooltip";
@@ -22,7 +34,9 @@ import { roleOptions } from "../../utils/selectOptions";
 import ConnectionTile from "../tiles/connectionTile";
 import Confetti from "react-confetti";
 import { updateUserThunk } from "../../store/userSlice";
+import { SelectButton } from "primereact/selectbutton";
 
+const voiceFormOptions: string[] = ["text", "voice"];
 export default function GangsMgmt() {
   const dispatch = useDispatch();
   const locationPath: string = useLocation().pathname;
@@ -45,6 +59,7 @@ export default function GangsMgmt() {
   const [hasUnsavedChanges, sethasUnsavedChanges] = useState<boolean>(false);
   const [isUploadFormShown, setisUploadFormShown] = useState<boolean>(false);
   const [isAddMembersFormShown, setisAddMembersFormShown] = useState<boolean>(false);
+  const [isAddChannelFormShown, setisAddChannelFormShown] = useState<boolean>(false);
   const [photoFile, setphotoFile] = useState<File>({ name: "" } as File);
   const [gangAvatarUrl, setgangAvatarUrl] = useState<string>("");
   const [nameText, setnameText] = useState<string>("");
@@ -61,6 +76,8 @@ export default function GangsMgmt() {
   const rolesRef: any = useRef([{ current: "" }]);
   // Adding Gang Memebers
   const [usernameSearchText, setusernameSearchText] = useState<string>("");
+  const [channelNameText, setchannelNameText] = useState<string>("");
+  const [channelIsVoiceValue, setchannelIsVoiceValue] = useState<string>("text");
   useEffect(() => {
     if (locationPath[13] && parseInt(locationPath[13]) > 0) {
       //Get gang info to manage the gang
@@ -76,10 +93,23 @@ export default function GangsMgmt() {
 
   //Used to render initial tiles, unfiltered
   useEffect(() => {
-    createChannelTiles();
+    const tempChannels: any = [];
+    if (loadedGangInfo && loadedGangInfo.channels && loadedGangInfo.channels.length) {
+      loadedGangInfo.channels.forEach((channel) => {
+        tempChannels[channel.id] = channel.name;
+      });
+      settemporaryChannelNames(tempChannels);
+    } else {
+      createChannelTiles();
+    }
     createMemberTiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedGangInfo]);
+
+  useEffect(() => {
+    createChannelTiles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [temporaryChannelNames]);
 
   useEffect(() => {
     createRequestTiles();
@@ -89,10 +119,9 @@ export default function GangsMgmt() {
   // START Loading UI
   const loadGangInfos = async (id: number) => {
     const gangResult = await getGangActivity(id, userState.id, "");
-
     const formattedMembers: any = [];
     gangResult.basicInfo.members.forEach((member) => {
-      formattedMembers.push({ label: "test", value: member.id });
+      formattedMembers.push({ label: member.role_name, value: member.role_id });
     });
     settemporaryRoles(formattedMembers);
     if (gangResult.role.role_id === 1) {
@@ -104,6 +133,7 @@ export default function GangsMgmt() {
       setgame(gangResult.basicInfo.game_platform_id);
       setisPublic(gangResult.basicInfo.is_public);
     } else {
+      setloadedGangInfo(gangResult);
       //TODO prevent non-owner from managing gang
     }
     loadGangRequests(id);
@@ -114,42 +144,57 @@ export default function GangsMgmt() {
     setrequests(requestsResult);
   };
   const createChannelTiles = () => {
-    setchannelTiles(
-      loadedGangInfo.channels?.map((tile: any) => (
-        <div key={tile.id} className="channels-mgmt-tile">
-          <input
-            onChange={(event) => {
-              updateChannelNameText(tile, event.target.value);
+    const tempChannelTiles: any = [];
+    tempChannelTiles.push(
+      <div key={0} className="channels-mgmt-tile">
+        <div className="channels-mgmt-naming">
+          <button
+            onClick={() => {
+              showAddChannelModal();
             }}
-            value={temporaryChannelNames[tile.id]}
-            type="text"
-            className="channels-mgmt-input-box"
-            placeholder={tile.name}
-          ></input>
-          <div className="channels-mgmt-naming">
-            <button
-              onClick={() => {
-                saveNewChannelName(tile.id, "");
-              }}
-            >
-              save
-            </button>
-            <button
-              onClick={() => {
-                removeChannel(tile);
-              }}
-            >
-              <i className="pi pi-trash" />
-            </button>
-          </div>
+          >
+            add channel
+          </button>
         </div>
-      ))
+      </div>
     );
+    const actualChannels = loadedGangInfo.channels?.map((tile: any) => (
+      <div key={tile.id} className="channels-mgmt-tile">
+        <input
+          onChange={(event) => {
+            updateChannelNameText(tile, event.target.value);
+          }}
+          value={temporaryChannelNames[tile.id]}
+          type="text"
+          className="channels-mgmt-input-box"
+          placeholder={tile.name}
+        ></input>
+        <div className="channels-mgmt-naming">
+          <button
+            onClick={() => {
+              saveNewChannelName(tile.id);
+            }}
+          >
+            save
+          </button>
+          <button
+            onClick={() => {
+              removeChannel(tile);
+            }}
+          >
+            <i className="pi pi-trash" />
+          </button>
+        </div>
+      </div>
+    ));
+    const preppedChannels = tempChannelTiles.concat(actualChannels);
+    setchannelTiles(preppedChannels);
   };
   const createMemberTiles = () => {
+    setmemberTiles([]);
     const tempMemberTiles: any = [];
     tempMemberTiles.push(
-      <div key={0} className="channels-mgmt-tile">
+      <div key={0 - (Math.floor(Math.random() * 6000) + 1)} className="channels-mgmt-tile">
         <div className="channels-mgmt-naming">
           <button
             onClick={() => {
@@ -162,7 +207,7 @@ export default function GangsMgmt() {
       </div>
     );
     const mappedTiles = loadedGangInfo.basicInfo?.members?.map((tile: any) => (
-      <div key={tile.id} className="channels-mgmt-tile">
+      <div key={tile.id + (Math.floor(Math.random() * 60000) + 1)} className="channels-mgmt-tile">
         <div className="channels-mgmt-naming">
           {tile.username}
           <SelectComponent
@@ -170,20 +215,24 @@ export default function GangsMgmt() {
             title="role"
             options={roleOptions}
             multi={false}
-            setSelection={changeRole}
+            setSelection={(selectedValue: any) => {
+              changeRole(selectedValue, tile);
+            }}
             selection={temporaryRoles.find(({ value }) => value === tile.role_id)}
           ></SelectComponent>
           <button
             onClick={() => {
-              removeChannel(tile);
+              kickMember(tile);
             }}
+            disabled={tile.role_id === 1}
           >
             kick
           </button>
         </div>
       </div>
     ));
-    setmemberTiles(tempMemberTiles.concat(mappedTiles));
+    const updatedMemberTiles = tempMemberTiles.concat(mappedTiles);
+    setmemberTiles(updatedMemberTiles);
   };
 
   const photoSubmitHandler = async (e: any) => {
@@ -264,6 +313,7 @@ export default function GangsMgmt() {
   const closeAvatar = () => {
     avatarFormOut();
     memberSearchFormOut();
+    addChannelFormOut();
     setisUploadFormShown(false);
     setisAddMembersFormShown(false);
     return;
@@ -279,6 +329,13 @@ export default function GangsMgmt() {
     if (userState.id === 0) alert("You must be logged in to edit this field");
     setisAddMembersFormShown(true);
     memberSearchFormIn();
+    scrollToSection(topOfPageRef);
+    return;
+  };
+  const showAddChannelModal = () => {
+    if (userState.id === 0) alert("You must be logged in to edit this field");
+    setisAddChannelFormShown(true);
+    addChannelFormIn();
     scrollToSection(topOfPageRef);
     return;
   };
@@ -370,39 +427,101 @@ export default function GangsMgmt() {
   //END NON-MODAL SAVE LOGIC
 
   //Start Channel Edit LOGIC
-  const removeChannel = (tile) => {
+  const tryCreateChannel = async () => {
+    const isVoice = channelIsVoiceValue === "text" ? false : true;
+    const createResult = await requestCreateChannel(parseInt(locationPath.slice(13, 55)), channelNameText, isVoice, "");
     toast.current?.clear();
     toast.current.show({
-      severity: "info",
-      summary: "feature coming soon!",
+      severity: "success",
+      summary: `$channel created!`,
       detail: ``,
       sticky: false,
     });
+    closeAvatar();
+    loadGangInfos(parseInt(locationPath.slice(13, 55)));
+  };
+  const toggleIsVoiceForm = (e: any) => {
+    setchannelIsVoiceValue(e.value);
+  };
+  const removeChannel = async (tile) => {
+    let numberOfTextChannels = 0;
+    loadedGangInfo.channels.forEach((channel) => {
+      if (channel.is_voice === false) numberOfTextChannels++;
+    });
+    if (numberOfTextChannels < 2) {
+      toast.current?.clear();
+      toast.current.show({
+        severity: "info",
+        summary: "you need to keep at least one channel!",
+        detail: ``,
+        sticky: false,
+      });
+    } else {
+      await requestRemoveChannel(tile.id, "");
+      loadGangInfos(parseInt(locationPath.slice(13, 55)));
+      toast.current?.clear();
+      toast.current.show({
+        severity: "success",
+        summary: "removed channel!",
+        detail: ``,
+        sticky: false,
+      });
+    }
   };
   const updateChannelNameText = (tile, text) => {
-    let copyOfNames = temporaryChannelNames;
+    let copyOfNames = [...temporaryChannelNames];
     copyOfNames[tile.id] = text;
     settemporaryChannelNames(copyOfNames);
   };
 
-  const saveNewChannelName = (id, name) => {
-    toast.current?.clear();
-    toast.current.show({
-      severity: "info",
-      summary: "feature coming soon!",
-      detail: ``,
-      sticky: false,
-    });
+  const saveNewChannelName = async (id: number) => {
+    const name = temporaryChannelNames[id];
+    const result: any = await updateGangChannelField(id, "name", name);
+    if (result) {
+      toast.current?.clear();
+      toast.current.show({
+        severity: "info",
+        summary: "channel updated!",
+        detail: ``,
+        sticky: false,
+      });
+      loadGangInfos(parseInt(locationPath.slice(13, 55)));
+    } else {
+      toast.current?.clear();
+      toast.current.show({
+        severity: "info",
+        summary: "failed to update name!",
+        detail: ``,
+        sticky: false,
+      });
+    }
   };
   //END Channel Edit LOGIC
 
   //START Member Edit Logic
-  const changeRole = (selection: any) => {
-    // if (!language || region !== selection.value) setHasUnsavedChanges(true);
-    console.log("selection: ", selection);
-    const copyOfTemp = temporaryRoles;
+  const changeRole = async (selection: any, tile: any) => {
+    const copyOfTemp = [...temporaryRoles];
     copyOfTemp[selection.id] = selection;
     settemporaryRoles(copyOfTemp);
+    const acceptResult = await updateGangRole(loadedGangInfo.basicInfo.id, tile.id, selection.id);
+    if (acceptResult) {
+      toast.current?.clear();
+      toast.current.show({
+        severity: "info",
+        summary: "role updated!",
+        detail: ``,
+        sticky: false,
+      });
+      loadGangInfos(parseInt(locationPath.slice(13, 55)));
+    } else {
+      toast.current?.clear();
+      toast.current.show({
+        severity: "info",
+        summary: "error updating role!",
+        detail: ``,
+        sticky: false,
+      });
+    }
     return;
   };
   const acceptRequest = async (requestId: number) => {
@@ -418,9 +537,21 @@ export default function GangsMgmt() {
       loadGangRequests(parseInt(locationPath.slice(13, 55)));
     }
   };
+  const kickMember = async (tile: any) => {
+    await requestKickMember(parseInt(locationPath.slice(13, 55)), tile.id, "");
+    toast.current?.clear();
+    toast.current.show({
+      severity: "success",
+      summary: `${tile.username} has been kicked!`,
+      detail: ``,
+      sticky: false,
+    });
+    loadGangInfos(parseInt(locationPath.slice(13, 55)));
+  };
   //END Member Edit Logic
   const conditionalUploadFormClass = isUploadFormShown ? "conditionalZ2" : "conditionalZ1";
   const conditionalAddMembersClass = isAddMembersFormShown ? "conditionalZ2" : "conditionalZ1";
+  const conditionalAddChannelClass = isAddChannelFormShown ? "conditionalZ2" : "conditionalZ1";
   const width = 1920;
   const height = 1080;
   return (
@@ -802,6 +933,35 @@ export default function GangsMgmt() {
             <button onClick={trySendInvite} className="upload-form-btns">
               send request
             </button>
+          </div>
+        }
+        <div className="upload-form-btns">
+          <button onClick={closeAvatar}>close</button>
+        </div>
+      </div>
+      {/* Add Channels MODAL */}
+      <div className={`add-channel-form ${conditionalAddChannelClass}`}>
+        <p>{"add channel"}</p>
+        {
+          <div className="avatar-upload-form">
+            <input
+              onChange={(event) => {
+                setchannelNameText(event.target.value);
+              }}
+              value={channelNameText}
+              type="text"
+              className="channel-name-input"
+              placeholder={"channel name..."}
+            ></input>
+            <SelectButton
+              value={channelIsVoiceValue}
+              onChange={(e) => toggleIsVoiceForm(e)}
+              options={voiceFormOptions}
+              className="channel-selector-input"
+            />
+            <div className="upload-form-btns">
+              <button onClick={tryCreateChannel}>create channel</button>
+            </div>
           </div>
         }
         <div className="upload-form-btns">

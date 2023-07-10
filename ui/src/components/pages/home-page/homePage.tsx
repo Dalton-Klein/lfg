@@ -48,7 +48,7 @@ export default function HomePage({ socketRef }) {
         />
         <h1 className="main-title">form your gang</h1>
         <h2 className="subtitle">
-          Say goodbye to solo queuing, find competent team members to play with, make new friends
+          Say goodbye to solo queuing, find ideal team members to play with, make new friends
         </h2>
       </div>
       <div className="tile-container">

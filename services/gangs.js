@@ -129,6 +129,34 @@ const createGangRequestRecord = async (gang_id, user_id, is_user_asking_to_join)
   });
 };
 
+const kickSpecificMember = async (gang_id, user_id) => {
+  gangsQuery = `
+  delete from public.gang_roster
+        where gang_id = :gang_id
+          and user_id = :user_id
+`;
+  return await sequelize.query(gangsQuery, {
+    type: Sequelize.QueryTypes.DELETE,
+    replacements: {
+      gang_id,
+      user_id,
+    },
+  });
+};
+
+const removeChannel = async (channel_id) => {
+  gangsQuery = `
+  delete from public.gang_chats
+        where id = :channel_id
+`;
+  return await sequelize.query(gangsQuery, {
+    type: Sequelize.QueryTypes.DELETE,
+    replacements: {
+      channel_id,
+    },
+  });
+};
+
 const checkGangRequestStatusByUserId = async (user_id, gang_id) => {
   gangsQuery = `
     select * 
@@ -203,4 +231,6 @@ module.exports = {
   checkIfUserIsInGang,
   checkGangRequestStatusByRequestId,
   deleteGangRequestRecord,
+  kickSpecificMember,
+  removeChannel,
 };
