@@ -100,12 +100,19 @@ const getChatHistoryForUser = async (req, res) => {
   try {
     const { chatId } = req.body;
     query = `
-              select m.*, u.id as senderId, u.username, u.avatar_url, sum(rd.points) as rank
+              select m.*, u.id as senderId, u.username, u.avatar_url, sum(rd.points) as rank,
+                     SUM(CASE WHEN re.type_id = 1 THEN 1 ELSE 0 END) as love_count,
+                     SUM(CASE WHEN re.type_id = 2 THEN 1 ELSE 0 END) as thumbs_down_count,
+                     SUM(CASE WHEN re.type_id = 3 THEN 1 ELSE 0 END) as thumbs_up_count,
+                     SUM(CASE WHEN re.type_id = 3 THEN 1 ELSE 0 END) as one_hunderd_count  
                 from public.messages m
                 join public.users u
                   on u.id = m.sender
            left join public.redeems rd
                   on rd.user_id = u.id
+           left join public.reactions re
+                  on re.message_id = m.id
+                 and re.scope_id = 1
                where m.connection_id = :chatId
                  and m.is_deleted = false
             group by m.id, u.id, u.username, u.avatar_url
@@ -136,12 +143,19 @@ const getChatHistoryForGang = async (req, res) => {
   try {
     const { channelId } = req.body;
     query = `
-              select gm.*, u.id as senderId, u.username, u.avatar_url, sum(rd.points) as rank
-                from public.gang_messages gm
+              select gm.*, u.id as senderId, u.username, u.avatar_url, sum(rd.points) as rank,
+                     SUM(CASE WHEN re.type_id = 1 THEN 1 ELSE 0 END) as love_count,
+                     SUM(CASE WHEN re.type_id = 2 THEN 1 ELSE 0 END) as thumbs_down_count,
+                     SUM(CASE WHEN re.type_id = 3 THEN 1 ELSE 0 END) as thumbs_up_count,
+                     SUM(CASE WHEN re.type_id = 3 THEN 1 ELSE 0 END) as one_hunderd_count  
+              from public.gang_messages gm
                 join public.users u
                   on u.id = gm.sender
            left join public.redeems rd
                   on rd.user_id = u.id
+           left join public.reactions re
+                  on re.message_id = gm.id
+                 and re.scope_id = 2
                where gm.chat_id = :channelId
                  and gm.is_deleted = false
             group by gm.id, u.id, u.username, u.avatar_url
