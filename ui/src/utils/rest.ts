@@ -718,6 +718,24 @@ export const getChatHistoryForGang = async (userId: number, channelId: number, t
   return result;
 };
 
+export const requestSoftDeleteMessage = async (messageId: number, isGangMessage: boolean, token: string) => {
+  let result = await fetch(`${endpointURL}/remove-message`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messageId,
+      isGangMessage,
+      token,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => data)
+    .catch((err) => console.log("Error while fetching chat history", err));
+  return result;
+};
+
 export const getNotificationsUser = async (userId: number, token: string) => {
   let result = await fetch(`${endpointURL}/get-notifications`, {
     method: "POST",

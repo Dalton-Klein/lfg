@@ -8,12 +8,14 @@ import {
   fetchUserDataAndConnectedStatus,
   getChatHistoryForGang,
   getChatHistoryForUser,
+  requestSoftDeleteMessage,
   uploadAvatarCloud,
 } from "../../utils/rest";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ExpandedProfile from "../modal/expandedProfileComponent";
 import { avatarFormIn, avatarFormOut } from "../../utils/animations";
 import RankTile from "../tiles/rankTile";
+import { Menu } from "primereact/menu";
 
 function isMobileDevice() {
   const userAgent = window.navigator.userAgent;
@@ -22,11 +24,16 @@ function isMobileDevice() {
 }
 
 export default function InstantMessaging({ socketRef, convo, hasPressedChannelForMobile }) {
+  const navigate = useNavigate();
+
+  const messageOptionsMenu: any = useRef(null);
   const hiddenFileInput: any = React.useRef(null);
   const [photoFile, setPhotoFile] = useState<File>({ name: "" } as File);
   const isMobile = isMobileDevice();
   const userState = useSelector((state: RootState) => state.user.user);
   const locationPath: string = useLocation().pathname;
+
+  const [selectedMessageId, setSelectedMessageId] = useState<number | null>(null);
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
   const [currentUserHighlighted, setcurrentUserHighlighted] = useState<any>({ id: 0 });
   const [currentConvo, setcurrentConvo] = useState<any>({ id: 0 });
@@ -64,8 +71,9 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
   useEffect(() => {
     socketRef.current.on(
       "message",
-      ({ roomId, senderId, sender, message, isImage, rank, avatar_url, timestamp }: any) => {
-        setchat([...chat, { roomId, senderId, sender, message, is_image: isImage, rank, avatar_url, timestamp }]);
+      ({ id, roomId, senderId, sender, message, isImage, rank, avatar_url, timestamp }: any) => {
+        console.log("id? ", id, " room ", roomId);
+        setchat([...chat, { id, roomId, senderId, sender, message, is_image: isImage, rank, avatar_url, timestamp }]);
       }
     );
     // When loading gang page on mobile, prevent undesired scroll on page load until user selects channel
@@ -211,67 +219,110 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     }
   };
 
+  const removeMessage = async (id: any) => {
+    console.log("id ", id);
+    const isGangMessaging = locationPath === "/messaging" ? false : true;
+    const result = await requestSoftDeleteMessage(id, isGangMessaging, "");
+    if (result) {
+      setchat((prevChat: any[]) => prevChat.filter((message) => message.id !== id));
+      setSelectedMessageId(null); // Reset the selected message ID
+    }
+    messageOptionsMenu.current = null;
+    const clickEvent = new MouseEvent("click");
+    document.dispatchEvent(clickEvent);
+  };
+
+  const openOptionsMenu = (event: React.MouseEvent<HTMLButtonElement>, messageId: number) => {
+    setSelectedMessageId(messageId);
+    if (messageOptionsMenu.current) {
+      messageOptionsMenu.current.toggle(event);
+    }
+  };
+
   const renderChat = () => {
     if (chat.length) {
-      return chat.map(({ senderId, sender, message, is_image, rank, avatar_url, created_at }: any, index: number) => {
-        const formattedTimestamp = howLongAgo(created_at);
-        return (
-          <div
-            className={
-              sender === userState.username
-                ? "message-bubble message-border-owner"
-                : "message-bubble message-border-non-owner"
-            }
-            key={index}
-          >
-            <div className="message-sender-box">
-              {avatar_url === "" ||
-              avatar_url ===
-                "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
-                <div className="dynamic-avatar-border">
-                  <div className="dynamic-avatar-text-med">
-                    {sender
-                      .split(" ")
-                      .map((word: string[]) => word[0])
-                      .join("")
-                      .slice(0, 2)
-                      .toLowerCase()}
+      return chat.map(
+        ({ id, senderId, sender, message, is_image, rank, avatar_url, created_at }: any, index: number) => {
+          const formattedTimestamp = howLongAgo(created_at);
+          return (
+            <div
+              className={
+                sender === userState.username
+                  ? "message-bubble message-border-owner"
+                  : "message-bubble message-border-non-owner"
+              }
+              key={id}
+            >
+              <div className="message-sender-box">
+                <div className="sender-specific">
+                  {avatar_url === "" ||
+                  avatar_url ===
+                    "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
+                    <div className="dynamic-avatar-border">
+                      <div className="dynamic-avatar-text-med">
+                        {sender
+                          .split(" ")
+                          .map((word: string[]) => word[0])
+                          .join("")
+                          .slice(0, 2)
+                          .toLowerCase()}
+                      </div>
+                    </div>
+                  ) : (
+                    <img className="mssg-avatar" onClick={() => {}} src={avatar_url} alt={`${sender}avatar`} />
+                  )}
+                  <RankTile user={{ rank: rank ? rank : 1 }} isSmall={true}></RankTile>
+                  <div
+                    className="message-sender-name"
+                    onClick={() => {
+                      toggleExpandedProfile(senderId);
+                    }}
+                  >
+                    {sender}
                   </div>
                 </div>
-              ) : (
-                <img className="mssg-avatar" onClick={() => {}} src={avatar_url} alt={`${sender}avatar`} />
-              )}
-              <RankTile user={{ rank: rank ? rank : 1 }} isSmall={true}></RankTile>
-              <div
-                className="message-sender-name"
-                onClick={() => {
-                  toggleExpandedProfile(senderId);
-                }}
-              >
-                {sender}
+                <div className="message-details">
+                  <div className="message-timestamp">{formattedTimestamp}</div>
+                  <button
+                    style={{ display: sender === userState.username ? "inline-block" : "none" }}
+                    className="options-button"
+                    onClick={(event) => {
+                      openOptionsMenu(event, id);
+                    }}
+                  >
+                    <i className="pi pi-ellipsis-h"></i>
+                  </button>
+                </div>
               </div>
-              <div className="message-timestamp">{formattedTimestamp}</div>
+              <div className="message-content">
+                {is_image ? (
+                  <img src={message} className="user-uploaded-img" alt="user-uploaded-content"></img>
+                ) : (
+                  message
+                )}
+              </div>
             </div>
-            <div className="message-content">
-              {is_image ? <img src={message} className="user-uploaded-img" alt="user-uploaded-content"></img> : message}
-            </div>
-          </div>
-        );
-      });
+          );
+        }
+      );
     } else {
       return (
         <div className="message-bubble message-border-non-owner">
           <div className="message-sender-box">
-            <img
-              className="mssg-avatar"
-              onClick={() => {}}
-              src={
-                "https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
-              }
-            />
-            <RankTile user={{ rank: 174 }} isSmall={true}></RankTile>
-            <div className="message-sender-name">gangs team</div>
-            <div className="message-timestamp"></div>
+            <div className="sender-specific">
+              <img
+                className="mssg-avatar"
+                onClick={() => {}}
+                src={
+                  "https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
+                }
+              />
+              <RankTile user={{ rank: 174 }} isSmall={true}></RankTile>
+              <div className="message-sender-name">gangs team</div>
+            </div>
+            <div className="message-details">
+              <div className="message-timestamp"></div>
+            </div>
           </div>
           <div className="message-content">no messages yet, go ahead and say hi!</div>
         </div>
@@ -402,6 +453,15 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
       {/* Messages Scroll Box */}
       <div className={locationPath === "/messaging" ? `render-chat render-chat-dms` : `render-chat render-chat-gangs`}>
         {renderChat()}
+        <Menu
+          model={[
+            {
+              template: <div onClick={() => removeMessage(selectedMessageId)}>delete message</div>,
+            },
+          ]}
+          popup
+          ref={messageOptionsMenu}
+        />
         <div ref={lastMessageRef} />
       </div>
       {/* Message Input Form */}
