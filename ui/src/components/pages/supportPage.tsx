@@ -101,7 +101,7 @@ export default function SupportPage() {
       <Toast ref={toast} />
       <div className="support-master-container">
         <BannerTitle
-          title={"support"}
+          title={"support & feedback"}
           imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}
         ></BannerTitle>
         {/* Welcome */}
