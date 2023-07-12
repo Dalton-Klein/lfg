@@ -134,7 +134,7 @@ const DrawerComponent = (props: Props) => {
             }}
             className="hamburger-links"
           >
-            <button className="hamburger-button">tutorials | faq</button>
+            <button className="hamburger-button">tutorials & faq</button>
           </div>
           <div
             onClick={() => {
@@ -142,7 +142,7 @@ const DrawerComponent = (props: Props) => {
             }}
             className="hamburger-links"
           >
-            <button className="hamburger-button">support</button>
+            <button className="hamburger-button">support & feedback</button>
           </div>
           <div className="hamburger-links">
             <button

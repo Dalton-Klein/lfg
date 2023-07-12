@@ -100,22 +100,51 @@ const getChatHistoryForUser = async (req, res) => {
   try {
     const { chatId } = req.body;
     query = `
-              select m.*, u.id as senderId, u.username, u.avatar_url, sum(rd.points) as rank,
-                     SUM(CASE WHEN re.type_id = 1 THEN 1 ELSE 0 END) as love_count,
-                     SUM(CASE WHEN re.type_id = 2 THEN 1 ELSE 0 END) as thumbs_down_count,
-                     SUM(CASE WHEN re.type_id = 3 THEN 1 ELSE 0 END) as thumbs_up_count,
-                     SUM(CASE WHEN re.type_id = 3 THEN 1 ELSE 0 END) as one_hunderd_count  
+              select m.*, 
+                     u.id as senderId, 
+                     u.username, 
+                     u.avatar_url, 
+                     rd.rank,
+                     re.count_love, 
+                     re.count_thumbs_down, 
+                     re.count_thumbs_up, 
+                     re.count_one_hunderd,
+                     re.count_fire,
+                     re.count_skull
                 from public.messages m
                 join public.users u
                   on u.id = m.sender
-           left join public.redeems rd
-                  on rd.user_id = u.id
-           left join public.reactions re
-                  on re.message_id = m.id
+           left join (
+                      SELECT user_id, SUM(points) as rank
+                      FROM public.redeems
+                      GROUP BY user_id
+                     ) rd on rd.user_id = u.id
+           left join (
+                      SELECT message_id, scope_id,
+                            SUM(CASE WHEN type_id = 1 THEN 1 ELSE 0 END) as count_love,
+                            SUM(CASE WHEN type_id = 2 THEN 1 ELSE 0 END) as count_thumbs_down,
+                            SUM(CASE WHEN type_id = 3 THEN 1 ELSE 0 END) as count_thumbs_up,
+                            SUM(CASE WHEN type_id = 4 THEN 1 ELSE 0 END) as count_one_hunderd,
+                            SUM(CASE WHEN type_id = 5 THEN 1 ELSE 0 END) as count_fire,
+                            SUM(CASE WHEN type_id = 6 THEN 1 ELSE 0 END) as count_skull
+                      FROM public.reactions
+                      WHERE scope_id = 1
+                      GROUP BY message_id, scope_id
+                      ) re ON re.message_id = m.id
                  and re.scope_id = 1
                where m.connection_id = :chatId
                  and m.is_deleted = false
-            group by m.id, u.id, u.username, u.avatar_url
+            group by m.id, 
+                     u.id, 
+                     u.username, 
+                     u.avatar_url, 
+                     rd.rank, 
+                     re.count_love, 
+                     re.count_thumbs_down, 
+                     re.count_thumbs_up, 
+                     re.count_one_hunderd,
+                     re.count_fire,
+                     re.count_skull
             order by m.created_at asc
             `;
     const foundChat = await sequelize.query(query, {
@@ -143,22 +172,52 @@ const getChatHistoryForGang = async (req, res) => {
   try {
     const { channelId } = req.body;
     query = `
-              select gm.*, u.id as senderId, u.username, u.avatar_url, sum(rd.points) as rank,
-                     SUM(CASE WHEN re.type_id = 1 THEN 1 ELSE 0 END) as love_count,
-                     SUM(CASE WHEN re.type_id = 2 THEN 1 ELSE 0 END) as thumbs_down_count,
-                     SUM(CASE WHEN re.type_id = 3 THEN 1 ELSE 0 END) as thumbs_up_count,
-                     SUM(CASE WHEN re.type_id = 3 THEN 1 ELSE 0 END) as one_hunderd_count  
+              select gm.*, 
+                     u.id as senderId, 
+                     u.username, 
+                     u.avatar_url, 
+                     rd.rank,
+                     re.count_love, 
+                     re.count_thumbs_down, 
+                     re.count_thumbs_up, 
+                     re.count_one_hunderd,
+                     re.count_fire,
+                     re.count_skull
               from public.gang_messages gm
                 join public.users u
                   on u.id = gm.sender
-           left join public.redeems rd
-                  on rd.user_id = u.id
-           left join public.reactions re
-                  on re.message_id = gm.id
-                 and re.scope_id = 2
+          left join (
+                      SELECT user_id, 
+                             SUM(points) as rank
+                        FROM public.redeems
+                    GROUP BY user_id
+                    ) rd on rd.user_id = u.id
+          left join (
+                      SELECT message_id, 
+                             scope_id,
+                             SUM(CASE WHEN type_id = 1 THEN 1 ELSE 0 END) as count_love,
+                             SUM(CASE WHEN type_id = 2 THEN 1 ELSE 0 END) as count_thumbs_down,
+                             SUM(CASE WHEN type_id = 3 THEN 1 ELSE 0 END) as count_thumbs_up,
+                             SUM(CASE WHEN type_id = 4 THEN 1 ELSE 0 END) as count_one_hunderd,
+                             SUM(CASE WHEN type_id = 5 THEN 1 ELSE 0 END) as count_fire,
+                             SUM(CASE WHEN type_id = 6 THEN 1 ELSE 0 END) as count_skull
+                        FROM public.reactions
+                       WHERE scope_id = 2
+                    GROUP BY message_id, scope_id
+                    ) re ON re.message_id = gm.id
                where gm.chat_id = :channelId
                  and gm.is_deleted = false
-            group by gm.id, u.id, u.username, u.avatar_url
+            group by m.id, 
+                     u.id, 
+                     u.username, 
+                     u.avatar_url, 
+                     rd.rank, 
+                     re.count_love, 
+                     re.count_thumbs_down, 
+                     re.count_thumbs_up, 
+                     re.count_one_hunderd,
+                     re.count_fire,
+                     re.count_skull
             order by gm.created_at asc
             `;
     const foundChat = await sequelize.query(query, {

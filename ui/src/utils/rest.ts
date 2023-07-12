@@ -736,6 +736,30 @@ export const requestSoftDeleteMessage = async (messageId: number, isGangMessage:
   return result;
 };
 
+export const requestAddMessageReaction = async (
+  reactionId: number,
+  messageId: number,
+  isGangMessage: boolean,
+  token: string
+) => {
+  let result = await fetch(`${endpointURL}/add-reaction`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      reactionId,
+      messageId,
+      isGangMessage,
+      token,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => data)
+    .catch((err) => console.log("Error while fetching chat history", err));
+  return result;
+};
+
 export const getNotificationsUser = async (userId: number, token: string) => {
   let result = await fetch(`${endpointURL}/get-notifications`, {
     method: "POST",
