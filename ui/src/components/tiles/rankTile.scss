@@ -7,10 +7,10 @@
   height: 4vw;
   width: 4vw;
   border-radius: 50%;
-  border: 1px solid white;
+  border: 0px solid white;
   &.reduced {
-    height: 2.15vw;
-    width: 2.15vw;
+    height: 1.5vw;
+    width: 1.5vw;
   }
   .rank {
     display: inline-block;
@@ -31,8 +31,8 @@
     width: 6vw;
 
     &.reduced {
-      height: 3vw;
-      width: 3vw;
+      height: 2.75vw;
+      width: 2.75vw;
     }
   }
 }
@@ -47,8 +47,8 @@
     width: 10vw;
 
     &.reduced {
-      height: 6vw;
-      width: 6vw;
+      height: 5vw;
+      width: 5vw;
     }
   }
 }
