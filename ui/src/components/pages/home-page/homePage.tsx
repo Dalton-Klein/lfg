@@ -130,8 +130,8 @@ export default function HomePage({ socketRef }) {
         ></DaddyTile>
       </div>
       <div className="extra-tiles">
-        <MediumTile routerLink="/support" imageLink="pi pi-question" title="support"></MediumTile>
-        <MediumTile routerLink="/help" imageLink="pi pi-info-circle" title="tutorials | faq"></MediumTile>
+        <MediumTile routerLink="/support" imageLink="pi pi-question" title="support & feedback"></MediumTile>
+        <MediumTile routerLink="/help" imageLink="pi pi-info-circle" title="tutorials & faq"></MediumTile>
         <MediumTile routerLink="/privacy-policy" imageLink="pi pi-shield" title="privacy policy"></MediumTile>
         <MediumTile routerLink="/terms-of-service" imageLink="pi pi-book" title="terms of service"></MediumTile>
       </div>

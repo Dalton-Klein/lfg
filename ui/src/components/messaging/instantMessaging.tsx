@@ -8,6 +8,7 @@ import {
   fetchUserDataAndConnectedStatus,
   getChatHistoryForGang,
   getChatHistoryForUser,
+  requestAddMessageReaction,
   requestSoftDeleteMessage,
   uploadAvatarCloud,
 } from "../../utils/rest";
@@ -16,6 +17,7 @@ import ExpandedProfile from "../modal/expandedProfileComponent";
 import { avatarFormIn, avatarFormOut } from "../../utils/animations";
 import RankTile from "../tiles/rankTile";
 import { Menu } from "primereact/menu";
+import AddReactionOutlinedIcon from "@mui/icons-material/AddReactionOutlined";
 
 function isMobileDevice() {
   const userAgent = window.navigator.userAgent;
@@ -26,6 +28,7 @@ function isMobileDevice() {
 export default function InstantMessaging({ socketRef, convo, hasPressedChannelForMobile }) {
   const navigate = useNavigate();
 
+  const reactionOptionsMenu: any = useRef(null);
   const messageOptionsMenu: any = useRef(null);
   const hiddenFileInput: any = React.useRef(null);
   const [photoFile, setPhotoFile] = useState<File>({ name: "" } as File);
@@ -71,8 +74,43 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
   useEffect(() => {
     socketRef.current.on(
       "message",
-      ({ id, roomId, senderId, sender, message, isImage, rank, avatar_url, timestamp }: any) => {
-        setchat([...chat, { id, roomId, senderId, sender, message, is_image: isImage, rank, avatar_url, timestamp }]);
+      ({
+        id,
+        roomId,
+        senderId,
+        sender,
+        message,
+        isImage,
+        rank,
+        avatar_url,
+        timestamp,
+        count_love,
+        count_thumbs_down,
+        count_thumbs_up,
+        count_one_hunderd,
+        count_fire,
+        count_skull,
+      }: any) => {
+        setchat([
+          ...chat,
+          {
+            id,
+            roomId,
+            senderId,
+            sender,
+            message,
+            is_image: isImage,
+            rank,
+            avatar_url,
+            timestamp,
+            count_love,
+            count_thumbs_down,
+            count_thumbs_up,
+            count_one_hunderd,
+            count_fire,
+            count_skull,
+          },
+        ]);
       }
     );
     // When loading gang page on mobile, prevent undesired scroll on page load until user selects channel
@@ -155,6 +193,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
         //Block for loading gang group messages
         historicalChatData = await getChatHistoryForGang(userState.id, currentConvo.id, "");
       }
+      console.log("historical; ", historicalChatData);
       if (historicalChatData && historicalChatData.length) {
         setchat([...historicalChatData]);
         joinSocketRoom();
@@ -237,11 +276,49 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     }
   };
 
+  const openReactionsMenu = (event: React.MouseEvent<HTMLButtonElement>, messageId: number) => {
+    setSelectedMessageId(messageId);
+    if (reactionOptionsMenu.current) {
+      reactionOptionsMenu.current.toggle(event);
+    }
+  };
+
+  const addMessageReaction = async (reactionId: number, messageId: any) => {
+    const isGangMessaging = locationPath === "/messaging" ? false : true;
+    const result = await requestAddMessageReaction(reactionId, messageId, isGangMessaging, "");
+    if (result) {
+      setchat((prevChat: any[]) => prevChat.filter((message) => message.id !== messageId));
+      setSelectedMessageId(null); // Reset the selected message ID
+    }
+    messageOptionsMenu.current = null;
+    const clickEvent = new MouseEvent("click");
+    document.dispatchEvent(clickEvent);
+  };
+
   const renderChat = () => {
     if (chat.length) {
       return chat.map(
-        ({ id, senderId, sender, message, is_image, rank, avatar_url, created_at }: any, index: number) => {
+        (
+          {
+            id,
+            senderId,
+            sender,
+            message,
+            is_image,
+            rank,
+            avatar_url,
+            created_at,
+            count_love,
+            count_thumbs_down,
+            count_thumbs_up,
+            count_one_hunderd,
+            count_fire,
+            count_skull,
+          }: any,
+          index: number
+        ) => {
           const formattedTimestamp = howLongAgo(created_at);
+          console.log("test", chat);
           return (
             <div
               className={
@@ -281,6 +358,14 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
                 </div>
                 <div className="message-details">
                   <div className="message-timestamp">{formattedTimestamp}</div>
+                  {/* <button
+                    className="reaction-button"
+                    onClick={(event) => {
+                      openReactionsMenu(event, id);
+                    }}
+                  >
+                    <AddReactionOutlinedIcon />
+                  </button> */}
                   <button
                     style={{ display: sender === userState.username ? "inline-block" : "none" }}
                     className="options-button"
@@ -297,6 +382,16 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
                   <img src={message} className="user-uploaded-img" alt="user-uploaded-content"></img>
                 ) : (
                   message
+                )}
+              </div>
+              <div className="reaction-box">
+                {renderReactionsForMessage(
+                  count_love,
+                  count_thumbs_down,
+                  count_thumbs_up,
+                  count_one_hunderd,
+                  count_fire,
+                  count_skull
                 )}
               </div>
             </div>
@@ -326,6 +421,65 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
         </div>
       );
     }
+  };
+  const renderReactionsForMessage = (
+    count_love,
+    count_thumbs_down,
+    count_thumbs_up,
+    count_one_hunderd,
+    count_fire,
+    count_skull
+  ) => {
+    let reactionsResult: any[] = [];
+    if (count_love > 0) {
+      reactionsResult.push(
+        <div key={1} className="mssg-reaction">
+          <div>❤️</div>
+          <div className="reaction-count">{count_love}</div>
+        </div>
+      );
+    }
+    if (count_thumbs_up > 0) {
+      reactionsResult.push(
+        <div key={3} className="mssg-reaction">
+          <div>👍</div>
+          <div className="reaction-count">{count_thumbs_up}</div>
+        </div>
+      );
+    }
+    if (count_thumbs_down > 0) {
+      reactionsResult.push(
+        <div key={2} className="mssg-reaction">
+          <div>👎</div>
+          <div className="reaction-count">{count_thumbs_down}</div>
+        </div>
+      );
+    }
+    if (count_one_hunderd > 0) {
+      reactionsResult.push(
+        <div key={4} className="mssg-reaction">
+          <div>💯</div>
+          <div className="reaction-count">{count_one_hunderd}</div>
+        </div>
+      );
+    }
+    if (count_fire > 0) {
+      reactionsResult.push(
+        <div key={5} className="mssg-reaction">
+          <div>🔥</div>
+          <div className="reaction-count">{count_fire}</div>
+        </div>
+      );
+    }
+    if (count_skull > 0) {
+      reactionsResult.push(
+        <div key={6} className="mssg-reaction">
+          <div>💀</div>
+          <div className="reaction-count">{count_skull}</div>
+        </div>
+      );
+    }
+    return reactionsResult;
   };
   //END SOCKET Functions
 
@@ -451,6 +605,54 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
       {/* Messages Scroll Box */}
       <div className={locationPath === "/messaging" ? `render-chat render-chat-dms` : `render-chat render-chat-gangs`}>
         {renderChat()}
+        <Menu
+          model={[
+            {
+              template: (
+                <div className="reactions-options" style={{ display: "flex" }}>
+                  <div
+                    style={{ marginRight: ".5vw", cursor: "pointer" }}
+                    onClick={() => addMessageReaction(1, selectedMessageId)}
+                  >
+                    ❤️
+                  </div>
+                  <div
+                    style={{ marginRight: ".5vw", cursor: "pointer" }}
+                    onClick={() => addMessageReaction(3, selectedMessageId)}
+                  >
+                    👍
+                  </div>
+                  <div
+                    style={{ marginRight: ".5vw", cursor: "pointer" }}
+                    onClick={() => addMessageReaction(2, selectedMessageId)}
+                  >
+                    👎
+                  </div>
+                  <div
+                    style={{ marginRight: ".5vw", cursor: "pointer" }}
+                    onClick={() => addMessageReaction(4, selectedMessageId)}
+                  >
+                    💯
+                  </div>
+                  <div
+                    style={{ marginRight: ".5vw", cursor: "pointer" }}
+                    onClick={() => addMessageReaction(5, selectedMessageId)}
+                  >
+                    🔥
+                  </div>
+                  <div
+                    style={{ marginRight: ".5vw", cursor: "pointer" }}
+                    onClick={() => addMessageReaction(6, selectedMessageId)}
+                  >
+                    💀
+                  </div>
+                </div>
+              ),
+            },
+          ]}
+          popup
+          ref={reactionOptionsMenu}
+        />
         <Menu
           model={[
             {

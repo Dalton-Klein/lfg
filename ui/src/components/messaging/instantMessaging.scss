@@ -190,9 +190,12 @@
             color: $colorTextAlt;
             margin: 0 1vw;
           }
-          .options-button {
+          .reaction-button {
             margin: 0 0;
             background-color: rgba(205, 92, 92, 0);
+          }
+          .options-button {
+            @extend .reaction-button;
           }
           .options-button:hover {
             color: $colorButtonHover;
@@ -206,6 +209,21 @@
         .user-uploaded-img {
           max-width: 60vw;
           object-fit: cover;
+        }
+      }
+      .reaction-box {
+        margin-top: 1vh;
+        margin-left: 1vw;
+        display: flex;
+        align-items: center;
+        .mssg-reaction {
+          display: flex;
+          align-items: center;
+          margin-right: 1vw;
+          .reaction-count {
+            margin-top: 0.5vh;
+            color: white;
+          }
         }
       }
     }
