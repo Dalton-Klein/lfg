@@ -8,7 +8,6 @@ import {
   fetchUserDataAndConnectedStatus,
   getChatHistoryForGang,
   getChatHistoryForUser,
-  requestAddMessageReaction,
   requestSoftDeleteMessage,
   uploadAvatarCloud,
 } from "../../utils/rest";
