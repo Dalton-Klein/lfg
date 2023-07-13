@@ -219,11 +219,21 @@
         .mssg-reaction {
           display: flex;
           align-items: center;
-          margin-right: 1vw;
+          padding: 0.25vw;
+          padding-top: 0.1vw;
+          margin-right: 0.5vw;
+          border-radius: $borderRadius1;
+          cursor: pointer;
+          transition: $transition1;
+          border: 1px solid rgba(255, 255, 255, 0);
           .reaction-count {
             margin-top: 0.5vh;
             color: white;
           }
+        }
+        .mssg-reaction:hover {
+          background-color: $colorGreyPop;
+          border: 1px solid white;
         }
       }
     }

@@ -714,7 +714,7 @@ export const getChatHistoryForGang = async (userId: number, channelId: number, t
   })
     .then((res) => res.json())
     .then((data) => data)
-    .catch((err) => console.log("Error while fetching chat history", err));
+    .catch((err) => console.log("Error while fetching gang chat history", err));
   return result;
 };
 
@@ -732,31 +732,7 @@ export const requestSoftDeleteMessage = async (messageId: number, isGangMessage:
   })
     .then((res) => res.json())
     .then((data) => data)
-    .catch((err) => console.log("Error while fetching chat history", err));
-  return result;
-};
-
-export const requestAddMessageReaction = async (
-  reactionId: number,
-  messageId: number,
-  isGangMessage: boolean,
-  token: string
-) => {
-  let result = await fetch(`${endpointURL}/add-reaction`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      reactionId,
-      messageId,
-      isGangMessage,
-      token,
-    }),
-  })
-    .then((res) => res.json())
-    .then((data) => data)
-    .catch((err) => console.log("Error while fetching chat history", err));
+    .catch((err) => console.log("Error while deleting message", err));
   return result;
 };
 

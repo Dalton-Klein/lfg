@@ -85,6 +85,7 @@ export default function ProfilePage({ socketRef }) {
         socketRef={socketRef}
         convo={preferencesState.currentConvo}
         hasPressedChannelForMobile={true}
+        key={2}
       ></InstantMessaging>
     );
   };

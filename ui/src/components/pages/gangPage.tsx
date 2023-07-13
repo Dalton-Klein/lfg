@@ -777,6 +777,7 @@ export default function GangPage({ socketRef }) {
             socketRef={socketRef}
             convo={currentChannel}
             hasPressedChannelForMobile={hasPressedChannelForMobile}
+            key={1}
           />
         </div>
       );

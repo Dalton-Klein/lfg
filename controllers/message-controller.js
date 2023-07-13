@@ -207,7 +207,7 @@ const getChatHistoryForGang = async (req, res) => {
                     ) re ON re.message_id = gm.id
                where gm.chat_id = :channelId
                  and gm.is_deleted = false
-            group by m.id, 
+            group by gm.id, 
                      u.id, 
                      u.username, 
                      u.avatar_url, 
@@ -264,10 +264,103 @@ const softDeleteMessage = async (req, res) => {
   }
 };
 
+const addMessageReaction = async (ownerId, reactionTypeId, messageId, messageScopeId) => {
+  // The following logic will try to add a new reaction, UNLESS...
+  // The user has already added that specific emote to that message,
+  // In which case we will remove the reaction
+  try {
+    const doesReactionAlreadyExist = await checkReactionExists(ownerId, reactionTypeId, messageId, messageScopeId);
+    if (doesReactionAlreadyExist && doesReactionAlreadyExist.length > 0) {
+      const deleteResult = await removeReactionRecord(ownerId, reactionTypeId, messageId, messageScopeId);
+      if (deleteResult) {
+        return "removed";
+      } else {
+        return "error";
+      }
+    } else {
+      const insertResult = await createReactionRecord(ownerId, reactionTypeId, messageId, messageScopeId);
+      if (insertResult && insertResult[0] && insertResult[0][0]?.id) {
+        return "added";
+      } else {
+        return "error";
+      }
+    }
+  } catch (error) {
+    console.log(`Add reaction error: ${error}`);
+    return "error";
+  }
+};
+
+const removeReactionRecord = async (ownerId, reactionTypeId, messageId, messageScopeId) => {
+  const query = `
+    delete from public.reactions 
+          where scope_id = :messageScopeId
+            and message_id = :messageId
+            and type_id = :reactionTypeId
+            and owner_id = :ownerId
+  `;
+  return await sequelize.query(query, {
+    type: Sequelize.QueryTypes.DELETE,
+    replacements: {
+      messageId,
+      messageScopeId,
+      reactionTypeId,
+      ownerId,
+    },
+  });
+};
+
+const createReactionRecord = async (ownerId, reactionTypeId, messageId, messageScopeId) => {
+  const query = `
+    insert into public.reactions (scope_id,
+                                    message_id,
+                                    type_id,
+                                    owner_id,
+                                    created_at,
+                                    updated_at) 
+                            values (:messageScopeId, 
+                                    :messageId, 
+                                    :reactionTypeId, 
+                                    :ownerId,
+                                    current_timestamp, 
+                                    current_timestamp)
+                              returning id;
+  `;
+  return await sequelize.query(query, {
+    type: Sequelize.QueryTypes.INSERT,
+    replacements: {
+      messageId,
+      messageScopeId,
+      reactionTypeId,
+      ownerId,
+    },
+  });
+};
+
+const checkReactionExists = async (ownerId, reactionTypeId, messageId, messageScopeId) => {
+  const query = `
+    select * from public.reactions r
+     where r.scope_id = :messageScopeId
+       and r.message_id = :messageId
+       and r.type_id = :reactionTypeId
+       and r.owner_id = :ownerId
+  `;
+  return await sequelize.query(query, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      messageId,
+      messageScopeId,
+      reactionTypeId,
+      ownerId,
+    },
+  });
+};
+
 module.exports = {
   saveMessage,
   saveGangMessage,
   getChatHistoryForUser,
   getChatHistoryForGang,
   softDeleteMessage,
+  addMessageReaction,
 };

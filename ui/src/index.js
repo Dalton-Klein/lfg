@@ -12,11 +12,11 @@ window.Buffer = [];
 const rootElement = document.getElementById("root");
 
 createRoot(rootElement).render(
-  <React.StrictMode>
-    <HashRouter>
-      <App />
-    </HashRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <HashRouter>
+    <App />
+  </HashRouter>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
