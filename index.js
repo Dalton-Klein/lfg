@@ -114,6 +114,8 @@ io.on("connection", (socket) => {
           socket.leave(room);
         } else if (room.substring(0, 13) === "reactions_dm_" && roomId.substring(0, 13) === "reactions_dm_") {
           socket.leave(room);
+        } else if (room.substring(0, 6) === "voice_" && roomId.substring(0, 6) === "voice_") {
+          socket.leave(room);
         }
       }
     });
