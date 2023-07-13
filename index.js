@@ -104,16 +104,24 @@ io.on("connection", (socket) => {
     const allConnectedRooms = socket.rooms;
     const regexTest = /^notifications-\d+/;
     allConnectedRooms.forEach((room) => {
+      //Loop through connected rooms and leave rooms of same type before joining a new room
       if (room !== socket.id && !regexTest.test(room)) {
-        socket.leave(room); // Leave each room (except the default room, which is the socket ID)
+        if (room.substring(0, 5) === "gang_" && roomId.substring(0, 5) === "gang_") {
+          socket.leave(room);
+        } else if (room.substring(0, 3) === "dm_" && roomId.substring(0, 3) === "dm_") {
+          socket.leave(room);
+        } else if (room.substring(0, 15) === "reactions_gang_" && roomId.substring(0, 15) === "reactions_gang_") {
+          socket.leave(room);
+        } else if (room.substring(0, 13) === "reactions_dm_" && roomId.substring(0, 13) === "reactions_dm_") {
+          socket.leave(room);
+        }
       }
     });
     //Now, connect to desired room
     socket.join(roomId);
-    console.log("joining room: ", roomId);
   });
 
-  //Listen for dm chat messages from users
+  //Listen for chat messages from users
   socket.on("message", async ({ roomId, senderId, sender, avatar_url, rank, message, isImage, timestamp }) => {
     const insertedId = await messageController.saveMessage(roomId.substring(3), senderId, message, isImage, timestamp);
     io.to(roomId).emit("message", {
@@ -126,6 +134,12 @@ io.on("connection", (socket) => {
       message,
       isImage,
       timestamp,
+      count_love: 0,
+      count_thumbs_down: 0,
+      count_thumbs_up: 0,
+      count_one_hunderd: 0,
+      count_fire: 0,
+      count_skull: 0,
     });
   });
 
@@ -141,15 +155,45 @@ io.on("connection", (socket) => {
       id: insertedId,
       roomId,
       senderId,
-      sender,
       avatar_url,
       rank,
+      sender,
       message,
       isImage,
       timestamp,
+      count_love: 0,
+      count_thumbs_down: 0,
+      count_thumbs_up: 0,
+      count_one_hunderd: 0,
+      count_fire: 0,
+      count_skull: 0,
     });
   });
-  //END DM EVENTS
+  //END Message EVENTS
+
+  //Listen for message reaction from users
+  socket.on(
+    "reaction_event",
+    async ({ roomId, ownerId, reactionTypeId, messageId, reactionScopeId, message, isImage, timestamp }) => {
+      const reactionResult = await messageController.addMessageReaction(
+        ownerId,
+        reactionTypeId,
+        messageId,
+        reactionScopeId
+      );
+      if (reactionResult !== "error") {
+        io.to(roomId).emit("reaction_event", {
+          roomId,
+          ownerId,
+          reactionTypeId,
+          messageId,
+          reactionScopeId,
+          isAdding: reactionResult === "added" ? true : false,
+        });
+      }
+    }
+  );
+  //END Message Reactions EVENTS
 
   //START VOICECHAT EVENTS
   //         join voice is triggered only after user is already in voice "room"

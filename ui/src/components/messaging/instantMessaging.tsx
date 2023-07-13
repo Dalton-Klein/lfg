@@ -8,7 +8,6 @@ import {
   fetchUserDataAndConnectedStatus,
   getChatHistoryForGang,
   getChatHistoryForUser,
-  requestAddMessageReaction,
   requestSoftDeleteMessage,
   uploadAvatarCloud,
 } from "../../utils/rest";
@@ -24,7 +23,14 @@ function isMobileDevice() {
   const mobileKeywords = ["Android", "iOS", "iPhone", "iPad", "iPod", "Windows Phone"];
   return mobileKeywords.some((keyword) => userAgent.includes(keyword));
 }
-
+const messageReactionsKey = {
+  1: "count_love",
+  2: "count_thumbs_down",
+  3: "count_thumbs_up",
+  4: "count_one_hunderd",
+  5: "count_fire",
+  6: "count_skull",
+};
 export default function InstantMessaging({ socketRef, convo, hasPressedChannelForMobile }) {
   const navigate = useNavigate();
 
@@ -69,18 +75,48 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  //BEGIN Update messages list after each chat sent
-  useEffect(() => {
-    socketRef.current.on(
-      "message",
-      ({
+  const reactionListener = ({ roomId, ownerId, reactionTypeId, messageId, reactionScopeId, isAdding }) => {
+    setchat((prevChat) => {
+      let copyOfChat = [...prevChat];
+      //Find message we need to edit reactions for
+      copyOfChat.forEach((message) => {
+        if (message.id === messageId) {
+          //Found message needing to edit reaction for, adjusting count
+          const prevValue = parseInt(message[messageReactionsKey[reactionTypeId]])
+            ? parseInt(message[messageReactionsKey[reactionTypeId]])
+            : 0;
+          message[messageReactionsKey[reactionTypeId]] = isAdding ? prevValue + 1 : prevValue - 1;
+        }
+      });
+      return copyOfChat;
+    });
+  };
+  const messageListener = ({
+    id,
+    roomId,
+    senderId,
+    avatar_url,
+    rank,
+    sender,
+    message,
+    isImage,
+    timestamp,
+    count_love,
+    count_thumbs_down,
+    count_thumbs_up,
+    count_one_hunderd,
+    count_fire,
+    count_skull,
+  }: any) => {
+    setchat((prevChat) => [
+      ...prevChat,
+      {
         id,
         roomId,
         senderId,
         sender,
         message,
-        isImage,
+        is_image: isImage,
         rank,
         avatar_url,
         timestamp,
@@ -90,30 +126,29 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
         count_one_hunderd,
         count_fire,
         count_skull,
-      }: any) => {
-        setchat([
-          ...chat,
-          {
-            id,
-            roomId,
-            senderId,
-            sender,
-            message,
-            is_image: isImage,
-            rank,
-            avatar_url,
-            timestamp,
-            count_love,
-            count_thumbs_down,
-            count_thumbs_up,
-            count_one_hunderd,
-            count_fire,
-            count_skull,
-          },
-        ]);
-      }
-    );
+      },
+    ]);
+  };
+  useEffect(() => {
+    socketRef.current.on("message", messageListener);
+    socketRef.current.on("reaction_event", reactionListener);
     // When loading gang page on mobile, prevent undesired scroll on page load until user selects channel
+    if (isMobile && !hasPressedChannelForMobile) {
+      //Do nothing
+    } else {
+      lastMessageRef.current?.scrollIntoView();
+    }
+    //Cleanup listeners to ensure only 1 is active for each event at a time
+    return () => {
+      socketRef.current.off("reaction_event", reactionListener);
+      socketRef.current.off("message", messageListener);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //BEGIN Update messages list after each chat sent
+
+  useEffect(() => {
     if (isMobile && !hasPressedChannelForMobile) {
       //Do nothing
     } else {
@@ -146,7 +181,6 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     } else {
       lastMessageRef.current?.scrollIntoView();
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [convo]);
 
@@ -177,8 +211,10 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
   const joinSocketRoom = () => {
     if (currentConvo.id && currentConvo.id > 0) {
       if (locationPath === "/messaging") {
+        socketRef.current.emit("join_room", `reactions_dm_${currentConvo.id}`);
         socketRef.current.emit("join_room", `dm_${currentConvo.id}`);
       } else {
+        socketRef.current.emit("join_room", `reactions_gang_${currentConvo.id}`);
         socketRef.current.emit("join_room", `gang_${currentConvo.id}`);
       }
     }
@@ -193,7 +229,6 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
         //Block for loading gang group messages
         historicalChatData = await getChatHistoryForGang(userState.id, currentConvo.id, "");
       }
-      console.log("historical; ", historicalChatData);
       if (historicalChatData && historicalChatData.length) {
         setchat([...historicalChatData]);
         joinSocketRoom();
@@ -284,11 +319,24 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
   };
 
   const addMessageReaction = async (reactionId: number, messageId: any) => {
-    const isGangMessaging = locationPath === "/messaging" ? false : true;
-    const result = await requestAddMessageReaction(reactionId, messageId, isGangMessaging, "");
-    if (result) {
-      setchat((prevChat: any[]) => prevChat.filter((message) => message.id !== messageId));
-      setSelectedMessageId(null); // Reset the selected message ID
+    // Right now there is direct and group messaging, if third scope is added change this
+    const { roomId } = messageState;
+    if (locationPath === "/messaging") {
+      socketRef.current.emit("reaction_event", {
+        roomId: `reactions_dm_${roomId}`,
+        ownerId: userState.id,
+        reactionTypeId: reactionId,
+        messageId,
+        reactionScopeId: 1,
+      });
+    } else {
+      socketRef.current.emit("reaction_event", {
+        roomId: `reactions_gang_${roomId}`,
+        ownerId: userState.id,
+        reactionTypeId: reactionId,
+        messageId,
+        reactionScopeId: 2,
+      });
     }
     messageOptionsMenu.current = null;
     const clickEvent = new MouseEvent("click");
@@ -318,7 +366,6 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
           index: number
         ) => {
           const formattedTimestamp = howLongAgo(created_at);
-          console.log("test", chat);
           return (
             <div
               className={
@@ -358,14 +405,14 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
                 </div>
                 <div className="message-details">
                   <div className="message-timestamp">{formattedTimestamp}</div>
-                  {/* <button
+                  <button
                     className="reaction-button"
                     onClick={(event) => {
                       openReactionsMenu(event, id);
                     }}
                   >
                     <AddReactionOutlinedIcon />
-                  </button> */}
+                  </button>
                   <button
                     style={{ display: sender === userState.username ? "inline-block" : "none" }}
                     className="options-button"
@@ -386,6 +433,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
               </div>
               <div className="reaction-box">
                 {renderReactionsForMessage(
+                  id,
                   count_love,
                   count_thumbs_down,
                   count_thumbs_up,
@@ -423,6 +471,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     }
   };
   const renderReactionsForMessage = (
+    messageId,
     count_love,
     count_thumbs_down,
     count_thumbs_up,
@@ -433,7 +482,13 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     let reactionsResult: any[] = [];
     if (count_love > 0) {
       reactionsResult.push(
-        <div key={1} className="mssg-reaction">
+        <div
+          key={1}
+          className="mssg-reaction"
+          onClick={() => {
+            addMessageReaction(1, messageId);
+          }}
+        >
           <div>❤️</div>
           <div className="reaction-count">{count_love}</div>
         </div>
@@ -441,7 +496,13 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     }
     if (count_thumbs_up > 0) {
       reactionsResult.push(
-        <div key={3} className="mssg-reaction">
+        <div
+          key={3}
+          className="mssg-reaction"
+          onClick={() => {
+            addMessageReaction(3, messageId);
+          }}
+        >
           <div>👍</div>
           <div className="reaction-count">{count_thumbs_up}</div>
         </div>
@@ -449,7 +510,13 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     }
     if (count_thumbs_down > 0) {
       reactionsResult.push(
-        <div key={2} className="mssg-reaction">
+        <div
+          key={2}
+          className="mssg-reaction"
+          onClick={() => {
+            addMessageReaction(2, messageId);
+          }}
+        >
           <div>👎</div>
           <div className="reaction-count">{count_thumbs_down}</div>
         </div>
@@ -457,7 +524,13 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     }
     if (count_one_hunderd > 0) {
       reactionsResult.push(
-        <div key={4} className="mssg-reaction">
+        <div
+          key={4}
+          className="mssg-reaction"
+          onClick={() => {
+            addMessageReaction(4, messageId);
+          }}
+        >
           <div>💯</div>
           <div className="reaction-count">{count_one_hunderd}</div>
         </div>
@@ -465,7 +538,13 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     }
     if (count_fire > 0) {
       reactionsResult.push(
-        <div key={5} className="mssg-reaction">
+        <div
+          key={5}
+          className="mssg-reaction"
+          onClick={() => {
+            addMessageReaction(5, messageId);
+          }}
+        >
           <div>🔥</div>
           <div className="reaction-count">{count_fire}</div>
         </div>
@@ -473,7 +552,13 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     }
     if (count_skull > 0) {
       reactionsResult.push(
-        <div key={6} className="mssg-reaction">
+        <div
+          key={6}
+          className="mssg-reaction"
+          onClick={() => {
+            addMessageReaction(6, messageId);
+          }}
+        >
           <div>💀</div>
           <div className="reaction-count">{count_skull}</div>
         </div>
