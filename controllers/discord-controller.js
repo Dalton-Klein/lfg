@@ -34,7 +34,7 @@ const interpretMessage = async (mssg) => {
             },
             { name: "Weekday Availability", value: `${userInfo.rust_weekdays}` },
             { name: "Weekend Availability", value: `${userInfo.rust_weekends}` },
-            { name: "Connect With Me On gangs.gg", value: `https://www.gangs.gg/profile/${userInfo.id}` }
+            { name: "Connect With Me On gangs.gg", value: `https://www.gangs.gg/#/profile/${userInfo.id}` }
           );
 
         mssg.reply({ embeds: [embed] });
