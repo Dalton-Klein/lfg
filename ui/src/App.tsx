@@ -44,9 +44,9 @@ function App() {
   }, []);
 
   const connectToSocketMaster = async () => {
-    // ***PUSH FIX SOCKET
+    // ***PROD FIX SOCKET
     socketRef.current = io.connect(
-      "http://localhost:3000" //: "https://www.gangs.gg" or "http://localhost:3000"
+      "https://www.gangs.gg" //: "https://www.gangs.gg" or "http://localhost:3000"
     );
     socketRef.current.on("handshakeResponse", (serverSocketId) => {
       // Do further processing with the server socket ID

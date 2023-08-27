@@ -16,11 +16,9 @@ const interpretMessage = async (mssg) => {
       mssg.reply("You forgot to provide a gangs.gg username for the 'rust' command! Example 'g! rust admin'");
     } else {
       const foundUser = await searchForUserByUsername(args[0]);
-      console.log("found user? ", foundUser);
       if (foundUser.length) {
         let userInfo = await getUserInfo(foundUser[0].id);
         userInfo = userInfo[0];
-        console.log("user? ", userInfo);
         const embed = new EmbedBuilder()
           .setColor("#0099ff")
           .setTitle(`I am looking for Rust Teammates! Here is my info.`)
