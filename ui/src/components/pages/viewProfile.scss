@@ -1,0 +1,199 @@
+@import "../../styling/config";
+
+.profile-container {
+  width: 99.5%;
+  background-color: $colorGreyBg;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  padding-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  .expanded-gradient-bar {
+    width: 80%;
+    max-width: 900px;
+    min-height: 1px;
+    max-height: 1px;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    background: linear-gradient(45deg, $colorPrimary, $colorSecondary);
+  }
+  .expanded-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    .expanded-photo {
+      width: 12vh;
+      height: 12vh;
+      min-height: 12vh;
+      min-width: 12vh;
+      object-fit: cover;
+      border-radius: calc(12vh / 2);
+    }
+    .dynamic-avatar-border {
+      @extend .expanded-photo;
+      background-color: $colorShadowLight;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .dynamic-avatar-text-med {
+        font-size: $font5;
+      }
+    }
+    .expanded-basic-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 15vh;
+      margin: 0 1vw;
+      max-width: 60%;
+      flex-grow: 1;
+      .expanded-username {
+        font-size: $font5;
+        text-align: center;
+      }
+      .expanded-basic-text {
+        font-size: $font2;
+        opacity: 0.6;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+        min-height: 1vh;
+        text-align: center;
+      }
+      div {
+        min-height: 33%;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+  .expanded-core-info {
+    display: flex;
+    flex-direction: column;
+    align-content: space-evenly;
+    width: 80%;
+    max-width: 800px;
+    .expanded-core-info-title {
+      text-align: center;
+      font-size: $font2;
+      color: $colorTextAlt;
+      margin-bottom: 1.5vh;
+    }
+    .expanded-core-info-field {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0.5vh 0;
+      .details-rocket-league-playlist {
+        font-size: $font2;
+        border-radius: $borderRadius1;
+        background-color: $colorGreyBg;
+        border: 2px solid $colorSecondary;
+        padding: 1vh 1vw;
+      }
+    }
+    .expanded-endorsement-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 800px;
+    }
+    .expanded-social-container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 800px;
+      .platform-image-container {
+        width: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 0.5vw;
+        .expanded-platform-image {
+          min-width: 30px;
+          max-width: 2.25vw;
+          object-fit: contain;
+          opacity: 0.6;
+        }
+      }
+      .expanded-social-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 33%;
+        margin: 0 0.5vw;
+      }
+    }
+  }
+  .expanded-connect-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 800px;
+    .expanded-core-info-title {
+      text-align: center;
+      font-size: $font2;
+      color: $colorTextAlt;
+      margin-bottom: 1.5vh;
+    }
+    input {
+      min-width: 100%;
+      max-width: 900px;
+      text-align: center;
+      background-color: $colorGreyBg;
+    }
+    .connect-button {
+      margin-bottom: 3vh;
+      padding-left: 1vw;
+      padding-right: 1vw;
+    }
+    .profile-incomplete-text {
+      color: $colorPrimary;
+      text-align: center;
+      .link-text {
+        cursor: pointer;
+      }
+    }
+  }
+  .bottom-of-profile {
+    margin-bottom: 10vh;
+  }
+}
+
+@media screen and (max-width: $screenBreak2) {
+  .profile-container {
+    .expanded-banner {
+      flex-direction: column;
+      align-items: center;
+      .expanded-basic-info {
+        align-items: center;
+        .expanded-basic-text {
+          max-width: 80%;
+          text-align: center;
+        }
+      }
+    }
+    .expanded-core-info {
+      .expanded-social-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        .platform-image-container {
+          margin: 1vh 0.5vw;
+        }
+        .expanded-social-box {
+          margin: 1vh 0.5vw;
+        }
+      }
+    }
+  }
+}

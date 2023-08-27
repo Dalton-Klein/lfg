@@ -29,6 +29,7 @@ import SteamSignUpPage from "./components/authentication/steamSignUp";
 import BlogArticle4 from "./components/pages/blog/blogArticle-4";
 import BlogArticle5 from "./components/pages/blog/blogArticle-5";
 import SupportPage from "./components/pages/supportPage";
+import ViewProfilePage from "./components/pages/viewProfile";
 // ***ELECTRON DISABLE
 // import ElectronTitlebar from "./components/nav/electronTitleBar";
 
@@ -45,7 +46,7 @@ function App() {
   const connectToSocketMaster = async () => {
     // ***PUSH FIX SOCKET
     socketRef.current = io.connect(
-      "https://www.gangs.gg" //: "https://www.gangs.gg" or "http://localhost:3000"
+      "http://localhost:3000" //: "https://www.gangs.gg" or "http://localhost:3000"
     );
     socketRef.current.on("handshakeResponse", (serverSocketId) => {
       // Do further processing with the server socket ID
@@ -101,6 +102,7 @@ function App() {
                 <Route path="/general-profile" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/add-friend" element={<AddFriend />} />
                 <Route path="/account-settings" element={<ProfilePage socketRef={socketRef} />} />
+                <Route path="/profile/:userId" element={<ViewProfilePage socketRef={socketRef} />} />
                 {/* ***NEW  GAME EDIT */}
                 <Route path="/rust-profile" element={<ProfilePage socketRef={socketRef} />} />
                 <Route path="/rocket-league-profile" element={<ProfilePage socketRef={socketRef} />} />
