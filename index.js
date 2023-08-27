@@ -32,7 +32,7 @@ const client = new Client({
 });
 client.on("ready", (payload) => {
   console.log(`🤖 ${payload.user.tag} is Ready 🤖`);
-  client.user.setActivity("test message");
+  client.user.setActivity("test");
 });
 client.login(process.env.DISCORD_BOT_TOKEN);
 client.on("messageCreate", (mssg) => {
