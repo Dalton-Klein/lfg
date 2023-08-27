@@ -505,7 +505,7 @@ const ExpandedProfile = (props: Props) => {
             ) : (
               <></>
             )}
-            {(props.game === "all" || props.game === "battle-bit") && publishData.rocket_league_status ? (
+            {(props.game === "all" || props.game === "battle-bit") && publishData.battle_bit_status ? (
               <div className="expanded-gradient-bar"></div>
             ) : (
               <></>

@@ -19,10 +19,27 @@ const path = require("path");
 const { main } = require("./startup/startup");
 const messageController = require("./controllers/message-controller");
 const authController = require("./controllers/auth-controller");
+const discordController = require("./controllers/discord-controller");
 //Steam
 const passport = require("passport");
 const SteamStrategy = require("passport-steam").Strategy;
 const session = require("express-session");
+
+//START DISCORD BOT
+const { Client, GatewayIntentBits } = require("discord.js");
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+});
+client.on("ready", (payload) => {
+  console.log(`🤖 ${payload.user.tag} is Ready 🤖`);
+  client.user.setActivity("test message");
+});
+client.login(process.env.DISCORD_BOT_TOKEN);
+client.on("messageCreate", (mssg) => {
+  //Runs on every mssg sent in server
+  discordController.interpretMessage(mssg);
+});
+//END DISCORD BOT
 
 //START STEAM
 app.use(
