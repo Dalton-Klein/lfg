@@ -13,7 +13,7 @@ const { createRedemptionForUser } = require("./redeems-controller");
 /*
 Check General Profile
 */
-const checkGeneralProfileCompletion = async (req, res) => {
+const checkGeneralProfileCompletion = async (req, res, isHttpCall = true) => {
   try {
     console.log(" ♛ A User Checking General Profile Completion ♛ ");
     const { userId, token } = req.body;
@@ -43,10 +43,12 @@ const checkGeneralProfileCompletion = async (req, res) => {
       status: passesValidation ? "success" : "error",
       data: problemFields,
     };
-    res.status(200).send(result);
+    if (isHttpCall) res.status(200).send(result);
+    else return result;
   } catch (error) {
     console.log(error);
-    res.sendStatus(500);
+    if (isHttpCall) res.sendStatus(500);
+    else return error;
   }
 };
 
