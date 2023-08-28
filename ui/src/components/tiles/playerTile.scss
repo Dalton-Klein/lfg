@@ -7,276 +7,374 @@
   align-content: space-between;
   min-width: 30vw;
   max-width: 30vw;
-  min-height: 200px;
+  min-height: 36vh;
   max-height: 45vh;
   background-color: $colorGreyBg;
-  border-radius: $borderRadius1;
-  outline-style: solid;
-  outline-width: 2px;
-  outline-color: $colorSecondary;
-
-  .main-details {
-    display: flex;
-    align-items: center;
-    min-width: 100%;
-    .image-column {
-      min-width: 60px;
-      max-width: 30%;
-      min-height: 100%;
-      margin: 0 0.5vw;
-      display: flex;
-      flex-direction: column;
-      margin-left: 1vw;
-      .dynamic-avatar-border {
-        width: 4vw;
-        height: 4vw;
-        min-height: 4vw;
-        min-width: 4vw;
-        object-fit: cover;
-        border-radius: calc(4vw / 2);
-        background-color: $colorShadowLight;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .dynamic-avatar-text-med {
-          font-size: $font4;
-        }
-      }
-      .card-photo {
-        width: 4vw;
-        height: 4vw;
-        min-height: 4vw;
-        min-width: 4vw;
-        object-fit: cover;
-        border-radius: calc(4vw / 2);
-      }
-    }
-    .info-column {
-      width: 75%;
-      max-width: 75%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      margin: 0 1vw 0.5vh 1vw;
-      font-size: $font4;
-      .info-title-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        height: 50%;
-        .connect-button {
-          padding-left: 10px;
-          padding-right: 10px;
-        }
-      }
-      .info-stats-row {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        margin-top: 0.5vh;
-      }
-      .info-stats-attribute {
-        font-size: $font2;
-        opacity: 0.7;
-      }
-      .platform-icon {
-        font-size: $font3;
-        width: 1.5vw;
-        height: 1.5vw;
-        min-height: 20px;
-        min-width: 20px;
-      }
-      .gender-icon {
-        width: 1vw;
-        height: 1vw;
-        min-height: 15px;
-        min-width: 15px;
-        opacity: 0.7;
-      }
-    }
-  }
-  .lesser-details {
-    background-color: $colorGreyBg;
-
-    .detail-label {
-      margin: 0vh 1vw;
-      opacity: 0.7;
-      z-index: 0;
-      font-size: $font2;
-    }
-    .details-about {
-      margin: 0vh 1vw 0 1vw;
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      .details-about-text {
-        min-width: 100%;
-        text-align: center;
-        font-size: $font1;
-      }
-    }
-    .details-hours-played {
-      margin: 0;
-      min-height: 25px;
-      display: flex;
-      align-items: center;
-      .hours-belt-outer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 100%;
-        min-height: 12px;
-        max-height: 12px;
-        background-color: $colorGreyPop;
-        .hours-belt-inner {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: $colorGreyPop;
-          min-height: 25px;
-          min-width: 50%;
-          border-radius: $borderRadius2;
-        }
-      }
-      .details-hours-played-text {
-        min-width: 100%;
-        text-align: center;
-      }
-    }
-    .details-rust {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin-top: 1.5vh;
-      .details-rust-info-slot {
-        border: 1px solid white;
+  .player-tile-parent {
+    height: 100%;
+    width: 100%;
+    .card-container {
+      height: 100%;
+      width: 100%;
+      position: relative;
+      transition: 500ms;
+      transform-style: preserve-3d;
+      .card-back,
+      .card-front {
         border-radius: $borderRadius1;
-        padding: 0.25vw;
+        outline-style: solid;
+        outline-width: 2px;
+        outline-color: $colorSecondary;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        backface-visibility: hidden;
       }
-    }
-    .details-rocket-league {
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      margin-top: 1vh;
-      margin-bottom: 0.5vh;
-      .details-rocket-league-playlist {
-        font-size: $font3;
-        border-radius: $borderRadius1;
-        background-color: $colorGreyPop;
-        border: 2px solid $colorSecondary;
-        padding: 1vh 1vw;
-      }
-      .details-rocket-league-rank {
-        width: 3.5vw;
-        height: 3.5vw;
-        min-height: 35px;
-        min-width: 35px;
-      }
-    }
-    .details-battle-bit {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-left: 1vw;
-      padding-right: 1vw;
-      margin-top: 1vh;
-      margin-bottom: 0.5vh;
-      .details-battle-bit-info-slot {
-        min-width: 33%;
+      .card-front {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        div {
-          text-align: center;
+        .front-name {
+          font-size: $font5;
+          margin: 1vh 0;
         }
-        .details-battle-bit-class {
-          width: 3.5vw;
-          height: 3.5vw;
-          min-height: 35px;
-          min-width: 35px;
+        .front-image {
+          margin: 1vh 0;
+          .dynamic-avatar-border {
+            width: 10vw;
+            height: 10vw;
+            min-height: 10vw;
+            min-width: 10vw;
+            object-fit: cover;
+            border-radius: calc(10vw / 2);
+            background-color: $colorShadowLight;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .dynamic-avatar-text-med {
+              font-size: $font4;
+            }
+          }
+          .card-photo {
+            width: 10vw;
+            height: 10vw;
+            min-height: 10vw;
+            min-width: 10vw;
+            object-fit: cover;
+            border-radius: calc(10vw / 2);
+          }
+        }
+        .front-details {
+          margin: 1vh 0;
+          width: 100%;
+          display: flex;
+          justify-content: space-evenly;
         }
       }
-    }
-    .details-availability {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      min-height: 30px;
-      word-wrap: normal;
-      max-width: 100%;
-      padding: 1vh 0;
-      .detail-label {
-        font-size: $font1;
-      }
-      .details-availabilty-text {
-        margin: 0vh 1vw;
-        text-align: center;
-        overflow-wrap: normal;
-        font-size: $font1;
+      .card-back {
+        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        .main-details {
+          display: flex;
+          align-items: center;
+          min-width: 100%;
+          .image-column {
+            min-width: 60px;
+            max-width: 30%;
+            min-height: 100%;
+            margin: 0 0.5vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-left: 1vw;
+            .dynamic-avatar-border {
+              width: 4vw;
+              height: 4vw;
+              min-height: 4vw;
+              min-width: 4vw;
+              object-fit: cover;
+              border-radius: calc(4vw / 2);
+              background-color: $colorShadowLight;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              .dynamic-avatar-text-med {
+                font-size: $font4;
+              }
+            }
+            .card-photo {
+              width: 4vw;
+              height: 4vw;
+              min-height: 4vw;
+              min-width: 4vw;
+              object-fit: cover;
+              border-radius: calc(4vw / 2);
+            }
+          }
+          .info-column {
+            width: 75%;
+            max-width: 75%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 0 1vw 0.5vh 1vw;
+            font-size: $font4;
+            .info-title-row {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              width: 100%;
+              height: 50%;
+              .connect-button {
+                padding-left: 10px;
+                padding-right: 10px;
+              }
+            }
+            .info-stats-row {
+              display: flex;
+              width: 100%;
+              justify-content: space-between;
+              margin-top: 0.5vh;
+            }
+            .info-stats-attribute {
+              font-size: $font2;
+              opacity: 0.7;
+            }
+            .platform-icon {
+              font-size: $font3;
+              width: 1.5vw;
+              height: 1.5vw;
+              min-height: 20px;
+              min-width: 20px;
+            }
+            .gender-icon {
+              width: 1vw;
+              height: 1vw;
+              min-height: 15px;
+              min-width: 15px;
+              opacity: 0.7;
+            }
+          }
+        }
+        .lesser-details {
+          background-color: $colorGreyBg;
+
+          .detail-label {
+            margin: 0vh 1vw;
+            opacity: 0.7;
+            z-index: 0;
+            font-size: $font2;
+          }
+          .details-about {
+            margin: 0vh 1vw 0 1vw;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            .details-about-text {
+              min-width: 100%;
+              text-align: center;
+              font-size: $font1;
+            }
+          }
+          .details-hours-played {
+            margin: 0;
+            min-height: 25px;
+            display: flex;
+            align-items: center;
+            .hours-belt-outer {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              min-width: 100%;
+              min-height: 12px;
+              max-height: 12px;
+              background-color: $colorGreyPop;
+              .hours-belt-inner {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: $colorGreyPop;
+                min-height: 25px;
+                min-width: 50%;
+                border-radius: $borderRadius2;
+              }
+            }
+            .details-hours-played-text {
+              min-width: 100%;
+              text-align: center;
+            }
+          }
+          .details-rust {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 1.5vh;
+            .details-rust-info-slot {
+              border: 1px solid white;
+              border-radius: $borderRadius1;
+              padding: 0.25vw;
+            }
+          }
+          .details-rocket-league {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            margin-top: 1vh;
+            margin-bottom: 0.5vh;
+            .details-rocket-league-playlist {
+              font-size: $font3;
+              border-radius: $borderRadius1;
+              background-color: $colorGreyPop;
+              border: 2px solid $colorSecondary;
+              padding: 1vh 1vw;
+            }
+            .details-rocket-league-rank {
+              width: 3.5vw;
+              height: 3.5vw;
+              min-height: 35px;
+              min-width: 35px;
+            }
+          }
+          .details-battle-bit {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 1vw;
+            padding-right: 1vw;
+            margin-top: 1vh;
+            margin-bottom: 0.5vh;
+            .details-battle-bit-info-slot {
+              min-width: 33%;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              div {
+                text-align: center;
+              }
+              .details-battle-bit-class {
+                width: 3.5vw;
+                height: 3.5vw;
+                min-height: 35px;
+                min-width: 35px;
+              }
+            }
+          }
+          .details-availability {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 30px;
+            word-wrap: normal;
+            max-width: 100%;
+            padding: 1vh 0;
+            .detail-label {
+              font-size: $font1;
+            }
+            .details-availabilty-text {
+              margin: 0vh 1vw;
+              text-align: center;
+              overflow-wrap: normal;
+              font-size: $font1;
+            }
+          }
+        }
+        .footer-details {
+          min-width: 100%;
+          max-width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .footer-third {
+            min-width: 25%;
+          }
+          .footer-rank-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .footer-platform-box {
+            margin-top: 0.5vw;
+            margin-bottom: 0.5vw;
+            opacity: 0.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .footer-platform-image {
+              min-width: 25px;
+              max-width: 1.75vw;
+              opacity: 0.6;
+            }
+          }
+          .footer-timestamp {
+            margin-bottom: 1.5vh;
+            margin-top: 1.5vh;
+            margin-right: 1vw;
+            text-align: right;
+            opacity: 0.6;
+            position: relative;
+          }
+        }
       }
     }
   }
-  .footer-details {
-    min-width: 100%;
-    max-width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .footer-third {
-      min-width: 25%;
-    }
-    .footer-rank-box {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .footer-platform-box {
-      margin-top: 0.5vw;
-      margin-bottom: 0.5vw;
-      opacity: 0.6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .footer-platform-image {
-        min-width: 25px;
-        max-width: 1.75vw;
-        opacity: 0.6;
-      }
-    }
-    .footer-timestamp {
-      margin-bottom: 1.5vh;
-      margin-top: 1.5vh;
-      margin-right: 1vw;
-      text-align: right;
-      opacity: 0.6;
-      position: relative;
-    }
-  }
+}
+
+.player-tile-parent:hover > .card-container {
+  cursor: pointer;
+  transform: rotateY(180deg);
 }
 
 @media only screen and (max-width: 1350px) {
   .player-card {
     min-width: 45vw;
     max-width: 45vw;
-    .main-details {
-      .image-column {
-        min-width: 6vw;
-        .dynamic-avatar-border {
-          width: 6vw;
-          height: 6vw;
-          min-height: 6vw;
-          min-width: 6vw;
-          border-radius: calc(6vw / 2);
+    .player-tile-parent {
+      .card-container {
+        .card-front {
+          .front-image {
+            .dynamic-avatar-border {
+              width: 12.5vw;
+              height: 12.5vw;
+              min-height: 12.5vw;
+              min-width: 12.5vw;
+              border-radius: calc(12.5vw / 2);
+              .dynamic-avatar-text-med {
+                font-size: $font4;
+              }
+            }
+            .card-photo {
+              width: 12.5vw;
+              height: 12.5vw;
+              min-height: 12.5vw;
+              min-width: 12.5vw;
+              border-radius: calc(12.5vw / 2);
+            }
+          }
         }
-        .card-photo {
-          width: 6vw;
-          height: 6vw;
-          min-height: 6vw;
-          min-width: 6vw;
-          border-radius: calc(6vw / 2);
+        .card-back {
+          .main-details {
+            .image-column {
+              min-width: 6vw;
+              .dynamic-avatar-border {
+                width: 6vw;
+                height: 6vw;
+                min-height: 6vw;
+                min-width: 6vw;
+                border-radius: calc(6vw / 2);
+              }
+              .card-photo {
+                width: 6vw;
+                height: 6vw;
+                min-height: 6vw;
+                min-width: 6vw;
+                border-radius: calc(6vw / 2);
+              }
+            }
+          }
         }
       }
     }
@@ -285,22 +383,49 @@
 
 @media only screen and (max-width: 1000px) {
   .player-card {
-    .main-details {
-      .image-column {
-        min-width: 8vw;
-        .dynamic-avatar-border {
-          width: 8vw;
-          height: 8vw;
-          min-height: 8vw;
-          min-width: 8vw;
-          border-radius: calc(8vw / 2);
+    .player-tile-parent {
+      .card-container {
+        .card-front {
+          .front-image {
+            .dynamic-avatar-border {
+              width: 17vw;
+              height: 17vw;
+              min-height: 17vw;
+              min-width: 17vw;
+              border-radius: calc(17vw / 2);
+              .dynamic-avatar-text-med {
+                font-size: $font4;
+              }
+            }
+            .card-photo {
+              width: 17vw;
+              height: 17vw;
+              min-height: 17vw;
+              min-width: 17vw;
+              border-radius: calc(17vw / 2);
+            }
+          }
         }
-        .card-photo {
-          width: 8vw;
-          height: 8vw;
-          min-height: 8vw;
-          min-width: 8vw;
-          border-radius: calc(8vw / 2);
+        .card-back {
+          .main-details {
+            .image-column {
+              min-width: 8vw;
+              .dynamic-avatar-border {
+                width: 8vw;
+                height: 8vw;
+                min-height: 8vw;
+                min-width: 8vw;
+                border-radius: calc(8vw / 2);
+              }
+              .card-photo {
+                width: 8vw;
+                height: 8vw;
+                min-height: 8vw;
+                min-width: 8vw;
+                border-radius: calc(8vw / 2);
+              }
+            }
+          }
         }
       }
     }
@@ -310,31 +435,58 @@
 @media only screen and (max-width: 800px) {
   .player-card {
     min-width: 95vw;
-    min-height: 200px;
+    min-height: 32vh;
     max-height: 55vh;
-    .main-details {
-      .image-column {
-        min-width: 10vw;
-        width: 18vw;
-        max-width: 40%;
-        .dynamic-avatar-border {
-          width: 10vw;
-          height: 10vw;
-          min-height: 10vw;
-          min-width: 10vw;
-          border-radius: calc(10vw / 2);
+    .player-tile-parent {
+      .card-container {
+        .card-front {
+          .front-image {
+            .dynamic-avatar-border {
+              width: 20vw;
+              height: 20vw;
+              min-height: 20vw;
+              min-width: 20vw;
+              border-radius: calc(20vw / 2);
+              .dynamic-avatar-text-med {
+                font-size: $font4;
+              }
+            }
+            .card-photo {
+              width: 20vw;
+              height: 20vw;
+              min-height: 20vw;
+              min-width: 20vw;
+              border-radius: calc(20vw / 2);
+            }
+          }
         }
-        .card-photo {
-          width: 10vw;
-          height: 10vw;
-          min-height: 10vw;
-          min-width: 10vw;
-          border-radius: calc(10vw / 2);
-        }
-      }
-      .info-column {
-        .info-stats-attribute {
-          font-size: $font2;
+        .card-back {
+          .main-details {
+            .image-column {
+              min-width: 10vw;
+              width: 18vw;
+              max-width: 40%;
+              .dynamic-avatar-border {
+                width: 10vw;
+                height: 10vw;
+                min-height: 10vw;
+                min-width: 10vw;
+                border-radius: calc(10vw / 2);
+              }
+              .card-photo {
+                width: 10vw;
+                height: 10vw;
+                min-height: 10vw;
+                min-width: 10vw;
+                border-radius: calc(10vw / 2);
+              }
+            }
+            .info-column {
+              .info-stats-attribute {
+                font-size: $font2;
+              }
+            }
+          }
         }
       }
     }
@@ -343,22 +495,51 @@
 
 @media only screen and (max-width: 500px) {
   .player-card {
-    .main-details {
-      .image-column {
-        min-width: 15vw;
-        .dynamic-avatar-border {
-          width: 15vw;
-          height: 15vw;
-          min-height: 15vw;
-          min-width: 15vw;
-          border-radius: calc(15vw / 2);
+    min-height: 40vh;
+    max-height: 55vh;
+    .player-tile-parent {
+      .card-container {
+        .card-front {
+          .front-image {
+            .dynamic-avatar-border {
+              width: 25vw;
+              height: 25vw;
+              min-height: 25vw;
+              min-width: 25vw;
+              border-radius: calc(25vw / 2);
+              .dynamic-avatar-text-med {
+                font-size: $font4;
+              }
+            }
+            .card-photo {
+              width: 25vw;
+              height: 25vw;
+              min-height: 25vw;
+              min-width: 25vw;
+              border-radius: calc(25vw / 2);
+            }
+          }
         }
-        .card-photo {
-          width: 15vw;
-          height: 15vw;
-          min-height: 15vw;
-          min-width: 15vw;
-          border-radius: calc(15vw / 2);
+        .card-back {
+          .main-details {
+            .image-column {
+              min-width: 15vw;
+              .dynamic-avatar-border {
+                width: 15vw;
+                height: 15vw;
+                min-height: 15vw;
+                min-width: 15vw;
+                border-radius: calc(15vw / 2);
+              }
+              .card-photo {
+                width: 15vw;
+                height: 15vw;
+                min-height: 15vw;
+                min-width: 15vw;
+                border-radius: calc(15vw / 2);
+              }
+            }
+          }
         }
       }
     }

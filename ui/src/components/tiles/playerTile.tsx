@@ -135,7 +135,7 @@ export default function PlayerTile(props: any) {
   };
 
   return (
-    <div>
+    <div className="player-tile-parent">
       {/* Conditionally render hamburger modal */}
       {expandedProfileVis ? (
         <ExpandedProfile
@@ -150,10 +150,10 @@ export default function PlayerTile(props: any) {
       ) : (
         <></>
       )}
-      <div>
-        {/* main details */}
-        <div className="main-details">
-          <div className="image-column">
+      <div className="card-container">
+        <div className="card-front">
+          <div className="front-name">{props.username}</div>
+          <div className="front-image">
             {props.avatar_url === "" ||
             props.avatar_url ===
               "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
@@ -181,136 +181,175 @@ export default function PlayerTile(props: any) {
               />
             )}
           </div>
-          <div className="info-column">
-            <div className="info-title-row">
-              <div>{props.username}</div>
-              <button
-                className="connect-button"
-                onClick={() => {
-                  toggleExpandedProfile();
-                }}
-              >
-                <i className="pi pi-plus" />
-                &nbsp; view
-              </button>
-            </div>
-            <div className="info-stats-row">
-              <div className="info-stats-attribute">{props.languages}</div>
-              <div className="info-stats-attribute">{props.age}</div>
-              <img className="gender-icon" src={genderIcon} alt="gender icon"></img>
-              <div className="info-stats-attribute">{props.region_abbreviation}</div>
+          <div className="front-details">
+            <div className="front age">{props.age} years old</div>
+            <div className="front-hours" data-tip data-tooltip-id="hoursTip">
+              {props.hours} hours
             </div>
           </div>
         </div>
-        {/* lesser details */}
-        <div className="lesser-details">
-          <div className="details-about">
-            <div className="details-about-text">{props.about}</div>
+        <div className="card-back">
+          <div className="main-details">
+            <div className="image-column">
+              {props.avatar_url === "" ||
+              props.avatar_url ===
+                "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
+                <div
+                  className="dynamic-avatar-border"
+                  onClick={() => {
+                    toggleExpandedProfile();
+                  }}
+                >
+                  <div className="dynamic-avatar-text-med">
+                    {props.username
+                      .split(" ")
+                      .map((word: string[]) => word[0])
+                      .join("")
+                      .slice(0, 2)
+                      .toLowerCase()}
+                  </div>
+                </div>
+              ) : (
+                <img
+                  className="card-photo"
+                  onClick={() => {}}
+                  src={props.avatar_url}
+                  alt={`${props.username}'s avatar`}
+                />
+              )}
+            </div>
+            <div className="info-column">
+              <div className="info-title-row">
+                <div>{props.username}</div>
+                <button
+                  className="connect-button"
+                  onClick={() => {
+                    toggleExpandedProfile();
+                  }}
+                >
+                  <i className="pi pi-plus" />
+                  &nbsp; view
+                </button>
+              </div>
+              <div className="info-stats-row">
+                <div className="info-stats-attribute">{props.languages}</div>
+                <div className="info-stats-attribute">{props.age}</div>
+                <img className="gender-icon" src={genderIcon} alt="gender icon"></img>
+                <div className="info-stats-attribute">{props.region_abbreviation}</div>
+              </div>
+            </div>
           </div>
-          <div className="details-hours-played">
-            <div className="hours-belt-outer">
-              <div className="hours-belt-inner">
-                <div className="details-hours-played-text" data-tip data-tooltip-id="hoursTip">
-                  {props.hours} hours
+          {/* lesser details */}
+          <div className="lesser-details">
+            <div className="details-about">
+              <div className="details-about-text">{props.about}</div>
+            </div>
+            <div className="details-hours-played">
+              <div className="hours-belt-outer">
+                <div className="hours-belt-inner">
+                  <div className="details-hours-played-text" data-tip data-tooltip-id="hoursTip">
+                    {props.hours} hours
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          {locationPath === "/lfg-rocket-league" ? (
-            <div className="details-rocket-league">
-              <div className="details-rocket-league-playlist" data-tip data-tooltip-id="playlistTip">
-                {rocketLeaguePlaylists[props.rocket_league_playlist]}
-              </div>
+            {locationPath === "/lfg-rocket-league" ? (
+              <div className="details-rocket-league">
+                <div className="details-rocket-league-playlist" data-tip data-tooltip-id="playlistTip">
+                  {rocketLeaguePlaylists[props.rocket_league_playlist]}
+                </div>
 
-              {rocketLeagueRankIcon.length > 0 ? (
-                <img className="details-rocket-league-rank" src={rocketLeagueRankIcon} />
-              ) : (
-                "not ranked"
-              )}
-            </div>
-          ) : (
-            <></>
-          )}
-          {locationPath === "/lfg-rust" ? (
-            <div className="details-rust">
-              <div className="details-rust-info-slot" data-tip data-tooltip-id="playlistTip">
-                {props.server_type_id === 1 ? "vanilla servers" : `${props.server_type_id}x servers`}
-              </div>
-
-              <div className="details-rust-info-slot">{props.wipe_day_preference} wipes </div>
-            </div>
-          ) : (
-            <></>
-          )}
-          {locationPath === "/lfg-battle-bit" ? (
-            <div className="details-battle-bit">
-              <div className="details-battle-bit-info-slot">
-                {battleBitClassIcon.length > 0 ? (
-                  <img className="details-battle-bit-class" src={battleBitClassIcon} />
+                {rocketLeagueRankIcon.length > 0 ? (
+                  <img className="details-rocket-league-rank" src={rocketLeagueRankIcon} />
                 ) : (
                   "not ranked"
                 )}
               </div>
-              <div className="details-battle-bit-info-slot" data-tip data-tooltip-id="playlistTip">
-                <div>rank</div>
-                <div> {props.battle_bit_rank} </div>
-              </div>
+            ) : (
+              <></>
+            )}
+            {locationPath === "/lfg-rust" ? (
+              <div className="details-rust">
+                <div className="details-rust-info-slot" data-tip data-tooltip-id="playlistTip">
+                  {props.server_type_id === 1 ? "vanilla servers" : `${props.server_type_id}x servers`}
+                </div>
 
-              <div className="details-battle-bit-info-slot">{battleBitPlaylistText}</div>
+                <div className="details-rust-info-slot">{props.wipe_day_preference} wipes </div>
+              </div>
+            ) : (
+              <></>
+            )}
+            {locationPath === "/lfg-battle-bit" ? (
+              <div className="details-battle-bit">
+                <div className="details-battle-bit-info-slot">
+                  {battleBitClassIcon.length > 0 ? (
+                    <img className="details-battle-bit-class" src={battleBitClassIcon} />
+                  ) : (
+                    "not ranked"
+                  )}
+                </div>
+                <div className="details-battle-bit-info-slot" data-tip data-tooltip-id="playlistTip">
+                  <div>rank</div>
+                  <div> {props.battle_bit_rank} </div>
+                </div>
+
+                <div className="details-battle-bit-info-slot">{battleBitPlaylistText}</div>
+              </div>
+            ) : (
+              <></>
+            )}
+            {/* ***NEW GAME EDIT */}
+            <div className="details-availability">
+              <div className="detail-label" data-tip data-tooltip-id="weekdayTip">
+                mon-thu:{" "}
+              </div>
+              <div className="details-availabilty-text">{weekdayAvailText}</div>
+              <div className="detail-label" data-tip data-tooltip-id="weekendTip">
+                fri-sun:{" "}
+              </div>
+              <div className="details-availabilty-text">{weekendAvailText}</div>
             </div>
-          ) : (
-            <></>
-          )}
-          {/* ***NEW GAME EDIT */}
-          <div className="details-availability">
-            <div className="detail-label" data-tip data-tooltip-id="weekdayTip">
-              mon-thu:{" "}
+          </div>
+          {/* footer details */}
+          <div className="footer-details">
+            <div className="footer-rank-box footer-third">
+              <RankTile user={props} isSmall={true}></RankTile>
             </div>
-            <div className="details-availabilty-text">{weekdayAvailText}</div>
-            <div className="detail-label" data-tip data-tooltip-id="weekendTip">
-              fri-sun:{" "}
+            <div className="footer-platform-box footer-third" data-tip data-tooltip-id="commPlatformTip">
+              {props.preferred_platform === 1 ? (
+                <img
+                  className="footer-platform-image"
+                  src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814273/logoWhiteSmall_i1lvgo.png"
+                  alt={`${props.username} discord`}
+                />
+              ) : (
+                <></>
+              )}
+              {props.preferred_platform === 2 ? (
+                <img
+                  className="footer-platform-image"
+                  src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814624/psn-logo-small_nbgzwa.png"
+                  alt={`${props.username} psn`}
+                />
+              ) : (
+                <></>
+              )}
+              {props.preferred_platform === 3 ? (
+                <img
+                  className="footer-platform-image"
+                  src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814627/xbox-logo-small_e8sqjw.png"
+                  alt={`${props.username} xbox`}
+                />
+              ) : (
+                <></>
+              )}
             </div>
-            <div className="details-availabilty-text">{weekendAvailText}</div>
+            <div className="footer-timestamp footer-third" data-tip data-tooltip-id="seenTip">
+              last active {lastSeen}
+            </div>
           </div>
         </div>
-        {/* footer details */}
-        <div className="footer-details">
-          <div className="footer-rank-box footer-third">
-            <RankTile user={props} isSmall={true}></RankTile>
-          </div>
-          <div className="footer-platform-box footer-third" data-tip data-tooltip-id="commPlatformTip">
-            {props.preferred_platform === 1 ? (
-              <img
-                className="footer-platform-image"
-                src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814273/logoWhiteSmall_i1lvgo.png"
-                alt={`${props.username} discord`}
-              />
-            ) : (
-              <></>
-            )}
-            {props.preferred_platform === 2 ? (
-              <img
-                className="footer-platform-image"
-                src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814624/psn-logo-small_nbgzwa.png"
-                alt={`${props.username} psn`}
-              />
-            ) : (
-              <></>
-            )}
-            {props.preferred_platform === 3 ? (
-              <img
-                className="footer-platform-image"
-                src="https://res.cloudinary.com/kultured-dev/image/upload/v1685814627/xbox-logo-small_e8sqjw.png"
-                alt={`${props.username} xbox`}
-              />
-            ) : (
-              <></>
-            )}
-          </div>
-          <div className="footer-timestamp footer-third" data-tip data-tooltip-id="seenTip">
-            last active {lastSeen}
-          </div>
-        </div>
+        {/* main details */}
       </div>
       <Tooltip id="hoursTip" place="top">
         hours played
