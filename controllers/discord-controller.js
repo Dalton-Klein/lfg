@@ -4,7 +4,7 @@ const { getUserInfo, searchForUserByUsername } = require("../services/user-commo
 const { EmbedBuilder } = require("discord.js");
 
 const interpretMessage = async (mssg) => {
-  const prefix = "t!";
+  const prefix = "g!";
   if (mssg.author.username === "gangs-bot") return;
   if (mssg.content.substring(0, 2) !== prefix) return;
   console.log("mssg? ", mssg);
