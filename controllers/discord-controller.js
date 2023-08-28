@@ -4,7 +4,7 @@ const { getUserInfo, searchForUserByUsername } = require("../services/user-commo
 const { EmbedBuilder } = require("discord.js");
 
 const interpretMessage = async (mssg) => {
-  const prefix = "g!";
+  const prefix = "t!";
   if (mssg.author.username === "gangs-bot") return;
   if (mssg.content.substring(0, 2) !== prefix) return;
   console.log("mssg? ", mssg);
@@ -25,7 +25,10 @@ const interpretMessage = async (mssg) => {
           .addFields(
             { name: "Username", value: `${userInfo.username}` },
             { name: "Age", value: `${userInfo.age}` },
-            { name: "About Me", value: `${userInfo.about}` },
+            {
+              name: "About Me",
+              value: `${userInfo.about && userInfo.about.length > 0 ? userInfo.about.substring(0, 1023) : ""}`,
+            },
             { name: "Region", value: `${userInfo.region_name}` },
             { name: "Hours", value: `${userInfo.rust_hours}` },
             {
