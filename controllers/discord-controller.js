@@ -15,7 +15,9 @@ const interpretMessage = async (mssg) => {
   if (command === "rust" || command === "rocketLeague" || command === "battleBit") {
     // Check to make sure they added a username to check in the command
     if (args.length === 0) {
-      mssg.reply("You forgot to provide a gangs.gg username for the 'rust' command! Example 'g! rust admin'");
+      mssg.reply(
+        "You forgot to provide a gangs.gg username for the 'rust' command! Example 'g! rust [gangs username]'"
+      );
     } else {
       const foundUser = await searchForUserByUsername(args[0]);
       if (foundUser.length) {
@@ -82,7 +84,7 @@ const interpretMessage = async (mssg) => {
     }
   } else {
     mssg.reply(
-      "You did not provide a valid command! Commands are 'rust', 'rocketLeague', 'battleBit' or 'gang'. Ex: g! rust javascripted"
+      "You did not provide a valid command! Commands are 'rust', 'rocketLeague', 'battleBit' or 'gang'. Ex: g! rust [gangs username]"
     );
   }
 };
