@@ -13,6 +13,7 @@
   .player-tile-parent {
     height: 100%;
     width: 100%;
+    perspective: 1000px;
     .card-container {
       height: 100%;
       width: 100%;
