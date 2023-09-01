@@ -1,8 +1,8 @@
 // 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  const gang_messages = sequelize.define(
-    "gang_messages",
+  const ticket_messages = sequelize.define(
+    "ticket_messages",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      chat_id: {
+      ticket_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -31,5 +31,5 @@ module.exports = (sequelize, DataTypes) => {
     { schema: "public", freezeTableName: true }
   );
 
-  return gang_messages;
+  return ticket_messages;
 };
