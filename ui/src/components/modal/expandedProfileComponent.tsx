@@ -285,6 +285,9 @@ const ExpandedProfile = (props: Props) => {
     }
     navigate(`/${route}`);
   };
+  const goToSignInPage = () => {
+    navigate(`/login`);
+  };
 
   return createPortal(
     <div className="backdrop-container">
@@ -337,17 +340,35 @@ const ExpandedProfile = (props: Props) => {
                   ></input>
                 ) : (
                   <div className="profile-incomplete-text">
-                    **complete{" "}
-                    <span
-                      onClick={() => {
-                        goToGameProfile();
-                      }}
-                      className="link-text"
-                    >
-                      {" "}
-                      profile
-                    </span>{" "}
-                    before sending requests**
+                    {userState.id && userState.id > 0 ? (
+                      <>
+                        complete{" "}
+                        <span
+                          onClick={() => {
+                            goToGameProfile();
+                          }}
+                          className="link-text"
+                        >
+                          {" "}
+                          profile
+                        </span>{" "}
+                        before sending requests
+                      </>
+                    ) : (
+                      <div>
+                        must be{" "}
+                        <span
+                          onClick={() => {
+                            goToSignInPage();
+                          }}
+                          className="link-text"
+                        >
+                          {" "}
+                          signed in
+                        </span>{" "}
+                        to send connection request
+                      </div>
+                    )}
                   </div>
                 )}
                 <button

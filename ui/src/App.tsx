@@ -46,7 +46,7 @@ function App() {
   const connectToSocketMaster = async () => {
     // ***PROD FIX SOCKET
     socketRef.current = io.connect(
-      "http://localhost:3000" //: "https://www.gangs.gg" or "http://localhost:3000"
+      "https://www.gangs.gg" //: "https://www.gangs.gg" or "http://localhost:3000"
     );
     socketRef.current.on("handshakeResponse", (serverSocketId) => {
       // Do further processing with the server socket ID
@@ -115,6 +115,7 @@ function App() {
                 {/* Less Used Pages */}
                 <Route path="/help" element={<FAQPage />} />
                 <Route path="/support" element={<SupportPage />} />
+                <Route path="/support-ticket/:ticketId" element={<SupportPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/steam-signup/:steamId" element={<SteamSignUpPage />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
