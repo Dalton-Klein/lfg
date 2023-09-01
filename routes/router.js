@@ -108,6 +108,7 @@ router.post("/get-rank-for-user", redeemsController.getAllRedemptionsForUser);
 //Support Ticket ROUTES
 router.post("/get-tickets", ticketController.getMyTickets);
 router.post("/open-ticket", ticketController.insertTicket);
+router.post("/ticket-details", ticketController.getTicketDetails);
 
 //TESTING ROUTES Coffee Disable
 router.post("/test-email", testController.testEmails);

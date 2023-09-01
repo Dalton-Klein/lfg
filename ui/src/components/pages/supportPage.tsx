@@ -7,9 +7,10 @@ import { SelectButton } from "primereact/selectbutton";
 import SelectComponent from "../myProfile/selectComponent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { createTicket, getMyTickets } from "../../utils/rest";
+import { createTicket, getMyTickets, getTicketDetails } from "../../utils/rest";
 import moment from "moment";
 import { Toast } from "primereact/toast";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const navOptions: string[] = ["my tickets", "create ticket"];
 const supportOptions: any = [
@@ -33,14 +34,19 @@ const supportStatusKey: any = {
   4: "closed due to inactivity",
 };
 export default function SupportPage() {
+  const navigate = useNavigate();
+  const locationPath: string = useLocation().pathname;
   const userData = useSelector((state: RootState) => state.user.user);
   const ticketSelectRef: any = useRef([{ current: { value: 0, label: "blank", id: "0", type: "ticket" } }]);
   const toast: any = useRef({ current: "" });
 
+  const [ticketObjects, setticketObjects] = useState<any>([]);
   const [historicalTickets, sethistoricalTickets] = useState<any>([]);
+  const [ticketReplies, setticketReplies] = useState<any>([]);
   const [value, setvalue] = useState<string>(navOptions[0]);
   const [supportSelection, setsupportSelection] = useState<any>(supportOptions[0]);
   const [description, setdescription] = useState<string>("");
+  const [selectedTicket, setselectedTicket] = useState<any>({});
 
   useEffect(() => {
     if (userData.id && userData.id > 0) {
@@ -49,18 +55,38 @@ export default function SupportPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (locationPath.substring(0, 15) === "/support-ticket") {
+      setselectedTicket(ticketObjects.find((t: { id: number }) => t.id === parseInt(locationPath.substring(16, 80))));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ticketObjects]);
+
+  useEffect(() => {
+    if (locationPath.substring(0, 15) === "/support-ticket") {
+      setselectedTicket(ticketObjects.find((t: { id: number }) => t.id === parseInt(locationPath.substring(16, 80))));
+      fetchTicketDetails();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationPath]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTicket]);
+
   const toggleNav = (e: any) => {
     setvalue(e.value);
   };
 
   const getTickets = async () => {
     const ticketResult = await getMyTickets(userData.id, "");
+    setticketObjects(ticketResult);
     if (ticketResult && ticketResult.length) {
       let formattedTickets: any = [];
       ticketResult.forEach((ticket: any) => {
         formattedTickets.push(
           <BlogTile
-            routerLink={`/ticket/${ticket.id}`}
+            routerLink={`/support-ticket/${ticket.id}`}
             title={`${supportTitles[ticket.type_id]} | id: ${ticket.id}`}
             updated_on={`${moment(ticket.updated_at).format("MM-DD-YYYY h:mmA")}  |  status: ${
               supportStatusKey[ticket.status]
@@ -72,6 +98,11 @@ export default function SupportPage() {
       });
       sethistoricalTickets(formattedTickets);
     }
+  };
+
+  const fetchTicketDetails = async () => {
+    const result = await getTicketDetails(parseInt(locationPath.substring(16, 80)), "");
+    setticketReplies(result);
   };
 
   const changeTicketType = (selection: any) => {
@@ -96,6 +127,10 @@ export default function SupportPage() {
     }
   };
 
+  const goToSupportHome = async () => {
+    navigate(`/support`);
+  };
+
   return (
     <div className="support-master">
       <Toast ref={toast} />
@@ -104,50 +139,83 @@ export default function SupportPage() {
           title={"support & feedback"}
           imageLink={"https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"}
         ></BannerTitle>
-        {/* Welcome */}
-        <div className="support-content-container">
-          <SelectButton value={value} onChange={(e) => toggleNav(e)} options={navOptions} />
-          {value === "my tickets" ? (
-            historicalTickets.length ? (
-              historicalTickets
-            ) : (
-              <div className="no-tickets-notifier"> no open tickets</div>
-            )
-          ) : (
-            <div className="create-ticket-container">
-              <div className="ticket-help-text">
-                When creating a ticket, make sure to be as descriptive as possible.
+        {/* View All Tickets */}
+        {locationPath.substring(0, 15) === "/support-ticket" && selectedTicket && selectedTicket.id ? (
+          <div className="ticket-detail-container">
+            <button
+              onClick={() => {
+                goToSupportHome();
+              }}
+            >
+              support home
+            </button>
+            <div className="ticket-detail-title">ticket details</div>
+            <div className="ticket-details">
+              <div className="ticket-detail-box">
+                <div className="ticket-detail">id </div>
+                <div className="ticket-detail">{selectedTicket.id}</div>
               </div>
-              <div className="ticket-help-text">
-                Let us know what page it happened on, what you expected to happen, and any additional details that will
-                help us resolve your issue!
+              <div className="ticket-detail-box">
+                <div className="ticket-detail">type </div>
+                <div className="ticket-detail">"{supportTitles[selectedTicket.type_id]}"</div>
               </div>
-              <div className="ticket-subtitle">ticket type</div>
-              <SelectComponent
-                publicMethods={ticketSelectRef}
-                title="ticket"
-                options={supportOptions}
-                multi={false}
-                setSelection={changeTicketType}
-                selection={supportSelection}
-              />
-              <div className="ticket-subtitle">ticket description</div>
-              <textarea
-                onChange={(event) => {
-                  setdescription(event.target.value);
-                }}
-                value={description}
-                className="search-member-input"
-                placeholder={"what do you need assistance with..."}
-                rows={4}
-                style={{ resize: "none" }}
-              ></textarea>
-              <button disabled={description.length < 3} onClick={tryOpenTicket} className="upload-form-btns">
-                open ticket
-              </button>
+              <div className="ticket-detail-box">
+                <div className="ticket-detail">description </div>
+                <div className="ticket-detail">{selectedTicket.description}</div>
+              </div>
+              <div className="ticket-detail-box">
+                <div className="ticket-detail">status </div>
+                <div className="ticket-detail">{supportStatusKey[selectedTicket.status]}</div>
+              </div>
             </div>
-          )}
-        </div>
+            <div className="ticket-detail-title">ticket conversation</div>
+            {ticketReplies && ticketReplies.length ? <div></div> : <div>no replies from support yet!</div>}
+          </div>
+        ) : (
+          <div className="support-content-container">
+            <SelectButton value={value} onChange={(e) => toggleNav(e)} options={navOptions} />
+            {value === "my tickets" ? (
+              historicalTickets.length ? (
+                historicalTickets
+              ) : (
+                <div className="no-tickets-notifier"> no open tickets</div>
+              )
+            ) : (
+              <div className="create-ticket-container">
+                <div className="ticket-help-text">
+                  When creating a ticket, make sure to be as descriptive as possible.
+                </div>
+                <div className="ticket-help-text">
+                  Let us know what page it happened on, what you expected to happen, and any additional details that
+                  will help us resolve your issue!
+                </div>
+                <div className="ticket-subtitle">ticket type</div>
+                <SelectComponent
+                  publicMethods={ticketSelectRef}
+                  title="ticket"
+                  options={supportOptions}
+                  multi={false}
+                  setSelection={changeTicketType}
+                  selection={supportSelection}
+                />
+                <div className="ticket-subtitle">ticket description</div>
+                <textarea
+                  onChange={(event) => {
+                    setdescription(event.target.value);
+                  }}
+                  value={description}
+                  className="search-member-input"
+                  placeholder={"what do you need assistance with..."}
+                  rows={4}
+                  style={{ resize: "none" }}
+                ></textarea>
+                <button disabled={description.length < 3} onClick={tryOpenTicket} className="upload-form-btns">
+                  open ticket
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <FooterComponent></FooterComponent>
     </div>

@@ -67,7 +67,73 @@ const insertTicket = async (req, res) => {
   }
 };
 
+const getTicketDetails = async (req, res) => {
+  const { ticketId } = req.body;
+  try {
+    query = `
+           select tm.*, 
+                  u.id as senderId, 
+                  u.username, 
+                  u.avatar_url, 
+                  rd.rank,
+                  re.count_love, 
+                  re.count_thumbs_down, 
+                  re.count_thumbs_up, 
+                  re.count_one_hunderd,
+                  re.count_fire,
+                  re.count_skull
+             from public.ticket_messages tm
+             join public.users u
+               on u.id = tm.sender
+            left join (
+                SELECT user_id, 
+                        SUM(points) as rank
+                  FROM public.redeems
+              GROUP BY user_id
+              ) rd on rd.user_id = u.id
+            left join (
+                SELECT message_id, 
+                        scope_id,
+                        SUM(CASE WHEN type_id = 1 THEN 1 ELSE 0 END) as count_love,
+                        SUM(CASE WHEN type_id = 2 THEN 1 ELSE 0 END) as count_thumbs_down,
+                        SUM(CASE WHEN type_id = 3 THEN 1 ELSE 0 END) as count_thumbs_up,
+                        SUM(CASE WHEN type_id = 4 THEN 1 ELSE 0 END) as count_one_hunderd,
+                        SUM(CASE WHEN type_id = 5 THEN 1 ELSE 0 END) as count_fire,
+                        SUM(CASE WHEN type_id = 6 THEN 1 ELSE 0 END) as count_skull
+                  FROM public.reactions
+                  WHERE scope_id = 2
+              GROUP BY message_id, scope_id
+              ) re ON re.message_id = tm.id
+            where tm.ticket_id = :ticketId
+              and tm.is_deleted = false
+         group by tm.id, 
+                  u.id, 
+                  u.username, 
+                  u.avatar_url, 
+                  rd.rank, 
+                  re.count_love, 
+                  re.count_thumbs_down, 
+                  re.count_thumbs_up, 
+                  re.count_one_hunderd,
+                  re.count_fire,
+                  re.count_skull
+         order by tm.created_at asc
+    `;
+    const ticketDetails = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        ticketId,
+      },
+    });
+    res.status(200).send(ticketDetails);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(`GET Tickets ERROR: ${err}`);
+  }
+};
+
 module.exports = {
   getMyTickets,
   insertTicket,
+  getTicketDetails,
 };

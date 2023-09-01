@@ -1248,4 +1248,23 @@ export const createTicket = async (userId: number, type: number, description: st
     console.log(`${error} while creating ticket`);
   }
 };
+
+export const getTicketDetails = async (ticketId: number, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/ticket-details`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ticketId,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while creating ticket`);
+  }
+};
 // ** END TICKET ROUTES

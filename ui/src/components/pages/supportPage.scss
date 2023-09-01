@@ -67,6 +67,35 @@
         }
       }
     }
+    .ticket-detail-container {
+      min-width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .ticket-detail-title {
+        font-size: $font4;
+        margin-bottom: 2.5vh;
+        margin-top: 2.5vh;
+      }
+      .ticket-details {
+        min-width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: stretch;
+        border: 1px solid white;
+        border-radius: $borderRadius1;
+        padding: 1vw;
+        .ticket-detail-box {
+          display: flex;
+          margin-bottom: 2vh;
+          .ticket-detail {
+            min-width: 50%;
+            text-align: center;
+          }
+        }
+      }
+    }
   }
 }
 
