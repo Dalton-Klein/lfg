@@ -5,7 +5,8 @@ const { EmbedBuilder } = require("discord.js");
 const publishController = require("./publish-controller");
 
 const interpretMessage = async (mssg) => {
-  const prefix = "t!";
+  //***PROD GANGE TO G, to for nonprod
+  const prefix = "g!";
   //Ignore mssg if sent from bot or doesnt have prefix
   if (mssg.author.username === "gangs-bot") return;
   if (mssg.content.substring(0, 2) !== prefix) return;
