@@ -159,7 +159,7 @@ export default function ViewProfilePage({ socketRef }) {
     }
     const publishData = await getAllPublishStatus(userId, "");
     setloadedUserInfo(connectionData.data);
-    setshowConnectForm(!connectionData.data.isConnected);
+    setshowConnectForm(connectionData.data.showConnectForm);
     setisProfileComplete(isCompleteResult.status === "success" ? true : false);
     setlastSeen(howLongAgo(connectionData.data.last_seen));
     setpublishData(publishData.data);
