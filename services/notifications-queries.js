@@ -34,6 +34,16 @@ const getNotificationsQuery = () => {
   `;
 };
 
+const getLastNotificationOfTypeQuery = () => {
+  return `
+         select n.*, n.id as notification_id
+           from public.notifications n
+          where n.owner_id = :ownerId
+            and n.type_id = :typeId
+       order by n.created_at desc
+  `;
+};
+
 const getAllNotificationsQuery = () => {
   return `
          select n.*, u1.username as owner_username, u1.avatar_url as owner_avatar_url,
@@ -52,5 +62,6 @@ module.exports = {
   createNotificationQuery,
   removeNotificationQuery,
   getNotificationsQuery,
+  getLastNotificationOfTypeQuery,
   getAllNotificationsQuery,
 };

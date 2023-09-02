@@ -5,14 +5,19 @@ const {
   removeNotificationQuery,
   getNotificationsQuery,
   getAllNotificationsQuery,
+  getLastNotificationOfTypeQuery,
 } = require("../services/notifications-queries");
 const { getUserInfo } = require("../services/user-common");
 const emailService = require("../services/auth");
+const moment = require("moment");
 
 const saveNotification = async (userId, typeId, otherUserId) => {
   try {
+    let lastNotifOfType;
     //First, clean up similar message notifications
     if (typeId === 3) {
+      //before anything, check the last notification of type, for use later when we decide to send email or not (this occurs before insert)
+      lastNotifOfType = await getLastNotificationOfTypeForUser(userId, typeId);
       const query = removeNotificationQuery();
       await sequelize.query(query, {
         type: Sequelize.QueryTypes.DELETE,
@@ -73,13 +78,29 @@ const saveNotification = async (userId, typeId, otherUserId) => {
       4: 6,
       5: 0,
     };
+    //Perform check to see if they want emails
     if (ownerUserDetails.is_email_notifications) {
-      emailService.sendEmail(
-        { body: { email: ownerUserDetails.email } },
-        "vKey",
-        emailNotifIdToSubjectIdMapping[typeId],
-        ownerUserDetails.username
-      );
+      //Perform check to see if we have recently sent them an email of the same type, only every 30 mins at most
+      console.log("test notif! ", userId, "   ", lastNotifOfType);
+      let shouldSendNotif = true;
+      if (typeId === 3 && lastNotifOfType[0]) {
+        const thirtyMinutesAgo = moment().subtract(30, "minutes");
+        const timestampOfLastNotifMoment = moment(lastNotifOfType[0].created_at);
+        if (timestampOfLastNotifMoment.isBefore(thirtyMinutesAgo)) {
+          shouldSendNotif = true;
+        } else {
+          shouldSendNotif = false;
+          console.log("not sending notif cause timestamp");
+        }
+      }
+      if (shouldSendNotif) {
+        emailService.sendEmail(
+          { body: { email: ownerUserDetails.email } },
+          "vKey",
+          emailNotifIdToSubjectIdMapping[typeId],
+          ownerUserDetails.username
+        );
+      }
     }
     return;
   } catch (err) {
@@ -101,6 +122,22 @@ const getNotificationsForUser = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
+  }
+};
+
+const getLastNotificationOfTypeForUser = async (userId, typeId) => {
+  try {
+    const query = getLastNotificationOfTypeQuery();
+    const result = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        ownerId: userId,
+        typeId: typeId,
+      },
+    });
+    return result;
+  } catch (err) {
+    console.log("error while getting last notification of type for user: ", err);
   }
 };
 
