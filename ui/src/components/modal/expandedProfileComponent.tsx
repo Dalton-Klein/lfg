@@ -326,7 +326,7 @@ const ExpandedProfile = (props: Props) => {
             </div>
             <div className="expanded-gradient-bar"></div>
             {/* Connect Section */}
-            {props.showConnectForm ? (
+            {props.showConnectForm && userState.id !== props.userInfo.id ? (
               <div className="expanded-connect-box">
                 <div className="expanded-core-info-title">connect</div>
                 {props.isProfileComplete ? (
@@ -392,7 +392,11 @@ const ExpandedProfile = (props: Props) => {
             ) : (
               <></>
             )}
-            {props.showConnectForm ? <div className="expanded-gradient-bar"></div> : <></>}
+            {props.showConnectForm && userState.id !== props.userInfo.id ? (
+              <div className="expanded-gradient-bar"></div>
+            ) : (
+              <></>
+            )}
             {/* Core Info Section */}
             <div className="expanded-core-info">
               <div className="expanded-core-info-title">general info</div>

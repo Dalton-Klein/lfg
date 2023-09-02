@@ -150,10 +150,16 @@ export default function ViewProfilePage({ socketRef }) {
 
   const getUserInfo = async (userId: number) => {
     const connectionData = await fetchUserDataAndConnectedStatus(userState.id, userId);
-    let isCompleteResult = await attemptPublishRustProfile(userId, "nothing");
+
+    let isCompleteResult = { status: "" };
+    if (userState.id && userState.id > 0) {
+      isCompleteResult = await attemptPublishRustProfile(userState.id, "nothing");
+    } else {
+      isCompleteResult.status = "error";
+    }
     const publishData = await getAllPublishStatus(userId, "");
     setloadedUserInfo(connectionData.data);
-    setshowConnectForm(connectionData.data.isConnected);
+    setshowConnectForm(!connectionData.data.isConnected);
     setisProfileComplete(isCompleteResult.status === "success" ? true : false);
     setlastSeen(howLongAgo(connectionData.data.last_seen));
     setpublishData(publishData.data);
@@ -237,6 +243,10 @@ export default function ViewProfilePage({ socketRef }) {
     navigate(`/${route}`);
   };
 
+  const goToSignInPage = () => {
+    navigate(`/login`);
+  };
+
   return (
     <div className="tos-master">
       <BannerTitle
@@ -274,7 +284,7 @@ export default function ViewProfilePage({ socketRef }) {
         </div>
         <div className="expanded-gradient-bar"></div>
         {/* Connect Section */}
-        {showConnectForm ? (
+        {showConnectForm && userState.id !== loadedUserInfo.id ? (
           <div className="expanded-connect-box">
             <div className="expanded-core-info-title">connect</div>
             {isProfileComplete ? (
@@ -288,17 +298,35 @@ export default function ViewProfilePage({ socketRef }) {
               ></input>
             ) : (
               <div className="profile-incomplete-text">
-                **complete{" "}
-                <span
-                  onClick={() => {
-                    goToGameProfile();
-                  }}
-                  className="link-text"
-                >
-                  {" "}
-                  profile
-                </span>{" "}
-                before sending requests**
+                {userState.id && userState.id > 0 ? (
+                  <>
+                    complete{" "}
+                    <span
+                      onClick={() => {
+                        goToGameProfile();
+                      }}
+                      className="link-text"
+                    >
+                      {" "}
+                      profile
+                    </span>{" "}
+                    before sending requests
+                  </>
+                ) : (
+                  <div>
+                    must be{" "}
+                    <span
+                      onClick={() => {
+                        goToSignInPage();
+                      }}
+                      className="link-text"
+                    >
+                      {" "}
+                      signed in
+                    </span>{" "}
+                    to send connection request
+                  </div>
+                )}
               </div>
             )}
             <button
@@ -322,7 +350,7 @@ export default function ViewProfilePage({ socketRef }) {
         ) : (
           <></>
         )}
-        {showConnectForm ? <div className="expanded-gradient-bar"></div> : <></>}
+        {showConnectForm && userState.id !== loadedUserInfo.id ? <div className="expanded-gradient-bar"></div> : <></>}
         {/* Core Info Section */}
         <div className="expanded-core-info">
           <div className="expanded-core-info-title">general info</div>

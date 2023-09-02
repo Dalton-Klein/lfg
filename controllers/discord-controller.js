@@ -1,11 +1,12 @@
 const Sequelize = require("sequelize");
 const { sequelize } = require("../models/index");
 const { getUserInfo, searchForUserByUsername } = require("../services/user-common");
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, hyperlink } = require("discord.js");
 const publishController = require("./publish-controller");
+const moment = require("moment");
 
 const interpretMessage = async (mssg) => {
-  //***PROD GANGE TO G, to for nonprod
+  //***PROD GANGE TO G, t for nonprod
   const prefix = "g!";
   //Ignore mssg if sent from bot or doesnt have prefix
   if (mssg.author.username === "gangs-bot") return;
@@ -41,25 +42,35 @@ const interpretMessage = async (mssg) => {
           if (command === "rust") {
             //Check If Rust Profile Published
             if (userInfo.rust_is_published) {
+              const link = hyperlink(`${userInfo.username}'s profile`, `https://www.gangs.gg/#/profile/${userInfo.id}`);
               const embed = new EmbedBuilder()
-                .setColor("#0099ff")
+                .setColor("#cc2936")
                 .setTitle(`I am looking for Rust Teammates! Here is my info.`)
+                .setThumbnail(userInfo.avatar_url)
+                .setFooter({
+                  iconURL:
+                    "https://res.cloudinary.com/kultured-dev/image/upload/v1663879717/logo-v2-gangs.gg_womiyc.png",
+                  text: `gangs bot  •  requested by ${mssg.author.username}`,
+                })
+                .setTimestamp()
                 .addFields(
-                  { name: "Username", value: `${userInfo.username}` },
-                  { name: "Age", value: `${userInfo.age}` },
+                  { name: "Connect With Me On gangs.gg", value: link, inline: false },
+                  { name: "Username", value: `${userInfo.username}`, inline: true },
+                  { name: "Age", value: `${userInfo.age}`, inline: true },
                   {
                     name: "About Me",
                     value: `${userInfo.about && userInfo.about.length > 0 ? userInfo.about.substring(0, 1023) : ""}`,
+                    inline: true,
                   },
-                  { name: "Region", value: `${userInfo.region_name}` },
-                  { name: "Hours", value: `${userInfo.rust_hours}` },
+                  { name: "Hours", value: `${userInfo.rust_hours}`, inline: true },
                   {
-                    name: "Preferred Server Type",
+                    name: "Server Type",
                     value: `${userInfo.rust_server_type_id === 1 ? "vanilla" : `${userInfo.rust_server_type_id}x`}`,
+                    inline: true,
                   },
-                  { name: "Weekday Availability", value: `${userInfo.rust_weekdays}` },
-                  { name: "Weekend Availability", value: `${userInfo.rust_weekends}` },
-                  { name: "Connect With Me On gangs.gg", value: `https://www.gangs.gg/#/profile/${userInfo.id}` }
+                  { name: "Region", value: `${userInfo.region_name}`, inline: true },
+                  { name: "Weekday Availability", value: `${userInfo.rust_weekdays}`, inline: true },
+                  { name: "Weekend Availability", value: `${userInfo.rust_weekends}`, inline: true }
                 );
               mssg.reply({ embeds: [embed] });
             } else {
