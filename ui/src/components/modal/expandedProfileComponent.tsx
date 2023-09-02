@@ -227,7 +227,7 @@ const ExpandedProfile = (props: Props) => {
       )
     );
     //If viewing friend, populate endorsement input options
-    if (props.isConnected) {
+    if (props.isConnected && props.userInfo.id !== userState.id) {
       const allEndorsementResult = await getEndorsementOptions(
         userState.id,
         props.userInfo.id,
@@ -587,7 +587,7 @@ const ExpandedProfile = (props: Props) => {
             </div>
             <div className="expanded-gradient-bar"></div>
             {/* Send Endorsements */}
-            {props.isConnected ? (
+            {props.isConnected && props.userInfo.id !== userState.id ? (
               <div className="expanded-core-info">
                 <div className="expanded-core-info-title">endorse</div>
                 <div className="expanded-endorsement-container">{endorsementInput}</div>
