@@ -1,6 +1,10 @@
 @import "../../styling/config";
 
 .p-menu {
+  .p-menu-list {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
   .p-menuitem-text {
     .discover-navigator-option-image {
       min-width: 2vw;
