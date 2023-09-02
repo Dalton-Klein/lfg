@@ -201,8 +201,6 @@ export default function ProfileRust(props: Props) {
               changeServerType(1);
             }}
             onMouseEnter={() => setavailabilityTooltipString("0 hours")}
-            data-tip
-            data-tooltip-id="availabilityTip"
           >
             vanilla
           </div>
@@ -212,8 +210,6 @@ export default function ProfileRust(props: Props) {
               changeServerType(2);
             }}
             onMouseEnter={() => setavailabilityTooltipString("0-2 hours")}
-            data-tip
-            data-tooltip-id="availabilityTip"
           >
             2x
           </div>
@@ -223,8 +219,6 @@ export default function ProfileRust(props: Props) {
               changeServerType(5);
             }}
             onMouseEnter={() => setavailabilityTooltipString("2-6 hours")}
-            data-tip
-            data-tooltip-id="availabilityTip"
           >
             5x
           </div>
@@ -234,8 +228,6 @@ export default function ProfileRust(props: Props) {
               changeServerType(10);
             }}
             onMouseEnter={() => setavailabilityTooltipString("6+ hours")}
-            data-tip
-            data-tooltip-id="availabilityTip"
           >
             10x
           </div>
