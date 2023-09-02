@@ -81,7 +81,6 @@ const saveNotification = async (userId, typeId, otherUserId) => {
     //Perform check to see if they want emails
     if (ownerUserDetails.is_email_notifications) {
       //Perform check to see if we have recently sent them an email of the same type, only every 30 mins at most
-      console.log("test notif! ", userId, "   ", lastNotifOfType);
       let shouldSendNotif = true;
       if (typeId === 3 && lastNotifOfType[0]) {
         const thirtyMinutesAgo = moment().subtract(30, "minutes");
@@ -90,7 +89,6 @@ const saveNotification = async (userId, typeId, otherUserId) => {
           shouldSendNotif = true;
         } else {
           shouldSendNotif = false;
-          console.log("not sending notif cause timestamp");
         }
       }
       if (shouldSendNotif) {
