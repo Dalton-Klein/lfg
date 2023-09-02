@@ -172,6 +172,7 @@ const getGangPendingConnectionsForUserQuery = () => {
                        join public.gangs g 
                          on g.id = c.gang_id
                       where c.user_id = :userId
+                        and c.is_user_asking_to_join = false
 `;
 };
 
