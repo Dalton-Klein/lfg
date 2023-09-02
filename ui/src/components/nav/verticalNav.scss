@@ -14,6 +14,8 @@
     padding-top: 0.5vh;
     padding-bottom: 0.5vh;
     display: flex;
+    min-height: 5vh;
+    max-height: 5vh;
     .vert-nav-button {
       transition: $transition1;
       margin-top: 0;
@@ -30,6 +32,8 @@
     display: flex;
     justify-content: space-between;
     .conversations-box {
+      min-height: 87.5vh;
+      max-height: 87.5vh;
       display: flex;
       flex-direction: column;
       align-items: center;

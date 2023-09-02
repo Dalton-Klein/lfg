@@ -107,6 +107,13 @@ export default function BlogArticle5() {
               You can win your bundle by being one of the first 10 to achieve prestige 2 in your rank progression (50
               points)
             </li>{" "}
+            <li>
+              To view your progress, go to your general profile, then click on
+              <a href="https://www.gangs.gg/#/my-rank" className="link-text">
+                {" "}
+                my rank
+              </a>{" "}
+            </li>
             <li>The bundle can include the battlebit supporter DLC, rust skins, or rocket league in game items.</li>
           </div>
         </div>
