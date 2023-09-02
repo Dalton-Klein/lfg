@@ -42,7 +42,6 @@ const interpretMessage = async (mssg) => {
           if (command === "rust") {
             //Check If Rust Profile Published
             if (userInfo.rust_is_published) {
-              console.log("testing: ", mssg);
               const link = hyperlink(`${userInfo.username}'s profile`, `https://www.gangs.gg/#/profile/${userInfo.id}`);
               const embed = new EmbedBuilder()
                 .setColor("#cc2936")
