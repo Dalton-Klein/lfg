@@ -5,6 +5,7 @@ const { updateConnectionTimestamp, getConnectionDetails } = require("./connectio
 const { updateGangChannelTimestamp } = require("../services/gangs");
 const { saveNotification } = require("./notification-controller");
 const { createRedemptionForUser } = require("./redeems-controller");
+const moment = require("moment");
 
 const saveMessage = async (connectionId, senderId, content, isImage, timestamp) => {
   try {
@@ -32,8 +33,8 @@ const saveMessage = async (connectionId, senderId, content, isImage, timestamp) 
         senderId,
         content,
         isImage,
-        created_at: timestamp,
-        updated_at: timestamp,
+        created_at: moment().toDate(),
+        updated_at: moment().toDate(),
       },
     });
     await createRedemptionForUser(senderId, 9);
@@ -81,8 +82,8 @@ const saveGangMessage = async (channelId, senderId, content, isImage, timestamp)
         senderId,
         content,
         isImage,
-        created_at: timestamp,
-        updated_at: timestamp,
+        created_at: moment().toDate(),
+        updated_at: moment().toDate(),
       },
     });
     const messageId = result[0][0].id;
