@@ -62,19 +62,17 @@
 
 @media screen and (max-width: $screenBreak2) {
   .nav-container {
-    min-height: 80vh;
-    max-height: 80vh;
     max-width: 12vw;
     min-width: 12vw;
     .switch-box {
       flex-direction: column;
-      min-height: 10vh;
-      max-height: 10vh;
+      min-height: 11.5vh;
+      max-height: 11.5vh;
     }
     .chat-container {
       .conversations-box {
-        min-height: 84.5vh;
-        max-height: 84.5vh;
+        min-height: 82vh;
+        max-height: 82vh;
         min-width: 10vw;
         max-width: 10vw;
         font-size: 10px;
