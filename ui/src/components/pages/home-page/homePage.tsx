@@ -57,7 +57,7 @@ export default function HomePage({ socketRef }) {
             has2Buttons={true}
             routerLinkLFG="/lfg-rust"
             routerLinkLFM="/lfm-rust"
-            image="https://res.cloudinary.com/kultured-dev/image/upload/v1663566897/rust-tile-image_uaygce.png"
+            image="https://res.cloudinary.com/kultured-dev/image/upload/v1694466692/BannerRust1300Samples_ny1dhs.png"
             title="rust"
             buttonTextLFG="lfg"
             buttonTextLFM="lfm"
