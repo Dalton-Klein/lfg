@@ -13,6 +13,8 @@ const {
   kickSpecificMember,
   createGangChannel,
   removeChannel,
+  createGangRequirement,
+  removeRequirement,
 } = require("../services/gangs");
 const format = require("pg-format");
 const { updateUserGenInfoField } = require("../services/user-common");
@@ -93,6 +95,27 @@ const findRosterAvatars = async (gangsArray) => {
       },
     });
     gang.members = foundMembers;
+  }
+  return gangsArray;
+};
+
+const findGangRequirements = async (gangsArray) => {
+  for (let i = 0; i < gangsArray.length; i++) {
+    const gang = gangsArray[i];
+    //Find other members within this gang, pull in avatars
+    const requirementsQuery = `
+        select gr.*
+          from public.gang_requirements gr
+         where gr.gang_id = :gangId 
+      order by gr.priority_level asc
+    `;
+    const foundRequirements = await sequelize.query(requirementsQuery, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        gangId: gang.id,
+      },
+    });
+    gang.requirements = foundRequirements;
   }
   return gangsArray;
 };
@@ -189,12 +212,25 @@ const getGangActivity = async (req, res) => {
         gang_id,
       },
     });
+    gangQuery = `
+              select gr.*
+                from public.gang_requirements gr
+               where gr.gang_id = :gang_id
+            order by gr.priority_level asc
+            `;
+    let gangRequirements = await sequelize.query(gangQuery, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {
+        gang_id,
+      },
+    });
     let gangData = {};
     if (foundRole[0]) {
       //Prepare all gang data, because they are member
       gangData = {
         basicInfo: finalizedGangInfo[0],
         role: foundRole[0],
+        requirements: gangRequirements,
         channels: gangChannels,
       };
     } else {
@@ -413,6 +449,62 @@ const getGangTiles = async (req, res) => {
   }
 };
 
+const addGangRequirement = async (req, res) => {
+  try {
+    const { gang_id, user_id, description, priority_level } = req.body;
+    const result = await createGangRequirement(gang_id, user_id, description, priority_level);
+    if (!result) {
+      res.status(200).send({ error: "failed to create channel!" });
+    } else {
+      res.status(200).send(result);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Create Gang Channel ERROR");
+  }
+};
+
+const updateGangRequirementField = async (req, res) => {
+  const { requirementId, field, value } = req.body;
+  const query = format(
+    `
+    update public.gang_requirements
+      set %I = :value,
+          updated_at = current_timestamp
+    where id = :requirementId
+  `,
+    field
+  );
+  const result = await sequelize.query(query, {
+    type: Sequelize.QueryTypes.UPDATE,
+    replacements: {
+      requirementId,
+      field,
+      value,
+    },
+  });
+  if (result) {
+    res.status(200).send({ data: "success" });
+  } else {
+    res.status(200).send({ data: "error" });
+  }
+};
+
+const removeGangRequirement = async (req, res) => {
+  try {
+    const { requirement_id } = req.body;
+    const result = await removeRequirement(requirement_id);
+    if (!result) {
+      res.status(200).send({ error: "failed to remove requirement!" });
+    } else {
+      res.status(200).send(result);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Remove Gang Channel ERROR");
+  }
+};
+
 module.exports = {
   createGang,
   getMyGangsTiles,
@@ -429,4 +521,8 @@ module.exports = {
   kickGangMember,
   addGangChannel,
   removeGangChannel,
+  addGangRequirement,
+  updateGangRequirementField,
+  removeGangRequirement,
+  findGangRequirements,
 };

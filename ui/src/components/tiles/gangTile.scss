@@ -82,7 +82,6 @@
         border-radius: calc(2.75vw / 2);
       }
     }
-
     .gang-about-container {
       margin: 1.5vh 2vw;
     }
@@ -122,6 +121,28 @@
       .number-of-members {
         margin-left: 1vw;
       }
+    }
+    .gang-requirement-container {
+      .gang-requirements-title {
+        text-align: center;
+        margin-top: 1vh;
+        font-size: $font2;
+      }
+      .gang-requirements {
+        display: flex;
+        flex-direction: column;
+        margin-left: 2vw;
+        margin-top: 1vh;
+        .gang-requirement {
+          margin-top: 0.5vh;
+          margin-bottom: 0.5vh;
+        }
+      }
+    }
+    .no-requirements-title {
+      text-align: center;
+      margin-top: 1vh;
+      font-size: $font2;
     }
     .gang-footer {
       display: flex;

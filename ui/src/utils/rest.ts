@@ -1116,6 +1116,71 @@ export const requestKickMember = async (gang_id: number, user_id: number, token:
   }
 };
 
+export const requestCreateGangRequirement = async (
+  gang_id: number,
+  user_id: number,
+  description: string,
+  priority_level: number,
+  token: string
+) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/add-gang-requirement`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        gang_id,
+        user_id,
+        description,
+        priority_level,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while kicking member`);
+  }
+};
+
+export const updateGangRequirementField = async (requirementId: number, field: string, value: any) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/edit-gang-requirement`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        requirementId,
+        field,
+        value,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log("Channel update failed:", error);
+  }
+};
+
+export const requestRemoveRequirement = async (requirement_id: number, token: string) => {
+  try {
+    const httpResult = await fetch(`${endpointURL}/remove-gang-requirement`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        requirement_id,
+        token,
+      }),
+    });
+    const jsonify = httpResult.json();
+    return jsonify;
+  } catch (error) {
+    console.log(`${error} while kicking member`);
+  }
+};
+
 export const requestCreateChannel = async (gang_id: number, name: string, is_voice: boolean, token: string) => {
   try {
     const httpResult = await fetch(`${endpointURL}/create-channel`, {
