@@ -752,6 +752,14 @@ export default function GangsMgmt() {
                   manage basics
                 </div>
                 <div>
+                  {[1, 2].includes(loadedGangInfo.role?.role_id) ? (
+                    <i className="pi pi-check"></i>
+                  ) : (
+                    <i className="pi pi-times"></i>
+                  )}
+                  manage requirements
+                </div>
+                <div>
                   {loadedGangInfo.role?.role_id === 1 ? (
                     <i className="pi pi-check"></i>
                   ) : (
@@ -1025,7 +1033,9 @@ export default function GangsMgmt() {
       )}
 
       {/* Show requirement mgmt only if not creating gang and gang info is loaded */}
-      {locationPath !== "/create-gang" && loadedGangInfo.basicInfo?.id && loadedGangInfo.role?.role_id === 1 ? (
+      {locationPath !== "/create-gang" &&
+      loadedGangInfo.basicInfo?.id &&
+      [1, 2].includes(loadedGangInfo.role?.role_id) ? (
         <div className="gang-mgmt-master">
           <div className="channels-mgmt-container">
             <div className="channels-mgmt-title">manage member requirements</div>
