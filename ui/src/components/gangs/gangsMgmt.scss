@@ -28,6 +28,7 @@
   p {
     font-size: 1.5em;
     text-align: center;
+    margin-top: 1vh;
   }
 
   .avatar-upload-form {
@@ -36,6 +37,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    .modal-subheading {
+      margin-bottom: 2vh;
+    }
     .search-member-input {
       min-width: 80%;
       margin-top: 2vh;
@@ -328,6 +332,16 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
+    }
+    .priority-selector-title {
+      text-align: center;
+      margin-top: 2vh;
+    }
+    .priority-selector-input {
+      margin-top: 2vh;
+      margin-bottom: 1vh;
+      display: flex;
+      justify-content: center;
     }
   }
 }

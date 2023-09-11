@@ -219,6 +219,36 @@ const deleteGangRequestRecord = async (id) => {
   });
 };
 
+const createGangRequirement = async (gang_id, user_id, description, priority_level) => {
+  gangsQuery = `
+  insert into public.gang_requirements (gang_id, user_id, description, priority_level, created_at, updated_at)
+       values (:gang_id, :user_id, :description, :priority_level, current_timestamp, current_timestamp)
+    returning id
+`;
+  return await sequelize.query(gangsQuery, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      gang_id,
+      user_id,
+      description,
+      priority_level,
+    },
+  });
+};
+
+const removeRequirement = async (requirement_id) => {
+  gangsQuery = `
+  delete from public.gang_requirements
+        where id = :requirement_id
+`;
+  return await sequelize.query(gangsQuery, {
+    type: Sequelize.QueryTypes.DELETE,
+    replacements: {
+      requirement_id,
+    },
+  });
+};
+
 module.exports = {
   createGangRecord,
   createGangDefaultChannels,
@@ -233,4 +263,6 @@ module.exports = {
   deleteGangRequestRecord,
   kickSpecificMember,
   removeChannel,
+  createGangRequirement,
+  removeRequirement,
 };

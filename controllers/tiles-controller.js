@@ -4,7 +4,7 @@ const { sequelize } = require("../models/index");
 const { getRustTilesQuery, getRocketLeagueTilesQuery, getBattleBitTilesQuery } = require("../services/tiles-queries");
 const { getPendingRequestUserIdsQuery, getExistingConnectionUserIdsQuery } = require("../services/social-queries");
 const moment = require("moment");
-const { findRosterAvatars } = require("../controllers/gangs-controller");
+const { findRosterAvatars, findGangRequirements } = require("../controllers/gangs-controller");
 /*
 get tiles logic
 */
@@ -158,6 +158,7 @@ const getLFMGangTiles = async (req, res) => {
       },
     });
     foundGangs = await findRosterAvatars(foundGangs);
+    foundGangs = await findGangRequirements(foundGangs);
     res.status(200).send(foundGangs);
   } catch (err) {
     console.log("GET CHATS ERROR", err);

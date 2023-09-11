@@ -9,6 +9,7 @@ export default function GangTile(props: any) {
   const locationPath: string = useLocation().pathname;
   const [expandedProfileVis, setExpandedProfileVis] = useState<boolean>(false);
   const [platformImgLink, setplatformImgLink] = useState<string>("");
+  const [requirementTiles, setrequirementTiles] = useState<any>();
   const first5Members = props.members?.slice(0, 5);
   const toggleExpandedProfile = () => {
     setExpandedProfileVis(!expandedProfileVis);
@@ -40,8 +41,23 @@ export default function GangTile(props: any) {
       default:
         break;
     }
+    createRequirementJSX();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const createRequirementJSX = () => {
+    if (props.requirements && props.requirements.length) {
+      const tempRequirements: any = [];
+      props.requirements.forEach((requirement) => {
+        tempRequirements.push(
+          <div key={requirement.id} className="gang-requirement">
+            • {requirement.description}
+          </div>
+        );
+      });
+      setrequirementTiles(tempRequirements);
+    }
+  };
 
   return (
     <div
@@ -128,6 +144,14 @@ export default function GangTile(props: any) {
           ))}
           <div className="number-of-members">{props.members?.length} members</div>
         </div>
+        {props.requirements && props.requirements.length ? (
+          <div className="gang-requirement-container">
+            <div className="gang-requirements-title"> requirements</div>
+            <div className="gang-requirements">{requirementTiles}</div>
+          </div>
+        ) : (
+          <div className="no-requirements-title"> no requirements</div>
+        )}
         <div className="gang-footer">
           <div className="footer-platform-box" data-tip data-tooltip-id="commPlatformTip">
             {props.chat_platform_id === 1 ? (

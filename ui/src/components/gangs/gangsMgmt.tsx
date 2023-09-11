@@ -25,6 +25,9 @@ import {
   requestCreateChannel,
   updateGangChannelField,
   updateGangRole,
+  requestCreateGangRequirement,
+  updateGangRequirementField,
+  requestRemoveRequirement,
 } from "../../utils/rest";
 import { Toast } from "primereact/toast";
 import { Tooltip } from "react-tooltip";
@@ -36,6 +39,7 @@ import Confetti from "react-confetti";
 import { updateUserThunk } from "../../store/userSlice";
 import { SelectButton } from "primereact/selectbutton";
 
+const requirementPriorityOptions: any[] = [1, 2, 3, 4, 5];
 const voiceFormOptions: string[] = ["text", "voice"];
 export default function GangsMgmt() {
   const dispatch = useDispatch();
@@ -58,8 +62,6 @@ export default function GangsMgmt() {
   const [hasCompletedForm, sethasCompletedForm] = useState<boolean>(false);
   const [hasUnsavedChanges, sethasUnsavedChanges] = useState<boolean>(false);
   const [isUploadFormShown, setisUploadFormShown] = useState<boolean>(false);
-  const [isAddMembersFormShown, setisAddMembersFormShown] = useState<boolean>(false);
-  const [isAddChannelFormShown, setisAddChannelFormShown] = useState<boolean>(false);
   const [photoFile, setphotoFile] = useState<File>({ name: "" } as File);
   const [gangAvatarUrl, setgangAvatarUrl] = useState<string>("");
   const [nameText, setnameText] = useState<string>("");
@@ -67,10 +69,19 @@ export default function GangsMgmt() {
   const [chatPlatform, setchatPlatform] = useState<number>(0);
   const [game, setgame] = useState<number>(0);
   const [isPublic, setisPublic] = useState<boolean>(true);
+  //Requirement Editing
+  const [isAddRequirementFormShown, setisAddRequirementFormShown] = useState<boolean>(false);
+  const [requirementTiles, setrequirementTiles] = useState<any>();
+  const [requirementDescriptionText, setrequirementDescriptionText] = useState<string>("");
+  const [temporaryRequirementNames, settemporaryRequirementNames] = useState<any>({});
+  const [temporaryPriorityLevels, settemporaryPriorityLevels] = useState<any>({});
   //Channel Editing
+  const [isAddChannelFormShown, setisAddChannelFormShown] = useState<boolean>(false);
   const [channelTiles, setchannelTiles] = useState<any>();
   const [temporaryChannelNames, settemporaryChannelNames] = useState<any>({});
+  const [requirementPriorityValue, setrequirementPriorityValue] = useState<number>(1);
   //Member Editing
+  const [isAddMembersFormShown, setisAddMembersFormShown] = useState<boolean>(false);
   const [memberTiles, setmemberTiles] = useState<any>();
   const [temporaryRoles, settemporaryRoles] = useState<any>({});
   const rolesRef: any = useRef([{ current: "" }]);
@@ -94,13 +105,22 @@ export default function GangsMgmt() {
   //Used to render initial tiles, unfiltered
   useEffect(() => {
     const tempChannels: any = [];
+    const tempPriorities: any = [];
+    const tempRequirementDescriptions: any = [];
     if (loadedGangInfo && loadedGangInfo.channels && loadedGangInfo.channels.length) {
       loadedGangInfo.channels.forEach((channel) => {
         tempChannels[channel.id] = channel.name;
       });
       settemporaryChannelNames(tempChannels);
+      loadedGangInfo.requirements.forEach((requirement) => {
+        tempRequirementDescriptions[requirement.id] = requirement.description;
+        tempPriorities[requirement.id] = requirement.priority_level;
+      });
+      settemporaryPriorityLevels(tempPriorities);
+      settemporaryRequirementNames(tempRequirementDescriptions);
     } else {
       createChannelTiles();
+      createRequirementTiles();
     }
     createMemberTiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,6 +130,11 @@ export default function GangsMgmt() {
     createChannelTiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [temporaryChannelNames]);
+
+  useEffect(() => {
+    createRequirementTiles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [temporaryPriorityLevels, temporaryRequirementNames]);
 
   useEffect(() => {
     createRequestTiles();
@@ -142,6 +167,60 @@ export default function GangsMgmt() {
   const loadGangRequests = async (id: number) => {
     const requestsResult = await getGangRequests(id, false, "");
     setrequests(requestsResult);
+  };
+  const createRequirementTiles = () => {
+    const tempRequirementTiles: any = [];
+    tempRequirementTiles.push(
+      <div key={0} className="channels-mgmt-tile">
+        <div className="channels-mgmt-naming">
+          <button
+            onClick={() => {
+              showAddRequirementModal();
+            }}
+          >
+            add requirement
+          </button>
+        </div>
+      </div>
+    );
+    const actualRequirements = loadedGangInfo.requirements?.map((tile: any) => (
+      <div key={tile.id} className="channels-mgmt-tile">
+        <input
+          onChange={(event) => {
+            updateRequirementDescriptionText(tile, event.target.value);
+          }}
+          value={temporaryRequirementNames[tile.id]}
+          type="text"
+          className="channels-mgmt-input-box"
+          placeholder={tile.description}
+        ></input>
+        <div className="priority-selector-title">requirement priority level</div>
+        <SelectButton
+          value={temporaryPriorityLevels[tile.id]}
+          onChange={(e) => updateRequirementPriorityLevel(tile, e.target.value)}
+          options={requirementPriorityOptions}
+          className="priority-selector-input"
+        />
+        <div className="channels-mgmt-naming">
+          <button
+            onClick={() => {
+              saveRequirementUpdate(tile.id);
+            }}
+          >
+            save
+          </button>
+          <button
+            onClick={() => {
+              removeRequirement(tile);
+            }}
+          >
+            <i className="pi pi-trash" />
+          </button>
+        </div>
+      </div>
+    ));
+    const preppedRequirements = tempRequirementTiles.concat(actualRequirements);
+    setrequirementTiles(preppedRequirements);
   };
   const createChannelTiles = () => {
     const tempChannelTiles: any = [];
@@ -326,14 +405,21 @@ export default function GangsMgmt() {
     return;
   };
   const showPlayerSearchModal = () => {
-    if (userState.id === 0) alert("You must be logged in to edit this field");
+    if (userState.id === 0) alert("You must be logged in to add a member");
     setisAddMembersFormShown(true);
     memberSearchFormIn();
     scrollToSection(topOfPageRef);
     return;
   };
+  const showAddRequirementModal = () => {
+    if (userState.id === 0) alert("You must be logged in to add a requirement");
+    setisAddRequirementFormShown(true);
+    addChannelFormIn();
+    scrollToSection(topOfPageRef);
+    return;
+  };
   const showAddChannelModal = () => {
-    if (userState.id === 0) alert("You must be logged in to edit this field");
+    if (userState.id === 0) alert("You must be logged in to add a channel");
     setisAddChannelFormShown(true);
     addChannelFormIn();
     scrollToSection(topOfPageRef);
@@ -426,6 +512,75 @@ export default function GangsMgmt() {
   };
   //END NON-MODAL SAVE LOGIC
 
+  //Start Requirements Edit Logic
+  const switchRequirementPriorityForm = (e: any) => {
+    //this is for the new requirement modal
+    setrequirementPriorityValue(e.value);
+  };
+  const tryCreateRequirement = async () => {
+    const createResult = await requestCreateGangRequirement(
+      parseInt(locationPath.slice(13, 55)),
+      userState.id,
+      requirementDescriptionText,
+      requirementPriorityValue,
+      ""
+    );
+    toast.current?.clear();
+    toast.current.show({
+      severity: "success",
+      summary: `requirement created!`,
+      detail: ``,
+      sticky: false,
+    });
+    closeAvatar();
+    loadGangInfos(parseInt(locationPath.slice(13, 55)));
+  };
+  const updateRequirementDescriptionText = (tile: { id: string | number }, text: any) => {
+    let copyOfNames = [...temporaryRequirementNames];
+    copyOfNames[tile.id] = text;
+    settemporaryRequirementNames(copyOfNames);
+  };
+  const updateRequirementPriorityLevel = (tile: { id: string | number }, priority: any) => {
+    //this is for loaded tiles
+    let copyOfPriorities = [...temporaryPriorityLevels];
+    copyOfPriorities[tile.id] = priority;
+    settemporaryPriorityLevels(copyOfPriorities);
+  };
+  const saveRequirementUpdate = async (id: number) => {
+    const description = temporaryRequirementNames[id];
+    const priorityLevel = temporaryPriorityLevels[id];
+    const result: any = await updateGangRequirementField(id, "description", description);
+    const priorityResult: any = await updateGangRequirementField(id, "priority_level", priorityLevel);
+    if (result && priorityResult) {
+      toast.current?.clear();
+      toast.current.show({
+        severity: "info",
+        summary: "requirement updated!",
+        detail: ``,
+        sticky: false,
+      });
+      loadGangInfos(parseInt(locationPath.slice(13, 55)));
+    } else {
+      toast.current?.clear();
+      toast.current.show({
+        severity: "info",
+        summary: "failed to update description!",
+        detail: ``,
+        sticky: false,
+      });
+    }
+  };
+  const removeRequirement = async (tile) => {
+    await requestRemoveRequirement(tile.id, "");
+    loadGangInfos(parseInt(locationPath.slice(13, 55)));
+    toast.current?.clear();
+    toast.current.show({
+      severity: "success",
+      summary: "removed channel!",
+      detail: ``,
+      sticky: false,
+    });
+  };
   //Start Channel Edit LOGIC
   const tryCreateChannel = async () => {
     const isVoice = channelIsVoiceValue === "text" ? false : true;
@@ -433,7 +588,7 @@ export default function GangsMgmt() {
     toast.current?.clear();
     toast.current.show({
       severity: "success",
-      summary: `$channel created!`,
+      summary: `channel created!`,
       detail: ``,
       sticky: false,
     });
@@ -549,6 +704,7 @@ export default function GangsMgmt() {
     loadGangInfos(parseInt(locationPath.slice(13, 55)));
   };
   //END Member Edit Logic
+  const conditionalAddRequirementClass = isAddRequirementFormShown ? "conditionalZ2" : "conditionalZ1";
   const conditionalUploadFormClass = isUploadFormShown ? "conditionalZ2" : "conditionalZ1";
   const conditionalAddMembersClass = isAddMembersFormShown ? "conditionalZ2" : "conditionalZ1";
   const conditionalAddChannelClass = isAddChannelFormShown ? "conditionalZ2" : "conditionalZ1";
@@ -868,7 +1024,20 @@ export default function GangsMgmt() {
         <></>
       )}
 
-      {/* Show stuff only if creating gang, or after existing gang info is loaded */}
+      {/* Show requirement mgmt only if not creating gang and gang info is loaded */}
+      {locationPath !== "/create-gang" && loadedGangInfo.basicInfo?.id && loadedGangInfo.role?.role_id === 1 ? (
+        <div className="gang-mgmt-master">
+          <div className="channels-mgmt-container">
+            <div className="channels-mgmt-title">manage member requirements</div>
+            <div className="gradient-bar"></div>
+            {requirementTiles}
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+
+      {/* Show channel mgmt only if not creating gang and gang info is loaded */}
       {locationPath !== "/create-gang" && loadedGangInfo.basicInfo?.id && loadedGangInfo.role?.role_id === 1 ? (
         <div className="gang-mgmt-master">
           <div className="channels-mgmt-container">
@@ -881,7 +1050,7 @@ export default function GangsMgmt() {
         <></>
       )}
 
-      {/* Show stuff only if creating gang, or after existing gang info is loaded */}
+      {/* Show member mgmt only if not creating gang and gang info is loaded */}
       {locationPath !== "/create-gang" && loadedGangInfo.basicInfo?.id && loadedGangInfo.role?.role_id === 1 ? (
         <div className="gang-mgmt-master">
           <div className="member-mgmt-container">
@@ -913,6 +1082,36 @@ export default function GangsMgmt() {
         }
         <div className="upload-form-btns">
           <button onClick={photoSubmitHandler}>save</button>
+          <button onClick={closeAvatar}>close</button>
+        </div>
+      </div>
+      {/* Add Requirements MODAL */}
+      <div className={`add-channel-form ${conditionalAddRequirementClass}`}>
+        <p>{"add requirement"}</p>
+        {
+          <div className="avatar-upload-form">
+            <input
+              onChange={(event) => {
+                setrequirementDescriptionText(event.target.value);
+              }}
+              value={requirementDescriptionText}
+              type="text"
+              className="channel-name-input"
+              placeholder={"requirement description..."}
+            ></input>
+            <div className="modal-subheading">requirement priority level</div>
+            <SelectButton
+              value={requirementPriorityValue}
+              onChange={(e) => switchRequirementPriorityForm(e)}
+              options={requirementPriorityOptions}
+              className="channel-selector-input"
+            />
+            <div className="upload-form-btns">
+              <button onClick={tryCreateRequirement}>create requirement</button>
+            </div>
+          </div>
+        }
+        <div className="upload-form-btns">
           <button onClick={closeAvatar}>close</button>
         </div>
       </div>

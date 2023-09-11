@@ -82,6 +82,9 @@ router.post("/create-gang", gangsController.createGang);
 router.post("/my-gangs", gangsController.getMyGangsTiles);
 router.post("/gang-activity", gangsController.getGangActivity);
 router.post("/update-gang-field", gangsController.updateGangField);
+router.post("/add-gang-requirement", gangsController.addGangRequirement);
+router.post("/edit-gang-requirement", gangsController.updateGangRequirementField);
+router.post("/remove-gang-requirement", gangsController.removeGangRequirement);
 
 //GANG REQUESTS
 router.post("/check-gang-request", gangsController.checkIfRequestExistsForUser);
