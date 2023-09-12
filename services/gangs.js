@@ -249,6 +249,20 @@ const removeRequirement = async (requirement_id) => {
   });
 };
 
+const searchGangByGangNameQuery = async (inputString) => {
+  const query = `
+      select g.id
+        from public.gangs g
+        where g.name = :inputString
+  `;
+  return await sequelize.query(query, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      inputString,
+    },
+  });
+};
+
 module.exports = {
   createGangRecord,
   createGangDefaultChannels,
@@ -265,4 +279,5 @@ module.exports = {
   removeChannel,
   createGangRequirement,
   removeRequirement,
+  searchGangByGangNameQuery,
 };

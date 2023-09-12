@@ -15,6 +15,7 @@ const {
   removeChannel,
   createGangRequirement,
   removeRequirement,
+  searchGangByGangNameQuery,
 } = require("../services/gangs");
 const format = require("pg-format");
 const { updateUserGenInfoField } = require("../services/user-common");
@@ -161,94 +162,99 @@ const getGangActivity = async (req, res) => {
   console.log(" ♛ A User Requested To Load Gang Page ♛ ");
   try {
     const { gang_id, user_id } = req.body;
-    //Get Gang Public Info
-    const basicGangInfoQuery = `
-		  select id, 
-				     name, 
-				     about, 
-				     avatar_url,
-				     game_platform_id,
-             chat_platform_id,
-             is_public
-			  from public.gangs
-			 where id = :gang_id
-		`;
-    let foundGangInfo = await sequelize.query(basicGangInfoQuery, {
-      type: Sequelize.QueryTypes.SELECT,
-      replacements: {
-        gang_id,
-      },
-    });
-    let finalizedGangInfo = await findRosterAvatars([foundGangInfo[0]]);
-    //Find if user has role in gang
-    const rosterQuery = `
-              select r.role_id, ro.name as role_name
-                from public.gang_roster r
-                join public.gang_roles ro
-                  on ro.id = r.role_id
-               where r.user_id = :user_id
-                 and r.gang_id = :gang_id
-            `;
-    let foundRole = await sequelize.query(rosterQuery, {
-      type: Sequelize.QueryTypes.SELECT,
-      replacements: {
-        user_id,
-        gang_id,
-      },
-    });
-    gangQuery = `
-              select gc.id, 
-                     gc.name, 
-                     gc.privacy_level,
-                     is_voice
-                from public.gang_chats gc
-               where gc.gang_id = :gang_id
-            order by gc.id
-            `;
-    let gangChannels = await sequelize.query(gangQuery, {
-      type: Sequelize.QueryTypes.SELECT,
-      replacements: {
-        user_id,
-        gang_id,
-      },
-    });
-    gangQuery = `
-              select gr.*
-                from public.gang_requirements gr
-               where gr.gang_id = :gang_id
-            order by gr.priority_level asc
-            `;
-    let gangRequirements = await sequelize.query(gangQuery, {
-      type: Sequelize.QueryTypes.SELECT,
-      replacements: {
-        gang_id,
-      },
-    });
-    let gangData = {};
-    if (foundRole[0]) {
-      //Prepare all gang data, because they are member
-      gangData = {
-        basicInfo: finalizedGangInfo[0],
-        role: foundRole[0],
-        requirements: gangRequirements,
-        channels: gangChannels,
-      };
-    } else {
-      //Prepare partial gang data, because they are non-member
-      //Check if user has already requested to join or not
-      const requestResult = await checkGangRequestStatusByUserId(user_id, gang_id);
-      gangData = {
-        basicInfo: finalizedGangInfo[0],
-        role: foundRole[0],
-        channels: {},
-        requestStatus: requestResult,
-      };
-    }
-    res.status(200).send(gangData);
+    const result = await formGangInfoObject(gang_id, user_id);
+    res.status(200).send(result);
   } catch (err) {
     console.log("GET GANG PAGE INFO ERROR", err);
     res.status(500).send(`GET ERROR: ${err}`);
   }
+};
+
+const formGangInfoObject = async (gang_id, user_id) => {
+  //Get Gang Public Info
+  const basicGangInfoQuery = `
+    select id, 
+          name, 
+          about, 
+          avatar_url,
+          game_platform_id,
+          chat_platform_id,
+          is_public
+      from public.gangs
+    where id = :gang_id
+  `;
+  let foundGangInfo = await sequelize.query(basicGangInfoQuery, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      gang_id,
+    },
+  });
+  let finalizedGangInfo = await findRosterAvatars([foundGangInfo[0]]);
+  //Find if user has role in gang
+  const rosterQuery = `
+        select r.role_id, ro.name as role_name
+          from public.gang_roster r
+          join public.gang_roles ro
+            on ro.id = r.role_id
+         where r.user_id = :user_id
+           and r.gang_id = :gang_id
+      `;
+  let foundRole = await sequelize.query(rosterQuery, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      user_id,
+      gang_id,
+    },
+  });
+  gangQuery = `
+        select gc.id, 
+               gc.name, 
+               gc.privacy_level,
+               is_voice
+          from public.gang_chats gc
+         where gc.gang_id = :gang_id
+      order by gc.id
+      `;
+  let gangChannels = await sequelize.query(gangQuery, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      gang_id,
+    },
+  });
+  gangQuery = `
+        select gr.*
+          from public.gang_requirements gr
+         where gr.gang_id = :gang_id
+      order by gr.priority_level asc
+      `;
+  let gangRequirements = await sequelize.query(gangQuery, {
+    type: Sequelize.QueryTypes.SELECT,
+    replacements: {
+      gang_id,
+    },
+  });
+  let gangData = {};
+  if (foundRole[0]) {
+    //Prepare all gang data, because they are member
+    gangData = {
+      basicInfo: finalizedGangInfo[0],
+      role: foundRole[0],
+      requirements: gangRequirements,
+      channels: gangChannels,
+    };
+  } else {
+    //Prepare partial gang data, because they are non-member
+    //Check if user has already requested to join or not
+    const requestResult = await checkGangRequestStatusByUserId(user_id, gang_id);
+    gangData = {
+      basicInfo: finalizedGangInfo[0],
+      role: foundRole[0],
+      requirements: gangRequirements,
+      channels: {},
+      requestStatus: requestResult,
+    };
+  }
+  return gangData;
 };
 
 const checkIfRequestExistsForUser = async (req, res) => {
@@ -505,6 +511,14 @@ const removeGangRequirement = async (req, res) => {
   }
 };
 
+const searchForGang = async (inputString) => {
+  let result = await searchGangByGangNameQuery(inputString);
+  if (result && result[0]) {
+    result = result[0];
+    return result;
+  } else return "error";
+};
+
 module.exports = {
   createGang,
   getMyGangsTiles,
@@ -525,4 +539,6 @@ module.exports = {
   updateGangRequirementField,
   removeGangRequirement,
   findGangRequirements,
+  searchForGang,
+  formGangInfoObject,
 };
