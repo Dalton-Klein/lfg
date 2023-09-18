@@ -1,0 +1,12 @@
+.lobby-master {
+  min-height: 80vh;
+  min-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .ball-holder {
+    width: 10vw;
+    height: 10vw;
+  }
+}
