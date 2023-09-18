@@ -8,6 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { useLocation } from "react-router-dom";
 import { updateUserThunk } from "../../../store/userSlice";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import React, { Suspense } from "react";
+import ThreeDLogo from "../lobby/objects/threeDLogo";
 // import { logoutUser } from "../../../store/userSlice";
 
 export default function HomePage({ socketRef }) {
@@ -38,14 +42,31 @@ export default function HomePage({ socketRef }) {
   return (
     <div className="home-page-master">
       <div className="title-box">
-        {/* <div className="title">gangs</div> */}
-        <img
-          className="logo-img"
-          src={
-            "https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
+        <Suspense
+          fallback={
+            <img
+              className="logo-img"
+              src={
+                "https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
+              }
+              alt="gangs logo"
+            />
           }
-          alt="gangs logo"
-        />
+        >
+          <Canvas
+            frameloop="always"
+            gl={{ preserveDrawingBuffer: true }}
+            style={{
+              width: "10vw",
+              height: "10vw",
+            }}
+          >
+            <OrbitControls enableZoom={false} />
+            <ambientLight intensity={0.9} />
+            <directionalLight position={[10, 10, 10]} intensity={1.75} />
+            <ThreeDLogo></ThreeDLogo>
+          </Canvas>
+        </Suspense>
         <h1 className="main-title">form your gang</h1>
         <h2 className="subtitle">
           Say goodbye to solo queuing, find ideal team members to play with, make new friends
