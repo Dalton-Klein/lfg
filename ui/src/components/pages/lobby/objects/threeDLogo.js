@@ -1,14 +1,10 @@
 import React, { useRef, useState } from "react";
-import { useLoader, useFrame } from "@react-three/fiber";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
-import { useTexture, useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
 import { MathUtils } from "three";
 
 export default function ThreeDLogo() {
   const objRef = useRef(); // Create a ref to access the loaded object
-  const colorMap = useTexture(
-    "https://res.cloudinary.com/kultured-dev/image/upload/v1694630581/TexturesCom_Paint_Chipped_1K_albedo_qhna0w.jpg"
-  );
   const threeDLogo = useGLTF("/assets/Logo_R.gltf");
   // const obj = useLoader(OBJLoader, "/assets/gangs-logo-3d-small.obj", (loader) => {
   //   loader.setResourcePath("/assets/"); // Set the resource path for loading related assets (e.g., textures)

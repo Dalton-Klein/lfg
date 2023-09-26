@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BannerTitle from "../nav/banner-title";
-import FooterComponent from "../nav/footerComponent";
 import "./viewProfile.scss";
 import {
   attemptPublishRustProfile,
   createConnectionRequest,
-  fetchUserData,
   fetchUserDataAndConnectedStatus,
   getAllPublishStatus,
   getEndorsementOptions,

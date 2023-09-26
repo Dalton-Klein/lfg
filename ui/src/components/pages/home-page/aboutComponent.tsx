@@ -1,7 +1,6 @@
 import "./aboutComponent.scss";
 import { howLongAgo } from "../../../utils/helperFunctions";
 import { getNotificationsGeneral } from "../../../utils/rest";
-import * as io from "socket.io-client";
 import { useEffect, useState } from "react";
 
 export default function HomePage({ socketRef }) {

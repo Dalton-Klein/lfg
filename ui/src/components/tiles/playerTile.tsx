@@ -260,7 +260,7 @@ export default function PlayerTile(props: any) {
                 </div>
 
                 {rocketLeagueRankIcon.length > 0 ? (
-                  <img className="details-rocket-league-rank" src={rocketLeagueRankIcon} />
+                  <img className="details-rocket-league-rank" src={rocketLeagueRankIcon} alt="rocket-leage-rank" />
                 ) : (
                   "not ranked"
                 )}
@@ -283,7 +283,7 @@ export default function PlayerTile(props: any) {
               <div className="details-battle-bit">
                 <div className="details-battle-bit-info-slot">
                   {battleBitClassIcon.length > 0 ? (
-                    <img className="details-battle-bit-class" src={battleBitClassIcon} />
+                    <img className="details-battle-bit-class" src={battleBitClassIcon} alt="battle-bit-class" />
                   ) : (
                     "not ranked"
                   )}

@@ -21,7 +21,6 @@ export default function HomePage({ socketRef }) {
   const userState = useSelector((state: RootState) => state.user.user);
 
   const [conditionalAuthTile, setconditionalAuthTile] = useState<any>(true);
-  const [conditionalDashTile, setconditionalDashTile] = useState<any>(true);
 
   useEffect(() => {
     setconditionalAuthTile(
@@ -105,7 +104,6 @@ export default function HomePage({ socketRef }) {
         </div>
         <div className="nav-tiles">
           {conditionalAuthTile}
-          {conditionalDashTile}
           <MediumTile
             routerLink="https://discord.gg/2JUsEphFwG"
             imageLink="pi pi-discord"

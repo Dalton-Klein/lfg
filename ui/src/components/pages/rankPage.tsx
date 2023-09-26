@@ -1,4 +1,3 @@
-import FooterComponent from "../nav/footerComponent";
 import "./rankPage.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import BannerTitle from "../nav/banner-title";

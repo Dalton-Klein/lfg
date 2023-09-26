@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import React, { useEffect, useRef, useState } from "react";
 import MediumTile from "../../tiles/mediumTile";
-import { getRankLeaderboard, getUserCount } from "../../../utils/rest";
+import { getRankLeaderboard } from "../../../utils/rest";
 
 export default function BlogArticle5() {
   const navigate = useNavigate();

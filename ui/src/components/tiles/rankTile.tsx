@@ -149,7 +149,7 @@ export default function RankTile({ user, isSmall }) {
   }, [starImage, prestigeRemainder]);
 
   const renderRank = () => {
-    setarrangedStars(<img src={starImage} className={isSmall ? "rank reduced" : "rank"} />);
+    setarrangedStars(<img src={starImage} className={isSmall ? "rank reduced" : "rank"} alt="rank-of-user" />);
     return;
   };
 
