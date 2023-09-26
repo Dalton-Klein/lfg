@@ -11,7 +11,7 @@ import {
   requestSoftDeleteMessage,
   uploadAvatarCloud,
 } from "../../utils/rest";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ExpandedProfile from "../modal/expandedProfileComponent";
 import { avatarFormIn, avatarFormOut } from "../../utils/animations";
 import RankTile from "../tiles/rankTile";
@@ -32,8 +32,6 @@ const messageReactionsKey = {
   6: "count_skull",
 };
 export default function InstantMessaging({ socketRef, convo, hasPressedChannelForMobile }) {
-  const navigate = useNavigate();
-
   const reactionOptionsMenu: any = useRef(null);
   const messageOptionsMenu: any = useRef(null);
   const hiddenFileInput: any = React.useRef(null);
@@ -457,6 +455,7 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
                 src={
                   "https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
                 }
+                alt="message-sender-avatar"
               />
               <RankTile user={{ rank: 174 }} isSmall={true}></RankTile>
               <div className="message-sender-name">gangs team</div>

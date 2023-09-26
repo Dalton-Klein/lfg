@@ -16,6 +16,8 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.0",
     "@mui/material": "^5.14.0",
+    "@react-three/drei": "^9.85.0",
+    "@react-three/fiber": "^8.14.3",
     "@reduxjs/toolkit": "^1.6.2",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",

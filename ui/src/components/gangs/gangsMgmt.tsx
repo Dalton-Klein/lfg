@@ -526,12 +526,21 @@ export default function GangsMgmt() {
       ""
     );
     toast.current?.clear();
-    toast.current.show({
-      severity: "success",
-      summary: `requirement created!`,
-      detail: ``,
-      sticky: false,
-    });
+    if (createResult) {
+      toast.current.show({
+        severity: "success",
+        summary: `requirement created!`,
+        detail: ``,
+        sticky: false,
+      });
+    } else {
+      toast.current.show({
+        severity: "info",
+        summary: `there was a problem creating the requirement!`,
+        detail: ``,
+        sticky: false,
+      });
+    }
     closeAvatar();
     loadGangInfos(parseInt(locationPath.slice(13, 55)));
   };
@@ -584,7 +593,8 @@ export default function GangsMgmt() {
   //Start Channel Edit LOGIC
   const tryCreateChannel = async () => {
     const isVoice = channelIsVoiceValue === "text" ? false : true;
-    const createResult = await requestCreateChannel(parseInt(locationPath.slice(13, 55)), channelNameText, isVoice, "");
+    // add error handling here
+    await requestCreateChannel(parseInt(locationPath.slice(13, 55)), channelNameText, isVoice, "");
     toast.current?.clear();
     toast.current.show({
       severity: "success",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./authenticationPage.scss";
 import { SignUpForm, SignInForm, VerificationForm, PasswordResetForm } from "../../utils/interfaces";
-import { createUser, googleSignIn, requestPasswordReset } from "../../utils/rest";
+import { createUser, requestPasswordReset } from "../../utils/rest";
 import {
   validateCredentials,
   validateEmail,
@@ -65,7 +65,6 @@ const LoginPage = () => {
   const [formError, setFormError] = useState(false);
   const [isSteamPopup, setisSteamPopup] = useState<boolean>(false);
   const [isGoogleSignUp, setisGoogleSignUp] = useState<boolean>(false);
-  const [googleSuccessResponse, setgoogleSuccessResponse] = useState<any>({});
   const [ageChecked, setageChecked] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("something went wrong...");
   let isPerformingAnim = false;
@@ -109,26 +108,13 @@ const LoginPage = () => {
     event.preventDefault();
     const validationResult = validateCredentials(createAccountForm, ageChecked, isGoogleSignUp);
     if (validationResult.success) {
-      if (isGoogleSignUp) {
-        // Skip straight to account creation for google sign up (no email verification needed)
-        const accountCreationResult: any = await dispatch(
-          createUserInState(googleSuccessResponse.profileObj.email, "google", createAccountForm.name, "google")
-        );
-        if (accountCreationResult.data) {
-          dispatch(updateUserThunk(accountCreationResult.data.id));
-          navigate("/");
-        } else {
-          createError(`${accountCreationResult.error}`);
-        }
+      // Continue with email verification for email sign up
+      const signupResult = await createUser(createAccountForm);
+      if (signupResult.data) {
+        clearError();
+        loginPanelVerifyAnim();
       } else {
-        // Continue with email verification for email sign up
-        const signupResult = await createUser(createAccountForm);
-        if (signupResult.data) {
-          clearError();
-          loginPanelVerifyAnim();
-        } else {
-          createError(`${signupResult.error}`);
-        }
+        createError(`${signupResult.error}`);
       }
     } else {
       createError(`${validationResult.error}`);
@@ -153,33 +139,6 @@ const LoginPage = () => {
     }
     setSignInFormState(signInFormCopy);
   };
-
-  //START Google Logic
-  const onGoogleFailure = (res: any) => {
-    console.log("google failed to login");
-  };
-
-  const onGoogleSuccess = async (res: any) => {
-    //Check if account with google email exists
-    const googleCheckResult = await googleSignIn(res.profileObj.email);
-    //Either sign in or sign up user based on result above
-    if (googleCheckResult.token) {
-      // Account found, proceed with signin
-      const result: any = await dispatch(signInUserThunk({ email: res.profileObj.email, password: "" }, true));
-      if ("error" in result) {
-        createError(result.error);
-      } else {
-        clearError();
-        navigate("/");
-      }
-    } else if (googleCheckResult.error) {
-      // No account found, create one for this google account
-      // Take user to signup and modify account form for google
-      setgoogleSuccessResponse(res);
-      changeMenu(4);
-    }
-  };
-  //END Google Logic
 
   const signInUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -331,8 +290,8 @@ const LoginPage = () => {
   };
 
   const openGangsInBrowser = async () => {
-    const url = "https://www.gangs.gg/#/login";
-    // ***ELECTRON DISABLE
+    // ***ELECTRON DISABLE 2 lines
+    // const url = "https://www.gangs.gg/#/login";
     // ipcRenderer.send("openWebPage", url);
   };
 

@@ -1,16 +1,14 @@
 import FooterComponent from "../nav/footerComponent";
 import "./addFriend.scss";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import BannerTitle from "../nav/banner-title";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import React, { useEffect, useRef, useState } from "react";
-import MediumTile from "../tiles/mediumTile";
 import { Toast } from "primereact/toast";
 import { createConnectionRequest, searchUserByUsername } from "../../utils/rest";
 
 export default function AddFriend() {
-  const navigate = useNavigate();
   const toast: any = useRef({ current: "" });
   const locationPath: string = useLocation().pathname;
   const userState = useSelector((state: RootState) => state.user.user);
