@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store/store";
 import { setPreferences } from "../../store/userPreferencesSlice";
-import "./mediumTile.scss";
+import "./smallTile.scss";
 
 type Props = {
   title: string;
@@ -11,14 +11,14 @@ type Props = {
   routerLink: string;
 };
 
-export default function MediumTile(props: Props) {
+export default function SmallTile(props: Props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const preferencesState = useSelector((state: RootState) => state.preferences);
   return (
     // <article className="tile-box" style={{ backgroundImage: `url(${props.imageLink})` }}>
     <article
-      className="medium-tile-box"
+      className="small-tile-box"
       onClick={() => {
         if (props.routerLink === "https://discord.gg/2JUsEphFwG") window.open(props.routerLink);
         else if (props.routerLink === "/general-profile") {
@@ -32,9 +32,9 @@ export default function MediumTile(props: Props) {
         } else navigate(`${props.routerLink}`);
       }}
     >
-      <div className="medium-gradient-overlay">
-        <h3 className="medium-title">{props.title}</h3>
+      <div className="small-tile-overlay">
         <i className={props.imageLink}></i>
+        <h3 className="medium-title">{props.title}</h3>
       </div>
     </article>
   );
