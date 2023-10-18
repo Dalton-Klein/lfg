@@ -508,14 +508,14 @@ export default function GangPage({ socketRef }) {
       setchannelList(
         gangInfo.channels.map((tile: any) => (
           <button
-            className={`alt-button ${tile.id === currentChannel.id ? "selected-channel" : ""}`}
+            className={`alt-button gang-channel-button ${tile.id === currentChannel.id ? "selected-channel" : ""}`}
             key={tile.id}
             onClick={() => {
               channelButtonPressed(tile.index);
             }}
           >
-            <i className={`${tile.is_voice ? "pi pi-volume-up" : "pi pi-book"}`} />
             <div className="channel-title">{tile.name}</div>
+            <i className={`${tile.is_voice ? "pi pi-volume-up" : "pi pi-comments"}`} />
           </button>
         ))
       );
