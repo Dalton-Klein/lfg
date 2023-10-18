@@ -12,6 +12,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import React, { Suspense } from "react";
 import ThreeDLogo from "../lobby/objects/threeDLogo";
+import SmallTile from "../../tiles/smallTile";
 // import { logoutUser } from "../../../store/userSlice";
 
 export default function HomePage({ socketRef }) {
@@ -149,10 +150,10 @@ export default function HomePage({ socketRef }) {
         ></DaddyTile>
       </div>
       <div className="extra-tiles">
-        <MediumTile routerLink="/support" imageLink="pi pi-question" title="support & feedback"></MediumTile>
-        <MediumTile routerLink="/help" imageLink="pi pi-info-circle" title="tutorials & faq"></MediumTile>
-        <MediumTile routerLink="/privacy-policy" imageLink="pi pi-shield" title="privacy policy"></MediumTile>
-        <MediumTile routerLink="/terms-of-service" imageLink="pi pi-book" title="terms of service"></MediumTile>
+        <SmallTile routerLink="/support" imageLink="pi pi-question" title="support & feedback"></SmallTile>
+        <SmallTile routerLink="/help" imageLink="pi pi-info-circle" title="tutorials & faq"></SmallTile>
+        <SmallTile routerLink="/privacy-policy" imageLink="pi pi-shield" title="privacy policy"></SmallTile>
+        <SmallTile routerLink="/terms-of-service" imageLink="pi pi-book" title="terms of service"></SmallTile>
       </div>
       <FooterComponent></FooterComponent>
     </div>
