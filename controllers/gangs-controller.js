@@ -80,7 +80,9 @@ const findRosterAvatars = async (gangsArray) => {
                u.username, 
                u.id, 
                r.role_id as role_id,
-               rol.name as role_name
+               rol.name as role_name,
+               u.created_at as joined_date,
+               r.created_at as member_since_date
           from public.gang_roster r
           join public.users u
             on u.id = r.user_id
