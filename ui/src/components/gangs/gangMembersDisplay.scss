@@ -1,0 +1,83 @@
+@import "../../styling/config";
+
+.gang-members-master-box {
+  .gang-member-row-parent {
+    display: flex;
+    justify-content: space-between;
+    background-color: $colorGreyPop;
+    border-radius: $borderRadius1;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    padding: 1vh 1vh;
+    min-width: 100%;
+    .mssg-avatar-container {
+      display: flex;
+      align-items: start;
+      margin-top: 1vh;
+      .mssg-avatar {
+        width: 3.5vh;
+        height: 3.5vh;
+        min-height: 3.5vh;
+        min-width: 3.5vh;
+        object-fit: cover;
+        border-radius: calc(3.5vh / 2);
+        margin-right: 1vw;
+      }
+      .dynamic-avatar-border {
+        @extend .mssg-avatar;
+        background-color: $colorShadowLight;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .dynamic-avatar-text-med {
+          font-size: $font1;
+        }
+      }
+    }
+    .member-name-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 30%;
+      .member-name-text {
+        font-size: $font3;
+      }
+      .member-role-info {
+        margin-top: 0.5vh;
+        i {
+          color: $colorTextAlt;
+        }
+        .member-role-text {
+          margin-left: 0.5vh;
+          font-size: $font2;
+          color: $colorTextAlt;
+        }
+      }
+    }
+    .member-date-box {
+      min-width: 25%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      .member-date-value {
+        min-height: 100%;
+        color: $colorTextAlt;
+        font-size: $font2;
+        text-align: left;
+        display: flex;
+        align-items: center;
+      }
+      .member-date-value-2 {
+        @extend .member-date-value;
+        margin-left: 5vw;
+      }
+    }
+  }
+  .p-paginator {
+    button {
+      min-width: 3vw;
+      margin: 0.5vh 0.25vw;
+    }
+  }
+}

@@ -373,72 +373,76 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
               }
               key={id}
             >
-              <div className="message-sender-box">
-                <div className="sender-specific">
-                  {avatar_url === "" ||
-                  avatar_url ===
-                    "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
-                    <div className="dynamic-avatar-border">
-                      <div className="dynamic-avatar-text-med">
-                        {sender
-                          .split(" ")
-                          .map((word: string[]) => word[0])
-                          .join("")
-                          .slice(0, 2)
-                          .toLowerCase()}
-                      </div>
+              <div className="mssg-avatar-container">
+                {avatar_url === "" ||
+                avatar_url ===
+                  "https://res.cloudinary.com/kultured-dev/image/upload/v1625617920/defaultAvatar_aeibqq.png" ? (
+                  <div className="dynamic-avatar-border">
+                    <div className="dynamic-avatar-text-med">
+                      {sender
+                        .split(" ")
+                        .map((word: string[]) => word[0])
+                        .join("")
+                        .slice(0, 2)
+                        .toLowerCase()}
                     </div>
-                  ) : (
-                    <img className="mssg-avatar" onClick={() => {}} src={avatar_url} alt={`${sender}avatar`} />
-                  )}
-                  <RankTile user={{ rank: rank ? rank : 1 }} isSmall={true}></RankTile>
-                  <div
-                    className="message-sender-name"
-                    onClick={() => {
-                      toggleExpandedProfile(senderId);
-                    }}
-                  >
-                    {sender}
+                  </div>
+                ) : (
+                  <img className="mssg-avatar" onClick={() => {}} src={avatar_url} alt={`${sender}avatar`} />
+                )}
+              </div>
+              <div className="mssg-main-column">
+                <div className="message-sender-box">
+                  <div className="sender-specific">
+                    <RankTile user={{ rank: rank ? rank : 1 }} isSmall={true}></RankTile>
+                    <div
+                      className="message-sender-name"
+                      onClick={() => {
+                        toggleExpandedProfile(senderId);
+                      }}
+                    >
+                      {sender}
+                    </div>
+                  </div>
+                  <div className="message-details">
+                    <div className="message-timestamp">{formattedTimestamp}</div>
+                    <button
+                      className="reaction-button"
+                      onClick={(event) => {
+                        openReactionsMenu(event, id);
+                      }}
+                    >
+                      <AddReactionOutlinedIcon />
+                    </button>
+                    <button
+                      style={{ display: sender === userState.username ? "inline-block" : "none" }}
+                      className="options-button"
+                      onClick={(event) => {
+                        openOptionsMenu(event, id);
+                      }}
+                    >
+                      <i className="pi pi-ellipsis-h"></i>
+                    </button>
                   </div>
                 </div>
-                <div className="message-details">
-                  <div className="message-timestamp">{formattedTimestamp}</div>
-                  <button
-                    className="reaction-button"
-                    onClick={(event) => {
-                      openReactionsMenu(event, id);
-                    }}
-                  >
-                    <AddReactionOutlinedIcon />
-                  </button>
-                  <button
-                    style={{ display: sender === userState.username ? "inline-block" : "none" }}
-                    className="options-button"
-                    onClick={(event) => {
-                      openOptionsMenu(event, id);
-                    }}
-                  >
-                    <i className="pi pi-ellipsis-h"></i>
-                  </button>
+                <div className="message-content">
+                  {is_image ? (
+                    <img src={message} className="user-uploaded-img" alt="user-uploaded-content"></img>
+                  ) : (
+                    message
+                  )}
                 </div>
-              </div>
-              <div className="message-content">
-                {is_image ? (
-                  <img src={message} className="user-uploaded-img" alt="user-uploaded-content"></img>
-                ) : (
-                  message
-                )}
-              </div>
-              <div className="reaction-box">
-                {renderReactionsForMessage(
-                  id,
-                  count_love,
-                  count_thumbs_down,
-                  count_thumbs_up,
-                  count_one_hunderd,
-                  count_fire,
-                  count_skull
-                )}
+                <div className="reaction-box">
+                  {renderReactionsForMessage(
+                    id,
+                    count_love,
+                    count_thumbs_down,
+                    count_thumbs_up,
+                    count_one_hunderd,
+                    count_fire,
+                    count_skull
+                  )}
+                </div>
               </div>
             </div>
           );
@@ -447,24 +451,28 @@ export default function InstantMessaging({ socketRef, convo, hasPressedChannelFo
     } else {
       return (
         <div className="message-bubble message-border-non-owner">
-          <div className="message-sender-box">
-            <div className="sender-specific">
-              <img
-                className="mssg-avatar"
-                onClick={() => {}}
-                src={
-                  "https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
-                }
-                alt="message-sender-avatar"
-              />
-              <RankTile user={{ rank: 174 }} isSmall={true}></RankTile>
-              <div className="message-sender-name">gangs team</div>
-            </div>
-            <div className="message-details">
-              <div className="message-timestamp"></div>
-            </div>
+          <div className="mssg-avatar-container">
+            <img
+              className="mssg-avatar"
+              onClick={() => {}}
+              src={
+                "https://res.cloudinary.com/kultured-dev/image/upload/v1663653269/logo-v2-gangs.gg-transparent-white_mqcq3z.png"
+              }
+              alt="message-sender-avatar"
+            />
           </div>
-          <div className="message-content">no messages yet, go ahead and say hi!</div>
+          <div className="mssg-main-column">
+            <div className="message-sender-box">
+              <div className="sender-specific">
+                <RankTile user={{ rank: 174 }} isSmall={true}></RankTile>
+                <div className="message-sender-name">gangs team</div>
+              </div>
+              <div className="message-details">
+                <div className="message-timestamp"></div>
+              </div>
+            </div>
+            <div className="message-content">no messages yet, go ahead and say hi!</div>
+          </div>
         </div>
       );
     }

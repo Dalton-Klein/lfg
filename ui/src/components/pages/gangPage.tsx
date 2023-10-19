@@ -16,6 +16,7 @@ import InstantMessaging from "../messaging/instantMessaging";
 import { Tooltip } from "react-tooltip";
 import vad from "voice-activity-detection";
 import VoiceParticipant from "../tiles/voiceParticipant";
+import GangMembersDisplay from "../gangs/gangMembersDisplay";
 
 function isMobileDevice() {
   const userAgent = window.navigator.userAgent;
@@ -505,20 +506,32 @@ export default function GangPage({ socketRef }) {
     //This will run on page load
     if (gangInfo.role?.role_id) {
       //If in gang, show list of channels
-      setchannelList(
-        gangInfo.channels.map((tile: any) => (
-          <button
-            className={`alt-button gang-channel-button ${tile.id === currentChannel.id ? "selected-channel" : ""}`}
-            key={tile.id}
-            onClick={() => {
-              channelButtonPressed(tile.index);
-            }}
-          >
-            <div className="channel-title">{tile.name}</div>
-            <i className={`${tile.is_voice ? "pi pi-volume-up" : "pi pi-comments"}`} />
-          </button>
-        ))
+      const specialChannelsFormatted: any = [];
+      specialChannelsFormatted.push(
+        <button
+          className={`alt-button ${currentChannel.id === -1 ? "selected-channel" : ""}`}
+          key={-1}
+          onClick={() => {
+            channelButtonPressed(-1);
+          }}
+        >
+          <div className="channel-title">members</div>
+          <i className={"pi pi-users"} />
+        </button>
       );
+      const gangChannelsFormatted = gangInfo.channels.map((tile: any) => (
+        <button
+          className={`alt-button ${tile.id === currentChannel.id ? "selected-channel" : ""}`}
+          key={tile.id}
+          onClick={() => {
+            channelButtonPressed(tile.index);
+          }}
+        >
+          <div className="channel-title">{tile.name}</div>
+          <i className={`${tile.is_voice ? "pi pi-volume-up" : "pi pi-comments"}`} />
+        </button>
+      ));
+      setchannelList(specialChannelsFormatted.concat(gangChannelsFormatted));
     } else {
       //If not in gang, and no request exists, show join button
       setchannelList(
@@ -542,18 +555,27 @@ export default function GangPage({ socketRef }) {
 
   const channelButtonPressed = (index: number) => {
     sethasPressedChannelForMobile(true);
-    const destinationChannel = gangInfo.channels.find((channel: any) => channel.index === index);
+    let destinationChannel;
+    if (index < 0) {
+      destinationChannel = {
+        id: -1,
+        index: -1,
+        is_voice: false,
+        name: "members",
+        privacy_level: 5,
+      };
+    } else {
+      destinationChannel = gangInfo.channels.find((channel: any) => channel.index === index);
+    }
     if (!destinationChannel || destinationChannel.id === 0) {
       setcurrentChannel({ name: "" });
     } else {
-      if (destinationChannel) {
-        setcurrentChannel(destinationChannel);
-        if (isMobile) {
-          toggleNavBarVisibility();
-        }
-        if (destinationChannel.is_voice) {
-          socketRef.current.emit("join_room", `voice_${destinationChannel.id}`);
-        }
+      setcurrentChannel(destinationChannel);
+      if (isMobile) {
+        toggleNavBarVisibility();
+      }
+      if (destinationChannel.is_voice) {
+        socketRef.current.emit("join_room", `voice_${destinationChannel.id}`);
       }
     }
   };
@@ -769,6 +791,18 @@ export default function GangPage({ socketRef }) {
           </div>
         </div>
       );
+    } else if (currentChannel.id === -1) {
+      //Render group members display
+      setchannelDynamicContents(
+        <div className="members-display-container">
+          <div className="grid-column-titles">
+            <div>name & role</div>
+            <div>member since</div>
+            <div>joined gangs</div>
+          </div>
+          <GangMembersDisplay socketRef={socketRef} gangInfo={gangInfo} />
+        </div>
+      );
     } else {
       //Render group messaging content
       setchannelDynamicContents(
@@ -843,25 +877,7 @@ export default function GangPage({ socketRef }) {
               <div className="gang-role-text">{gangInfo.role?.role_name ? gangInfo.role?.role_name : ""}</div>
             </div>
           </div>
-          <img className="gang-game-image" src={platformImgLink} alt={`game this team supports`} />
-          <Menu model={renderGangOptions()} popup ref={gangOptionsMenu} id="popup_menu" />
-          <button
-            style={{ display: gangInfo!.role && gangInfo!.role!.role_id === 1 ? "inline-block" : "none" }}
-            className="options-button"
-            onClick={(event) => gangOptionsMenu.current.toggle(event)}
-          >
-            <i className="pi pi-ellipsis-h"></i>
-          </button>
-        </div>
-      ) : (
-        <></>
-      )}
-
-      {/* <div className="about-box">{gangInfo.basicInfo?.about ? gangInfo.basicInfo.about : ""}</div> */}
-      {/* Gang Default Channel */}
-      <div className="channel-specific-contents">
-        {/* Roster Row */}
-        {showChannelNav ? (
+          {/* roster container */}
           <div className="gang-roster-container">
             {first5Members.map((member: any) => (
               <div className="list-member-photo" key={member.id}>
@@ -903,10 +919,25 @@ export default function GangPage({ socketRef }) {
               {gangInfo.basicInfo?.members?.length ? gangInfo.basicInfo?.members?.length : ""} members
             </div>
           </div>
-        ) : (
-          <></>
-        )}
+          <div className="gang-title-options">
+            <img className="gang-game-image" src={platformImgLink} alt={`game this team supports`} />
+            <Menu model={renderGangOptions()} popup ref={gangOptionsMenu} id="popup_menu" />
+            <button
+              style={{ display: gangInfo!.role && gangInfo!.role!.role_id === 1 ? "inline-block" : "none" }}
+              className="options-button"
+              onClick={(event) => gangOptionsMenu.current.toggle(event)}
+            >
+              <i className="pi pi-ellipsis-h"></i>
+            </button>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
 
+      {/* <div className="about-box">{gangInfo.basicInfo?.about ? gangInfo.basicInfo.about : ""}</div> */}
+      {/* Gang Default Channel */}
+      <div className="channel-specific-contents">
         {/* List of channels on left, Channel contents on right */}
         {gangInfo.role?.role_id ? (
           <div className="channels-container">

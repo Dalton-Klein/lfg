@@ -137,103 +137,114 @@
     flex-grow: 1;
     .message-bubble {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
+      justify-content: flex-start;
+      align-items: start;
       padding: 1vh 1vw;
       margin: 1vh 0;
-      .message-sender-box {
-        min-width: 100%;
+      .mssg-avatar-container {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1vh;
-        .sender-specific {
+        align-items: start;
+        margin-top: 1vh;
+        .mssg-avatar {
+          width: 3.5vh;
+          height: 3.5vh;
+          min-height: 3.5vh;
+          min-width: 3.5vh;
+          object-fit: cover;
+          border-radius: calc(3.5vh / 2);
+          margin-right: 1vw;
+        }
+        .dynamic-avatar-border {
+          @extend .mssg-avatar;
+          background-color: $colorShadowLight;
           display: flex;
+          justify-content: center;
           align-items: center;
-          .mssg-avatar {
-            width: 3.5vh;
-            height: 3.5vh;
-            min-height: 3.5vh;
-            min-width: 3.5vh;
-            object-fit: cover;
-            border-radius: calc(3.5vh / 2);
-            margin-right: 1vw;
+          .dynamic-avatar-text-med {
+            font-size: $font1;
           }
-          .dynamic-avatar-border {
-            @extend .mssg-avatar;
-            background-color: $colorShadowLight;
+        }
+      }
+      .mssg-main-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+        .message-sender-box {
+          min-width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1vh;
+          .sender-specific {
             display: flex;
-            justify-content: center;
             align-items: center;
-            .dynamic-avatar-text-med {
-              font-size: $font3;
+            .message-sender-name {
+              font-size: $font1;
+              font-weight: 600;
+              color: $colorPrimary;
+              margin: 0 1vw;
+              transition: $transition1;
+              cursor: pointer;
+            }
+            .message-sender-name:hover {
+              transform: scale(1.05);
             }
           }
-          .message-sender-name {
-            font-size: $font1;
-            font-weight: 600;
-            color: $colorPrimary;
-            margin: 0 1vw;
-            transition: $transition1;
+          .message-details {
+            display: flex;
+            align-items: center;
+            .message-timestamp {
+              font-size: $font1;
+              color: $colorTextAlt;
+              margin: 0 1vw;
+            }
+            .reaction-button {
+              margin: 0 0;
+              background-color: rgba(205, 92, 92, 0);
+            }
+            .options-button {
+              @extend .reaction-button;
+            }
+            .options-button:hover {
+              color: $colorButtonHover;
+              background-color: $colorGreyHover;
+            }
+          }
+        }
+        .message-content {
+          font-size: $font1;
+          margin: 0 1vw;
+          .user-uploaded-img {
+            max-width: 60vw;
+            object-fit: cover;
+          }
+        }
+        .reaction-box {
+          margin-top: 1vh;
+          margin-left: 1vw;
+          display: flex;
+          align-items: center;
+          .mssg-reaction {
+            display: flex;
+            align-items: center;
+            padding: 0.25vw;
+            padding-top: 0.1vw;
+            margin-right: 0.5vw;
+            border-radius: $borderRadius1;
             cursor: pointer;
+            transition: $transition1;
+            border: 1px solid rgba(255, 255, 255, 0);
+            .reaction-count {
+              margin-top: 0.5vh;
+              color: white;
+            }
           }
-          .message-sender-name:hover {
-            transform: scale(1.05);
+          .mssg-reaction:hover {
+            background-color: $colorGreyPop;
+            border: 1px solid white;
           }
-        }
-        .message-details {
-          display: flex;
-          align-items: center;
-          .message-timestamp {
-            font-size: $font1;
-            color: $colorTextAlt;
-            margin: 0 1vw;
-          }
-          .reaction-button {
-            margin: 0 0;
-            background-color: rgba(205, 92, 92, 0);
-          }
-          .options-button {
-            @extend .reaction-button;
-          }
-          .options-button:hover {
-            color: $colorButtonHover;
-            background-color: $colorGreyHover;
-          }
-        }
-      }
-      .message-content {
-        font-size: $font1;
-        margin: 0 1vw;
-        .user-uploaded-img {
-          max-width: 60vw;
-          object-fit: cover;
-        }
-      }
-      .reaction-box {
-        margin-top: 1vh;
-        margin-left: 1vw;
-        display: flex;
-        align-items: center;
-        .mssg-reaction {
-          display: flex;
-          align-items: center;
-          padding: 0.25vw;
-          padding-top: 0.1vw;
-          margin-right: 0.5vw;
-          border-radius: $borderRadius1;
-          cursor: pointer;
-          transition: $transition1;
-          border: 1px solid rgba(255, 255, 255, 0);
-          .reaction-count {
-            margin-top: 0.5vh;
-            color: white;
-          }
-        }
-        .mssg-reaction:hover {
-          background-color: $colorGreyPop;
-          border: 1px solid white;
         }
       }
     }
