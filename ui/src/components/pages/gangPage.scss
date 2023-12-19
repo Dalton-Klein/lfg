@@ -101,6 +101,9 @@
             margin-top: 0;
             margin-bottom: 0;
           }
+          .expand-channels-button:hover {
+            background-color: $colorGreyHover;
+          }
           .text-channel-title {
             font-size: $font2;
             margin-left: 2vw;
@@ -161,6 +164,9 @@
             background-color: $colorGreyPop;
             margin-top: 0;
             margin-bottom: 0;
+          }
+          .expand-channels-button:hover {
+            background-color: $colorGreyHover;
           }
           .text-channel-title {
             font-size: $font2;

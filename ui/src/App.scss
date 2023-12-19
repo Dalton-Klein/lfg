@@ -14,6 +14,8 @@
     overflow: scroll;
     max-height: 95vh;
     min-height: 95vh;
+    border-radius: $borderRadius1;
+    background-color: $colorGreyBg;
   }
 }
 ::-webkit-scrollbar {
@@ -38,7 +40,7 @@ html {
 body {
   height: auto;
   width: 100vw;
-  background-color: $colorGreyBg;
+  background-color: $colorGreyBgDark;
   color: $colorText;
   font-family: "questial";
   letter-spacing: 1.5px;

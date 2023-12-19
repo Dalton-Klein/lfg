@@ -23,9 +23,9 @@ import { signInUserThunk, createUserInState, resetPasswordInState, updateUserThu
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 // ***ELECTRON Next 3 LINES modify
-// import { IpcRenderer } from "electron";
-// const ipcRenderer: IpcRenderer = window.require("electron").ipcRenderer;
-const isElectron = false;
+import { IpcRenderer } from "electron";
+const ipcRenderer: IpcRenderer = window.require("electron").ipcRenderer;
+const isElectron = true;
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -291,8 +291,8 @@ const LoginPage = () => {
 
   const openGangsInBrowser = async () => {
     // ***ELECTRON DISABLE 2 lines
-    // const url = "https://www.gangs.gg/#/login";
-    // ipcRenderer.send("openWebPage", url);
+    const url = "https://www.gangs.gg/#/login";
+    ipcRenderer.send("openWebPage", url);
   };
 
   const openSteamPopup = async () => {

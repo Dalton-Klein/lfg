@@ -31,7 +31,7 @@ import BlogArticle5 from "./components/pages/blog/blogArticle-5";
 import SupportPage from "./components/pages/supportPage";
 import ViewProfilePage from "./components/pages/viewProfile";
 // ***ELECTRON DISABLE
-// import ElectronTitlebar from "./components/nav/electronTitleBar";
+import ElectronTitlebar from "./components/nav/electronTitleBar";
 
 function App() {
   const socketRef = useRef<any>();
@@ -69,7 +69,7 @@ function App() {
           <ScrollToTop />
 
           {/* ***ELECTRON Include custom bar if electron build */}
-          {/* <ElectronTitlebar></ElectronTitlebar> */}
+          <ElectronTitlebar></ElectronTitlebar>
           {shouldShowNavs() ? <HeaderComponent socketRef={socketRef}></HeaderComponent> : <></>}
           <div className="app-container">
             {shouldShowNavs() ? <VerticalNav></VerticalNav> : <></>}

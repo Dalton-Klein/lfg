@@ -16,7 +16,6 @@ export default function HeaderComponent({ socketRef }) {
         />
         <ProfileInlayComponet socketRef={socketRef} />
       </div>
-      <div className="gradient-bar"></div>
     </div>
   );
 }
